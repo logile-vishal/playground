@@ -1,0 +1,9 @@
+.template-directory-tree-main-container {
+    padding: 0px;
+    overflow: auto;
+    border-right: '1px solid #DCDCDC';
+    height: 90vh;
+    ul.MuiSimpleTreeView-root {
+        padding: var(space-lg) var(space-xl);
+    }
+}

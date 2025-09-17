@@ -1,0 +1,150 @@
+.template-library-container {
+    & .template-library__header{
+        display: flex;
+        align-items: center;
+       padding: var(--space-md) var(--space-xl);
+
+    }
+   
+    .MuiOutlinedInput-root {
+        height: 36px;
+    }
+    .MuiButton-startIcon {
+        margin: 0;
+    }
+    .more-options-button{
+        padding: 6px;
+        min-width: auto;
+    }
+}
+.template-library-table-container {
+    overflow-y: auto;
+    height:80rem;
+    .MuiPaper-root {
+        box-shadow: none;
+        border-radius: 0px;
+    }
+    .MuiTableCell-root {
+        padding: 0.8rem;
+        width: auto;
+    }
+    .MuiTableHeadCell-root {
+        background-color: var(--bg-secondary);
+        border-bottom: none;
+        padding: 0.5rem 10rem;
+    }
+   
+    .MuiTableRow-root {
+        box-shadow: none;
+    }
+    .template-head-text {
+        font-size: 15px;
+        font-weight: 500;
+        color: #333333;
+        
+        background-color: #F4F5FA;
+        &>div{
+            min-width: fit-content;
+            margin-top: 1rem;
+        }
+     
+    }
+    .tableheader-checkbox__container{
+        background-color: #F4F5FA;
+        min-width: fit-content;
+        .tableheader__checkbox{
+            background-color: var(--bg-secondary);
+          
+             position: absolute;
+            border-radius: 50%;
+            .MuiCheckbox-root{ 
+                padding: 0;
+            }
+            .MuiFormControlLabel-label{ 
+                margin: 0; 
+                margin-left:'6px';  
+            }
+        }
+    }
+   
+    .template-body-text {
+        font-size: 15px;
+        font-weight: 400;
+        color: #333333;
+        min-width: fit-content;
+    }
+    .template-title-text {
+        font-size: 13px;
+        font-weight: 400;
+        color: #5C5C5C;
+    }
+    .cursor-pointer {
+        cursor: pointer;
+    }
+    
+    .template-checkbox-container {
+        height: 4rem;
+        width: 4rem;
+
+       position: relative;
+        user-select: none;
+        .form-control-label {
+           background-color: var(--bg-secondary);
+            z-index: -1;
+             position: absolute;
+            border-radius: 50%;
+            .MuiCheckbox-root{ 
+                padding: 0;
+            }
+            .MuiFormControlLabel-label{ 
+                margin: 0; 
+                margin-left:'6px';  
+            }
+            
+        }
+        .MuiFormControlLabel-root{
+            margin:0;
+            padding:10px 10px;
+        }
+    }
+    .icon-header-container {
+         
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+    .checkbox-container{
+        height: 4rem;
+        width: 4rem;
+
+       position: relative;
+        user-select: none;
+
+        .form-control-label {
+           background-color: var(--bg-secondary);
+         
+          
+            border-radius: 50%;
+            .MuiCheckbox-root{ 
+                padding: 0;
+            }
+        
+            
+        }
+        .MuiFormControlLabel-root{
+            margin:0;
+            padding:10px 10px;
+        }
+
+    }
+    .tablebody-col__checkbox--toggle:hover {
+            .form-control-label  {
+                opacity: 1;
+                z-index: 1;
+            }
+            .icon-container{
+                opacity: 0;
+                z-index: -1;
+            }
+        }
+}
