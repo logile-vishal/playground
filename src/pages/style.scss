@@ -1,0 +1,92 @@
+.template-library-search-drawer-main {
+    display: flex;
+    flex-direction: column;
+    gap:6px;
+ .tab-container {
+    height: fit-content;
+ }   
+ .back-btn {
+    min-width: auto;
+    padding: 0px;
+ }
+ .recent-tab-content {
+    display: flex;
+    flex-direction: column;
+    gap:12px;
+    padding: 20px 12px;
+    .recent-search-main {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap:12px;
+        .recent-search-item {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            gap:6px;
+        }
+        .template-name {
+            font-size: 15px;
+            font-weight: 400;
+            color: #333333;
+        }
+        .template-code {
+            font-size: 13px;
+            font-weight: 400;
+            color: #5C5C5C;
+        }
+        .black-fg {
+            color: #333333;
+        }
+    }
+ }
+ .advance-tab-content {
+    display: flex;
+    flex-direction: column;
+    gap:12px;
+    padding: 20px 12px;
+    .advance-search-group {
+        display: flex;
+        align-items: center;
+        gap:24px;
+    }
+    .text-label {
+        font-size: 13px;
+        font-weight: 400;
+        color: #5C5C5C;
+    }
+    .text-field-input {
+        width: 100%;
+        input {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 400;
+            color: #333333;
+        }
+    }
+    .days-text-field {
+        width:81px;
+    }
+    .dropdown-select {
+        width: 100%;
+        .MuiSelect-select {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 400;
+            color: #333333;
+        }
+    }
+ }
+ .clear-btn {
+    color: #0A68DB;
+    font-size: 15px;
+    font-weight: 400;
+ }
+ .search-btn {
+    width: 87px;
+    height: 40px;;
+ }
+}
