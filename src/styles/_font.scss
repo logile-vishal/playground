@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $fonts: (
 
   //page-heading
@@ -149,14 +151,14 @@ $breakpoints: (
 // font-size 
 :root {
   @each $name, $config in $fonts {
-    --size-#{$name}: #{map-get(map-get($config, "sizes"), "sm")};
+    --size-#{$name}: #{map.get(map.get($config, "sizes"), "sm")};
   }
 }
 
 // line-height
 :root {
   @each $name, $config in $fonts {
-    --line-height-#{$name}: #{map-get(map-get($config, "line-height"), "sm")};
+    --line-height-#{$name}: #{map.get(map.get($config, "line-height"), "sm")};
   }
   
 }
@@ -174,8 +176,8 @@ $breakpoints: (
     @media (min-width: #{$width}) {
       :root {
         @each $name, $config in $fonts {
-          @if map-has-key(map-get($config, "sizes"), $bp) {
-            --size-#{$name}: #{map-get(map-get($config, "sizes"), $bp)};
+          @if map.has-key(map.get($config, "sizes"), $bp) {
+            --size-#{$name}: #{map.get(map.get($config, "sizes"), $bp)};
           }
         }
       }
@@ -188,8 +190,8 @@ $breakpoints: (
     @media (min-width: #{$width}) {
       :root {
         @each $name, $config in $fonts {
-          @if map-has-key(map-get($config, "line-height"), $bp) {
-            --line-height-#{$name}: #{map-get(map-get($config, "line-height"), $bp)};
+          @if map.has-key(map.get($config, "line-height"), $bp) {
+            --line-height-#{$name}: #{map.get(map.get($config, "line-height"), $bp)};
           }
         }
       }

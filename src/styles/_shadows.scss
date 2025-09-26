@@ -1,3 +1,4 @@
+@use "sass:map";
 $shadows: (
   "shadow-l-2": (
     x: 0,
@@ -45,6 +46,6 @@ $shadows: (
  
 :root {
   @each $name, $shadow in $shadows {
-    --#{$name}: #{map-get($shadow, x)} #{map-get($shadow, y)} #{map-get($shadow, blur)} #{map-get($shadow, spread)} rgba(0,0,0,0.15);
+    --#{$name}: #{map.get($shadow, x)} #{map.get($shadow, y)} #{map.get($shadow, blur)} #{map.get($shadow, spread)} rgba(0,0,0,0.15);
   }
 }

@@ -1,0 +1,137 @@
+.auto-complete-main-container {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+
+  &.dark {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  &__label {
+    padding: 0 0 4px;
+    line-height: 1.5;
+    display: block;
+    font-size: 13px;
+    font-weight: var(--weight-400);
+    color: var(--text-secondary);
+  }
+
+  &__input-wrapper {
+    width: 200px;
+    height: 36px;
+    border: 1px solid #d9d9d9;
+    border-radius: var(--space-md);
+    padding: 1px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    &:hover {
+      border-color: #40a9ff;
+    }
+
+    &.focused {
+      border-color: #40a9ff;
+      box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    }
+
+    input {
+      background-color: var(--bg-container-1);
+      color: rgba(0, 0, 0, 0.85);
+      padding: 4px 6px;
+      flex-grow: 1;
+      border: 0;
+      outline: 0;
+    }
+
+    input::placeholder {
+      color: #888888;
+      font-size: 15px;
+      font-weight: 400;
+    }
+  }
+
+  &__tag {
+    display: flex;
+    align-items: center;
+    height: 24px;
+    margin: 2px;
+    background-color: #e7e7e7;
+    border: 1px solid #c1c1c1;
+    border-radius: 6px;
+    padding: 0 4px 0 10px;
+    gap: 6px;
+
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 13px;
+      font-weight: 400;
+    }
+
+    svg {
+      font-size: 12px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+  }
+
+  &__listbox {
+    width: 200px;
+    margin: 2px 0 0;
+    padding: 6px;
+    position: absolute;
+    list-style: none;
+    max-height: 250px;
+    overflow: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 2000;
+    background-color: var(--bg-container-1);
+    color: var(--text-primary);
+
+    li {
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+
+      span {
+        flex-grow: 1;
+      }
+
+      svg {
+        color: transparent;
+      }
+    }
+
+    li[aria-selected="true"] {
+      background-color: #fafafa;
+      font-weight: var(--weight-600);
+
+      svg {
+        color: #1890ff;
+      }
+    }
+
+    li.Mui-focused,
+    li.Mui-focusVisible,
+    li.hover {
+      background-color: var(--bg-primary-x-subtle);
+      border-radius: 6px;
+
+      svg {
+        color: currentColor;
+      }
+    }
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(180deg);
+  }
+}
