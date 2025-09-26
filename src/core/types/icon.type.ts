@@ -1,3 +1,3 @@
-import { icons } from "@/core/constants/Icons";
+import { icons } from "@/core/constants/icons";
 
 export type IconName = keyof typeof icons;

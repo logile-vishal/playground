@@ -1,56 +1,47 @@
 @use '@/styles/main';
 
-:root{
-    font-family: 'roboto';
-    --space-xs:.4rem;
-    --space-sm:.6rem;
-    --space-md:.8rem;
-    --space-lg:1.2rem;
-    --space-xl:1.6rem;
-    --space-2xl:2rem;
-    --space-3xl:2.4rem;
-    --space-4xl:2.8rem;   
-    --space-5xl:3.2rem;
-    --space-6xl:3.6rem;
-    --space-7xl:4rem;
-    --space-8xl:4.4rem;
-    --space-9xl:4.6rem;
-    --space-10xl:5.28rem;
-    --space-11xl:5.6rem;
+// :root{
+    // font-family: 'roboto';
+    // --space-xs:.4rem;
+    // --space-sm:.6rem;
+    // --space-md:.8rem;
+    // --space-lg:1.2rem;
+    // --space-xl:1.6rem;
+    // --space-2xl:2rem;
+    // --space-3xl:2.4rem;
+    // --space-4xl:2.8rem;   
+    // --space-5xl:3.2rem;
+    // --space-6xl:3.6rem;
+    // --space-7xl:4rem;
+    // --space-8xl:4.4rem;
+    // --space-9xl:4.6rem;
+    // --space-10xl:5.28rem;
+    // --space-11xl:5.6rem;
  
-    --border-radius-md: .8rem;
-    --topBarHeight: 6rem;
+    // --border-radius-md: .8rem;
+    // --topBarHeight: 6rem;
 
-    --bg-secondary: #F6F6F6;
-    --bg-default: #ffffff;
+    // --bg-base: #F6F6F6;
+    // --bg-default: #ffffff;
 
-    --icon-color-secondary:var(--gray-600);
-    --icon-color-primary:var(--gray-900);
+    // --icon-color-secondary:var(--gray-600);
+    // --icon-color-primary:var(--gray-900);
 
 
 
-    --bg-hover-gray-200:#DCDCDC;
-    --bg-hover-gray-50:#F6F6F6;
+    // --bg-hover-gray-200:#DCDCDC;
+    // --bg-hover-gray-50:#F6F6F6;
 
-    --primary-color: #0A68DB;
-    --primary-color-hover: #0a68dbf5;
-    --secondary-color: #1E1E1E;
+    // --primary-color: #0A68DB;
+    // --primary-color-hover: #0a68dbf5;
+    // --secondary-color: #1E1E1E;
 
-    --text-primary: #1E1E1E;
-    --text-secondary: #5C5C5C;
+// }
  
-    --border-color-tertiary: #E7E7E7;
-    --border-color-secondary: #DCDCDC;
-    --border-color-primary:  #C1C1C1;
-    --border-color-brand-primary:  #0A68DB;
-    --border-color-brand-primary_subtle: #2884F5;
-    --border-color-brand-primary_bold: #0858B9;
-}
- 
-*{
-    box-sizing: border-box;
-}
-html{
-    font-size: 10px;
-}
+// *{
+//     box-sizing: border-box;
+// }
+// html{
+//     font-size: 10px;
+// }
  

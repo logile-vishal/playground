@@ -1,0 +1,13 @@
+.app-bar-main-container {
+    height: var(--app-bar-height);
+    padding: 0;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    position: static;
+    .logo-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-xs) var(--space-xl) var(--space-xs) var(--space-xs);
+    }
+} 

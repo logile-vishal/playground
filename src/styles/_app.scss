@@ -1,0 +1,6 @@
+:root{
+    --app-bar-height: 6rem;
+    --app-content-height: calc(100vh - var(--app-bar-height));
+    --pagetemplate-bottom-margin: var(--space-2xl);
+    --pagetemplate-content-height: calc(var(--pagetemplate-bottom-margin) - var(--app-content-height));
+}

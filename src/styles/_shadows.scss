@@ -1,0 +1,50 @@
+$shadows: (
+  "shadow-l-2": (
+    x: 0,
+    y: 2px,
+    blur: 6px,
+    spread: -2px,
+  ),
+  "shadow-l-1": (
+    x: 0,
+    y: 2px,
+    blur: 12px,
+    spread: -2px,
+  ),
+  "shadow-xl-1": (
+    x: 0,
+    y: 8px,
+    blur: 24px,
+    spread: -4px,
+  ),
+  "shadow-xl-2": (
+    x: 0,
+    y: 16px,
+    blur: 8px,
+    spread: -2px,
+  ),
+  "shadow-xxl-1": (
+    x: 0,
+    y: 4px,
+    blur: 40px,
+    spread: -4px,
+  ),
+  "shadow-xxl-2": (
+    x: 0,
+    y: 24px,
+    blur: 16px,
+    spread: -2px,
+  ),
+  "shadow-xs": (
+    x: 0,
+    y: 1px,
+    blur: 2px,
+    spread: 0,
+  ),
+);
+ 
+:root {
+  @each $name, $shadow in $shadows {
+    --#{$name}: #{map-get($shadow, x)} #{map-get($shadow, y)} #{map-get($shadow, blur)} #{map-get($shadow, spread)} rgba(0,0,0,0.15);
+  }
+}

@@ -1,4 +1,11 @@
 import type { AxiosInstance, AxiosRequestHeaders } from "axios";
+import { createCorrelationId } from "@/utils/create-corelation-id";
+import { getAppId } from "@/utils/get-device-type";
+
+const CUSTOM_HEADERS = {
+  "Org-Id": 'org_123',
+  "User-Id": 'user_123'
+};
 
 export const setInterceptor = (axiosInstance: AxiosInstance) => {
 
@@ -6,6 +13,8 @@ export const setInterceptor = (axiosInstance: AxiosInstance) => {
     axiosInstance.interceptors.request.use(
       (config) => {
         // Example: Add Authorization header if token exists
+
+        config.headers = setRequestHeaders(config.headers as AxiosRequestHeaders);
         const token = localStorage.getItem('token');
         if (token) {
           config.headers = config.headers || {} as AxiosRequestHeaders;
@@ -32,4 +41,18 @@ export const setInterceptor = (axiosInstance: AxiosInstance) => {
         return Promise.reject(error);
       }
     );
+}
+
+function setRequestHeaders(headers?: AxiosRequestHeaders) {
+  const orgId = localStorage.getItem('orgId') || CUSTOM_HEADERS["Org-Id"];
+  const userId = localStorage.getItem('userId') || CUSTOM_HEADERS["User-Id"];
+
+  Object.assign(headers || {}, {
+    "Org-Id": orgId,
+    "User-Id": userId,
+    "Correlation-Id": createCorrelationId(),
+    "App-Id": getAppId()
+  });
+
+  return headers;
 }

@@ -1,0 +1,109 @@
+.template-library-search-drawer-main {
+    display: flex;
+    flex-direction: column;
+    gap:6px;
+ .tab-container {
+    height: fit-content;
+ }   
+ .back-btn {
+    min-width: auto;
+    padding: 0px;
+ }
+ .recent-tab-content {
+    display: flex;
+    flex-direction: column;
+    gap:12px;
+    padding: 20px 12px;
+    .recent-search-main {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap:12px;
+        .recent-search-item {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            gap:6px;
+        }
+        .template-name {
+            font-size: 15px;
+            font-weight: var(--weight-400);
+            color: var(--text-primary);
+        }
+        .template-code {
+            font-size: 13px;
+            font-weight: var(--weight-400);
+            color: var(--text-secondary);
+        }
+        .black-fg {
+            color: var(--text-primary);
+        }
+    }
+ }
+ .advance-tab-content {
+    display: flex;
+    flex-direction: column;
+    gap:12px;
+    padding: 20px 12px;
+    .advance-search-group {
+        display: flex;
+        align-items: center;
+        gap:24px;
+    }
+    .text-label {
+        font-size: 13px;
+        font-weight: var(--weight-400);
+        color: var(--text-secondary);
+    }
+    .text-field-input {
+        width: 100%;
+        input {
+            padding: var(--space-md);
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: var(--weight-400);
+            color: var(--text-primary);
+            background-color: var(--bg-container-1);
+        }
+    }
+    .days-text-field {
+        width:81px;
+        .MuiInputBase-formControl {
+            height: 36px;
+        }
+        input {
+            padding: var(--space-md);
+        }
+    }
+    .dropdown-select {
+        width: 100%;
+        padding: var(--space-md);
+        background-color: var(--bg-container-1);
+
+        .MuiSelect-select {
+            padding: 0px;
+            padding-right: 4px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: var(--weight-400);
+            color: var(--text-primary);
+            // background-color: var(--bg-primary-x-subtle);
+        }
+    }
+}
+
+ .clear-btn {
+    color: #0A68DB;
+    font-size: 15px;
+    font-weight: var(--weight-400);
+ }
+ .search-btn {
+    width: 87px;
+    height: 40px;
+    font-size: var(--size-body);
+    font-weight: var(--weight-400);
+    background-color: var(--bg-primary);
+ }
+
+}

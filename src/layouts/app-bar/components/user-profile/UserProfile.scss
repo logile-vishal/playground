@@ -1,0 +1,52 @@
+.userProfileInfoCard{
+    display:flex;
+    flex-direction:row;
+    border-radius: var(--space-md);
+    border: 1px solid var(--border-secondary);
+    background-color: var(--bg-container-1);
+    gap:.5rem;
+    align-items:center;
+    margin-left: var(--space-3xl);
+    padding:var(--space-xs) var(--space-sm);
+    cursor:pointer;
+    transition: all .2s ease-in-out;
+    &:hover{
+        background-color: var(--bg-hover-gray-50);
+    }
+    background-color: var(bg-default);
+    & .avatar{
+        background-color: #CAC2FF;
+        width:3.2rem;
+        height:3.2rem;
+        border-radius:50%;
+    }
+    & .userInfo{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:start;
+     
+        & .userInfo-name{
+            font-size:var(--size-secondary-text);
+            font-weight:var(--weight-500);
+            line-height: 2rem;
+            color:var(--text-primary)
+        }
+        & .userInfo-role{
+            font-size:var(--size-secondary-text);
+            color: var(--text-secondary);
+            line-height: 2rem;
+            font-weight: var(--weight-500);
+            
+        }
+    }
+    .menubar-heading {
+        font-size: var(--size-secondary-text);
+        color: var(--text-primary);
+        font-weight: var(--weight-400);
+    }
+   
+}
+.userProfileInfoCardSelected {
+    border: 1px solid var(--border-brand-primary);
+}

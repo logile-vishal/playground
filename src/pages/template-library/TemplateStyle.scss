@@ -1,0 +1,197 @@
+.template-library-container {
+    & .template-library-header {
+        display: flex;
+        align-items: center;
+        padding: var(--space-md) var(--space-xl);
+        color: var(--text-primary);
+    }
+
+    .MuiOutlinedInput-root {
+        height: 36px;
+    }
+
+    .MuiButton-startIcon {
+        margin: 0;
+    }
+
+    .more-options-button {
+        padding: 6px;
+        min-width: auto;
+    }
+
+    & .directory-tree__container {
+        flex-grow: 1;
+        overflow: auto;
+        border-right: '1px solid #DCDCDC';
+        max-height: calc(var(--app-content-height) - 5rem);
+        color: var(--text-primary);
+
+        ul.MuiSimpleTreeView-root {
+            padding: var(space-lg) var(space-xl);
+        }
+    }
+
+}
+
+.template-library-table-container {
+    overflow-y: auto;
+
+    .MuiPaper-root {
+        box-shadow: none;
+        border-radius: 0px;
+    }
+
+    .MuiTableCell-root {
+        padding: 0.8rem;
+        width: auto;
+    }
+
+    .MuiTableHeadCell-root {
+        border-bottom: none;
+        padding: 0.5rem 10rem;
+    }
+
+    .MuiTableRow-root {
+        box-shadow: none;
+    }
+
+    .template-head-text {
+        font-size: var(--size-body);
+        font-weight: var(--weight-500);
+        &>div{
+            min-width: fit-content;
+            margin-top: 1rem;
+        }
+
+    }
+
+    .tableheader-checkbox__container {
+
+        min-width: fit-content;
+
+        .tableheader__checkbox {
+            background-color: var(--bg-base);
+
+            position: absolute;
+            border-radius: 50%;
+
+            .MuiCheckbox-root {
+                padding: 0;
+            }
+
+            .MuiFormControlLabel-label {
+                margin: 0;
+                margin-left: '6px';
+            }
+        }
+    }
+
+    .template-body-text {
+        font-size: var(--size-body);
+        font-weight: var(--weight-400);
+        
+        min-width: fit-content;
+    }
+
+    .template-title-text {
+        font-size: 13px;
+        font-weight: var(--weight-400);
+      
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+    .tableheader__checkbox-container {
+        background-color: var(--bg-table-header);
+        height: 4rem;
+        width: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        user-select: none;
+        border-radius: 50%;
+    }
+    .template-checkbox-container {
+        height: 4rem;
+        width: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        user-select: none;
+        background-color: var(--bg-base);
+        border-radius: 50%;
+       
+        .form-control-label {
+           
+            z-index: -1;
+            position: absolute;
+            border-radius: 50%;
+            & .MuiSvgIcon-root {
+                font-size: 2rem;
+                color: var(--icon-secondary);
+             
+            }
+          
+            .MuiCheckbox-root {
+                padding: 0;
+            }
+
+            .MuiFormControlLabel-label {
+                margin: 0;
+                margin-left: '6px';
+            }
+
+        }
+
+        .MuiFormControlLabel-root {
+            margin: 0;
+            padding: 10px 10px;
+        }
+    }
+
+    
+
+    .checkbox-container {
+        height: 4rem;
+        width: 4rem;
+        background-color: var(--bg-base);
+        border-radius: 50%;
+        position: relative;
+        user-select: none;
+
+        .form-control-label {
+
+            .MuiCheckbox-root {
+                padding: 0;
+            }
+
+
+        }
+
+        .MuiFormControlLabel-root {
+            margin: 0;
+            padding: 10px 10px;
+        }
+
+    }
+
+    .tablebody-col__checkbox--toggle {
+
+
+        &:hover {
+            & .form-control-label {
+                opacity: 1;
+                z-index: 1;
+            }
+
+            & .icon-container {
+                opacity: 0;
+                z-index: -1;
+            }
+        }
+    }
+
+}
