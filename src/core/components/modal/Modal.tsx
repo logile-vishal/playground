@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import SvgIcon from "@/core/components/icon/Icon";
 import IconButton from '@/core/components/button/IconButton';
+import { Button } from "@mui/material";
+import "./Modal.scss";
  
 interface CommonModalProps {
   open: boolean;
@@ -13,22 +15,24 @@ interface CommonModalProps {
   onConfirm?: () => void;
   confirmText?: string;
   cancelText?: string;
+  width?: string;
+  className?: string;
 }
  
-const style = {
-  position: "absolute" as const,
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  borderRadius: "8px",
-  p: 2,
+
+const cancelStyle = {
   color: "var(--text-primary)",
-  width: "750px",
-  maxHeight: "80vh",
-  overflowY: "auto",
-};
+  fontSize: "var(--size-body)",
+  border: "1px solid var(--border-secondary)",
+}
+
+const confirmStyle = {
+  color: "var(--text-white)",
+  fontSize: "var(--size-body)",
+  backgroundColor: "var(--bg-primary)",
+}
+
+const defaultWidth = "600px";
  
 const CommonModal: React.FC<CommonModalProps> = ({
   open,
@@ -37,16 +41,20 @@ const CommonModal: React.FC<CommonModalProps> = ({
   children,
   showActions = false,
   onConfirm,
+  width,
   confirmText = "Confirm",
   cancelText = "Cancel",
+  className
 }) => {
+
+  const modalClassName = className ? `common-modal ${className}` : "common-modal";
   return (
-    <Modal open={open} onClose={onClose} className="common-modal">
-      <Box sx={style}>
+    <Modal open={open} onClose={onClose} className={modalClassName} >
+      <div className="common-modal__main"  style={{width: width || defaultWidth}}>
         {/* Title */}
         {title && (
-          <Box display="flex" alignItems="center" justifyContent="space-between" mb={1} gap="2px">
-            <Box width="95%">{title}</Box>
+          <Box className="common-modal__header">
+            <Box className="common-modal__header-title">{title}</Box>
             <IconButton disableHover={true} onClick={onClose}>
               <SvgIcon component="close" size={32} fill="var(--icon-secondary)" />
             </IconButton>
@@ -54,20 +62,16 @@ const CommonModal: React.FC<CommonModalProps> = ({
         )}
  
         {/* Body */}
-        <Box sx={{ fontSize: "var(--size-body)" }}>{children}</Box>
+        <div className="common-modal__content">{children}</div>
  
         {/* Actions */}
         {showActions && (
-          <Box display="flex" justifyContent="flex-end" mt={3} gap={2}>
-            <IconButton onClick={onClose}>{cancelText}</IconButton>
-            {onConfirm && (
-              <IconButton onClick={onConfirm} color="primary">
-                {confirmText}
-              </IconButton>
-            )}
+          <Box className="common-modal__actions">
+            {cancelText && <Button className="common-modal__actions-btn-cancel " variant="outlined" onClick={onClose} sx={cancelStyle}>{cancelText}</Button>}
+            {confirmText && <Button className="common-modal__actions-btn-confirm" variant="contained" onClick={onConfirm} sx={confirmStyle}>{confirmText}</Button>}
           </Box>
         )}
-      </Box>
+      </div>
     </Modal>
   );
 };

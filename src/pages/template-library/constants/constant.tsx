@@ -1,6 +1,8 @@
-import SvgIcon from "@/core/components/icon/Icon";
 import Box from "@mui/material/Box";
 import moment from "moment";
+
+import SvgIcon from "@/core/components/icon/Icon";
+
 import type { SortOption } from "../types/template-constants.type";
 
 export const TEMPLATE_SEARCH_TABS = {
@@ -61,7 +63,6 @@ export const TEMPLATE_SORTING: Record<string, SortOption[]> = {
     ]
 
 }
-
 
 export const formatDate = (dateString: string): string => {
   return moment(dateString).format("DD/MM/YY");

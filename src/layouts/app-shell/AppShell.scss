@@ -10,15 +10,17 @@
     flex-grow: 1;
     max-height: calc(100vh - var(--app-bar-height));
     overflow: hidden;
+    
   }
 
   & .app-shell__content {
     height: var(--app-content-height);
     flex-grow: 1;
+    width: calc(100% - var(--sidebar-width));
     overflow-y: hidden;
     overflow-x: hidden;
     background-color: var(--bg-base); 
-    border-start-start-radius: var(-radius-m);
+    border-start-start-radius: var(--radius-m);
     border-end-start-radius: var(--radius-m);
     margin-bottom: var(--space-2xl);
   

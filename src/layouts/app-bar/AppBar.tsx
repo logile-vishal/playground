@@ -1,33 +1,36 @@
 import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
+import { Badge, ButtonBase, Stack } from '@mui/material';
+import { styled } from "@mui/material/styles";
+
 import { defaultConstants } from '@/core/constants/app-constants';
 import clientLogo from "@/assets/logile-logo.svg"
-import { Badge, Box, Button, Stack } from '@mui/material';
 import IconButton from '@/core/components/button/IconButton';
-import UserProfileInfoCard from './components/user-profile/UserProfileInfoCard';
 import navAvatarPng from '@/assets/navbar-avatar.png'
-import NavSearchBar from './components/search-bar/SearchBar';
 import SvgIcon from '@/core/components/icon/Icon';
-import { styled } from "@mui/material/styles";
+import { ThemeContext } from '@/theme-mui/ThemeContext';
+
+import UserProfileInfoCard from './components/user-profile/UserProfileInfoCard';
+import NavSearchBar from './components/search-bar/SearchBar';
 import "./AppBar.scss";
-import { ThemeContext } from '@/theme-mui/ThemeProvider';
+
 interface AppBarProps {
   handleToggleMenu: () => void,
 }
 
-const MainMenu = styled(Button)(() => ({
+const MainMenu = styled(ButtonBase)(() => ({
   '&.MuiButton-root': {
-    minWidth: 'auto',
-    padding: '6px 8px',
+    padding:0,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    // border:'1px solid gray',
+    width:'max-content',
   },
   '.MuiButton-startIcon' : {
     margin: 0,
   }
 }));
+
 
 const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
   const { mode, toggleColorMode } = useContext(ThemeContext);
@@ -39,23 +42,18 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
   const handleSearch = (value: string) => {
     console.log(value)
   }
-  return <Stack className='app-bar-main-container' component={"header"}
+  return <div className='app-bar'
   >
-    <div className='logo-section'>
       {/* Logo Section */}
-      <Stack direction={"row"} sx={{
-        height: "fit-content",
-        alignItems: "center"
-      }}>
-            <Box sx={{marginRight: "2.4rem"}}>
-          <MainMenu onClick={handleToggleMenu} startIcon={
-            <SvgIcon component="hamburger" size={24} fill="var(--icon-primary)" />
-          }>
+      <div className='app-bar__left-section'>
 
+        
+          <MainMenu onClick={handleToggleMenu}> 
+               <SvgIcon component="hamburger" size={24} fill="var(--icon-primary)" />
           </MainMenu>
-        </Box>
+    
 
-        <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
+        <div className='app-bar__logo-box' >
         <img src={clientLogo} />
          <Typography sx={(theme) => ({
           color: theme.palette.primary.main,
@@ -67,17 +65,19 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
         })}>
           {defaultConstants.appAbbr}
         </Typography>
-        </Stack>
-    
-       
-      </Stack>
+        </div>
+
+      </div>
+  
 
       {/* Search Bar */}
-      <Stack sx={{ marginLeft: "auto", maxWidth:"24rem", maxHeight:"3.6rem" }}>
+      <Stack className='app-bar__search-bar'>
         <NavSearchBar placeholder='Search...' onSearch={handleSearch} iconPosition='left' icon='search' />
       </Stack>
+
+      <div className='app-bar__right-section'>
       {/* Icons Section */}
-      <Stack sx={{ marginLeft: "var(--space-4xl)", gap: "var(--space-xs)", flexDirection: "row" }}>
+      <Stack className='action-icons-box' >
         <IconButton variant="primary" style={{padding:"1rem"}} onClick={handleThemeToggle}>
           {mode === "light" ? (
             <SvgIcon component="moon" fill={"var(--icon-secondary)"} size={18} />
@@ -105,13 +105,10 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
         }}>
           <SvgIcon component="comment" fill={"var(--icon-secondary)"} size={20} />
         </IconButton>
-        <Badge badgeContent={'59+'}  sx={{
-    "& .MuiBadge-badge": {
-      top:".4rem", 
-      fontWeight: "var(--weight-400)",
-      fontSize: "1.5rem",
-    },
-  }}color="error" overlap="rectangular" >
+        
+        <Badge className='notifiction-badge' badgeContent={'59+'}  
+        color="error" overlap="rectangular">
+
         <IconButton variant="primary" style={{
           padding:"1rem",
           
@@ -121,11 +118,11 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
           </Badge>
       </Stack>
       {/* User Profile Section */}
+          <UserProfileInfoCard user={{ name: "Nathaniel Sheetz", role: "Assoc. Vice President", avatar: navAvatarPng }} />
+   
+      </div>
 
-      <UserProfileInfoCard user={{ name: "Nathaniel Sheetz", role: "Assoc. Vice President", avatar: navAvatarPng }} />
-
-    </div>
-  </Stack>
+  </div>
 };
 
 export default AppBar;

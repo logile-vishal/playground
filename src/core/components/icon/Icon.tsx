@@ -1,5 +1,5 @@
 import React from "react";
-import { icons } from "@/core/constants/icons";
+import { ICONS } from "@/core/constants/icons";
 import Box from "@mui/material/Box";
 import type { IconName } from "@/core/types/icon.type";
 
@@ -21,7 +21,7 @@ const SvgIcon: React.FC<SvgIconProps> = ({
   style,
   ...props
 }) => {
-    const Component = icons[component]
+    const Component = ICONS[component]
     if (!Component) {
        return <Box sx={{width:size, height: size, bgcolor:"lightgray", borderRadius:"50%"}}></Box>
     }

@@ -39,40 +39,40 @@ export default function StyledAutocomplete<T>({
   });
 
 return (
-  <div className="auto-complete-main-container" {...getRootProps()}>
-    <label className="auto-complete-main-container__label" {...getInputLabelProps()}>
+  <div className="auto-complete" {...getRootProps()}>
+    <label className="auto-complete__label" {...getInputLabelProps()}>
       {label || "Select"}
     </label>
 
     <div
       ref={setAnchorEl}
-      className={`auto-complete-main-container__input-wrapper ${focused ? "focused" : ""}`}
+      className={`auto-complete__input-wrapper ${focused ? "focused" : ""}`}
     >
       {values.map((option, index) => {
         const tagProps = getTagProps({ index });
         return (
-          <div key={index} className="auto-complete-main-container__tag" {...tagProps}>
+          <div key={index} className="auto-complete__tag" {...tagProps}>
             <span>{getOptionLabel(option)}</span>
-            <Box onClick={tagProps.onDelete}>
+            <Box className="auto-complete__tag-img-container" onClick={tagProps.onDelete}>
               <SvgIcon component="close" size={16} fill="#000" />
             </Box>
           </div>
         );
       })}
 
-      <input {...getInputProps()} placeholder={placeholder || "Search…"} />
+      <input {...getInputProps()} placeholder={values.length === 0 ? placeholder || "Search…" : ""} />
     </div>
 
     {groupedOptions.length > 0 && (
       <Popper open placement="bottom-start" anchorEl={anchorEl} style={{ zIndex: 2000 }}>
-        <ul className="auto-complete-main-container__listbox" {...getListboxProps()}>
+        <ul className="auto-complete__listbox" {...getListboxProps()}>
           {groupedOptions.map((option, index) => {
             const { key, ...optionProps } = getOptionProps({ option, index });
             return (
               <li key={key} {...optionProps}>
                 <Typography fontSize={14}>{getOptionLabel(option)}</Typography>
                 {index === 2 && (
-                  <Box className="auto-complete-main-container__icon">
+                  <Box className="auto-complete__icon">
                     <SvgIcon component="chevronLeft" size={16} fill="#000" />
                   </Box>
                 )}

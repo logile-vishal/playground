@@ -1,87 +1,84 @@
-.sidebar__container{
+.sidebar {
+  width: var(--sidebar-width);
+  height: inherit;
+  gap: var(--space-s);
+  display: flex;
+  align-items: start;
+  scrollbar-width: none;
+  overflow-x: hidden;
+  padding-right: var(--space-l);
+  box-sizing: border-box;
+  word-break: keep-all;
+  background-color: var(--bg-base);
+  transition: all .3s ease-in-out;
+  &.sidebar--collapsed {
+    width: 0px;
+    padding: 0;
+  }
+  & .sidebar__list {
+    width: 100%;
+    & .sidebar__list-item-label {
+       text-align: center;
+       font-size: 1.2rem;
+       width: 7.1rem;
+       font-weight: inherit;
+       text-overflow: unset;
+       overflow: hidden;
+       transition: ease-in-out 1s;
+       color: var(--text-secondary);
 
-    height: inherit;
-    gap:var(--space-sm);
-    display: flex;
-    align-items: start;
-    overflow-y: auto;
-    word-break: keep-all;
-    padding-right: 0px;
-    scrollbar-width: none;
-    background-color:var(--bg-base);
-    width:0px;
-    
-    scrollbar-width: none;
-
-      &>.sidebar__list{
+         &.layout-tablet {
+          font-size: 1rem;
+          width: auto;
+          text-overflow: ellipsis;
+        }
       
-        width: 100%;
-          max-width: fit-content;
-          gap:var(--space-sm);
+  }
+    &>.nav-link__list{
+          height: 90%;
+          overflow-y: auto;
+          width: 8rem;
+          gap:var(--space-s);
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          align-items: center;
-         &-item{
-          &--active{
-            background-color: rgba(255, 255, 255, 0.1);
-            color:var(--text-state-nabar-active);
-            font-weight: var(--weight-500);
-            &::before{
-              background-color: var(--text-state-nabar-active);
-              content:"";
-              position:absolute;
-              top:50%;
-              border-start-end-radius:.4rem;
-              border-end-end-radius:.4rem;
-              left:0;
-              width:.3rem;
-              height:3.6rem;
-              transform:translateY(-50%);
+          justify-content: start;
+          align-items: start;
+          scrollbar-width: none;
+          padding-top: var(--space-xl);
+          &-item {
+            &--active {
+              background-color: rgba(255, 255, 255, 0.1);
+              color: var(--text-state-nabar-active);
+              font-weight: 500;
+              &::before {
+                background-color: var(--text-state-nabar-active);
+                content: "";
+                position: absolute;
+                top: 50%;
+                border-start-end-radius: 0.4rem;
+                border-end-end-radius: 0.4rem;
+                left: 0;
+                width: 0.3rem;
+                height: 3.6rem;
+                transform: translateY(-50%);
+              }
             }
           }
-         }
       }
-      & .sidebar__switch{
+  }
+      
+      & .sidebar__switch > div{
+        width: 8rem;
         display:flex;
         align-items:center;
         flex-direction:row;
         justify-content:center;
-        
         color:var(--text-state-navbar-active);
         cursor:pointer;
         transition: all .2s ease-in-out;
-        position: sticky;
-        top: 0;
-        background-color: var(--bg-base);
-        z-index: 2;
         gap: var(--space-xs);
         font-size: 1.4rem;
-        & > button{
-
-          padding:var(--space-xl);
-          display: flex;
-          gap: var(--space-xs)
-        }
+         margin:var(--space-xl) 0;
+        
       };
-      .sidebar__list-item{
-        align-self: stretch;
-        border-radius: 8px;
-        padding:var(--space-md);  
-        cursor: pointer;
-        transition: all .2s ease-in-out;
-        display:flex;
-        align-items:center;
-        flex-direction:column;
-        justify-content:center;
-        flex-grow: 1;
-        &:hover{
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        &>a{
-      
-            display: block;
-            width: 100%;
-        }
-    }
 }

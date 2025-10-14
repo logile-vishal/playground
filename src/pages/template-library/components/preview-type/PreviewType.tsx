@@ -2,9 +2,11 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from '@mui/material/Select';
+
 import SvgIcon from "@/core/components/icon/Icon";
 import IconButton from "@/core/components/button/IconButton";
 import type { IconName } from '@/core/types/icon.type';
+
 import "../../TemplateStyle.scss";
 
 type AnswerType = "Textfield" | "Dropdown" | "Multiline-Textfield" | string;
@@ -88,7 +90,7 @@ export const renderPreviewHeading = ({ heading, btn1visible= false, btn1Name, bt
 }
 
 export  const renderPreviewPopupRow = ({ index, text, type, answer, mandatory }: PreviewBodyProps) => {
-    return <Box sx={{ padding: "16px", borderBottom: "1px solid #E7E7E7", display: "flex", gap: "10px"}}>
+    return <Box className="template-preview-modal__content-row" sx={{}}>
         <Box display="flex" width="70%">
           {mandatory && <Box color="red">*</Box>}
           <Box>{index}. {text}</Box>

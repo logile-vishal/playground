@@ -1,10 +1,12 @@
 
 import { Outlet, useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+
+import { useGetViewPortSize } from '@/utils/get-viewport-size';
+
 import AppBar from '../app-bar/AppBar';
 import Sidebar from '../sidebar/Sidebar';
-import './AppShell.style.scss'
-import { useEffect, useRef, useState } from 'react';
-import { useGetViewPortSize } from '@/utils/get-viewport-size';
+import './AppShell.scss'
 
 export default function AppShell() {
   const location = useLocation();
@@ -15,17 +17,7 @@ export default function AppShell() {
   const isDesktop = viewportSize === 'xl' || viewportSize === 'lg';
 
   const handleMenuAnimation = (menuStatus:boolean) => {
-     if (sidebarRef.current) {
-        if(menuStatus) {
-          sidebarRef.current.style.width = "92px";
-          sidebarRef.current.style.paddingRight = "var(--space-lg)";
-          sidebarRef.current.style.transition = "width .3s";
-        } else {
-          sidebarRef.current.style.width = "0px";
-          sidebarRef.current.style.paddingRight = "0px";
-          sidebarRef.current.style.transition = "width .3s";
-        }
-      }
+      sidebarRef.current?.classList.toggle('sidebar--collapsed', !menuStatus);
     }
   
   const handleToggleMenu = () => {

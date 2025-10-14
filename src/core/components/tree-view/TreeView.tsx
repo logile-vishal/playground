@@ -4,17 +4,14 @@ import { styled } from "@mui/material/styles";
 import SvgIcon from "@/core/components/icon/Icon";
 import Box from "@mui/material/Box";
 import "./TreeView.scss";
+import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
+import { renderMacTruncate } from "@/utils/mac-truncate";
 
-type TreeNode = {
-  tagId: number;
-  tagName: string;
-  children?: TreeNode[];
-};
 
 interface TreeViewProps {
-  data: TreeNode[];
-  setSelectedData: React.Dispatch<React.SetStateAction<number | null>>;
-  handleClick: (id: string) => void;
+  data: TreeViewNodeDataType[];
+  setSelectedData?: React.Dispatch<React.SetStateAction<number | null>>;
+  handleClick: (event: React.MouseEvent<HTMLLIElement>, nodes: TreeViewNodeDataType) => void;
 }
 
 const StyledTreeItem = styled(TreeItem)(() => ({
@@ -45,6 +42,9 @@ const StyledTreeItem = styled(TreeItem)(() => ({
   [`& .MuiTreeItem-iconContainer`]: {
     width: "auto",
   },
+  [`& .MuiTreeItem-root`]: {
+    marginLeft: "12px",
+  },
 }));
 
 const ArrowRightIcon = () => (
@@ -57,12 +57,12 @@ const ArrowDownIcon = () => (
 
 const BlankIcon = () => (<Box height="24px" width="24px"></Box>)
 
-function getExpandedTagIds(nodes: any) {
-  let result: any = [];
+function getExpandedTagIds(nodes: TreeViewNodeDataType[]): string[] {
+  let result: string[] = [];
 
   for (const node of nodes) {
     if (node.isExpanded === true) {
-      result.push(node.tagId);
+      result.push(String(node.tagId)); 
     }
     if (node.children && node.children.length > 0) {
       result = result.concat(getExpandedTagIds(node.children));
@@ -74,8 +74,8 @@ function getExpandedTagIds(nodes: any) {
 
 const TreeView: React.FC<TreeViewProps> = ({ data, handleClick }) => {
 
-  const renderTree = (nodes: TreeNode) => (
-    <StyledTreeItem key={nodes.tagId} itemId={nodes.tagId} label={nodes.tagName} 
+  const renderTree = (nodes: TreeViewNodeDataType) => (
+    <StyledTreeItem key={nodes.tagId} itemId={String(nodes.tagId)} label={renderMacTruncate(nodes.tagName)} 
       onClick={(e)=>handleClick(e, nodes)}
      >
       {Array.isArray(nodes.children)

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from '@mui/material/styles';
@@ -7,36 +7,24 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import type { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Table from "@/core/components/table/Table";
+import type { MRT_Cell, MRT_Column } from "material-react-table";
+
+import { DataTable } from "@/core/components/table/DataTable";
 import SvgIcon from "@/core/components/icon/Icon";
 import CommonModal from "@/core/components/modal/Modal";
-import { renderPreviewPopupRow, renderPreviewHeading } from "@/pages/template-library/components/preview-type/PreviewType";
-import { useGetViewPortSize } from "@/utils/get-viewport-size";
-import "./TemplateStyle.scss";
-import type { MRT_Cell, MRT_Column } from "material-react-table";
-import { formatDate } from "@/pages/template-library/constants/constant";
 import type { IconName } from "@/core/types/icon.type";
+import { useGetViewPortSize } from "@/utils/get-viewport-size";
 import { TEMPLATE_SORTING } from "./constants/constant";
 import type { SortOption } from "./types/template-constants.type";
-import { renderTemplateActionSkelton, renderTemplateCreatedSkelton, renderTemplateIconSkelton, renderTemplateNameSkelton, renderTemplateNameSkeltonDesktop, renderTemplateRowSkelton } from "./components/skeleton/Skeleton";
-import type { TemplateType } from "./types/template-library.type";
-import { Button } from "@mui/material";
-import { demoTableData } from "./tableData";
+import { renderMacTruncate } from "@/utils/mac-truncate";
 import IconButton from "@/core/components/button/IconButton";
+import type { LibraryTableProps, MenuState, TemplateType } from "./types/template-library.type";
 
-export type TemplateLibrary = {
-  template_icon: string;
-  template_name: string;
-  type: string;
-  status: string;
-  created: string;
-  last_modified: string;
-};
-
-type MenuState = {
-    status: boolean;
-    anchorEl: null | HTMLElement;
-};
+import { renderPreviewPopupRow, renderPreviewHeading } from "@/pages/template-library/components/preview-type/PreviewType";
+import { formatDate } from "@/pages/template-library/constants/constant";
+import { demoTableData } from "./tableData";
+import { templateSkelton } from "./components/skeleton/Skeleton";
+import "./TemplateStyle.scss";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -84,23 +72,13 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-
-type LibraryTableProps = {
-  showCheckbox: boolean;
-  setShowCheckbox: (value: boolean) => void;
-  selectedTemplate: TemplateType[];
-  setSelectedTemplate: (value: TemplateType[]) => void;
-  hoveredRowId?: string | null;
-  setHoveredRowId?: (value: string | null) => void;
-};
-
 const LibraryTable: React.FC<LibraryTableProps> = ({
   showCheckbox,
   setShowCheckbox,
   selectedTemplate,
   setSelectedTemplate,
-  selectedDirectoryData=[],
-  loading,
+  templatesList,
+  isDataLoading,  
 }) => {
 
     const [tableActionMenu, setTableActionMenu] = useState<Record<"name" | "created" | "modified", MenuState>>({
@@ -110,16 +88,24 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     });
     const [previewModal, setPreviewModal] = useState<{status: boolean, data: TemplateType | null}>({status: false, data: null});
     const [tooltipId, setTooltipId] = useState<number | null>(null);
-    const [selectedSort, setSelectedSort] = useState<{[key in keyof typeof tableActionMenu]: string | null}>({
+    const [selectedSort, setSelectedSort] = useState<{[key in keyof typeof tableActionMenu]?: SortOption | null}>({
       name: null,
       created: null,
       modified: null,
     });
     const viewportSize = useGetViewPortSize();
     const isDesktop = viewportSize === 'xl' || viewportSize === 'lg';
+    const {
+      renderTemplateActionSkelton, 
+      renderTemplateCreatedSkelton, 
+      renderTemplateIconSkelton, 
+      renderTemplateNameSkelton, 
+      renderTemplateNameSkeltonDesktop, 
+      renderTemplateRowSkelton,
+    } = templateSkelton;
 
     const handleRowSelection = (checked:boolean, rowData: TemplateType) => {
-      let copyRowData = [...selectedTemplate];
+      let copyRowData = [...(selectedTemplate as TemplateType[])];
       if(checked) {
         copyRowData.push(rowData);
       }
@@ -145,18 +131,19 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
      * @returns void
     */
     const handleSelectAllRows = () => {
-      const isAllRowsSelected = selectedTemplate.length === selectedDirectoryData.length;
+      const templateData = (templatesList?.data?.filter((item): item is TemplateType => 'templateName' in item) || []) as TemplateType[];
+      const isAllRowsSelected = selectedTemplate.length === templateData.length;
       if(!isAllRowsSelected) {
-        setSelectedTemplate(selectedDirectoryData);
+        setSelectedTemplate(templateData);
       }
       else {
         setSelectedTemplate([]);
       }
     }
-
-
+ 
+ 
     const handleTooltip = (id: number) => setTooltipId((prev) => (prev === id ? null : id));
-
+ 
     
     const handleMenuClick = (event: React.MouseEvent<HTMLElement>, type: keyof typeof tableActionMenu) => {
       event.stopPropagation();
@@ -171,7 +158,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         },
       });
     };
-
+ 
     const handleMenuClose = () => {
       setTableActionMenu({
         name: { status: false, anchorEl: null },
@@ -179,9 +166,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         modified: { status: false, anchorEl: null },
       });
     };
-
-    const handleSortSelect = (type: keyof typeof tableActionMenu, item: string) => {
-      const newObj:unknown = {}
+ 
+    const handleSortSelect = (type: keyof typeof tableActionMenu, item: SortOption) => {
+       const newObj: typeof selectedSort  = {};
       Object.entries(selectedSort).map(([key, menuItem])=>{
         if(key !== type) {
           newObj[key] = null;
@@ -189,30 +176,30 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         else {
           if(menuItem === null || menuItem === undefined || menuItem?.key !== item?.key)
             newObj[key] = item;
-          else 
+          else
             newObj[key] = null;
         }
       })
       setSelectedSort({...newObj});
     };
-
+ 
     const handlePreviewModalOpen = (cellData: TemplateType) => {
       setPreviewModal({status: true, data: cellData});
     }
-
+ 
     const renderHeaderWithMenu = (column: MRT_Column<TemplateType>, type: keyof typeof tableActionMenu, menuItems: SortOption[]) => {
       const selected = selectedSort[type];
       const isAscending = selected?.key === "ASCENDING";
-
+ 
       return (
         <Box display="flex" alignItems="center" gap="4px">
           <Box>{column.columnDef.header}</Box>
-
+ 
           {selected ? <Box className="cursor-pointer" height="20px">
             {isAscending ? <SvgIcon component="arrowDown" size={20} fill="var(--icon-secondary)" /> :
               <SvgIcon component="arrowUp" size={20} fill="var(--icon-secondary)" />}
           </Box>: <Box ></Box>}
-
+ 
           <Box
             height="20px"
             className="cursor-pointer"
@@ -224,7 +211,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
               <SvgIcon component="arrowDownFill" size={20} fill="var(--icon-secondary)" />
             )}
           </Box>
-
+ 
           <StyledMenu
             key={`${type}-menu-${tableActionMenu[type].status ? "open" : "closed"}`}
             anchorEl={tableActionMenu[type].anchorEl}
@@ -237,7 +224,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
                 <MenuItem
                   key={index}
                   disableRipple
-                  selected={isSelected} 
+                  selected={isSelected}
                   onClick={() => handleSortSelect(type, item)}
                   sx={{
                     color: isSelected ? "#0A68DB" : "var(--text-primary)",
@@ -267,11 +254,11 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         </Box>
       );
     };
-
+ 
 const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name", TEMPLATE_SORTING.NAME);
 const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", TEMPLATE_SORTING.CREATED);
 const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", TEMPLATE_SORTING.MODIFIED);
-
+ 
     const renderTemplateIconHeader = () => {
       return <Box className="tableheader__checkbox-container" >
         { selectedTemplate.length > 0 ?
@@ -292,17 +279,17 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                         padding: '0px 10px'
                       }
                     }}
-                  checked={selectedTemplate.length == selectedDirectoryData.length}
-                  indeterminate={selectedTemplate.length > 0 && showCheckbox && selectedTemplate.length !== selectedDirectoryData.length ? true : false }
+                  checked={selectedTemplate.length == templatesList?.data?.length}
+                  indeterminate={selectedTemplate.length > 0 && showCheckbox && selectedTemplate.length !== templatesList?.data?.length ? true : false }
                 />
               }
               label=""
-            /> 
+            />
           : <Box height="20px"></Box>
         }
       </Box>
     }
-
+ 
     const renderTemplateCommonHeader = ({column}) => {
       return (
         <Box height="20px" display="flex" alignItems="center">
@@ -310,7 +297,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         </Box>
       )
     }
-
+ 
     const renderTemplateActionHeader = ({column}) => {
       return (
         <Box height="20px" display="flex" ml="8px" alignItems="center">
@@ -318,23 +305,23 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         </Box>
       )
     }
-
+ 
     const renderTemplateIconCell = ({cell }: {cell: MRT_Cell<TemplateType>}) => {
         const data = cell.row?.original;
         const isTableSelectable = selectedTemplate.length > 0 ;
         return <>
-              {!isTableSelectable && <Box className="template-checkbox-container tablebody-col__checkbox--toggle" display='flex' 
+              {!isTableSelectable && <Box className="template-checkbox-container tablebody-col__checkbox--toggle" display='flex'
                 >
                     <Box onClick={() => handleRowSelection(true, cell.row.original)} className="cursor-pointer icon-container" >
                       <IconButton>
                       { data?.iconName === "v15-Shop-supply" ?
-                        <SvgIcon 
+                        <SvgIcon
                             component="checkedList"
                             size={18}
                             fill="#0A68DB"
                             style={{ pointerEvents: 'none' }}
                          /> :
-                        <SvgIcon 
+                        <SvgIcon
                             component="checkedDoc"
                             size={18}
                             fill="#009B00"
@@ -343,6 +330,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                       </IconButton>
                     </Box>
                     <FormControlLabel
+                    label=""
                       className="form-control-label checkbox-wrapper"
                       onChange={(event) => handleRowSelection((event.target as HTMLInputElement).checked, cell.row.original)}
                         control={
@@ -360,7 +348,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                             />
                         }
                  
-                    /> 
+                    />
                      </Box>}
                {
                 isTableSelectable && <Box className="checkbox-container cursor-pointer"  >
@@ -381,23 +369,23 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                             />
                         }
                       label=""
-                    /> 
+                    />
                     </Box>
     }
           </>
     }
-
+ 
     const renderTemplateNameCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
         const data = cell.row?.original;
         return (
                <Box minWidth="300px" display="flex" alignItems="center" gap="10px">
-                   <Box display="flex" flexDirection="column" gap="6px">
-                        <Box className="template-body-text cursor-pointer" onClick={()=>handlePreviewModalOpen(data)}>{data?.templateName || data?.name || ""}</Box>
+                   <Box width="100%" display="flex" flexDirection="column" gap="6px">
+                        <Box width="100%" className="template-body-text cursor-pointer" onClick={()=>handlePreviewModalOpen(data)}>{renderMacTruncate(data?.templateName || "")}</Box>
                           {!isDesktop ?
                           <Box display="flex" gap="24px">
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Type:</span>{data?.tagType || "Checklist"}</Box>
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Status:</span>
-                              {data?.status === "Incomplete" ? 
+                              {data?.status === "Incomplete" ?
                                 <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
                                   <Box>{data?.status}</Box>
                                   <><SvgIcon component={'exclamationTriangle' as IconName} size={16} fill="#F44336" /></>
@@ -411,34 +399,34 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                </Box>
             )
     }
-
+ 
     const renderTemplateStatusCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
       return (<Box>
-        {data?.status === "Incomplete" ? 
+        {data?.status === "Incomplete" ?
           <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
             <Box>{data?.status}</Box>
             <><SvgIcon component={'exclamationTriangle' as IconName} size={16} fill="#F44336" /></>
           </Box> :
-          <Box display='flex' gap='2px'>{data?.status || "Active"}</Box> 
+          <Box display='flex' gap='2px'>{data?.status || "Active"}</Box>
         }
       </Box>
       )
     }
-
+ 
      const renderTemplateTypeCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
       return (
-          <Box display='flex' gap='2px'>{data?.type || "Checklist"}</Box> 
+          <Box display='flex' gap='2px'>{data?.tagType || "Checklist"}</Box>
       )
     }
-
+ 
     const renderTemplateCreatedCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const templateData = cell.row.original;
       return (
             <Box display="flex" gap="4px" alignItems='center'>
               <Box>{formatDate(templateData?.createdTime)}</Box>
-                <Tooltip 
+                <Tooltip
                   key={templateData.templateId}
                   title={<Box>ID: {templateData.templateId}</Box>}
                   arrow
@@ -469,7 +457,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
               </Box>
             )
     }
-
+ 
     const renderTemplateModifiedCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const templateData = cell.row.original;
       return (
@@ -478,7 +466,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
             </Box>
             )
     }
-
+ 
     const renderActionsCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const status = cell.row.original?.status;
       const disabledActions = selectedTemplate?.length > 1;
@@ -493,7 +481,6 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         )
     }
 
-    const [columnVisibility, setColumnVisibility] = useState({});
     const columns = [
       {
         order:0,
@@ -502,7 +489,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         hide:false,
         size:1,
         Header: renderTemplateIconHeader,
-        Cell: (loading?.templates || loading?.reports ) ? renderTemplateIconSkelton : renderTemplateIconCell,
+        Cell: isDataLoading ? renderTemplateIconSkelton : renderTemplateIconCell,
         muiTableHeadCellProps: () => ({className: "tableheader-checkbox__container", style:{width: "50px", padding: "0.8rem 0.6rem 0.8rem 1.6rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text", style: { padding: "0.8rem 0.6rem 0.8rem 1.6rem"} })
      },
@@ -513,7 +500,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         hide:false,
         size:1,
         Header: renderTemplateNameHeader,
-        Cell: (loading?.templates || loading?.reports ) ? isDesktop ? renderTemplateNameSkeltonDesktop : renderTemplateNameSkelton : renderTemplateNameCell,
+        Cell: isDataLoading ? isDesktop ? renderTemplateNameSkeltonDesktop : renderTemplateNameSkelton : renderTemplateNameCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding: "0.8rem 0.4rem 0.8rem 0.6rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text", style: {padding: "0.8rem 0.4rem 0.8rem 0.6rem"} })
       },
@@ -524,7 +511,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         header: "Type",
         Header: renderTemplateCommonHeader,
         size:1,
-        Cell: (loading?.templates || loading?.reports ) ? renderTemplateRowSkelton : renderTemplateTypeCell,
+        Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateTypeCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding:"1rem 0.8rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text" })
       },
@@ -535,7 +522,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         header: "Status",
         size:1,
         Header: renderTemplateCommonHeader,
-        Cell: (loading?.templates || loading?.reports ) ? renderTemplateRowSkelton : renderTemplateStatusCell,
+        Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateStatusCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding:"1rem 0.8rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text" })
       },{
@@ -545,7 +532,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         hide:false,
         size:1,
         Header: renderTemplateCreatedHeader,
-        Cell: (loading?.templates || loading?.reports ) ? renderTemplateCreatedSkelton : renderTemplateCreatedCell,
+        Cell: isDataLoading ? renderTemplateCreatedSkelton : renderTemplateCreatedCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding:"1rem 0.8rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text" })
       },
@@ -556,7 +543,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         hide:false,
         size:1,
         Header: renderTemplateModifiedHeader,
-        Cell: (loading?.templates || loading?.reports ) ? renderTemplateRowSkelton : renderTemplateModifiedCell,
+        Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateModifiedCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding:"1rem 0.8rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text" })
       },
@@ -567,29 +554,29 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         hide:false,
         size:1,
         Header: renderTemplateActionHeader,
-        Cell: (loading?.templates || loading?.reports ) ? renderTemplateActionSkelton : renderActionsCell,
+        Cell: isDataLoading ? renderTemplateActionSkelton : renderActionsCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{padding:"1rem 1.6rem 1rem 0.8rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text", style:{paddingRight:"1.6rem"} })
       },
     ]
-
+ 
     const getColumns = () => {
       return columns.filter(i=> !i.hide).sort((a, b) => (a.order || 0) - (b.order || 0));
       // let col = [];
-      //  if (isDesktop) 
+      //  if (isDesktop)
       //     col =  [...columns, ...desktopColumns, ...columns2];
       //  else
       //     col = [...columns, ...columns2];
-
+ 
       // return col.sort((a, b) => (a.order || 0) - (b.order || 0));
     };
-
+ 
     const templateTableProps = {
     columns: getColumns(),
     data: demoTableData,
     // TODO : NEED TO BE REMOVED WHEN BE IS WORKING FINE
-    // (loading?.templates || loading?.reports ) 
-          // ? Array.from({ length: 10 }).map((_, idx) => ({ id: `skeleton-${idx}` })) : selectedDirectoryData,
+    // isDataLoading
+          // ? Array.from({ length: 10 }).map((_, idx) => ({ id: `skeleton-${idx}` })) : templatesList?.data,
     enableColumnActions: false,
     enableColumnFilters: false,
     enablePagination: false,
@@ -597,35 +584,37 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
     enableBottomToolbar: false,
     enableTopToolbar: false,
     muiTableBodyRowProps: { hover: false },
-    muiTableContainerProps:() => ({className: "template-table-main" }),
   }
-
+ 
     return (
         <div className="template-library-table-container">
-            <Table 
+            <DataTable
                 tableProps={templateTableProps}
                 isRowSelected={isRowSelected}
                 muiTableStyleProps={{
-                    height:'calc(var(--app-content-height) - 11rem)'
+                    height:'100%',
+                    scrollbarWidth: 'none'
                 }}
             />
-
+ 
            {/* Template Preview Popup */}
             <CommonModal
               open={previewModal.status}
+              className="template-preview-modal"
               onClose={() => setPreviewModal({status: false, data: null})}
               title={renderPreviewHeading({
                   heading: `${previewModal?.data?.templateName || ""}`,
-                  btn1visible: true, 
-                  btn1Name: "upload", 
-                  btn2visible: true, 
+                  btn1visible: true,
+                  btn1Name: "upload",
+                  btn2visible: true,
                   btn2Name: "moreOption"
                 })
               }
               showActions={false}
+              width="750px"
             >
-              <Box sx={{ borderRadius: "8px", border: "1px solid #DCDCDC"}}>
-                <Box sx={{ padding: "16px", backgroundColor: "#F4F5FA", display: "flex", gap: "10px", fontWeight: "var(--weight-500)", color: "var(--base-black)"}}>
+              <Box className={'template-preview-modal__content'}>
+                <Box className={'template-preview-modal__content-header'}>
                   <Box width="70%">Question</Box>
                   <Box width="30%" ml="30px">Answer</Box>
                 </Box>

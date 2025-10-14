@@ -28,5 +28,7 @@ declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
     primary: true;
     iconOutlined: true;
+    'primary-filled': true;
+    'icon-outlined': true;
   }
 }

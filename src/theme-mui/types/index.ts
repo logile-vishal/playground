@@ -1,3 +1,3 @@
-import type { icons } from "@/core/constants/icons";
+import type { ICONS } from "@/core/constants/icons";
 
-export type svgIconsTypes = keyof typeof icons
+export type svgIconsTypes = keyof typeof ICONS

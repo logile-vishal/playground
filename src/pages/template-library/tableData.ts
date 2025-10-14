@@ -1,4 +1,5 @@
-import type { TemplateLibraryTableRowType } from "./types";
+import type { FolderTreeResponse } from "@/core/types/tree-view.type";
+
 
 export const demoTableData2 : unknown[] = [
   {
@@ -43,7 +44,7 @@ export const demoTableData2 : unknown[] = [
   
 ];
 
-export const folderTreeData = {
+export const folderTreeData: FolderTreeResponse= {
     "success": true,
     "message": "Tags fetched successfully for role: ADMIN",
     "data": [
@@ -859,7 +860,7 @@ export const folderTreeData = {
     ]
   }
 
-export const demoTableData: TemplateLibraryTableRowType[] = [
+export const demoTableData = [
         {
             "templateId": 1894,
             "tagId": 2002,
@@ -930,7 +931,18 @@ export const demoTableData: TemplateLibraryTableRowType[] = [
             "templateId": 2208,
             "tagId": 2012,
             "templateName": "Two-Hour Hot Hold Interval (subsequent)",
-            "tagType": "Temperature Check",
+            "tagType": "Logs",
+            "status": null,
+            "createdTime": "2017-11-16T13:33:18",
+            "lastModifiedTime": "2020-07-17T22:18:03.692",
+            "iconName": "v15-Shop-supply",
+            "iconColour": "#bd9721"
+        },
+         {
+            "templateId": 2248,
+            "tagId": 2012,
+            "templateName": "Two-Hour Hot Hold Internal data of store management (subsequent)",
+            "tagType": "Temperature",
             "status": null,
             "createdTime": "2017-11-16T13:33:18",
             "lastModifiedTime": "2020-07-17T22:18:03.692",

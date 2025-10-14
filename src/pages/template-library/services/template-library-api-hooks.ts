@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import {
   getAllDirectories,
   getTemplatesByTagId,
@@ -16,19 +17,19 @@ export function useGetAllDirectories() {
 }
 
 // Fetch templates by tagId
-export function useGetTemplatesByTagId(tagId: number, payload?: any) {
+export function useGetTemplatesByTagId(tagId: number, params?: Record<string, unknown>) {
   return useQuery<PaginatedResponse<TemplateType>>({
-    queryKey: ['templates', tagId, payload],
-    queryFn: () => getTemplatesByTagId(tagId, payload),
+    queryKey: ['templates', tagId, params],
+    queryFn: () => getTemplatesByTagId(tagId, params),
     enabled: !!tagId,
   });
 }
 
 // Fetch reports by reportType
-export function useGetReportsByReportType(reportType: number, payload?: any) {
+export function useGetReportsByReportType(reportType: string, params?: Record<string, unknown>) {
   return useQuery<PaginatedResponse<ReportType>>({
-    queryKey: ['reports', reportType, payload],
-    queryFn: () => getReportsByReportType(reportType, payload),
+    queryKey: ['reports', reportType, params],
+    queryFn: () => getReportsByReportType(reportType, params),
     enabled: !!reportType,
   });
 }

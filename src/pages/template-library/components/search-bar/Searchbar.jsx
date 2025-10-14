@@ -23,23 +23,23 @@ const SearchField = styled(TextField)(({ theme }) => ({
 const Searchbar = (props) => {
   return (
       <SearchField
-                        className="search-bar"
-                        variant="outlined"
-                        placeholder="Search by template name"
-                        size="small"
-                        sx={{'& .MuiOutlinedInput-input': { height: '26px', padding:'4px 8px' }}}
-                        fullWidth
-                        {...props}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton edge="end">
-                                        <SearchIcon />
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
+        className="search-bar"
+        variant="outlined"
+        placeholder="Search by template name"
+        size="small"
+        sx={{'& .MuiOutlinedInput-input': { height: '26px', padding:'4px 8px' }}}
+        fullWidth
+        {...props}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton edge="end">
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
   )
 }
 export default Searchbar;

@@ -1,3 +1,5 @@
+import type { PaginatedResponse } from "@/core/types/pagination.type";
+
 export interface DirectoryType {
   tagId: number;
   tagName: string;
@@ -24,7 +26,7 @@ export interface TemplateType {
     iconName: string,
     iconColour: string,
 }
-
+ 
 export interface ReportType {
     templateId: number,
     displayTime: boolean,
@@ -39,4 +41,34 @@ export interface ReportType {
     createOrg: number,
     isDashboard: boolean,
     showTmptNameInTitle: boolean
+}
+ 
+export type TemplateLibraryType = {
+  template_icon: string;
+  template_name: string;
+  type: string;
+  status: string;
+  created: string;
+  last_modified: string;
+};
+ 
+export type MenuState = {
+    status: boolean;
+    anchorEl: null | HTMLElement;
+};
+
+export type LibraryTableProps = {
+  showCheckbox: boolean;
+  setShowCheckbox: (value: boolean) => void;
+  selectedTemplate: TemplateType[] | ReportType[];
+  setSelectedTemplate: (value: TemplateType[]| ReportType[]) => void;
+  hoveredRowId?: string | null;
+  setHoveredRowId?: (value: string | null) => void;
+  templatesList: PaginatedResponse<TemplateType>,
+  isDataLoading: boolean,
+};
+ 
+export type TemplatePaginationData = {
+  currentPage: number,
+  pageSize: number,
 }

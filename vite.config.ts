@@ -12,7 +12,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/frontend-dev/',
+  base: './frontend-dev/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')

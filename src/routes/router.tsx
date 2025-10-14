@@ -1,9 +1,11 @@
-import { createBrowserRouter, createHashRouter } from 'react-router-dom';
-import AppShell from '@/layouts/app-shell/AppShell';
+import { createHashRouter } from 'react-router-dom';
+
 import { IconsDemo } from '@/dev-playground/Icons';
-import { ComponentLibraryLandingPage } from '@/dev-playground/LandingPage';
+
+import AppShell from '@/layouts/app-shell/AppShell';
 import NoPageFound from '@/layouts/NoPageFound';
 import TemplateLibrary from '@/pages/template-library';
+import { ComponentLibraryLandingPage } from '@/dev-playground/LandingPage';
 
 
 const getDevRoutes = ()=>{

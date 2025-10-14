@@ -1,13 +1,48 @@
-.app-bar-main-container {
+.app-bar{
     height: var(--app-bar-height);
-    padding: 0;
+    padding: var(--space-xs) var(--space-xl) var(--space-xs) var(--space-xl);
     background-color: var(--bg-base);
     color: var(--text-primary);
     position: static;
-    .logo-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    &__left-section {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        padding: var(--space-xs) var(--space-xl) var(--space-xs) var(--space-xs);
+          gap: var(--space-3xl); // TODO: change to var(--space-3xl) after fixing variable value
+        .app-bar__logo-box {
+            display: flex;
+            flex-direction: row;
+          
+        }
     }
+   
+    &__search-bar {
+        margin-left: auto;
+        max-width: 24rem;
+        max-height: 3.6rem;
+    }
+    &__right-section {
+        display: flex;
+        align-items: center;
+        margin-left: var(--space-3xl);
+        .action-icons-box {
+            gap: var(--space-xs);
+            flex-direction: row;
+            display: flex;
+            align-items: center;
+            margin-right: var(--space-3xl);
+            .notifiction-badge{
+                & .MuiBadge-badge {
+                    top:".4rem";
+                    font-weight: var(--weight-400);
+                    font-size: 1.5rem;
+                }
+            }
+        }
+    }
+
 } 

@@ -1,38 +1,38 @@
-.userProfileInfoCard{
+.user-profile-info-card{
     display:flex;
     flex-direction:row;
-    border-radius: var(--space-md);
+    border-radius: var(--space-m);
     border: 1px solid var(--border-secondary);
     background-color: var(--bg-container-1);
     gap:.5rem;
     align-items:center;
     margin-left: var(--space-3xl);
-    padding:var(--space-xs) var(--space-sm);
+    padding:var(--space-xs) var(--space-s);
     cursor:pointer;
     transition: all .2s ease-in-out;
     &:hover{
         background-color: var(--bg-hover-gray-50);
     }
     background-color: var(bg-default);
-    & .avatar{
+    & .card-avatar{
         background-color: #CAC2FF;
         width:3.2rem;
         height:3.2rem;
         border-radius:50%;
     }
-    & .userInfo{
+    & .card-info{
         display:flex;
         flex-direction:column;
         justify-content:center;
         align-items:start;
      
-        & .userInfo-name{
+        &__name{
             font-size:var(--size-secondary-text);
             font-weight:var(--weight-500);
             line-height: 2rem;
             color:var(--text-primary)
         }
-        & .userInfo-role{
+        &__role{
             font-size:var(--size-secondary-text);
             color: var(--text-secondary);
             line-height: 2rem;
@@ -40,13 +40,32 @@
             
         }
     }
-    .menubar-heading {
+    &--active {
+    border: 1px solid var(--border-brand-primary);
+}
+   
+}
+
+.userProfileMenu {
+        margin-top: 0.5rem;
+       .MuiPaper-root {
+        border: 1px solid var(--border-tertiary);
+       width: 22rem;
+       }
+     & .userProfileMenu__option-item {
         font-size: var(--size-secondary-text);
         color: var(--text-primary);
         font-weight: var(--weight-400);
+        padding: 1rem 1.5rem;
+        & > .MuiList-root > li{
+            padding: 0.5rem 1rem;
+        }
+        .MuiMenuItem-root {
+                
+                font-size: var(--size-secondary-text);
+                color: var(--text-primary);
+
+            }
+        
     }
-   
-}
-.userProfileInfoCardSelected {
-    border: 1px solid var(--border-brand-primary);
 }

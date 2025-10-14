@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { alpha, ButtonBase, ListItemButton, Stack, styled, Typography } from '@mui/material';
-import './Sidebar.scss';
+import { alpha,  ListItemButton, Stack, styled, Typography } from '@mui/material';
+
 import SvgIcon from '@/core/components/icon/Icon';
-import type { icons } from '@/core/constants/icons';
 import { useGetViewPortSize } from '@/utils/get-viewport-size';
+import type { ICONS } from '@/core/constants/icons';
+import clsx from '@/utils/clsx';
+
+import './Sidebar.scss';
+
+import './Sidebar.scss';
 
 interface SidebarProps {
   activePath: string;
   sidebarRef?: React.Ref<HTMLDivElement>;
 }
 
-const menuItems: {
+
+const imsNavLinks: {
   text: string;
   path:string;
-  icon: keyof typeof icons
+  icon: keyof typeof ICONS
 }[] = [
   { text: 'Home', path: '/', icon: 'home' },
   { text: 'Quick Links', path: '/quickLinks', icon: 'quickLink' },
@@ -27,9 +33,25 @@ const menuItems: {
   { text: 'Labour Report', path: '/labourReport', icon: 'labourReport' },
   { text: 'Food Safety', path: '/foodSafety', icon: 'foodSafety' },
   { text: 'Queue Management', path: '/queueManagement', icon: 'queueManagement' },
- 
-]
 
+]
+const wfmNavLinks: {
+  text: string;
+  path:string;
+  icon: keyof typeof ICONS
+}[] = [
+  { text: 'Home', path: '/', icon: 'home' },
+  { text: 'Quick Links', path: '/quickLinks', icon: 'quickLink' },
+  { text: 'ESS', path: '/ess', icon: 'calendar' },
+  { text: 'Communication', path: '/communication', icon: 'communication' },
+ 
+  { text: 'Queue Management', path: '/queueManagement', icon: 'queueManagement' },
+
+]
+const navLinkOptions = {
+  'IMS':imsNavLinks,
+  'WFM':wfmNavLinks
+}
 const StyledListItemButton = styled(ListItemButton,{
   shouldForwardProp: (prop) => prop !== 'activePath',
 })<{activePath?: boolean, component?: React.ElementType, to?: string}>(({ theme,activePath }) => ({
@@ -37,15 +59,17 @@ const StyledListItemButton = styled(ListItemButton,{
   alignItems:"center",
   flexDirection:"column",
   justifyContent:"center",
-  padding:"var(--space-md)",
+  padding:"var(--space-m)",
   borderRadius:theme.shape.borderRadius,
   gap:".4rem",
   width:"100%",
   overflow:"hidden",
+  textOverflow:"ellipsis",
   whiteSpace:"normal",
   backgroundColor: activePath ? alpha(theme.palette.primary.main,0.1) : "transparent",
   color:activePath ? theme.palette.primary.main : "inherit",
-  
+  minHeight:'max-content',
+  maxHeight:'max-content',
   transition:"all .2s ease-in-out",
   "&:hover":{
     cursor:"pointer",
@@ -72,10 +96,13 @@ const Sidebar: React.FC<SidebarProps> = ({ activePath, sidebarRef }) => {
   const handleSwitchAppName = ()=>{
     setAppSwitchValue(prev=> prev == 'IMS' ? 'WFM':'IMS')
   }
+  const navlistItems = navLinkOptions['IMS'];
+
+    const isDesktop = viewportSize === 'xl';
   return (
- <Stack className='sidebar__container' ref={sidebarRef}>
+ <Stack className='sidebar' ref={sidebarRef}>
   <div className='sidebar__switch'>
-    <ButtonBase  disableRipple disableTouchRipple onClick={handleSwitchAppName}>
+    <div  onClick={handleSwitchAppName}>
     <SvgIcon component='exchange' size={18} fill="var(--icon-state-information)"/>
     <Typography sx={()=>({
       textAlign:'center',
@@ -85,24 +112,19 @@ const Sidebar: React.FC<SidebarProps> = ({ activePath, sidebarRef }) => {
       fontSize:"1.7rem",
       color: "var(--text-state-Navbar_active)"
     })}>{appSwitchValue}</Typography>
-    </ButtonBase>
     </div>
+  </div>
 
     <Stack className='sidebar__list'>
-      {menuItems.map((item) => {
+      {navlistItems.map((item) => {
         const isActive = activePath === item.path;  
-        const isLargeView = viewportSize === 'xl';
+      
           return <StyledListItemButton component={Link} to={item.path} activePath={isActive}>
             <SvgIcon component={item.icon} size={24} fill={isActive ? 'currentColor' : 'var(--icon-secondary)'}/>
-                <Typography sx={()=>({
-                  textAlign:'center',
-                  fontSize: isLargeView ? "1.2rem": "1rem",
-                  width: !isLargeView ? "7.1rem": "auto",
-                  fontWeight:"inherit",
-                  textOverflow: !isLargeView ? "ellipsis": "unset",
-                  overflow:"hidden",
-                  transition:'ease-in-out 1s',
-                  color: "var(--text-secondary)"
+                <Typography className={clsx({
+                  'layout-desktop': isDesktop,
+                  'layout-tablet': !isDesktop,
+                  'sidebar__list-item-label': true
                 })}>{item.text}</Typography>
           </StyledListItemButton>
       

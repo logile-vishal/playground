@@ -17,7 +17,7 @@ interface navSearchBarProps {
   })(() => ({
       width:"fit-content",
       backgroundColor:"transparent",
-      padding: "0 var(--space-sm)",
+      padding: "0 var(--space-s)",
       pointerEvents: 'none',
       display: 'flex',
       alignItems: 'center',
@@ -29,7 +29,7 @@ interface navSearchBarProps {
       width: '100%',
       backgroundColor:theme.palette.background.default,
       '& .MuiInputBase-input': {
-          padding: "var(--space-xs) var(--space-sm)",
+          padding: "var(--space-xs) var(--space-s)",
           fontSize: "1.7rem",
           transition: theme.transitions.create('width'),
       },
@@ -61,7 +61,7 @@ interface navSearchBarProps {
         setValue(event.target.value);
       };
       const onSearch = (value:string)=>{
-        console.log(value)
+        props.onSearch(value);
       }
       const checkForEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
