@@ -1,6 +1,6 @@
 import type { PaginatedResponse } from "@/core/types/pagination.type";
 
-export interface DirectoryType {
+export type DirectoryType = {
   tagId: number;
   tagName: string;
   tagType: string;
@@ -15,7 +15,7 @@ export interface DirectoryType {
   children: DirectoryType[];
 }
 
-export interface TemplateType {
+export type TemplateType = {
     templateId: number,
     tagId: number,
     templateName: string,
@@ -27,7 +27,7 @@ export interface TemplateType {
     iconColour: string,
 }
  
-export interface ReportType {
+export type ReportType = {
     templateId: number,
     displayTime: boolean,
     enabled?: null,

@@ -14,7 +14,7 @@ import UserProfileInfoCard from './components/user-profile/UserProfileInfoCard';
 import NavSearchBar from './components/search-bar/SearchBar';
 import "./AppBar.scss";
 
-interface AppBarProps {
+type AppBarProps = {
   handleToggleMenu: () => void,
 }
 
@@ -42,10 +42,10 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
   const handleSearch = (value: string) => {
     console.log(value)
   }
-  return <div className='app-bar'
+  return <div className='appbar'
   >
       {/* Logo Section */}
-      <div className='app-bar__left-section'>
+      <div className='appbar__left-section'>
 
         
           <MainMenu onClick={handleToggleMenu}> 
@@ -53,7 +53,7 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
           </MainMenu>
     
 
-        <div className='app-bar__logo-box' >
+        <div className='appbar__logo-box' >
         <img src={clientLogo} />
          <Typography sx={(theme) => ({
           color: theme.palette.primary.main,
@@ -71,11 +71,11 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
   
 
       {/* Search Bar */}
-      <Stack className='app-bar__search-bar'>
+      <Stack className='appbar__search-bar'>
         <NavSearchBar placeholder='Search...' onSearch={handleSearch} iconPosition='left' icon='search' />
       </Stack>
 
-      <div className='app-bar__right-section'>
+      <div className='appbar__right-section'>
       {/* Icons Section */}
       <Stack className='action-icons-box' >
         <IconButton variant="primary" style={{padding:"1rem"}} onClick={handleThemeToggle}>

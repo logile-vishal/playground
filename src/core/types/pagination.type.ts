@@ -1,10 +1,10 @@
-export interface DirectResponse<T> {
+export type DirectResponse<T> = {
   success: boolean,
   message: string,
   data: T;
 }
 
-export interface PaginatedResponse<T> {
+export type PaginatedResponse<T> = {
   success: boolean,
   message: string,
   data: T[];

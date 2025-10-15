@@ -6,7 +6,7 @@ import IconButton from '@/core/components/button/IconButton';
 import { Button } from "@mui/material";
 import "./Modal.scss";
  
-interface CommonModalProps {
+type CommonModalProps = {
   open: boolean;
   onClose: () => void;
   title?: ReactElement;

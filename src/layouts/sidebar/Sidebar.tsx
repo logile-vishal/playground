@@ -9,9 +9,7 @@ import clsx from '@/utils/clsx';
 
 import './Sidebar.scss';
 
-import './Sidebar.scss';
-
-interface SidebarProps {
+type SidebarProps = {
   activePath: string;
   sidebarRef?: React.Ref<HTMLDivElement>;
 }
@@ -104,14 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePath, sidebarRef }) => {
   <div className='sidebar__switch'>
     <div  onClick={handleSwitchAppName}>
     <SvgIcon component='exchange' size={18} fill="var(--icon-state-information)"/>
-    <Typography sx={()=>({
-      textAlign:'center',
-      fontWeight: "var(--weight-500)",
-      lineHeight:'2.2rem',
-      transition:'ease-in-out 1s',
-      fontSize:"1.7rem",
-      color: "var(--text-state-Navbar_active)"
-    })}>{appSwitchValue}</Typography>
+    <Typography className='sidebar__switch-text'>{appSwitchValue}</Typography>
     </div>
   </div>
 
@@ -122,9 +113,9 @@ const Sidebar: React.FC<SidebarProps> = ({ activePath, sidebarRef }) => {
           return <StyledListItemButton component={Link} to={item.path} activePath={isActive}>
             <SvgIcon component={item.icon} size={24} fill={isActive ? 'currentColor' : 'var(--icon-secondary)'}/>
                 <Typography className={clsx({
+                  'sidebar__list-item-label': true,
                   'layout-desktop': isDesktop,
-                  'layout-tablet': !isDesktop,
-                  'sidebar__list-item-label': true
+                  'layout-tablet': !isDesktop
                 })}>{item.text}</Typography>
           </StyledListItemButton>
       

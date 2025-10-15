@@ -11,12 +11,12 @@ import "../../TemplateStyle.scss";
 
 type AnswerType = "Textfield" | "Dropdown" | "Multiline-Textfield" | string;
 
-interface RenderAnswerProps {
+type RenderAnswerProps = {
   type: AnswerType;
   answer: string;
 }
 
-interface PreviewHeadingProps {
+type PreviewHeadingProps = {
   heading: string;
   btn1visible?: boolean;
   btn1Name?: IconName;
@@ -24,7 +24,7 @@ interface PreviewHeadingProps {
   btn2Name?: IconName;
 }
 
-interface PreviewBodyProps {
+type PreviewBodyProps = {
     index: string;
     text: string;
     type: string; 

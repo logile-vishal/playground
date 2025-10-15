@@ -1,6 +1,6 @@
 
 
-export interface TreeViewNodeDataType {
+export type TreeViewNodeDataType = {
   tagId: number;
   tagName: string;
   tagType: string;
@@ -15,7 +15,7 @@ export interface TreeViewNodeDataType {
   children: TreeViewNodeDataType[];
 }
 
-export interface FolderTreeResponse {
+export type FolderTreeResponse = {
   success: boolean;
   message: string;
   data: TreeViewNodeDataType[];

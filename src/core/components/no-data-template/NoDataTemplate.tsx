@@ -4,7 +4,7 @@ import SvgIcon from "@/core/components/icon/Icon";
 import "./NoDataTemplate.scss";
 import type { IconName } from "@/core/types/icon.type";
 
-interface NoDataProps {
+type NoDataProps = {
   imageSrcName: string; 
   title?: string; 
   description?: string;

@@ -8,7 +8,7 @@ import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 
 
-interface TreeViewProps {
+type TreeViewProps = {
   data: TreeViewNodeDataType[];
   setSelectedData?: React.Dispatch<React.SetStateAction<number | null>>;
   handleClick: (event: React.MouseEvent<HTMLLIElement>, nodes: TreeViewNodeDataType) => void;

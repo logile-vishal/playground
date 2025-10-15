@@ -5,7 +5,7 @@ import SvgIcon from "@/core/components/icon/Icon";
 import type { IconName } from "@/core/types/icon.type";
 
 
-interface navSearchBarProps {
+type navSearchBarProps = {
     placeholder: string;
     onSearch: (value: string) => void;
     iconPosition?: 'left' | 'right'

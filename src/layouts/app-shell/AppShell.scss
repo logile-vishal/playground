@@ -8,7 +8,7 @@
   .app-shell__layout {
     display: flex;
     flex-grow: 1;
-    max-height: calc(100vh - var(--app-bar-height));
+    max-height: calc(100vh - var(--appbar-height));
     overflow: hidden;
     
   }

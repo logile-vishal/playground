@@ -67,7 +67,7 @@ const StyledMenuItem = styled(MenuItem)(( ) => ({
   },
 }))
 
-interface TabPanelProps {
+type TabPanelProps = {
   children?: React.ReactNode;
   value: boolean;
 }
@@ -109,13 +109,13 @@ function StyledTextField({label="", width="100%"}) {
     )
 }
 
-interface DropdownOption {
+type DropdownOption = {
   value: string | number;
   label: string;
 }
 
 
-interface StyledDropdownProps {
+type StyledDropdownProps = {
   label?: string;
   handleChange?: (event: SelectChangeEvent, child?: React.ReactNode) => void;
   value?: string | number;
@@ -159,7 +159,7 @@ function StyledDropdown ({
       </Box>  
 )}
 
-interface SearchDrawerProps {
+type SearchDrawerProps = {
     open: boolean;
     onClose: () => void;
 }

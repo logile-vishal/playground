@@ -44,7 +44,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
-interface props {
+type props = {
     placeholder: string,
     iconPosition:"start"|"end",
     onSearch: (value:string)=> void

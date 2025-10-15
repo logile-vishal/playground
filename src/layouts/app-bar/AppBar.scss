@@ -1,5 +1,5 @@
-.app-bar{
-    height: var(--app-bar-height);
+.appbar{
+    height: var(--appbar-height);
     padding: var(--space-xs) var(--space-xl) var(--space-xs) var(--space-xl);
     background-color: var(--bg-base);
     color: var(--text-primary);
@@ -13,7 +13,7 @@
         display: flex;
         align-items: center;
           gap: var(--space-3xl); // TODO: change to var(--space-3xl) after fixing variable value
-        .app-bar__logo-box {
+        .appbar__logo-box {
             display: flex;
             flex-direction: row;
           

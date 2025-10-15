@@ -6,7 +6,7 @@ import SvgIcon from '@/core/components/icon/Icon'
 import clsx from '@/utils/clsx'
 
 
-interface UserProfileInfoCardProps {
+type UserProfileInfoCardProps = {
     user: {name: string, role: string,avatar: string}
 }
 

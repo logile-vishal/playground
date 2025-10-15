@@ -79,6 +79,13 @@
         gap: var(--space-xs);
         font-size: 1.4rem;
          margin:var(--space-xl) 0;
-        
+        & .sidebar__switch-text{
+            text-align: center;
+            font-weight: var(--weight-500);
+            line-height: 2.2rem;
+            transition: ease-in-out 1s;
+            font-size: 1.7rem;
+            color: var(--text-state-Navbar_active);
+        }
       };
 }

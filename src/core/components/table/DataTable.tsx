@@ -3,7 +3,7 @@ import type { SxProps, Theme } from "@mui/material";
 import { MaterialReactTable, useMaterialReactTable } from "material-react-table";
 import type { MRT_RowData, MRT_Row } from "material-react-table";
  
-interface TableProps {
+type TableProps = {
   tableProps;
   isRowSelected?: (rowData: TemplateType) => boolean;
   muiTableStyleProps?: SxProps<Theme>

@@ -4,12 +4,13 @@ import { useGetViewPortSize } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
 
 import './PageTemplate.scss';
-interface CommonContentActionBarProps {
+
+type CommonContentActionBarProps = {
   children: ReactNode;
   style?: CSSProperties;
 }
 
-interface SectionProps {
+type SectionProps = {
   children: ReactNode;
   style?: CSSProperties;
 }

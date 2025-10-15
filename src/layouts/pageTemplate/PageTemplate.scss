@@ -10,7 +10,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height:calc(100vh - var(--app-bar-height) - var(--pagetemplate-bottom-margin));
+    height:calc(100vh - var(--appbar-height) - var(--pagetemplate-bottom-margin));
     width: 100%;
     
 }
