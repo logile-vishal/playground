@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - dev
+      - feat/template-preview
 jobs:
   dev-build:
     runs-on: ubuntu-latest
