@@ -1,4 +1,4 @@
-import {  Snackbar, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import React from 'react';
 
 import SvgIcon from '@/core/components/icon/Icon';
@@ -32,7 +32,6 @@ const Toast = ({
   title,
   severity: toastSeverity = Severity.SUCCESS,
   variant = ToastVariant.Filled,
-  anchorOrigin,
   isSizeLarge,
   description,
   actions,
@@ -48,42 +47,42 @@ const Toast = ({
   };
   const severityIcon = severityIcons[toastSeverity];
 
+  React.useEffect(() => {
+    if (open && autoHideDuration) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, autoHideDuration);
+      return () => clearTimeout(timer);
+    }
+  }, [open, autoHideDuration, onClose]);
+
+  if (!open) return null;
+
   return (
-    <Snackbar
-      open={open}
-      autoHideDuration={autoHideDuration ?? 6000}
-      onClose={onClose}
-      anchorOrigin={
-        anchorOrigin ?? { vertical: 'bottom', horizontal: 'left' }
-      }
+    <div
+      className={clsx({
+        [`toast toast--${toastSeverity} toast--${variant}`]: true,
+        'toast--large': isSizeLarge
+      })}
     >
-      <div
-        className={clsx({
-          [`toast toast--${toastSeverity} toast--${variant}`]: true,
-          'toast--large': isSizeLarge
-        })}
-      >
-        <div className='toast__severity-icon'>{severityIcon}</div>
-        <div className='toast__body'>
-          <div className='toast__body-text'>
-            <Typography className='toast__body-title'>{title}</Typography>
-            {description && isSizeLarge && (
-              <Typography className='toast__body-desc'>
-                {description}
-              </Typography>
-            )}
-          </div>
-          <div className='toast__body-action'>{actions?.map((action, index) => {
-            return [ index > 0 ? <div className='toast__body-action-separator'> <span>∙</span> </div> : null,action ]
-            } )}</div>
+      <div className='toast__severity-icon'>{severityIcon}</div>
+      <div className='toast__body'>
+        <div className='toast__body-text'>
+          <Typography className='toast__body-title'>{title}</Typography>
+          {description && isSizeLarge && (
+            <Typography className='toast__body-desc'>
+              {description}
+            </Typography>
+          )}
         </div>
-        <div className='toast__close-btn'>
-        
-            <SvgIcon component='close' size={20} />
-   
-        </div>
+        <div className='toast__body-action'>{actions?.map((action, index) => {
+          return [ index > 0 ? <div className='toast__body-action-separator'> <span>∙</span> </div> : null,action ]
+          } )}</div>
       </div>
-    </Snackbar>
+      <div className='toast__close-btn' onClick={onClose}>
+          <SvgIcon component='close' size={20} />
+      </div>
+    </div>
   );
 };
 

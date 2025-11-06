@@ -11,6 +11,7 @@ import '@fontsource/roboto/latin-700.css'; // Bold
 import '@fontsource/roboto/latin-900.css'; // Black
 
 import { ThemeProvider } from './theme-mui/ThemeProvider';
+import { NotificationContextProvider } from '@/core/components/NotificationContextProvider';
 import "./i18n";
 
 const queryClient = new QueryClient()
@@ -18,7 +19,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <App/>
+        <NotificationContextProvider>
+          <App/>
+        </NotificationContextProvider>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>

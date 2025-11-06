@@ -16,10 +16,10 @@ export default function AppShell() {
   const viewportSize = useGetViewPortSize();
   const isDesktop = viewportSize === 'xl' || viewportSize === 'lg';
 
-  const handleMenuAnimation = (menuStatus:boolean) => {
-      sidebarRef.current?.classList.toggle('sidebar--collapsed', !menuStatus);
-    }
-  
+  const handleMenuAnimation = (menuStatus: boolean) => {
+    sidebarRef.current?.classList.toggle('sidebar--collapsed', !menuStatus);
+  }
+
   const handleToggleMenu = () => {
     const menuStatus = !showMenu
     setShowMenu(menuStatus);
@@ -35,17 +35,15 @@ export default function AppShell() {
       handleMenuAnimation(false);
     }
   }, [isDesktop]);
-  
+
   return (
     <div className='app-shell'>
-      <AppBar  handleToggleMenu={handleToggleMenu}/>
+      <AppBar handleToggleMenu={handleToggleMenu} />
       <div className='app-shell__layout'>
-            <Sidebar activePath={activePath} sidebarRef={sidebarRef}/>
-      <main
-        className='app-shell__content'
-      >
-        <Outlet />
-      </main>
+        <Sidebar activePath={activePath} sidebarRef={sidebarRef} />
+        <main className='app-shell__content'>
+          <Outlet />
+        </main>
       </div>
     </div>
   );
