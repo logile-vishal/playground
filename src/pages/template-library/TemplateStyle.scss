@@ -1,5 +1,10 @@
  
 .template-library {
+    --directory-tree-width: 30rem;
+    &--desktop{
+        --directory-tree-width: 34rem;  
+    }
+    
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -10,7 +15,7 @@
         color: var(--text-primary);
  
         .template-library__text {
-            width: calc(30rem - var(--space-xl));
+            width: calc(var(--directory-tree-width) - var(--space-xl));
             font-size: var(--size-secondary-heading);
             font-weight: var(--weight-500);
         }
@@ -82,10 +87,6 @@
         overflow: auto;
     }
  
-    .template-library__folder-tree {
-        width: 20%;
-    }
- 
     .template-library__table-wrapper {
         width: 80%;
         flex: 1;
@@ -120,9 +121,8 @@
     }
  
     & .directory-tree__container {
-        width: 30rem;
+        width: var(--directory-tree-width);
         overflow: auto;
-        border-right: '1px solid #DCDCDC';
         max-height: calc(var(--app-content-height) - 5rem);
         color: var(--text-primary);
         height: 100%;
@@ -138,29 +138,11 @@
     }
  
 }
- 
-.template-preview-modal{
 
-        & .template-preview-modal__content{
-           border-radius: 8px;
-           border: 1px solid var(--border-tertiary);
-        }
-        & .template-preview-modal__content-header{
-                padding: 16px;
-                background-color: var(--bg-container-1);
-                display: flex;
-                gap: 10px;
-                font-weight: var(--weight-500);
-                color: var(--text-primary);
-        }
-        & .template-preview-modal__content-row{
-        
-                padding: 16px;
-                border-bottom: 1px solid var(--border-tertiary);
-                display: flex;
-                gap: 10px;
-    }
+.template-library-page-template__content {
+    height: calc(100% - 5.6rem);
 }
+ 
 .template-library-table-container {
     overflow-y: auto;
     height: 100%;
@@ -257,7 +239,7 @@
        
         .form-control-label {
            
-            z-index: -1;
+            z-index: var(--zindex-negative);
             position: absolute;
             border-radius: 50%;
             & .MuiSvgIcon-root {
@@ -312,63 +294,32 @@
         &:hover {
             & .form-control-label {
                 opacity: 1;
-                z-index: 1;
+                z-index: var(--zindex-base);
             }
  
             & .icon-container {
                 opacity: 0;
-                z-index: -1;
+                z-index: var(--zindex-negative);
             }
-        }
-    }
- 
-}
- .template-library__export-menu_main {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-s);
-    .title {
-        font-size: var(--size-secondary-text);
-        font-weight: var(--weight-400);
-        color: var(--text-secondary);
-    }
-    .tools-wrapper {
-        display: flex;
-        align-items: center;
-        gap: var(--space-m);
-    }
-    .tools-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-xs);
-        background-color: var(--bg-base);
-        border-radius: var(--radius-s);
-        border: var(--border-s) solid var(--border-secondary);
-        height: 40px;
-        width: 40px;
-        .label {
-            font-size: var(--size-caption);
-            font-weight: var(--weight-300);
-            color: var(--text-secondary);
-            line-height: normal;
         }
     }
 }
 
-.template-library__import-header {
-    font-size: var(--size-secondary-heading);
-    font-weight: var(--weight-500);
+.template-delete__modal-body {
+    padding: var(--space-l) 0;
+    font-size: var(--size-body);
     color: var(--text-primary);
 }
 .template-library__import-modal {
     border-radius: var(--radius-m);
     border: 1px dashed var(--border-secondary);
     font-size: var(--size-body);
+    color: var(--text-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 32px 28px;
-    gap: 16px; 
+    justify-content: center;
+    padding: var(--space-xl);
+    min-height: 180px;
+    gap: var(--space-xl); 
 }

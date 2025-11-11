@@ -11,19 +11,20 @@ import type { MRT_Cell, MRT_Column } from "material-react-table";
 
 import { DataTable } from "@/core/components/table/DataTable";
 import SvgIcon from "@/core/components/icon/Icon";
-import CommonModal from "@/core/components/modal/Modal";
 import type { IconName } from "@/core/types/icon.type";
-import { useGetViewPortSize } from "@/utils/get-viewport-size";
-import { TEMPLATE_SORTING } from "./constants/constant";
-import type { SortOption } from "./types/template-constants.type";
-import { renderMacTruncate } from "@/utils/mac-truncate";
 import IconButton from "@/core/components/button/IconButton";
-import type { LibraryTableProps, MenuState, TemplateType } from "./types/template-library.type";
+import CommonModal, { ModalBody } from "@/core/components/modal/Modal";
+import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
+import { DELETE_MODAL, formatDate, TEMPLATE_SORTING, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
+import { IsDesktopViewport } from "@/utils/get-viewport-size";
+import { renderMacTruncate } from "@/utils/mac-truncate";
 
-import { renderPreviewPopupRow, renderPreviewHeading } from "@/pages/template-library/components/preview-type/PreviewType";
-import { formatDate } from "@/pages/template-library/constants/constant";
 import { demoTableData } from "./tableData";
+import type { SortOption } from "./types/template-constants.type";
 import { templateSkelton } from "./components/skeleton/Skeleton";
+import type { ActionMenuKeys, LibraryTableProps, MenuState, TemplateType } from "./types/template-library.type";
+import PreviewModal from "./components/preview-modal/PreviewModal";
+import type { IconConfigProp } from "./types/template-preview.type";
 import "./TemplateStyle.scss";
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -78,10 +79,13 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   selectedTemplate,
   setSelectedTemplate,
   templatesList,
-  isDataLoading,  
+  isDataLoading, 
+  exportMenu,
+  handleExportMenuClose,
+  handleExportMenuOpen,
 }) => {
 
-    const [tableActionMenu, setTableActionMenu] = useState<Record<"name" | "created" | "modified", MenuState>>({
+    const [tableActionMenu, setTableActionMenu] = useState<Record<ActionMenuKeys, MenuState>>({
         name: { status: false, anchorEl: null },
         created: { status: false, anchorEl: null },
         modified: { status: false, anchorEl: null },
@@ -93,8 +97,6 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       created: null,
       modified: null,
     });
-    const viewportSize = useGetViewPortSize();
-    const isDesktop = viewportSize === 'xl' || viewportSize === 'lg';
     const {
       renderTemplateActionSkelton, 
       renderTemplateCreatedSkelton, 
@@ -103,6 +105,22 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       renderTemplateNameSkeltonDesktop, 
       renderTemplateRowSkelton,
     } = templateSkelton;
+    const [deleteModal, setDeleteModal] = useState({
+      status: false,
+      data: null,
+    });
+
+    const handleDeleteModalOpen = (data) => {
+      setDeleteModal((prev)=>({...prev, status: true, data: data}))
+    }
+ 
+     const handleDeleteModalClose = () => {
+      setDeleteModal((prev)=>({...prev, status: false, data: null}))
+    }
+
+    const handleDeleteTemplate = () => {
+      handleDeleteModalClose();
+    }
 
     const handleRowSelection = (checked:boolean, rowData: TemplateType) => {
       let copyRowData = [...(selectedTemplate as TemplateType[])];
@@ -305,28 +323,44 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         </Box>
       )
     }
+
+    const getTemplateTypeIconConfig = (tagType: string) => {
+      let config: IconConfigProp = {
+        color: '',
+        icon: 'checkedList',
+      }
+      switch(tagType?.toUpperCase()) {
+        case TEMPLATE_TYPE.CHECKLIST:
+          config = {color: "var(--icon-brand-primary)", icon: "checkedList"}
+          break;
+        case TEMPLATE_TYPE.FORM:
+          config = {color:'var(--bg-utility-purple-base)', icon: "form"}
+          break;
+        case TEMPLATE_TYPE.GRID: 
+          config = {color:'var(--icon-brand-primary)', icon: "gridFilled"}
+          break;
+        case TEMPLATE_TYPE.SPREADSHEET: 
+          config = {color:'var(--icon-state-success)', icon: "spreadsheet"}
+          break;
+      }
+      return config;
+    }
  
     const renderTemplateIconCell = ({cell }: {cell: MRT_Cell<TemplateType>}) => {
         const data = cell.row?.original;
         const isTableSelectable = selectedTemplate.length > 0 ;
+        const iconConfig = getTemplateTypeIconConfig(data?.tagType);
         return <>
-              {!isTableSelectable && <Box className="template-checkbox-container tablebody-col__checkbox--toggle" display='flex'
+              {!isTableSelectable && <Box className="template-checkbox-container tablebody-col__checkbox--toggle" display="flex"
                 >
                     <Box onClick={() => handleRowSelection(true, cell.row.original)} className="cursor-pointer icon-container" >
                       <IconButton>
-                      { data?.iconName === "v15-Shop-supply" ?
-                        <SvgIcon
-                            component="checkedList"
+                         <SvgIcon
+                            component={iconConfig?.icon}
                             size={18}
-                            fill="#0A68DB"
+                            fill={iconConfig?.color}
                             style={{ pointerEvents: 'none' }}
-                         /> :
-                        <SvgIcon
-                            component="checkedDoc"
-                            size={18}
-                            fill="#009B00"
-                         />
-                        }
+                         /> 
                       </IconButton>
                     </Box>
                     <FormControlLabel
@@ -381,7 +415,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                <Box minWidth="300px" display="flex" alignItems="center" gap="10px">
                    <Box width="100%" display="flex" flexDirection="column" gap="6px">
                         <Box width="100%" className="template-body-text cursor-pointer" onClick={()=>handlePreviewModalOpen(data)}>{renderMacTruncate(data?.templateName || "")}</Box>
-                          {!isDesktop ?
+                          {!IsDesktopViewport() ?
                           <Box display="flex" gap="24px">
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Type:</span>{data?.tagType || "Checklist"}</Box>
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Status:</span>
@@ -476,7 +510,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
               <IconButton disabled={disabledActions} disableHover><SvgIcon component="copy" size={20} /></IconButton>
               <IconButton disabled={disabledActions} disableHover><SvgIcon component="edit" size={20} /></IconButton>
               <IconButton disabled={disabledActions} disableHover><SvgIcon component="download" size={20} /></IconButton>
-              <IconButton disabled={disabledActions} disableHover><SvgIcon component="delete" size={20} fill={disabledActions ? "#FFCCC8" : "#F4433D"}/></IconButton>
+              <IconButton disabled={disabledActions} disableHover onClick={handleDeleteModalOpen}><SvgIcon component="delete" size={20} fill={disabledActions ? "var(--icon-state-violation-subtle)" : "var(--icon-state-violation)"}/></IconButton>
             </Box>
         )
     }
@@ -500,13 +534,13 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         hide:false,
         size:1,
         Header: renderTemplateNameHeader,
-        Cell: isDataLoading ? isDesktop ? renderTemplateNameSkeltonDesktop : renderTemplateNameSkelton : renderTemplateNameCell,
+        Cell: isDataLoading ? IsDesktopViewport() ? renderTemplateNameSkeltonDesktop : renderTemplateNameSkelton : renderTemplateNameCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding: "0.8rem 0.4rem 0.8rem 0.6rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text", style: {padding: "0.8rem 0.4rem 0.8rem 0.6rem"} })
       },
       {
         order:2,
-        hide:!isDesktop,
+        hide:!IsDesktopViewport(),
         accessorKey: "tagType",
         header: "Type",
         Header: renderTemplateCommonHeader,
@@ -517,7 +551,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       },
       {
         order:3,
-        hide:!isDesktop,
+        hide:!IsDesktopViewport(),
         accessorKey: "status",
         header: "Status",
         size:1,
@@ -596,57 +630,28 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                     scrollbarWidth: 'none'
                 }}
             />
- 
-           {/* Template Preview Popup */}
-            <CommonModal
-              open={previewModal.status}
-              className="template-preview-modal"
+            <PreviewModal
+              previewModal={previewModal}
               onClose={() => setPreviewModal({status: false, data: null})}
-              title={renderPreviewHeading({
-                  heading: `${previewModal?.data?.templateName || ""}`,
-                  btn1visible: true,
-                  btn1Name: "upload",
-                  btn2visible: true,
-                  btn2Name: "moreOption"
-                })
-              }
-              showActions={false}
-              width="750px"
+              exportMenu={exportMenu}
+              handleExportMenuClose={handleExportMenuClose}
+              handleExportMenuOpen={handleExportMenuOpen}
+            />
+            <CommonModal
+              open={deleteModal?.status}
+              onConfirm={()=>handleDeleteTemplate()}
+              onClose={handleDeleteModalClose}
+              title={DELETE_MODAL.title}
+              showActions={true}
+              size="medium"
+              severity={BUTTON_SEVERITY.destructive}
+              confirmText={DELETE_MODAL.confirmBtnText}
             >
-              <Box className={'template-preview-modal__content'}>
-                <Box className={'template-preview-modal__content-header'}>
-                  <Box width="70%">Question</Box>
-                  <Box width="30%" ml="30px">Answer</Box>
+              <ModalBody>
+                <Box className="template-delete__modal-body">
+                    {DELETE_MODAL.description}
                 </Box>
-                {renderPreviewPopupRow({
-                  index: "1",
-                  text: "Acknowledge that you have reviewed the alert.",
-                  type: "",
-                  answer: "Confirmed",
-                  mandatory: true
-                })}
-                {renderPreviewPopupRow({
-                  index: "2",
-                  text: "Select cause",
-                  type: "Dropdown",
-                  answer: "Select a cause",
-                  mandatory: true
-                })}
-                {renderPreviewPopupRow({
-                  index: "3",
-                  text: "Select corrective actions",
-                  type: "Dropdown",
-                  answer: "Select actions",
-                  mandatory: true
-                })}
-                {renderPreviewPopupRow({
-                  index: "4",
-                  text: "Comments",
-                  type: "Multiline-Textfield",
-                  answer: "Comments",
-                  mandatory: true
-                })}
-              </Box>
+              </ModalBody>
             </CommonModal>
         </div>
     )

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { alpha,  ListItemButton, Stack, styled, Typography } from '@mui/material';
 
 import SvgIcon from '@/core/components/icon/Icon';
-import { useGetViewPortSize } from '@/utils/get-viewport-size';
 import type { ICONS } from '@/core/constants/icons';
+import { IsDesktopViewport } from '@/utils/get-viewport-size';
 import clsx from '@/utils/clsx';
 
 import './Sidebar.scss';
@@ -90,13 +90,11 @@ const StyledListItemButton = styled(ListItemButton,{
 
 const Sidebar: React.FC<SidebarProps> = ({ activePath, sidebarRef }) => {
   const [appSwitchValue,setAppSwitchValue] = useState<"IMS"|"WFM">("IMS");
-  const viewportSize = useGetViewPortSize();
   const handleSwitchAppName = ()=>{
     setAppSwitchValue(prev=> prev == 'IMS' ? 'WFM':'IMS')
   }
   const navlistItems = navLinkOptions['IMS'];
 
-    const isDesktop = viewportSize === 'xl';
   return (
  <Stack className='sidebar' ref={sidebarRef}>
   <div className='sidebar__switch'>
@@ -114,8 +112,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePath, sidebarRef }) => {
             <SvgIcon component={item.icon} size={24} fill={isActive ? 'currentColor' : 'var(--icon-secondary)'}/>
                 <Typography className={clsx({
                   'sidebar__list-item-label': true,
-                  'layout-desktop': isDesktop,
-                  'layout-tablet': !isDesktop
+                  'layout-tablet': (() => !IsDesktopViewport())()
                 })}>{item.text}</Typography>
           </StyledListItemButton>
       

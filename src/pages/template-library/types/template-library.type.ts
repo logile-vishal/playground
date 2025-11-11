@@ -1,3 +1,4 @@
+import type { IconName } from "@/core/types/icon.type";
 import type { PaginatedResponse } from "@/core/types/pagination.type";
 
 export type DirectoryType = {
@@ -52,6 +53,8 @@ export type TemplateLibraryType = {
   last_modified: string;
 };
  
+export type ActionMenuKeys = "name" | "created" | "modified";
+
 export type MenuState = {
     status: boolean;
     anchorEl: null | HTMLElement;
@@ -66,9 +69,43 @@ export type LibraryTableProps = {
   setHoveredRowId?: (value: string | null) => void;
   templatesList: PaginatedResponse<TemplateType>,
   isDataLoading: boolean,
+  exportMenu: {
+    anchorEl: null | HTMLElement;
+    status: boolean;
+  };
+  handleExportMenuClose: () => void;
+  handleExportMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
 };
  
 export type TemplatePaginationData = {
   currentPage: number,
   pageSize: number,
+}
+
+export type ExportMenuProps = {
+    exportMenu: {
+        anchorEl: null | HTMLElement;
+        status: boolean;
+    };
+    handleExportMenuClose: () => void;
+};
+
+export type PreviewModalProps = {
+  previewModal: {
+    status: boolean;
+    data?: TemplateType;
+  };
+  onClose: () => void;
+  exportMenu: {
+    anchorEl: null | HTMLElement;
+    status: boolean;
+  };
+  handleExportMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
+  handleExportMenuClose: () => void;
+};
+
+export type PreviewButtonProps = {
+    label?: string;
+    icon?: IconName;
+    type?: string;
 }

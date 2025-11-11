@@ -61,6 +61,21 @@ import UserStar from '@/assets/icons/common-icons/user-star.svg?react';
 import Doc from '@/assets/icons/common-icons/doc.svg?react';
 import Excel from '@/assets/icons/common-icons/excel.svg?react';
 import Pdf from '@/assets/icons/common-icons/pdf.svg?react';
+import Attachment from '@/assets/icons/common-icons/attachment.svg?react';
+import AttachmentRequired from '@/assets/icons/common-icons/attachment-req.svg?react';
+import BlockCode from '@/assets/icons/common-icons/block-code.svg?react';
+import Calculator from '@/assets/icons/common-icons/calculator.svg?react';
+import Camera from '@/assets/icons/common-icons/camera.svg?react';
+import CameraRequired from '@/assets/icons/common-icons/camera-req.svg?react';
+import ChevronDownUp from '@/assets/icons/arrow/chevron-down-up.svg?react';
+import Desktop from '@/assets/icons/common-icons/desktop.svg?react';
+import Form from '@/assets/icons/common-icons/form.svg?react';
+import GridFilled from '@/assets/icons/common-icons/grid-filled.svg?react';
+import Phone from '@/assets/icons/common-icons/phone.svg?react';
+import Scan from '@/assets/icons/common-icons/scan.svg?react';
+import Scenary from '@/assets/icons/common-icons/scenary.svg?react';
+import Spreadsheet from '@/assets/icons/common-icons/spreadsheet.svg?react';
+import Temperature from'@/assets/icons/common-icons/temperature.svg?react';
 // alert
 import Exclamation from '@/assets/icons/alert/exclamation.svg?react';
 import ExclamationTriangle from '@/assets/icons/alert/exclamation-triangle.svg?react';
@@ -150,4 +165,19 @@ export const ICONS = {
   infoCircleFilled: InfoCircleFilled,
   questionCircle: QuestionCircle,
   circleCheckFilled: CircleCheckFilled,
+  attachment: Attachment,
+  attachmentRequired: AttachmentRequired,
+  blockCode: BlockCode,
+  calculator: Calculator,
+  camera: Camera,
+  cameraRequired: CameraRequired,
+  chevronDownUp: ChevronDownUp,
+  desktop: Desktop,
+  form: Form,
+  gridFilled: GridFilled,
+  phone: Phone,
+  scan: Scan,
+  scenary: Scenary,
+  spreadsheet: Spreadsheet,
+  temperature: Temperature
 };

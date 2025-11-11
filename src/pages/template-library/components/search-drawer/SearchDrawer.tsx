@@ -16,6 +16,7 @@ import StyledAutocomplete from '@/core/components/auto-complete/AutoComplete';
 
 import { TEMPLATE_SEARCH_TABS, TEMPLATE_TASK_TYPE_OPTIONS, TEMPLATE_STATUS_OPTIONS } from '../../constants/constant';
 import './SearchDrawer.scss';
+import { CommonButton } from '@/core/components/button/button';
 
 const SearchField = styled(TextField)(( ) => ({
   "& input": {
@@ -300,8 +301,8 @@ const SearchDrawer = ({
                                 />
                             </Box>
                             <Box className="template-library-search-drawer__button-wrapper">
-                                <Button className='template-library-search-drawer__clear-btn'>Clear All</Button>
-                                <Button variant='contained' className='template-library-search-drawer__search-btn'>Search</Button>
+                                <CommonButton severity="primary" variant="text" size="medium">Clear All</CommonButton>
+                                <CommonButton severity="primary" variant="solid" size="medium">Search</CommonButton>
                             </Box>
                         </Box>
                     </TabPanel>

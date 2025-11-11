@@ -1,0 +1,499 @@
+.template-preview-modal {
+    &__container {
+        padding: 0;
+        margin: 0;
+        background-color: var(--bg-container-1);
+    }
+    &__container--mobile {
+        padding-bottom: var(--space-s);
+        background-color: var(--bg-base);
+    }
+    &__header {
+        padding: var(--space-m) var(--space-xl) 0px var(--space-xl);
+        background: var(--bg-container-1);
+    }
+    &__header--mobile {
+        padding: 0px;
+    }
+    &__outline-icon--mobile.template-preview-modal__outline-icon--mobile {
+        border: 1px solid transparent;
+    }
+    &__content {
+        width: 100%;
+        width: 752px;
+        max-height: 720px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-l);
+        margin: var(--space-s) var(--space-xl) var(--space-l) var(--space-xl);
+    }
+    &__content--mobile {
+        width: 100%;
+        gap: unset;
+        margin: 0px;
+    }
+    &__content-form {
+        width: 600px;
+        gap: unset;
+    }
+    &__title-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4xl);
+    }
+    &__title-wrapper--mobile {
+        background-color: var(--bg-primary);
+        padding: var(--space-l) var(--space-xl);
+ 
+    }
+    &__cursor {
+        cursor: pointer;
+    }
+    &__desktop-icon {
+        margin-top: var(--space-s);
+    }
+    &__title {
+        font-size: var(--size-secondary-heading);
+        font-family: var(--weight-500);
+        width: fit-content;
+        color: var(--text-primary)
+    }
+    &__title--mobile {
+        font-size: var(--size-body);
+        color: var(--text-white)
+    }
+    &__action-wrapper {
+        display: flex;
+        align-items: center;
+        gap: var(--space-m);
+    }
+    &__questions-wrapper {
+        color: var(--text-primary);
+        font-size: var(--size-body);
+        font-weight: var(--weight-400);
+        width: 100%;
+        border: 1px solid var(--border-secondary);
+        border-radius: var(--radius-m);
+    }
+    &__questions-wrapper--mobile {
+        border: none;
+    }
+    &__question-wrapper {
+        border-bottom: 1px solid var(--border-tertiary);
+        padding: var(--space-xl);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-l);
+    }
+    &__question-wrapper--mobile {
+        border-bottom: none;
+        background-color: var(--bg-container-1);
+        margin: var(--space-xl);
+        border-radius: var(--radius-l);
+    }
+    &__answer-wrapper {
+        width: 100%;
+        display: flex;
+        gap: var(--space-xl);
+    }
+    &__answer-wrapper--desktop {
+        display: flex;
+        gap: var(--space-xl);
+    }
+    &__question-title {
+        font-size: var(--size-body);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-m);
+    }
+    &__question-title--mobile {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    &__paper {
+        background-color: var(--bg-base);
+        border-radius: var(--radius-m);
+        .MuiMenuItem-root {
+            &.Mui-focusVisible {
+                background-color: transparent;
+            }
+            &.Mui-selected {
+                background-color: transparent;
+            }
+            &:hover {
+                background-color: var(--bg-primary-x-subtle);
+            }
+            display: flex;
+            align-items: center;
+        }
+    }
+    .MuiOutlinedInput-input {
+        color: var(--text-tertiary);
+    }
+    .MuiRadio-root {
+        padding: var(--space-m);
+    }
+    .MuiCheckbox-root {
+        padding: var(--space-m);
+    }
+ 
+    &__grid-table {
+        position: relative;
+        overflow-x: auto;
+        overflow-y: visible;
+        max-height: 450px;
+        width: 100%;
+        display: block;
+ 
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: max-content;
+            min-width: 100%;
+        }
+    
+        .MuiTableHead-root, .MuiTableBody-root {
+            .MuiTableRow-root {
+                .MuiTableCell-root:first-child {
+                    min-width: 388px;
+                    position: sticky;
+                    left: 0;
+                    z-index: var(--zindex-s);
+                    filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
+                }
+            }
+        }
+        .MuiTableCell-root {
+            font-size: var(--size-body);
+            min-width: 290px;
+            padding: var(--space-l) var(--space-xl);
+        }
+        .MuiTableRow-root {
+            vertical-align: top;
+        }
+        
+        .MuiTableBody-root {
+            .MuiTableRow-root {
+                .MuiTableCell-root {
+                    background-color: var(--bg-container-1);
+                }
+            }     
+        }
+        .MuiTableCell-head {
+            position: sticky;
+            top: 0;
+            z-index: var(--zindex-xs);
+            background-color: var(--bg-table-header);
+        }
+        
+        scrollbar-color: var(--border-tertiary) transparent;
+        scrollbar-width: thin;
+    }
+    &__grid-question-container {
+        .MuiTableCell-root {
+            min-width: 320px;
+        }
+    }
+    &__grid-table-header {
+        .MuiTableCell-root {
+            padding: var(--space-xl);
+        }
+        background-color: var(--bg-table-header);
+    }
+ 
+    &__tags-wrapper {
+        display: flex;
+        gap: var(--space-m);
+        width: fit-content;
+        padding: var(--space-xs) var(--space-m);
+        background-color: var(--bg-primary-x-subtle);
+        border-radius: var(--radius-s);
+    }
+ 
+    &__checkbox-menu-item {
+        display: flex;
+        align-items: center;
+    }
+    &__common-checkbox.template-preview-modal__common-checkbox {
+        margin: 0px;
+        .MuiCheckbox-root {
+            padding: 0px;
+        }
+        .MuiSvgIcon-root {
+            font-size: var(--size-kpi-number);
+            color: var(--border-primary);
+        }
+       
+    }
+    &__common-radio.template-preview-modal__common-radio {
+        .MuiSvgIcon-root {
+            font-size: var(--size-secondary-heading);
+            color: var(--border-secondary);
+        }
+        .MuiFormControlLabel-label.Mui-disabled {
+            color: var(--text-primary);
+        }
+    }
+    &__common-textfield.template-preview-modal__common-textfield {
+        min-width: 200px;
+    }
+    &__dropdown-menu-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-l);
+    }
+    &__dropdown-menu-item-tooltip {
+        font-size: var(--size-caption);
+    }
+    &__common-dropdown {
+        height: 40px;
+        min-width: 200px;
+    }
+    &__common-dropdown--mobile {
+        width: 100%;
+    }
+    &__attachment-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-l);
+    }
+    &__space-between.template-preview-modal__space-between {
+        justify-content: space-between;
+    }
+    &__radio-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        label {
+            margin: 0;
+        }
+    }
+    &__column {
+        flex-direction: column;
+    }
+    &__file-upload-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-s);
+        .label {
+            font-size: var(--size-secondary-text);
+            color: var(--text-secondary);
+        }
+        .upload-box {
+            height: 44px;
+            width: fit-content;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: var(--space-l);
+            padding: 0px var(--space-5xl);
+ 
+            .label {
+                font-size: var(--size-secondary-text);
+                color: var(--text-primary);
+            }
+            --dash-color: var(--border-secondary);
+            --dash-width: var(--space-s);
+            --dash-gap:  var(--space-s);
+            --dash-radius:  var(--space-m);
+        }
+ 
+        .upload-box::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: var(--dash-radius);
+            pointer-events: none;
+            background: repeating-linear-gradient(to right, var(--dash-color) 0 var(--dash-width), transparent var(--dash-width) calc(var(--dash-width) + var(--dash-gap))),
+                repeating-linear-gradient(to bottom,var(--dash-color) 0 var(--dash-width),transparent var(--dash-width) calc(var(--dash-width) + var(--dash-gap))),
+                repeating-linear-gradient(to right,var(--dash-color) 0 var(--dash-width),transparent var(--dash-width) calc(var(--dash-width) + var(--dash-gap))),
+                repeating-linear-gradient(to bottom,var(--dash-color) 0 var(--dash-width),transparent var(--dash-width) calc(var(--dash-width) + var(--dash-gap)));  
+            background-repeat: no-repeat;
+            background-size: 100% 1px, 1px 100%, 100% 1px, 1px 100%;
+            background-position: 0 0, 100% 0, 0 100%, 0 0;
+        }
+
+    }
+ 
+    &__action-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--space-s);
+        border-radius: var(--radius-m);
+        background: var(--bg-surface-bold);
+        color: var(--text-white);
+        font-size: var(--size-body);
+        width: fit-content;
+        min-width: 152px;
+        height: 36px;
+        padding: var(--space-xl);
+    }
+ 
+    .common-date-picker {
+        &__textfield {
+            width: 220px;
+            cursor: pointer;
+        }
+        &__textfield-icon {
+            svg {
+                fill: var(--text-secondary);
+            }
+        }
+        &__textfield--mobile {
+            width: 100%;
+        }
+    }
+ 
+    &__date-picker-popper {
+        .MuiDayCalendar-weekDayLabel {
+            font-size: var(--size-caption);
+            font-weight: 500;
+        }
+ 
+        .MuiPickersLayout-root {
+            font-size: var(--size-caption);
+        }
+ 
+        .MuiPickersDay-root {
+            font-size: var(--size-caption);
+        }
+ 
+        .MuiPickersCalendarHeader-label {
+            font-size: var(--size-body);
+            font-weight: 500;
+        }
+ 
+        .MuiClockNumber-root {
+            font-size: var(--size-body);
+        }
+ 
+        .MuiDialogActions-root button {
+            font-size: var(--size-caption);
+        }
+ 
+        .MuiPickersDay-today {
+            background-color: var(--bg-primary-x-subtle);
+        }
+ 
+        .MuiMenuItem-root {
+            font-size: var(--size-caption);
+        }
+ 
+        .MuiDateCalendar-root{
+            height: 320px;
+        }
+    }
+ 
+    &__mobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .template-preview-modal__upload--mobile {
+        width: 100%;
+        justify-content: center;
+    }
+ 
+    &__form-wrapper {
+        padding: var(--space-m) var(--space-l);
+        border: 1px solid var(--border-secondary);
+        border-radius: var(--radius-m);
+        display: flex;
+        width: fit-content;
+        align-items: center;
+        gap: var(--space-2xl);
+        font-size: var(--size-body);
+        margin: var(--space-l) 0;
+    }
+    &__form-title {
+        display: flex;
+        align-items: center;
+        gap: var(--space-s);
+        color: var(--text-primary)
+    }
+    &__form-sub-text {
+        color: var(--text-secondary);
+        font-size: var(--size-secondary-text);
+        margin-top: var(--space-xs);
+    }
+ 
+    &__answer-wrapper-grid--desktop {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    &__answer-wrapper-grid--mobile {
+        align-items: center;
+    }
+ 
+// ---------- Mobile Responsive View for Grid ----------
+ 
+    &__grid-table--mobile {
+      display: block;
+      width: 100%;
+      border-collapse: separate;
+ 
+      .MuiTableHead-root {
+        display: none; // hide header on mobile
+      }
+ 
+      .MuiTableBody-root {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-l);
+        padding: var(--space-m);
+      }
+ 
+      .MuiTableRow-root {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border-tertiary);
+        border-radius: var(--radius-l);
+        padding: var(--space-l);
+        background-color: var(--bg-container-1);
+      }
+      .MuiTableHead-root,
+    .MuiTableBody-root {
+    .MuiTableRow-root {
+    .MuiTableCell-root:first-child {
+        min-width: 100%;
+        filter: none;
+        }
+    }
+    }
+    
+ 
+      .MuiTableCell-root {
+        display: block;
+        width: 100%;
+        padding: var(--space-m) 0;
+        font-size: var(--size-body);
+        border-bottom: none;
+ 
+        &:first-child {
+          font-weight: var(--weight-500);
+          color: var(--text-primary);
+          margin-bottom: var(--space-m);
+        }
+ 
+        &:not(:first-child) {
+          margin-left: 0;
+        }
+ 
+        // Ensure dropdowns, inputs, etc. are full width
+        .MuiTextField-root,
+        .MuiSelect-root,
+        select,
+        input {
+          width: 100% !important;
+        }
+      }
+    }
+}
+ 

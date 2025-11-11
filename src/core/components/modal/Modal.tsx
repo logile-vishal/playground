@@ -1,39 +1,90 @@
-import React, { type ReactElement } from "react";
+import React, { type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+
 import SvgIcon from "@/core/components/icon/Icon";
 import IconButton from '@/core/components/button/IconButton';
-import { Button } from "@mui/material";
+import type { CommonModalActionProps, CommonModalBodyProps, CommonModalHeaderProps, CommonModalProps } from "@/core/types/modal.type";
+import { modalDefaultBtnConstants } from "@/core/constants/modal-constants";
+import clsx from "@/utils/clsx";
+
+import { CommonButton } from "../button/button";
 import "./Modal.scss";
- 
-type CommonModalProps = {
-  open: boolean;
-  onClose: () => void;
-  title?: ReactElement;
-  children: React.ReactNode;
-  showActions?: boolean;
-  onConfirm?: () => void;
-  confirmText?: string;
-  cancelText?: string;
-  width?: string;
-  className?: string;
-}
- 
 
-const cancelStyle = {
-  color: "var(--text-primary)",
-  fontSize: "var(--size-body)",
-  border: "1px solid var(--border-secondary)",
+/**
+ * @component ModalHeader
+ * @description Modal header component.
+ * @param {object} props
+ * @param {string} props.title - Header title.
+ * @param {Function} props.onClose - Close handler.
+ * @param {string} [props.headerClass] - Custom class.
+ * @returns {ReactNode} returns wrapper component for modal header.
+ */
+export const ModalHeader: React.FC<CommonModalHeaderProps> = ({headerClass, children}) => {
+  return <Box className={clsx({"common-modal__content-header": true, [headerClass]:true})}>{children}</Box>
 }
 
-const confirmStyle = {
-  color: "var(--text-white)",
-  fontSize: "var(--size-body)",
-  backgroundColor: "var(--bg-primary)",
+/**
+ * @component ModalBody
+ * @description Modal body component.
+ * @param {object} props
+ * @param {string} [props.title] - Applies alternate style.
+ * @param {string} [props.containerClassName] - Custom class.
+ * @param {React.ReactNode} props.children - Body content.
+ * @returns {ReactNode} return wrapper component for modal body.
+ */
+export const ModalBody: React.FC<CommonModalBodyProps> = ({containerClassName, children}) => {
+  return <Box className={clsx({"common-modal__content-body": true, [containerClassName]: true})}>{children}</Box>
 }
 
-const defaultWidth = "600px";
- 
+/**
+ * @component ModalFooter
+ * @description Modal footer component.
+ * @param {object} props
+ * @param {string} [props.cancelText] - Cancel button text.
+ * @param {Function} [props.onClose] - Cancel handler.
+ * @param {string} [props.confirmText] - Confirm button text.
+ * @param {Function} [props.onConfirm] - Confirm handler.
+ * @param {string} [props.actionClass] - Applies action button class.
+ * @returns {ReactNode} return wrapper component for modal footer.
+ */
+export const ModalFooter: React.FC<CommonModalActionProps> = ({cancelText, onClose, confirmText, onConfirm, actionClass="common-modal__content-footer-confirm", severity}) => {
+  return <Box className="common-modal__content-footer">
+            {cancelText && <CommonButton variant="outline" size="large" className="common-modal__content-footer-cancel" onClick={onClose} severity="secondary">
+              {cancelText}</CommonButton>}
+            {confirmText && <CommonButton onClick={onConfirm} className={clsx({ [actionClass] : true })} 
+            severity={severity}>{confirmText}</CommonButton>}
+          </Box>
+}
+
+/**
+ * Determines if a modal has a custom footer provided as a child component.
+ * @param {ReactNode} children - Modal inner content.
+ * @returns {boolean} True if a ModalHeader component exists in children.
+ */
+const hasCustomHeader = (children: ReactNode): boolean => {
+  const arr = React.Children.toArray(children);
+  return arr.some(
+    (child) =>
+      React.isValidElement(child) &&
+      child.type === ModalHeader
+  );
+};
+
+/**
+ * Determines if a modal has a custom footer provided as a child component.
+ * @param {ReactNode} children - Modal inner content.
+ * @returns {boolean} True if a ModalFooter component exists in children.
+ */
+const hasCustomFooter = (children: ReactNode): boolean => {
+  const arr = React.Children.toArray(children);
+  return arr.some(
+    (child) =>
+      React.isValidElement(child) &&
+      child.type === ModalFooter
+  );
+};
+
 const CommonModal: React.FC<CommonModalProps> = ({
   open,
   onClose,
@@ -41,39 +92,51 @@ const CommonModal: React.FC<CommonModalProps> = ({
   children,
   showActions = false,
   onConfirm,
-  width,
-  confirmText = "Confirm",
-  cancelText = "Cancel",
-  className
+  size,
+  confirmText = modalDefaultBtnConstants.confirm,
+  cancelText = modalDefaultBtnConstants.cancel,
+  className="",
+  severity="primary",
+  containerClassName = "",
+  disableBackdropClick = false,
+  ...props
 }) => {
 
-  const modalClassName = className ? `common-modal ${className}` : "common-modal";
   return (
-    <Modal open={open} onClose={onClose} className={modalClassName} >
-      <div className="common-modal__main"  style={{width: width || defaultWidth}}>
-        {/* Title */}
-        {title && (
-          <Box className="common-modal__header">
-            <Box className="common-modal__header-title">{title}</Box>
-            <IconButton disableHover={true} onClick={onClose}>
-              <SvgIcon component="close" size={32} fill="var(--icon-secondary)" />
-            </IconButton>
-          </Box>
-        )}
- 
-        {/* Body */}
-        <div className="common-modal__content">{children}</div>
- 
-        {/* Actions */}
-        {showActions && (
-          <Box className="common-modal__actions">
-            {cancelText && <Button className="common-modal__actions-btn-cancel " variant="outlined" onClick={onClose} sx={cancelStyle}>{cancelText}</Button>}
-            {confirmText && <Button className="common-modal__actions-btn-confirm" variant="contained" onClick={onConfirm} sx={confirmStyle}>{confirmText}</Button>}
-          </Box>
-        )}
-      </div>
+    <Modal
+      open={open}
+      onClose={disableBackdropClick ? undefined : onClose}
+      className={clsx({"common-modal": true, [className]:true})}
+     >
+      <Box 
+        className={clsx({
+          "common-modal__content": true, 
+          "common-modal__content--small": size === "small",
+          "common-modal__content--medium": size === "medium",
+          "common-modal__content--large": size === "large",
+          [containerClassName]: true,
+        })} 
+        {...props}
+      >
+
+        {title && !hasCustomHeader(children) && <Box className={clsx({"common-modal__content-header": true})}>
+          <Box className="common-modal__content-header-title">{title}</Box>
+          <IconButton disableHover={true} onClick={onClose}>
+            <SvgIcon component="close" size={32} fill="var(--icon-secondary)" />
+          </IconButton>
+        </Box>}
+          
+        {children}
+
+        {showActions && !hasCustomFooter(children) && <Box className="common-modal__content-footer">
+          {cancelText && <CommonButton variant="outline" size="large" onClick={onClose} severity="secondary">
+            {cancelText}</CommonButton>}
+          {confirmText && <CommonButton onClick={onConfirm} className="common-modal__content-footer-confirm" severity={severity}>
+            {confirmText}</CommonButton>}
+        </Box>}
+      </Box>
     </Modal>
   );
 };
- 
+
 export default CommonModal;

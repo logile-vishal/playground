@@ -15,7 +15,7 @@ i18n
     defaultNS: "common",
     interpolation: { escapeValue: false },
     backend: {
-      loadPath: "/locales/{{lng}}/{{ns}}.json", // dynamic loading
+      loadPath: "./locales/{{lng}}/{{ns}}.json", // dynamic loading
     },
     detection: {
       order: ["localStorage", "navigator", "querystring", "cookie", "htmlTag"],

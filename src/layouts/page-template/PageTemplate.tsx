@@ -1,6 +1,6 @@
 import React, { type ReactNode, type CSSProperties } from "react";
 
-import { useGetViewPortSize } from "@/utils/get-viewport-size";
+import { IsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
 
 import './PageTemplate.scss';
@@ -13,6 +13,7 @@ type CommonContentActionBarProps = {
 type SectionProps = {
   children: ReactNode;
   style?: CSSProperties;
+  className?: string;
 }
 
 const Header: React.FC<SectionProps> = ({ children, style }) => {
@@ -29,14 +30,11 @@ const Header: React.FC<SectionProps> = ({ children, style }) => {
   );
 };
 
-const Content: React.FC<SectionProps> = ({ children, style }) => {
+const Content: React.FC<SectionProps> = ({ children, className, ...props }) => {
   return (
     <div
-    className="pagetemplate__content"
-      style={{
-     
-        ...style,
-      }}
+    className={`pagetemplate__content ${className}`}
+      {...props}
     >
       {children}
     </div>
@@ -48,15 +46,10 @@ const CommonContentActionBar: React.FC<CommonContentActionBarProps> & {
   Content: typeof Content;
 } = ({ children, style }) => {
 
-  const viewportSize = useGetViewPortSize();
-  const isDesktop = viewportSize === 'xl' || viewportSize === 'lg';
   return (
     <div
-    className={clsx({'pagetemplate__root':true, "layout-tablet": !isDesktop})}
-      style={{
-      
-        ...style,
-      }}
+    className={clsx({'pagetemplate__root':true, "layout-tablet": !IsDesktopViewport()})}
+      style={{...style}}
     >
       {children}
     </div>
