@@ -12,7 +12,7 @@ import TreeView from '@/core/components/tree-view/TreeView';
 import IconButton from '@/core/components/button/IconButton';
 import PageTemplate from '@/layouts/page-template/PageTemplate';
 import SearchDrawer from '@/pages/template-library/components/search-drawer/SearchDrawer';
-import { IsDesktopViewport } from '@/utils/get-viewport-size';
+import { useIsDesktopViewport } from '@/utils/get-viewport-size';
 import clsx from '@/utils/clsx';
 
 import { folderTreeData } from './tableData';
@@ -65,6 +65,7 @@ const TemplateLibrary: React.FC = () => {
     const { data: reportsList, isLoading: isReportsLoading, } = useGetTemplatesByTagId(+selectedDirectory?.reportType, paginationData);
     // const { renderDirectorySkelton } = templateSkelton;
     const [importPopup, setImportPopup] = useState<boolean>(false);
+    const isDesktop = useIsDesktopViewport();
  
     const openSearchDrawer = () => {
         setSearchDrawer((prev) => ({ ...prev, status: true }));
@@ -110,7 +111,7 @@ const TemplateLibrary: React.FC = () => {
       </Stack>
       </PageTemplate.Header>
       <PageTemplate.Content className="template-library-page-template__content">
-      <Box className={clsx({"template-library": true, "template-library--desktop": IsDesktopViewport()})}>
+      <Box className={clsx({"template-library": true, "template-library--desktop": isDesktop})}>
          <Box className='template-library__header'>
             <Box className='template-library__text'>{TEMPLATE_LIBRARY_HEADING.folderTree}</Box>
             { selectedTemplate.length > 0 ?

@@ -2,7 +2,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
-import { IsDesktopViewport } from '@/utils/get-viewport-size';
+import { useIsDesktopViewport } from '@/utils/get-viewport-size';
 
 import AppBar from '../app-bar/AppBar';
 import Sidebar from '../sidebar/Sidebar';
@@ -13,7 +13,7 @@ export default function AppShell() {
   const activePath = location.pathname;
   const [showMenu, setShowMenu] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const isDesktop = IsDesktopViewport();
+  const isDesktop = useIsDesktopViewport();
 
   const handleMenuAnimation = (menuStatus: boolean) => {
     sidebarRef.current?.classList.toggle('sidebar--collapsed', !menuStatus);

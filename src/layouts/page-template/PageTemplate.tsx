@@ -1,6 +1,6 @@
 import React, { type ReactNode, type CSSProperties } from "react";
 
-import { IsDesktopViewport } from "@/utils/get-viewport-size";
+import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
 
 import './PageTemplate.scss';
@@ -45,10 +45,10 @@ const CommonContentActionBar: React.FC<CommonContentActionBarProps> & {
   Header: typeof Header;
   Content: typeof Content;
 } = ({ children, style }) => {
-
+  const isDesktop = useIsDesktopViewport();
   return (
     <div
-    className={clsx({'pagetemplate__root':true, "layout-tablet": !IsDesktopViewport()})}
+    className={clsx({'pagetemplate__root':true, "layout-tablet": !isDesktop})}
       style={{...style}}
     >
       {children}

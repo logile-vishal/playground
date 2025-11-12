@@ -23,10 +23,10 @@ export const useGetViewPortSize = (): ViewportSize => {
 const DESKTOP_VIEWPORTS: ViewportSize[] = ['xl', 'lg'];
 
 /**
- * @function IsDesktopViewport Determines whether the current viewport size matches a desktop breakpoint.
+ * @hook useIsDesktopViewport Custom React hook that determines whether the current viewport size matches a desktop breakpoint (`lg` or `xl`).
  * @returns {boolean} `true` if the viewport size is considered desktop, otherwise `false`.
  */
-export const IsDesktopViewport = () => {
+export const useIsDesktopViewport = () => {
     const viewportSize = useGetViewPortSize();
     return DESKTOP_VIEWPORTS.includes(viewportSize);
 }

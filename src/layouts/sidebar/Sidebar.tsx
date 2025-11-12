@@ -4,7 +4,7 @@ import { alpha,  ListItemButton, Stack, styled, Typography } from '@mui/material
 
 import SvgIcon from '@/core/components/icon/Icon';
 import type { ICONS } from '@/core/constants/icons';
-import { IsDesktopViewport } from '@/utils/get-viewport-size';
+import { useIsDesktopViewport } from '@/utils/get-viewport-size';
 import clsx from '@/utils/clsx';
 
 import './Sidebar.scss';
@@ -90,6 +90,7 @@ const StyledListItemButton = styled(ListItemButton,{
 
 const Sidebar: React.FC<SidebarProps> = ({ activePath, sidebarRef }) => {
   const [appSwitchValue,setAppSwitchValue] = useState<"IMS"|"WFM">("IMS");
+  const isDesktop = useIsDesktopViewport();
   const handleSwitchAppName = ()=>{
     setAppSwitchValue(prev=> prev == 'IMS' ? 'WFM':'IMS')
   }
@@ -112,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePath, sidebarRef }) => {
             <SvgIcon component={item.icon} size={24} fill={isActive ? 'currentColor' : 'var(--icon-secondary)'}/>
                 <Typography className={clsx({
                   'sidebar__list-item-label': true,
-                  'layout-tablet': (() => !IsDesktopViewport())()
+                  'layout-tablet': (() => !isDesktop)()
                 })}>{item.text}</Typography>
           </StyledListItemButton>
       

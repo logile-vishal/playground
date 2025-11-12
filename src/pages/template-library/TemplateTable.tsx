@@ -16,7 +16,7 @@ import IconButton from "@/core/components/button/IconButton";
 import CommonModal, { ModalBody } from "@/core/components/modal/Modal";
 import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 import { DELETE_MODAL, formatDate, TEMPLATE_SORTING, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
-import { IsDesktopViewport } from "@/utils/get-viewport-size";
+import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 
 import { demoTableData } from "./tableData";
@@ -109,6 +109,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       status: false,
       data: null,
     });
+    const isDesktop = useIsDesktopViewport();
 
     const handleDeleteModalOpen = (data) => {
       setDeleteModal((prev)=>({...prev, status: true, data: data}))
@@ -415,7 +416,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                <Box minWidth="300px" display="flex" alignItems="center" gap="10px">
                    <Box width="100%" display="flex" flexDirection="column" gap="6px">
                         <Box width="100%" className="template-body-text cursor-pointer" onClick={()=>handlePreviewModalOpen(data)}>{renderMacTruncate(data?.templateName || "")}</Box>
-                          {!IsDesktopViewport() ?
+                          {!isDesktop ?
                           <Box display="flex" gap="24px">
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Type:</span>{data?.tagType || "Checklist"}</Box>
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Status:</span>
@@ -534,13 +535,13 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         hide:false,
         size:1,
         Header: renderTemplateNameHeader,
-        Cell: isDataLoading ? IsDesktopViewport() ? renderTemplateNameSkeltonDesktop : renderTemplateNameSkelton : renderTemplateNameCell,
+        Cell: isDataLoading ? isDesktop ? renderTemplateNameSkeltonDesktop : renderTemplateNameSkelton : renderTemplateNameCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding: "0.8rem 0.4rem 0.8rem 0.6rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text", style: {padding: "0.8rem 0.4rem 0.8rem 0.6rem"} })
       },
       {
         order:2,
-        hide:!IsDesktopViewport(),
+        hide:!isDesktop,
         accessorKey: "tagType",
         header: "Type",
         Header: renderTemplateCommonHeader,
@@ -551,7 +552,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       },
       {
         order:3,
-        hide:!IsDesktopViewport(),
+        hide:!isDesktop,
         accessorKey: "status",
         header: "Status",
         size:1,
