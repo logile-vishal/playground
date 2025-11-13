@@ -65,6 +65,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose,  exp
         open={previewModal?.status}
         onClose={onClose}
         size={isDesktopPreview ? "large" : "small"}
+        showActions={false}
         className={"template-preview-modal"}
         containerClassName={clsx({"template-preview-modal__container": true, "template-preview-modal__container--mobile": !isDesktopPreview})}
     >

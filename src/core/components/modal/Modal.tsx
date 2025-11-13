@@ -90,7 +90,7 @@ const CommonModal: React.FC<CommonModalProps> = ({
   onClose,
   title,
   children,
-  showActions = false,
+  showActions = true,
   onConfirm,
   size,
   confirmText = modalDefaultBtnConstants.confirm,
