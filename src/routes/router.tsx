@@ -6,6 +6,7 @@ import AppShell from '@/layouts/app-shell/AppShell';
 import NoPageFound from '@/layouts/NoPageFound';
 import TemplateLibrary from '@/pages/template-library';
 import { ComponentLibraryLandingPage } from '@/dev-playground/LandingPage';
+import TestPage from '@/dev-playground/TestPage';
 
 
 const getDevRoutes = ()=>{
@@ -19,8 +20,12 @@ if(import.meta.env.DEV){
           element: <ComponentLibraryLandingPage />,
         },
         {
-          path: '/dev/component-library/icons',
+          path: 'component-library/icons',
           element: <IconsDemo />,
+        },
+        {
+          path: 'test-page',
+          element: <TestPage />,
         }
       ]
     }
@@ -34,7 +39,7 @@ const router = createHashRouter([
     element: <AppShell />,
     children: [
       { index: true, element: <TemplateLibrary /> },
-       { path: '*', element: <NoPageFound /> }
+      { path: '*', element: <NoPageFound /> }
     ],
   },
  getDevRoutes()

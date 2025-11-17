@@ -5,7 +5,7 @@ import svgr from "vite-plugin-svgr";
 import path from 'path'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(), 
     svgr({
@@ -13,8 +13,8 @@ export default defineConfig({
         icon: true,
       },
     }),
-    analyzer({
-      openAnalyzer: false
+    mode === 'analyze' && analyzer({
+      openAnalyzer: true
     })
   ],
   base: '/frontend-dev/',
@@ -23,4 +23,4 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src')
     },
   },
-})
+}))

@@ -7,6 +7,7 @@ import { useIsDesktopViewport } from '@/utils/get-viewport-size';
 import AppBar from '../app-bar/AppBar';
 import Sidebar from '../sidebar/Sidebar';
 import './AppShell.scss'
+import { NavigationGuard } from '@/core/guards/NavigationGuard';
 
 export default function AppShell() {
   const location = useLocation();
@@ -37,6 +38,7 @@ export default function AppShell() {
 
   return (
     <div className='app-shell'>
+      <NavigationGuard />
       <AppBar handleToggleMenu={handleToggleMenu} />
       <div className='app-shell__layout'>
         <Sidebar activePath={activePath} sidebarRef={sidebarRef} />
