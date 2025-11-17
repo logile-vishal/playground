@@ -1,6 +1,8 @@
 import type { AxiosInstance, AxiosRequestHeaders } from "axios";
+
 import { createCorrelationId } from "@/utils/create-corelation-id";
 import { getAppId } from "@/utils/get-device-type";
+import { SERVER_ERROR_CODES } from "@/core/constants/error-codes";
 
 const CUSTOM_HEADERS = {
   "Org-Id": 'org_123',
@@ -35,9 +37,11 @@ export const setInterceptor = (axiosInstance: AxiosInstance) => {
           // Optionally redirect to login or show a message
           // window.location.href = '/login';
         }
-        // Handle other status codes or log errors as needed
-        // alert("error")
-        console.log(error)
+
+        if (error.response && error.response.data && error.response.data.code) {
+          error = SERVER_ERROR_CODES[error.response.data.code]?.reason || error;
+        }
+
         return Promise.reject(error);
       }
     );
