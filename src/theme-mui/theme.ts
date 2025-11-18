@@ -28,5 +28,12 @@ export const getTheme = (mode: 'light' | 'dark') =>
           },
         },
       },
+      MuiPopper: {
+        styleOverrides: {
+          root: {
+            zIndex: 2000,
+          },
+        },
+      }
     },
   });

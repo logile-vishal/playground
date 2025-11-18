@@ -39,9 +39,10 @@ export type GridPreviewType = {
 
 /* Question Type */
 export type TemplatePreviewType = {
+  name?: string;
   templateId: number;
-  templateName: string;
-  templateBaseType: string;
-  questionsPreview?: QuestionType | null;
+  templateName?: string;
+  templateBaseType?: string;
+  checkListPreview?: QuestionType | null;
   gridsPreview?: GridPreviewType[] | null;
 }

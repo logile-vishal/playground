@@ -7,21 +7,21 @@ import CommonModal, { ModalBody, ModalHeader } from "@/core/components/modal/Mod
 import clsx from "@/utils/clsx";
 
 import type { PreviewModalProps } from "../../types/template-library.type";
-import type { TemplateType } from "../../types/template-preview.type";
 import { TEMPLATE_TYPE } from "../../constants/constant";
-import { sampleQuestion1, templateGridPreview, templatePreviewData} from "../../sampleQuestion";
+import { spreadSheetSampleData } from "../../sampleQuestion";
 import { renderChecklistComponent, renderFormContainer, renderGridContainer } from "./PreviewTemplateType";
 import RenderExportMenu from "../export-menubar/ExportMenu";
 import "./PreviewModal.scss";
+import { renderTemplatePreviewSkelton } from "../skeleton/Skeleton";
 
-const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose,  exportMenu, handleExportMenuClose, handleExportMenuOpen }) => {
+const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose, isPreviewLoading,  exportMenu, handleExportMenuClose, handleExportMenuOpen }) => {
     const [isDesktopPreview, setIsDesktopPreview] = React.useState<boolean>(true);
-    const [templateType, setTemplateType] = React.useState<TemplateType>();
+    const [templateType, setTemplateType] = React.useState<string>();
     const [isQuestionView, setQuestionView] = React.useState<boolean>(true);
 
     useEffect(()=>{
         setIsDesktopPreview(true);
-        const tagType = previewModal?.data?.tagType.toUpperCase() as TemplateType;
+        const tagType = previewModal?.data?.templateBaseType?.toUpperCase();
         setTemplateType(tagType);
         setQuestionView(tagType === TEMPLATE_TYPE.CHECKLIST || tagType === TEMPLATE_TYPE.GRID);
     },[previewModal])
@@ -46,13 +46,13 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose,  exp
         {
             // Form and Spreadsheet templates preview 
             (templateType === TEMPLATE_TYPE.FORM || templateType === TEMPLATE_TYPE.SPREADSHEET) ?
-                <div>{renderFormContainer(sampleQuestion1.data, templateType)}</div> :
+                <div>{renderFormContainer(spreadSheetSampleData.data, templateType)}</div> :
             <div className={clsx({"template-preview-modal__questions-wrapper": true, "template-preview-modal__questions-wrapper--mobile": !isDesktopPreview})}>
                 {
                 // Grid template preview
-                templateType === TEMPLATE_TYPE.GRID ? renderGridContainer(templateGridPreview?.data?.gridsPreview, isDesktopPreview, templateType) :
+                templateType === TEMPLATE_TYPE.GRID && previewModal?.data?.gridsPreview ? renderGridContainer(previewModal?.data?.gridsPreview, isDesktopPreview, templateType) :
                 // Checklist template preview
-                templatePreviewData?.data?.checkListPreview?.subQuestions?.map((question, index)=>renderChecklistComponent(question, `${index+1}.`, isDesktopPreview, templateType))
+                previewModal?.data?.checkListPreview?.subQuestions?.map((question, index)=>renderChecklistComponent(question, `${index+1}.`, isDesktopPreview, templateType))
                 } 
             </div>
         }
@@ -70,6 +70,13 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose,  exp
         containerClassName={clsx({"template-preview-modal__container": true, "template-preview-modal__container--mobile": !isDesktopPreview})}
     >
 
+        {
+           isPreviewLoading ?
+           <div className="template-preview-modal__loading-wrapper">
+                {renderTemplatePreviewSkelton()}
+           </div>
+            : 
+            <>
         <ModalHeader headerClass={clsx({"template-preview-modal__header": true, "template-preview-modal__header--mobile": !isDesktopPreview})}>
             <div className={clsx({"template-preview-modal__title-wrapper": true, "template-preview-modal__title-wrapper--mobile": !isDesktopPreview})}>
                 <div className={clsx({"template-preview-modal__title": true, "template-preview-modal__title--mobile": !isDesktopPreview })}>
@@ -105,6 +112,8 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose,  exp
                 handleExportMenuClose={handleExportMenuClose}
             />
         </ModalBody>
+        </>
+    }
     </CommonModal>
   );
 };

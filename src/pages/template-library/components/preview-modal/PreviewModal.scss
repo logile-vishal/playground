@@ -32,6 +32,10 @@
         gap: unset;
         margin: 0px;
     }
+    &__loading-wrapper {
+        width: 752px;
+        padding: var(--space-xl);
+    }
     &__content-form {
         width: 600px;
         gap: unset;

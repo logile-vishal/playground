@@ -6,6 +6,8 @@ import SvgIcon from "@/core/components/icon/Icon";
 import type { SortOption } from "../types/template-constants.type";
 import type { PreviewButtonConfigProp } from "../types/template-preview.type";
 
+export const TEMPLATE_LIST_PAGE_SIZE = 50;
+
 export const TEMPLATE_SEARCH_TABS = {
     RECENT: {
         label: 'Recent',
@@ -25,9 +27,9 @@ export const TEMPLATE_TASK_TYPE_OPTIONS = [
 
 export const TEMPLATE_STATUS_OPTIONS = [
     { label: 'All Status Selected', value: '' },
-    { label: 'Draft', value: 'DRAFT' },
-    { label: 'Published', value: 'PUBLISHED' },
-    { label: 'Archived', value: 'ARCHIVED' },
+    { label: 'Assigned', value: 'Assigned' },
+    { label: 'Not In Use', value: 'Not_In_Use' },
+    { label: 'Incomplete', value: 'Not_Completed' },
 ];
 
 
@@ -35,39 +37,77 @@ export const TEMPLATE_SORTING: Record<string, SortOption[]> = {
     NAME: [
         {
             getLabel: () => (<Box display="flex" alignItems="center" fontSize="14px" fontWeight="400">Sort A <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component="arrowUp" size={18}/></Box> Z</Box>),
-            key: 'ASCENDING',
+            key: 'ASC',
+            name: "templateName",
         },
         {
             getLabel: () => (<Box display="flex" alignItems="center"  fontSize="14px"  fontWeight="400">Sort Z <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component="arrowUp" size={18}/></Box> A</Box>),
-            key: 'DESCENDING',
+            key: 'DESC',
+            name: "templateName",
         }
     ],
     CREATED: [
         {
             getLabel: () => (<Box>Sort Ascending</Box>),
-            key: 'ASCENDING',
+            key: 'ASC',
+            name: "createdTime",
         }, 
         {
             getLabel: () => (<Box>Sort Descending</Box>),
-            key: 'DESCENDING',
+            key: 'DESC',
+            name: "createdTime",
         }
     ],
     MODIFIED: [
          {
             getLabel: () => (<Box>Sort Ascending</Box>),
-            key: 'ASCENDING',
+            key: 'ASC',
+            name: "lastModifiedTime",
         }, 
         {
             getLabel: () => (<Box>Sort Descending</Box>),
-            key: 'DESCENDING',
+            key: 'DESC',
+            name: "lastModifiedTime",
         }
     ]
 
 }
 
+export const REPORT_SORTING: Record<string, SortOption[]> = {
+    NAME: [
+        {
+            getLabel: () => (<Box display="flex" alignItems="center" fontSize="14px" fontWeight="400">Sort A <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component="arrowUp" size={18}/></Box> Z</Box>),
+            key: 'ASC',
+            name: "name",
+        },
+        {
+            getLabel: () => (<Box display="flex" alignItems="center"  fontSize="14px"  fontWeight="400">Sort Z <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component="arrowUp" size={18}/></Box> A</Box>),
+            key: 'DESC',
+            name: "name",
+        }
+    ],
+    SAVED_DATE: [
+        {
+            getLabel: () => (<Box>Sort Ascending</Box>),
+            key: 'ASC',
+            name: "savedDate",
+        }, 
+        {
+            getLabel: () => (<Box>Sort Descending</Box>),
+            key: 'DESC',
+            name: "savedDate",
+        }
+    ],
+}
+
 export const formatDate = (dateString: string): string => {
   return moment(dateString).format("DD/MM/YY");
 };
+
+export const LIB_TYPE = {
+    TEMPLATE: "template",
+    REPORT: "report",
+}
 
 export const TEMPLATE_TYPE = {
     CHECKLIST: 'CHECKLIST',
@@ -159,4 +199,10 @@ export const TEMPLATE_LIBRARY_HEADING = {
    folderTree: "Folder Tree",
    template: "Template",
    templateLibrary: "Template Library",
+}
+
+export const TEMPLATE_LIBRARY_NO_DATA = {
+    title: "To view task templates, select a folder on the left or search above",
+    description: "Nothing is selected",
+    imageSrcName: "emptyState",
 }

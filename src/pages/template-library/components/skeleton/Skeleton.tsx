@@ -1,73 +1,82 @@
 import { Box, Skeleton } from "@mui/material";
 
+import "./Skelton.scss";
+
 const renderTemplateIconSkelton = () => {
   return (
-     <Box display="flex" alignItems="center" gap={2} flex={1}>
-        <Skeleton variant="circular" width={40} height={40} />
-      </Box>
-  )
-}
+    <Box className="template-library-skelton-icon-container">
+      <Skeleton variant="circular" classes={{ root: "template-library-skelton-icon" }} />
+    </Box>
+  );
+};
+
 const renderTemplateNameSkeltonDesktop = () => {
   return (
-     <Box>
-            <Skeleton variant="rectangular" sx={{borderRadius:"4px"}} width={300} height={20} />
+    <Box className="template-library-name-desktop">
+      <Skeleton variant="rectangular" classes={{ root: "template-library-skelton-line-lg" }} />
     </Box>
-  )
-}
+  );
+};
+
 const renderTemplateNameSkelton = () => {
   return (
-     <Box>
-            <Skeleton variant="rectangular" sx={{borderRadius:"4px"}} width={300} height={20} />
-            <Box display="flex" gap="23px" mt="6px">
-                <Skeleton variant="rectangular" sx={{borderRadius:"4px"}} width={80} height={20} />
-                <Skeleton variant="rectangular" sx={{borderRadius:"4px"}} width={80} height={20} />
-            </Box>
+    <Box className="template-library-name">
+      <Skeleton variant="rectangular" classes={{ root: "template-library-skelton-line-lg" }} />
+
+      <Box className="template-library-name-tags">
+        <Skeleton variant="rectangular" classes={{ root: "template-library-skelton-line-sm" }} />
+        <Skeleton  variant="rectangular" classes={{ root: "template-library-skelton-line-sm" }} />
+      </Box>
     </Box>
-  )
-}
+  );
+};
 
 const renderTemplateRowSkelton = () => {
   return (
-    <Box>
-      <Skeleton variant="rectangular" sx={{borderRadius:"4px"}} width="80%" height={20} />
+    <Box className="template-library-row">
+      <Skeleton variant="rectangular" classes={{ root: "template-library-skelton-row" }}/>
     </Box>
-  )
-}
+  );
+};
 
 const renderTemplateCreatedSkelton = () => {
   return (
-    <Box flex={0.5} display="flex" gap="4px">
-        <Skeleton variant="rectangular" sx={{borderRadius:"4px"}} width={100} height={20} />
-        <Skeleton variant="circular" width={20} height={20} />
-      </Box>
-  )
-}
+    <Box className="template-library-created">
+      <Skeleton variant="rectangular" classes={{ root: "template-library-skelton-created-text" }}/>
+      <Skeleton variant="circular" classes={{ root: "template-library-skelton-created-icon" }}/>
+    </Box>
+  );
+};
 
 const renderTemplateActionSkelton = () => {
   return (
-     <Box display="flex" gap={1} flex={0.3}>
-        <Skeleton variant="circular" width={36} height={36} />
-        <Skeleton variant="circular" width={36} height={36} />
-        <Skeleton variant="circular" width={36} height={36} />
-        <Skeleton variant="circular" width={36} height={36} />
-      </Box>
-  )
-}
+    <Box className="template-library-actions">
+      {Array.from({ length: 4 }).map(() => (
+        <Skeleton variant="circular" classes={{ root: "template-library-skelton-action" }} />
+      ))}
+    </Box>
+  );
+};
 
 const renderDirectorySkelton = () => {
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" gap="6px" padding="12px" 
-    sx={{
-      borderRight: "1px solid lightgray",
-      height: "100vh",
-      paddingRight:"1.6rem"
-    }}>
-       <Skeleton variant="rectangular" sx={{borderRadius:"8px"}} width="100%"  height={20} />
-        <Skeleton variant="rectangular" sx={{borderRadius:"8px"}} width="100%"  height={20} />
-        <Skeleton variant="rectangular" sx={{borderRadius:"8px"}} width="100%"  height={20} />
+    <Box className="template-library-directory">
+      {Array.from({ length: 3 }).map(() => (
+        <Skeleton variant="rectangular" classes={{ root: "template-library-directory-item" }}/>
+      ))}
     </Box>
-  )
-}
+  );
+};
+
+export const renderTemplatePreviewSkelton = () => {
+  return (
+    <Box className="template-library-preview">
+      {Array.from({ length: 8 }).map(() => (
+        <Skeleton variant="rectangular" classes={{ root: "template-library-preview-line" }}/>
+      ))}
+    </Box>
+  );
+};
 
 export const templateSkelton = {
   renderTemplateIconSkelton,
@@ -76,5 +85,5 @@ export const templateSkelton = {
   renderTemplateRowSkelton,
   renderTemplateCreatedSkelton,
   renderTemplateActionSkelton,
-  renderDirectorySkelton
-}
+  renderDirectorySkelton,
+};

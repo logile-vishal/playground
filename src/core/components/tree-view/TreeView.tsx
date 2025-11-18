@@ -11,7 +11,7 @@ import { renderMacTruncate } from "@/utils/mac-truncate";
 type TreeViewProps = {
   data: TreeViewNodeDataType[];
   setSelectedData?: React.Dispatch<React.SetStateAction<number | null>>;
-  handleClick: (event: React.MouseEvent<HTMLLIElement>, nodes: TreeViewNodeDataType) => void;
+  handleClick?: (event: React.MouseEvent<HTMLLIElement>, directory: TreeViewNodeDataType) => void;
 }
 
 const StyledTreeItem = styled(TreeItem)(() => ({
@@ -64,8 +64,8 @@ function getExpandedTagIds(nodes: TreeViewNodeDataType[]): string[] {
     if (node.isExpanded === true) {
       result.push(String(node.tagId)); 
     }
-    if (node.children && node.children.length > 0) {
-      result = result.concat(getExpandedTagIds(node.children));
+    if (node.subLibrary && node.subLibrary.length > 0) {
+      result = result.concat(getExpandedTagIds(node.subLibrary));
     }
   }
 
@@ -78,8 +78,8 @@ const TreeView: React.FC<TreeViewProps> = ({ data, handleClick }) => {
     <StyledTreeItem key={nodes.tagId} itemId={String(nodes.tagId)} label={renderMacTruncate(nodes.tagName)} 
       onClick={(e)=>handleClick(e, nodes)}
      >
-      {Array.isArray(nodes.children)
-        ? nodes.children.map((child) => renderTree(child))
+      {Array.isArray(nodes.subLibrary)
+        ? nodes.subLibrary.map((child) => renderTree(child))
         : null}
     </StyledTreeItem>
   );

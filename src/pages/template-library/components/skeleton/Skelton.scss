@@ -1,0 +1,113 @@
+/* Icon */
+span.template-library-skelton-icon {
+  width: var(--space-5xl);
+  height: var(--space-5xl);
+  border-radius: var(--radius-full);
+}
+
+/* Icon Container */
+.template-library-skelton-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Name Desktop */
+.template-library-name-desktop {
+  .template-library-skelton-line-lg {
+    width: 300px;
+    height: var(--space-2xl);
+    border-radius: var(--radius-xs);
+  }
+}
+
+/* Name + tags */
+.template-library-name {
+  .template-library-skelton-line-lg {
+    width: 300px;
+    height: var(--space-2xl);
+    border-radius: var(--radius-xs);
+  }
+
+  &-tags {
+    display: flex;
+    gap: var(--space-3xl);
+    margin-top: var(--space-s);
+
+    .template-library-skelton-line-sm {
+      width: var(--space-8xl);
+      height: var(--space-2xl);
+      border-radius: var(--radius-xs);
+    }
+  }
+}
+
+/* Row */
+.template-library-row {
+  .template-library-skelton-row {
+    width: 80%;
+    height: var(--space-2xl);
+    border-radius: var(--radius-xs);
+  }
+}
+
+/* Created */
+.template-library-created {
+  display: flex;
+  flex: 0.5;
+  gap: var(--space-xs);
+
+  .template-library-skelton-created-text {
+    width: 100px;
+    height: var(--space-2xl);
+    border-radius: var(--radius-xs);
+  }
+
+  .template-library-skelton-created-icon {
+    width: var(--space-2xl);
+    height: var(--space-2xl);
+  }
+}
+
+/* Actions */
+.template-library-actions {
+  display: flex;
+  flex: 0.3;
+  gap: var(--space-m);
+
+  .template-library-skelton-action {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+  }
+}
+
+/* Directory */
+.template-library-directory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+  padding: var(--space-l);
+  border-right: var(--border-s) solid var(--border-secondary);
+  height: 100vh;
+  padding-right: var(--space-xl);
+
+  .template-library-directory-item {
+    width: 100%;
+    height: var(--space-2xl);
+    border-radius: var(--radius-m);
+  }
+}
+
+/* Preview */
+.template-library-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+
+  .template-library-preview-line {
+    width: 100%;
+    height: var(--space-2xl);
+    border-radius: var(--radius-xs);
+  }
+}

@@ -1,12 +1,8 @@
 export type DirectResponse<T> = {
-  success: boolean,
-  message: string,
   data: T;
 }
 
 export type PaginatedResponse<T> = {
-  success: boolean,
-  message: string,
   data: T[];
   pagination: Pagination;
 }

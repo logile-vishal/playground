@@ -52,6 +52,16 @@
     }
   }
 
+  &__ungroup-label {
+    font-size: var(--size-secondary-text);
+    font-weight: var(--weight-600);
+    color: var(--text-secondary);
+  }
+
+  &__group-label {
+    font-size: var(--size-secondary-text);
+  }
+
   &__tag {
     display: flex;
     align-items: center;

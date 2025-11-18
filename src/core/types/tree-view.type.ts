@@ -12,7 +12,7 @@ export type TreeViewNodeDataType = {
   isNoShow: boolean;
   reportType: number | null;
   isExpanded: boolean | null;
-  children: TreeViewNodeDataType[];
+  subLibrary: TreeViewNodeDataType[];
 }
 
 export type FolderTreeResponse = {

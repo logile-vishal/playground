@@ -9,6 +9,7 @@
   --modified-gap: 8px;
   --modified-margin-top: 25px;
   --button-margin-top: 25px;
+  --menu-paper-height: 500px;
   
 
   display: flex;
@@ -189,6 +190,23 @@
     font-size: var(--size-body);
     font-weight: var(--weight-400);
     background-color: var(--bg-primary);
-    color: var(--text-white)
+  }
+   &__dropdown-menu-paper {
+    max-height: var(--menu-paper-height);
+    overflow-y: auto;
+  }
+}
+.MuiMenu-paper.template-library-search-drawer__dropdown-menu-paper {
+  --menu-paper-height: 500px;
+  max-height: var(--menu-paper-height);
+  overflow-y: auto;
+  padding: var(--space-s);
+  .MuiList-root {
+    padding: 0;
+  }
+  .MuiMenuItem-root {
+    font-size: var(--size-body);
+    padding: var(--space-m) var(--space-xl);
+  border-radius: var(--radius-m);
   }
 }

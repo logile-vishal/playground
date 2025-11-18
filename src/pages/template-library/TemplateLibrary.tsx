@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Stack } from '@mui/material';
 import TextField from "@mui/material/TextField";
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import InputAdornment from "@mui/material/InputAdornment";
 import { styled } from "@mui/material/styles";
 
 import SvgIcon from '@/core/components/icon/Icon';
@@ -13,16 +12,19 @@ import IconButton from '@/core/components/button/IconButton';
 import PageTemplate from '@/layouts/page-template/PageTemplate';
 import SearchDrawer from '@/pages/template-library/components/search-drawer/SearchDrawer';
 import { useIsDesktopViewport } from '@/utils/get-viewport-size';
+import type { PaginatedResponse } from '@/core/types/pagination.type';
+import type { TreeViewNodeDataType } from '@/core/types/tree-view.type';
+import { CommonButton } from '@/core/components/button/button';
+import NoDataTemplate from '@/core/components/no-data-template/NoDataTemplate';
 import clsx from '@/utils/clsx';
 
-import { folderTreeData } from './tableData';
-import LibraryTable from './TemplateTable';
 import type { DirectoryType, ReportType, TemplatePaginationData, TemplateType } from './types/template-library.type';
-import {  useGetTemplatesByTagId } from './services/template-library-api-hooks';
+import {  useGetAllDirectories, useGetTemplatesByTagId, useGetReportsByReportType } from './services/template-library-api-hooks';
 import RenderExportMenu from './components/export-menubar/ExportMenu';
-import { IMPORT_MODAL, TEMPLATE_LIBRARY_HEADING } from './constants/constant';
+import { IMPORT_MODAL, TEMPLATE_LIBRARY_HEADING, TEMPLATE_LIBRARY_NO_DATA, TEMPLATE_LIST_PAGE_SIZE } from './constants/constant';
+import { templateSkelton } from './components/skeleton/Skeleton';
+import LibraryTable from './TemplateTable';
 import "./TemplateStyle.scss";
-import { CommonButton } from '@/core/components/button/button';
  
 const SearchField = styled(TextField)(( ) => ({
   "& .MuiOutlinedInput-root": {
@@ -40,8 +42,6 @@ const SearchField = styled(TextField)(( ) => ({
   },
 }));
  
-const PAGE_SIZE = 10;
-
 const TemplateLibrary: React.FC = () => {
  
     const [searchDrawer, setSearchDrawer] = useState({status: false, text: ""});
@@ -51,8 +51,9 @@ const TemplateLibrary: React.FC = () => {
  
     const [paginationData] = useState<TemplatePaginationData>({
             currentPage: 1,
-            pageSize: PAGE_SIZE,
-    }); // TODO : TO BE USED WHEN PAGINATION IS IMPLEMENTED
+            pageSize: TEMPLATE_LIST_PAGE_SIZE,
+    }); 
+    const [searchTemplateText, setSearchTemplateText] = useState("");
     const [exportMenu, setExportMenu] = useState<{
       anchorEl: null | HTMLElement;
       status: boolean;
@@ -60,23 +61,43 @@ const TemplateLibrary: React.FC = () => {
       anchorEl: null,
       status: false,
     });
-    // const { data: directoriesList, isLoading: isDirectoriesLoading } = useGetAllDirectories();
-    const { data: templatesList, isLoading: isTemplatesLoading, } = useGetTemplatesByTagId(selectedDirectory?.tagId, paginationData);
-    const { data: reportsList, isLoading: isReportsLoading, } = useGetTemplatesByTagId(+selectedDirectory?.reportType, paginationData);
-    // const { renderDirectorySkelton } = templateSkelton;
     const [importPopup, setImportPopup] = useState<boolean>(false);
     const isDesktop = useIsDesktopViewport();
- 
+
+    /* API */
+    const { data: directoriesList, isLoading: isDirectoriesLoading } = useGetAllDirectories();
+    const { data: templatesList, isPending: isTemplatesLoading, mutateAsync: getTemplatesByTagId } = useGetTemplatesByTagId();
+    const { data: reportsList, isPending: isReportsLoading, mutateAsync: getReportsByReportTypeId } = useGetReportsByReportType();
+    const { renderDirectorySkelton } = templateSkelton;
+    const [tableData, setTableData] = useState<PaginatedResponse<TemplateType | ReportType>>();
+    const [isTableDataLoading, setIsTableDataLoading] = useState(false);
+
     const openSearchDrawer = () => {
         setSearchDrawer((prev) => ({ ...prev, status: true }));
     };
     const closeSearchDrawer = () => {
         setSearchDrawer((prev) => ({ ...prev, status: false, text: "" }));
     };
+
+    const fetchData = (directory: TreeViewNodeDataType, paramsPayload: Record<string, unknown>={}) => {
+      let payload: Record<string, unknown> = {
+        ...paramsPayload,
+         ...paginationData,
+      } 
+      if(directory?.reportType) {
+        payload = { ...payload, reportTypeId: directory?.reportType }
+        getReportsByReportTypeId(payload);
+      }
+      else {
+        payload = { ...payload, tagId: directory?.tagId }
+        getTemplatesByTagId(payload);
+      }
+    }
  
-    const handleDirectoryClick = (event:  React.MouseEvent<HTMLElement>, directory:DirectoryType) => {
+    const handleDirectoryClick = (event:  React.MouseEvent<HTMLElement>, directory:TreeViewNodeDataType) => {
       event?.preventDefault();
       event?.stopPropagation();
+      fetchData(directory)
       setSelectedDirectory(directory);
     }
  
@@ -96,6 +117,25 @@ const TemplateLibrary: React.FC = () => {
         status: false,
       });
     };
+
+    useEffect(()=>{
+      let data = null;
+      if(selectedDirectory?.reportType!== undefined) {
+        data = reportsList;
+      }
+      else if(selectedDirectory?.tagId!==undefined){  
+        data = templatesList;
+      }
+      setTableData(data);
+    },[reportsList, templatesList, selectedDirectory]);
+
+    useEffect(()=>{
+      setIsTableDataLoading(isTemplatesLoading);
+    },[isTemplatesLoading]);
+
+    useEffect(()=>{
+      setIsTableDataLoading(isReportsLoading);
+    },[isReportsLoading])
  
     return <PageTemplate>
       <PageTemplate.Header>
@@ -145,14 +185,8 @@ const TemplateLibrary: React.FC = () => {
                   placeholder="Search by template name"
                   size="small"
                   fullWidth
+                  value={searchTemplateText}
                   onClick={openSearchDrawer}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <SvgIcon component="search" size={20} />
-                      </InputAdornment>
-                    ),
-                  }}
                 />
               </Box>
               <Stack direction={"row"} alignItems="center" gap="12px">
@@ -169,36 +203,34 @@ const TemplateLibrary: React.FC = () => {
 
           <div className="directory-tree__container">
 
-            {/* { 
+            { 
                 isDirectoriesLoading ? renderDirectorySkelton() :
                 <TreeView data={directoriesList?.data || []} handleClick={handleDirectoryClick} />
-              } */}
-            <TreeView data={folderTreeData?.data || []} handleClick={handleDirectoryClick} />
+            }
 
           </div>
           <Box className="template-library__table-wrapper">
-
-            {/* TODO : TO BE REMOVED WHEN BE IS WORKING FINE
-              {!isTemplatesLoading && !isReportsLoading  && (!templatesList?.data || templatesList?.data?.length == 0) ?  
+              {!isTableDataLoading && (!tableData || tableData?.data?.length == 0) ?  
                     <NoDataTemplate
-                        title = "To view task templates, select a folder on the left or search above"
-                        description = "Nothing is selected"
-                        imageSrcName = "emptyState"
+                        title={TEMPLATE_LIBRARY_NO_DATA.title}
+                        description={TEMPLATE_LIBRARY_NO_DATA.description}
+                        imageSrcName={TEMPLATE_LIBRARY_NO_DATA.imageSrcName}
                         imageWidth={90}
-                    /> : */}
+                    /> : 
                     <LibraryTable
                       showCheckbox={showCheckbox}
                       setShowCheckbox={setShowCheckbox}
+                      selectedDirectory={selectedDirectory}
                       setSelectedTemplate={setSelectedTemplate}
                       selectedTemplate={selectedTemplate}
-                      templatesList={templatesList || reportsList}
-                      isDataLoading={isTemplatesLoading || isReportsLoading}
+                      templatesList={tableData}
+                      isDataLoading={isTableDataLoading}
                       exportMenu={exportMenu} 
                       handleExportMenuClose={handleExportMenuClose}
                       handleExportMenuOpen={handleExportMenuOpen}
+                      fetchData={fetchData}
                     />
-                {/* TODO : TO BE REMOVED WHEN BE IS WORKING FINE */}
-                {/* } */}
+              }
             </Box>
         </Box>
 
@@ -208,8 +240,13 @@ const TemplateLibrary: React.FC = () => {
         />
 
         <SearchDrawer
-            open={searchDrawer.status}
-            onClose={closeSearchDrawer}
+          open={searchDrawer.status}
+          onClose={closeSearchDrawer}
+          paginationData={paginationData}
+          setTableData={setTableData as (value: PaginatedResponse<TemplateType | ReportType>) => void}
+          setIsTableDataLoading={setIsTableDataLoading}
+          searchText={searchTemplateText}
+          setSearchText={setSearchTemplateText}
         /> 
         
         {/* Import Popup */}

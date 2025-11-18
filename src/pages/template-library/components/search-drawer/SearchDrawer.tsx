@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -8,15 +9,19 @@ import { styled } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Divider, TextField, Typography, Select, MenuItem } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material/Select';
-import { useTranslation } from 'react-i18next';
 
-import SvgIcon from '@/core/components/icon/Icon';
-import NoDataTemplate from '@/core/components/no-data-template/NoDataTemplate';
-import StyledAutocomplete from '@/core/components/auto-complete/AutoComplete';
-
-import { TEMPLATE_SEARCH_TABS, TEMPLATE_TASK_TYPE_OPTIONS, TEMPLATE_STATUS_OPTIONS } from '../../constants/constant';
-import './SearchDrawer.scss';
 import { CommonButton } from '@/core/components/button/button';
+import StyledAutocomplete from '@/core/components/auto-complete/AutoComplete';
+import NoDataTemplate from '@/core/components/no-data-template/NoDataTemplate';
+import type { PaginatedResponse } from '@/core/types/pagination.type';
+import type { AutoCompleteOptionProps } from '@/core/types/autocomplete.type';
+import SvgIcon from '@/core/components/icon/Icon';
+
+import { useFilterTemplates, useGetQuestionTagsOptions, useGetTaskTagsOptions, useGetTaskTypesOptions } from '../../services/template-library-api-hooks';
+import type { ReportType, TagOptionsType, TaskTypeOptions, TemplatePaginationData } from '../../types/template-library.type';
+import { TEMPLATE_SEARCH_TABS, TEMPLATE_STATUS_OPTIONS } from '../../constants/constant';
+import type { TemplateType } from '../../types/template-preview.type';
+import './SearchDrawer.scss';
 
 const SearchField = styled(TextField)(( ) => ({
   "& input": {
@@ -42,18 +47,15 @@ const SearchField = styled(TextField)(( ) => ({
 
 const StyledDropdownSelect = styled(Select)(()=>({
     "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: "var(--border-brand-primary-subtle)"
+        borderColor: "var(--border-brand-primary-subtle)"
     },
+
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "var(--border-brand-primary-subtle)"
+        borderColor: "var(--border-brand-primary-subtle)"
     },
 }))
 
 const StyledMenuItem = styled(MenuItem)(( ) => ({
-  "&" : {
-      color: "var(--text-primary)",
-      fontSize: "var(--size-body)",
-    },
   "&:hover": {
     backgroundColor: "var(--bg-primary-x-subtle)",
   },
@@ -68,7 +70,7 @@ const StyledMenuItem = styled(MenuItem)(( ) => ({
   },
 }))
 
-type TabPanelProps = {
+interface TabPanelProps {
   children?: React.ReactNode;
   value: boolean;
 }
@@ -101,27 +103,21 @@ function TabPanel(props: TabPanelProps) {
     </div>
   );
 }
-function StyledTextField({label="", width="100%"}) {
+function StyledTextField({label="", width="100%", value, handleChange}) {
     return (
       <Box width={width}>
             <Typography className='template-library-search-drawer__text-label'>{label}</Typography>
-            <TextField className='template-library-search-drawer__text-field-input' fullWidth variant='outlined'/>
+            <TextField value={value} onChange={handleChange} className='template-library-search-drawer__text-field-input' fullWidth variant='outlined'/>
       </Box>
     )
 }
 
-type DropdownOption = {
-  value: string | number;
-  label: string;
-}
-
-
-type StyledDropdownProps = {
+interface StyledDropdownProps {
   label?: string;
   handleChange?: (event: SelectChangeEvent, child?: React.ReactNode) => void;
-  value?: string | number;
+  value?: string[] | number[] | string | number;
   width?: string;
-  options?: DropdownOption[];
+  options?: AutoCompleteOptionProps[];
   placeholder?: string;
 }
 
@@ -129,8 +125,9 @@ function StyledDropdown ({
   label = "",
   handleChange = () => {},
   width = "100%",
-  options = [],
+  options,
   placeholder="",
+  ...props
 }: StyledDropdownProps) {
     return (
       <Box width={width}>
@@ -138,12 +135,14 @@ function StyledDropdown ({
          <StyledDropdownSelect
          className='template-library-search-drawer__dropdown-select'
          onChange={handleChange}
-         defaultValue=""
-         displayEmpty
-         renderValue={(selected) => {
+         MenuProps={{
+          classes: { paper: "template-library-search-drawer__dropdown-menu-paper" },
+        }}
+        {...props}
+        renderValue={(selected) => {
             if (!selected)
                 return <span className='template-library-search-drawer__placeholder-text'>{placeholder}</span>;
-            return options.find((opt) => opt.value === selected)?.label;
+            return options?.find((opt) => opt?.value === selected)?.label;
          }}
          IconComponent={()=> (
           <Box className="template-library-search-drawer__rotate-icon">
@@ -153,38 +152,159 @@ function StyledDropdown ({
         >
             {
                options && options.length > 0 && options.map((option) => (
-                 <StyledMenuItem key={option.value} value={option.value}>{option.label}</StyledMenuItem>
+                 <StyledMenuItem key={option?.label} value={option?.value}>{option?.label}</StyledMenuItem>
                ))
             }
         </StyledDropdownSelect>
       </Box>  
 )}
 
-type SearchDrawerProps = {
+
+interface SearchDrawerProps {
     open: boolean;
     onClose: () => void;
+    paginationData: TemplatePaginationData;
+    setTableData?: (value: PaginatedResponse<TemplateType | ReportType>) => void;
+    setIsTableDataLoading: (value: boolean) => void;
+    searchText: string;
+    setSearchText: (value: string) => void;
+}
+
+const defaultFilter = {
+        questionText: "",
+        taskType: "",
+        status: [],
+        modifiedInLast: "",
+        taskTagsList: [] as AutoCompleteOptionProps[],
+        questionTagsList: [] as AutoCompleteOptionProps[],
 }
 
 const SearchDrawer = ({
     open,
-    onClose
+    onClose,
+    paginationData,
+    setTableData,
+    setIsTableDataLoading,
+    searchText,
+    setSearchText
 }: SearchDrawerProps) => {
     const {RECENT, ADVANCE} = TEMPLATE_SEARCH_TABS;
-    const [currentTab, setCurrentTab] = useState(RECENT.value);
-    const [searchText, setSearchText] = useState("");
-    const [recentData] = useState([]);
+    const [currentTab, setCurrentTab] = useState(ADVANCE.value);
+    const [recentFilterData] = useState([]);
+    const [advanceFilterData, setAdvanceFilterData] = useState(defaultFilter);
+    const [optionsData, setOptionsData] = useState({
+        taskTypeOptions: [] as { label: string; value: number; }[],
+        taskTagsOptions: [] as { label: string; value: number; }[],
+        questionTagsOptions: [] as { label: string; value: number; }[],
+    });
     const { t } = useTranslation();
-
+    const {data: taskTypeOptions} = useGetTaskTypesOptions();
+    const {data: taskTagsOptions} = useGetTaskTagsOptions();
+    const {data: questionTagsOptions} = useGetQuestionTagsOptions();
+    const {data: filterData, mutateAsync: filterTemplate, isPending: isFilterDataLoading } = useFilterTemplates();
+    
     const handleTabChange = (_e: React.SyntheticEvent, newValue: string) => {
         setCurrentTab(newValue);
     }
+
+    /**
+      * @method handleClearSearch
+      * @description handler for template search text
+      * @returns {void}
+    */
      const handleSearch = (e) => {
         setSearchText(e.target.value )
     }
 
+     /**
+      * @method handleClearSearch
+      * @description clear the template search text
+      * @returns {void}
+    */
     const handleClearSearch = () => {
         setSearchText("")
     }
+
+    const handleFilter= () => {
+      const payload = getPayload();
+      filterTemplate(payload);
+    }
+
+    /**
+      * @method handleChange
+      * @description common handler for the various fields
+      * @returns {void}
+    */
+    const handleChange = (field: string, event) => {
+      const value = event?.target ? event.target.value : (event?.value || event);
+        setAdvanceFilterData((prev) => ({
+            ...prev,
+            [field]: value,
+        }))
+    }
+
+    /**
+      * @method getPayload
+      * @description structure and get all the required payloads
+      * @returns {void}
+    */
+    const getPayload = () => {
+      const questionTagsList = advanceFilterData?.questionTagsList?.map((tag: AutoCompleteOptionProps)=>tag?.value)
+      const taskTagsList = advanceFilterData?.taskTagsList?.map((tag: AutoCompleteOptionProps)=>tag?.value)
+      const payload = {
+        ...advanceFilterData,
+        ...paginationData,
+        questionTagsList,
+        taskTagsList: taskTagsList,
+        templateName: searchText,
+      }
+      return payload;
+    }
+
+    /**
+      * @method handleClearFilter
+      * @description clear and reset all the filters
+      * @returns {void}
+    */
+    const handleClearFilter = () => {
+        setAdvanceFilterData(JSON.parse(JSON.stringify(defaultFilter)));
+        setSearchText("");
+    }
+
+    useEffect(()=>{
+        const data = taskTypeOptions?.data?.map((item: TaskTypeOptions) => ({
+                label: item?.typeName,
+                value: item?.typeId,
+            }));
+        setOptionsData(prev=>({...prev, taskTypeOptions: data}));
+    },[taskTypeOptions]);
+
+    useEffect(()=>{
+        const data = taskTagsOptions?.data?.map((item: TagOptionsType) => ({
+                label: item?.tagValue,
+                value: item?.tagId,
+            }));
+        setOptionsData(prev=>({...prev, taskTagsOptions: data}));
+    },[taskTagsOptions]);
+
+    useEffect(()=>{
+        const data = questionTagsOptions?.data?.map((item: TagOptionsType) => ({
+                label: item?.tagValue,
+                value: item?.tagId,
+            }));
+        setOptionsData(prev=>({...prev, questionTagsOptions: data}));
+    },[questionTagsOptions]);
+
+    useEffect(()=>{
+      setTableData?.(filterData);
+    },[filterData, setTableData])
+
+    useEffect(()=>{
+      onClose();
+      setIsTableDataLoading(isFilterDataLoading);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[isFilterDataLoading])
+
     return (
         <StyledDrawer
            anchor='top'
@@ -226,7 +346,7 @@ const SearchDrawer = ({
                     <TabPanel value={currentTab === RECENT.value}>
                         <Box className="template-library-search-drawer__recent-tab-content">
                           {
-                            !recentData || recentData?.length === 0 ? 
+                            !recentFilterData || recentFilterData?.length === 0 ? 
                             <NoDataTemplate
                               title ={t("NO_DATA_SEARCH.title")}
                               description={t("NO_DATA_SEARCH.description")}
@@ -234,7 +354,7 @@ const SearchDrawer = ({
                               imageWidth={90}
                           /> 
                             :
-                            recentData?.map(()=>{
+                            recentFilterData?.map(()=>{
                               return (
                                 <Box className="template-library-search-drawer__recent-search-main">
                                     <Box className="template-library-search-drawer__recent-search-item">
@@ -259,50 +379,64 @@ const SearchDrawer = ({
                         <Box className="template-library-search-drawer__advance-tab-content">
                             <Box className="template-library-search-drawer__advance-search-group">
                                 <StyledTextField
-                                  label='Question Text'
-                                  width="70%"
+                                label='Question Text'
+                                width="70%"
+                                handleChange={(event) => handleChange('questionText', event)}
+                                value={advanceFilterData?.questionText}
                                 />
 
                                 <StyledDropdown
-                                  label='Task Type'
-                                  width="15%"
-                                  options={TEMPLATE_TASK_TYPE_OPTIONS}
-                                  placeholder="Select Task Type"
+                                label='Task Type'
+                                width="15%"
+                                options={optionsData?.taskTypeOptions}
+                                placeholder="Select Task Type"
+                                handleChange={(event) => handleChange('taskType', event)}
+                                value={advanceFilterData?.taskType}
                                 />
 
-                                 <StyledDropdown
-                                  label='Status'
-                                  width="15%"
-                                  options={TEMPLATE_STATUS_OPTIONS}
-                                  placeholder="Select Status"
+                                <StyledDropdown
+                                label='Status'
+                                width="15%"
+                                options={TEMPLATE_STATUS_OPTIONS}
+                                placeholder="Select Status"
+                                handleChange={(event) => handleChange('status', event)}
+                                value={advanceFilterData?.status}
                                 />
                             </Box>
                             <Box className="template-library-search-drawer__advance-search-group">
                                 <Box className="template-library-search-drawer__modified-wrapper">
                                     <Typography className='template-library-search-drawer__text-label'>Show tasks modified in last:</Typography>
                                     <Box>
-                                        <TextField className='template-library-search-drawer__text-field-input template-library-search-drawer__days-text-field' fullWidth variant='outlined'/>
+                                        <TextField 
+                                        onChange={(event) => handleChange('modifiedInLast', event)} 
+                                        className='template-library-search-drawer__text-field-input template-library-search-drawer__days-text-field' 
+                                        fullWidth 
+                                        variant='outlined'
+                                        value={advanceFilterData?.modifiedInLast}
+                                        />
                                     </Box>
                                     <Typography className='template-library-search-drawer__text-label'>days</Typography>
                                 </Box>
 
                                 <StyledAutocomplete
-                                  options={TEMPLATE_STATUS_OPTIONS}
-                                  getOptionLabel={(option: DropdownOption) => option.label}
-                                  placeholder="Select Task Tags"
-                                  label='Task Tags'
+                                options={optionsData?.taskTagsOptions}
+                                placeholder="Select Task Tags"
+                                label='Task Tags'
+                                value={advanceFilterData?.taskTagsList}
+                                handleChange={(value) => handleChange('taskTagsList', value)}
                                 />
 
                                 <StyledAutocomplete
-                                options={TEMPLATE_STATUS_OPTIONS}
-                                getOptionLabel={(option: DropdownOption) => option.label}
+                                options={optionsData?.questionTagsOptions}
                                 placeholder="Search Question Tags"
                                 label='Question Tags'
+                                value={advanceFilterData?.questionTagsList}
+                                handleChange={(value) => handleChange('questionTagsList', value)}
                                 />
                             </Box>
                             <Box className="template-library-search-drawer__button-wrapper">
-                                <CommonButton severity="primary" variant="text" size="medium">Clear All</CommonButton>
-                                <CommonButton severity="primary" variant="solid" size="medium">Search</CommonButton>
+                                <CommonButton severity="primary" variant="text" size="large" onClick={handleClearFilter}>Clear All</CommonButton>
+                                <CommonButton severity="primary" variant="solid" size="large" onClick={handleFilter}>{isFilterDataLoading ? "Loading..." : "Search"}</CommonButton>
                             </Box>
                         </Box>
                     </TabPanel>

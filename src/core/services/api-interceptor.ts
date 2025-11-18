@@ -30,7 +30,7 @@ export const setInterceptor = (axiosInstance: AxiosInstance) => {
     
     // Response interceptor to handle errors globally
     axiosInstance.interceptors.response.use(
-      ((response) => new Promise(resolve => setTimeout(() => resolve(response?.data), 2000))), // TODO: Remove delay
+      ((response) => response?.data),
       (error) => {
         // Example: Handle 401 Unauthorized globally
         if (error.response && error.response.status === 401) {
@@ -38,10 +38,10 @@ export const setInterceptor = (axiosInstance: AxiosInstance) => {
           // window.location.href = '/login';
         }
 
-        if (error.response && error.response.data && error.response.data.code) {
-          error = SERVER_ERROR_CODES[error.response.data.code]?.reason || error;
+        if (error.response && error.response.data && error.response.data.errorCode) {
+          error['message'] = SERVER_ERROR_CODES[error.response.data.errorCode].reason || error;
         }
-
+        
         return Promise.reject(error);
       }
     );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from '@mui/material/styles';
@@ -19,13 +19,13 @@ import { DELETE_MODAL, formatDate, TEMPLATE_SORTING, TEMPLATE_TYPE } from "@/pag
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 
-import { demoTableData } from "./tableData";
 import type { SortOption } from "./types/template-constants.type";
 import { templateSkelton } from "./components/skeleton/Skeleton";
-import type { ActionMenuKeys, LibraryTableProps, MenuState, TemplateType } from "./types/template-library.type";
+import type { ActionMenuKeys, LibraryTableProps, MenuState, TemplateType, ReportType, TemplatePreviewModalProps } from "./types/template-library.type";
 import PreviewModal from "./components/preview-modal/PreviewModal";
 import type { IconConfigProp } from "./types/template-preview.type";
 import "./TemplateStyle.scss";
+import { useDeleteReportById, useDeleteTemplateById, useGetPreviewByReportTypeId, useGetPreviewByTemplateId } from "./services/template-library-api-hooks";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -76,6 +76,7 @@ const StyledMenu = styled((props: MenuProps) => (
 const LibraryTable: React.FC<LibraryTableProps> = ({
   showCheckbox,
   setShowCheckbox,
+  selectedDirectory,
   selectedTemplate,
   setSelectedTemplate,
   templatesList,
@@ -83,6 +84,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   exportMenu,
   handleExportMenuClose,
   handleExportMenuOpen,
+  fetchData,
 }) => {
 
     const [tableActionMenu, setTableActionMenu] = useState<Record<ActionMenuKeys, MenuState>>({
@@ -90,7 +92,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         created: { status: false, anchorEl: null },
         modified: { status: false, anchorEl: null },
     });
-    const [previewModal, setPreviewModal] = useState<{status: boolean, data: TemplateType | null}>({status: false, data: null});
+    const [previewModal, setPreviewModal] = useState<TemplatePreviewModalProps>({status: false, data: null});
     const [tooltipId, setTooltipId] = useState<number | null>(null);
     const [selectedSort, setSelectedSort] = useState<{[key in keyof typeof tableActionMenu]?: SortOption | null}>({
       name: null,
@@ -110,9 +112,13 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       data: null,
     });
     const isDesktop = useIsDesktopViewport();
+    const { data: templatePreviewData, isPending: isPreviewLoading, mutateAsync: getPreviewByTemplateId} = useGetPreviewByTemplateId();
+    const {data: reportPreviewData } = useGetPreviewByReportTypeId();
+    const { mutateAsync: deleteTemplateById, isSuccess: isDeleteTemplateSuccessful } = useDeleteTemplateById();
+    const { mutateAsync: deleteReportById, isSuccess: isDeleteReportSuccessful } = useDeleteReportById();
 
     const handleDeleteModalOpen = (data) => {
-      setDeleteModal((prev)=>({...prev, status: true, data: data}))
+      setDeleteModal((prev)=>({...prev, status: true, data }))
     }
  
      const handleDeleteModalClose = () => {
@@ -120,11 +126,16 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     }
 
     const handleDeleteTemplate = () => {
+      if(deleteModal?.data?.savedDate) 
+          deleteReportById(deleteModal?.data?.templateId);
+      else
+          deleteTemplateById(deleteModal?.data?.templateId);
+
       handleDeleteModalClose();
     }
 
-    const handleRowSelection = (checked:boolean, rowData: TemplateType) => {
-      let copyRowData = [...(selectedTemplate as TemplateType[])];
+    const handleRowSelection = (checked:boolean, rowData: TemplateType | ReportType) => {
+      let copyRowData = [...(selectedTemplate as TemplateType[] | ReportType[])];
       if(checked) {
         copyRowData.push(rowData);
       }
@@ -137,10 +148,10 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       else {
         setShowCheckbox(true);
       }
-        setSelectedTemplate(copyRowData);
+        setSelectedTemplate(copyRowData as TemplateType[] | ReportType[]);
     }
 
-    const isRowSelected = (rowData: TemplateType) => {
+    const isRowSelected = (rowData: TemplateType | ReportType) => {
       return selectedTemplate?.some((item) => item?.templateId === rowData?.templateId);
     }
     
@@ -201,14 +212,57 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       })
       setSelectedSort({...newObj});
     };
- 
+
     const handlePreviewModalOpen = (cellData: TemplateType) => {
-      setPreviewModal({status: true, data: cellData});
+      if(cellData?.templateId && cellData?.createdTime)
+      {
+        getPreviewByTemplateId(cellData?.templateId);
+        setPreviewModal((prev)=>({...prev, status: true}));
+      }
+      /* TODO: Report Preview is not available for now */
     }
+
+    useEffect(() => {
+      if(isDeleteTemplateSuccessful || isDeleteReportSuccessful) {
+        fetchData(selectedDirectory);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isDeleteTemplateSuccessful, isDeleteReportSuccessful]); 
+
+    useEffect(() => {
+      let sortType = '';
+      let sortBy = '';
+      if(selectedSort !== undefined && selectedSort !== null ) {
+          Object.entries(selectedSort).forEach(([, item]) => {
+            if(item !== undefined && item !== null) {
+              sortType = item?.key;
+              sortBy = item?.name;
+            }
+          }); 
+
+      if(sortType?.length > 0 && sortBy?.length > 0) {
+        const payload = {
+          sortFieldName: sortBy,
+          sortType: sortType,
+        }
+        fetchData(selectedDirectory, payload);
+      }
+    }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedSort])
+
+    useEffect(()=>{
+      if(templatePreviewData?.data) {
+        setPreviewModal((prev)=>({...prev, data: templatePreviewData?.data}));
+      }
+      else if(reportPreviewData?.data) {
+        setPreviewModal((prev)=>({...prev, data: reportPreviewData?.data}));
+      }
+    },[templatePreviewData, reportPreviewData])
  
     const renderHeaderWithMenu = (column: MRT_Column<TemplateType>, type: keyof typeof tableActionMenu, menuItems: SortOption[]) => {
       const selected = selectedSort[type];
-      const isAscending = selected?.key === "ASCENDING";
+      const isAscending = selected?.key === "ASC";
  
       return (
         <Box display="flex" alignItems="center" gap="4px">
@@ -274,7 +328,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       );
     };
  
-const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name", TEMPLATE_SORTING.NAME);
+const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name",  TEMPLATE_SORTING.NAME);
 const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", TEMPLATE_SORTING.CREATED);
 const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", TEMPLATE_SORTING.MODIFIED);
  
@@ -410,12 +464,12 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
           </>
     }
  
-    const renderTemplateNameCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
+    const renderTemplateNameCell = ({cell}: {cell}) => {
         const data = cell.row?.original;
         return (
                <Box minWidth="300px" display="flex" alignItems="center" gap="10px">
                    <Box width="100%" display="flex" flexDirection="column" gap="6px">
-                        <Box width="100%" className="template-body-text cursor-pointer" onClick={()=>handlePreviewModalOpen(data)}>{renderMacTruncate(data?.templateName || "")}</Box>
+                        <Box width="100%" className="template-body-text cursor-pointer" onClick={()=>handlePreviewModalOpen(data)}>{renderMacTruncate(data?.templateName || data?.name || "")}</Box>
                           {!isDesktop ?
                           <Box display="flex" gap="24px">
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Type:</span>{data?.tagType || "Checklist"}</Box>
@@ -511,7 +565,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
               <IconButton disabled={disabledActions} disableHover><SvgIcon component="copy" size={20} /></IconButton>
               <IconButton disabled={disabledActions} disableHover><SvgIcon component="edit" size={20} /></IconButton>
               <IconButton disabled={disabledActions} disableHover><SvgIcon component="download" size={20} /></IconButton>
-              <IconButton disabled={disabledActions} disableHover onClick={handleDeleteModalOpen}><SvgIcon component="delete" size={20} fill={disabledActions ? "var(--icon-state-violation-subtle)" : "var(--icon-state-violation)"}/></IconButton>
+              <IconButton disabled={disabledActions} disableHover onClick={()=>handleDeleteModalOpen(cell?.row?.original)}><SvgIcon component="delete" size={20} fill={disabledActions ? "var(--icon-state-violation-subtle)" : "var(--icon-state-violation)"}/></IconButton>
             </Box>
         )
     }
@@ -608,10 +662,9 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const templateTableProps = {
     columns: getColumns(),
-    data: demoTableData,
-    // TODO : NEED TO BE REMOVED WHEN BE IS WORKING FINE
-    // isDataLoading
-          // ? Array.from({ length: 10 }).map((_, idx) => ({ id: `skeleton-${idx}` })) : templatesList?.data,
+    data: 
+    isDataLoading
+          ? Array.from({ length: 10 }).map((_, idx) => ({ id: `skeleton-${idx}` })) : templatesList?.data,
     enableColumnActions: false,
     enableColumnFilters: false,
     enablePagination: false,
@@ -634,6 +687,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
             <PreviewModal
               previewModal={previewModal}
               onClose={() => setPreviewModal({status: false, data: null})}
+              isPreviewLoading={isPreviewLoading}
               exportMenu={exportMenu}
               handleExportMenuClose={handleExportMenuClose}
               handleExportMenuOpen={handleExportMenuOpen}
