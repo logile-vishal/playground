@@ -26,6 +26,7 @@ import PreviewModal from "./components/preview-modal/PreviewModal";
 import type { IconConfigProp } from "./types/template-preview.type";
 import "./TemplateStyle.scss";
 import { useDeleteReportById, useDeleteTemplateById, useGetPreviewByReportTypeId, useGetPreviewByTemplateId } from "./services/template-library-api-hooks";
+import { isFieldValid } from "@/utils";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -329,9 +330,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       );
     };
  
-const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name", selectedDirectory?.reportType !== undefined ? REPORT_SORTING.NAME: TEMPLATE_SORTING.NAME);
-const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", selectedDirectory?.reportType !== undefined ? null : TEMPLATE_SORTING.CREATED);
-const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", selectedDirectory?.reportType !== undefined ? REPORT_SORTING.SAVED_DATE : TEMPLATE_SORTING.MODIFIED);
+const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name", isFieldValid(selectedDirectory?.reportType) ? REPORT_SORTING.NAME: TEMPLATE_SORTING.NAME);
+const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", isFieldValid(selectedDirectory?.reportType) ? null : TEMPLATE_SORTING.CREATED);
+const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", isFieldValid(selectedDirectory?.reportType) ? REPORT_SORTING.SAVED_DATE : TEMPLATE_SORTING.MODIFIED);
  
     const renderTemplateIconHeader = () => {
       return <Box className="tableheader__checkbox-container" >
@@ -467,8 +468,8 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateNameCell = ({cell}: {cell}) => {
         const data = cell.row?.original;
-        const status = selectedDirectory?.reportType !== undefined ? TEMPLATE_TABLE_DATA.active : data?.status || "-";
-        const type = selectedDirectory?.reportType !== undefined ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
+        const status = isFieldValid(selectedDirectory?.reportType) ? TEMPLATE_TABLE_DATA.active : data?.status || "-";
+        const type = isFieldValid(selectedDirectory?.reportType) ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
         return (
                <Box minWidth="300px" display="flex" alignItems="center" gap="10px">
                    <Box width="100%" display="flex" flexDirection="column" gap="6px">
@@ -494,7 +495,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateStatusCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
-      const status = selectedDirectory?.reportType !== undefined ? TEMPLATE_TABLE_DATA.active: data?.status || "-";
+      const status = isFieldValid(selectedDirectory?.reportType) ? TEMPLATE_TABLE_DATA.active: data?.status || "-";
       return (<Box>
         {data?.status === "Incomplete" ?
           <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
@@ -509,7 +510,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
      const renderTemplateTypeCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
-      const type = selectedDirectory?.reportType !== undefined ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
+      const type = isFieldValid(selectedDirectory?.reportType) ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
       return (
           <Box display='flex' gap='2px'>{type}</Box>
       )
@@ -553,7 +554,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateModifiedCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const templateData = cell.row.original;
-      const lastModified = selectedDirectory?.reportType !== undefined ? templateData?.savedDate : templateData?.lastModifiedTime; 
+      const lastModified = isFieldValid(selectedDirectory?.reportType) ? templateData?.savedDate : templateData?.lastModifiedTime; 
       if(lastModified == undefined && lastModified == null) 
         return <Box>-</Box>
       return (
@@ -667,11 +668,16 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         });
         return columnValues;
     }
- 
+
+    /**
+     * Determines which columns to display for reports and templates.
+     * View is also based on desktop and mobile
+     * @returns {Array} Array of column objects filtered by the current context
+    */
     const getColumns = () => {
       let templateColumns = [];
       let reportColumns = [];
-      const {ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS} = TEMPLATE_TABLE_COLUMNS;
+      const { ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS } = TEMPLATE_TABLE_COLUMNS;
       /* Report Table */
       if(selectedDirectory?.reportType!== undefined) {
           // Desktop view for report
