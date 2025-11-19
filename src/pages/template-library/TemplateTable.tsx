@@ -113,6 +113,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       data: null,
     });
     const isDesktop = useIsDesktopViewport();
+    const isReportType = isFieldValid(selectedDirectory?.reportType);
     const { data: templatePreviewData, isPending: isPreviewLoading, mutateAsync: getPreviewByTemplateId, error: hasTemplatePreviewError} = useGetPreviewByTemplateId();
     const {data: reportPreviewData } = useGetPreviewByReportTypeId();
     const { mutateAsync: deleteTemplateById, isSuccess: isDeleteTemplateSuccessful } = useDeleteTemplateById();
@@ -330,9 +331,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       );
     };
  
-const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name", isFieldValid(selectedDirectory?.reportType) ? REPORT_SORTING.NAME: TEMPLATE_SORTING.NAME);
-const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", isFieldValid(selectedDirectory?.reportType) ? null : TEMPLATE_SORTING.CREATED);
-const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", isFieldValid(selectedDirectory?.reportType) ? REPORT_SORTING.SAVED_DATE : TEMPLATE_SORTING.MODIFIED);
+const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name", isReportType ? REPORT_SORTING.NAME: TEMPLATE_SORTING.NAME);
+const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", isReportType ? null : TEMPLATE_SORTING.CREATED);
+const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", isReportType ? REPORT_SORTING.SAVED_DATE : TEMPLATE_SORTING.MODIFIED);
  
     const renderTemplateIconHeader = () => {
       return <Box className="tableheader__checkbox-container" >
@@ -468,8 +469,8 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateNameCell = ({cell}: {cell}) => {
         const data = cell.row?.original;
-        const status = isFieldValid(selectedDirectory?.reportType) ? TEMPLATE_TABLE_DATA.active : data?.status || "-";
-        const type = isFieldValid(selectedDirectory?.reportType) ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
+        const status = isReportType ? TEMPLATE_TABLE_DATA.active : data?.status || "-";
+        const type = isReportType ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
         return (
                <Box minWidth="300px" display="flex" alignItems="center" gap="10px">
                    <Box width="100%" display="flex" flexDirection="column" gap="6px">
@@ -495,7 +496,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateStatusCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
-      const status = isFieldValid(selectedDirectory?.reportType) ? TEMPLATE_TABLE_DATA.active: data?.status || "-";
+      const status = isReportType ? TEMPLATE_TABLE_DATA.active: data?.status || "-";
       return (<Box>
         {data?.status === "Incomplete" ?
           <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
@@ -510,7 +511,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
      const renderTemplateTypeCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
-      const type = isFieldValid(selectedDirectory?.reportType) ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
+      const type = isReportType ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
       return (
           <Box display='flex' gap='2px'>{type}</Box>
       )
@@ -554,7 +555,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateModifiedCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const templateData = cell.row.original;
-      const lastModified = isFieldValid(selectedDirectory?.reportType) ? templateData?.savedDate : templateData?.lastModifiedTime; 
+      const lastModified = isReportType ? templateData?.savedDate : templateData?.lastModifiedTime; 
       if(lastModified == undefined && lastModified == null) 
         return <Box>-</Box>
       return (
