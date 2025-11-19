@@ -14,17 +14,17 @@ import SvgIcon from "@/core/components/icon/Icon";
 import IconButton from "@/core/components/button/IconButton";
 import CommonModal, { ModalBody } from "@/core/components/modal/Modal";
 import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
-import { ArrowDown, ArrowDownFill, ArrowUp, ArrowUpFill, Check, CheckedList, Copy, Delete, Download, Edit, ExclamationTriangle, Form, GridFilled, InfoCircle, Send, Spreadsheet } from "@/core/constants/icons";
-import { DELETE_MODAL, formatDate, REPORT_SORTING, TEMPLATE_SORTING, TEMPLATE_TABLE_COLUMNS, TEMPLATE_TABLE_DATA, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
+import { ArrowDown, ArrowDownFill, ArrowUp, ArrowUpFill, Check, Copy, Delete, Download, Edit, ExclamationTriangle, InfoCircle, Send } from "@/core/constants/icons";
+import { DELETE_MODAL, formatDate, REPORT_SORTING, TEMPLATE_SORTING, TEMPLATE_TABLE_COLUMNS, TEMPLATE_TABLE_DATA } from "@/pages/template-library/constants/constant";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 import { isNonEmptyValue } from "@/utils";
+import { getOldTemplateIcon } from "@/utils/icon-utils";
 
 import type { SortOption } from "./types/template-constants.type";
 import { templateSkelton } from "./components/skeleton/Skeleton";
 import type { ActionMenuKeys, LibraryTableProps, MenuState, TemplateType, ReportType, TemplatePreviewModalProps, TableColumn } from "./types/template-library.type";
 import PreviewModal from "./components/preview-modal/PreviewModal";
-import type { IconConfigProp } from "./types/template-preview.type";
 import "./TemplateStyle.scss";
 import { useDeleteReportById, useDeleteTemplateById, useGetPreviewByReportTypeId, useGetPreviewByTemplateId } from "./services/template-library-api-hooks";
 
@@ -384,42 +384,20 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         </Box>
       )
     }
-
-    const getTemplateTypeIconConfig = (tagType: string) => {
-      let config: IconConfigProp = {
-        color: '',
-        icon: CheckedList,
-      }
-      switch(tagType?.toUpperCase()) {
-        case TEMPLATE_TYPE.CHECKLIST:
-          config = {color: "var(--icon-brand-primary)", icon: CheckedList}
-          break;
-        case TEMPLATE_TYPE.FORM:
-          config = {color:'var(--bg-utility-purple-base)', icon: Form}
-          break;
-        case TEMPLATE_TYPE.GRID: 
-          config = {color:'var(--icon-brand-primary)', icon: GridFilled}
-          break;
-        case TEMPLATE_TYPE.SPREADSHEET: 
-          config = {color:'var(--icon-state-success)', icon: Spreadsheet}
-          break;
-      }
-      return config;
-    }
  
     const renderTemplateIconCell = ({cell }: {cell: MRT_Cell<TemplateType>}) => {
         const data = cell.row?.original;
         const isTableSelectable = selectedTemplate.length > 0 ;
-        const iconConfig = getTemplateTypeIconConfig(data?.tagType);
+        const templateIcon = getOldTemplateIcon(data?.iconName)
         return <>
               {!isTableSelectable && <Box className="template-checkbox-container tablebody-col__checkbox--toggle" display="flex"
                 >
                     <Box onClick={() => handleRowSelection(true, cell.row.original)} className="cursor-pointer icon-container" >
                       <IconButton>
                          <SvgIcon
-                            component={iconConfig?.icon}
+                            component={templateIcon}
                             size={18}
-                            fill={iconConfig?.color}
+                            fill={data?.iconColour}
                             style={{ pointerEvents: 'none' }}
                          /> 
                       </IconButton>

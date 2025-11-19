@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Box from "@mui/material/Box";
 
 import type { IconColorType } from "@/core/types/icon.type";
@@ -30,7 +30,7 @@ const SvgIcon: React.FC<SvgIconProps> = ({
 }) => {
     const Component = component
     if (!Component) {
-       return <Box sx={{width:size, height: size, bgcolor:"lightgray", borderRadius:"50%"}}></Box>
+       return <Box sx={{width:size, height: size, bgcolor:"var(--bg-base)", borderRadius:"50%"}}></Box>
     }
     const iconClassName = clsx({
       [className || ""]: Boolean(className),
@@ -39,15 +39,17 @@ const SvgIcon: React.FC<SvgIconProps> = ({
     const iconFill = fill ?? "currentColor";
     
   return (
-    <Component
-      width={size}
-      height={size}
-      className={iconClassName}
-      fill={iconFill}
-      stroke={stroke}
-      style={style}
-      {...props}
-    />
+    <Suspense fallback={<></>}>
+      <Component
+        width={size}
+        height={size}
+        className={iconClassName}
+        fill={iconFill}
+        stroke={stroke}
+        style={style}
+        {...props}
+      />
+    </Suspense>
   );
 };
 
