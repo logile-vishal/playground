@@ -26,6 +26,11 @@ export default function AppShell() {
     handleMenuAnimation(menuStatus);
   }
 
+  const handleMenuClose = () => {
+    setShowMenu(false);
+    handleMenuAnimation(false);
+  }
+
   useEffect(() => {
     if (isDesktop) {
       setShowMenu(true);
@@ -41,7 +46,7 @@ export default function AppShell() {
       <NavigationGuard />
       <AppBar handleToggleMenu={handleToggleMenu} />
       <div className='app-shell__layout'>
-        <Sidebar activePath={activePath} sidebarRef={sidebarRef} />
+        <Sidebar activePath={activePath} sidebarRef={sidebarRef} showMenu={showMenu} handleMenuClose={handleMenuClose} />
         <main className='app-shell__content'>
           <Outlet />
         </main>
