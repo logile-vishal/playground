@@ -18,15 +18,15 @@ import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 import { DELETE_MODAL, formatDate, REPORT_SORTING, TEMPLATE_SORTING, TEMPLATE_TABLE_COLUMNS, TEMPLATE_TABLE_DATA, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
+import { isNonEmptyValue } from "@/utils";
 
 import type { SortOption } from "./types/template-constants.type";
 import { templateSkelton } from "./components/skeleton/Skeleton";
-import type { ActionMenuKeys, LibraryTableProps, MenuState, TemplateType, ReportType, TemplatePreviewModalProps } from "./types/template-library.type";
+import type { ActionMenuKeys, LibraryTableProps, MenuState, TemplateType, ReportType, TemplatePreviewModalProps, TableColumn } from "./types/template-library.type";
 import PreviewModal from "./components/preview-modal/PreviewModal";
 import type { IconConfigProp } from "./types/template-preview.type";
 import "./TemplateStyle.scss";
 import { useDeleteReportById, useDeleteTemplateById, useGetPreviewByReportTypeId, useGetPreviewByTemplateId } from "./services/template-library-api-hooks";
-import { isFieldValid } from "@/utils";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -113,7 +113,10 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       data: null,
     });
     const isDesktop = useIsDesktopViewport();
-    const isReportType = isFieldValid(selectedDirectory?.reportType);
+    const { ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS } = TEMPLATE_TABLE_COLUMNS;
+    const isReportType = isNonEmptyValue(selectedDirectory?.reportType);
+   
+    /* APIs */
     const { data: templatePreviewData, isPending: isPreviewLoading, mutateAsync: getPreviewByTemplateId, error: hasTemplatePreviewError} = useGetPreviewByTemplateId();
     const {data: reportPreviewData } = useGetPreviewByReportTypeId();
     const { mutateAsync: deleteTemplateById, isSuccess: isDeleteTemplateSuccessful } = useDeleteTemplateById();
@@ -582,7 +585,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
     const columns = [
       {
         order:0,
-        accessorKey: TEMPLATE_TABLE_COLUMNS.ICON_NAME,
+        accessorKey: ICON_NAME,
         header: "",
         hide:false,
         size:1,
@@ -593,7 +596,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
      },
       {
         order:1,
-        accessorKey: TEMPLATE_TABLE_COLUMNS.TEMPLATE_NAME,
+        accessorKey: TEMPLATE_NAME,
         header: "Name",
         hide:false,
         size:1,
@@ -605,7 +608,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       {
         order:2,
         hide:!isDesktop,
-        accessorKey:TEMPLATE_TABLE_COLUMNS.TAG_TYPE,
+        accessorKey:TAG_TYPE,
         header: "Type",
         Header: renderTemplateCommonHeader,
         size:1,
@@ -616,7 +619,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       {
         order:3,
         hide:!isDesktop,
-        accessorKey: TEMPLATE_TABLE_COLUMNS.STATUS,
+        accessorKey: STATUS,
         header: "Status",
         size:1,
         Header: renderTemplateCommonHeader,
@@ -626,7 +629,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       }
       ,{
         order:4,
-        accessorKey: TEMPLATE_TABLE_COLUMNS.CREATED_TIME,
+        accessorKey: CREATED_TIME,
         header: "Created",
         hide:false,
         size:1,
@@ -637,7 +640,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       },
       {
         order:5,
-        accessorKey: TEMPLATE_TABLE_COLUMNS.LAST_MODIFIED_TIME,
+        accessorKey: LAST_MODIFIED_TIME,
         header: "Last Modified",
         hide:false,
         size:1,
@@ -648,7 +651,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       },
      {
         order:6,
-        accessorKey: TEMPLATE_TABLE_COLUMNS.ACTIONS,
+        accessorKey: ACTIONS,
         header: "Actions",
         hide:false,
         size:1,
@@ -675,31 +678,19 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
      * View is also based on desktop and mobile
      * @returns {Array} Array of column objects filtered by the current context
     */
-    const getColumns = () => {
-      let templateColumns = [];
-      let reportColumns = [];
-      const { ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS } = TEMPLATE_TABLE_COLUMNS;
-      /* Report Table */
-      if(selectedDirectory?.reportType!== undefined) {
-          // Desktop view for report
-          if(isDesktop) 
-            reportColumns = [ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, LAST_MODIFIED_TIME, ACTIONS];
-          else
-            reportColumns = [ICON_NAME, TEMPLATE_NAME, LAST_MODIFIED_TIME, ACTIONS];
 
-          return getColumnsValues(reportColumns);
-      }
-      /* Template Table */
-      else {
-        // Desktop view for template
-         if(isDesktop) 
-            templateColumns = [ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS];
-          else
-            templateColumns = [ICON_NAME, TEMPLATE_NAME, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS];
-            
-          
-        return getColumnsValues(templateColumns);
-      }
+    const getColumns = (): ReturnType<typeof getColumnsValues> => {
+      const desktopColumns: TableColumn[] = isReportType
+        ? [ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, LAST_MODIFIED_TIME, ACTIONS]
+        : [ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS];
+
+      const mobileColumns: TableColumn[] = isReportType
+        ? [ICON_NAME, TEMPLATE_NAME, LAST_MODIFIED_TIME, ACTIONS]
+        : [ICON_NAME, TEMPLATE_NAME, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS];
+
+      const columns = isDesktop ? desktopColumns : mobileColumns;
+
+      return getColumnsValues(columns);
     };
  
     const templateTableProps = {

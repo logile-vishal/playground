@@ -1,6 +1,8 @@
 import type { IconName } from "@/core/types/icon.type";
 import type { PaginatedResponse } from "@/core/types/pagination.type";
+
 import type { TemplatePreviewType } from "./template-questions.type";
+import type { TEMPLATE_TABLE_COLUMNS } from "../constants/constant";
 
 export type DirectoryType = {
   tagId: number;
@@ -148,3 +150,5 @@ export type DeleteTemplateProps = {
   status?: boolean,
   statusDesc?: string,
 }
+
+export type TableColumn = (typeof TEMPLATE_TABLE_COLUMNS)[keyof typeof TEMPLATE_TABLE_COLUMNS];

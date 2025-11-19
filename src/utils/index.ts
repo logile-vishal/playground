@@ -1,26 +1,20 @@
 
 /**
- * Validates if a field has a valid value based on its type.
- * @param {any} field - The field to validate (string, array, object, or number)
+ * Validates a value based on its type.
+ * @param {any} value - Validate (string, array, object, or number)
  * @returns {boolean} True if the field is valid, false otherwise
  */
-export const isFieldValid = (field) => {
-    let isValid = true;
-    if(field === undefined || field === null) {
-      return false;
-    }
-    else if(typeof field === "string") {
-      isValid = field!==undefined && field!==null && field?.trim()?.length > 0;
-    }
-    else if(Array.isArray(field)) {
-      isValid = field.length > 0;
-    }
-    else if(typeof field === "object") {
-      isValid = Object.keys(field).length > 0;
-    }
-    else if(typeof field === "number") {
-      isValid = field!==undefined && field!==null;
-    }
 
-    return isValid;
-}
+export const isNonEmptyValue = (value) => {
+  if (value === undefined || value === null) return false;
+
+  if (typeof value === "string") return value.trim().length > 0;
+
+  if (Array.isArray(value)) return value.length > 0;
+
+  if (typeof value === "object") return Object.keys(value).length > 0;
+
+  if (typeof value === "number") return true;
+
+  return false;
+};
