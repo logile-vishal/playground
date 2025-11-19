@@ -100,6 +100,16 @@ export const REPORT_SORTING: Record<string, SortOption[]> = {
     ],
 }
 
+export const TEMPLATE_TABLE_COLUMNS = {
+    ICON_NAME: "iconName",
+    TEMPLATE_NAME: "templateName",
+    TAG_TYPE: "tagType",
+    STATUS: "status",
+    CREATED_TIME: "createdTime",
+    LAST_MODIFIED_TIME: "lastModifiedTime",
+    ACTIONS: "actions",
+}
+
 export const formatDate = (dateString: string): string => {
   return moment(dateString).format("DD/MM/YY");
 };
@@ -206,4 +216,9 @@ export const TEMPLATE_LIBRARY_NO_DATA = {
     title: "To view task templates, select a folder on the left or search above",
     description: "Nothing is selected",
     imageSrcName: "emptyState",
+}
+
+export const TEMPLATE_TABLE_DATA = {
+    reportTask: "Report Task",
+    active: "Active"
 }

@@ -15,13 +15,14 @@ import type { IconName } from "@/core/types/icon.type";
 import IconButton from "@/core/components/button/IconButton";
 import CommonModal, { ModalBody } from "@/core/components/modal/Modal";
 import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
-import { DELETE_MODAL, formatDate, TEMPLATE_SORTING, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
+import { DELETE_MODAL, formatDate, REPORT_SORTING, TEMPLATE_SORTING, TEMPLATE_TABLE_COLUMNS, TEMPLATE_TABLE_DATA, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
+import { isNonEmptyValue } from "@/utils";
 
 import type { SortOption } from "./types/template-constants.type";
 import { templateSkelton } from "./components/skeleton/Skeleton";
-import type { ActionMenuKeys, LibraryTableProps, MenuState, TemplateType, ReportType, TemplatePreviewModalProps } from "./types/template-library.type";
+import type { ActionMenuKeys, LibraryTableProps, MenuState, TemplateType, ReportType, TemplatePreviewModalProps, TableColumn } from "./types/template-library.type";
 import PreviewModal from "./components/preview-modal/PreviewModal";
 import type { IconConfigProp } from "./types/template-preview.type";
 import "./TemplateStyle.scss";
@@ -112,6 +113,10 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       data: null,
     });
     const isDesktop = useIsDesktopViewport();
+    const { ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS } = TEMPLATE_TABLE_COLUMNS;
+    const isReportType = isNonEmptyValue(selectedDirectory?.reportType);
+   
+    /* APIs */
     const { data: templatePreviewData, isPending: isPreviewLoading, mutateAsync: getPreviewByTemplateId, error: hasTemplatePreviewError} = useGetPreviewByTemplateId();
     const {data: reportPreviewData } = useGetPreviewByReportTypeId();
     const { mutateAsync: deleteTemplateById, isSuccess: isDeleteTemplateSuccessful } = useDeleteTemplateById();
@@ -263,7 +268,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     const renderHeaderWithMenu = (column: MRT_Column<TemplateType>, type: keyof typeof tableActionMenu, menuItems: SortOption[]) => {
       const selected = selectedSort[type];
       const isAscending = selected?.key === "ASC";
- 
+      if(!menuItems || menuItems?.length == 0) 
+        return <Box display="flex" alignItems="center" gap="4px"><Box>{column.columnDef.header}</Box></Box>
       return (
         <Box display="flex" alignItems="center" gap="4px">
           <Box>{column.columnDef.header}</Box>
@@ -328,9 +334,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       );
     };
  
-const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name",  TEMPLATE_SORTING.NAME);
-const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", TEMPLATE_SORTING.CREATED);
-const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", TEMPLATE_SORTING.MODIFIED);
+const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name", isReportType ? REPORT_SORTING.NAME: TEMPLATE_SORTING.NAME);
+const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", isReportType ? null : TEMPLATE_SORTING.CREATED);
+const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", isReportType ? REPORT_SORTING.SAVED_DATE : TEMPLATE_SORTING.MODIFIED);
  
     const renderTemplateIconHeader = () => {
       return <Box className="tableheader__checkbox-container" >
@@ -466,20 +472,22 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateNameCell = ({cell}: {cell}) => {
         const data = cell.row?.original;
+        const status = isReportType ? TEMPLATE_TABLE_DATA.active : data?.status || "-";
+        const type = isReportType ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
         return (
                <Box minWidth="300px" display="flex" alignItems="center" gap="10px">
                    <Box width="100%" display="flex" flexDirection="column" gap="6px">
                         <Box width="100%" className="template-body-text cursor-pointer" onClick={()=>handlePreviewModalOpen(data)}>{renderMacTruncate(data?.templateName || data?.name || "")}</Box>
                           {!isDesktop ?
                           <Box display="flex" gap="24px">
-                            <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Type:</span>{data?.tagType || "Checklist"}</Box>
+                            <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Type:</span>{type}</Box>
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Status:</span>
-                              {data?.status === "Incomplete" ?
+                              {status === "Incomplete" ?
                                 <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
-                                  <Box>{data?.status}</Box>
+                                  <Box>{status}</Box>
                                   <><SvgIcon component={'exclamationTriangle' as IconName} size={16} fill="#F44336" /></>
                                 </Box> :
-                                <Box display='flex' gap='2px'>{data?.status || "Active"}</Box>
+                                <Box display='flex' gap='2px'>{status}</Box>
                               }
                             </Box>
                           </Box>
@@ -491,13 +499,14 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateStatusCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
+      const status = isReportType ? TEMPLATE_TABLE_DATA.active: data?.status || "-";
       return (<Box>
         {data?.status === "Incomplete" ?
           <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
             <Box>{data?.status}</Box>
             <><SvgIcon component={'exclamationTriangle' as IconName} size={16} fill="#F44336" /></>
           </Box> :
-          <Box display='flex' gap='2px'>{data?.status || "Active"}</Box>
+          <Box display='flex' gap='2px'>{status}</Box>
         }
       </Box>
       )
@@ -505,13 +514,16 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
      const renderTemplateTypeCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
+      const type = isReportType ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
       return (
-          <Box display='flex' gap='2px'>{data?.tagType || "Checklist"}</Box>
+          <Box display='flex' gap='2px'>{type}</Box>
       )
     }
  
     const renderTemplateCreatedCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const templateData = cell.row.original;
+      if(templateData?.createdTime == undefined && templateData?.createdTime == null) 
+        return <Box>-</Box>
       return (
             <Box display="flex" gap="4px" alignItems='center'>
               <Box>{formatDate(templateData?.createdTime)}</Box>
@@ -526,9 +538,6 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                         padding: "4px 8px",
                       },
                     },
-                  }}
-                  PopperProps={{
-                    sx: { zIndex: 1000 },
                   }}
                   open={tooltipId === templateData.templateId}
                   disableFocusListener
@@ -549,9 +558,12 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateModifiedCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const templateData = cell.row.original;
+      const lastModified = isReportType ? templateData?.savedDate : templateData?.lastModifiedTime; 
+      if(lastModified == undefined && lastModified == null) 
+        return <Box>-</Box>
       return (
             <Box display="flex" gap="4px" alignItems='center'>
-              <Box>{formatDate(templateData?.lastModifiedTime)}</Box>
+              <Box>{formatDate(lastModified)}</Box>
             </Box>
             )
     }
@@ -573,7 +585,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
     const columns = [
       {
         order:0,
-        accessorKey: "iconName",
+        accessorKey: ICON_NAME,
         header: "",
         hide:false,
         size:1,
@@ -584,7 +596,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
      },
       {
         order:1,
-        accessorKey: "templateName",
+        accessorKey: TEMPLATE_NAME,
         header: "Name",
         hide:false,
         size:1,
@@ -596,7 +608,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       {
         order:2,
         hide:!isDesktop,
-        accessorKey: "tagType",
+        accessorKey:TAG_TYPE,
         header: "Type",
         Header: renderTemplateCommonHeader,
         size:1,
@@ -607,16 +619,17 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       {
         order:3,
         hide:!isDesktop,
-        accessorKey: "status",
+        accessorKey: STATUS,
         header: "Status",
         size:1,
         Header: renderTemplateCommonHeader,
         Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateStatusCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding:"1rem 0.8rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text" })
-      },{
+      }
+      ,{
         order:4,
-        accessorKey: "createdTime",
+        accessorKey: CREATED_TIME,
         header: "Created",
         hide:false,
         size:1,
@@ -627,7 +640,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       },
       {
         order:5,
-        accessorKey: "lastModifiedTime",
+        accessorKey: LAST_MODIFIED_TIME,
         header: "Last Modified",
         hide:false,
         size:1,
@@ -638,7 +651,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       },
      {
         order:6,
-        accessorKey: "actions",
+        accessorKey: ACTIONS,
         header: "Actions",
         hide:false,
         size:1,
@@ -647,17 +660,37 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{padding:"1rem 1.6rem 1rem 0.8rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text", style:{paddingRight:"1.6rem"} })
       },
-    ]
- 
-    const getColumns = () => {
-      return columns.filter(i=> !i.hide).sort((a, b) => (a.order || 0) - (b.order || 0));
-      // let col = [];
-      //  if (isDesktop)
-      //     col =  [...columns, ...desktopColumns, ...columns2];
-      //  else
-      //     col = [...columns, ...columns2];
- 
-      // return col.sort((a, b) => (a.order || 0) - (b.order || 0));
+    ];
+
+    const getColumnsValues = (columnKeys) => {
+        const columnValues = [];
+        columnKeys?.forEach((key) => {
+            const column = columns.find((col) => col.accessorKey === key);
+            if (column) {
+                columnValues.push(column);
+            }
+        });
+        return columnValues;
+    }
+
+    /**
+     * Determines which columns to display for reports and templates.
+     * View is also based on desktop and mobile
+     * @returns {Array} Array of column objects filtered by the current context
+    */
+
+    const getColumns = (): ReturnType<typeof getColumnsValues> => {
+      const desktopColumns: TableColumn[] = isReportType
+        ? [ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, LAST_MODIFIED_TIME, ACTIONS]
+        : [ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS];
+
+      const mobileColumns: TableColumn[] = isReportType
+        ? [ICON_NAME, TEMPLATE_NAME, LAST_MODIFIED_TIME, ACTIONS]
+        : [ICON_NAME, TEMPLATE_NAME, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS];
+
+      const columns = isDesktop ? desktopColumns : mobileColumns;
+
+      return getColumnsValues(columns);
     };
  
     const templateTableProps = {
