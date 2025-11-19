@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, InputAdornment, Stack } from '@mui/material';
 import TextField from "@mui/material/TextField";
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -11,6 +11,7 @@ import TreeView from '@/core/components/tree-view/TreeView';
 import IconButton from '@/core/components/button/IconButton';
 import PageTemplate from '@/layouts/page-template/PageTemplate';
 import SearchDrawer from '@/pages/template-library/components/search-drawer/SearchDrawer';
+import { ArrowUp, ChevronLeft, Delete, Excel, FolderInput, MoreOption, Search, Upload } from '@/core/constants/icons';
 import { useIsDesktopViewport } from '@/utils/get-viewport-size';
 import type { PaginatedResponse } from '@/core/types/pagination.type';
 import type { TreeViewNodeDataType } from '@/core/types/tree-view.type';
@@ -145,7 +146,7 @@ const TemplateLibrary: React.FC = () => {
           backgroundColor: 'var(--bg-container-1)',
           padding: '.8rem'
         }}>
-          <SvgIcon component={"chevronLeft"} fill='var(--icon-secondary)' size={18} />
+          <SvgIcon component={ChevronLeft} color='secondary' size={18} />
         </IconButton>
         <Typography color="var(--text-primary)" variant='h2'>{TEMPLATE_LIBRARY_HEADING.template}</Typography>
       </Stack>
@@ -154,13 +155,13 @@ const TemplateLibrary: React.FC = () => {
       <Box className={clsx({"template-library": true, "template-library--desktop": isDesktop})}>
          <Box className='template-library__header'>
             <Box className='template-library__text'>{TEMPLATE_LIBRARY_HEADING.folderTree}</Box>
-            { selectedTemplate.length > 0 ?
+             { selectedTemplate.length > 0 ?
               <Box className="template-library__header-selected-count">
                 <Box className="template-library__label-wrapper">
                   <Box className="template-library__icon">
                   <IconButton variant='primary' disableHover disableRipple disableTouchRipple
                     className='template-library__icon-button' onClick={() => setSelectedTemplate([])}>
-                    <SvgIcon component="arrowUp" size={24} fill="var(--icon-primary)" />
+                    <SvgIcon component={ArrowUp} size={24} color="primary" />
                   </IconButton>
                 </Box>
                 <Box className='template-library__sub-text'>
@@ -169,10 +170,10 @@ const TemplateLibrary: React.FC = () => {
               </Box>
               <Box className="flex-box gap-12">
                 <IconButton variant='outline'>
-                  <SvgIcon component="folderInput" size={22} fill="#0A68DB" />
+                  <SvgIcon component={FolderInput} size={22} color='brand-primary' />
                 </IconButton>
                 <IconButton variant='outline'>
-                  <SvgIcon component="delete" size={22} fill="#F44336" />
+                  <SvgIcon component={Delete} size={22} color="violation" />
                 </IconButton>
               </Box>
             </Box> :
@@ -188,12 +189,19 @@ const TemplateLibrary: React.FC = () => {
                   autoComplete="off"
                   value={searchTemplateText}
                   onClick={openSearchDrawer}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <SvgIcon component={Search} size={20} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Box>
               <Stack direction={"row"} alignItems="center" gap="12px">
                 <Box className="ws-nowrap"><CommonButton severity="primary" variant="solid" size="large">{TEMPLATE_LIBRARY_HEADING.createTemplate}</CommonButton></Box>
-                <IconButton onClick={handleImportPopupOpen} variant='outline'><SvgIcon component="upload" size={20} /></IconButton>
-                <IconButton onClick={(event) => handleExportMenuOpen(event)} variant='outline'><SvgIcon component="moreOption" size={20} /></IconButton>
+                <IconButton onClick={handleImportPopupOpen} variant='outline'><SvgIcon component={Upload} size={20} /></IconButton>
+                <IconButton onClick={(event) => handleExportMenuOpen(event)} variant='outline'><SvgIcon component={MoreOption} size={20} /></IconButton>
               </Stack>
             </Box>
           }
@@ -260,7 +268,7 @@ const TemplateLibrary: React.FC = () => {
          >
           <ModalBody>
             <Box className="template-library__import-modal">
-              <SvgIcon component="excel" size={44} fill="var(--icon-state-success)" />
+              <SvgIcon component={Excel} size={44} color="success" />
               <Box>{IMPORT_MODAL.description}</Box>
             </Box>
           </ModalBody>

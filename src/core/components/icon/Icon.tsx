@@ -1,16 +1,22 @@
 import React from "react";
-import { ICONS } from "@/core/constants/icons";
 import Box from "@mui/material/Box";
-import type { IconName } from "@/core/types/icon.type";
 
-type SvgIconProps = {
-  component: IconName;
+import type { IconColorType } from "@/core/types/icon.type";
+import clsx from "@/utils/clsx";
+
+import "./icon-color-classnames.scss";
+
+export type SvgIconProps = {
+  component: React.FC<React.SVGProps<SVGSVGElement>>;
   size?: string | number;
   className?: string;
   fill?: string;
   stroke?: string;
   style?: React.CSSProperties;
-}
+  color?: IconColorType
+};
+
+export type SvgIconComponent = React.FC<SvgIconProps>;
 
 const SvgIcon: React.FC<SvgIconProps> = ({
   component,
@@ -19,18 +25,25 @@ const SvgIcon: React.FC<SvgIconProps> = ({
   fill = "currentColor",
   stroke,
   style,
+  color,
   ...props
 }) => {
-    const Component = ICONS[component]
+    const Component = component
     if (!Component) {
        return <Box sx={{width:size, height: size, bgcolor:"lightgray", borderRadius:"50%"}}></Box>
     }
+    const iconClassName = clsx({
+      [className || ""]: Boolean(className),
+      [color]: Boolean(color)
+    })
+    const iconFill = fill ?? "currentColor";
+    
   return (
     <Component
       width={size}
       height={size}
-      className={className}
-      fill={fill}
+      className={iconClassName}
+      fill={iconFill}
       stroke={stroke}
       style={style}
       {...props}

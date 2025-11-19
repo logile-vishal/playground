@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import moment from "moment";
 
 import SvgIcon from "@/core/components/icon/Icon";
+import { ArrowUp, Attachment, Calculator, EmptyState, Scan, Scenary, Temperature } from "@/core/constants/icons";
 
 import type { SortOption } from "../types/template-constants.type";
 import type { PreviewButtonConfigProp } from "../types/template-preview.type";
@@ -36,12 +37,12 @@ export const TEMPLATE_STATUS_OPTIONS = [
 export const TEMPLATE_SORTING: Record<string, SortOption[]> = {
     NAME: [
         {
-            getLabel: () => (<Box display="flex" alignItems="center" fontSize="14px" fontWeight="400">Sort A <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component="arrowUp" size={18}/></Box> Z</Box>),
+            getLabel: () => (<Box display="flex" alignItems="center" fontSize="14px" fontWeight="400">Sort A <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component={ArrowUp} size={18}/></Box> Z</Box>),
             key: 'ASC',
             name: "templateName",
         },
         {
-            getLabel: () => (<Box display="flex" alignItems="center"  fontSize="14px"  fontWeight="400">Sort Z <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component="arrowUp" size={18}/></Box> A</Box>),
+            getLabel: () => (<Box display="flex" alignItems="center"  fontSize="14px"  fontWeight="400">Sort Z <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component={ArrowUp} size={18}/></Box> A</Box>),
             key: 'DESC',
             name: "templateName",
         }
@@ -76,12 +77,12 @@ export const TEMPLATE_SORTING: Record<string, SortOption[]> = {
 export const REPORT_SORTING: Record<string, SortOption[]> = {
     NAME: [
         {
-            getLabel: () => (<Box display="flex" alignItems="center" fontSize="14px" fontWeight="400">Sort A <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component="arrowUp" size={18}/></Box> Z</Box>),
+            getLabel: () => (<Box display="flex" alignItems="center" fontSize="14px" fontWeight="400">Sort A <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component={ArrowUp} size={18}/></Box> Z</Box>),
             key: 'ASC',
             name: "name",
         },
         {
-            getLabel: () => (<Box display="flex" alignItems="center"  fontSize="14px"  fontWeight="400">Sort Z <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component="arrowUp" size={18}/></Box> A</Box>),
+            getLabel: () => (<Box display="flex" alignItems="center"  fontSize="14px"  fontWeight="400">Sort Z <Box sx={{transform: `rotate(90deg)`, display:"inline-block"}} height="18px"><SvgIcon component={ArrowUp} size={18}/></Box> A</Box>),
             key: 'DESC',
             name: "name",
         }
@@ -157,23 +158,23 @@ export const QUESTION_ATTACHEMENT = {
 export const PREVIEW_BUTTON_CONFIG: PreviewButtonConfigProp = {
     [QUESTION_ATTACHEMENT.PHOTO.value]: { 
         label: "Capture Photo", 
-        icon: "scenary"
+        icon: Scenary
     },
     [QUESTION_ATTACHEMENT.TEMPERATURE_PROBE.value]: { 
         label: "Capture Temperature", 
-        icon: "temperature"
+        icon: Temperature
     },
     [QUESTION_ATTACHEMENT.NUMERIC.value]: { 
         label: "Enter Value", 
-        icon: "calculator"
+        icon: Calculator
     },
     [QUESTION_ATTACHEMENT.BARCODE.value]: { 
         label: "Scan Item", 
-        icon: "scan"
+        icon: Scan
     },
     [QUESTION_ATTACHEMENT.ATTACHMENT.value]: { 
         label: "Choose File", 
-        icon: "attachment",
+        icon: Attachment,
         type: "filetype",
     },
 }
@@ -215,7 +216,7 @@ export const TEMPLATE_LIBRARY_HEADING = {
 export const TEMPLATE_LIBRARY_NO_DATA = {
     title: "To view task templates, select a folder on the left or search above",
     description: "Nothing is selected",
-    imageSrcName: "emptyState",
+    imageSrcName: EmptyState,
 }
 
 export const TEMPLATE_TABLE_DATA = {

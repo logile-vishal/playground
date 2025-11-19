@@ -7,6 +7,7 @@ import IconButton from '@/core/components/button/IconButton';
 import type { CommonModalActionProps, CommonModalBodyProps, CommonModalHeaderProps, CommonModalProps } from "@/core/types/modal.type";
 import { modalDefaultBtnConstants } from "@/core/constants/modal-constants";
 import clsx from "@/utils/clsx";
+import {  Close} from '@/core/constants/icons';
 
 import { CommonButton } from "../button/button";
 import "./Modal.scss";
@@ -122,7 +123,7 @@ const CommonModal: React.FC<CommonModalProps> = ({
         {title && !hasCustomHeader(children) && <Box className={clsx({"common-modal__content-header": true})}>
           <Box className="common-modal__content-header-title">{title}</Box>
           <IconButton disableHover={true} onClick={onClose}>
-            <SvgIcon component="close" size={32} fill="var(--icon-secondary)" />
+            <SvgIcon component={Close} size={32} color="secondary" />
           </IconButton>
         </Box>}
           

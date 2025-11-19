@@ -3,6 +3,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Chip, Box } from "@mui/m
 import { styled } from "@mui/material/styles";
 
 import SvgIcon from "@/core/components/icon/Icon";
+import { ChevronDownUp, ChevronLeft } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
 import type { QuestionType } from "../../types/template-questions.type";
@@ -37,7 +38,7 @@ const RenderSection: React.FC<RenderSectionProps> = ({question, parentIndex, isD
             }
 
             <Box onClick={() => setExpanded(!expanded)}  className={`question-accordion__icon ${!expanded ? 'question-accordion__icon--rotated' : ''}`}>
-                <SvgIcon component={expanded ? "chevronDownUp" : "chevronLeft"}  size={24}/>
+                <SvgIcon component={expanded ? ChevronDownUp : ChevronLeft}  size={24}/>
             </Box>
           </Box>
           }

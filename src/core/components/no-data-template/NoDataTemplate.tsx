@@ -1,25 +1,27 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import SvgIcon from "@/core/components/icon/Icon";
+
+import SvgIcon, { type SvgIconComponent } from "@/core/components/icon/Icon";
+import { EmptyState } from "@/core/constants/icons";
+
 import "./NoDataTemplate.scss";
-import type { IconName } from "@/core/types/icon.type";
 
 type NoDataProps = {
-  imageSrcName: string; 
+  imageSrcName: SvgIconComponent; 
   title?: string; 
   description?: string;
   imageWidth?: number | string; 
 }
 
 const NoDataTemplate: React.FC<NoDataProps> = ({
-  imageSrcName= "emptyState",
+  imageSrcName= EmptyState,
   title = "Nothing here yet",
   description,
   imageWidth = 60,
 }) => {
   return (
     <Box className="empty-list-container">
-      <SvgIcon component={imageSrcName as IconName} size={imageWidth} />
+      <SvgIcon component={imageSrcName} size={imageWidth} />
       {title && (
         <Box className="mt-16 mb-8 heading-text">
           {title}

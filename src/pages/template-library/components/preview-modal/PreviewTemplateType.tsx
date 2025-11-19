@@ -2,6 +2,7 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 
 import IconButton from "@/core/components/button/IconButton";
 import SvgIcon from "@/core/components/icon/Icon";
+import { BlockCode, Download, Excel, Pdf } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
 import { QUESTION_TYPES, TEMPLATE_PREVIEW_GRID_HEADER, TEMPLATE_TYPE } from "../../constants/constant";
@@ -51,7 +52,7 @@ const renderQuestionTitle = (question, index, isQuestionTagsVisible, isDesktopPr
                 {index} {question?.qcontent}
             </Box>
             {isQuestionTagsVisible && <Box className="template-preview-modal__tags-wrapper">
-                <SvgIcon component="blockCode" size={16} fill="var(--icon-secondary)" />
+                <SvgIcon component={BlockCode} size={16} color="secondary" />
                 <Box>{question?.tags}</Box>
             </Box>}
         </Box>
@@ -91,15 +92,15 @@ export const renderFormContainer = (question, type) => {
     return (
         <Box className="template-preview-modal__form-wrapper">
             <Box className="template-preview-modal__form-title">
-                {type === TEMPLATE_TYPE.FORM ? <SvgIcon component="pdf" size={26} fill="var(--icon-state-violation)" />
-                    : <SvgIcon component="excel" size={26} fill="var(--icon-state-success)" />}
+                {type === TEMPLATE_TYPE.FORM ? <SvgIcon component={Pdf} size={26} color="violation" />
+                    : <SvgIcon component={Excel} size={26} color="success" />}
                 <Box>
                     <Box>{question.fileName}</Box>
                     <Box className="template-preview-modal__form-sub-text">{question.fileSize}</Box>
                 </Box>
             </Box>
             <IconButton variant="outline" className="template-preview-modal__download-icon">
-                <SvgIcon component="download" size={18} />
+                <SvgIcon component={Download} size={18} />
             </IconButton>
         </Box>
     )

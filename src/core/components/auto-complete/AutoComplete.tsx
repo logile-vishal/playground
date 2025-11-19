@@ -2,8 +2,9 @@ import { useEffect, useState, Fragment, useRef } from "react";
 import useAutocomplete from "@mui/material/useAutocomplete";
 import { Popper, Typography, Box } from "@mui/material";
 
-import type { AutoCompleteOptionProps, StyledAutocompleteProps } from "@/core/types/autocomplete.type";
 import SvgIcon from "@/core/components/icon/Icon";
+import { Close } from "@/core/constants/icons";
+import type { AutoCompleteOptionProps, StyledAutocompleteProps } from "@/core/types/autocomplete.type";
 import { AUTOCOMPLETE_CONSTANTS } from "@/core/constants/autocomplete";
 
 import "./AutoComplete.scss";
@@ -114,7 +115,7 @@ useEffect(() => {
                 className="auto-complete__tag-img-container"
                 onClick={tagProps.onDelete}
               >
-                <SvgIcon component="close" size={16} fill="#000" />
+                <SvgIcon component={Close} size={16} fill="#000" />
               </Box>
             </div>
           );

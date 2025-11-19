@@ -1,7 +1,7 @@
 import type { InputProps } from "@mui/material";
 import type { Dayjs } from "dayjs";
 
-import type { IconName } from "@/core/types/icon.type";
+import type { SvgIconComponent } from "@/core/components/icon/Icon";
 
 import type { QuestionType } from "./template-questions.type";
 
@@ -22,7 +22,7 @@ export type RenderLabelProps = {
 }
 
 export type IconConfigProp = {
-  icon: IconName;
+  icon: SvgIconComponent;
   color: string;
 }
 
@@ -50,7 +50,7 @@ export type RenderRadioProps = {
 
 export type RenderButtonContainerProps = {
   label: string;
-  icon?: IconName;
+  icon?: SvgIconComponent;
   type?: string;
 }
 
@@ -80,7 +80,7 @@ export type RenderSectionProps = {
 export type PreviewButtonConfigProp = {
   [key: string]: {
       label: string,
-      icon: IconName,
+      icon: SvgIconComponent,
       type?: string
   }
 }

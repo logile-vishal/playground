@@ -3,6 +3,7 @@ import { Box, Menu, MenuItem, Typography, type MenuProps } from '@mui/material';
 import { styled } from "@mui/material/styles";
 
 import SvgIcon from '@/core/components/icon/Icon';
+import { Doc, Excel, Pdf, Printer } from '@/core/constants/icons';
 
 import type { ExportMenuProps } from '../../types/template-library.type';
 import "./ExportMenu.scss";
@@ -70,21 +71,21 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
                     <Typography className='template-library-export-menu__title'>{EXPORT_MODAL.title}</Typography>
                     <Box className="template-library-export-menu__tools-wrapper">
                       <Box className="template-library-export-menu__tools-item">
-                          <SvgIcon component="doc" fill="var(--icon-state-information-bold)" size={15} />
+                          <SvgIcon component={Printer} fill="var(--icon-state-information-bold)" size={15} />
                           <Typography className="template-library-export-menu__tools-item-label">{EXPORT_MODAL.print}</Typography>
                         </Box>
                       <Box className="template-library-export-menu__tools-item">
-                          <SvgIcon component="pdf" fill="var(--icon-state-violation)" size={15} />
+                          <SvgIcon component={Pdf} fill="var(--icon-state-violation)" size={15} />
                           <Typography className="template-library-export-menu__tools-item-label">{EXPORT_MODAL.pdf}</Typography>
                         </Box>
  
                         <Box className="template-library-export-menu__tools-item">
-                          <SvgIcon component="excel" fill="var(--icon-state-success)" size={15} />
+                          <SvgIcon component={Excel} fill="var(--icon-state-success)" size={15} />
                           <Typography className="template-library-export-menu__tools-item-label">{EXPORT_MODAL.excel}</Typography>
                         </Box>
                         
                         <Box className="template-library-export-menu__tools-item">
-                          <SvgIcon component="doc" fill="var(--teal-base)" size={15} />
+                          <SvgIcon component={Doc} fill="var(--teal-base)" size={15} />
                           <Typography className="template-library-export-menu__tools-item-label">{EXPORT_MODAL.csv}</Typography>
                         </Box>
                     </Box>

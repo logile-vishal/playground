@@ -4,10 +4,10 @@ import React from 'react';
 import SvgIcon from '@/core/components/icon/Icon';
 import clsx from '@/utils/clsx';
 import { Severity, type SeverityType } from '@/core/types/severity.type';
+import { CircleCheckFilled, Close, ExclamationCircleFilled, ExclamationTriangleFilled, InfoCircleFilled } from '@/core/constants/icons';
 
 import type { ToastVariantType } from './toast.type';
 import { ToastVariant } from './toast.type';
-
 import './ToastStyle.scss';
 
 type ToastProps = {
@@ -39,11 +39,11 @@ const Toast = ({
 }: ToastProps) => {
 
   const severityIcons = {
-    [Severity.SUCCESS]: <SvgIcon component='circleCheckFilled' size={16} />,
-    [Severity.ERROR]: <SvgIcon component='exclamationCircleFilled' size={16} />,
-    [Severity.WARNING]: <SvgIcon component='exclamationTriangleFilled' size={16} />,
-    [Severity.INFORMATION]: <SvgIcon component='infoCircleFilled' size={16} />,
-    [Severity.FEATURE]: <SvgIcon component='infoCircleFilled' size={16} />,
+    [Severity.SUCCESS]: <SvgIcon component={CircleCheckFilled} size={16} />,
+    [Severity.ERROR]: <SvgIcon component={ExclamationCircleFilled} size={16} />,
+    [Severity.WARNING]: <SvgIcon component={ExclamationTriangleFilled} size={16} />,
+    [Severity.INFORMATION]: <SvgIcon component={InfoCircleFilled} size={16} />,
+    [Severity.FEATURE]: <SvgIcon component={InfoCircleFilled} size={16} />,
   };
   const severityIcon = severityIcons[toastSeverity];
 
@@ -80,7 +80,7 @@ const Toast = ({
           } )}</div>
       </div>
       <div className='toast__close-btn' onClick={onClose}>
-          <SvgIcon component='close' size={20} />
+          <SvgIcon component={Close} size={20} />
       </div>
     </div>
   );

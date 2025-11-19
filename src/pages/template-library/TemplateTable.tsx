@@ -11,10 +11,10 @@ import type { MRT_Cell, MRT_Column } from "material-react-table";
 
 import { DataTable } from "@/core/components/table/DataTable";
 import SvgIcon from "@/core/components/icon/Icon";
-import type { IconName } from "@/core/types/icon.type";
 import IconButton from "@/core/components/button/IconButton";
 import CommonModal, { ModalBody } from "@/core/components/modal/Modal";
 import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
+import { ArrowDown, ArrowDownFill, ArrowUp, ArrowUpFill, Check, CheckedList, Copy, Delete, Download, Edit, ExclamationTriangle, Form, GridFilled, InfoCircle, Send, Spreadsheet } from "@/core/constants/icons";
 import { DELETE_MODAL, formatDate, REPORT_SORTING, TEMPLATE_SORTING, TEMPLATE_TABLE_COLUMNS, TEMPLATE_TABLE_DATA, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
@@ -275,8 +275,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           <Box>{column.columnDef.header}</Box>
  
           {selected ? <Box className="cursor-pointer" height="20px">
-            {isAscending ? <SvgIcon component="arrowDown" size={20} fill="var(--icon-secondary)" /> :
-              <SvgIcon component="arrowUp" size={20} fill="var(--icon-secondary)" />}
+            {isAscending ? <SvgIcon component={ArrowDown} size={20} color="secondary" /> :
+              <SvgIcon component={ArrowUp} size={20} color="secondary" />}
           </Box>: <Box ></Box>}
  
           <Box
@@ -285,9 +285,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             onClick={(e) => handleMenuClick(e, type)}
           >
             {tableActionMenu[type].status ? (
-              <SvgIcon component="arrowUpFill" size={20} fill="var(--icon-secondary)" />
+              <SvgIcon component={ArrowUpFill} size={20} color="secondary" />
             ) : (
-              <SvgIcon component="arrowDownFill" size={20} fill="var(--icon-secondary)" />
+              <SvgIcon component={ArrowDownFill} size={20} color="secondary" />
             )}
           </Box>
  
@@ -319,9 +319,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
                     {item?.getLabel() || ""}
                     {isSelected && (
                       <SvgIcon
-                        component="check"
+                        component={Check}
                         size={20}
-                        fill="#0A68DB"
+                        color="brand-primary"
                         style={{ marginLeft: "auto" }}
                       />
                     )}
@@ -388,20 +388,20 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
     const getTemplateTypeIconConfig = (tagType: string) => {
       let config: IconConfigProp = {
         color: '',
-        icon: 'checkedList',
+        icon: CheckedList,
       }
       switch(tagType?.toUpperCase()) {
         case TEMPLATE_TYPE.CHECKLIST:
-          config = {color: "var(--icon-brand-primary)", icon: "checkedList"}
+          config = {color: "var(--icon-brand-primary)", icon: CheckedList}
           break;
         case TEMPLATE_TYPE.FORM:
-          config = {color:'var(--bg-utility-purple-base)', icon: "form"}
+          config = {color:'var(--bg-utility-purple-base)', icon: Form}
           break;
         case TEMPLATE_TYPE.GRID: 
-          config = {color:'var(--icon-brand-primary)', icon: "gridFilled"}
+          config = {color:'var(--icon-brand-primary)', icon: GridFilled}
           break;
         case TEMPLATE_TYPE.SPREADSHEET: 
-          config = {color:'var(--icon-state-success)', icon: "spreadsheet"}
+          config = {color:'var(--icon-state-success)', icon: Spreadsheet}
           break;
       }
       return config;
@@ -484,8 +484,8 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Status:</span>
                               {status === "Incomplete" ?
                                 <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
-                                  <Box>{status}</Box>
-                                  <><SvgIcon component={'exclamationTriangle' as IconName} size={16} fill="#F44336" /></>
+                                  <Box>{data?.status}</Box>
+                                  <><SvgIcon component={ExclamationTriangle} size={16} color="violation" /></>
                                 </Box> :
                                 <Box display='flex' gap='2px'>{status}</Box>
                               }
@@ -502,9 +502,9 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       const status = isReportType ? TEMPLATE_TABLE_DATA.active: data?.status || "-";
       return (<Box>
         {data?.status === "Incomplete" ?
-          <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
+          <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336"> //TODO: REMOVE INLINE STYLES
             <Box>{data?.status}</Box>
-            <><SvgIcon component={'exclamationTriangle' as IconName} size={16} fill="#F44336" /></>
+            <><SvgIcon component={ExclamationTriangle} size={16} color="violation" /></>
           </Box> :
           <Box display='flex' gap='2px'>{status}</Box>
         }
@@ -549,7 +549,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                     className="cursor-pointer"
                     onClick={() => handleTooltip(templateData.templateId)}
                   >
-                    <SvgIcon component="infoCircle" size={18} fill="var(--icon-secondary)" />
+                    <SvgIcon component={InfoCircle} size={18} color="secondary" />
                   </Box>
                 </Tooltip>
               </Box>
@@ -573,11 +573,11 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       const disabledActions = selectedTemplate?.length > 1;
         return (
             <Box display="flex" alignItems="center">
-              <IconButton disabled={(disabledActions || status === "Incomplete") ? true : false} disableHover><SvgIcon component="send" size={20} /></IconButton>
-              <IconButton disabled={disabledActions} disableHover><SvgIcon component="copy" size={20} /></IconButton>
-              <IconButton disabled={disabledActions} disableHover><SvgIcon component="edit" size={20} /></IconButton>
-              <IconButton disabled={disabledActions} disableHover><SvgIcon component="download" size={20} /></IconButton>
-              <IconButton disabled={disabledActions} disableHover onClick={()=>handleDeleteModalOpen(cell?.row?.original)}><SvgIcon component="delete" size={20} fill={disabledActions ? "var(--icon-state-violation-subtle)" : "var(--icon-state-violation)"}/></IconButton>
+              <IconButton disabled={(disabledActions || status === "Incomplete") ? true : false} disableHover><SvgIcon component={Send} size={20} /></IconButton>
+              <IconButton disabled={disabledActions} disableHover><SvgIcon component={Copy} size={20} /></IconButton>
+              <IconButton disabled={disabledActions} disableHover><SvgIcon component={Edit} size={20} /></IconButton>
+              <IconButton disabled={disabledActions} disableHover><SvgIcon component={Download} size={20} /></IconButton>
+              <IconButton disabled={disabledActions} disableHover onClick={()=>handleDeleteModalOpen(cell?.row?.original)}><SvgIcon component={Delete} size={20} color={disabledActions ? "violation-subtle" : "violation"}/></IconButton>
             </Box>
         )
     }

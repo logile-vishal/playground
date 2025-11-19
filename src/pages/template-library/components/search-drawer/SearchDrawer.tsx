@@ -22,6 +22,8 @@ import type { ReportType, TagOptionsType, TaskTypeOptions, TemplatePaginationDat
 import { TEMPLATE_LIBRARY_HEADING, TEMPLATE_SEARCH_TABS, TEMPLATE_STATUS_OPTIONS } from '../../constants/constant';
 import type { TemplateType } from '../../types/template-preview.type';
 import './SearchDrawer.scss';
+import { ChevronLeft, Search, Close, EmptyState, History } from '@/core/constants/icons';
+
 
 const SearchField = styled(TextField)(( ) => ({
   "& input": {
@@ -146,7 +148,7 @@ function StyledDropdown ({
          }}
          IconComponent={()=> (
           <Box className="template-library-search-drawer__rotate-icon">
-            <SvgIcon component='chevronLeft' size={18} fill='var(--icon-secondary)' />
+            <SvgIcon component={ChevronLeft} size={18} color='secondary' />
           </Box>
           )}
         >
@@ -318,7 +320,7 @@ const SearchDrawer = ({
                     className='template-library-search-drawer__back-btn' 
                     onClick={onClose} 
                     startIcon={
-                        <SvgIcon component='chevronLeft' fill="var(--icon-secondary)" size="24px"/>
+                        <SvgIcon component={ChevronLeft} color="secondary" size="24px"/>
                         }>
                     </Button>
                      <SearchField
@@ -333,7 +335,7 @@ const SearchDrawer = ({
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end" className='template-library-search-drawer__cursor-pointer' onClick={searchText?.length > 0 ? handleClearSearch : null} >
-                                  <SvgIcon component={!searchText ||  searchText?.length == 0 ? "search": "close"} size={20} fill="var(--icon-secondary)" />
+                                  <SvgIcon component={!searchText ||  searchText?.length == 0 ? Search: Close} size={20} color="secondary" />
                                 </InputAdornment>
                             ),
                         }}
@@ -352,7 +354,7 @@ const SearchDrawer = ({
                             <NoDataTemplate
                               title ={t("NO_DATA_SEARCH.title")}
                               description={t("NO_DATA_SEARCH.description")}
-                              imageSrcName = "emptyState"
+                              imageSrcName = {EmptyState}
                               imageWidth={90}
                           /> 
                             :
@@ -361,7 +363,7 @@ const SearchDrawer = ({
                                 <Box className="template-library-search-drawer__recent-search-main">
                                     <Box className="template-library-search-drawer__recent-search-item">
                                         <Box height="24px">
-                                            <SvgIcon component='history' size={24} fill='var(--icon-secondary)' />
+                                            <SvgIcon component={History} size={24} color='secondary' />
                                         </Box>
                                         <Box>
                                             <Typography className='template-library-search-drawer__template-name'>Bakery Cleaning <span className='template-code'>(TT-59141)</span></Typography>

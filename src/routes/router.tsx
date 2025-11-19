@@ -1,6 +1,6 @@
 import { createHashRouter } from 'react-router-dom';
 
-import { IconsDemo } from '@/dev-playground/Icons';
+// import { IconsDemo } from '@/dev-playground/Icons';
 
 import AppShell from '@/layouts/app-shell/AppShell';
 import NoPageFound from '@/layouts/NoPageFound';
@@ -21,7 +21,7 @@ if(import.meta.env.DEV){
         },
         {
           path: 'component-library/icons',
-          element: <IconsDemo />,
+          element: <></>,
         },
         {
           path: 'test-page',

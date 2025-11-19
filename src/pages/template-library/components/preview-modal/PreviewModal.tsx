@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import IconButton from "@/core/components/button/IconButton";
 import SvgIcon from "@/core/components/icon/Icon";
 import CommonModal, { ModalBody, ModalHeader } from "@/core/components/modal/Modal";
+import { Close, Desktop, MoreOption, Phone } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
 import type { PreviewModalProps } from "../../types/template-library.type";
@@ -78,17 +79,17 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose, isPr
                     {/* modify template viewport icon */}
                     { isQuestionView && isDesktopPreview ? 
                         <IconButton onClick={switchPopupLayout} variant="outline" className={clsx({"template-preview-modal__outline-icon--mobile":!isDesktopPreview})}>
-                            <SvgIcon component={"phone"} fill={"var(--icon-secondary)"} size={22} /></IconButton> :
+                            <SvgIcon component={Phone} color={"secondary"} size={22} /></IconButton> :
                         isQuestionView ? <Box onClick={switchPopupLayout} className={clsx({"template-preview-modal__cursor": true, "template-preview-modal__desktop-icon":!isDesktopPreview})}>
-                            <SvgIcon component={"desktop"} fill={ "transparent"} size={32} /></Box> : ''
+                            <SvgIcon component={Desktop} fill={ "transparent"} size={32} /></Box> : ''
                     }
                     {/* more action icon */}
                     { isDesktopPreview && isQuestionView && <IconButton variant="outline" onClick={(event) => handleExportMenuOpen(event)}>
-                            <SvgIcon className={clsx({"template-preview-modal__outline-icon--mobile":!isDesktopPreview})} component="moreOption" size={22} /></IconButton> 
+                            <SvgIcon className={clsx({"template-preview-modal__outline-icon--mobile":!isDesktopPreview})} component={MoreOption} size={22} /></IconButton> 
                     }
                     {/* close icon */}
                     <IconButton onClick={onClose} className={clsx({"template-preview-modal__outline-icon--mobile":!isDesktopPreview})}>
-                        <SvgIcon component="close" fill={!isDesktopPreview ? "var(--base-white)":"var(--icon-secondary)"} size={30} /></IconButton>
+                        <SvgIcon component={Close} fill={!isDesktopPreview ? "var(--base-white)":"var(--icon-secondary)"} size={30} /></IconButton>
                 </div>
             </div>
         </ModalHeader>

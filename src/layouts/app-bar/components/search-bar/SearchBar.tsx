@@ -1,15 +1,13 @@
 import { InputBase, styled } from "@mui/material";
 import React from "react";
 
-import SvgIcon from "@/core/components/icon/Icon";
-import type { IconName } from "@/core/types/icon.type";
-
+import SvgIcon, { type SvgIconComponent } from "@/core/components/icon/Icon";
 
 type navSearchBarProps = {
     placeholder: string;
     onSearch: (value: string) => void;
     iconPosition?: 'left' | 'right'
-    icon?: IconName
+    icon?: SvgIconComponent
   }
   
   const SearchIconWrapper = styled('div',{
@@ -77,7 +75,7 @@ type navSearchBarProps = {
       onKeyDown={checkForEnter}
       />
        <SearchIconWrapper>
-      <SvgIcon component={props.icon as IconName} fill={"var(--icon-secondary)"} size={18}/>
+      <SvgIcon component={props.icon} color="secondary" size={18}/>
       </SearchIconWrapper>
       </Search>
   }

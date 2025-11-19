@@ -9,6 +9,7 @@ import IconButton from '@/core/components/button/IconButton';
 import navAvatarPng from '@/assets/navbar-avatar.png'
 import SvgIcon from '@/core/components/icon/Icon';
 import { ThemeContext } from '@/theme-mui/ThemeContext';
+import { CalendarBlank, ClipboardToDo, Envelope, Hamburger, Moon, Sun, Comment, Notification, Search } from '@/core/constants/icons';
 
 import UserProfileInfoCard from './components/user-profile/UserProfileInfoCard';
 import NavSearchBar from './components/search-bar/SearchBar';
@@ -49,7 +50,7 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
 
         
           <MainMenu onClick={handleToggleMenu}> 
-               <SvgIcon component="hamburger" size={24} fill="var(--icon-primary)" />
+               <SvgIcon component={Hamburger} size={24}  color="primary" />
           </MainMenu>
     
 
@@ -72,7 +73,7 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
 
       {/* Search Bar */}
       <Stack className='appbar__search-bar'>
-        <NavSearchBar placeholder='Search...' onSearch={handleSearch} iconPosition='left' icon='search' />
+        <NavSearchBar placeholder='Search...' onSearch={handleSearch} iconPosition='left' icon={Search} />
       </Stack>
 
       <div className='appbar__right-section'>
@@ -80,30 +81,30 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
       <Stack className='action-icons-box' >
         <IconButton variant="primary" style={{padding:"1rem"}} onClick={handleThemeToggle}>
           {mode === "light" ? (
-            <SvgIcon component="moon" fill={"var(--icon-secondary)"} size={18} />
+            <SvgIcon component={Moon} color="secondary" size={18} />
           ) : (
-            <SvgIcon component="sun" fill={"var(--icon-state-warning)"} size={20} />
+            <SvgIcon component={Sun} color="warning" size={20} />
           )}
         </IconButton>
         <IconButton variant="primary" style={{
           padding:"1rem"
         }}>
-          <SvgIcon component="calendarBlank" fill={"var(--icon-secondary)"} size={20}  />
+          <SvgIcon component={CalendarBlank} color="secondary" size={20}  />
         </IconButton>
         <IconButton variant="primary" style={{
           padding:"1rem"
         }}>
-          <SvgIcon component="clipboardToDo" fill={"var(--icon-secondary)"} size={20} />
+          <SvgIcon component={ClipboardToDo} color="secondary" size={20} />
         </IconButton>
         <IconButton variant="primary" style={{
           padding:"1rem"
         }}>
-          <SvgIcon component="envelope" fill={"var(--icon-secondary)"} size={20} />
+          <SvgIcon component={Envelope} color="secondary" size={20} />
         </IconButton>
         <IconButton variant="primary"  style={{
           padding:"1rem"
         }}>
-          <SvgIcon component="comment" fill={"var(--icon-secondary)"} size={20} />
+          <SvgIcon component={Comment} color="secondary" size={20} />
         </IconButton>
         
         <Badge className='notifiction-badge' badgeContent={'59+'}  
@@ -113,7 +114,7 @@ const AppBar: React.FC<AppBarProps> = ({  handleToggleMenu }) => {
           padding:"1rem",
           
         }}>
-          <SvgIcon component="notification" fill={"var(--icon-secondary)"} size={20} />
+          <SvgIcon component={Notification} color="secondary" size={20} />
         </IconButton>
           </Badge>
       </Stack>

@@ -3,8 +3,8 @@ import { Box, MenuItem, Select, TextField, Checkbox, FormControlLabel, Radio, In
 import { LocalizationProvider, DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-import SvgIcon from "@/core/components/icon/Icon";
-import type { IconName } from "@/core/types/icon.type";
+import SvgIcon, { type SvgIconComponent } from "@/core/components/icon/Icon";
+import { Attachment, AttachmentRequired, CalendarBlank, Camera, CameraRequired, InfoCircle } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
 import type { DatePickerProps, RenderButtonContainerProps, RenderCheckboxProps, 
@@ -13,7 +13,6 @@ import { PREVIEW_BUTTON_CONFIG, QUESTION_ATTACHEMENT, QUESTION_TYPES, TEMPLATE_T
 import type { AnswerType, AttachmentType } from "../../types/template-questions.type";
 
 /**
- * @component RenderTextField
  * @description Renders a read-only Material UI TextField used for preview mode.
  * @param {object} props - Component props.
  * @param {boolean} [props.multiline=false] - Whether the text field is multiline.
@@ -137,7 +136,7 @@ const RenderPicUpload: React.FC<RenderAttachmentProps> = ({ isDesktopPreview}) =
                 <Box className="label">Add photo(s) if desired</Box>
                 <Box className={clsx({"upload-box":true, "template-preview-modal__upload--mobile": !isDesktopPreview})}>
                     <Box height={20}>
-                        <SvgIcon component="camera" size={20} fill="var(--icon-secondary)"/>
+                        <SvgIcon component={Camera} size={20} fill="var(--icon-secondary)"/>
                     </Box>
                     <Box className="label">Take a photo or upload</Box>
                 </Box>
@@ -165,7 +164,7 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({question, isDesktop
             {
                 question?.attachments?.map(item=>{
                     const itemLabel = PREVIEW_BUTTON_CONFIG[item?.attachmentType]?.label;
-                    const itemIcon: IconName = PREVIEW_BUTTON_CONFIG[item?.attachmentType]?.icon;
+                    const itemIcon: SvgIconComponent = PREVIEW_BUTTON_CONFIG[item?.attachmentType]?.icon;
                     const showPicUpload = item.attachmentType === QUESTION_ATTACHEMENT.PHOTO.value && type === QUESTION_TYPES.RADIO_BUTTON.value
                     if(itemLabel && itemIcon)
                     return (
@@ -232,7 +231,8 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({question, i
             <RenderDropdown isDesktopPreview={isDesktopPreview}>
                 {
                     question?.answers?.map((option: AnswerType)=>{
-                        const cameraIcon = (isIconRequired(question, option, QUESTION_ATTACHEMENT.PHOTO.value) ? "cameraRequired": "camera") as IconName;
+                        
+                        const cameraIcon = (isIconRequired(question, option, QUESTION_ATTACHEMENT.PHOTO.value) ? CameraRequired: Camera);
                         return (
                             <MenuItem className="template-preview-modal__dropdown-menu-item template-preview-modal__space-between" key={option?.value} value={option?.value}>
                                 <Box className="template-preview-modal__dropdown-menu-item">
@@ -246,11 +246,11 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({question, i
                                     {option?.additionalInfo?.required &&
                                         <Tooltip title={<Box className="template-preview-modal__dropdown-menu-item-tooltip">Required Info</Box>}>
                                         <Box height={16}>
-                                            <SvgIcon size={18} component="infoCircle"/>
+                                            <SvgIcon size={18} component={InfoCircle}/>
                                         </Box>
                                         </Tooltip>}
                                     {showCameraIcon && (
-                                        <Box height={16}><SvgIcon component={cameraIcon} size={cameraIcon == "cameraRequired" ? 19:16} /></Box>)}
+                                        <Box height={16}><SvgIcon component={cameraIcon} size={isIconRequired(question, option, QUESTION_ATTACHEMENT.PHOTO.value) ? 19:16} /></Box>)}
                                 </Box>
  
                             </MenuItem>
@@ -287,11 +287,11 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({question, i
                                 <Box className="template-preview-modal__dropdown-menu-item">
                                     {option?.additionalInfo?.required && <Tooltip title="Required Info">
                                         <Box height={16}>
-                                            <SvgIcon size={18} component="infoCircle"/>
+                                            <SvgIcon size={18} component={InfoCircle}/>
                                         </Box>
                                         </Tooltip>}
                                     {showCameraIcon && (
-                                        <Box height={16}><SvgIcon component="camera" size={16} /></Box>)}
+                                        <Box height={16}><SvgIcon component={Camera} size={16} /></Box>)}
                                 </Box>
  
                             </MenuItem>
@@ -317,7 +317,7 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({question, isDe
           <Box className="template-preview-modal__answer-wrapper template-preview-modal__column">
             <Box>
                 {question?.answers?.map(option=>{
-                    const attachmentIcon = isIconRequired(question, option, QUESTION_ATTACHEMENT.ATTACHMENT.value) ? "attachmentRequired": "attachment";
+                    const attachmentIcon = isIconRequired(question, option, QUESTION_ATTACHEMENT.ATTACHMENT.value) ? AttachmentRequired: Attachment;
                     return (
                         <Box className="template-preview-modal__radio-item">
                             <RenderRadio label={option?.value} value={option?.value} />
@@ -402,7 +402,7 @@ export const RenderDatePicker: React.FC<DatePickerProps> = ({
         endAdornment: (
           <InputAdornment position="end">
             <SvgIcon
-              component="calendarBlank"
+              component={CalendarBlank}
               size={16}
               className="common-date-picker__textfield-icon"
             />

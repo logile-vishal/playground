@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { alpha, Box, Drawer, ListItemButton, Stack, styled, Typography } from '@mui/material';
 
-import SvgIcon from '@/core/components/icon/Icon';
-import type { ICONS } from '@/core/constants/icons';
 import { defaultConstants } from '@/core/constants/app-constants';
 import { useIsDesktopViewport } from '@/utils/get-viewport-size';
+import SvgIcon, { type SvgIconComponent } from '@/core/components/icon/Icon';
+import { Calendar, Communication, Exchange, FoodSafety, Forecast, Home, LabourModel, LabourReport, QueueManagement, QuickLink, Staffing, Standards } from '@/core/constants/icons';
 import clsx from '@/utils/clsx';
 
 import './Sidebar.scss';
@@ -21,33 +21,31 @@ type SidebarProps = {
 const imsNavLinks: {
   text: string;
   path:string;
-  icon: keyof typeof ICONS
+  icon: SvgIconComponent
 }[] = [
-  { text: 'Home', path: '/', icon: 'home' },
-  { text: 'Quick Links', path: '/quickLinks', icon: 'quickLink' },
-  { text: 'ESS', path: '/ess', icon: 'calendar' },
-  { text: 'Communication', path: '/communication', icon: 'communication' },
-  { text: 'Standards', path: '/standards', icon: 'standards' },
-  { text: 'Labour Model', path: '/labourModel', icon: 'labourModel' },
-  { text: 'Forecast', path: '/forecast', icon: 'forecast' },
-  { text: 'Staffing', path: '/staffing', icon: 'staffing' },
-  { text: 'Labour Report', path: '/labourReport', icon: 'labourReport' },
-  { text: 'Food Safety', path: '/foodSafety', icon: 'foodSafety' },
-  { text: 'Queue Management', path: '/queueManagement', icon: 'queueManagement' },
+  { text: 'Home', path: '/', icon: Home },
+  { text: 'Quick Links', path: '/quickLinks', icon: QuickLink },
+  { text: 'ESS', path: '/ess', icon: Calendar },
+  { text: 'Communication', path: '/communication', icon: Communication },
+  { text: 'Standards', path: '/standards', icon: Standards },
+  { text: 'Labour Model', path: '/labourModel', icon: LabourModel },
+  { text: 'Forecast', path: '/forecast', icon: Forecast },
+  { text: 'Staffing', path: '/staffing', icon: Staffing },
+  { text: 'Labour Report', path: '/labourReport', icon: LabourReport },
+  { text: 'Food Safety', path: '/foodSafety', icon: FoodSafety },
+  { text: 'Queue Management', path: '/queueManagement', icon: QueueManagement },
 
 ]
 const wfmNavLinks: {
   text: string;
   path:string;
-  icon: keyof typeof ICONS
+  icon: SvgIconComponent
 }[] = [
-  { text: 'Home', path: '/', icon: 'home' },
-  { text: 'Quick Links', path: '/quickLinks', icon: 'quickLink' },
-  { text: 'ESS', path: '/ess', icon: 'calendar' },
-  { text: 'Communication', path: '/communication', icon: 'communication' },
- 
-  { text: 'Queue Management', path: '/queueManagement', icon: 'queueManagement' },
-
+  { text: 'Home', path: '/', icon: Home },
+  { text: 'Quick Links', path: '/quickLinks', icon: QuickLink },
+  { text: 'ESS', path: '/ess', icon: Calendar },
+  { text: 'Communication', path : '/communication', icon: Communication },
+  { text: 'Queue Management', path: '/queueManagement', icon: QueueManagement },
 ]
 const navLinkOptions = {
   'IMS':imsNavLinks,
@@ -92,7 +90,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePath, sidebarRef, showMenu, han
     return (
       <div className='sidebar__switch'>
         <div onClick={handleSwitchAppName}>
-          <SvgIcon component='exchange' size={18} fill="var(--icon-state-information)"/>
+          <SvgIcon component={Exchange} size={18} fill="var(--icon-state-information)"/>
           <Typography className='sidebar__switch-text'>{appSwitchValue}</Typography>
         </div>
       </div>

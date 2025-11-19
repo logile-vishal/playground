@@ -1,10 +1,12 @@
  
-import { ListItemIcon, Menu, MenuItem, Typography } from '@mui/material'
 import React, { useRef, type Ref } from 'react'
-import './UserProfile.scss'
+import { ListItemIcon, Menu, MenuItem, Typography } from '@mui/material'
+
 import SvgIcon from '@/core/components/icon/Icon'
 import clsx from '@/utils/clsx'
+import { ArrowDownFill, ArrowUpFill, Edit, Focus, Globe, Theme, User, UserMinus, Users, UserSetting, UserStar, Signout } from '@/core/constants/icons'
 
+import './UserProfile.scss'
 
 type UserProfileInfoCardProps = {
     user: {name: string, role: string,avatar: string}
@@ -32,9 +34,9 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({user}) => {
       <div className='card-dropdown-icon'>
         {
           isDropdownOpen ? (
-            <SvgIcon component="arrowUpFill" size={20} fill="var(--icon-secondary)" />
+            <SvgIcon component={ArrowUpFill} size={20} color="secondary" />
           ) : (
-            <SvgIcon component="arrowDownFill" size={20} fill="var(--icon-secondary)" />
+            <SvgIcon component={ArrowDownFill} size={20} color="secondary" />
           )
         }
       
@@ -57,70 +59,70 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({user}) => {
       >
         <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="user" size={18} />
+              <SvgIcon component={User} size={18} />
             </ListItemIcon>
             <Typography className="menubar-heading">Change Role</Typography>
           </MenuItem>
 
           <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="focus" size={18} />
+              <SvgIcon component={Focus} size={18} />
             </ListItemIcon>
             <Typography className="menubar-heading">Set Focus</Typography>
           </MenuItem>
 
           <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="users" size={18} />
+              <SvgIcon component={Users} size={18} />
             </ListItemIcon>
             <Typography className="menubar-heading">User Profile</Typography>
           </MenuItem>
 
           <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="edit" size={18} />
+              <SvgIcon component={Edit} size={18} />
             </ListItemIcon>
             <Typography className="menubar-heading">Modify Dashboard</Typography>
           </MenuItem>
 
           <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="userMinus" size={18} />
+              <SvgIcon component={UserMinus} size={18} />
             </ListItemIcon>
             <Typography className="menubar-heading">Reduce Role</Typography>
           </MenuItem>
 
           <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="userSetting" size={18} />
+              <SvgIcon component={UserSetting} size={18} />
             </ListItemIcon>
             <Typography className="menubar-heading">User Management</Typography>
           </MenuItem>
 
           <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="userStar" size={18} />
+              <SvgIcon component={UserStar} size={18} />
             </ListItemIcon>
             <Typography className="menubar-heading">Admin Mode</Typography>
           </MenuItem>
 
           <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="theme" size={18} />
+              <SvgIcon component={Theme} size={18} />
             </ListItemIcon>
             <Typography className="menubar-heading">Theme</Typography>
           </MenuItem>
 
           <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="globe" size={18} />
+              <SvgIcon component={Globe} size={18} />
             </ListItemIcon>
             <Typography className="menubar-heading">Language</Typography>
           </MenuItem>
 
           <MenuItem onClick={handleClose} className='user-profile-menu__option-item'>
             <ListItemIcon>
-              <SvgIcon component="signout" size={18} fill="#F44336" />
+              <SvgIcon component={Signout} size={18} color="violation" />
             </ListItemIcon>
             <Typography className="menubar-heading">
               Logout

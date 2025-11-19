@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import "./TreeView.scss";
 import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
 import { renderMacTruncate } from "@/utils/mac-truncate";
+import { ArrowDownFill, ArrowRightFill } from "@/core/constants/icons";
 
 
 type TreeViewProps = {
@@ -48,11 +49,11 @@ const StyledTreeItem = styled(TreeItem)(() => ({
 }));
 
 const ArrowRightIcon = () => (
-  <SvgIcon component="arrowRightFill" size={24} fill="var(--icon-primary)" />
+  <SvgIcon component={ArrowRightFill} size={24} color="primary" />
 );
 
 const ArrowDownIcon = () => (
-  <SvgIcon component="arrowDownFill" size={24} fill="var(--icon-primary)" />
+  <SvgIcon component={ArrowDownFill} size={24} color="primary" />
 );
 
 const BlankIcon = () => (<Box height="24px" width="24px"></Box>)
