@@ -15,7 +15,7 @@ import type { IconName } from "@/core/types/icon.type";
 import IconButton from "@/core/components/button/IconButton";
 import CommonModal, { ModalBody } from "@/core/components/modal/Modal";
 import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
-import { DELETE_MODAL, formatDate, REPORT_SORTING, TEMPLATE_SORTING, TEMPLATE_TABLE_COLUMNS, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
+import { DELETE_MODAL, formatDate, REPORT_SORTING, TEMPLATE_SORTING, TEMPLATE_TABLE_COLUMNS, TEMPLATE_TABLE_DATA, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 
@@ -467,20 +467,22 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateNameCell = ({cell}: {cell}) => {
         const data = cell.row?.original;
+        const status = selectedDirectory?.reportType !== undefined ? TEMPLATE_TABLE_DATA.active : data?.status || "-";
+        const type = selectedDirectory?.reportType !== undefined ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
         return (
                <Box minWidth="300px" display="flex" alignItems="center" gap="10px">
                    <Box width="100%" display="flex" flexDirection="column" gap="6px">
                         <Box width="100%" className="template-body-text cursor-pointer" onClick={()=>handlePreviewModalOpen(data)}>{renderMacTruncate(data?.templateName || data?.name || "")}</Box>
                           {!isDesktop ?
                           <Box display="flex" gap="24px">
-                            <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Type:</span>{data?.tagType || "Checklist"}</Box>
+                            <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Type:</span>{type}</Box>
                             <Box display="flex" gap="4px" className="template-body-text template-status"><span className="template-title-text">Status:</span>
-                              {data?.status === "Incomplete" ?
+                              {status === "Incomplete" ?
                                 <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
-                                  <Box>{data?.status}</Box>
+                                  <Box>{status}</Box>
                                   <><SvgIcon component={'exclamationTriangle' as IconName} size={16} fill="#F44336" /></>
                                 </Box> :
-                                <Box display='flex' gap='2px'>{data?.status || "Active"}</Box>
+                                <Box display='flex' gap='2px'>{status}</Box>
                               }
                             </Box>
                           </Box>
@@ -492,13 +494,14 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateStatusCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
+      const status = selectedDirectory?.reportType !== undefined ? TEMPLATE_TABLE_DATA.active: data?.status || "-";
       return (<Box>
         {data?.status === "Incomplete" ?
           <Box display='flex' gap='2px' alignItems='center' justifyContent='center' color="#F44336">
             <Box>{data?.status}</Box>
             <><SvgIcon component={'exclamationTriangle' as IconName} size={16} fill="#F44336" /></>
           </Box> :
-          <Box display='flex' gap='2px'>{data?.status || "Active"}</Box>
+          <Box display='flex' gap='2px'>{status}</Box>
         }
       </Box>
       )
@@ -506,8 +509,9 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
      const renderTemplateTypeCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const data = cell.row?.original;
+      const type = selectedDirectory?.reportType !== undefined ? TEMPLATE_TABLE_DATA.reportTask : data?.tagType || "-";
       return (
-          <Box display='flex' gap='2px'>{data?.tagType || "Checklist"}</Box>
+          <Box display='flex' gap='2px'>{type}</Box>
       )
     }
  
@@ -530,9 +534,6 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                       },
                     },
                   }}
-                  PopperProps={{
-                    sx: { zIndex: 1000 },
-                  }}
                   open={tooltipId === templateData.templateId}
                   disableFocusListener
                   disableHoverListener
@@ -552,11 +553,12 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateModifiedCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const templateData = cell.row.original;
-      if(templateData?.lastModifiedTime == undefined && templateData?.lastModifiedTime == null) 
+      const lastModified = selectedDirectory?.reportType !== undefined ? templateData?.savedDate : templateData?.lastModifiedTime; 
+      if(lastModified == undefined && lastModified == null) 
         return <Box>-</Box>
       return (
             <Box display="flex" gap="4px" alignItems='center'>
-              <Box>{formatDate(templateData?.lastModifiedTime)}</Box>
+              <Box>{formatDate(lastModified)}</Box>
             </Box>
             )
     }

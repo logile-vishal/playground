@@ -217,3 +217,8 @@ export const TEMPLATE_LIBRARY_NO_DATA = {
     description: "Nothing is selected",
     imageSrcName: "emptyState",
 }
+
+export const TEMPLATE_TABLE_DATA = {
+    reportTask: "Report Task",
+    active: "Active"
+}

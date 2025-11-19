@@ -29,6 +29,7 @@ export type TemplateType = {
     lastModifiedTime?: string,
     iconName?: string,
     iconColour?: string,
+    savedDate?: string,
 }
  
 export type ReportType = {
