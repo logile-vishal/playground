@@ -15,7 +15,7 @@ import type { IconName } from "@/core/types/icon.type";
 import IconButton from "@/core/components/button/IconButton";
 import CommonModal, { ModalBody } from "@/core/components/modal/Modal";
 import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
-import { DELETE_MODAL, formatDate, TEMPLATE_SORTING, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
+import { DELETE_MODAL, formatDate, REPORT_SORTING, TEMPLATE_SORTING, TEMPLATE_TABLE_COLUMNS, TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 
@@ -263,7 +263,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     const renderHeaderWithMenu = (column: MRT_Column<TemplateType>, type: keyof typeof tableActionMenu, menuItems: SortOption[]) => {
       const selected = selectedSort[type];
       const isAscending = selected?.key === "ASC";
- 
+      if(!menuItems || menuItems?.length == 0) 
+        return <Box display="flex" alignItems="center" gap="4px"><Box>{column.columnDef.header}</Box></Box>
       return (
         <Box display="flex" alignItems="center" gap="4px">
           <Box>{column.columnDef.header}</Box>
@@ -328,9 +329,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       );
     };
  
-const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name",  TEMPLATE_SORTING.NAME);
-const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", TEMPLATE_SORTING.CREATED);
-const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", TEMPLATE_SORTING.MODIFIED);
+const renderTemplateNameHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "name", selectedDirectory?.reportType !== undefined ? REPORT_SORTING.NAME: TEMPLATE_SORTING.NAME);
+const renderTemplateCreatedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "created", selectedDirectory?.reportType !== undefined ? null : TEMPLATE_SORTING.CREATED);
+const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateType> }) => renderHeaderWithMenu(column, "modified", selectedDirectory?.reportType !== undefined ? REPORT_SORTING.SAVED_DATE : TEMPLATE_SORTING.MODIFIED);
  
     const renderTemplateIconHeader = () => {
       return <Box className="tableheader__checkbox-container" >
@@ -512,6 +513,8 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateCreatedCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const templateData = cell.row.original;
+      if(templateData?.createdTime == undefined && templateData?.createdTime == null) 
+        return <Box>-</Box>
       return (
             <Box display="flex" gap="4px" alignItems='center'>
               <Box>{formatDate(templateData?.createdTime)}</Box>
@@ -549,6 +552,8 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
  
     const renderTemplateModifiedCell = ({cell}: {cell: MRT_Cell<TemplateType>}) => {
       const templateData = cell.row.original;
+      if(templateData?.lastModifiedTime == undefined && templateData?.lastModifiedTime == null) 
+        return <Box>-</Box>
       return (
             <Box display="flex" gap="4px" alignItems='center'>
               <Box>{formatDate(templateData?.lastModifiedTime)}</Box>
@@ -573,7 +578,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
     const columns = [
       {
         order:0,
-        accessorKey: "iconName",
+        accessorKey: TEMPLATE_TABLE_COLUMNS.ICON_NAME,
         header: "",
         hide:false,
         size:1,
@@ -584,7 +589,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
      },
       {
         order:1,
-        accessorKey: "templateName",
+        accessorKey: TEMPLATE_TABLE_COLUMNS.TEMPLATE_NAME,
         header: "Name",
         hide:false,
         size:1,
@@ -596,7 +601,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       {
         order:2,
         hide:!isDesktop,
-        accessorKey: "tagType",
+        accessorKey:TEMPLATE_TABLE_COLUMNS.TAG_TYPE,
         header: "Type",
         Header: renderTemplateCommonHeader,
         size:1,
@@ -607,16 +612,17 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       {
         order:3,
         hide:!isDesktop,
-        accessorKey: "status",
+        accessorKey: TEMPLATE_TABLE_COLUMNS.STATUS,
         header: "Status",
         size:1,
         Header: renderTemplateCommonHeader,
         Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateStatusCell,
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding:"1rem 0.8rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text" })
-      },{
+      }
+      ,{
         order:4,
-        accessorKey: "createdTime",
+        accessorKey: TEMPLATE_TABLE_COLUMNS.CREATED_TIME,
         header: "Created",
         hide:false,
         size:1,
@@ -627,7 +633,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       },
       {
         order:5,
-        accessorKey: "lastModifiedTime",
+        accessorKey: TEMPLATE_TABLE_COLUMNS.LAST_MODIFIED_TIME,
         header: "Last Modified",
         hide:false,
         size:1,
@@ -638,7 +644,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
       },
      {
         order:6,
-        accessorKey: "actions",
+        accessorKey: TEMPLATE_TABLE_COLUMNS.ACTIONS,
         header: "Actions",
         hide:false,
         size:1,
@@ -647,17 +653,44 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         muiTableHeadCellProps: () => ({className: "template-head-text", style:{padding:"1rem 1.6rem 1rem 0.8rem"} }),
         muiTableBodyCellProps: () => ({className: "template-body-text", style:{paddingRight:"1.6rem"} })
       },
-    ]
+    ];
+
+    const getColumnsValues = (columnKeys) => {
+        const columnValues = [];
+        columnKeys?.forEach((key) => {
+            const column = columns.find((col) => col.accessorKey === key);
+            if (column) {
+                columnValues.push(column);
+            }
+        });
+        return columnValues;
+    }
  
     const getColumns = () => {
-      return columns.filter(i=> !i.hide).sort((a, b) => (a.order || 0) - (b.order || 0));
-      // let col = [];
-      //  if (isDesktop)
-      //     col =  [...columns, ...desktopColumns, ...columns2];
-      //  else
-      //     col = [...columns, ...columns2];
- 
-      // return col.sort((a, b) => (a.order || 0) - (b.order || 0));
+      let templateColumns = [];
+      let reportColumns = [];
+      const {ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS} = TEMPLATE_TABLE_COLUMNS;
+      /* Report Table */
+      if(selectedDirectory?.reportType!== undefined) {
+          // Desktop view for report
+          if(isDesktop) 
+            reportColumns = [ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, LAST_MODIFIED_TIME, ACTIONS];
+          else
+            reportColumns = [ICON_NAME, TEMPLATE_NAME, LAST_MODIFIED_TIME, ACTIONS];
+
+          return getColumnsValues(reportColumns);
+      }
+      /* Template Table */
+      else {
+        // Desktop view for template
+         if(isDesktop) 
+            templateColumns = [ICON_NAME, TEMPLATE_NAME, TAG_TYPE, STATUS, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS];
+          else
+            templateColumns = [ICON_NAME, TEMPLATE_NAME, CREATED_TIME, LAST_MODIFIED_TIME, ACTIONS];
+            
+          
+        return getColumnsValues(templateColumns);
+      }
     };
  
     const templateTableProps = {
