@@ -155,6 +155,11 @@ const RenderPicUpload: React.FC<RenderAttachmentProps> = ({ isDesktopPreview}) =
  * @returns {ReactNode} return list of read-only attachment buttons.
  */
 const RenderAttachement: React.FC<RenderAttachmentProps> = ({question, isDesktopPreview, type}) => {
+    
+    // to avoid unused styling if attachments are not present
+    if(!question?.attachments || question?.attachments?.length == 0) 
+        return <></>
+
     return (
         <Box className={clsx({"template-preview-modal__attachment-wrapper":true})}>
             {

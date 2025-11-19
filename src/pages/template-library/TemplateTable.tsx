@@ -112,7 +112,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       data: null,
     });
     const isDesktop = useIsDesktopViewport();
-    const { data: templatePreviewData, isPending: isPreviewLoading, mutateAsync: getPreviewByTemplateId} = useGetPreviewByTemplateId();
+    const { data: templatePreviewData, isPending: isPreviewLoading, mutateAsync: getPreviewByTemplateId, error: hasTemplatePreviewError} = useGetPreviewByTemplateId();
     const {data: reportPreviewData } = useGetPreviewByReportTypeId();
     const { mutateAsync: deleteTemplateById, isSuccess: isDeleteTemplateSuccessful } = useDeleteTemplateById();
     const { mutateAsync: deleteReportById, isSuccess: isDeleteReportSuccessful } = useDeleteReportById();
@@ -248,7 +248,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         fetchData(selectedDirectory, payload);
       }
     }
-     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedSort])
 
     useEffect(()=>{
@@ -590,8 +590,8 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         size:1,
         Header: renderTemplateNameHeader,
         Cell: isDataLoading ? isDesktop ? renderTemplateNameSkeltonDesktop : renderTemplateNameSkelton : renderTemplateNameCell,
-        muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding: "0.8rem 0.4rem 0.8rem 0.6rem"} }),
-        muiTableBodyCellProps: () => ({className: "template-body-text", style: {padding: "0.8rem 0.4rem 0.8rem 0.6rem"} })
+        muiTableHeadCellProps: () => ({className: "template-head-text", style:{width:"200px", padding: "0.8rem 0.8rem 0.8rem 0.6rem"} }),
+        muiTableBodyCellProps: () => ({className: "template-body-text", style: {padding: "0.8rem 0.8rem 0.8rem 0.6rem"} })
       },
       {
         order:2,
@@ -688,6 +688,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
               previewModal={previewModal}
               onClose={() => setPreviewModal({status: false, data: null})}
               isPreviewLoading={isPreviewLoading}
+              hasTemplatePreviewError={hasTemplatePreviewError}
               exportMenu={exportMenu}
               handleExportMenuClose={handleExportMenuClose}
               handleExportMenuOpen={handleExportMenuOpen}

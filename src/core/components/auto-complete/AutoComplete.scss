@@ -13,6 +13,7 @@
     font-size: 13px;
     font-weight: var(--weight-400);
     color: var(--text-secondary);
+    line-height: var(--line-height-secondary-text);
   }
 
   &__input-wrapper {
@@ -20,12 +21,19 @@
     height: 36px;
     border: 1px solid var(--border-secondary);
     border-radius: var(--space-m);
-    padding: 1px;
+    padding: var(--space-xs);
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
+    overflow-y: hidden;
     white-space: nowrap;
     background-color: var(--bg-container-1);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
 
     &:hover {
       border-color: var(--border-brand-primary-subtle);
@@ -42,7 +50,7 @@
       flex-grow: 1;
       min-width: 20px;
       border: 0;
-      outline: 0;
+      outline: 0; 
     }
 
     input::placeholder {

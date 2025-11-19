@@ -12,9 +12,9 @@ import { spreadSheetSampleData } from "../../sampleQuestion";
 import { renderChecklistComponent, renderFormContainer, renderGridContainer } from "./PreviewTemplateType";
 import RenderExportMenu from "../export-menubar/ExportMenu";
 import "./PreviewModal.scss";
-import { renderTemplatePreviewSkelton } from "../skeleton/Skeleton";
+import { renderTemplatePreviewMobileSkeleton, renderTemplatePreviewSkeleton } from "../skeleton/Skeleton";
 
-const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose, isPreviewLoading,  exportMenu, handleExportMenuClose, handleExportMenuOpen }) => {
+const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose, isPreviewLoading, hasTemplatePreviewError, exportMenu, handleExportMenuClose, handleExportMenuOpen }) => {
     const [isDesktopPreview, setIsDesktopPreview] = React.useState<boolean>(true);
     const [templateType, setTemplateType] = React.useState<string>();
     const [isQuestionView, setQuestionView] = React.useState<boolean>(true);
@@ -69,14 +69,6 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose, isPr
         className={"template-preview-modal"}
         containerClassName={clsx({"template-preview-modal__container": true, "template-preview-modal__container--mobile": !isDesktopPreview})}
     >
-
-        {
-           isPreviewLoading ?
-           <div className="template-preview-modal__loading-wrapper">
-                {renderTemplatePreviewSkelton()}
-           </div>
-            : 
-            <>
         <ModalHeader headerClass={clsx({"template-preview-modal__header": true, "template-preview-modal__header--mobile": !isDesktopPreview})}>
             <div className={clsx({"template-preview-modal__title-wrapper": true, "template-preview-modal__title-wrapper--mobile": !isDesktopPreview})}>
                 <div className={clsx({"template-preview-modal__title": true, "template-preview-modal__title--mobile": !isDesktopPreview })}>
@@ -104,7 +96,10 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose, isPr
         <ModalBody
             containerClassName={clsx({"template-preview-modal__container": true, "template-preview-modal__container--mobile": !isDesktopPreview})}>
                 <div className={clsx({"template-preview-modal__content": true, "template-preview-modal__content--mobile": !isDesktopPreview, "template-preview-modal__content-form": !isQuestionView})} >
-                    {renderTemplatePreview()}
+                    { (isPreviewLoading || hasTemplatePreviewError) ? 
+                        isDesktopPreview ? <Box className="template-preview-modal__loading-wrapper"> {renderTemplatePreviewSkeleton()}</Box> : 
+                        <Box className="template-preview-modal__loading-wrapper-mobile">{renderTemplatePreviewMobileSkeleton()}</Box> 
+                    : renderTemplatePreview()}
                 </div>
 
             <RenderExportMenu
@@ -112,8 +107,6 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ previewModal, onClose, isPr
                 handleExportMenuClose={handleExportMenuClose}
             />
         </ModalBody>
-        </>
-    }
     </CommonModal>
   );
 };

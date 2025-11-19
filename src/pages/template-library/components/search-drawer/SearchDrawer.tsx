@@ -19,7 +19,7 @@ import SvgIcon from '@/core/components/icon/Icon';
 
 import { useFilterTemplates, useGetQuestionTagsOptions, useGetTaskTagsOptions, useGetTaskTypesOptions } from '../../services/template-library-api-hooks';
 import type { ReportType, TagOptionsType, TaskTypeOptions, TemplatePaginationData } from '../../types/template-library.type';
-import { TEMPLATE_SEARCH_TABS, TEMPLATE_STATUS_OPTIONS } from '../../constants/constant';
+import { TEMPLATE_LIBRARY_HEADING, TEMPLATE_SEARCH_TABS, TEMPLATE_STATUS_OPTIONS } from '../../constants/constant';
 import type { TemplateType } from '../../types/template-preview.type';
 import './SearchDrawer.scss';
 
@@ -107,7 +107,7 @@ function StyledTextField({label="", width="100%", value, handleChange}) {
     return (
       <Box width={width}>
             <Typography className='template-library-search-drawer__text-label'>{label}</Typography>
-            <TextField value={value} onChange={handleChange} className='template-library-search-drawer__text-field-input' fullWidth variant='outlined'/>
+            <TextField value={value} onChange={handleChange} className='template-library-search-drawer__text-field-input' fullWidth variant='outlined' autoComplete='off' />
       </Box>
     )
 }
@@ -310,6 +310,7 @@ const SearchDrawer = ({
            anchor='top'
            open={open}
            onClose={onClose}
+           elevation={0}
         >
             <Box className="template-library-search-drawer">
                 <Box className="template-library-search-drawer__header">
@@ -323,8 +324,9 @@ const SearchDrawer = ({
                      <SearchField
                         className="template-library-search-drawer__search-bar"
                         variant="outlined"
-                        placeholder="Search by template name"
+                        placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
                         size="small"
+                        autoComplete="off"
                         fullWidth
                         value={searchText}
                         onChange={handleSearch}
@@ -411,7 +413,8 @@ const SearchDrawer = ({
                                         onChange={(event) => handleChange('modifiedInLast', event)} 
                                         className='template-library-search-drawer__text-field-input template-library-search-drawer__days-text-field' 
                                         fullWidth 
-                                        variant='outlined'
+                                        autoComplete="off"
+                                        variant="outlined"
                                         value={advanceFilterData?.modifiedInLast}
                                         />
                                     </Box>

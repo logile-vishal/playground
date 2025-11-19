@@ -4,6 +4,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 
+import { TEMPLATE_LIBRARY_HEADING } from "../../constants/constant";
+
 const SearchField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     borderRadius: "8px",
@@ -25,8 +27,9 @@ const Searchbar = (props) => {
       <SearchField
         className="search-bar"
         variant="outlined"
-        placeholder="Search by template name"
+        placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
         size="small"
+        autoComplete="off"
         sx={{'& .MuiOutlinedInput-input': { height: '26px', padding:'4px 8px' }}}
         fullWidth
         {...props}

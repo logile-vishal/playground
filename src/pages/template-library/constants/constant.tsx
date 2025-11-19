@@ -199,6 +199,7 @@ export const TEMPLATE_LIBRARY_HEADING = {
    folderTree: "Folder Tree",
    template: "Template",
    templateLibrary: "Template Library",
+   searchTemplates: "Search by template name",
 }
 
 export const TEMPLATE_LIBRARY_NO_DATA = {

@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, useRef } from "react";
 import useAutocomplete from "@mui/material/useAutocomplete";
 import { Popper, Typography, Box } from "@mui/material";
 
@@ -77,6 +77,24 @@ export default function StyledAutocomplete({
     return acc;
   }, {});
 
+  // Create a stable unique ID for this input. 
+// useRef is used so the ID doesn't change on every render.
+const uniqId = useRef(`auto-complete-${Math.random().toString(36).substr(2, 9)}`);
+
+useEffect(() => {
+  // Grab the DOM element using the unique ID
+  const autoCompleteInput = document.getElementById(uniqId.current);
+
+  // If the element exists, scroll it into view when `value` changes
+  // (Useful for auto-complete dropdowns that may overflow or move)
+  if (autoCompleteInput) {
+    autoCompleteInput.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }
+}, [value]); // Runs whenever the auto-complete `value` updates
+
   return (
     <div className="auto-complete" {...getRootProps()}>
       <label className="auto-complete__label" {...getInputLabelProps()}>
@@ -107,6 +125,7 @@ export default function StyledAutocomplete({
           placeholder={
             selectedValues?.length === 0 ? placeholder || AUTOCOMPLETE_CONSTANTS.placeholder : ""
           }
+          id={uniqId.current}
         />
       </div>
 

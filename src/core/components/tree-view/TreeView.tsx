@@ -22,7 +22,7 @@ const StyledTreeItem = styled(TreeItem)(() => ({
     borderRadius: "0px",
   },
   [`& .${treeItemClasses.content}`]: {
-    padding: "6px",
+    padding: "var(--space-s) var(--space-xl) var(--space-s) var(--space-s)",
     gap: "0px",
     backgroundColor: "transparent",
   },

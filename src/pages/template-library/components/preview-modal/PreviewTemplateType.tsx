@@ -143,10 +143,13 @@ export const renderGridContainer = (quesData, isDesktopPreview, templateType) =>
                                 <TableCell className="template-preview-modal__grid-question-container">
                                     {renderQuestionTitle(question, `${index + 1}.`, question.type === QUESTION_TYPES.LABEL.value, isDesktopPreview)}
                                 </TableCell>
-                                <TableCell>{renderAnswer(question, isDesktopPreview, templateType)}</TableCell>
-                                <TableCell>{renderAnswer(question, isDesktopPreview, templateType)}</TableCell>
-                                <TableCell>{renderAnswer(question, isDesktopPreview, templateType)}</TableCell>
-                                <TableCell>{renderAnswer(question, isDesktopPreview, templateType)}</TableCell>
+                                {
+                                    quesData?.columns?.map((col, colIdx) => (
+                                        <TableCell data-label={col?.qcontent} key={colIdx}>
+                                            {renderAnswer(question, isDesktopPreview, templateType)}
+                                        </TableCell>
+                                    ))
+                                }
                             </TableRow>
                         })
                     }

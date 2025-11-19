@@ -108,6 +108,7 @@ export type PreviewModalProps = {
   previewModal: TemplatePreviewModalProps;
   onClose: () => void;
   isPreviewLoading: boolean;
+  hasTemplatePreviewError: Error | null;
   exportMenu: {
     anchorEl: null | HTMLElement;
     status: boolean;

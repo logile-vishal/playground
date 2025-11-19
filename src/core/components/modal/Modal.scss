@@ -13,20 +13,18 @@
 
       &--small {
         --common-modal-width: 375px;
-        width: min(var(--common-modal-width), 90vw);
       }
       &--medium {
         --common-modal-width: 460px;
-        width: min(var(--common-modal-width), 90vw);
       }
       &--large {
-        --common-modal-width: 95vw;
+        --common-modal-width: 752px;
       }
-
+      
+      width: min(var(--common-modal-width), 90vw);
       background-color: var(--bg-base);
-      border-radius: var(--radius-m);
+      border-radius: var(--radius-2xl);
       outline: none;
-      max-width: var(--common-modal-width);
       max-height: var(--common-modal-height);
       overflow-y: auto;
       transition: all 0.3s ease;

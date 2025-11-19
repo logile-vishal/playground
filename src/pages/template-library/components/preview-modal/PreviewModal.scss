@@ -9,7 +9,7 @@
         background-color: var(--bg-base);
     }
     &__header {
-        padding: var(--space-m) var(--space-xl) 0px var(--space-xl);
+        padding: var(--space-l) var(--space-xl) 0px var(--space-xl);
         background: var(--bg-container-1);
     }
     &__header--mobile {
@@ -19,13 +19,10 @@
         border: 1px solid transparent;
     }
     &__content {
-        width: 100%;
-        width: 752px;
-        max-height: 720px;
         display: flex;
         flex-direction: column;
         gap: var(--space-l);
-        margin: var(--space-s) var(--space-xl) var(--space-l) var(--space-xl);
+        margin: var(--space-l) var(--space-xl) var(--space-xl) var(--space-xl);
     }
     &__content--mobile {
         width: 100%;
@@ -33,11 +30,12 @@
         margin: 0px;
     }
     &__loading-wrapper {
-        width: 752px;
-        padding: var(--space-xl);
+        border-radius: var(--radius-l);
+    }
+    &__loading-wrapper-mobile {
+        border-radius: var(--radius-l);
     }
     &__content-form {
-        width: 600px;
         gap: unset;
     }
     &__title-wrapper {
@@ -162,12 +160,14 @@
     
         .MuiTableHead-root, .MuiTableBody-root {
             .MuiTableRow-root {
+                color: var(--text-primary);
+                font-weight: var(--weight-400);
                 .MuiTableCell-root:first-child {
                     min-width: 388px;
                     position: sticky;
                     left: 0;
                     z-index: var(--zindex-s);
-                    filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
+                    filter: drop-shadow(4px 0px 0 rgba(0, 0, 0, 0.02));
                 }
             }
         }
@@ -175,6 +175,8 @@
             font-size: var(--size-body);
             min-width: 290px;
             padding: var(--space-l) var(--space-xl);
+            color: var(--text-primary);
+            font-weight: var(--weight-400);
         }
         .MuiTableRow-root {
             vertical-align: top;
@@ -190,6 +192,7 @@
         .MuiTableCell-head {
             position: sticky;
             top: 0;
+            font-weight: var(--weight-500);
             z-index: var(--zindex-xs);
             background-color: var(--bg-table-header);
         }
@@ -244,6 +247,9 @@
     }
     &__common-textfield.template-preview-modal__common-textfield {
         min-width: 200px;
+        .MuiOutlinedInput-input.Mui-disabled {
+            -webkit-text-fill-color: var(--text-primary);
+        }
     }
     &__dropdown-menu-item {
         display: flex;
@@ -450,8 +456,8 @@
       .MuiTableBody-root {
         display: flex;
         flex-direction: column;
-        gap: var(--space-l);
-        padding: var(--space-m);
+        gap: var(--space-xl);
+        padding: var(--space-xl);
       }
  
       .MuiTableRow-root {
@@ -459,8 +465,9 @@
         flex-direction: column;
         border: 1px solid var(--border-tertiary);
         border-radius: var(--radius-l);
-        padding: var(--space-l);
+        padding: 0px;
         background-color: var(--bg-container-1);
+        overflow: hidden;
       }
       .MuiTableHead-root,
     .MuiTableBody-root {
@@ -468,6 +475,8 @@
     .MuiTableCell-root:first-child {
         min-width: 100%;
         filter: none;
+        border-bottom: none;
+        padding: var(--space-l) var(--space-l) var(--space-xs) var(--space-l);
         }
     }
     }
@@ -478,16 +487,24 @@
         width: 100%;
         padding: var(--space-m) 0;
         font-size: var(--size-body);
-        border-bottom: none;
+        border-bottom: 1px solid var(--border-secondary);
+        padding: var(--space-l) var(--space-l) var(--space-2xl) var(--space-l);
  
         &:first-child {
           font-weight: var(--weight-500);
           color: var(--text-primary);
-          margin-bottom: var(--space-m);
+          margin-bottom: 0px;
         }
  
         &:not(:first-child) {
           margin-left: 0;
+        }
+ 
+        &::before {
+            content: attr(data-label);
+            color: var(--text-secondary);
+            font-size: var(--size-secondary-text);
+            font-weight: var(--weight-400);
         }
  
         // Ensure dropdowns, inputs, etc. are full width
@@ -497,6 +514,12 @@
         input {
           width: 100% !important;
         }
+      }
+      .template-preview-modal__answer-wrapper {
+        gap: 0px;
+      }
+      .template-preview-modal__attachment-wrapper {
+        padding: var(--space-l) var(--space-l) var(--space-xl) var(--space-l);
       }
     }
 }

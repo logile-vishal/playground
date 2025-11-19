@@ -182,9 +182,10 @@ const TemplateLibrary: React.FC = () => {
                 <SearchField
                   className="search-bar"
                   variant="outlined"
-                  placeholder="Search by template name"
+                  placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
                   size="small"
                   fullWidth
+                  autoComplete="off"
                   value={searchTemplateText}
                   onClick={openSearchDrawer}
                 />
