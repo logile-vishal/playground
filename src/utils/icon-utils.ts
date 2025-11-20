@@ -7,8 +7,19 @@ import { oldTemplateIcons } from "@/core/constants/old-template-icons";
   * @returns string
 */
 export const stripVersionPrefix = (iconName: string) => {
-  return iconName?.replace(/^v\d+-/, "")?.toLowerCase();
+  return iconName?.trim()?.replace(/^v\d+-/i, "")?.toLowerCase();
 };
+
+/**
+ * @method formatHexColor
+ * @description Ensures that a given color value is in valid hex format by adding a leading "#" if it is missing (e.g., "fff", "#fff", "a1b2c3").
+ * @param {string} iconColor - The input color value that may or may not start with "#".
+ * @returns {string} A properly formatted hex color string beginning with "#".
+*/
+export const formatHexColor = (iconColor: string) => {
+  if (!iconColor) return null;
+  return iconColor?.trim()?.replace(/^#?/, '#');
+} 
 
 /**
   * @method getOldTemplateIcon
@@ -18,6 +29,5 @@ export const stripVersionPrefix = (iconName: string) => {
 */
 export const getOldTemplateIcon = (iconName: string) => {
   if (!iconName) return null;
-  const timmedIconName = stripVersionPrefix(iconName);
-  return oldTemplateIcons[timmedIconName];
+  return oldTemplateIcons[stripVersionPrefix(iconName)] ?? null;
 };

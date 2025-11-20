@@ -19,7 +19,7 @@ import { DELETE_MODAL, formatDate, REPORT_SORTING, TEMPLATE_SORTING, TEMPLATE_TA
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 import { isNonEmptyValue } from "@/utils";
-import { getOldTemplateIcon } from "@/utils/icon-utils";
+import { formatHexColor, getOldTemplateIcon } from "@/utils/icon-utils";
 
 import type { SortOption } from "./types/template-constants.type";
 import { templateSkelton } from "./components/skeleton/Skeleton";
@@ -389,6 +389,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
         const data = cell.row?.original;
         const isTableSelectable = selectedTemplate.length > 0 ;
         const templateIcon = getOldTemplateIcon(data?.iconName)
+        const templateColor = formatHexColor(data?.iconColour);
         return <>
               {!isTableSelectable && <Box className="template-checkbox-container tablebody-col__checkbox--toggle" display="flex"
                 >
@@ -397,7 +398,7 @@ const renderTemplateModifiedHeader = ({ column }: { column: MRT_Column<TemplateT
                          <SvgIcon
                             component={templateIcon}
                             size={18}
-                            fill={data?.iconColour}
+                            fill={templateColor}
                             style={{ pointerEvents: 'none' }}
                          /> 
                       </IconButton>
