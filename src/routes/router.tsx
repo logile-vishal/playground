@@ -7,12 +7,14 @@ import NoPageFound from '@/layouts/NoPageFound';
 import TemplateLibrary from '@/pages/template-library';
 import { ComponentLibraryLandingPage } from '@/dev-playground/LandingPage';
 import TestPage from '@/dev-playground/TestPage';
+import { ProtectedRoute } from '@/layouts/protected-routes/ProtectedRoutes';
+import LoginPage from '@/pages/login/LoginPage';
 
 
-const getDevRoutes = ()=>{
-if(import.meta.env.DEV){
-    return { 
-      path: '/dev', 
+const getDevRoutes = () => {
+  if (import.meta.env.DEV) {
+    return {
+      path: '/dev',
       element: <AppShell />,
       children: [
         {
@@ -29,20 +31,31 @@ if(import.meta.env.DEV){
         }
       ]
     }
-}
-return {}
+  }
+  return {}
 }
 
 const router = createHashRouter([
   {
-    path: '/',
-    element: <AppShell />,
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/unauthorized',
+    element: <NoPageFound />,
+  },
+  {
+    path: '/templates',
+    element: <ProtectedRoute allowedRoles={['admin', 'user']}><AppShell /></ProtectedRoute>,
     children: [
-      { index: true, element: <TemplateLibrary /> },
-      { path: '*', element: <NoPageFound /> }
+      { index: true, element: <TemplateLibrary /> }
     ],
   },
- getDevRoutes()
+  {
+    path: '*',
+    element: <NoPageFound />
+  },
+  getDevRoutes()
 ]);
 
 
