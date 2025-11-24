@@ -1,0 +1,64 @@
+.shared-template-stepper {
+    &__main {
+        padding: var(--space-2xl);
+    }
+  .MuiStepLabel-root {
+    flex-direction: row-reverse;
+    gap: var(--space-m);
+  }
+  
+  &__step.shared-template-stepper__step {
+    cursor: pointer;
+    padding: 0px;
+  }
+  .MuiStepper-root {
+        gap: var(--space-l)
+   }
+  .MuiStepLabel-iconContainer {
+    padding: 0px;
+  }
+   
+  .Mui-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      color: var(--text-secondary);
+    }
+}
+
+/* Stepper Label */
+.shared-template-stepper__label {
+  font-size: var(--size-body);
+  font-weight: var(--weight-400);
+  color: var(--text-secondary);
+
+  .MuiStepLabel-labelContainer,.MuiStepLabel-label, .MuiStepLabel-label.Mui-completed, .MuiStepLabel-label.Mui-active {
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
+
+  /* Stepper state: Active */
+  &--active {
+    color: var(--text-brand-primary);
+    svg {
+      fill: var(--icon-secondary);
+    }
+  }
+
+    /* Stepper state: Completed */
+  &--completed {
+    color: var(--text-state-success-bold-subtle);
+    svg {
+          fill: var(--icon-state-success-bold-subtle)
+    }
+  }
+
+  /* Stepper state: Error */
+  &--error {
+    color: var(--text-state-violation-bold-subtle);
+    svg {
+      fill: var(--icon-secondary);
+    }
+  }
+
+}

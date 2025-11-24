@@ -91,6 +91,7 @@ export { default as InfoCircle } from '@/assets/icons/alert/info-circle.svg?reac
 export { default as InfoCircleFilled } from '@/assets/icons/alert/info-circle-filled.svg?react';
 export { default as QuestionCircle } from '@/assets/icons/alert/question-circle.svg?react';
 export { default as CircleCheckFilled } from '@/assets/icons/alert/circle-check-filled.svg?react';
+export { default as ChevronRightIconFilled } from '@/assets/icons/arrow/circle-chevron-right-filled.svg?react';
 
 
 export type IconName =
@@ -184,6 +185,7 @@ export type IconName =
   | 'InfoCircleFilled'
   | 'QuestionCircle'
   | 'CircleCheckFilled'
+  | 'ChevronRightIconFilled'
   | 'Printer';
 
 
