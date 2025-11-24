@@ -5,6 +5,7 @@ import { createHashRouter } from 'react-router-dom';
 import AppShell from '@/layouts/app-shell/AppShell';
 import NoPageFound from '@/layouts/NoPageFound';
 import TemplateLibrary from '@/pages/template-library';
+import CreateTemplate from '@/pages/create-template';
 import { ComponentLibraryLandingPage } from '@/dev-playground/LandingPage';
 import TestPage from '@/dev-playground/TestPage';
 import { ProtectedRoute } from '@/layouts/protected-routes/ProtectedRoutes';
@@ -48,7 +49,8 @@ const router = createHashRouter([
     path: '/templates',
     element: <ProtectedRoute allowedRoles={['admin', 'user']}><AppShell /></ProtectedRoute>,
     children: [
-      { index: true, element: <TemplateLibrary /> }
+      { index: true, element: <TemplateLibrary /> },
+      { path: 'create', element: <CreateTemplate /> },
     ],
   },
   {

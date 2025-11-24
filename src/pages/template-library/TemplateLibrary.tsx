@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Box, InputAdornment, Stack } from '@mui/material';
 import TextField from "@mui/material/TextField";
 import Typography from '@mui/material/Typography';
@@ -64,6 +65,7 @@ const TemplateLibrary: React.FC = () => {
     });
     const [importPopup, setImportPopup] = useState<boolean>(false);
     const isDesktop = useIsDesktopViewport();
+    const navigate = useNavigate();
 
     /* API */
     const { data: directoriesList, isLoading: isDirectoriesLoading } = useGetAllDirectories();
@@ -102,6 +104,10 @@ const TemplateLibrary: React.FC = () => {
       setSelectedDirectory(directory);
     }
  
+    const handleOpenCreateTemplate = () => {
+      navigate("/templates/create");
+    }
+
     const handleImportPopupOpen = () => {
       setImportPopup(true);
     }
@@ -155,7 +161,7 @@ const TemplateLibrary: React.FC = () => {
       <Box className={clsx({"template-library": true, "template-library--desktop": isDesktop})}>
          <Box className='template-library__header'>
             <Box className='template-library__text'>{TEMPLATE_LIBRARY_HEADING.folderTree}</Box>
-             { selectedTemplate.length > 0 ?
+            { selectedTemplate.length > 0 ?
               <Box className="template-library__header-selected-count">
                 <Box className="template-library__label-wrapper">
                   <Box className="template-library__icon">
@@ -199,7 +205,7 @@ const TemplateLibrary: React.FC = () => {
                 />
               </Box>
               <Stack direction={"row"} alignItems="center" gap="12px">
-                <Box className="ws-nowrap"><CommonButton severity="primary" variant="solid" size="large">{TEMPLATE_LIBRARY_HEADING.createTemplate}</CommonButton></Box>
+                <Box className="ws-nowrap"><CommonButton severity="primary" variant="solid" size="large" onClick={handleOpenCreateTemplate}>{TEMPLATE_LIBRARY_HEADING.createTemplate}</CommonButton></Box>
                 <IconButton onClick={handleImportPopupOpen} variant='outline'><SvgIcon component={Upload} size={20} /></IconButton>
                 <IconButton onClick={(event) => handleExportMenuOpen(event)} variant='outline'><SvgIcon component={MoreOption} size={20} /></IconButton>
               </Stack>
