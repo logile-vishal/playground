@@ -1,0 +1,5 @@
+@use "@/styles/mixins/create-template.scss" as *;
+
+.create-template-advanced-options {
+   @include placeholder-page
+}
