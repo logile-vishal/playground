@@ -1,24 +1,48 @@
 import { type ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/core/services/auth.service";
 
-const allowedRolesList: string[] = ['admin', 'user'];
+const roleList: string[] = ["admin", "user"];
 
 interface ProtectedRouteProps {
   children: ReactNode;
   allowedRoles?: string[];
 }
 
-export const ProtectedRoute = ({ children, allowedRoles = allowedRolesList }: ProtectedRouteProps) => {
-  const { user, isLoading } = useAuth();
+export const ProtectedRoute = ({
+  children,
+  allowedRoles = roleList,
+}: ProtectedRouteProps) => {
+  const { user, isLoading, isLoadingCache } = useAuth();
+  const location = useLocation();
+  const checkIfUserAllowed = () =>
+    user && user.isAdmin && allowedRoles.includes("admin");
 
-  if (isLoading) return <div>Loading user...</div>;
-  if (!user) return <Navigate to="/login" replace />;
-  if (allowedRoles && !user.role.some(role => allowedRoles.includes(role))) {
-    return <Navigate to="/unauthorized" replace />;
+  // Only show loading on initial fetch, not on background refetches
+  if (isLoading && !user && !isLoadingCache) {
+    return <div>Loading user...</div>;
   }
 
+  if (!isLoading && !user) {
+    // Not logged in, redirect to login
+    return (
+      <Navigate
+        to="/login"
+        state={{ from: location }}
+        replace
+      />
+    );
+  }
+
+  if (!checkIfUserAllowed()) {
+    return (
+      <Navigate
+        to="/unauthorized"
+        replace
+      />
+    );
+  }
+
+  // Render children if provided, otherwise render Outlet for nested routes
   return <>{children}</>;
 };
-
-  

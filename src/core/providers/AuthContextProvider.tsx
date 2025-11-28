@@ -1,11 +1,31 @@
-import { AuthContext } from '@/core/services/auth.service'
-import { useUser } from '@/core/hooks/useFetchUser';
+import { type ReactNode } from "react";
+import { AuthContext } from "@/core/services/auth.service";
+import { useUser } from "@/core/hooks/useFetchUser";
 
-export const AuthProvider = ({ children }) => {
-  const { data: user, isLoading, isError, refetch } = useUser();
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const {
+    data: user,
+    isLoading,
+    isError,
+    refetch,
+    isFetching,
+    isLoadingCache,
+  } = useUser();
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, isError, refetch }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoading: isLoading || isFetching,
+        isError,
+        refetch,
+        isLoadingCache,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

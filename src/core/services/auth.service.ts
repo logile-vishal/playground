@@ -1,5 +1,15 @@
 import { createContext, useContext } from "react";
 
-export const AuthContext = createContext(null);
+import type { User } from "@/core/types/user.type";
 
-export const useAuth = () => useContext(AuthContext);
+type AuthContext = {
+    user: User | null;
+    isLoading: boolean;
+    isError: boolean;
+    refetch: () => void;
+    isLoadingCache: boolean;
+}
+
+export const AuthContext = createContext<AuthContext | null>(null);
+
+export const useAuth: () => AuthContext = () => useContext(AuthContext) as AuthContext;
