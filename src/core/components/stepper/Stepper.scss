@@ -1,6 +1,8 @@
 .shared-template-stepper {
     &__main {
-        padding: var(--space-2xl);
+        padding: var(--space-l) var(--space-xl);
+        border-block: 1px solid var(--border-secondary);
+        background: var(--bg-container-1);
     }
   .MuiStepLabel-root {
     flex-direction: row-reverse;

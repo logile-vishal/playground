@@ -1,4 +1,5 @@
 // This file is used to centralize the import and export of SVG icons as React components.
+export { default as AddIcon } from '@/assets/icons/common-icons/add.svg?react';
 export { default as ArrowDown } from '@/assets/icons/common-icons/arrow-down.svg?react';
 export { default as ArrowDownFill } from '@/assets/icons/common-icons/arrow-down-fill.svg?react';
 export { default as ArrowLeftFill } from '@/assets/icons/common-icons/arrow-left-fill.svg?react';
@@ -11,6 +12,8 @@ export { default as Check } from '@/assets/icons/common-icons/check.svg?react';
 export { default as CheckedDoc } from '@/assets/icons/common-icons/checked-doc.svg?react';
 export { default as CheckedList } from '@/assets/icons/common-icons/checked-list.svg?react';
 export { default as ChevronLeft } from '@/assets/icons/arrow/chevron-left.svg?react';
+export { default as ChevronExpanded } from '@/assets/icons/arrow/chevron-expanded.svg?react';
+export { default as ChevronCollapse } from '@/assets/icons/arrow/chevron-collapse.svg?react';
 export { default as ClipboardToDo } from '@/assets/icons/common-icons/clipboard-to-do.svg?react';
 export { default as Close } from '@/assets/icons/common-icons/close.svg?react';
 export { default as Comment } from '@/assets/icons/common-icons/comment.svg?react';
@@ -97,6 +100,7 @@ export { default as ChevronRightIconFilled } from '@/assets/icons/arrow/circle-c
 
 
 export type IconName =
+  | 'AddIcon'
   | 'ArrowDown'
   | 'ArrowDownFill'
   | 'ArrowLeftFill'
@@ -112,6 +116,8 @@ export type IconName =
   | 'CheckboxEmpty'
   | 'CheckboxChecked'
   | 'ChevronLeft'
+  | 'ChevronExpanded'
+  | 'ChevronCollapse'
   | 'ClipboardToDo'
   | 'Close'
   | 'Comment'
