@@ -1,0 +1,53 @@
+.multiselect {
+  .MuiSelect-select {
+    padding: 0;
+  }
+  &__label {
+    display: block;
+    font-size: var(--size-secondary-text);
+    font-weight: var(--weight-400);
+    color: var(--text-secondary);
+    line-height: var(--line-height-secondary-text);
+  }
+  &__input {
+    background-color: var(--bg-container-1);
+    color: var(--text-primary);
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+  }
+  &__menu.MuiPaper-root {
+    box-shadow: none;
+    border: 1px solid var(--border-secondary);
+    background-color: var(--bg-container-1);
+    .MuiList-root {
+        max-height: 408px; //TODO: Assign variable height once design team updates
+    };
+    &.MuiPopover-paper {
+      max-height: unset;
+    }
+    & .multiselect__menu-item--selected {
+      color: var(--text-brand-primary-dark-mode-alt);
+      font-weight: var(--weight-500);
+    }
+    &.MuiPopover-paper.MuiPaper-root {
+      box-shadow: none;
+      border: 1px solid var(--border-secondary);
+    }
+
+    &-item-select-all-feature {
+      margin-bottom: var(--space-s);
+      padding: 0;
+      & > div {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: var(--space-m);
+      }
+    }
+  }
+
+  &__placeholder-text {
+    color: var(--text-tertiary);
+    font-size: var(--size-body);
+  }
+}

@@ -1,24 +1,24 @@
+:root{
+  --auto-complete-width: 200px;
+}
 .auto-complete {
-  color: rgba(0, 0, 0, 0.85);
-  font-size: 14px;
+  --auto-complete-height: 36px; //TODO: update with variable once provided by design team
+  --auto-complete-menu-list-height: 250px;
 
-  &.dark {
-    color: rgba(255, 255, 255, 0.65);
-  }
+  color: var(--text-primary);
+  font-size: var(--size-body);
 
   &__label {
-    padding: 0 0 4px;
-    line-height: 1.5;
     display: block;
-    font-size: 13px;
+    font-size: var(--size-secondary-text);
     font-weight: var(--weight-400);
     color: var(--text-secondary);
     line-height: var(--line-height-secondary-text);
   }
 
   &__input-wrapper {
-    width: 200px;
-    height: 36px;
+    width: var(--auto-complete-width);
+    height: var(--auto-complete-height);
     border: 1px solid var(--border-secondary);
     border-radius: var(--space-m);
     padding: var(--space-xs);
@@ -46,77 +46,76 @@
     input {
       background-color: var(--bg-container-1);
       color: var(--text-primary);
-      padding: 4px 6px;
-      flex-grow: 1;
-      min-width: 20px;
+      padding: var(--space-xs);
+     flex: 1;
       border: 0;
       outline: 0; 
     }
 
     input::placeholder {
-      color: #888888;
-      font-size: 15px;
-      font-weight: 400;
+      color: var(--text-tertiary);
+      font-size: var(--size-body);
+      font-weight: var(--weight-400);
     }
   }
 
   &__ungroup-label {
-    font-size: var(--size-secondary-text);
+   font-size: var(--size-body);
     font-weight: var(--weight-600);
     color: var(--text-secondary);
   }
 
   &__group-label {
-    font-size: var(--size-secondary-text);
+   font-size: var(--size-body);
   }
 
   &__tag {
     display: flex;
     align-items: center;
-    height: 24px;
-    margin: 2px;
-    background-color: #e7e7e7;
-    border: 1px solid #c1c1c1;
-    border-radius: 6px;
-    padding: 0 4px 0 10px;
-    gap: 6px;
+    height: 24px; //TODO: Assign variable height once design team updates
+    margin: var(--space-xs);
+    background-color: var(--bg-container-3);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-s);
+    padding: 0 4px 0 10px; //TODO: Assign variable padding once design team updates
+    gap: var(--space-xs);
 
     &-img-container {
-      width: 16px;
-      height: 16px;
+      width: 1.6rem;
+      height: 1.6rem;
     }
 
     span {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      font-size: 13px;
-      font-weight: 400;
+      font-size: var(--size-secondary-text);
+      font-weight: var(--weight-400);
     }
 
     svg {
-      font-size: 12px;
       cursor: pointer;
       flex-shrink: 0;
     }
   }
 
   &__listbox {
-    width: 200px;
-    margin: 2px 0 0;
-    padding: 6px;
+    width: var(--auto-complete-width);
+    margin: var(--space-xxs) 0 0;
+    padding: var(--space-s);
     position: absolute;
     list-style: none;
-    max-height: 250px;
+    max-height: var(--auto-complete-menu-list-height);
     overflow: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-radius: var(--radius-m);
+     box-shadow: none;
+     border: 1px solid var(--border-secondary);
     z-index: var(--zindex-l);
     background-color: var(--bg-container-1);
     color: var(--text-primary);
 
     li {
-      padding: 8px 12px;
+      padding: var(--space-m) var(--space-l);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -136,7 +135,7 @@
       font-weight: var(--weight-600);
 
       svg {
-        color: #1890ff;
+        color: var(--brand-primary);
       }
     }
 
@@ -144,7 +143,7 @@
     li.Mui-focusVisible,
     li.hover {
       background-color: var(--bg-primary-x-subtle);
-      border-radius: 6px;
+      border-radius: var(--radius-s);
 
       svg {
         color: currentColor;

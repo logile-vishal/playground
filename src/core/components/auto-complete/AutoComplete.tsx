@@ -60,7 +60,8 @@ export default function StyledAutocomplete({
   });
 
 /**
- * Groups flat options by their groupLabel key.
+ * @method flattenOptions
+ * @description Groups flat options by their groupLabel key.
  *
  * Options that have the same `groupLabel` value are placed together.
  * Options without a groupLabel are grouped under `UNGROUPED`.
@@ -115,7 +116,7 @@ useEffect(() => {
                 className="auto-complete__tag-img-container"
                 onClick={tagProps.onDelete}
               >
-                <SvgIcon component={Close} size={16} fill="#000" />
+                <SvgIcon component={Close} size={16} color="primary" />
               </Box>
             </div>
           );

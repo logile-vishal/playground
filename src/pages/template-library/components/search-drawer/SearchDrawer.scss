@@ -116,6 +116,15 @@
     display: flex;
     align-items: center;
     gap: var(--space-3xl);
+    .template-library-search-drawer__question-text-dropdown-container {
+      flex: 4;
+    }
+    .template-library-search-drawer__task-type-dropdown-container {
+      flex: 1;
+    }
+    .template-library-search-drawer__status-dropdown-container {
+      flex: 1;
+    }
   }
 
   &__days-text-field {
@@ -134,20 +143,6 @@
     }
   }
 
-  &__dropdown-select {
-    width: 100%;
-    padding: var(--space-m);
-    background-color: var(--bg-container-1);
-
-    .MuiSelect-select {
-      padding: 0;
-      padding-right: var(--space-xs);
-      border-radius: var(--radius-m);
-      font-size: var(--size-body);
-      font-weight: var(--weight-400);
-      color: var(--text-primary);
-    }
-  }
 
   &__placeholder-text {
     font-size: var(--size-body);

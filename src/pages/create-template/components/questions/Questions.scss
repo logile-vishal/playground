@@ -1,5 +1,61 @@
 @use "@/styles/mixins/create-template.scss" as *;
 
 .create-template-questions {
-   @include placeholder-page
+   @include placeholder-page;
+   padding: var(--space-m) var(--space-xl);
+   gap:var(--space-m);
+   &__header-wrapper {
+      display: flex;
+      justify-content: space-between;
+   }
+   &__header.create-template-questions__header {
+      color: var(--text-primary);
+      font-size: var(--size-secondary-heading);
+      font-weight: var(--weight-500);
+   }
+   &__all-ques-expand-container {
+      display: flex;
+      gap: var(--space-xl);
+   }
+   &__expanded-btn.create-template-questions__expanded-btn {
+      padding: var(--space-l) var(--space-xl);
+      border-radius: var(--radius-m);
+      border: 1px solid var(--border-secondary);
+      background: var(--bg-container-1);
+      color: var(--icon-secondary);
+      &--active {
+         border: 1px solid var(--border-state-disabled);
+         background: var(--bg-state-disabled-subtle);
+         color: var(--icon-state-disabled);
+      }
+   }
+   &-cards-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-l);
+      &__placeholder {
+         border-radius: var(--radius-m);
+         border: 1px dashed var(--border-secondary);
+         background: var(--bg-container-1);
+         height: 100px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+      }
+      &__placeholder-text.create-template-questions-cards-wrapper__placeholder-text {
+         color: var(--text-tertiary);
+         font-size: var(--size-body);
+         font-weight: var(--weight-400);
+      }
+      &__action {
+         display: flex;
+         align-items: center;
+         gap: var(--space-xl);
+         &-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+         }
+      }
+   }
 }

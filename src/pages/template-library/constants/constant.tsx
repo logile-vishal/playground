@@ -27,7 +27,6 @@ export const TEMPLATE_TASK_TYPE_OPTIONS = [
 ];
 
 export const TEMPLATE_STATUS_OPTIONS = [
-    { label: 'All Status Selected', value: '' },
     { label: 'Assigned', value: 'Assigned' },
     { label: 'Not In Use', value: 'Not_In_Use' },
     { label: 'Incomplete', value: 'Not_Completed' },
