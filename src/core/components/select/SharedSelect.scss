@@ -1,0 +1,39 @@
+
+.select{
+  &__label{
+      display: block;
+      font-size: var(--size-secondary-text);
+      font-weight: var(--weight-400);
+      color: var(--text-secondary);
+      line-height: var(--line-height-secondary-text);
+  }
+  &__placeholder-text {
+  color: var(--text-tertiary);
+}
+  .MuiSelect-select{
+    padding: 0;
+  }
+}
+.select__menu {
+  &.MuiPaper-root {
+    box-shadow: none;
+    border: 1px solid var(--border-secondary);
+    &.MuiPopover-paper{
+      max-height: unset;
+    }
+  }
+  & .MuiMenu-list {
+    padding: 0;
+    max-height: 408px; //TODO: Assign variable height once design team updates
+    overflow-y: auto;
+  }
+
+  .select-menuitem__toolbar {
+    z-index: calc(var(--zindex-dropdown) + 2);
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-container-1);
+    padding: var(--space-m);
+  }
+}
+
