@@ -12,6 +12,8 @@ export { default as Check } from '@/assets/icons/common-icons/check.svg?react';
 export { default as CheckedDoc } from '@/assets/icons/common-icons/checked-doc.svg?react';
 export { default as CheckedList } from '@/assets/icons/common-icons/checked-list.svg?react';
 export { default as ChevronLeft } from '@/assets/icons/arrow/chevron-left.svg?react';
+export { default as ChevronRight } from '@/assets/icons/arrow/chevron-right.svg?react';
+export { default as ChevronDown } from '@/assets/icons/arrow/chevron-down.svg?react';
 export { default as ChevronExpanded } from '@/assets/icons/arrow/chevron-expanded.svg?react';
 export { default as ChevronCollapse } from '@/assets/icons/arrow/chevron-collapse.svg?react';
 export { default as ClipboardToDo } from '@/assets/icons/common-icons/clipboard-to-do.svg?react';
@@ -116,6 +118,8 @@ export type IconName =
   | 'CheckboxEmpty'
   | 'CheckboxChecked'
   | 'ChevronLeft'
+  | 'ChevronRight'
+  | 'ChevronDown'
   | 'ChevronExpanded'
   | 'ChevronCollapse'
   | 'ClipboardToDo'

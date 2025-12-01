@@ -10,5 +10,6 @@ export type StepOption = {
 
 export type SharedStepperProps = {
   options: StepOption[];
+  componentClassName?: string;
   onChange?: (event: { activeStep: number; data: StepOption }) => void;
 }

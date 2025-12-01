@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/core/services/auth.service";
+import Loader from "@/core/components/loader/Loader";
 
 const roleList: string[] = ["admin", "user"];
 
@@ -20,7 +21,7 @@ export const ProtectedRoute = ({
 
   // Only show loading on initial fetch, not on background refetches
   if (isLoading && !user && !isLoadingCache) {
-    return <div>Loading user...</div>;
+    return <Loader />;
   }
 
   if (!isLoading && !user) {
@@ -34,7 +35,7 @@ export const ProtectedRoute = ({
     );
   }
 
-  if (!checkIfUserAllowed()) {
+  if (!isLoading && !isLoadingCache && !checkIfUserAllowed()) {
     return (
       <Navigate
         to="/unauthorized"

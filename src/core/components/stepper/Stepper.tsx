@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Step, StepLabel, Stepper } from "@mui/material";
+import { Box, Step, StepLabel, Stepper } from "@mui/material";
 
 import type { SharedStepperProps } from "@/core/types/stepper.type";
 import { ChevronRightIconFilled } from "@/core/constants/icons";
+import { useIsDesktopViewport } from '@/utils/get-viewport-size';
 import clsx from "@/utils/clsx";
 
 import SvgIcon from "../icon/Icon";
@@ -30,11 +31,11 @@ const runStepValidator = (validateFn?: () => boolean): boolean => {
  * @param {Function} [props.onChange] - Callback fired when active step changes
  * @returns {JSX.Element} Rendered stepper component
  */
-const SharedStepper = ({ options = [], onChange }: SharedStepperProps) => {
+const SharedStepper = ({ options = [], onChange, componentClassName }: SharedStepperProps) => {
 
   const [activeStep, setActiveStep] = useState(0);
   const [largestSelectedStep, setLargestSelectedStep] = useState(0);
-
+  const isDesktop = useIsDesktopViewport();
   
   /**
    * @method isNavigateAllowed
@@ -86,8 +87,8 @@ const SharedStepper = ({ options = [], onChange }: SharedStepperProps) => {
     }
 
   return (
-    <div className="shared-template-stepper">
-      <Stepper className="shared-template-stepper__main" connector={<></>} activeStep={activeStep}>
+    <div className={clsx({"shared-stepper": true, [componentClassName]: !!componentClassName})}>
+      <Stepper className={clsx({"shared-stepper__steps": true, "shared-stepper__steps--top-border": !isDesktop})}shared-stepper__steps connector={<></>} activeStep={activeStep}>
         {options.map((item, index) => {
           const isCompleted = largestSelectedStep > index;
           const isActive = activeStep === index;
@@ -99,15 +100,15 @@ const SharedStepper = ({ options = [], onChange }: SharedStepperProps) => {
             <Step
               key={item.label}
               onClick={() => handleStepClick(index)}
-              className={clsx({'shared-template-stepper__step': true, 'shared-template-stepper__first-step': isFirstStep})}
+              className={clsx({'shared-stepper__steps-item': true, 'shared-stepper__first-step': isFirstStep})}
               disabled={isDisabled}
             >
               <StepLabel
                 className={clsx({
-                  "shared-template-stepper__label": true,
-                  "shared-template-stepper__label--completed": isCompleted,
-                  "shared-template-stepper__label--error": isError,
-                  "shared-template-stepper__label--active": isActive,
+                  "shared-stepper__label": true,
+                  "shared-stepper__label--completed": isCompleted,
+                  "shared-stepper__label--error": isError,
+                  "shared-stepper__label--active": isActive,
                 })}
                 icon={ !isLastStep ? 
                   <SvgIcon
@@ -122,9 +123,9 @@ const SharedStepper = ({ options = [], onChange }: SharedStepperProps) => {
           );
         })}
       </Stepper>
-      <div>
+      <Box className="shared-stepper__content">
         {renderComponent()}
-      </div>
+      </Box>
     </div>
   );
 };

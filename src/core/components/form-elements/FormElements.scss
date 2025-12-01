@@ -1,0 +1,116 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.shared-textfield {
+  @include flex-box(column);
+
+  &__label {
+    @include form-label-text;
+
+    &--required::after {
+      content: " *";
+      color: var(--text-state-violation);
+    }
+  }
+  &__input-field {
+    .MuiOutlinedInput-input.Mui-disabled {
+      -webkit-text-fill-color: var(--text-primary);
+    }
+    &:hover fieldset {
+      border-color: var(--border-brand-primary-subtle);
+    }
+    &:focus-visible {
+      border-color: var(--border-brand-primary-subtle);
+    }
+  }
+
+  .MuiInputBase-input {
+    padding: var(--space-m);
+    border-radius: var(--radius-m);
+    font-size: var(--size-body);
+    font-weight: var(--weight-400);
+    color: var(--text-primary);
+    background-color: var(--bg-container-1);
+
+    &::placeholder {
+      color: var(--text-tertiary);
+      font-size: inherit;
+      font-weight: inherit;
+      opacity: unset;
+    }
+  }
+
+}
+
+.shared-dropdown {
+  @include flex-box(column);
+  --common-dropdown-height: 36px;
+
+  &__label {
+    @include form-label-text;
+  }
+  &__label-required.shared-dropdown__label-required::after {
+    content: " *";
+    color: var(--text-state-violation);
+  }
+  &__input-field {
+    padding: var(--space-m);
+    height: var(--common-dropdown-height);
+    background-color: var(--bg-container-1);
+
+    div.MuiSelect-select {
+      padding: 0;
+      padding-right: var(--space-xs);
+      border-radius: var(--radius-m);
+      font-size: var(--size-body);
+      font-weight: var(--weight-400);
+      color: var(--text-primary);
+    }
+  }
+  
+  &__placeholder {
+    color: var(--text-tertiary);
+    font-size: var(--size-body);
+    font-weight: var(--weight-400);
+  }
+}
+
+/* Dropdown options styling*/
+div.MuiMenu-paper.shared-dropdown__menu-paper {
+  --menu-paper-height: 500px;
+  --menu-max-height: 600px;
+
+  overflow-y: auto;
+  padding: var(--space-xs);
+  max-height: var(--menu-max-height);
+
+  .MuiList-root {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs)
+  }
+
+  .MuiMenuItem-root {
+    font-size: var(--size-body);
+    font-weight: var(--weight-400);
+    padding: var(--space-s);
+    border-radius: var(--radius-m);
+    color: var(--text-primary);
+    min-height: fit-content;
+
+    &:hover {
+      background-color: var(--bg-primary-x-subtle);
+    }
+  }
+}
+
+#shared-dropdown__menu-paper--search-field {
+  background: none;
+  .MuiInputBase-root {
+    padding: var(--space-m);
+    gap: var(--space-m);
+  }
+  .MuiInputAdornment-root {
+    margin: 0px;
+  }
+}

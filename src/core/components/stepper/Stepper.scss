@@ -1,15 +1,22 @@
-.shared-template-stepper {
-    &__main {
-        padding: var(--space-l) var(--space-xl);
+.shared-stepper {
+    height: 100%;
+    --stepper-steps-height: 50px;
+
+    &__steps {
+      padding: var(--space-l) var(--space-xl);
+      border-bottom: 1px solid var(--border-secondary);
+
+      &--top-border {
         border-block: 1px solid var(--border-secondary);
         background: var(--bg-container-1);
+      }
     }
   .MuiStepLabel-root {
     flex-direction: row-reverse;
     gap: var(--space-m);
   }
   
-  &__step.shared-template-stepper__step {
+  &__steps-item.shared-stepper__step {
     cursor: pointer;
     padding: 0px;
   }
@@ -25,10 +32,15 @@
       cursor: not-allowed;
       color: var(--text-secondary);
     }
+
+    .shared-stepper__content{
+      overflow-y: auto;
+      height: calc(100% - var(--stepper-steps-height));
+    }
 }
 
 /* Stepper Label */
-.shared-template-stepper__label {
+.shared-stepper__label {
   font-size: var(--size-body);
   font-weight: var(--weight-400);
   color: var(--text-secondary);

@@ -16,3 +16,17 @@ export const QUESTION_SECTION = {
    ACTION_ADD_QUESTION: "Questions",
    ACTION_ADD_SECTION: "Sections",
 }
+
+export const BASIC_INFO = {
+   templateName: "Template Name",
+   templateNamePlaceholder: "Enter Template Name",
+   description: "Description",
+   descriptionPlaceholder: "Enter Description",
+   type: "Type",
+   typePlaceholder: "Select Type",
+   tags: "Tags",
+   tagsPlaceholder: "Select Tags",
+   directory: "Directory",
+   directoryPlaceholder: "Select Directory",
+   subDirectoryPlaceholder: "Select Sub-Directory",
+}
