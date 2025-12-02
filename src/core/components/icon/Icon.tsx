@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react';
-import Box from '@mui/material/Box';
+import React, { Suspense } from "react";
+import Box from "@mui/material/Box";
 
-import type { IconColorType } from '@/core/types/icon.type';
-import clsx from '@/utils/clsx';
+import type { IconColorType } from "@/core/types/icon.type";
+import clsx from "@/utils/clsx";
 
-import './icon-color-classnames.scss';
+import "./icon-color-classnames.scss";
 
 export type SvgIconProps = {
   component: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -22,7 +22,7 @@ const SvgIcon: React.FC<SvgIconProps> = ({
   component,
   size = 24,
   className,
-  fill = 'currentColor',
+  fill = "currentColor",
   stroke,
   style,
   color,
@@ -35,17 +35,17 @@ const SvgIcon: React.FC<SvgIconProps> = ({
         sx={{
           width: size,
           height: size,
-          bgcolor: 'var(--bg-base)',
-          borderRadius: '50%',
+          bgcolor: "var(--logile-bg-base)",
+          borderRadius: "50%",
         }}
       ></Box>
     );
   }
   const iconClassName = clsx({
-    [className || '']: Boolean(className),
+    [className || ""]: Boolean(className),
     [color]: Boolean(color),
   });
-  const iconFill = fill ?? 'currentColor';
+  const iconFill = fill ?? "currentColor";
 
   return (
     <Suspense fallback={<></>}>

@@ -19,58 +19,56 @@
     display: flex;
     align-items: center;
     color: var(--toast-severity-icon-color);
-    padding: .2rem;
+    padding: 0.2rem;
   }
   .toast__body {
     display: flex;
     flex-grow: 1;
     gap: var(--space-m);
     .toast__body-text {
-      font-size: var(--size-body);
+      font-size: var(--logile-size-body);
       display: flex;
       align-items: center;
       .toast__body-title {
         color: var(--toast-body-text-title-color);
-        font-weight: var(--weight-400);
+        font-weight: var(--logile-weight-400);
         line-height: 2.2rem;
         font-style: regular;
         width: 100%;
       }
       .toast__body-desc {
         color: var(--toast-body-text-desc-color);
-        font-weight: var(--weight-400);
+        font-weight: var(--logile-weight-400);
         margin-bottom: var(--space-s);
         line-height: 2.2rem;
         font-style: regular;
       }
     }
     .toast__body-action {
-        display: flex;
-        align-items: center;
-        & > button{
-            font-size: var(--size-body);
-            color: var(--toast-action-btn-color);
-            padding: 0rem var(--space-xs);
-            min-width: max-content;
-            font-style: normal;
-            font-weight: var(--weight-400);
-        }
+      display: flex;
+      align-items: center;
+      & > button {
+        font-size: var(--logile-size-body);
+        color: var(--toast-action-btn-color);
+        padding: 0rem var(--space-xs);
+        min-width: max-content;
+        font-style: normal;
+        font-weight: var(--logile-weight-400);
+      }
       display: flex;
       align-items: center;
       margin-left: auto;
-      .toast__body-action-separator{
+      .toast__body-action-separator {
         display: flex;
         align-items: center;
         justify-content: center;
-        height: fit-content; 
+        height: fit-content;
 
         & > span {
-
-            color: var(--toast-action-btn-color);
-            font-weight: var(--weight-400);
-            font-size: var(--size-body);
-            line-height: 4rem;
-            
+          color: var(--toast-action-btn-color);
+          font-weight: var(--logile-weight-400);
+          font-size: var(--logile-size-body);
+          line-height: 4rem;
         }
       }
     }
@@ -95,59 +93,57 @@
   .toast__body {
     flex-direction: column;
     gap: var(--space-l);
-    .toast__body-text{
+    .toast__body-text {
       display: flex;
       align-items: start;
       flex-direction: column;
-        .toast__body-title{
-            font-size: var(--size-body);
-            font-weight: var(--weight-500);
-        }
-        .toast__body-desc{
-            font-size: var(--size-body);
-            margin-top: var(--space-xs);
-        }
+      .toast__body-title {
+        font-size: var(--logile-size-body);
+        font-weight: var(--logile-weight-500);
+      }
+      .toast__body-desc {
+        font-size: var(--logile-size-body);
+        margin-top: var(--space-xs);
+      }
     }
 
-  .toast__body-action {
+    .toast__body-action {
       max-height: 2.2rem;
       margin-left: 0;
-      font-size: var(--size-body);
-      font-weight: var(--weight-400);
+      font-size: var(--logile-size-body);
+      font-weight: var(--logile-weight-400);
       margin-top: 1rem;
     }
-
   }
-  .toast__close-btn{
+  .toast__close-btn {
     align-items: start;
     display: flex;
     margin-left: auto;
   }
- 
 }
 
 //variants and severity related changes
 .toast--filled {
-  --toast-severity-icon-color: var(--text-white);
-  --toast-close-icon-color: var(--text-white);
-  --toast-body-text-title-color: var(--text-white);
-  --toast-body-text-desc-color: var(--text-white);
-  --toast-close-icon-color: var(--text-white);
-  --toast-action-btn-color: var(--text-white);
+  --toast-severity-icon-color: var(--logile-text-white);
+  --toast-close-icon-color: var(--logile-text-white);
+  --toast-body-text-title-color: var(--logile-text-white);
+  --toast-body-text-desc-color: var(--logile-text-white);
+  --toast-close-icon-color: var(--logile-text-white);
+  --toast-action-btn-color: var(--logile-text-white);
   &.toast--information {
-    --toast-bg-color: var(--bg-state-information);
+    --toast-bg-color: var(--logile-bg-state-information);
   }
   &.toast--success {
-    --toast-bg-color: var(--bg-state-success-bold);
+    --toast-bg-color: var(--logile-bg-state-success-bold);
   }
   &.toast--warning {
-    --toast-bg-color: var(--bg-state-warning-bold);
+    --toast-bg-color: var(--logile-bg-state-warning-bold);
   }
   &.toast--error {
-    --toast-bg-color: var(--bg-state-violation-bold);
+    --toast-bg-color: var(--logile-bg-state-violation-bold);
   }
   &.toast--feature {
-    --toast-bg-color: var(--bg-surface-x-bold);
+    --toast-bg-color: var(--logile-bg-surface-x-bold);
   }
 }
 .toast--light {
@@ -156,81 +152,78 @@
     --toast-severity-icon-color: var(--text-state-information-bold);
     --toast-body-text-title-color: var(--text-state-information-bold);
     --toast-body-text-desc-color: var(--text-state-information-bold);
-    --toast-bg-color: var(--bg-state-information-x-subtle);
+    --toast-bg-color: var(--logile-bg-state-information-x-subtle);
   }
   &.toast--success {
     --toast-close-icon-color: var(--text-state-success-bold);
     --toast-severity-icon-color: var(--text-state-success-bold);
     --toast-body-text-title-color: var(--text-state-success-bold);
     --toast-body-text-desc-color: var(--text-state-success-bold);
-    --toast-bg-color: var(--bg-state-success-x-subtle);
+    --toast-bg-color: var(--logile-bg-state-success-x-subtle);
   }
   &.toast--warning {
     --toast-close-icon-color: var(--text-state-warning-bold);
     --toast-severity-icon-color: var(--text-state-warning-bold);
     --toast-body-text-title-color: var(--text-state-warning-bold);
     --toast-body-text-desc-color: var(--text-state-warning-bold);
-    --toast-bg-color: var(--bg-state-warning-x-subtle);
+    --toast-bg-color: var(--logile-bg-state-warning-x-subtle);
   }
   &.toast--error {
-    --toast-close-icon-color: var(--text-state-violation-bold);
-    --toast-severity-icon-color: var(--text-state-violation-bold);
-    --toast-body-text-title-color: var(--text-state-violation-bold);
-    --toast-body-text-desc-color: var(--text-state-violation-bold);
-    --toast-bg-color: var(--bg-state-violation-x-subtle);
+    --toast-close-icon-color: var(--logile-text-state-violation-bold);
+    --toast-severity-icon-color: var(--logile-text-state-violation-bold);
+    --toast-body-text-title-color: var(--logile-text-state-violation-bold);
+    --toast-body-text-desc-color: var(--logile-text-state-violation-bold);
+    --toast-bg-color: var(--logile-bg-state-violation-x-subtle);
   }
   &.toast--feature {
-    --toast-close-icon-color: var(--icon-secondary);
-    --toast-severity-icon-color: var(--icon-secondary);
-    --toast-body-text-title-color: var(--text-primary);
-    --toast-body-text-desc-color: var(--text-secondary);
-    --toast-bg-color: var(--bg-surface-subtle); //TODO: Update it with variable once whitelabel is done 
+    --toast-close-icon-color: var(--logile-icon-secondary);
+    --toast-severity-icon-color: var(--logile-icon-secondary);
+    --toast-body-text-title-color: var(--logile-text-primary);
+    --toast-body-text-desc-color: var(--logile-text-secondary);
+    --toast-bg-color: var(
+      --bg-surface-subtle
+    ); //TODO: Update it with variable once whitelabel is done
   }
 }
 .toast--lighter {
   --toast-body-text-title-color: var(--text-black-333);
-  --toast-body-text-desc-color: var(--text-secondary);
+  --toast-body-text-desc-color: var(--logile-text-secondary);
   --toast-close-icon-color: var(--icon-tertiary);
 
   &.toast--information {
-    --toast-severity-icon-color: var(--bg-primary);
-    --toast-bg-color: var(--bg-state-information-x-subtle);
+    --toast-severity-icon-color: var(--logile-bg-primary);
+    --toast-bg-color: var(--logile-bg-state-information-x-subtle);
   }
   &.toast--success {
-    --toast-severity-icon-color: var(--bg-state-success);
-    --toast-bg-color: var(--bg-state-success-x-subtle);
+    --toast-severity-icon-color: var(--logile-bg-state-success);
+    --toast-bg-color: var(--logile-bg-state-success-x-subtle);
   }
   &.toast--warning {
-    --toast-severity-icon-color: var(--bg-state-warning);
-    --toast-bg-color: var(--bg-state-warning-x-subtle);
+    --toast-severity-icon-color: var(--logile-bg-state-warning);
+    --toast-bg-color: var(--logile-bg-state-warning-x-subtle);
   }
   &.toast--error {
-    --toast-severity-icon-color: var(--bg-state-violation);
-    --toast-bg-color: var(--bg-state-violation-x-subtle);
+    --toast-severity-icon-color: var(--logile-bg-state-violation);
+    --toast-bg-color: var(--logile-bg-state-violation-x-subtle);
   }
   &.toast--feature {
     --toast-severity-icon-color: var(--icon-tertiary);
-    --toast-bg-color: var(--bg-container-3);
+    --toast-bg-color: var(--logile-bg-container-3);
   }
 }
 .toast--stroke {
-  --toast-body-text-title-color: var(--text-primary);
-  --toast-body-text-desc-color: var(--text-secondary);
-  --toast-bg-color: var(--bg-container-1);
+  --toast-body-text-title-color: var(--logile-text-primary);
+  --toast-body-text-desc-color: var(--logile-text-secondary);
+  --toast-bg-color: var(--logile-bg-container-1);
   &.toast--information {
- 
   }
   &.toast--success {
-
   }
   &.toast--warning {
-
   }
   &.toast--error {
-
   }
   &.toast--feature {
-
   }
 }
-//TODO: Stroke variant to be implemented  
+//TODO: Stroke variant to be implemented

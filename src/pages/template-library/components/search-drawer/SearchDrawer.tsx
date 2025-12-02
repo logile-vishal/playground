@@ -1,50 +1,50 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Drawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { styled } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
-import { Divider, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Drawer from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { styled } from "@mui/material/styles";
+import InputAdornment from "@mui/material/InputAdornment";
+import { Divider, TextField, Typography } from "@mui/material";
 
-import { CommonButton } from '@/core/components/button/button';
-import StyledAutocomplete from '@/core/components/auto-complete/AutoComplete';
-import NoDataTemplate from '@/core/components/no-data-template/NoDataTemplate';
-import type { PaginatedResponse } from '@/core/types/pagination.type';
-import type { AutoCompleteOptionProps } from '@/core/types/autocomplete.type';
+import { CommonButton } from "@/core/components/button/button";
+import StyledAutocomplete from "@/core/components/auto-complete/AutoComplete";
+import NoDataTemplate from "@/core/components/no-data-template/NoDataTemplate";
+import type { PaginatedResponse } from "@/core/types/pagination.type";
+import type { AutoCompleteOptionProps } from "@/core/types/autocomplete.type";
 import {
   ChevronLeft,
   Search,
   Close,
   EmptyState,
   History,
-} from '@/core/constants/icons';
-import SharedMultiSelect from '@/core/components/multi-select/SharedMultiSelect';
-import SvgIcon from '@/core/components/icon/Icon';
-import SharedSelect from '@/core/components/select/SharedSelect';
+} from "@/core/constants/icons";
+import SharedMultiSelect from "@/core/components/multi-select/SharedMultiSelect";
+import SvgIcon from "@/core/components/icon/Icon";
+import SharedSelect from "@/core/components/select/SharedSelect";
 
 import {
   useFilterTemplates,
   useGetQuestionTagsOptions,
   useGetTaskTagsOptions,
   useGetTaskTypesOptions,
-} from '../../services/template-library-api-hooks';
+} from "../../services/template-library-api-hooks";
 import type {
   ReportType,
   TagOptionsType,
   TaskTypeOptions,
   TemplatePaginationData,
-} from '../../types/template-library.type';
+} from "../../types/template-library.type";
 import {
   TEMPLATE_LIBRARY_HEADING,
   TEMPLATE_SEARCH_TABS,
   TEMPLATE_STATUS_OPTIONS,
-} from '../../constants/constant';
-import type { TemplateType } from '../../types/template-preview.type';
-import './SearchDrawer.scss';
-import { SEARCH_DRAWER } from './constants';
+} from "../../constants/constant";
+import type { TemplateType } from "../../types/template-preview.type";
+import "./SearchDrawer.scss";
+import { SEARCH_DRAWER } from "./constants";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -61,40 +61,40 @@ interface SearchDrawerProps {
 }
 
 const StyledDrawer = styled(Drawer)(() => ({
-  '& .MuiDrawer-paper': {
-    borderRadius: '0 0 var(--radius-m) var(--radius-m)',
+  "& .MuiDrawer-paper": {
+    borderRadius: "0 0 var(--radius-m) var(--radius-m)",
   },
 }));
 const StyledTabs = styled(Tabs)(() => ({
-  borderBottom: 'var(--border-s) solid var(--border-secondary)',
-  minHeight: 'auto',
-  '& .MuiButtonBase-root': {
-    padding: 'var(--space-m) var(--space-l)',
-    minHeight: 'auto',
-    textTransform: 'capitalize',
-    fontSize: 'var(--size-body)',
-    fontWeight: 'var(--weight-400)',
-    color: 'var(--text-primary)',
+  borderBottom: "var(--border-s) solid var(--logile-border-secondary)",
+  minHeight: "auto",
+  "& .MuiButtonBase-root": {
+    padding: "var(--space-m) var(--space-l)",
+    minHeight: "auto",
+    textTransform: "capitalize",
+    fontSize: "var(--logile-size-body)",
+    fontWeight: "var(--logile-weight-400)",
+    color: "var(--logile-text-primary)",
   },
 }));
 const SearchField = styled(TextField)(() => ({
-  '& input': {
-    padding: 'var(--space-m)',
+  "& input": {
+    padding: "var(--space-m)",
   },
-  '& .MuiOutlinedInput-root': {
-    borderRadius: 'var(--radius-m)',
-    fontWeight: 'var(--weight-400)',
-    height: '36px',
-    backgroundColor: 'var(--bg-container-1)',
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "var(--radius-m)",
+    fontWeight: "var(--logile-weight-400)",
+    height: "36px",
+    backgroundColor: "var(--logile-bg-container-1)",
 
-    '& fieldset': {
-      borderColor: 'var(--border-secondary)',
+    "& fieldset": {
+      borderColor: "var(--logile-border-secondary)",
     },
-    '&:hover fieldset': {
-      borderColor: 'var(--border-brand-primary-subtle)',
+    "&:hover fieldset": {
+      borderColor: "var(--logile-border-brand-primary-subtle)",
     },
-    '&:focus fieldset': {
-      borderColor: 'var(--border-brand-primary-subtle)',
+    "&:focus fieldset": {
+      borderColor: "var(--logile-border-brand-primary-subtle)",
     },
   },
 }));
@@ -110,7 +110,7 @@ function TabPanel(props: TabPanelProps) {
   return <div>{value && <Box>{children}</Box>}</div>;
 }
 function StyledTextField({
-  label = '',
+  label = "",
   value,
   handleChange,
   className,
@@ -125,21 +125,21 @@ function StyledTextField({
 }) {
   return (
     <Box className={className}>
-      <Typography className='template-library-search-drawer__text-label'>
+      <Typography className="template-library-search-drawer__text-label">
         {label}
       </Typography>
       <TextField
         value={value}
         onChange={handleChange}
-        className='template-library-search-drawer__text-field-input'
+        className="template-library-search-drawer__text-field-input"
         fullWidth
-        variant='outlined'
-        autoComplete='off'
+        variant="outlined"
+        autoComplete="off"
       />
     </Box>
   );
 }
-function TaskTypeDropDown({ label = '', options, className, ...props }) {
+function TaskTypeDropDown({ label = "", options, className, ...props }) {
   return (
     <Box className={className}>
       <SharedSelect
@@ -152,11 +152,11 @@ function TaskTypeDropDown({ label = '', options, className, ...props }) {
         }
         {...props}
         IconComponent={() => (
-          <Box className='template-library-search-drawer__rotate-icon'>
+          <Box className="template-library-search-drawer__rotate-icon">
             <SvgIcon
               component={ChevronLeft}
               size={18}
-              color='secondary'
+              color="secondary"
             />
           </Box>
         )}
@@ -164,21 +164,21 @@ function TaskTypeDropDown({ label = '', options, className, ...props }) {
     </Box>
   );
 }
-function StatusDropDown({ label = '', options, className, ...props }) {
+function StatusDropDown({ label = "", options, className, ...props }) {
   return (
     <Box className={className}>
       <SharedMultiSelect
-        className='template-library-search-drawer__dropdown-select'
+        className="template-library-search-drawer__dropdown-select"
         label={label}
         options={options ?? []}
         fullWidth
         {...props}
         IconComponent={() => (
-          <Box className='template-library-search-drawer__rotate-icon'>
+          <Box className="template-library-search-drawer__rotate-icon">
             <SvgIcon
               component={ChevronLeft}
               size={18}
-              fill='var(--icon-secondary)'
+              fill="var(--logile-icon-secondary)"
             />
           </Box>
         )}
@@ -188,10 +188,10 @@ function StatusDropDown({ label = '', options, className, ...props }) {
 }
 
 const defaultFilters = {
-  questionText: '',
+  questionText: "",
   taskType: null,
   status: [],
-  modifiedInLast: '',
+  modifiedInLast: "",
   taskTagsList: [] as AutoCompleteOptionProps[],
   questionTagsList: [] as AutoCompleteOptionProps[],
 };
@@ -243,7 +243,7 @@ const SearchDrawer = ({
    * @returns {void}
    */
   const handleClearSearch = () => {
-    setSearchText('');
+    setSearchText("");
   };
 
   const handleFilter = () => {
@@ -276,7 +276,7 @@ const SearchDrawer = ({
     const taskTagsList = advanceFilterData?.taskTagsList?.map(
       (tag: AutoCompleteOptionProps) => tag?.value
     );
-    const taskType = advanceFilterData?.taskType?.value ?? '';
+    const taskType = advanceFilterData?.taskType?.value ?? "";
     const statusList = advanceFilterData?.status?.map(
       (tag: AutoCompleteOptionProps) => tag?.value
     );
@@ -300,7 +300,7 @@ const SearchDrawer = ({
    */
   const handleClearFilter = () => {
     setAdvanceFilterData(JSON.parse(JSON.stringify(defaultFilters)));
-    setSearchText('');
+    setSearchText("");
   };
 
   useEffect(() => {
@@ -339,38 +339,38 @@ const SearchDrawer = ({
 
   return (
     <StyledDrawer
-      anchor='top'
+      anchor="top"
       open={open}
       onClose={onClose}
       elevation={0}
     >
-      <Box className='template-library-search-drawer'>
-        <Box className='template-library-search-drawer__header'>
+      <Box className="template-library-search-drawer">
+        <Box className="template-library-search-drawer__header">
           <Button
-            className='template-library-search-drawer__back-btn'
+            className="template-library-search-drawer__back-btn"
             onClick={onClose}
             startIcon={
               <SvgIcon
                 component={ChevronLeft}
-                color='secondary'
+                color="secondary"
                 size={24}
               />
             }
           ></Button>
           <SearchField
-            className='template-library-search-drawer__search-bar'
-            variant='outlined'
+            className="template-library-search-drawer__search-bar"
+            variant="outlined"
             placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
-            size='small'
-            autoComplete='off'
+            size="small"
+            autoComplete="off"
             fullWidth
             value={searchText}
             onChange={handleSearch}
             InputProps={{
               endAdornment: (
                 <InputAdornment
-                  position='end'
-                  className='template-library-search-drawer__cursor-pointer'
+                  position="end"
+                  className="template-library-search-drawer__cursor-pointer"
                   onClick={searchText?.length > 0 ? handleClearSearch : null}
                 >
                   <SvgIcon
@@ -378,7 +378,7 @@ const SearchDrawer = ({
                       !searchText || searchText?.length == 0 ? Search : Close
                     }
                     size={20}
-                    color='secondary'
+                    color="secondary"
                   />
                 </InputAdornment>
               ),
@@ -386,7 +386,7 @@ const SearchDrawer = ({
           />
         </Box>
         <Divider />
-        <Box className='template-library-search-drawer__tab-container'>
+        <Box className="template-library-search-drawer__tab-container">
           <StyledTabs
             onChange={handleTabChange}
             value={currentTab}
@@ -401,39 +401,39 @@ const SearchDrawer = ({
             />
           </StyledTabs>
           <TabPanel value={currentTab === RECENT.value}>
-            <Box className='template-library-search-drawer__recent-tab-content'>
+            <Box className="template-library-search-drawer__recent-tab-content">
               {!recentFilterData || recentFilterData?.length === 0 ? (
                 <NoDataTemplate
-                  title={t('NO_DATA_SEARCH.title')}
-                  description={t('NO_DATA_SEARCH.description')}
+                  title={t("NO_DATA_SEARCH.title")}
+                  description={t("NO_DATA_SEARCH.description")}
                   imageSrcName={EmptyState}
                   imageWidth={90}
                 />
               ) : (
                 recentFilterData?.map(() => {
                   return (
-                    <Box className='template-library-search-drawer__recent-search-main'>
-                      <Box className='template-library-search-drawer__recent-search-item'>
-                        <Box height='24px'>
+                    <Box className="template-library-search-drawer__recent-search-main">
+                      <Box className="template-library-search-drawer__recent-search-item">
+                        <Box height="24px">
                           <SvgIcon
                             component={History}
                             size={24}
-                            color='secondary'
+                            color="secondary"
                           />
                         </Box>
                         <Box>
-                          <Typography className='template-library-search-drawer__template-name'>
-                            Bakery Cleaning{' '}
-                            <span className='template-code'>(TT-59141)</span>
+                          <Typography className="template-library-search-drawer__template-name">
+                            Bakery Cleaning{" "}
+                            <span className="template-code">(TT-59141)</span>
                           </Typography>
-                          <Typography className='template-library-search-drawer__template-code'>
+                          <Typography className="template-library-search-drawer__template-code">
                             EG &gt; 5S Audits &gt; 5S Simplicity Leads
                           </Typography>
                         </Box>
                       </Box>
-                      <Typography className='template-library-search-drawer__template-code'>
-                        Last Modified:{' '}
-                        <span className='template-library-search-drawer__black-fg'>
+                      <Typography className="template-library-search-drawer__template-code">
+                        Last Modified:{" "}
+                        <span className="template-library-search-drawer__black-fg">
                           12/01/2022
                         </span>
                       </Typography>
@@ -444,52 +444,52 @@ const SearchDrawer = ({
             </Box>
           </TabPanel>
           <TabPanel value={currentTab === ADVANCE.value}>
-            <Box className='template-library-search-drawer__advance-tab-content'>
-              <Box className='template-library-search-drawer__advance-search-group'>
+            <Box className="template-library-search-drawer__advance-tab-content">
+              <Box className="template-library-search-drawer__advance-search-group">
                 <StyledTextField
                   label={SEARCH_DRAWER.QUESTION_TEXT_LABEL}
-                  className='template-library-search-drawer__question-text-dropdown-container'
-                  handleChange={(event) => handleChange('questionText', event)}
+                  className="template-library-search-drawer__question-text-dropdown-container"
+                  handleChange={(event) => handleChange("questionText", event)}
                   value={advanceFilterData?.questionText}
                 />
 
                 <TaskTypeDropDown
                   label={SEARCH_DRAWER.TASK_TYPE_LABEL}
-                  className='template-library-search-drawer__task-type-dropdown-container'
+                  className="template-library-search-drawer__task-type-dropdown-container"
                   options={optionsData?.taskTypeOptions}
                   placeholder={SEARCH_DRAWER.TASK_TYPE_PLACEHOLDER}
-                  onChange={(event) => handleChange('taskType', event)}
+                  onChange={(event) => handleChange("taskType", event)}
                   value={advanceFilterData?.taskType}
-                  optionLabelKey='label'
+                  optionLabelKey="label"
                 />
                 <StatusDropDown
                   label={SEARCH_DRAWER.STATUS_DROPDOWN_LABEL}
-                  className='template-library-search-drawer__status-dropdown-container'
+                  className="template-library-search-drawer__status-dropdown-container"
                   options={TEMPLATE_STATUS_OPTIONS}
                   placeholder={SEARCH_DRAWER.STATUS_DROPDOWN_PLACEHOLDER}
-                  onChange={(event) => handleChange('status', event)}
+                  onChange={(event) => handleChange("status", event)}
                   value={advanceFilterData?.status}
-                  optionLabelKey='label'
+                  optionLabelKey="label"
                 />
               </Box>
-              <Box className='template-library-search-drawer__advance-search-group'>
-                <Box className='template-library-search-drawer__modified-wrapper'>
-                  <Typography className='template-library-search-drawer__text-label'>
+              <Box className="template-library-search-drawer__advance-search-group">
+                <Box className="template-library-search-drawer__modified-wrapper">
+                  <Typography className="template-library-search-drawer__text-label">
                     Show tasks modified in last:
                   </Typography>
                   <Box>
                     <TextField
                       onChange={(event) =>
-                        handleChange('modifiedInLast', event)
+                        handleChange("modifiedInLast", event)
                       }
-                      className='template-library-search-drawer__text-field-input template-library-search-drawer__days-text-field'
+                      className="template-library-search-drawer__text-field-input template-library-search-drawer__days-text-field"
                       fullWidth
-                      autoComplete='off'
-                      variant='outlined'
+                      autoComplete="off"
+                      variant="outlined"
                       value={advanceFilterData?.modifiedInLast}
                     />
                   </Box>
-                  <Typography className='template-library-search-drawer__text-label'>
+                  <Typography className="template-library-search-drawer__text-label">
                     days
                   </Typography>
                 </Box>
@@ -499,7 +499,7 @@ const SearchDrawer = ({
                   placeholder={SEARCH_DRAWER.TASK_TAGS_PLACEHOLDER}
                   label={SEARCH_DRAWER.TASK_TAGS_LABEL}
                   value={advanceFilterData?.taskTagsList}
-                  handleChange={(value) => handleChange('taskTagsList', value)}
+                  handleChange={(value) => handleChange("taskTagsList", value)}
                 />
 
                 <StyledAutocomplete
@@ -508,26 +508,26 @@ const SearchDrawer = ({
                   label={SEARCH_DRAWER.QUESTION_TAGS_LABEL}
                   value={advanceFilterData?.questionTagsList}
                   handleChange={(value) =>
-                    handleChange('questionTagsList', value)
+                    handleChange("questionTagsList", value)
                   }
                 />
               </Box>
-              <Box className='template-library-search-drawer__button-wrapper'>
+              <Box className="template-library-search-drawer__button-wrapper">
                 <CommonButton
-                  severity='primary'
-                  variant='text'
-                  size='large'
+                  severity="primary"
+                  variant="text"
+                  size="large"
                   onClick={handleClearFilter}
                 >
                   Clear All
                 </CommonButton>
                 <CommonButton
-                  severity='primary'
-                  variant='solid'
-                  size='large'
+                  severity="primary"
+                  variant="solid"
+                  size="large"
                   onClick={handleFilter}
                 >
-                  {isFilterDataLoading ? 'Loading...' : 'Search'}
+                  {isFilterDataLoading ? "Loading..." : "Search"}
                 </CommonButton>
               </Box>
             </Box>

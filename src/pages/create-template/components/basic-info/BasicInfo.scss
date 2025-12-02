@@ -1,49 +1,48 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .create-template-basic-info {
-   @include placeholder-page;
-   --basic-info-row-width: 440px;
-   --basic-info-dropdown-width: 200px;
+  @include placeholder-page;
+  --basic-info-row-width: 440px;
+  --basic-info-dropdown-width: 200px;
 
-   gap: var(--space-m);
-   padding: var(--space-xl);
+  gap: var(--space-m);
+  padding: var(--space-xl);
 
-   &__row {
-      width: 100%;
-      display: flex;
-      gap: var(--space-4xl);
-      padding: var(--space-m) 0;
-   }
+  &__row {
+    width: 100%;
+    display: flex;
+    gap: var(--space-4xl);
+    padding: var(--space-m) 0;
+  }
 
-   &__row-item {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-   }
+  &__row-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-   &__row-first-item {
-      width: var(--basic-info-row-width);
-   }
+  &__row-first-item {
+    width: var(--basic-info-row-width);
+  }
 
-   &__dropdown-row {
-      @include flex-center(start, center, var(--space-l));
-      width: 100%;
-   }
+  &__dropdown-row {
+    @include flex-center(start, center, var(--space-l));
+    width: 100%;
+  }
 
-   &__dropdown-menu.create-template-basic-info__dropdown-menu{
-      width: var(--basic-info-dropdown-width);
-   }
+  &__dropdown-menu.create-template-basic-info__dropdown-menu {
+    width: var(--basic-info-dropdown-width);
+  }
 
-   &__label.create-template-basic-info__label {
-      width: fit-content;
-      color: var(--text-secondary);
-      font-size: var(--size-secondary-text);
-      font-weight: var(--weight-400);
-      line-height: var(--line-height-body-large);
-
-   }
-   &__label.required-icon::after {
-      content: " *";
-      color: var(--text-state-violation);
+  &__label.create-template-basic-info__label {
+    width: fit-content;
+    color: var(--logile-text-secondary);
+    font-size: var(--logile-size-secondary-text);
+    font-weight: var(--logile-weight-400);
+    line-height: var(--logile-line-height-body-large);
+  }
+  &__label.required-icon::after {
+    content: " *";
+    color: var(--logile-text-state-violation);
   }
 }

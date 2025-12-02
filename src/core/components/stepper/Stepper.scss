@@ -1,51 +1,54 @@
 .shared-stepper {
-    height: 100%;
-    --stepper-steps-height: 50px;
+  height: 100%;
+  --stepper-steps-height: 50px;
 
-    &__steps {
-      padding: var(--space-l) var(--space-xl);
-      border-bottom: 1px solid var(--border-secondary);
+  &__steps {
+    padding: var(--space-l) var(--space-xl);
+    border-bottom: 1px solid var(--logile-border-secondary);
 
-      &--top-border {
-        border-block: 1px solid var(--border-secondary);
-        background: var(--bg-container-1);
-      }
+    &--top-border {
+      border-block: 1px solid var(--logile-border-secondary);
+      background: var(--logile-bg-container-1);
     }
+  }
   .MuiStepLabel-root {
     flex-direction: row-reverse;
     gap: var(--space-m);
   }
-  
+
   &__steps-item.shared-stepper__step {
     cursor: pointer;
     padding: 0px;
   }
   .MuiStepper-root {
-        gap: var(--space-l)
-   }
+    gap: var(--space-l);
+  }
   .MuiStepLabel-iconContainer {
     padding: 0px;
   }
-   
-  .Mui-disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      color: var(--text-secondary);
-    }
 
-    .shared-stepper__content{
-      overflow-y: auto;
-      height: calc(100% - var(--stepper-steps-height));
-    }
+  .Mui-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: var(--logile-text-secondary);
+  }
+
+  .shared-stepper__content {
+    overflow-y: auto;
+    height: calc(100% - var(--stepper-steps-height));
+  }
 }
 
 /* Stepper Label */
 .shared-stepper__label {
-  font-size: var(--size-body);
-  font-weight: var(--weight-400);
-  color: var(--text-secondary);
+  font-size: var(--logile-size-body);
+  font-weight: var(--logile-weight-400);
+  color: var(--logile-text-secondary);
 
-  .MuiStepLabel-labelContainer,.MuiStepLabel-label, .MuiStepLabel-label.Mui-completed, .MuiStepLabel-label.Mui-active {
+  .MuiStepLabel-labelContainer,
+  .MuiStepLabel-label,
+  .MuiStepLabel-label.Mui-completed,
+  .MuiStepLabel-label.Mui-active {
     font-size: inherit;
     font-weight: inherit;
     color: inherit;
@@ -53,26 +56,25 @@
 
   /* Stepper state: Active */
   &--active {
-    color: var(--text-brand-primary);
+    color: var(--logile-text-brand-primary);
     svg {
-      fill: var(--icon-secondary);
+      fill: var(--logile-icon-secondary);
     }
   }
 
-    /* Stepper state: Completed */
+  /* Stepper state: Completed */
   &--completed {
-    color: var(--text-state-success-bold-subtle);
+    color: var(--logile-text-state-success-bold-subtle);
     svg {
-          fill: var(--icon-state-success-bold-subtle)
+      fill: var(--logile-icon-state-success-bold-subtle);
     }
   }
 
   /* Stepper state: Error */
   &--error {
-    color: var(--text-state-violation-bold-subtle);
+    color: var(--logile-text-state-violation-bold-subtle);
     svg {
-      fill: var(--icon-secondary);
+      fill: var(--logile-icon-secondary);
     }
   }
-
 }

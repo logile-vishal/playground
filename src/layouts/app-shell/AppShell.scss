@@ -3,14 +3,13 @@
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  background-color: var(--bg-base);
+  background-color: var(--logile-bg-base);
 
   .app-shell__layout {
     display: flex;
     flex-grow: 1;
     max-height: calc(100vh - var(--appbar-height));
     overflow: hidden;
-    
   }
 
   & .app-shell__content {
@@ -19,10 +18,9 @@
     width: calc(100% - var(--sidebar-width));
     overflow-y: hidden;
     overflow-x: hidden;
-    background-color: var(--bg-base); 
+    background-color: var(--logile-bg-base);
     border-start-start-radius: var(--radius-m);
     border-end-start-radius: var(--radius-m);
     margin-bottom: var(--space-2xl);
-  
   }
 }

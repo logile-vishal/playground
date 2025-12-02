@@ -88,7 +88,7 @@ span.template-library-skelton-icon {
   align-items: center;
   gap: var(--space-s);
   padding: var(--space-l);
-  border-right: var(--border-s) solid var(--border-secondary);
+  border-right: var(--border-s) solid var(--logile-border-secondary);
   height: 100vh;
   padding-right: var(--space-xl);
 
@@ -103,12 +103,12 @@ span.template-library-skelton-icon {
 .template-library-preview {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--border-secondary);
+  border: 1px solid var(--logile-border-secondary);
   border-radius: var(--radius-m);
-  
+
   &__skeleton-container {
     padding: var(--space-xl);
-    border-bottom: 1px solid var(--border-secondary);
+    border-bottom: 1px solid var(--logile-border-secondary);
   }
   &__line {
     width: 437px;

@@ -1,25 +1,25 @@
-:root{
+:root {
   --auto-complete-width: 200px;
 }
 .auto-complete {
   --auto-complete-height: 36px; //TODO: update with variable once provided by design team
   --auto-complete-menu-list-height: 250px;
 
-  color: var(--text-primary);
-  font-size: var(--size-body);
+  color: var(--logile-text-primary);
+  font-size: var(--logile-size-body);
 
   &__label {
     display: block;
-    font-size: var(--size-secondary-text);
-    font-weight: var(--weight-400);
-    color: var(--text-secondary);
-    line-height: var(--line-height-secondary-text);
+    font-size: var(--logile-size-secondary-text);
+    font-weight: var(--logile-weight-400);
+    color: var(--logile-text-secondary);
+    line-height: var(--logile-line-height-secondary-text);
   }
 
   &__input-wrapper {
     width: var(--auto-complete-width);
     height: var(--auto-complete-height);
-    border: 1px solid var(--border-secondary);
+    border: 1px solid var(--logile-border-secondary);
     border-radius: var(--space-m);
     padding: var(--space-xs);
     display: flex;
@@ -27,7 +27,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    background-color: var(--bg-container-1);
+    background-color: var(--logile-bg-container-1);
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
@@ -36,37 +36,37 @@
     }
 
     &:hover {
-      border-color: var(--border-brand-primary-subtle);
+      border-color: var(--logile-border-brand-primary-subtle);
     }
 
     &.focused {
-      border-color: var(--border-brand-primary-subtle);
+      border-color: var(--logile-border-brand-primary-subtle);
     }
 
     input {
-      background-color: var(--bg-container-1);
-      color: var(--text-primary);
+      background-color: var(--logile-bg-container-1);
+      color: var(--logile-text-primary);
       padding: var(--space-xs);
-     flex: 1;
+      flex: 1;
       border: 0;
-      outline: 0; 
+      outline: 0;
     }
 
     input::placeholder {
-      color: var(--text-tertiary);
-      font-size: var(--size-body);
-      font-weight: var(--weight-400);
+      color: var(--logile-text-tertiary);
+      font-size: var(--logile-size-body);
+      font-weight: var(--logile-weight-400);
     }
   }
 
   &__ungroup-label {
-   font-size: var(--size-body);
-    font-weight: var(--weight-600);
-    color: var(--text-secondary);
+    font-size: var(--logile-size-body);
+    font-weight: var(--logile-weight-600);
+    color: var(--logile-text-secondary);
   }
 
   &__group-label {
-   font-size: var(--size-body);
+    font-size: var(--logile-size-body);
   }
 
   &__tag {
@@ -74,8 +74,8 @@
     align-items: center;
     height: 24px; //TODO: Assign variable height once design team updates
     margin: var(--space-xs);
-    background-color: var(--bg-container-3);
-    border: 1px solid var(--border-primary);
+    background-color: var(--logile-bg-container-3);
+    border: 1px solid var(--logile-border-primary);
     border-radius: var(--radius-s);
     padding: 0 4px 0 10px; //TODO: Assign variable padding once design team updates
     gap: var(--space-xs);
@@ -89,8 +89,8 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      font-size: var(--size-secondary-text);
-      font-weight: var(--weight-400);
+      font-size: var(--logile-size-secondary-text);
+      font-weight: var(--logile-weight-400);
     }
 
     svg {
@@ -108,11 +108,11 @@
     max-height: var(--auto-complete-menu-list-height);
     overflow: auto;
     border-radius: var(--radius-m);
-     box-shadow: none;
-     border: 1px solid var(--border-secondary);
+    box-shadow: none;
+    border: 1px solid var(--logile-border-secondary);
     z-index: var(--zindex-l);
-    background-color: var(--bg-container-1);
-    color: var(--text-primary);
+    background-color: var(--logile-bg-container-1);
+    color: var(--logile-text-primary);
 
     li {
       padding: var(--space-m) var(--space-l);
@@ -131,8 +131,8 @@
     }
 
     li[aria-selected="true"] {
-      background-color: var(--bg-primary-x-subtle);
-      font-weight: var(--weight-600);
+      background-color: var(--logile-bg-primary-x-subtle);
+      font-weight: var(--logile-weight-600);
 
       svg {
         color: var(--brand-primary);
@@ -142,7 +142,7 @@
     li.Mui-focused,
     li.Mui-focusVisible,
     li.hover {
-      background-color: var(--bg-primary-x-subtle);
+      background-color: var(--logile-bg-primary-x-subtle);
       border-radius: var(--radius-s);
 
       svg {

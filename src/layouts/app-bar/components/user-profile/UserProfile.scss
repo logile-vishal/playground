@@ -1,71 +1,66 @@
-.user-profile-info-card{
-    display:flex;
-    flex-direction:row;
-    border-radius: var(--space-m);
-    border: 1px solid var(--border-secondary);
-    background-color: var(--bg-container-1);
-    gap:.5rem;
-    align-items:center;
-    margin-left: var(--space-3xl);
-    padding:var(--space-xs) var(--space-s);
-    cursor:pointer;
-    transition: all .2s ease-in-out;
-    &:hover{
-        background-color: var(--bg-hover-gray-50);
+.user-profile-info-card {
+  display: flex;
+  flex-direction: row;
+  border-radius: var(--space-m);
+  border: 1px solid var(--logile-border-secondary);
+  background-color: var(--logile-bg-container-1);
+  gap: 0.5rem;
+  align-items: center;
+  margin-left: var(--space-3xl);
+  padding: var(--space-xs) var(--space-s);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: var(--bg-hover-gray-50);
+  }
+  background-color: var(bg-default);
+  & .card-avatar {
+    background-color: #cac2ff;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+  }
+  & .card-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+
+    &__name {
+      font-size: var(--logile-size-secondary-text);
+      font-weight: var(--logile-weight-500);
+      line-height: 2rem;
+      color: var(--logile-text-primary);
     }
-    background-color: var(bg-default);
-    & .card-avatar{
-        background-color: #CAC2FF;
-        width:3.2rem;
-        height:3.2rem;
-        border-radius:50%;
+    &__role {
+      font-size: var(--logile-size-secondary-text);
+      color: var(--logile-text-secondary);
+      line-height: 2rem;
+      font-weight: var(--logile-weight-500);
     }
-    & .card-info{
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:start;
-     
-        &__name{
-            font-size:var(--size-secondary-text);
-            font-weight:var(--weight-500);
-            line-height: 2rem;
-            color:var(--text-primary)
-        }
-        &__role{
-            font-size:var(--size-secondary-text);
-            color: var(--text-secondary);
-            line-height: 2rem;
-            font-weight: var(--weight-500);
-            
-        }
-    }
-    &--active {
-    border: 1px solid var(--border-brand-primary);
-}
-   
+  }
+  &--active {
+    border: 1px solid var(--logile-border-brand-primary);
+  }
 }
 
 .userProfileMenu {
-        margin-top: 0.5rem;
-       .MuiPaper-root {
-        border: 1px solid var(--border-tertiary);
-       width: 22rem;
-       }
-     & .userProfileMenu__option-item {
-        font-size: var(--size-secondary-text);
-        color: var(--text-primary);
-        font-weight: var(--weight-400);
-        padding: 1rem 1.5rem;
-        & > .MuiList-root > li{
-            padding: 0.5rem 1rem;
-        }
-        .MuiMenuItem-root {
-                
-                font-size: var(--size-secondary-text);
-                color: var(--text-primary);
-
-            }
-        
+  margin-top: 0.5rem;
+  .MuiPaper-root {
+    border: 1px solid var(--logile-border-tertiary);
+    width: 22rem;
+  }
+  & .userProfileMenu__option-item {
+    font-size: var(--logile-size-secondary-text);
+    color: var(--logile-text-primary);
+    font-weight: var(--logile-weight-400);
+    padding: 1rem 1.5rem;
+    & > .MuiList-root > li {
+      padding: 0.5rem 1rem;
     }
+    .MuiMenuItem-root {
+      font-size: var(--logile-size-secondary-text);
+      color: var(--logile-text-primary);
+    }
+  }
 }

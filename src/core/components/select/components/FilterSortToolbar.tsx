@@ -73,16 +73,20 @@ const FilterSortToolbar: React.FC<{
    * @returns void
    */
   const handleSortOptions = (e: React.MouseEvent<HTMLButtonElement>) => {
-     e.stopPropagation();
-          e.preventDefault();
-          const direction =
-            sort === SORT_DIRECTION.ASCENDING
-              ? SORT_DIRECTION.DESCENDING
-              : SORT_DIRECTION.ASCENDING;
+    e.stopPropagation();
+    e.preventDefault();
+    const direction =
+      sort === SORT_DIRECTION.ASCENDING
+        ? SORT_DIRECTION.DESCENDING
+        : SORT_DIRECTION.ASCENDING;
     setSort(direction);
     setOptions(() => {
       if (Array.isArray(options)) {
-        const sortedOptions = sortOptions([...options], optionFilterLabelKey, sort);
+        const sortedOptions = sortOptions(
+          [...options],
+          optionFilterLabelKey,
+          sort
+        );
         return sortedOptions;
       }
       return options;
@@ -96,8 +100,12 @@ const FilterSortToolbar: React.FC<{
    * @returns void
    */
   const resetOptions = (sortDirection: SortType) => {
-    if(sortDirection){
-      const sortedOptions = sortOptions(options, optionFilterLabelKey, sortDirection);
+    if (sortDirection) {
+      const sortedOptions = sortOptions(
+        options,
+        optionFilterLabelKey,
+        sortDirection
+      );
       setOptions(sortedOptions);
     }
     setOptions(options);
@@ -121,7 +129,7 @@ const FilterSortToolbar: React.FC<{
         <SvgIcon
           component={sort === SORT_DIRECTION.ASCENDING ? ArrowUp : ArrowDown}
           size={16}
-          fill="var(--icon-secondary)"
+          fill="var(--logile-icon-secondary)"
         />
       </IconButton>
     );

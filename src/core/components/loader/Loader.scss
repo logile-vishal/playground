@@ -1,23 +1,23 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
-.loader{
-    &__wrapper {
-        @include flex-center(center, center);
-        flex-direction: column;
-        position: fixed;
-        top: 45%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: var(--zindex-l);
-    }
+.loader {
+  &__wrapper {
+    @include flex-center(center, center);
+    flex-direction: column;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: var(--zindex-l);
+  }
 
-    &__spinner {
-        margin-bottom: var(--space-xl);
-    }
+  &__spinner {
+    margin-bottom: var(--space-xl);
+  }
 
-    &__text {
-        font-size: var(--size-secondary-heading);
-        font-weight: var(--weight-500);
-        color: var(--text-primary);
-    }
+  &__text {
+    font-size: var(--logile-size-secondary-heading);
+    font-weight: var(--logile-weight-500);
+    color: var(--logile-text-primary);
+  }
 }

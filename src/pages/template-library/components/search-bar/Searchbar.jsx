@@ -9,40 +9,40 @@ import { TEMPLATE_LIBRARY_HEADING } from "../../constants/constant";
 const SearchField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     borderRadius: "8px",
-    fontWeight: "var(--weight-400)",
+    fontWeight: "var(--logile-weight-400)",
     "& fieldset": {
-      border: "1px solid var(--border-secondary)",
+      border: "1px solid var(--logile-border-secondary)",
     },
     "&:hover fieldset": {
-      border: "1px solid var(--border-secondary)",
+      border: "1px solid var(--logile-border-secondary)",
     },
     "&.Mui-focused fieldset": {
-      border: "1px solid var(--border-secondary)",
+      border: "1px solid var(--logile-border-secondary)",
     },
   },
 }));
 
 const Searchbar = (props) => {
   return (
-      <SearchField
-        className="search-bar"
-        variant="outlined"
-        placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
-        size="small"
-        autoComplete="off"
-        sx={{'& .MuiOutlinedInput-input': { height: '26px', padding:'4px 8px' }}}
-        fullWidth
-        {...props}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton edge="end">
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
+    <SearchField
+      className="search-bar"
+      variant="outlined"
+      placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
+      size="small"
+      autoComplete="off"
+      sx={{ '& .MuiOutlinedInput-input': { height: '26px', padding: '4px 8px' } }}
+      fullWidth
+      {...props}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton edge="end">
+              <SearchIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+    />
   )
 }
 export default Searchbar;

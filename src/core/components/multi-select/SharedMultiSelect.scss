@@ -4,34 +4,34 @@
   }
   &__label {
     display: block;
-    font-size: var(--size-secondary-text);
-    font-weight: var(--weight-400);
-    color: var(--text-secondary);
-    line-height: var(--line-height-secondary-text);
+    font-size: var(--logile-size-secondary-text);
+    font-weight: var(--logile-weight-400);
+    color: var(--logile-text-secondary);
+    line-height: var(--logile-line-height-secondary-text);
   }
   &__input {
-    background-color: var(--bg-container-1);
-    color: var(--text-primary);
-    font-size: var(--size-body);
-    line-height: var(--line-height-body);
+    background-color: var(--logile-bg-container-1);
+    color: var(--logile-text-primary);
+    font-size: var(--logile-size-body);
+    line-height: var(--logile-line-height-body);
   }
   &__menu.MuiPaper-root {
     box-shadow: none;
-    border: 1px solid var(--border-secondary);
-    background-color: var(--bg-container-1);
+    border: 1px solid var(--logile-border-secondary);
+    background-color: var(--logile-bg-container-1);
     .MuiList-root {
-        max-height: 408px; //TODO: Assign variable height once design team updates
-    };
+      max-height: 408px; //TODO: Assign variable height once design team updates
+    }
     &.MuiPopover-paper {
       max-height: unset;
     }
     & .multiselect__menu-item--selected {
-      color: var(--text-brand-primary-dark-mode-alt);
-      font-weight: var(--weight-500);
+      color: var(--logile-text-brand-primary-dark-mode-alt);
+      font-weight: var(--logile-weight-500);
     }
     &.MuiPopover-paper.MuiPaper-root {
       box-shadow: none;
-      border: 1px solid var(--border-secondary);
+      border: 1px solid var(--logile-border-secondary);
     }
 
     &-item-select-all-feature {
@@ -47,7 +47,7 @@
   }
 
   &__placeholder-text {
-    color: var(--text-tertiary);
-    font-size: var(--size-body);
+    color: var(--logile-text-tertiary);
+    font-size: var(--logile-size-body);
   }
 }

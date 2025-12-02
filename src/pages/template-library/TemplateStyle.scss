@@ -1,322 +1,306 @@
- 
 .template-library {
-    --directory-tree-width: 30rem;
-    &--desktop{
-        --directory-tree-width: 34rem;  
-    }
-    
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    & .template-library__header {
-        display: flex;
-        align-items: center;
-        padding: var(--space-m) var(--space-xl);
-        color: var(--text-primary);
- 
-        .template-library__text {
-            width: calc(var(--directory-tree-width) - var(--space-xl));
-            font-size: var(--size-secondary-heading);
-            font-weight: var(--weight-500);
-        }
- 
-        .template-library__sub-text {
-            font-size: var(--size-secondary-heading);
-            font-weight: var(--weight-500);
-            white-space: nowrap;
-            margin-right: 1px;
-        }
- 
-        .template-library__header-selected-count{
-            width: 80%;
-            height: 36px;
-            display: flex;
-            justify-content: space-between;
-            align-items:center;
-            font-size: var(--size-secondary-heading);
-            font-weight: var(--weight-500);
-        }
- 
-        .template-library__label-wrapper {
-            display: flex;
-            align-items: center;
-            gap: var(--space-m);
-        }
- 
-        .template-library__inner-header {
-           flex:1;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            gap: var(--space-l);
-            justify-content: space-between;
-            flex-grow: 1;
-        }
- 
-        .template-library__inner-header-text {
-            font-size: var(--size-secondary-heading);
-            font-weight: var(--weight-500);
-            white-space: nowrap;
-            margin-right: var(--space-xl);
-        }
- 
-        .template-library__icon {
-            height: 24px;
-            transform: rotate(-90deg);
-            cursor: pointer;
-        }
- 
-        .template-library__icon-button {
-            padding: 0;
-            min-width: 0;
-        }
- 
-        .template-library__searchbar {
-            max-width: 50.5rem;
-            flex-grow: 1;
-        }
- 
-        .template-library__border {
-            border-bottom-width: var(--border-s);
-        }
-    
-    }
- 
-    .template-library__container {
-        height: 100%;
-        display: flex;
-        overflow: auto;
-    }
- 
-    .template-library__table-wrapper {
-        width: 80%;
-        flex: 1;
-        border-left: var(--border-s) solid var(--border-secondary);
-    }
- 
+  --directory-tree-width: 30rem;
+  &--desktop {
+    --directory-tree-width: 34rem;
+  }
 
-    .flex-box {
-        display: flex;
-        align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  & .template-library__header {
+    display: flex;
+    align-items: center;
+    padding: var(--space-m) var(--space-xl);
+    color: var(--logile-text-primary);
+
+    .template-library__text {
+      width: calc(var(--directory-tree-width) - var(--space-xl));
+      font-size: var(--logile-size-secondary-heading);
+      font-weight: var(--logile-weight-500);
     }
- 
-    .gap-12 {
-        gap: var(--space-l);
+
+    .template-library__sub-text {
+      font-size: var(--logile-size-secondary-heading);
+      font-weight: var(--logile-weight-500);
+      white-space: nowrap;
+      margin-right: 1px;
     }
- 
-    .ws-nowrap {
-        white-space: nowrap;
+
+    .template-library__header-selected-count {
+      width: 80%;
+      height: 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--logile-size-secondary-heading);
+      font-weight: var(--logile-weight-500);
     }
- 
-    .MuiOutlinedInput-root {
-        height: 36px;
+
+    .template-library__label-wrapper {
+      display: flex;
+      align-items: center;
+      gap: var(--space-m);
     }
- 
-    .MuiButton-startIcon {
-        margin: 0;
+
+    .template-library__inner-header {
+      flex: 1;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-l);
+      justify-content: space-between;
+      flex-grow: 1;
     }
- 
-    .more-options-button {
-        padding: var(--space-s);
-        min-width: auto;
+
+    .template-library__inner-header-text {
+      font-size: var(--logile-size-secondary-heading);
+      font-weight: var(--logile-weight-500);
+      white-space: nowrap;
+      margin-right: var(--space-xl);
     }
- 
-    & .directory-tree__container {
-        width: var(--directory-tree-width);
-        overflow: auto;
-        max-height: calc(var(--app-content-height) - 5rem);
-        color: var(--text-primary);
-        height: 100%;
-       
-        ul.MuiSimpleTreeView-root {
-            padding: var(space-lg) var(space-xl);
-            scrollbar-width: none;
-        }
+
+    .template-library__icon {
+      height: 24px;
+      transform: rotate(-90deg);
+      cursor: pointer;
     }
-    & .template-library__table {
-        flex: 1;
-        height: 100%;
+
+    .template-library__icon-button {
+      padding: 0;
+      min-width: 0;
     }
- 
-}
- 
-.template-library-table-container {
-    overflow-y: auto;
+
+    .template-library__searchbar {
+      max-width: 50.5rem;
+      flex-grow: 1;
+    }
+
+    .template-library__border {
+      border-bottom-width: var(--border-s);
+    }
+  }
+
+  .template-library__container {
     height: 100%;
- 
-    .MuiPaper-root {
-        box-shadow: none;
-        border-radius: 0px;
-        height: 100%;
-        
+    display: flex;
+    overflow: auto;
+  }
+
+  .template-library__table-wrapper {
+    width: 80%;
+    flex: 1;
+    border-left: var(--border-s) solid var(--logile-border-secondary);
+  }
+
+  .flex-box {
+    display: flex;
+    align-items: center;
+  }
+
+  .gap-12 {
+    gap: var(--space-l);
+  }
+
+  .ws-nowrap {
+    white-space: nowrap;
+  }
+
+  .MuiOutlinedInput-root {
+    height: 36px;
+  }
+
+  .MuiButton-startIcon {
+    margin: 0;
+  }
+
+  .more-options-button {
+    padding: var(--space-s);
+    min-width: auto;
+  }
+
+  & .directory-tree__container {
+    width: var(--directory-tree-width);
+    overflow: auto;
+    max-height: calc(var(--app-content-height) - 5rem);
+    color: var(--logile-text-primary);
+    height: 100%;
+
+    ul.MuiSimpleTreeView-root {
+      padding: var(space-lg) var(space-xl);
+      scrollbar-width: none;
     }
- 
-    .MuiTableCell-root {
-        padding: var(--space-m);
-        width: auto;
+  }
+  & .template-library__table {
+    flex: 1;
+    height: 100%;
+  }
+}
+
+.template-library-table-container {
+  overflow-y: auto;
+  height: 100%;
+
+  .MuiPaper-root {
+    box-shadow: none;
+    border-radius: 0px;
+    height: 100%;
+  }
+
+  .MuiTableCell-root {
+    padding: var(--space-m);
+    width: auto;
+  }
+
+  .MuiTableHeadCell-root {
+    border-bottom: none;
+    padding: 0.5rem 10rem;
+  }
+
+  .MuiTableRow-root {
+    box-shadow: none;
+  }
+
+  .template-head-text {
+    font-size: var(--logile-size-body);
+    font-weight: var(--logile-weight-500);
+    & > div {
+      min-width: fit-content;
+      margin-top: 1rem;
     }
- 
-    .MuiTableHeadCell-root {
-        border-bottom: none;
-        padding: 0.5rem 10rem;
+  }
+
+  .tableheader-checkbox__container {
+    min-width: fit-content;
+
+    .tableheader__checkbox {
+      background-color: var(--logile-bg-base);
+
+      position: absolute;
+      border-radius: 50%;
+
+      .MuiCheckbox-root {
+        padding: 0;
+      }
+
+      .MuiFormControlLabel-label {
+        margin: 0;
+        margin-left: "6px";
+      }
     }
- 
-    .MuiTableRow-root {
-        box-shadow: none;
+  }
+
+  .template-body-text {
+    font-size: var(--logile-size-body);
+    font-weight: var(--logile-weight-400);
+
+    min-width: fit-content;
+  }
+
+  .template-title-text {
+    font-size: 13px;
+    font-weight: var(--logile-weight-400);
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  .tableheader__checkbox-container {
+    background-color: var(--logile-bg-table-header);
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    user-select: none;
+    border-radius: 50%;
+  }
+  .template-checkbox-container {
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    user-select: none;
+    background-color: var(--logile-bg-base);
+    border-radius: 50%;
+
+    .form-control-label {
+      z-index: var(--zindex-negative);
+      position: absolute;
+      border-radius: 50%;
+      & .MuiSvgIcon-root {
+        font-size: 2rem;
+        color: var(--logile-icon-secondary);
+      }
+
+      .MuiCheckbox-root {
+        padding: 0;
+      }
+
+      .MuiFormControlLabel-label {
+        margin: 0;
+        margin-left: "6px";
+      }
     }
- 
-    .template-head-text {
-        font-size: var(--size-body);
-        font-weight: var(--weight-500);
-        &>div{
-            min-width: fit-content;
-            margin-top: 1rem;
-        }
- 
+
+    .MuiFormControlLabel-root {
+      margin: 0;
+      padding: 10px 10px;
     }
- 
-    .tableheader-checkbox__container {
- 
-        min-width: fit-content;
- 
-        .tableheader__checkbox {
-            background-color: var(--bg-base);
- 
-            position: absolute;
-            border-radius: 50%;
- 
-            .MuiCheckbox-root {
-                padding: 0;
-            }
- 
-            .MuiFormControlLabel-label {
-                margin: 0;
-                margin-left: '6px';
-            }
-        }
+  }
+
+  .checkbox-container {
+    height: 4rem;
+    width: 4rem;
+    background-color: var(--logile-bg-base);
+    border-radius: 50%;
+    position: relative;
+    user-select: none;
+
+    .form-control-label {
+      .MuiCheckbox-root {
+        padding: 0;
+      }
     }
- 
-    .template-body-text {
-        font-size: var(--size-body);
-        font-weight: var(--weight-400);
-        
-        min-width: fit-content;
+
+    .MuiFormControlLabel-root {
+      margin: 0;
+      padding: 10px 10px;
     }
- 
-    .template-title-text {
-        font-size: 13px;
-        font-weight: var(--weight-400);
-      
+  }
+
+  .tablebody-col__checkbox--toggle {
+    &:hover {
+      & .form-control-label {
+        opacity: 1;
+        z-index: var(--zindex-base);
+      }
+
+      & .icon-container {
+        opacity: 0;
+        z-index: var(--zindex-negative);
+      }
     }
- 
-    .cursor-pointer {
-        cursor: pointer;
-    }
-    .tableheader__checkbox-container {
-        background-color: var(--bg-table-header);
-        height: 4rem;
-        width: 4rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        user-select: none;
-        border-radius: 50%;
-    }
-    .template-checkbox-container {
-        height: 4rem;
-        width: 4rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        user-select: none;
-        background-color: var(--bg-base);
-        border-radius: 50%;
-       
-        .form-control-label {
-           
-            z-index: var(--zindex-negative);
-            position: absolute;
-            border-radius: 50%;
-            & .MuiSvgIcon-root {
-                font-size: 2rem;
-                color: var(--icon-secondary);
-             
-            }
-          
-            .MuiCheckbox-root {
-                padding: 0;
-            }
- 
-            .MuiFormControlLabel-label {
-                margin: 0;
-                margin-left: '6px';
-            }
- 
-        }
- 
-        .MuiFormControlLabel-root {
-            margin: 0;
-            padding: 10px 10px;
-        }
-    }
- 
-    
- 
-    .checkbox-container {
-        height: 4rem;
-        width: 4rem;
-        background-color: var(--bg-base);
-        border-radius: 50%;
-        position: relative;
-        user-select: none;
- 
-        .form-control-label {
-            .MuiCheckbox-root {
-                padding: 0;
-            }
-        }
- 
-        .MuiFormControlLabel-root {
-            margin: 0;
-            padding: 10px 10px;
-        }
- 
-    }
- 
-    .tablebody-col__checkbox--toggle {
- 
- 
-        &:hover {
-            & .form-control-label {
-                opacity: 1;
-                z-index: var(--zindex-base);
-            }
- 
-            & .icon-container {
-                opacity: 0;
-                z-index: var(--zindex-negative);
-            }
-        }
-    }
+  }
 }
 
 .template-delete__modal-body {
-    padding: var(--space-l) 0;
-    font-size: var(--size-body);
-    color: var(--text-primary);
+  padding: var(--space-l) 0;
+  font-size: var(--logile-size-body);
+  color: var(--logile-text-primary);
 }
 .template-library__import-modal {
-    border-radius: var(--radius-m);
-    border: 1px dashed var(--border-secondary);
-    font-size: var(--size-body);
-    color: var(--text-primary);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-xl);
-    min-height: 180px;
-    gap: var(--space-xl); 
+  border-radius: var(--radius-m);
+  border: 1px dashed var(--logile-border-secondary);
+  font-size: var(--logile-size-body);
+  color: var(--logile-text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+  min-height: 180px;
+  gap: var(--space-xl);
 }

@@ -1,19 +1,19 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .create-template-page-header {
-    @include flex-center(space-between, center, var(--space-l));
-    gap: var(--space-l);
-    width: 100%;
+  @include flex-center(space-between, center, var(--space-l));
+  gap: var(--space-l);
+  width: 100%;
 
-    &__cursor-pointer {
-        cursor: pointer;
-    }
-    &__back-icon {
-        margin-right: var(--space-l);
-        background-color: var(--bg-container-1);
-        padding: var(--space-m);
-    }
-    &__section {
-        @include flex-center;
-    }
+  &__cursor-pointer {
+    cursor: pointer;
+  }
+  &__back-icon {
+    margin-right: var(--space-l);
+    background-color: var(--logile-bg-container-1);
+    padding: var(--space-m);
+  }
+  &__section {
+    @include flex-center;
+  }
 }

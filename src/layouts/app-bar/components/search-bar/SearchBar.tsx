@@ -4,79 +4,85 @@ import React from "react";
 import SvgIcon, { type SvgIconComponent } from "@/core/components/icon/Icon";
 
 type navSearchBarProps = {
-    placeholder: string;
-    onSearch: (value: string) => void;
-    iconPosition?: 'left' | 'right'
-    icon?: SvgIconComponent
-  }
-  
-  const SearchIconWrapper = styled('div',{
-    shouldForwardProp: (prop) => prop !== 'iconPosition',
-  })(() => ({
-      width:"fit-content",
-      backgroundColor:"transparent",
-      padding: "0 var(--space-s)",
-      pointerEvents: 'none',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-  }));
-  
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-      color: theme.palette.text.primary,
-      width: '100%',
-      backgroundColor:theme.palette.background.default,
-      '& .MuiInputBase-input': {
-          padding: "var(--space-xs) var(--space-s)",
-          fontSize: "1.7rem",
-          transition: theme.transitions.create('width'),
-      },
-  }));
-  
-  const Search = styled('div',{
-    shouldForwardProp: (prop) => prop !== 'iconPosition',
-  })<{iconPosition?: string}>(({ theme,iconPosition }) => ({
-      position: 'relative',
-      display:"flex",
-      alignItems:"center",
+  placeholder: string;
+  onSearch: (value: string) => void;
+  iconPosition?: "left" | "right";
+  icon?: SvgIconComponent;
+};
 
-    flexGrow:1,
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor:theme.palette.background.default,
-     border:"1px solid var(--border-tertiary)",
-      marginLeft: 0,
-      overflow:"hidden",
-      ...(iconPosition === 'left' && {
-        flexDirection:"row-reverse",
-      }),
-      ...(iconPosition === 'right' && {
-        flexDirection:"row",
-      }),
-  }));
-  const NavSearchBar = (props: navSearchBarProps)=>{
-      const [value, setValue] = React.useState('');
-      const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-      };
-      const onSearch = (value:string)=>{
-        props.onSearch(value);
-      }
-      const checkForEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-          onSearch(value);
-        }
-      };
-      return <Search iconPosition='left'>
-      <StyledInputBase 
-      size='small' 
-      placeholder={props.placeholder}
-      value={value} 
-      onChange={onChange} 
-      onKeyDown={checkForEnter}
+const SearchIconWrapper = styled("div", {
+  shouldForwardProp: (prop) => prop !== "iconPosition",
+})(() => ({
+  width: "fit-content",
+  backgroundColor: "transparent",
+  padding: "0 var(--space-s)",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  width: "100%",
+  backgroundColor: theme.palette.background.default,
+  "& .MuiInputBase-input": {
+    padding: "var(--space-xs) var(--space-s)",
+    fontSize: "1.7rem",
+    transition: theme.transitions.create("width"),
+  },
+}));
+
+const Search = styled("div", {
+  shouldForwardProp: (prop) => prop !== "iconPosition",
+})<{ iconPosition?: string }>(({ theme, iconPosition }) => ({
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+
+  flexGrow: 1,
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.background.default,
+  border: "1px solid var(--logile-border-tertiary)",
+  marginLeft: 0,
+  overflow: "hidden",
+  ...(iconPosition === "left" && {
+    flexDirection: "row-reverse",
+  }),
+  ...(iconPosition === "right" && {
+    flexDirection: "row",
+  }),
+}));
+const NavSearchBar = (props: navSearchBarProps) => {
+  const [value, setValue] = React.useState("");
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+  const onSearch = (value: string) => {
+    props.onSearch(value);
+  };
+  const checkForEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      onSearch(value);
+    }
+  };
+  return (
+    <Search iconPosition="left">
+      <StyledInputBase
+        size="small"
+        placeholder={props.placeholder}
+        value={value}
+        onChange={onChange}
+        onKeyDown={checkForEnter}
       />
-       <SearchIconWrapper>
-      <SvgIcon component={props.icon} color="secondary" size={18}/>
+      <SearchIconWrapper>
+        <SvgIcon
+          component={props.icon}
+          color="secondary"
+          size={18}
+        />
       </SearchIconWrapper>
-      </Search>
-  }
-  export default NavSearchBar
+    </Search>
+  );
+};
+export default NavSearchBar;

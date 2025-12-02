@@ -1,19 +1,19 @@
-import { Checkbox, Typography } from '@mui/material';
+import { Checkbox, Typography } from "@mui/material";
 import {
   type SelectProps as MuiSelectProps,
   type SelectChangeEvent,
-} from '@mui/material/Select';
-import React, { useMemo } from 'react';
+} from "@mui/material/Select";
+import React, { useMemo } from "react";
 
-import clsx from '@/utils/clsx';
-import { CheckboxChecked, CheckboxEmpty } from '@/core/constants/icons';
-import SvgIcon from '@/core/components/icon/Icon';
+import clsx from "@/utils/clsx";
+import { CheckboxChecked, CheckboxEmpty } from "@/core/constants/icons";
+import SvgIcon from "@/core/components/icon/Icon";
 
-import StyledMuiSelect from './components/StyledSelect';
-import StyledMenuItem from './components/StyledMenuItem';
-import './SharedMultiSelect.scss';
-import type { OptionType } from './types';
-import { MULTISELECT } from './constants';
+import StyledMuiSelect from "./components/StyledSelect";
+import StyledMenuItem from "./components/StyledMenuItem";
+import "./SharedMultiSelect.scss";
+import type { OptionType } from "./types";
+import { MULTISELECT } from "./constants";
 
 export type MultiSelectProps = MuiSelectProps & {
   options: OptionType[];
@@ -59,7 +59,7 @@ const MultiSelect = (props: MultiSelectProps) => {
       } as unknown as SelectChangeEvent;
     } else {
       const allOptionValues = props.options.map((option) => {
-        if (typeof option === 'object' && props.optionValueKey) {
+        if (typeof option === "object" && props.optionValueKey) {
           return (option as object)[props.optionValueKey];
         }
         return option;
@@ -88,7 +88,7 @@ const MultiSelect = (props: MultiSelectProps) => {
     }
     if (selected.length == 0) {
       return (
-        <span className='multiselect__placeholder-text'>
+        <span className="multiselect__placeholder-text">
           {props.placeholder}
         </span>
       );
@@ -97,22 +97,22 @@ const MultiSelect = (props: MultiSelectProps) => {
     if (!isAllOptionsSelected) {
       return `${selected.length} ${props.label} Selected`;
     }
-    return `All ${props.label ?? 'Items'} Selected`;
+    return `All ${props.label ?? "Items"} Selected`;
   };
 
   return (
-    <div className={`multiselect multiselect-wrapper ${props.className ?? ''}`}>
-      <label className='multiselect__label'>{props.label}</label>
+    <div className={`multiselect multiselect-wrapper ${props.className ?? ""}`}>
+      <label className="multiselect__label">{props.label}</label>
       <StyledMuiSelect
         {...props}
-        label={''}
+        label={""}
         multiple
         displayEmpty
-        className={'multiselect__input'}
+        className={"multiselect__input"}
         renderValue={renderValue}
         MenuProps={{
           PaperProps: {
-            className: 'multiselect__menu',
+            className: "multiselect__menu",
             elevation: 0,
           },
         }}
@@ -120,10 +120,10 @@ const MultiSelect = (props: MultiSelectProps) => {
         {/**Select all feature option */}
         <div>
           <StyledMenuItem
-            key={'all-options-selected'}
+            key={"all-options-selected"}
             className={clsx({
-              'multiselect__menu-item--selected': isAllOptionsSelected,
-              'multiselect__menu-item-select-all-feature': true,
+              "multiselect__menu-item--selected": isAllOptionsSelected,
+              "multiselect__menu-item-select-all-feature": true,
             })}
             onClick={toggleSelectAllOptions}
           >
@@ -132,22 +132,22 @@ const MultiSelect = (props: MultiSelectProps) => {
                 <SvgIcon
                   component={CheckboxChecked}
                   size={20}
-                  fill='var(--bg-primary)'
+                  fill="var(--logile-bg-primary)"
                 />
               }
               icon={
                 <SvgIcon
                   component={CheckboxEmpty}
-                  fill='none'
-                  stroke='var(--border-primary)'
+                  fill="none"
+                  stroke="var(--logile-border-primary)"
                   size={20}
                 />
               }
-              id='all-options-selected'
-              className='multiselect__menu-item-checkbox'
+              id="all-options-selected"
+              className="multiselect__menu-item-checkbox"
               checked={isAllOptionsSelected}
             />
-            <label htmlFor='all-options-selected'>
+            <label htmlFor="all-options-selected">
               {MULTISELECT.SELECT_ALL_FEATURE_LABEL}
             </label>
           </StyledMenuItem>
@@ -157,11 +157,11 @@ const MultiSelect = (props: MultiSelectProps) => {
         {Array.isArray(props.options) &&
           props.options.map((option, index) => {
             const optionValue =
-              typeof option === 'object' && props.optionValueKey
+              typeof option === "object" && props.optionValueKey
                 ? (option as object)[props.optionValueKey]
                 : option;
             const optionLabel =
-              typeof option === 'object' && props.optionLabelKey
+              typeof option === "object" && props.optionLabelKey
                 ? (option as object)[props.optionLabelKey]
                 : option;
             const isOptionSelected = Array.isArray(props.value)
@@ -173,8 +173,8 @@ const MultiSelect = (props: MultiSelectProps) => {
                 key={index}
                 value={optionValue}
                 className={clsx({
-                  'multiselect__menu-item': true,
-                  'multiselect__menu-item--selected': isOptionSelected,
+                  "multiselect__menu-item": true,
+                  "multiselect__menu-item--selected": isOptionSelected,
                 })}
               >
                 <Checkbox
@@ -182,26 +182,26 @@ const MultiSelect = (props: MultiSelectProps) => {
                     <SvgIcon
                       component={CheckboxChecked}
                       size={20}
-                      fill='var(--bg-primary)'
+                      fill="var(--logile-bg-primary)"
                     />
                   }
                   icon={
                     <SvgIcon
                       component={CheckboxEmpty}
-                      fill='none'
-                      stroke='var(--border-primary)'
+                      fill="none"
+                      stroke="var(--logile-border-primary)"
                       size={20}
                     />
                   }
                   id={optionValue}
                   checked={isOptionSelected}
                 />
-                <label className='multiselect__menu-item-label-wrapper'>
+                <label className="multiselect__menu-item-label-wrapper">
                   <Typography
-                    component='span'
+                    component="span"
                     className={clsx({
-                      'multiselect__menu-item-label': true,
-                      'multiselect__menu-item--selected': isOptionSelected,
+                      "multiselect__menu-item-label": true,
+                      "multiselect__menu-item--selected": isOptionSelected,
                     })}
                   >
                     {optionLabel as string}
