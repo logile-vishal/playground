@@ -4,7 +4,7 @@
     gap: var(--space-4xl);
     color: var(--text-primary);
     font-size: var(--size-secondary-heading);
-    padding: var(--space-m) var(--space-xl);
+    padding: var(--space-xl) var(--space-xl);
 }
 
 @mixin flex-center($justify: center, $align: center, $gap: var(--space-l)) {
@@ -12,4 +12,17 @@
   justify-content: $justify;
   align-items: $align;
   gap: $gap;
+}
+
+@mixin flex-box($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+@mixin form-label-text {
+  width: fit-content;
+  color: var(--text-secondary);
+  font-size: var(--size-secondary-text);
+  font-weight: var(--weight-400);
+  line-height: var(--line-height-body-large);
 }

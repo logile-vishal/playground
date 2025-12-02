@@ -71,8 +71,8 @@ const CreateTemplate: React.FC = () => {
                 </Box>
             </Stack>
         </PageTemplate.Header>
-        <PageTemplate.Content className="create-template-page-content">
-                <SharedStepper onChange={handleStepChange} options={stepperOptions}/>
+        <PageTemplate.Content>
+            <SharedStepper onChange={handleStepChange} options={stepperOptions} />
         </PageTemplate.Content>
     </PageTemplate>
 }

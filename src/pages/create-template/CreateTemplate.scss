@@ -1,4 +1,4 @@
-@use "@/styles/mixins/create-template.scss" as *;
+@use "@/styles/mixins/mixins.scss" as *;
 
 .create-template-page-header {
     @include flex-center(space-between, center, var(--space-l));
@@ -16,8 +16,4 @@
     &__section {
         @include flex-center;
     }
-}
-
-.create-template-page-content {
-    height: calc(100% - 5.6rem);
 }

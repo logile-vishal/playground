@@ -1,4 +1,4 @@
-@use "@/styles/mixins/create-template.scss" as *;
+@use "@/styles/mixins/mixins.scss" as *;
 
 .create-template-questions {
    @include placeholder-page;

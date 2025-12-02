@@ -157,7 +157,7 @@ const TemplateLibrary: React.FC = () => {
         <Typography color="var(--text-primary)" variant='h2'>{TEMPLATE_LIBRARY_HEADING.template}</Typography>
       </Stack>
       </PageTemplate.Header>
-      <PageTemplate.Content className="template-library-page-template__content">
+      <PageTemplate.Content>
       <Box className={clsx({"template-library": true, "template-library--desktop": isDesktop})}>
          <Box className='template-library__header'>
             <Box className='template-library__text'>{TEMPLATE_LIBRARY_HEADING.folderTree}</Box>
