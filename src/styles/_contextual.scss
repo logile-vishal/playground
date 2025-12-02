@@ -1,0 +1,122 @@
+/* contextual colors - Logile */
+:root {
+  /* Warning */
+  --logile-contextual-warning-50: var(--logile-orange-50);
+  --logile-contextual-warning-100: var(--logile-orange-100);
+  --logile-contextual-warning-200: var(--logile-orange-200);
+  --logile-contextual-warning-300: var(--logile-orange-300);
+  --logile-contextual-warning-400: var(--logile-orange-400);
+  --logile-contextual-warning-500: var(--logile-orange-500);
+  --logile-contextual-warning-600: var(--logile-orange-600);
+  --logile-contextual-warning-700: var(--logile-orange-700);
+  --logile-contextual-warning-800: var(--logile-orange-800);
+  --logile-contextual-warning-900: var(--logile-orange-900);
+  --logile-contextual-warning-950: var(--logile-orange-950);
+  --logile-contextual-warning-1a: var(--logile-orange-1a);
+  --logile-contextual-warning-2a: var(--logile-orange-2a);
+  --logile-contextual-warning-3a: var(--logile-orange-3a);
+  --logile-contextual-warning-4a: var(--logile-orange-4a);
+  --logile-contextual-warning-5a: var(--logile-orange-5a);
+  --logile-contextual-warning-6a: var(--logile-orange-6a);
+  --logile-contextual-warning-7a: var(--logile-orange-7a);
+  --logile-contextual-warning-8a: var(--logile-orange-8a);
+  --logile-contextual-warning-9a: var(--logile-orange-9a);
+  --logile-contextual-warning-10a: var(--logile-orange-10a);
+  --logile-contextual-warning-11a: var(--logile-orange-11a);
+
+  /* Information */
+  --logile-contextual-information-50: var(--logile-blue-ribbon-50);
+  --logile-contextual-information-100: var(--logile-blue-ribbon-100);
+  --logile-contextual-information-200: var(--logile-blue-ribbon-200);
+  --logile-contextual-information-300: var(--logile-blue-ribbon-300);
+  --logile-contextual-information-400: var(--logile-blue-ribbon-400);
+  --logile-contextual-information-500: var(--logile-blue-ribbon-500);
+  --logile-contextual-information-600: var(--logile-blue-ribbon-600);
+  --logile-contextual-information-700: var(--logile-blue-ribbon-700);
+  --logile-contextual-information-800: var(--logile-blue-ribbon-800);
+  --logile-contextual-information-900: var(--logile-blue-ribbon-900);
+  --logile-contextual-information-950: var(--logile-blue-ribbon-950);
+  --logile-contextual-information-1a: var(--logile-blue-ribbon-1a);
+  --logile-contextual-information-2a: var(--logile-blue-ribbon-2a);
+  --logile-contextual-information-3a: var(--logile-blue-ribbon-3a);
+  --logile-contextual-information-4a: var(--logile-blue-ribbon-4a);
+  --logile-contextual-information-5a: var(--logile-blue-ribbon-5a);
+  --logile-contextual-information-6a: var(--logile-blue-ribbon-6a);
+  --logile-contextual-information-7a: var(--logile-blue-ribbon-7a);
+  --logile-contextual-information-8a: var(--logile-blue-ribbon-8a);
+  --logile-contextual-information-9a: var(--logile-blue-ribbon-9a);
+  --logile-contextual-information-10a: var(--logile-blue-ribbon-10a);
+  --logile-contextual-information-11a: var(--logile-blue-ribbon-11a);
+
+  /* Error */
+  --logile-contextual-error-50: var(--logile-red-50);
+  --logile-contextual-error-100: var(--logile-red-100);
+  --logile-contextual-error-200: var(--logile-red-200);
+  --logile-contextual-error-300: var(--logile-red-300);
+  --logile-contextual-error-400: var(--logile-red-400);
+  --logile-contextual-error-500: var(--logile-red-500);
+  --logile-contextual-error-600: var(--logile-red-600);
+  --logile-contextual-error-700: var(--logile-red-700);
+  --logile-contextual-error-800: var(--logile-red-800);
+  --logile-contextual-error-900: var(--logile-red-900);
+  --logile-contextual-error-950: var(--logile-red-950);
+  --logile-contextual-error-1a: var(--logile-red-1a);
+  --logile-contextual-error-2a: var(--logile-red-2a);
+  --logile-contextual-error-3a: var(--logile-red-3a);
+  --logile-contextual-error-4a: var(--logile-red-4a);
+  --logile-contextual-error-5a: var(--logile-red-5a);
+  --logile-contextual-error-6a: var(--logile-red-6a);
+  --logile-contextual-error-7a: var(--logile-red-7a);
+  --logile-contextual-error-8a: var(--logile-red-8a);
+  --logile-contextual-error-9a: var(--logile-red-9a);
+  --logile-contextual-error-10a: var(--logile-red-10a);
+  --logile-contextual-error-11a: var(--logile-red-11a);
+
+  /* Success */
+  --logile-contextual-success-50: var(--logile-green-50);
+  --logile-contextual-success-100: var(--logile-green-100);
+  --logile-contextual-success-200: var(--logile-green-200);
+  --logile-contextual-success-300: var(--logile-green-300);
+  --logile-contextual-success-400: var(--logile-green-400);
+  --logile-contextual-success-500: var(--logile-green-500);
+  --logile-contextual-success-600: var(--logile-green-600);
+  --logile-contextual-success-700: var(--logile-green-700);
+  --logile-contextual-success-800: var(--logile-green-800);
+  --logile-contextual-success-900: var(--logile-green-900);
+  --logile-contextual-success-950: var(--logile-green-950);
+  --logile-contextual-success-1a: var(--logile-green-1a);
+  --logile-contextual-success-2a: var(--logile-green-2a);
+  --logile-contextual-success-3a: var(--logile-green-3a);
+  --logile-contextual-success-4a: var(--logile-green-4a);
+  --logile-contextual-success-5a: var(--logile-green-5a);
+  --logile-contextual-success-6a: var(--logile-green-6a);
+  --logile-contextual-success-7a: var(--logile-green-7a);
+  --logile-contextual-success-8a: var(--logile-green-8a);
+  --logile-contextual-success-9a: var(--logile-green-9a);
+  --logile-contextual-success-10a: var(--logile-green-10a);
+  --logile-contextual-success-11a: var(--logile-green-11a);
+
+  /* Primary */
+  --logile-contextual-primary-50: var(--logile-blue-50);
+  --logile-contextual-primary-100: var(--logile-blue-100);
+  --logile-contextual-primary-200: var(--logile-blue-200);
+  --logile-contextual-primary-300: var(--logile-blue-300);
+  --logile-contextual-primary-400: var(--logile-blue-400);
+  --logile-contextual-primary-500: var(--logile-blue-500);
+  --logile-contextual-primary-600: var(--logile-blue-600);
+  --logile-contextual-primary-700: var(--logile-blue-700);
+  --logile-contextual-primary-800: var(--logile-blue-800);
+  --logile-contextual-primary-900: var(--logile-blue-900);
+  --logile-contextual-primary-950: var(--logile-blue-950);
+  --logile-contextual-primary-1a: var(--logile-blue-1a);
+  --logile-contextual-primary-2a: var(--logile-blue-2a);
+  --logile-contextual-primary-3a: var(--logile-blue-3a);
+  --logile-contextual-primary-4a: var(--logile-blue-4a);
+  --logile-contextual-primary-5a: var(--logile-blue-5a);
+  --logile-contextual-primary-6a: var(--logile-blue-6a);
+  --logile-contextual-primary-7a: var(--logile-blue-7a);
+  --logile-contextual-primary-8a: var(--logile-blue-8a);
+  --logile-contextual-primary-9a: var(--logile-blue-9a);
+  --logile-contextual-primary-10a: var(--logile-blue-10a);
+  --logile-contextual-primary-11a: var(--logile-blue-11a);
+}

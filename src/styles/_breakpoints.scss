@@ -1,0 +1,92 @@
+:root {
+  @media (min-width: 1200px) and (max-width: 1366px) {
+    --width: 1366px;
+    --height: 768px;
+    --width-t: 1200px;
+    --height-t: 720px;
+    --font-size-page-heading-large: 28px;
+    --font-size-page-heading: 23px;
+    --font-size-secondary-heading: 19px;
+    --font-size-body: 15px;
+    --font-size-body-large: 17px;
+    --font-size-secondary-text: 13px;
+    --font-size-kpi-number: 23px;
+    --font-size-kpi-text: 17px;
+    --font-size-weather: 19px;
+    --font-size-caption: 10px;
+    --line-height-page-heading-large: 34px;
+    --line-height-page-heading: 34px;
+    --line-height-secondary-heading: 28px;
+    --line-height-body: 22px;
+    --line-height-body-large: 25px;
+    --line-height-secondary-text: 20px;
+    --line-height-kpi-number: 34px;
+    --line-height-kpi-text: 25px;
+    --line-height-weather: 28px;
+    --line-height-caption: 12px;
+    --line-height-caption-medium: 13px;
+    --line-height-caption-large: 14px;
+    --font-size-caption-medium: 11px;
+    --font-size-caption-large: 12px;
+  }
+  @media (min-width: 1366px) and (max-width: 1920px) {
+    --width: 1440px;
+    --height: 1024px;
+    --width-t: 1200px;
+    --height-t: 720px;
+    --font-size-page-heading-large: 28px;
+    --font-size-page-heading: 23px;
+    --font-size-secondary-heading: 19px;
+    --font-size-body: 15px;
+    --font-size-body-large: 17px;
+    --font-size-secondary-text: 13px;
+    --font-size-kpi-number: 23px;
+    --font-size-kpi-text: 17px;
+    --font-size-weather: 19px;
+    --font-size-caption: 10px;
+    --line-height-page-heading-large: 34px;
+    --line-height-page-heading: 34px;
+    --line-height-secondary-heading: 28px;
+    --line-height-body: 22px;
+    --line-height-body-large: 25px;
+    --line-height-secondary-text: 20px;
+    --line-height-kpi-number: 34px;
+    --line-height-kpi-text: 25px;
+    --line-height-weather: 28px;
+    --line-height-caption: 12px;
+    --line-height-caption-medium: 13px;
+    --line-height-caption-large: 14px;
+    --font-size-caption-medium: 11px;
+    --font-size-caption-large: 12px;
+  }
+  @media (min-width: 1920px) {
+    --width: 1920px;
+    --height: 1080px;
+    --width-t: 1200px;
+    --height-t: 720px;
+    --font-size-page-heading-large: 30px;
+    --font-size-page-heading: 25px;
+    --font-size-secondary-heading: 21px;
+    --font-size-body: 17px;
+    --font-size-body-large: 19px;
+    --font-size-secondary-text: 15px;
+    --font-size-kpi-number: 25px;
+    --font-size-kpi-text: 19px;
+    --font-size-weather: 21px;
+    --font-size-caption: 12px;
+    --line-height-page-heading-large: 34px;
+    --line-height-page-heading: 34px;
+    --line-height-secondary-heading: 28px;
+    --line-height-body: 22px;
+    --line-height-body-large: 25px;
+    --line-height-secondary-text: 20px;
+    --line-height-kpi-number: 34px;
+    --line-height-kpi-text: 25px;
+    --line-height-weather: 28px;
+    --line-height-caption: 14px;
+    --line-height-caption-medium: 15px;
+    --line-height-caption-large: 16px;
+    --font-size-caption-medium: 13px;
+    --font-size-caption-large: 14px;
+  }
+}

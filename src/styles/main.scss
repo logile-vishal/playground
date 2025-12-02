@@ -1,12 +1,15 @@
-@use './blurs';
-@use './border-radius';
-@use './border';
-@use './_color-palettes'; 
-@use './font';
-@use './opacity';
-@use './reset';
-@use './shadows';
-@use './spacing';
-@use './zindex';
-@use './app' as appConstants;
-@use './theme/index.scss' as theme
+/* Styling variables */
+@use "./app" as appConstants;
+@use "./sizes";
+@use "./spacing";
+@use "./utility";
+@use "./border-radius";
+@use "./blurs";
+@use "./border";
+@use "./opacity";
+@use "./reset";
+@use "./shadows";
+@use "./theme/index.scss" as theme;
+
+/* Color variables */
+@use "./colors";

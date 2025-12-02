@@ -1,0 +1,40 @@
+/* Typography - Roboto */
+:root {
+  --logile-family-heading-family: Roboto;
+  --logile-family-body-family: Roboto;
+  --logile-size-page-heading-large: var(--font-size-page-heading-large);
+  --logile-size-page-heading: var(--font-size-page-heading);
+  --logile-size-secondary-heading: var(--font-size-secondary-heading);
+  --logile-size-body: var(--font-size-body);
+  --logile-size-body-large: var(--font-size-body-large);
+  --logile-size-secondary-text: var(--font-size-secondary-text);
+  --logile-size-kpi-number: var(--font-size-kpi-number);
+  --logile-size-kpi-text: var(--font-size-kpi-text);
+  --logile-size-weather: var(--font-size-weather);
+  --logile-size-caption: var(--font-size-caption);
+  --logile-size-caption-medium: var(--font-size-caption-medium);
+  --logile-size-caption-large: var(--font-size-caption-large);
+  --logile-line-height-page-heading-large: var(
+    --line-height-page-heading-large
+  );
+  --logile-line-height-page-heading: var(--line-height-page-heading);
+  --logile-line-height-secondary-heading: var(--line-height-secondary-heading);
+  --logile-line-height-body: var(--line-height-body);
+  --logile-line-height-body-large: var(--line-height-body-large);
+  --logile-line-height-secondary-text: var(--line-height-secondary-text);
+  --logile-line-height-kpi-number: var(--line-height-kpi-number);
+  --logile-line-height-kpi-text: var(--line-height-kpi-text);
+  --logile-line-height-weather: var(--line-height-weather);
+  --logile-line-height-caption: var(--line-height-caption);
+  --logile-line-height-caption-medium: var(--line-height-caption-medium);
+  --logile-line-height-caption-large: var(--line-height-caption-large);
+  --logile-weight-100: 100px;
+  --logile-weight-200: 200px;
+  --logile-weight-300: 300px;
+  --logile-weight-400: 400px;
+  --logile-weight-500: 500px;
+  --logile-weight-600: 600px;
+  --logile-weight-700: 700px;
+  --logile-weight-800: 800px;
+  --logile-weight-900: 900px;
+}

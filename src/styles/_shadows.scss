@@ -43,9 +43,61 @@ $shadows: (
     spread: 0,
   ),
 );
- 
+
 :root {
   @each $name, $shadow in $shadows {
-    --#{$name}: #{map.get($shadow, x)} #{map.get($shadow, y)} #{map.get($shadow, blur)} #{map.get($shadow, spread)} rgba(0,0,0,0.15);
+    --#{$name}: #{map.get($shadow, x)}
+      #{map.get($shadow, y)}
+      #{map.get($shadow, blur)}
+      #{map.get($shadow, spread)}
+      rgba(0, 0, 0, 0.15);
   }
+}
+
+/* 5. Shadows - Value */
+:root {
+  --shadow-s-1-spread: 0px;
+  --shadow-s-2-spread: 0px;
+  --shadow-s-2-blur: 3px;
+  --shadow-s-2-y: 1px;
+  --shadow-s-2-x: 0px;
+  --shadow-s-1-blur: 2px;
+  --shadow-s-1-y: 1px;
+  --shadow-s-1-x: 0px;
+  --shadow-m-1-spread: -1px;
+  --shadow-m-2-spread: -1px;
+  --shadow-l-2-spread: -2px;
+  --shadow-l-2-blur: 6px;
+  --shadow-l-2-y: 2px;
+  --shadow-l-2-x: 0px;
+  --shadow-l-1-spread: -2px;
+  --shadow-l-1-blur: 12px;
+  --shadow-l-1-y: 8px;
+  --shadow-l-1-x: 0px;
+  --shadow-m-2-blur: 4px;
+  --shadow-m-2-y: 2px;
+  --shadow-m-2-x: 0px;
+  --shadow-m-1-blur: 6px;
+  --shadow-m-1-y: 4px;
+  --shadow-m-1-x: 0px;
+  --shadow-xl-1-spread: -4px;
+  --shadow-xl-1-blur: 24px;
+  --shadow-xl-1-y: 16px;
+  --shadow-xl-1-x: 0px;
+  --shadow-xl-2-spread: -2px;
+  --shadow-xl-2-blur: 8px;
+  --shadow-xl-2-y: 4px;
+  --shadow-xl-2-x: 0px;
+  --shadow-xxl-1-spread: -4px;
+  --shadow-xxl-1-blur: 40px;
+  --shadow-xxl-1-y: 24px;
+  --shadow-xxl-1-x: 0px;
+  --shadow-xxl-2-spread: -2px;
+  --shadow-xxl-2-blur: 16px;
+  --shadow-xxl-2-y: 6px;
+  --shadow-xxl-2-x: 0px;
+  --shadow-xs-spread: 0px;
+  --shadow-xs-blur: 2px;
+  --shadow-xs-y: 1px;
+  --shadow-xs-x: 0px;
 }
