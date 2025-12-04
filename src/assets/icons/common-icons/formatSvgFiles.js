@@ -1,6 +1,5 @@
-
-import fs from "fs"
-import path from "path"
+import fs from "fs";
+import path from "path";
 const svgFolder = "."; // change to your folder path
 const indexFile = "../../../core/constants/Icons.tsx"; // path where index file should be generated
 
@@ -42,7 +41,7 @@ fs.readdir(svgFolder, (err, files) => {
       // Prepare icon entry
       const key = toCamelCase(newFileName);
       iconEntries.push(
-        `    ${key}: React.lazy(() => import('@/assets/images/icons/${newFileName}?react'))`
+        `    ${key}: React.lazy(() => import('@/assets/images/icons/${newFileName}?react'))`,
       );
 
       console.log(`Processed: ${newFileName}`);

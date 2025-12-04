@@ -1,13 +1,13 @@
-import { type SelectProps as MuiSelectProps } from '@mui/material/Select';
-import { useEffect, useState } from 'react';
+import { type SelectProps as MuiSelectProps } from "@mui/material/Select";
+import { useEffect, useState } from "react";
 
-import { isNonEmptyValue } from '@/utils';
+import { isNonEmptyValue } from "@/utils";
 
-import FilterSortToolbar from './components/FilterSortToolbar';
-import StyledMuiSelect from './components/StyledSelect';
-import StyledMenuItem from './components/StyledMenuItem';
-import type { OptionType } from './types';
-import './SharedSelect.scss';
+import CFilterSortToolbar from "./components/FilterSortToolbar";
+import StyledMuiSelect from "./components/StyledSelect";
+import StyledMenuItem from "./components/StyledMenuItem";
+import type { OptionType } from "./types";
+import "./SharedSelect.scss";
 
 type SelectProps = MuiSelectProps & {
   options: OptionType[];
@@ -21,7 +21,7 @@ type SelectProps = MuiSelectProps & {
   placeholder?: string;
 };
 
-const SharedSelect = (props: SelectProps) => {
+const CSelect = (props: SelectProps) => {
   const { options, allowFilter, allowSort } = props;
   const [filteredOptions, setFilteredOptions] = useState([]);
 
@@ -32,7 +32,7 @@ const SharedSelect = (props: SelectProps) => {
   const renderValue = (selected: unknown) => {
     if (!selected) {
       return (
-        <span className='select__placeholder-text'>{props.placeholder}</span>
+        <span className="select__placeholder-text">{props.placeholder}</span>
       );
     }
     if (props.renderValue) {
@@ -45,21 +45,21 @@ const SharedSelect = (props: SelectProps) => {
     e.stopPropagation();
   };
   return (
-    <div className={`select select-wrapper ${props.className ?? ''}`}>
-      <label className='select__label'>{props.label}</label>
+    <div className={`select select-wrapper ${props.className ?? ""}`}>
+      <label className="select__label">{props.label}</label>
       <StyledMuiSelect
         {...props}
-        label=''
+        label=""
         displayEmpty
         renderValue={renderValue}
         onKeyDown={handleOnKeyDown}
         MenuProps={{
           PaperProps: {
-            className: 'select__menu',
+            className: "select__menu",
           },
         }}
       >
-        <FilterSortToolbar
+        <CFilterSortToolbar
           allowFilter={allowFilter}
           allowSort={allowSort}
           setOptions={setFilteredOptions}
@@ -69,11 +69,11 @@ const SharedSelect = (props: SelectProps) => {
 
         {filteredOptions?.map((option, index) => {
           const optionValue =
-            typeof option === 'object' && props.optionValueKey
+            typeof option === "object" && props.optionValueKey
               ? (option as object)[props.optionValueKey]
               : option;
           const optionLabel =
-            typeof option === 'object' && props.optionLabelKey
+            typeof option === "object" && props.optionLabelKey
               ? (option as object)[props.optionLabelKey]
               : option;
           return (
@@ -89,4 +89,4 @@ const SharedSelect = (props: SelectProps) => {
     </div>
   );
 };
-export default SharedSelect;
+export default CSelect;

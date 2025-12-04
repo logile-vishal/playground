@@ -1,4 +1,3 @@
-
 export type StepOption = {
   label: string;
   value: string;
@@ -6,10 +5,10 @@ export type StepOption = {
   disabled?: boolean;
   checkValidity?: () => boolean | undefined;
   component?: React.ReactNode;
-}
+};
 
-export type SharedStepperProps = {
+export type StepperProps = {
   options: StepOption[];
   componentClassName?: string;
   onChange?: (event: { activeStep: number; data: StepOption }) => void;
-}
+};

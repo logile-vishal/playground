@@ -5,7 +5,7 @@ export type AutoCompleteOptionProps = {
   groupLabel?: string;
 };
 
-export type StyledAutocompleteProps = {
+export type AutocompleteProps = {
   id?: string;
   label: string;
   options: AutoCompleteOptionProps[];

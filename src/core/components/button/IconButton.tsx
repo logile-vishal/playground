@@ -14,59 +14,55 @@ type IconButtonProps = ButtonBaseProps & {
 
 const IconButtonStyled = styled(ButtonBase, {
   shouldForwardProp: (prop) => prop !== "variant" && prop !== "disableHover",
-})(
-  ({
-    theme,
-    variant = "primary",
-    disableHover,
-    disabled,
-  }: { theme?: Theme } & IconButtonProps) => {
-    const baseStyles = {
-      borderRadius: theme?.shape.borderRadius,
-      border: "1px solid transparent",
-      padding: "0.5rem",
-      transition: "all 0.2s ease-in-out",
-      color: disabled
-        ? "var(--logile-gray-300)"
-        : "var(--logile-icon-secondary)",
-    };
+})(({
+  theme,
+  variant = "primary",
+  disableHover,
+  disabled,
+}: { theme?: Theme } & IconButtonProps) => {
+  const baseStyles = {
+    borderRadius: theme?.shape.borderRadius,
+    border: "1px solid transparent",
+    padding: "var(--space-s)",
+    transition: "all 0.2s ease-in-out",
+    color: disabled ? "var(--logile-bg-state-disabled)" : "var(--logile-icon-secondary)",
+  };
 
-    const hoverStyles: Record<Variant, object> = {
-      primary: {
-        color: theme?.palette.primary.main,
-        backgroundColor: alpha(theme?.palette.primary.main ?? "", 0.1),
-      },
-      secondary: {
-        color: theme?.palette.secondary.main,
-        backgroundColor: alpha(theme?.palette.secondary.main ?? "", 0.1),
-      },
-      outline: {
-        border: `1px solid var(--logile-border-secondary)`,
-        ...(disableHover
-          ? {}
-          : {
-              border: `1px solid var(--logile-border-brand-primary-subtle)`,
-              backgroundColor: alpha(theme?.palette.primary.main ?? "", 0.1),
-              color: theme?.palette.primary.main,
-            }),
-      },
-    };
+  const hoverStyles: Record<Variant, object> = {
+    primary: {
+      color: theme?.palette.primary.main,
+      backgroundColor: alpha(theme?.palette.primary.main ?? "", 0.1),
+    },
+    secondary: {
+      color: theme?.palette.secondary.main,
+      backgroundColor: alpha(theme?.palette.secondary.main ?? "", 0.1),
+    },
+    outline: {
+      border: `1px solid var(--logile-border-secondary)`,
+      ...(disableHover
+        ? {}
+        : {
+            border: `1px solid var(--logile-border-brand-primary-subtle)`,
+            backgroundColor: alpha(theme?.palette.primary.main ?? "", 0.1),
+            color: theme?.palette.primary.main,
+          }),
+    },
+  };
 
-    return {
-      ...baseStyles,
-      ...(variant === "outline" && {
-        border: `1px solid var(--logile-border-secondary)`,
-      }),
-      "&:hover": {
-        cursor: "pointer",
-        ...(!disableHover ? hoverStyles[variant] : {}),
-      },
-    };
-  }
-);
+  return {
+    ...baseStyles,
+    ...(variant === "outline" && {
+      border: `1px solid var(--logile-border-primary)`,
+    }),
+    "&:hover": {
+      cursor: "pointer",
+      ...(!disableHover ? hoverStyles[variant] : {}),
+    },
+  };
+});
 
-const IconButton: React.FC<IconButtonProps> = ({ children, ...props }) => {
+const CIconButton: React.FC<IconButtonProps> = ({ children, ...props }) => {
   return <IconButtonStyled {...props}>{children}</IconButtonStyled>;
 };
 
-export default IconButton;
+export default CIconButton;

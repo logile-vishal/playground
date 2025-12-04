@@ -1,4 +1,3 @@
-
 /**
  * Validates a value based on its type.
  * @param {any} value - Validate (string, array, object, or number)

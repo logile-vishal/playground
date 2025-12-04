@@ -1,1 +1,1 @@
-export { default } from './CreateTemplate';
+export { default } from "./CreateTemplate";

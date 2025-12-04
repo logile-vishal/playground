@@ -317,7 +317,8 @@
       inset: 0;
       border-radius: var(--dash-radius);
       pointer-events: none;
-      background: repeating-linear-gradient(
+      background:
+        repeating-linear-gradient(
           to right,
           var(--dash-color) 0 var(--dash-width),
           transparent var(--dash-width)
@@ -342,8 +343,16 @@
             calc(var(--dash-width) + var(--dash-gap))
         );
       background-repeat: no-repeat;
-      background-size: 100% 1px, 1px 100%, 100% 1px, 1px 100%;
-      background-position: 0 0, 100% 0, 0 100%, 0 0;
+      background-size:
+        100% 1px,
+        1px 100%,
+        100% 1px,
+        1px 100%;
+      background-position:
+        0 0,
+        100% 0,
+        0 100%,
+        0 0;
     }
   }
 

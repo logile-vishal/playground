@@ -37,51 +37,46 @@ export const getTheme = (mode: "light" | "dark") =>
       },
       MuiOutlinedInput: {
         styleOverrides: {
-          notchedOutline: {
-
-          },
+          notchedOutline: {},
           root: {
+            "&.MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "var(--logile-border-bold-subtle)",
+            },
+
             "&.Mui-focused.MuiOutlinedInput-notchedOutline": {
               borderColor: "var(--logile-border-brand-primary-subtle)",
-              top: '-5px',
+              top: "-5px",
             },
 
             "&.Mui-focused > input + .MuiOutlinedInput-notchedOutline": {
               borderColor: "var(--logile-border-brand-primary-subtle)",
               borderWidth: 1,
-              top: '-5px',
+              top: "-5px",
             },
 
             "& > .MuiOutlinedInput-notchedOutline": {
-              borderColor: "var(--logile-border-secondary)",
+              borderColor: "var(--logile-border-primary)",
               borderWidth: 1,
-              top: '-5px',
-              '&:hover': {
+              top: "-5px",
+              "&:hover": {
                 borderColor: "var(--logile-border-brand-primary-subtle)",
-              }
-            }
+              },
+            },
           },
         },
       },
       MuiSelect: {
         styleOverrides: {
           root: {
-
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: "var(--logile-border-brand-primary-subtle)",
-              top: '-5px',
+              top: "-5px",
               borderWidth: 1,
             },
-            "&.MuiInputBase-root.MuiOutlinedInput-root.MuiSelect-root:hover .MuiOutlinedInput-notchedOutline": {
-              borderWidth: 1,
-              top: '-5px',
-              borderColor: "var(--logile-border-brand-primary-subtle)",
-            },
-            "&.MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "var(--logile-border-brand-primary-subtle)",
-            }
-
-
+            "&.MuiInputBase-root.MuiOutlinedInput-root.MuiSelect-root:hover .MuiOutlinedInput-notchedOutline":
+              {
+                borderColor: "var(--logile-border-bold-subtle)",
+              },
           },
         },
       },

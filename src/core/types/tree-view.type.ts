@@ -1,5 +1,3 @@
-
-
 export type TreeViewNodeDataType = {
   tagId: number;
   tagName: string;
@@ -13,10 +11,10 @@ export type TreeViewNodeDataType = {
   reportType: number | null;
   isExpanded: boolean | null;
   subLibrary: TreeViewNodeDataType[];
-}
+};
 
 export type FolderTreeResponse = {
   success: boolean;
   message: string;
   data: TreeViewNodeDataType[];
-}
+};

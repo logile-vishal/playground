@@ -13,12 +13,12 @@
   }
   .MuiStepLabel-root {
     flex-direction: row-reverse;
-    gap: var(--space-m);
+    gap: var(--space-l);
   }
 
-  &__steps-item.shared-stepper__step {
+  &__steps-item {
     cursor: pointer;
-    padding: 0px;
+    padding: 0px !important;
   }
   .MuiStepper-root {
     gap: var(--space-l);
@@ -57,6 +57,8 @@
   /* Stepper state: Active */
   &--active {
     color: var(--logile-text-brand-primary);
+    font-size: var(--logile-size-body-large);
+    font-weight: var(--weight-500);
     svg {
       fill: var(--logile-icon-secondary);
     }

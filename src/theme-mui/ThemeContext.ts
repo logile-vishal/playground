@@ -1,5 +1,4 @@
-
-import { type ThemeContextType } from '@mui/material';
+import { type ThemeContextType } from "@mui/material";
 import { createContext } from "react";
 
 export const ThemeContext = createContext<ThemeContextType>({

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Box, Step, StepLabel, Stepper } from "@mui/material";
 
-import type { SharedStepperProps } from "@/core/types/stepper.type";
+import type { StepperProps } from "@/core/types/stepper.type";
 import { ChevronRightIconFilled } from "@/core/constants/icons";
-import { useIsDesktopViewport } from '@/utils/get-viewport-size';
+import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
 
-import SvgIcon from "../icon/Icon";
+import CSvgIcon from "../icon/Icon";
 import "./Stepper.scss";
 
 /**
@@ -18,25 +18,29 @@ import "./Stepper.scss";
 const runStepValidator = (validateFn?: () => boolean): boolean => {
   if (typeof validateFn === "function") {
     const isStepValid = validateFn();
-    if(isStepValid != undefined && typeof isStepValid === "boolean") return validateFn()
+    if (isStepValid != undefined && typeof isStepValid === "boolean")
+      return validateFn();
   }
   return true;
 };
 
 /**
- * @component SharedStepper
+ * @component CStepper
  * @description A stepper component that allows navigation between steps with validation
- * @param {SharedStepperProps} props - Component props
+ * @param {StepperProps} props - Component props
  * @param {Array} props.options - Array of step configuration objects
  * @param {Function} [props.onChange] - Callback fired when active step changes
  * @returns {JSX.Element} Rendered stepper component
  */
-const SharedStepper = ({ options = [], onChange, componentClassName }: SharedStepperProps) => {
-
+const CStepper = ({
+  options = [],
+  onChange,
+  componentClassName,
+}: StepperProps) => {
   const [activeStep, setActiveStep] = useState(0);
   const [largestSelectedStep, setLargestSelectedStep] = useState(0);
   const isDesktop = useIsDesktopViewport();
-  
+
   /**
    * @method isNavigateAllowed
    * @description Checks if navigation from current step to target step is allowed
@@ -45,62 +49,77 @@ const SharedStepper = ({ options = [], onChange, componentClassName }: SharedSte
    * @returns {boolean} True if navigation is allowed, false otherwise
    */
   const isNavigateAllowed = (current: number, target: number): boolean => {
-      if (target === current) return false;
+    if (target === current) return false;
 
-      // Always allow backward navigation
-      if (target < current) return true;
+    // Always allow backward navigation
+    if (target < current) return true;
 
-      // Forward navigation - validate in between step
-      for (let i = current; i < target; i++) {
-        const isStepValid = runStepValidator(options[i]?.checkValidity);
-        if (!isStepValid) {
-            return false;
-        }
+    // Forward navigation - validate in between step
+    for (let i = current; i < target; i++) {
+      const isStepValid = runStepValidator(options[i]?.checkValidity);
+      if (!isStepValid) {
+        return false;
       }
-
-      return true;
     }
 
-  
+    return true;
+  };
+
   /**
    * @method handleStepClick
    * @description Handles step click event and updates active step if navigation is allowed
    * @param {number} targetIndex - Index of the step that was clicked
    * @returns {void}
    */
-  const handleStepClick =  (targetIndex: number) => {
-      if (!isNavigateAllowed(activeStep, targetIndex)) return;
+  const handleStepClick = (targetIndex: number) => {
+    if (!isNavigateAllowed(activeStep, targetIndex)) return;
 
-      setActiveStep(targetIndex);
-      setLargestSelectedStep((prev) => Math.max(prev, targetIndex));
+    setActiveStep(targetIndex);
+    setLargestSelectedStep((prev) => Math.max(prev, targetIndex));
 
-      onChange?.({
-        activeStep: targetIndex,
-        data: options[targetIndex],
-      });
-    }
+    onChange?.({
+      activeStep: targetIndex,
+      data: options[targetIndex],
+    });
+  };
 
-    const renderComponent = () => {
-        const component = options[activeStep]?.component as React.ElementType;
-        if(component == undefined) return <></>
-        return <>{component}</>
-    }
+  const renderComponent = () => {
+    const component = options[activeStep]?.component as React.ElementType;
+    if (component == undefined) return <></>;
+    return <>{component}</>;
+  };
 
   return (
-    <div className={clsx({"shared-stepper": true, [componentClassName]: !!componentClassName})}>
-      <Stepper className={clsx({"shared-stepper__steps": true, "shared-stepper__steps--top-border": !isDesktop})}shared-stepper__steps connector={<></>} activeStep={activeStep}>
+    <div
+      className={clsx({
+        "shared-stepper": true,
+        [componentClassName]: !!componentClassName,
+      })}
+    >
+      <Stepper
+        className={clsx({
+          "shared-stepper__steps": true,
+          "shared-stepper__steps--top-border": !isDesktop,
+        })}
+        shared-stepper__steps
+        connector={<></>}
+        activeStep={activeStep}
+      >
         {options.map((item, index) => {
           const isCompleted = largestSelectedStep > index;
           const isActive = activeStep === index;
           const isDisabled = item?.disabled ?? false;
           const isError = item?.error;
-          const isLastStep = options?.length - 1 === index
+          const isLastStep = options?.length - 1 === index;
           const isFirstStep = index == 0;
           return (
             <Step
               key={item.label}
               onClick={() => handleStepClick(index)}
-              className={clsx({'shared-stepper__steps-item': true, 'shared-stepper__first-step': isFirstStep})}
+              className={clsx({
+                "shared-stepper__steps-item": true,
+                "shared-stepper__first-step": isFirstStep,
+              })}
               disabled={isDisabled}
             >
               <StepLabel
@@ -110,11 +129,12 @@ const SharedStepper = ({ options = [], onChange, componentClassName }: SharedSte
                   "shared-stepper__label--error": isError,
                   "shared-stepper__label--active": isActive,
                 })}
-                icon={ !isLastStep ? 
-                  <SvgIcon
-                    component={ChevronRightIconFilled}
-                    size={16}
-                  /> : <></>
+                icon={
+                  !isLastStep ? (
+                    <CSvgIcon component={ChevronRightIconFilled} size={16} />
+                  ) : (
+                    <></>
+                  )
                 }
               >
                 {item.label}
@@ -123,11 +143,9 @@ const SharedStepper = ({ options = [], onChange, componentClassName }: SharedSte
           );
         })}
       </Stepper>
-      <Box className="shared-stepper__content">
-        {renderComponent()}
-      </Box>
+      <Box className="shared-stepper__content">{renderComponent()}</Box>
     </div>
   );
 };
 
-export default SharedStepper;
+export default CStepper;

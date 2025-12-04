@@ -1,7 +1,11 @@
 import type { DirectResponse } from "@/core/types/pagination.type";
 // import { get } from "@/core/services/http-base-service";
 // import { API_CONFIG } from "@/core/constants/api-config";
-import { useQuery, useQueryClient, type UseQueryResult } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+  type UseQueryResult,
+} from "@tanstack/react-query";
 import type { User } from "@/core/types/user.type";
 import { queryPersister } from "@/core/utils/query-persister";
 import { useEffect, useState } from "react";
@@ -9,7 +13,9 @@ import { useEffect, useState } from "react";
 // Create persister instance once, outside component
 const { getFromCache, saveToCache } = queryPersister();
 
-export const useUser = (): UseQueryResult<User> & { isLoadingCache: boolean } => {
+export const useUser = (): UseQueryResult<User> & {
+  isLoadingCache: boolean;
+} => {
   const queryClient = useQueryClient();
   const [hasHydrated, setHasHydrated] = useState(false);
 
@@ -18,14 +24,14 @@ export const useUser = (): UseQueryResult<User> & { isLoadingCache: boolean } =>
     const cachedUser = getFromCache<User>();
     if (cachedUser) {
       // Set the cache data before query runs
-      queryClient.setQueryData(['me'], cachedUser);
+      queryClient.setQueryData(["me"], cachedUser);
     }
     setHasHydrated(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const queryResult = useQuery<User>({
-    queryKey: ['me'],
+    queryKey: ["me"],
     queryFn: async () => {
       const { data } = await getUserDetails();
       // Save to localStorage after successful fetch
@@ -46,9 +52,9 @@ export const useUser = (): UseQueryResult<User> & { isLoadingCache: boolean } =>
 };
 
 /**
-* @method getUserDetails
-* @description fetch user details
-*/
+ * @method getUserDetails
+ * @description fetch user details
+ */
 export const getUserDetails: () => Promise<DirectResponse<User>> = () => {
   //   return get<DirectResponse<UserType>>(API_CONFIG.user.getUserDetails); // TODO: Uncomment this line when backend is ready
 
@@ -57,18 +63,18 @@ export const getUserDetails: () => Promise<DirectResponse<User>> = () => {
     setTimeout(() => {
       resolve({
         data: {
-          "userId": 98765432101,
-          "userName": "John Doe",
-          "orgId": 45678912345,
-          "orgName": "Deli Store - Downtown Branch",
-          "orgType": "Retail",
-          "orgLevelId": 2001,
-          "orgLevelName": "Store Level",
-          "positionId": 11223344556,
-          "positionName": "Store Supervisor",
-          "isAdmin": true,
-          "parentPositionId": 99887766554
-        }
+          userId: 98765432101,
+          userName: "John Doe",
+          orgId: 45678912345,
+          orgName: "Deli Store - Downtown Branch",
+          orgType: "Retail",
+          orgLevelId: 2001,
+          orgLevelName: "Store Level",
+          positionId: 11223344556,
+          positionName: "Store Supervisor",
+          isAdmin: true,
+          parentPositionId: 99887766554,
+        },
       });
     }, 1000);
 

@@ -3,11 +3,11 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Stack, Typography } from "@mui/material";
 
-import IconButton from "@/core/components/button/IconButton";
-import { CommonButton } from "@/core/components/button/button";
-import SvgIcon from "@/core/components/icon/Icon";
+import CIconButton from "@/core/components/button/IconButton";
+import { CButton } from "@/core/components/button/button";
+import CSvgIcon from "@/core/components/icon/Icon";
 import { ChevronLeft } from "@/core/constants/icons";
-import SharedStepper from "@/core/components/stepper/Stepper";
+import CStepper from "@/core/components/stepper/Stepper";
 import type { StepOption } from "@/core/types/stepper.type";
 import PageTemplate from "@/layouts/page-template/PageTemplate";
 
@@ -70,75 +70,53 @@ const CreateTemplate: React.FC = () => {
       /* TODO: Conditions to be added later */
       console.log("activeStep", event.activeStep, event.data);
     },
-    []
+    [],
   );
   return (
     <PageTemplate>
       <PageTemplate.Header>
-        <Stack
-          direction={"row"}
-          className="create-template-page-header"
-        >
+        <Stack direction={"row"} className="create-template-page-header">
           <Box className="create-template-page-header__section">
-            <IconButton
+            <CIconButton
               variant="outline"
               disableHover={true}
               disableTouchRipple
               onClick={handleNavigateBack}
               className="create-template-page-header__back-icon"
             >
-              <SvgIcon
+              <CSvgIcon
                 component={ChevronLeft}
                 fill="var(--logile-icon-secondary)"
                 size={18}
               />
-            </IconButton>
-            <Typography
-              color="var(--logile-text-primary)"
-              variant="h2"
-            >
+            </CIconButton>
+            <Typography color="var(--logile-text-primary)" variant="h2">
               {CREATE_TEMPLATE_HEADING.createTaskTemplate}
             </Typography>
 
             {/* TODO: to be done later when create template demo video available */}
             {/* <Box className={clsx({ "create-template-page-header__cursor-pointer": true })}>
-                        <SvgIcon component={QuestionCircle} fill='var(--logile-icon-secondary)' size={16} />
+                        <CSvgIcon component={QuestionCircle} fill='var(--logile-icon-secondary)' size={16} />
                     </Box> */}
           </Box>
           <Box className="create-template-page-header__section">
-            <CommonButton
-              severity="secondary"
-              variant="outline"
-              disabled={true}
-            >
+            <CButton severity="secondary" variant="outline" disabled={true}>
               Preview
-            </CommonButton>
-            <CommonButton
-              severity="secondary"
-              disabled={true}
-            >
+            </CButton>
+            <CButton severity="secondary" disabled={true}>
               Next
-            </CommonButton>
-            <CommonButton
-              severity="primary"
-              disabled={true}
-            >
+            </CButton>
+            <CButton severity="primary" disabled={true}>
               Save
-            </CommonButton>
-            <CommonButton
-              severity="primary"
-              disabled={true}
-            >
+            </CButton>
+            <CButton severity="primary" disabled={true}>
               Submit
-            </CommonButton>
+            </CButton>
           </Box>
         </Stack>
       </PageTemplate.Header>
       <PageTemplate.Content>
-        <SharedStepper
-          onChange={handleStepChange}
-          options={stepperOptions}
-        />
+        <CStepper onChange={handleStepChange} options={stepperOptions} />
       </PageTemplate.Content>
     </PageTemplate>
   );

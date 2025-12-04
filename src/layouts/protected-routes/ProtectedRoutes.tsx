@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/core/services/auth.service";
-import Loader from "@/core/components/loader/Loader";
+import CLoader from "@/core/components/loader/Loader";
 
 const roleList: string[] = ["admin", "user"];
 
@@ -21,27 +21,16 @@ export const ProtectedRoute = ({
 
   // Only show loading on initial fetch, not on background refetches
   if (isLoading && !user && !isLoadingCache) {
-    return <Loader />;
+    return <CLoader />;
   }
 
   if (!isLoading && !user) {
     // Not logged in, redirect to login
-    return (
-      <Navigate
-        to="/login"
-        state={{ from: location }}
-        replace
-      />
-    );
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   if (!isLoading && !isLoadingCache && !checkIfUserAllowed()) {
-    return (
-      <Navigate
-        to="/unauthorized"
-        replace
-      />
-    );
+    return <Navigate to="/unauthorized" replace />;
   }
 
   // Render children if provided, otherwise render Outlet for nested routes

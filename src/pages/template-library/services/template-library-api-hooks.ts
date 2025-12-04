@@ -1,11 +1,15 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
-import type { PaginatedResponse } from '@/core/types/pagination.type';
-import { useNotification } from '@/core/services/notification.service';
-import { Severity } from '@/core/types/severity.type';
+import type { PaginatedResponse } from "@/core/types/pagination.type";
+import { useNotification } from "@/core/services/notification.service";
+import { Severity } from "@/core/types/severity.type";
 
-import type { FilterTemplatesPayload, TagOptionsType, TaskTypeOptions } from '../types/template-library.type';
+import type {
+  FilterTemplatesPayload,
+  TagOptionsType,
+  TaskTypeOptions,
+} from "../types/template-library.type";
 import {
   getAllDirectories,
   getTemplatesByTagId,
@@ -18,18 +22,18 @@ import {
   getReportPreviewById,
   deleteReportTemplateById,
   deleteTaskTemplateById,
-} from './template-library.service';
-import type { TreeViewNodeDataType } from '@/core/types/tree-view.type';
+} from "./template-library.service";
+import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
 
 /**
-  * @method useGetAllDirectories
-  * @description hook to fetch all the directories list
-*/
+ * @method useGetAllDirectories
+ * @description hook to fetch all the directories list
+ */
 export function useGetAllDirectories() {
   const { notify } = useNotification();
 
   const query = useQuery<PaginatedResponse<TreeViewNodeDataType>>({
-    queryKey: ['directories'],
+    queryKey: ["directories"],
     queryFn: getAllDirectories,
     retry: false,
   });
@@ -37,7 +41,7 @@ export function useGetAllDirectories() {
   useEffect(() => {
     if (query.isError) {
       notify({
-        title: query.error?.message || 'Failed to load directories',
+        title: query.error?.message || "Failed to load directories",
         config: {
           severity: Severity.ERROR,
         },
@@ -49,18 +53,18 @@ export function useGetAllDirectories() {
 }
 
 /**
-  * @method useGetTemplatesByTagId
-  * @description hook to fetch templates by tagId
-*/
+ * @method useGetTemplatesByTagId
+ * @description hook to fetch templates by tagId
+ */
 export function useGetTemplatesByTagId() {
   const { notify } = useNotification();
 
-  const query =  useMutation({
-    mutationKey: ['templates'],
-    mutationFn: (params?: Record<string, unknown>) => { 
-      const {tagId} = params; 
+  const query = useMutation({
+    mutationKey: ["templates"],
+    mutationFn: (params?: Record<string, unknown>) => {
+      const { tagId } = params;
       delete params?.tagId;
-      return getTemplatesByTagId(tagId as number, params)
+      return getTemplatesByTagId(tagId as number, params);
     },
     retry: false,
   });
@@ -68,38 +72,38 @@ export function useGetTemplatesByTagId() {
   useEffect(() => {
     if (query.isError) {
       notify({
-        title: query.error?.message || 'Failed to load templates',
+        title: query.error?.message || "Failed to load templates",
         // description: query.error?.message || 'An error occurred while fetching templates',
         config: {
           severity: Severity.ERROR,
         },
       });
-    } 
+    }
   }, [query.isError, query.isSuccess, query.error, notify]);
 
   return query;
 }
 
 /**
-  * @method useGetReportsByReportType
-  * @description hook to fetch reports by reportType
-*/
+ * @method useGetReportsByReportType
+ * @description hook to fetch reports by reportType
+ */
 export function useGetReportsByReportType() {
   const { notify } = useNotification();
-  const query =  useMutation({
-    mutationKey: ['reports'],
+  const query = useMutation({
+    mutationKey: ["reports"],
     mutationFn: (params?: Record<string, unknown>) => {
-      const {reportTypeId} = params;
+      const { reportTypeId } = params;
       delete params?.reportTypeId;
-      return getReportsByReportType(reportTypeId as number, params)
+      return getReportsByReportType(reportTypeId as number, params);
     },
     retry: false,
   });
 
-   useEffect(() => {
+  useEffect(() => {
     if (query.isError) {
       notify({
-        title: query.error?.message || 'Failed to load reports',
+        title: query.error?.message || "Failed to load reports",
         // description: query.error?.message || 'An error occurred while fetching reports',
         config: {
           severity: Severity.ERROR,
@@ -112,58 +116,57 @@ export function useGetReportsByReportType() {
 }
 
 /**
-  * @method useGetTaskTypesOptions
-  * @description hook to fetch task types options
-*/
+ * @method useGetTaskTypesOptions
+ * @description hook to fetch task types options
+ */
 export function useGetTaskTypesOptions() {
   return useQuery<PaginatedResponse<TaskTypeOptions>>({
-    queryKey: ['taskTypesOptions'],
+    queryKey: ["taskTypesOptions"],
     queryFn: getTaskTypes,
     retry: false,
   });
 }
 
-
 /**
-  * @method useGetTaskTagsOptions
-  * @description hook to fetch task tag options
-*/
+ * @method useGetTaskTagsOptions
+ * @description hook to fetch task tag options
+ */
 export function useGetTaskTagsOptions() {
   return useQuery<PaginatedResponse<TagOptionsType>>({
-    queryKey: ['taskTagsOptions'],
+    queryKey: ["taskTagsOptions"],
     queryFn: getTaskTags,
     retry: false,
   });
 }
 
 /**
-  * @method useGetQuestionTagsOptions
-  * @description hook to fetch question tags options
-*/
+ * @method useGetQuestionTagsOptions
+ * @description hook to fetch question tags options
+ */
 export function useGetQuestionTagsOptions() {
   return useQuery<PaginatedResponse<TagOptionsType>>({
-    queryKey: ['questionTagsOptions'],
+    queryKey: ["questionTagsOptions"],
     queryFn: getQuestionTags,
     retry: false,
   });
 }
 
 /**
-  * @method useFilterTemplates
-  * @description hook to filter templates
-*/
-export function useFilterTemplates(payload: FilterTemplatesPayload={}) {
+ * @method useFilterTemplates
+ * @description hook to filter templates
+ */
+export function useFilterTemplates(payload: FilterTemplatesPayload = {}) {
   const { notify } = useNotification();
   const query = useMutation({
-    mutationKey: ['templateFilter',payload],
+    mutationKey: ["templateFilter", payload],
     mutationFn: (payload: Record<string, unknown>) => filterTemplates(payload),
     retry: false,
   });
 
-    useEffect(() => {
+  useEffect(() => {
     if (query.isError) {
       notify({
-        title:  query.error?.message || 'Failed to load templates',
+        title: query.error?.message || "Failed to load templates",
         // description: query.error?.message || 'An error occurred while fetching templates', TODO: Later remove this once error handling is done
         config: {
           severity: Severity.ERROR,
@@ -171,7 +174,7 @@ export function useFilterTemplates(payload: FilterTemplatesPayload={}) {
       });
     } else if (query.isSuccess) {
       notify({
-        title: 'Templates fetched successfully',
+        title: "Templates fetched successfully",
         config: {
           severity: Severity.SUCCESS,
         },
@@ -183,48 +186,48 @@ export function useFilterTemplates(payload: FilterTemplatesPayload={}) {
 }
 
 /**
-  * @method useGetPreviewByTemplateId
-  * @description hook to fetch template preview
-*/
+ * @method useGetPreviewByTemplateId
+ * @description hook to fetch template preview
+ */
 export function useGetPreviewByTemplateId() {
   const { notify } = useNotification();
   const query = useMutation({
-    mutationKey: ['template-preview'],
+    mutationKey: ["template-preview"],
     mutationFn: (templateId: number) => getTemplatePreviewById(templateId),
     retry: false,
   });
 
-    useEffect(() => {
+  useEffect(() => {
     if (query.isError) {
       notify({
-        title: query.error?.message || 'Failed to load template preview',
+        title: query.error?.message || "Failed to load template preview",
         // description: query.error?.message || `An error occurred while fetching template's preview`,
         config: {
           severity: Severity.ERROR,
         },
       });
-    } 
+    }
   }, [query.isError, query.error, query.isSuccess, notify]);
 
   return query;
 }
 
 /**
-  * @method useGetPreviewByReportTypeId
-  * @description hook to fetch report preview
-*/
+ * @method useGetPreviewByReportTypeId
+ * @description hook to fetch report preview
+ */
 export function useGetPreviewByReportTypeId() {
   const { notify } = useNotification();
   const query = useMutation({
-    mutationKey: ['report-preview'],
+    mutationKey: ["report-preview"],
     mutationFn: (templateId: number) => getReportPreviewById(templateId),
     retry: false,
   });
 
-    useEffect(() => {
+  useEffect(() => {
     if (query.isError) {
       notify({
-        title: query.error?.message || 'Failed to load report preview',
+        title: query.error?.message || "Failed to load report preview",
         // description: query.error?.message || 'An error occurred while fetching report preview',
         config: {
           severity: Severity.ERROR,
@@ -237,22 +240,22 @@ export function useGetPreviewByReportTypeId() {
 }
 
 /**
-  * @method useDeleteTemplateById
-  * @description hook to delete template by Template ID
-*/
+ * @method useDeleteTemplateById
+ * @description hook to delete template by Template ID
+ */
 export function useDeleteTemplateById() {
   const { notify } = useNotification();
   const query = useMutation({
     mutationFn: (templateId: number) => {
-      return deleteTaskTemplateById(templateId)
+      return deleteTaskTemplateById(templateId);
     },
     retry: false,
   });
 
-    useEffect(() => {
+  useEffect(() => {
     if (query.isError) {
       notify({
-        title: query.error?.message || 'Failed to delete template',
+        title: query.error?.message || "Failed to delete template",
         // description: query.error?.message || 'An error occurred while deleting template',
         config: {
           severity: Severity.ERROR,
@@ -260,7 +263,7 @@ export function useDeleteTemplateById() {
       });
     } else if (query.isSuccess) {
       notify({
-        title: 'Template deleted successfully',
+        title: "Template deleted successfully",
         config: {
           severity: Severity.SUCCESS,
         },
@@ -272,22 +275,22 @@ export function useDeleteTemplateById() {
 }
 
 /**
-  * @method useDeleteReportById
-  * @description hook to delete report by type ID
-*/
+ * @method useDeleteReportById
+ * @description hook to delete report by type ID
+ */
 export function useDeleteReportById() {
   const { notify } = useNotification();
   const query = useMutation({
     mutationFn: (templateId: number) => {
-      return deleteReportTemplateById(templateId)
+      return deleteReportTemplateById(templateId);
     },
     retry: false,
   });
 
-    useEffect(() => {
+  useEffect(() => {
     if (query.isError) {
       notify({
-        title: query.error?.message || 'Failed to delete report',
+        title: query.error?.message || "Failed to delete report",
         // description: query.error?.message || 'An error occurred while deleting report',
         config: {
           severity: Severity.ERROR,
@@ -295,13 +298,13 @@ export function useDeleteReportById() {
       });
     } else if (query.isSuccess) {
       notify({
-        title: 'Report deleted successfully',
+        title: "Report deleted successfully",
         config: {
           severity: Severity.SUCCESS,
         },
       });
     }
   }, [query.isError, query.error, query.isSuccess, notify]);
-  
+
   return query;
 }

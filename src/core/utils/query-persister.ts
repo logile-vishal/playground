@@ -7,8 +7,8 @@ interface CacheConfig {
 }
 
 const DEFAULT_CONFIG = {
-  key: 'app-user-cache',
-  expiryKey: 'app-user-cache-expiry',
+  key: "app-user-cache",
+  expiryKey: "app-user-cache-expiry",
   maxAge: 1000 * 60 * 60 * 24, // 24 hours
 };
 
@@ -20,9 +20,12 @@ export const queryPersister = (config: CacheConfig = {}) => {
   const saveToCache = (data: unknown) => {
     try {
       localStorage.setItem(CACHE_KEY, JSON.stringify(data));
-      localStorage.setItem(CACHE_EXPIRY_KEY, String(Date.now() + CACHE_MAX_AGE));
+      localStorage.setItem(
+        CACHE_EXPIRY_KEY,
+        String(Date.now() + CACHE_MAX_AGE),
+      );
     } catch (error) {
-      console.error('Failed to save to cache:', error);
+      console.error("Failed to save to cache:", error);
     }
   };
 
@@ -38,7 +41,7 @@ export const queryPersister = (config: CacheConfig = {}) => {
       const cached = localStorage.getItem(CACHE_KEY);
       return cached ? JSON.parse(cached) : null;
     } catch (error) {
-      console.error('Failed to get from cache:', error);
+      console.error("Failed to get from cache:", error);
       return null;
     }
   };

@@ -2,7 +2,7 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
+import CIconButton from "@mui/material/IconButton";
 
 import { TEMPLATE_LIBRARY_HEADING } from "../../constants/constant";
 
@@ -22,7 +22,7 @@ const SearchField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const Searchbar = (props) => {
+const CSearchbar = (props) => {
   return (
     <SearchField
       className="search-bar"
@@ -30,19 +30,21 @@ const Searchbar = (props) => {
       placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
       size="small"
       autoComplete="off"
-      sx={{ '& .MuiOutlinedInput-input': { height: '26px', padding: '4px 8px' } }}
+      sx={{
+        "& .MuiOutlinedInput-input": { height: "26px", padding: "4px 8px" },
+      }}
       fullWidth
       {...props}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton edge="end">
+            <CIconButton edge="end">
               <SearchIcon />
-            </IconButton>
+            </CIconButton>
           </InputAdornment>
         ),
       }}
     />
-  )
-}
-export default Searchbar;
+  );
+};
+export default CSearchbar;

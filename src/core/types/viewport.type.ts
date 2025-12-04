@@ -1,1 +1,1 @@
-export type ViewportSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type ViewportSize = "xs" | "sm" | "md" | "lg" | "xl";

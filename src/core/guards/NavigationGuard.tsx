@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useDirtyForm } from "@/core/services/dirty-form-check.service";
 import { useBlocker } from "react-router-dom";
-import CommonModal, { ModalBody } from "../components/modal/Modal";
+import CModal, { ModalBody } from "../components/modal/Modal";
 
 /**
  * @component NavigationGuard
@@ -22,7 +22,7 @@ export function NavigationGuard() {
   const shouldBlock = useCallback(
     ({ currentLocation, nextLocation }) =>
       isDirty && currentLocation.pathname !== nextLocation.pathname,
-    [isDirty]
+    [isDirty],
   );
 
   const blocker = useBlocker(shouldBlock);
@@ -53,7 +53,7 @@ export function NavigationGuard() {
   }, [blocker]);
 
   return (
-    <CommonModal
+    <CModal
       size="small"
       showActions={true}
       title="Unsaved changes"
@@ -64,6 +64,6 @@ export function NavigationGuard() {
       <ModalBody>
         You have some unsaved Changes. Are you sure you want to leave?
       </ModalBody>
-    </CommonModal>
+    </CModal>
   );
 }

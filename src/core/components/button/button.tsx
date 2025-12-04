@@ -2,12 +2,12 @@ import React from "react";
 import type { CSSProperties } from "react";
 import { Button as MUIButton } from "@mui/material";
 
-import type { CommonButtonProps } from "@/core/types/button.type";
+import type { ButtonProps } from "@/core/types/button.type";
 
 import { buttonSizes } from "./button.sizes";
 import { buttonPalette } from "./button.palette";
 
-export const CommonButton: React.FC<CommonButtonProps> = ({
+export const CButton: React.FC<ButtonProps> = ({
   severity = "primary",
   variant = "solid",
   size = "large",
@@ -21,8 +21,8 @@ export const CommonButton: React.FC<CommonButtonProps> = ({
   const sizeStyles = buttonSizes[size];
 
   const baseStyle: CSSProperties = {
-    minHeight: 'auto',
-    lineHeight:'normal',
+    minHeight: "auto",
+    lineHeight: "normal",
     minWidth: "fit-content",
     textTransform: "none",
     boxShadow: "none",
@@ -35,9 +35,9 @@ export const CommonButton: React.FC<CommonButtonProps> = ({
 
   return (
     <MUIButton
-    disabled={disabled}
-    className={className}
-    {...props}
+      disabled={disabled}
+      className={className}
+      {...props}
       sx={{
         ...baseStyle,
         "&:hover": !disabled ? variantStyles.hover : {},

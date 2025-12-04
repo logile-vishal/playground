@@ -1,7 +1,7 @@
 import { InputBase, styled } from "@mui/material";
 import React from "react";
 
-import SvgIcon, { type SvgIconComponent } from "@/core/components/icon/Icon";
+import CSvgIcon, { type SvgIconComponent } from "@/core/components/icon/Icon";
 
 type navSearchBarProps = {
   placeholder: string;
@@ -76,11 +76,7 @@ const NavSearchBar = (props: navSearchBarProps) => {
         onKeyDown={checkForEnter}
       />
       <SearchIconWrapper>
-        <SvgIcon
-          component={props.icon}
-          color="secondary"
-          size={18}
-        />
+        <CSvgIcon component={props.icon} color="secondary" size={18} />
       </SearchIconWrapper>
     </Search>
   );

@@ -9,10 +9,10 @@ import type { MenuProps } from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import type { MRT_Cell, MRT_Column } from "material-react-table";
 
-import { DataTable } from "@/core/components/table/DataTable";
-import SvgIcon from "@/core/components/icon/Icon";
-import IconButton from "@/core/components/button/IconButton";
-import CommonModal, { ModalBody } from "@/core/components/modal/Modal";
+import { CDataTable } from "@/core/components/table/DataTable";
+import CSvgIcon from "@/core/components/icon/Icon";
+import CIconButton from "@/core/components/button/IconButton";
+import CModal, { ModalBody } from "@/core/components/modal/Modal";
 import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 import {
   ArrowDown,
@@ -196,14 +196,14 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
 
   const handleRowSelection = (
     checked: boolean,
-    rowData: TemplateType | ReportType
+    rowData: TemplateType | ReportType,
   ) => {
     let copyRowData = [...(selectedTemplate as TemplateType[] | ReportType[])];
     if (checked) {
       copyRowData.push(rowData);
     } else {
       copyRowData = copyRowData.filter(
-        (item) => item?.templateId !== rowData?.templateId
+        (item) => item?.templateId !== rowData?.templateId,
       );
     }
     if (copyRowData.length === 0) {
@@ -216,7 +216,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
 
   const isRowSelected = (rowData: TemplateType | ReportType) => {
     return selectedTemplate?.some(
-      (item) => item?.templateId === rowData?.templateId
+      (item) => item?.templateId === rowData?.templateId,
     );
   };
 
@@ -226,7 +226,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
    */
   const handleSelectAllRows = () => {
     const templateData = (templatesList?.data?.filter(
-      (item): item is TemplateType => "templateName" in item
+      (item): item is TemplateType => "templateName" in item,
     ) || []) as TemplateType[];
     const isAllRowsSelected = selectedTemplate.length === templateData.length;
     if (!isAllRowsSelected) {
@@ -241,7 +241,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
 
   const handleMenuClick = (
     event: React.MouseEvent<HTMLElement>,
-    type: keyof typeof tableActionMenu
+    type: keyof typeof tableActionMenu,
   ) => {
     event.stopPropagation();
     const isOpen = tableActionMenu[type].status;
@@ -266,7 +266,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
 
   const handleSortSelect = (
     type: keyof typeof tableActionMenu,
-    item: SortOption
+    item: SortOption,
   ) => {
     const newObj: typeof selectedSort = {};
     Object.entries(selectedSort).map(([key, menuItem]) => {
@@ -333,45 +333,26 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   const renderHeaderWithMenu = (
     column: MRT_Column<TemplateType>,
     type: keyof typeof tableActionMenu,
-    menuItems: SortOption[]
+    menuItems: SortOption[],
   ) => {
     const selected = selectedSort[type];
     const isAscending = selected?.key === "ASC";
     if (!menuItems || menuItems?.length == 0)
       return (
-        <Box
-          display="flex"
-          alignItems="center"
-          gap="4px"
-        >
+        <Box display="flex" alignItems="center" gap="4px">
           <Box>{column.columnDef.header}</Box>
         </Box>
       );
     return (
-      <Box
-        display="flex"
-        alignItems="center"
-        gap="4px"
-      >
+      <Box display="flex" alignItems="center" gap="4px">
         <Box>{column.columnDef.header}</Box>
 
         {selected ? (
-          <Box
-            className="cursor-pointer"
-            height="20px"
-          >
+          <Box className="cursor-pointer" height="20px">
             {isAscending ? (
-              <SvgIcon
-                component={ArrowDown}
-                size={20}
-                color="secondary"
-              />
+              <CSvgIcon component={ArrowDown} size={20} color="secondary" />
             ) : (
-              <SvgIcon
-                component={ArrowUp}
-                size={20}
-                color="secondary"
-              />
+              <CSvgIcon component={ArrowUp} size={20} color="secondary" />
             )}
           </Box>
         ) : (
@@ -384,17 +365,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           onClick={(e) => handleMenuClick(e, type)}
         >
           {tableActionMenu[type].status ? (
-            <SvgIcon
-              component={ArrowUpFill}
-              size={20}
-              color="secondary"
-            />
+            <CSvgIcon component={ArrowUpFill} size={20} color="secondary" />
           ) : (
-            <SvgIcon
-              component={ArrowDownFill}
-              size={20}
-              color="secondary"
-            />
+            <CSvgIcon component={ArrowDownFill} size={20} color="secondary" />
           )}
         </Box>
 
@@ -435,7 +408,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
                 >
                   {item?.getLabel() || ""}
                   {isSelected && (
-                    <SvgIcon
+                    <CSvgIcon
                       component={Check}
                       size={20}
                       color="brand-primary"
@@ -459,7 +432,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     renderHeaderWithMenu(
       column,
       "name",
-      isReportType ? REPORT_SORTING.NAME : TEMPLATE_SORTING.NAME
+      isReportType ? REPORT_SORTING.NAME : TEMPLATE_SORTING.NAME,
     );
   const renderTemplateCreatedHeader = ({
     column,
@@ -469,7 +442,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     renderHeaderWithMenu(
       column,
       "created",
-      isReportType ? null : TEMPLATE_SORTING.CREATED
+      isReportType ? null : TEMPLATE_SORTING.CREATED,
     );
   const renderTemplateModifiedHeader = ({
     column,
@@ -479,7 +452,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     renderHeaderWithMenu(
       column,
       "modified",
-      isReportType ? REPORT_SORTING.SAVED_DATE : TEMPLATE_SORTING.MODIFIED
+      isReportType ? REPORT_SORTING.SAVED_DATE : TEMPLATE_SORTING.MODIFIED,
     );
 
   const renderTemplateIconHeader = () => {
@@ -522,13 +495,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     );
   };
 
-  const renderTemplateCommonHeader = ({ column }) => {
+  const renderTemplateHeader = ({ column }) => {
     return (
-      <Box
-        height="20px"
-        display="flex"
-        alignItems="center"
-      >
+      <Box height="20px" display="flex" alignItems="center">
         {column.columnDef.header}
       </Box>
     );
@@ -536,12 +505,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
 
   const renderTemplateActionHeader = ({ column }) => {
     return (
-      <Box
-        height="20px"
-        display="flex"
-        ml="8px"
-        alignItems="center"
-      >
+      <Box height="20px" display="flex" ml="8px" alignItems="center">
         {column.columnDef.header}
       </Box>
     );
@@ -567,14 +531,14 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
               onClick={() => handleRowSelection(true, cell.row.original)}
               className="cursor-pointer icon-container"
             >
-              <IconButton>
-                <SvgIcon
+              <CIconButton>
+                <CSvgIcon
                   component={templateIcon}
                   size={18}
                   fill={templateColor}
                   style={{ pointerEvents: "none" }}
                 />
-              </IconButton>
+              </CIconButton>
             </Box>
             <FormControlLabel
               label=""
@@ -582,7 +546,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
               onChange={(event) =>
                 handleRowSelection(
                   (event.target as HTMLInputElement).checked,
-                  cell.row.original
+                  cell.row.original,
                 )
               }
               control={
@@ -609,7 +573,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
               onChange={(event) =>
                 handleRowSelection(
                   (event.target as HTMLInputElement).checked,
-                  cell.row.original
+                  cell.row.original,
                 )
               }
               control={
@@ -642,18 +606,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       ? TEMPLATE_TABLE_DATA.reportTask
       : data?.tagType || "-";
     return (
-      <Box
-        minWidth="300px"
-        display="flex"
-        alignItems="center"
-        gap="10px"
-      >
-        <Box
-          width="100%"
-          display="flex"
-          flexDirection="column"
-          gap="6px"
-        >
+      <Box minWidth="300px" display="flex" alignItems="center" gap="10px">
+        <Box width="100%" display="flex" flexDirection="column" gap="6px">
           <Box
             width="100%"
             className="template-body-text cursor-pointer"
@@ -662,10 +616,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             {renderMacTruncate(data?.templateName || data?.name || "")}
           </Box>
           {!isDesktop ? (
-            <Box
-              display="flex"
-              gap="24px"
-            >
+            <Box display="flex" gap="24px">
               <Box
                 display="flex"
                 gap="4px"
@@ -690,7 +641,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
                   >
                     <Box>{data?.status}</Box>
                     <>
-                      <SvgIcon
+                      <CSvgIcon
                         component={ExclamationTriangle}
                         size={16}
                         color="violation"
@@ -698,10 +649,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
                     </>
                   </Box>
                 ) : (
-                  <Box
-                    display="flex"
-                    gap="2px"
-                  >
+                  <Box display="flex" gap="2px">
                     {status}
                   </Box>
                 )}
@@ -738,7 +686,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             //TODO: REMOVE INLINE STYLES
             <Box>{data?.status}</Box>
             <>
-              <SvgIcon
+              <CSvgIcon
                 component={ExclamationTriangle}
                 size={16}
                 color="violation"
@@ -746,10 +694,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             </>
           </Box>
         ) : (
-          <Box
-            display="flex"
-            gap="2px"
-          >
+          <Box display="flex" gap="2px">
             {status}
           </Box>
         )}
@@ -767,10 +712,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       ? TEMPLATE_TABLE_DATA.reportTask
       : data?.tagType || "-";
     return (
-      <Box
-        display="flex"
-        gap="2px"
-      >
+      <Box display="flex" gap="2px">
         {type}
       </Box>
     );
@@ -788,11 +730,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     )
       return <Box>-</Box>;
     return (
-      <Box
-        display="flex"
-        gap="4px"
-        alignItems="center"
-      >
+      <Box display="flex" gap="4px" alignItems="center">
         <Box>{formatDate(templateData?.createdTime)}</Box>
         <Tooltip
           key={templateData.templateId}
@@ -816,11 +754,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             className="cursor-pointer"
             onClick={() => handleTooltip(templateData.templateId)}
           >
-            <SvgIcon
-              component={InfoCircle}
-              size={18}
-              color="secondary"
-            />
+            <CSvgIcon component={InfoCircle} size={18} color="secondary" />
           </Box>
         </Tooltip>
       </Box>
@@ -838,11 +772,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       : templateData?.lastModifiedTime;
     if (lastModified == undefined && lastModified == null) return <Box>-</Box>;
     return (
-      <Box
-        display="flex"
-        gap="4px"
-        alignItems="center"
-      >
+      <Box display="flex" gap="4px" alignItems="center">
         <Box>{formatDate(lastModified)}</Box>
       </Box>
     );
@@ -852,57 +782,33 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     const status = cell.row.original?.status;
     const disabledActions = selectedTemplate?.length > 1;
     return (
-      <Box
-        display="flex"
-        alignItems="center"
-      >
-        <IconButton
+      <Box display="flex" alignItems="center">
+        <CIconButton
           disabled={disabledActions || status === "Incomplete" ? true : false}
           disableHover
         >
-          <SvgIcon
-            component={Send}
-            size={20}
-          />
-        </IconButton>
-        <IconButton
-          disabled={disabledActions}
-          disableHover
-        >
-          <SvgIcon
-            component={Copy}
-            size={20}
-          />
-        </IconButton>
-        <IconButton
-          disabled={disabledActions}
-          disableHover
-        >
-          <SvgIcon
-            component={Edit}
-            size={20}
-          />
-        </IconButton>
-        <IconButton
-          disabled={disabledActions}
-          disableHover
-        >
-          <SvgIcon
-            component={Download}
-            size={20}
-          />
-        </IconButton>
-        <IconButton
+          <CSvgIcon component={Send} size={20} />
+        </CIconButton>
+        <CIconButton disabled={disabledActions} disableHover>
+          <CSvgIcon component={Copy} size={20} />
+        </CIconButton>
+        <CIconButton disabled={disabledActions} disableHover>
+          <CSvgIcon component={Edit} size={20} />
+        </CIconButton>
+        <CIconButton disabled={disabledActions} disableHover>
+          <CSvgIcon component={Download} size={20} />
+        </CIconButton>
+        <CIconButton
           disabled={disabledActions}
           disableHover
           onClick={() => handleDeleteModalOpen(cell?.row?.original)}
         >
-          <SvgIcon
+          <CSvgIcon
             component={Delete}
             size={20}
             color={disabledActions ? "violation-subtle" : "violation"}
           />
-        </IconButton>
+        </CIconButton>
       </Box>
     );
   };
@@ -951,7 +857,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       hide: !isDesktop,
       accessorKey: TAG_TYPE,
       header: "Type",
-      Header: renderTemplateCommonHeader,
+      Header: renderTemplateHeader,
       size: 1,
       Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateTypeCell,
       muiTableHeadCellProps: () => ({
@@ -966,7 +872,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       accessorKey: STATUS,
       header: "Status",
       size: 1,
-      Header: renderTemplateCommonHeader,
+      Header: renderTemplateHeader,
       Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateStatusCell,
       muiTableHeadCellProps: () => ({
         className: "template-head-text",
@@ -1087,7 +993,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
 
   return (
     <div className="template-library-table-container">
-      <DataTable
+      <CDataTable
         tableProps={templateTableProps}
         isRowSelected={isRowSelected}
         muiTableStyleProps={{
@@ -1104,7 +1010,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         handleExportMenuClose={handleExportMenuClose}
         handleExportMenuOpen={handleExportMenuOpen}
       />
-      <CommonModal
+      <CModal
         open={deleteModal?.status}
         onConfirm={() => handleDeleteTemplate()}
         onClose={handleDeleteModalClose}
@@ -1119,7 +1025,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             {DELETE_MODAL.description}
           </Box>
         </ModalBody>
-      </CommonModal>
+      </CModal>
     </div>
   );
 };

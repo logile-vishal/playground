@@ -6,15 +6,15 @@ export type AnswerType = {
   additionalInfo?: {
     required: boolean;
     requiredType: string;
-  }
-}
+  };
+};
 
 /* Attachment Type */
 export type AttachmentType = {
-    attachmentType: string;
-    required: boolean;
-    requiredType: string;
-}
+  attachmentType: string;
+  required: boolean;
+  requiredType: string;
+};
 
 /* Question Type */
 export type QuestionType = {
@@ -29,13 +29,13 @@ export type QuestionType = {
   answers: AnswerType[];
   attachments: AttachmentType[] | [];
   subQuestions?: QuestionType[] | [] | null;
-}
+};
 
 /* Question Type - Grid */
 export type GridPreviewType = {
   columns: QuestionType[];
   rows: QuestionType[];
-}
+};
 
 /* Question Type */
 export type TemplatePreviewType = {
@@ -45,4 +45,4 @@ export type TemplatePreviewType = {
   templateBaseType?: string;
   checkListPreview?: QuestionType | null;
   gridsPreview?: GridPreviewType[] | null;
-}
+};

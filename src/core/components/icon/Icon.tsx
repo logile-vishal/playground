@@ -18,7 +18,7 @@ export type SvgIconProps = {
 
 export type SvgIconComponent = React.FC<SvgIconProps>;
 
-const SvgIcon: React.FC<SvgIconProps> = ({
+const CSvgIcon: React.FC<SvgIconProps> = ({
   component,
   size = 24,
   className,
@@ -63,4 +63,4 @@ const SvgIcon: React.FC<SvgIconProps> = ({
   );
 };
 
-export default SvgIcon;
+export default CSvgIcon;

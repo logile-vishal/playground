@@ -1,6 +1,6 @@
 import type { ButtonSeverity } from "./button.type";
- 
-export type CommonModalProps = {
+
+export type ModalProps = {
   open: boolean;
   onClose: () => void;
   title?: string;
@@ -11,27 +11,27 @@ export type CommonModalProps = {
   cancelText?: string;
   className?: string;
   width?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   severity?: ButtonSeverity;
   containerClassName?: string;
   disableBackdropClick?: boolean;
-}
+};
 
-export type CommonModalHeaderProps = {
+export type ModalHeaderProps = {
   children: React.ReactNode;
   headerClass?: string;
-}
+};
 
-export type CommonModalBodyProps = {
+export type ModalBodyProps = {
   containerClassName?: string;
   children: React.ReactNode;
-}
+};
 
-export type CommonModalActionProps = {
+export type ModalActionProps = {
   cancelText?: string;
   onClose: () => void;
   confirmText?: string;
   onConfirm?: () => void;
   actionClass?: string;
   severity?: ButtonSeverity;
-}
+};

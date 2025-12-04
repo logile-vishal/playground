@@ -32,7 +32,10 @@ export type ButtonSizesProps = {
   large: string;
 };
 
-export type CommonButtonProps = Omit<MUIButtonProps, "variant" | "severity" | "size"> & {
+export type ButtonProps = Omit<
+  MUIButtonProps,
+  "variant" | "severity" | "size"
+> & {
   severity?: ButtonSeverity;
   variant?: ButtonVariant;
   size?: ButtonSize;

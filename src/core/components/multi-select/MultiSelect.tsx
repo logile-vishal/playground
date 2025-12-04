@@ -7,11 +7,11 @@ import React, { useMemo } from "react";
 
 import clsx from "@/utils/clsx";
 import { CheckboxChecked, CheckboxEmpty } from "@/core/constants/icons";
-import SvgIcon from "@/core/components/icon/Icon";
+import CSvgIcon from "@/core/components/icon/Icon";
 
 import StyledMuiSelect from "./components/StyledSelect";
 import StyledMenuItem from "./components/StyledMenuItem";
-import "./SharedMultiSelect.scss";
+import "./MultiSelect.scss";
 import type { OptionType } from "./types";
 import { MULTISELECT } from "./constants";
 
@@ -26,7 +26,7 @@ export type MultiSelectProps = MuiSelectProps & {
   placeholder?: string;
 };
 
-const MultiSelect = (props: MultiSelectProps) => {
+const CMultiSelect = (props: MultiSelectProps) => {
   /**
    * @method isAllOptionsSelected
    * @description This function is used to check if all options are selected
@@ -129,14 +129,14 @@ const MultiSelect = (props: MultiSelectProps) => {
           >
             <Checkbox
               checkedIcon={
-                <SvgIcon
+                <CSvgIcon
                   component={CheckboxChecked}
                   size={20}
                   fill="var(--logile-bg-primary)"
                 />
               }
               icon={
-                <SvgIcon
+                <CSvgIcon
                   component={CheckboxEmpty}
                   fill="none"
                   stroke="var(--logile-border-primary)"
@@ -179,14 +179,14 @@ const MultiSelect = (props: MultiSelectProps) => {
               >
                 <Checkbox
                   checkedIcon={
-                    <SvgIcon
+                    <CSvgIcon
                       component={CheckboxChecked}
                       size={20}
                       fill="var(--logile-bg-primary)"
                     />
                   }
                   icon={
-                    <SvgIcon
+                    <CSvgIcon
                       component={CheckboxEmpty}
                       fill="none"
                       stroke="var(--logile-border-primary)"
@@ -214,4 +214,4 @@ const MultiSelect = (props: MultiSelectProps) => {
     </div>
   );
 };
-export default MultiSelect;
+export default CMultiSelect;

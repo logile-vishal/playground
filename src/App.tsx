@@ -1,14 +1,14 @@
-import { RouterProvider } from 'react-router-dom'
+import { RouterProvider } from "react-router-dom";
 
-import router from './routes/router'
-import "./App.scss"
+import router from "./routes/router";
+import "./App.scss";
 
 const App = () => {
   return (
     <>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

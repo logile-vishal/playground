@@ -1,6 +1,6 @@
 {
-    "NO_DATA_SEARCH" : {
-        "title": "No recent template found",
-        "description": "Search something"
-    }
+  "NO_DATA_SEARCH": {
+    "title": "No recent template found",
+    "description": "Search something"
+  }
 }

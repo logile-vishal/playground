@@ -11,17 +11,6 @@
       color: var(--logile-text-state-violation);
     }
   }
-  &__input-field {
-    .MuiOutlinedInput-input.Mui-disabled {
-      -webkit-text-fill-color: var(--logile-text-primary);
-    }
-    &:hover fieldset {
-      border-color: var(--logile-border-brand-primary-subtle);
-    }
-    &:focus-visible {
-      border-color: var(--logile-border-brand-primary-subtle);
-    }
-  }
 
   .MuiInputBase-input {
     padding: var(--space-m);

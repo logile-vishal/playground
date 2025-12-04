@@ -17,39 +17,39 @@ export type DirectoryType = {
   reportType: number | string | null;
   isExpanded: boolean | null;
   subLibrary?: DirectoryType[];
-}
+};
 
 export type TemplateType = {
-    name?: string,
-    templateId?: number,
-    templateBaseType?: string;
-    tagId?: number,
-    templateName?: string,
-    tagType?: string,
-    status?: string,
-    createdTime?: string,
-    lastModifiedTime?: string,
-    iconName?: string,
-    iconColour?: string,
-    savedDate?: string,
-}
- 
+  name?: string;
+  templateId?: number;
+  templateBaseType?: string;
+  tagId?: number;
+  templateName?: string;
+  tagType?: string;
+  status?: string;
+  createdTime?: string;
+  lastModifiedTime?: string;
+  iconName?: string;
+  iconColour?: string;
+  savedDate?: string;
+};
+
 export type ReportType = {
-    templateId?: number,
-    displayTime?: boolean,
-    enabled?: null,
-    level?: null,
-    savedDate?: string,
-    savedUser?: string,
-    name?: string,
-    isPublic?: boolean,
-    createPosition?: number,
-    createOrgType?: null,
-    createOrg?: number,
-    isDashboard?: boolean,
-    showTmptNameInTitle?: boolean;
-}
- 
+  templateId?: number;
+  displayTime?: boolean;
+  enabled?: null;
+  level?: null;
+  savedDate?: string;
+  savedUser?: string;
+  name?: string;
+  isPublic?: boolean;
+  createPosition?: number;
+  createOrgType?: null;
+  createOrg?: number;
+  isDashboard?: boolean;
+  showTmptNameInTitle?: boolean;
+};
+
 export type TemplateLibraryType = {
   template_icon: string;
   template_name: string;
@@ -58,12 +58,12 @@ export type TemplateLibraryType = {
   created: string;
   last_modified: string;
 };
- 
+
 export type ActionMenuKeys = "name" | "created" | "modified";
 
 export type MenuState = {
-    status: boolean;
-    anchorEl: null | HTMLElement;
+  status: boolean;
+  anchorEl: null | HTMLElement;
 };
 
 export type LibraryTableProps = {
@@ -71,11 +71,11 @@ export type LibraryTableProps = {
   setShowCheckbox: (value: boolean) => void;
   selectedDirectory: DirectoryType;
   selectedTemplate: TemplateType[] | ReportType[];
-  setSelectedTemplate: (value: TemplateType[]| ReportType[]) => void;
+  setSelectedTemplate: (value: TemplateType[] | ReportType[]) => void;
   hoveredRowId?: string | null;
   setHoveredRowId?: (value: string | null) => void;
-  templatesList: PaginatedResponse<TemplateType>,
-  isDataLoading: boolean,
+  templatesList: PaginatedResponse<TemplateType>;
+  isDataLoading: boolean;
   exportMenu: {
     anchorEl: null | HTMLElement;
     status: boolean;
@@ -84,28 +84,28 @@ export type LibraryTableProps = {
   handleExportMenuClose: () => void;
   handleExportMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
 };
- 
+
 export type TemplatePaginationData = {
-  currentPage: number,
-  pageSize: number,
-}
+  currentPage: number;
+  pageSize: number;
+};
 
 export type ExportMenuProps = {
-    exportMenu: {
-        anchorEl: null | HTMLElement;
-        status: boolean;
-    };
-    handleExportMenuClose: () => void;
+  exportMenu: {
+    anchorEl: null | HTMLElement;
+    status: boolean;
+  };
+  handleExportMenuClose: () => void;
 };
 
 export type TemplatePreviewResponseProps = {
   data: TemplatePreviewType | undefined;
-}
+};
 
 export type TemplatePreviewModalProps = {
-    status: boolean;
-    data?: TemplatePreviewType | undefined;
-}
+  status: boolean;
+  data?: TemplatePreviewType | undefined;
+};
 
 export type PreviewModalProps = {
   previewModal: TemplatePreviewModalProps;
@@ -121,34 +121,35 @@ export type PreviewModalProps = {
 };
 
 export type PreviewButtonProps = {
-    label?: string;
-    icon?: IconName;
-    type?: string;
-}
+  label?: string;
+  icon?: IconName;
+  type?: string;
+};
 
 /* Advance Search */
 export interface TaskTypeOptions {
-  typeId: number,
-  typeName: string,
-  questionLists: null,
+  typeId: number;
+  typeName: string;
+  questionLists: null;
 }
 
 export interface TagOptionsType {
-    tagId: number,
-    tagValue: string,
-    tagType: number,
-    label?: string,
-    value?: string | number,
+  tagId: number;
+  tagValue: string;
+  tagType: number;
+  label?: string;
+  value?: string | number;
 }
 
 export interface FilterTemplatesPayload {
-    templateName?: string,
-    taskType?: number,
+  templateName?: string;
+  taskType?: number;
 }
 
 export type DeleteTemplateProps = {
-  status?: boolean,
-  statusDesc?: string,
-}
+  status?: boolean;
+  statusDesc?: string;
+};
 
-export type TableColumn = (typeof TEMPLATE_TABLE_COLUMNS)[keyof typeof TEMPLATE_TABLE_COLUMNS];
+export type TableColumn =
+  (typeof TEMPLATE_TABLE_COLUMNS)[keyof typeof TEMPLATE_TABLE_COLUMNS];

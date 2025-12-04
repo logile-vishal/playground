@@ -1,4 +1,3 @@
-
 export const SELECT = {
-    FILTER_FIELD_PLACEHOLDER: 'Type to filter...'
-}
+  FILTER_FIELD_PLACEHOLDER: "Type to filter...",
+};

@@ -2,7 +2,7 @@ import { IconButton, TextField } from "@mui/material";
 import { useState } from "react";
 
 import { ArrowDown, ArrowUp } from "@/core/constants/icons";
-import SvgIcon from "@/core/components/icon/Icon";
+import CSvgIcon from "@/core/components/icon/Icon";
 import { SORT_DIRECTION } from "@/core/constants/sort";
 import type { SortType } from "@/core/types/sort.type";
 
@@ -12,7 +12,7 @@ import { MULTISELECT } from "../constants";
 const sortOptions = (
   list: OptionType[],
   optionLabelKey: string,
-  sortDirection: SortType
+  sortDirection: SortType,
 ): OptionType[] => {
   return list.sort((firstOption, secondOption) => {
     const firstValue =
@@ -30,7 +30,7 @@ const sortOptions = (
   });
 };
 
-const FilterSortToolbar: React.FC<{
+const CFilterSortToolbar: React.FC<{
   allowFilter?: boolean;
   allowSort?: boolean;
   setOptions?: React.Dispatch<React.SetStateAction<OptionType[]>>;
@@ -57,7 +57,7 @@ const FilterSortToolbar: React.FC<{
             return option.toLowerCase().includes(filterValue);
           } else if (typeof option === "object" && option !== null) {
             return Object.values(option).some((value) =>
-              String(value).toLowerCase().includes(filterValue)
+              String(value).toLowerCase().includes(filterValue),
             );
           }
           return false;
@@ -85,7 +85,7 @@ const FilterSortToolbar: React.FC<{
         const sortedOptions = sortOptions(
           [...options],
           optionFilterLabelKey,
-          sort
+          sort,
         );
         return sortedOptions;
       }
@@ -104,7 +104,7 @@ const FilterSortToolbar: React.FC<{
       const sortedOptions = sortOptions(
         options,
         optionFilterLabelKey,
-        sortDirection
+        sortDirection,
       );
       setOptions(sortedOptions);
     }
@@ -115,18 +115,15 @@ const FilterSortToolbar: React.FC<{
    * @description This function is used to get sort icon based on current sort applied
    * @param sort
    * @param handleSortOptions
-   * @returns SvgIcon
+   * @returns CSvgIcon
    */
   const getSortIcon = (
     sort: SortType | null,
-    handleSortOptions: (e: React.MouseEvent<HTMLButtonElement>) => void
+    handleSortOptions: (e: React.MouseEvent<HTMLButtonElement>) => void,
   ) => {
     return (
-      <IconButton
-        size="small"
-        onClick={handleSortOptions}
-      >
-        <SvgIcon
+      <IconButton size="small" onClick={handleSortOptions}>
+        <CSvgIcon
           component={sort === SORT_DIRECTION.ASCENDING ? ArrowUp : ArrowDown}
           size={16}
           fill="var(--logile-icon-secondary)"
@@ -153,4 +150,4 @@ const FilterSortToolbar: React.FC<{
     </div>
   );
 };
-export default FilterSortToolbar;
+export default CFilterSortToolbar;

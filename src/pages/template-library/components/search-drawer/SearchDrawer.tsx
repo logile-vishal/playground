@@ -9,9 +9,9 @@ import { styled } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Divider, TextField, Typography } from "@mui/material";
 
-import { CommonButton } from "@/core/components/button/button";
-import StyledAutocomplete from "@/core/components/auto-complete/AutoComplete";
-import NoDataTemplate from "@/core/components/no-data-template/NoDataTemplate";
+import { CButton } from "@/core/components/button/button";
+import CAutocomplete from "@/core/components/auto-complete/AutoComplete";
+import CNoData from "@/core/components/no-data/NoData";
 import type { PaginatedResponse } from "@/core/types/pagination.type";
 import type { AutoCompleteOptionProps } from "@/core/types/autocomplete.type";
 import {
@@ -21,9 +21,9 @@ import {
   EmptyState,
   History,
 } from "@/core/constants/icons";
-import SharedMultiSelect from "@/core/components/multi-select/SharedMultiSelect";
-import SvgIcon from "@/core/components/icon/Icon";
-import SharedSelect from "@/core/components/select/SharedSelect";
+import CMultiSelect from "@/core/components/multi-select/MultiSelect";
+import CSvgIcon from "@/core/components/icon/Icon";
+import CSelect from "@/core/components/select/SharedSelect";
 
 import {
   useFilterTemplates,
@@ -119,7 +119,7 @@ function StyledTextField({
   value: string;
   handleChange: (
     event: React.ChangeEvent<HTMLInputElement>,
-    className?: string
+    className?: string,
   ) => void;
   className?: string;
 }) {
@@ -142,7 +142,7 @@ function StyledTextField({
 function TaskTypeDropDown({ label = "", options, className, ...props }) {
   return (
     <Box className={className}>
-      <SharedSelect
+      <CSelect
         options={options ?? []}
         label={label}
         allowFilter
@@ -153,21 +153,17 @@ function TaskTypeDropDown({ label = "", options, className, ...props }) {
         {...props}
         IconComponent={() => (
           <Box className="template-library-search-drawer__rotate-icon">
-            <SvgIcon
-              component={ChevronLeft}
-              size={18}
-              color="secondary"
-            />
+            <CSvgIcon component={ChevronLeft} size={18} color="secondary" />
           </Box>
         )}
-      ></SharedSelect>
+      ></CSelect>
     </Box>
   );
 }
 function StatusDropDown({ label = "", options, className, ...props }) {
   return (
     <Box className={className}>
-      <SharedMultiSelect
+      <CMultiSelect
         className="template-library-search-drawer__dropdown-select"
         label={label}
         options={options ?? []}
@@ -175,14 +171,14 @@ function StatusDropDown({ label = "", options, className, ...props }) {
         {...props}
         IconComponent={() => (
           <Box className="template-library-search-drawer__rotate-icon">
-            <SvgIcon
+            <CSvgIcon
               component={ChevronLeft}
               size={18}
               fill="var(--logile-icon-secondary)"
             />
           </Box>
         )}
-      ></SharedMultiSelect>
+      ></CMultiSelect>
     </Box>
   );
 }
@@ -271,14 +267,14 @@ const SearchDrawer = ({
    */
   const getPayload = () => {
     const questionTagsList = advanceFilterData?.questionTagsList?.map(
-      (tag: AutoCompleteOptionProps) => tag?.value
+      (tag: AutoCompleteOptionProps) => tag?.value,
     );
     const taskTagsList = advanceFilterData?.taskTagsList?.map(
-      (tag: AutoCompleteOptionProps) => tag?.value
+      (tag: AutoCompleteOptionProps) => tag?.value,
     );
     const taskType = advanceFilterData?.taskType?.value ?? "";
     const statusList = advanceFilterData?.status?.map(
-      (tag: AutoCompleteOptionProps) => tag?.value
+      (tag: AutoCompleteOptionProps) => tag?.value,
     );
 
     const payload = {
@@ -338,23 +334,14 @@ const SearchDrawer = ({
   }, [isFilterDataLoading]);
 
   return (
-    <StyledDrawer
-      anchor="top"
-      open={open}
-      onClose={onClose}
-      elevation={0}
-    >
+    <StyledDrawer anchor="top" open={open} onClose={onClose} elevation={0}>
       <Box className="template-library-search-drawer">
         <Box className="template-library-search-drawer__header">
           <Button
             className="template-library-search-drawer__back-btn"
             onClick={onClose}
             startIcon={
-              <SvgIcon
-                component={ChevronLeft}
-                color="secondary"
-                size={24}
-              />
+              <CSvgIcon component={ChevronLeft} color="secondary" size={24} />
             }
           ></Button>
           <SearchField
@@ -373,7 +360,7 @@ const SearchDrawer = ({
                   className="template-library-search-drawer__cursor-pointer"
                   onClick={searchText?.length > 0 ? handleClearSearch : null}
                 >
-                  <SvgIcon
+                  <CSvgIcon
                     component={
                       !searchText || searchText?.length == 0 ? Search : Close
                     }
@@ -387,23 +374,14 @@ const SearchDrawer = ({
         </Box>
         <Divider />
         <Box className="template-library-search-drawer__tab-container">
-          <StyledTabs
-            onChange={handleTabChange}
-            value={currentTab}
-          >
-            <Tab
-              label={RECENT.label}
-              value={RECENT.value}
-            />
-            <Tab
-              label={ADVANCE.label}
-              value={ADVANCE.value}
-            />
+          <StyledTabs onChange={handleTabChange} value={currentTab}>
+            <Tab label={RECENT.label} value={RECENT.value} />
+            <Tab label={ADVANCE.label} value={ADVANCE.value} />
           </StyledTabs>
           <TabPanel value={currentTab === RECENT.value}>
             <Box className="template-library-search-drawer__recent-tab-content">
               {!recentFilterData || recentFilterData?.length === 0 ? (
-                <NoDataTemplate
+                <CNoData
                   title={t("NO_DATA_SEARCH.title")}
                   description={t("NO_DATA_SEARCH.description")}
                   imageSrcName={EmptyState}
@@ -415,7 +393,7 @@ const SearchDrawer = ({
                     <Box className="template-library-search-drawer__recent-search-main">
                       <Box className="template-library-search-drawer__recent-search-item">
                         <Box height="24px">
-                          <SvgIcon
+                          <CSvgIcon
                             component={History}
                             size={24}
                             color="secondary"
@@ -494,7 +472,7 @@ const SearchDrawer = ({
                   </Typography>
                 </Box>
 
-                <StyledAutocomplete
+                <CAutocomplete
                   options={optionsData?.taskTagsOptions ?? []}
                   placeholder={SEARCH_DRAWER.TASK_TAGS_PLACEHOLDER}
                   label={SEARCH_DRAWER.TASK_TAGS_LABEL}
@@ -502,7 +480,7 @@ const SearchDrawer = ({
                   handleChange={(value) => handleChange("taskTagsList", value)}
                 />
 
-                <StyledAutocomplete
+                <CAutocomplete
                   options={optionsData?.questionTagsOptions ?? []}
                   placeholder={SEARCH_DRAWER.QUESTION_TAGS_PLACEHOLDER}
                   label={SEARCH_DRAWER.QUESTION_TAGS_LABEL}
@@ -513,22 +491,22 @@ const SearchDrawer = ({
                 />
               </Box>
               <Box className="template-library-search-drawer__button-wrapper">
-                <CommonButton
+                <CButton
                   severity="primary"
                   variant="text"
                   size="large"
                   onClick={handleClearFilter}
                 >
                   Clear All
-                </CommonButton>
-                <CommonButton
+                </CButton>
+                <CButton
                   severity="primary"
                   variant="solid"
                   size="large"
                   onClick={handleFilter}
                 >
                   {isFilterDataLoading ? "Loading..." : "Search"}
-                </CommonButton>
+                </CButton>
               </Box>
             </Box>
           </TabPanel>

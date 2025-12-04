@@ -12,7 +12,7 @@ type TableProps = {
   muiTableStyleProps?: SxProps<Theme>;
 };
 
-export const DataTable = ({
+export const CDataTable = ({
   tableProps,
   isRowSelected,
   muiTableStyleProps,
@@ -52,10 +52,5 @@ export const DataTable = ({
       },
     }),
   });
-  return (
-    <MaterialReactTable
-      table={table}
-      {...props}
-    />
-  );
+  return <MaterialReactTable table={table} {...props} />;
 };

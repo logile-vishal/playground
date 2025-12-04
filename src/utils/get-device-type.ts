@@ -6,10 +6,10 @@ export function getDeviceType(): DeviceType {
   const isTabletUA = /ipad|android(?!.*mobile)|tablet/.test(ua);
   const isDesktopUA = /macintosh|windows|linux/.test(ua);
 
-  return (isDesktopUA && !isTabletUA) ? 'Desktop' : 'Tablet';
+  return isDesktopUA && !isTabletUA ? "Desktop" : "Tablet";
 }
 
 export function getAppId() {
-  const appId = getDeviceType() === 'Desktop' ? APP_ID.Desktop : APP_ID.Tablet;
+  const appId = getDeviceType() === "Desktop" ? APP_ID.Desktop : APP_ID.Tablet;
   return appId;
 }

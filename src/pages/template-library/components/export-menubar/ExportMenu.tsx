@@ -1,7 +1,7 @@
 import { Box, Menu, MenuItem, Typography, type MenuProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import SvgIcon from "@/core/components/icon/Icon";
+import CSvgIcon from "@/core/components/icon/Icon";
 import { CSV, Excel, Pdf, Printer } from "@/core/constants/icons";
 
 import type { ExportMenuProps } from "../../types/template-library.type";
@@ -70,7 +70,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
           </Typography>
           <Box className="template-library-export-menu__tools-wrapper">
             <Box className="template-library-export-menu__tools-item">
-              <SvgIcon
+              <CSvgIcon
                 component={Printer}
                 fill="var(--logile-utility-blue-dark-600)"
                 size={15}
@@ -80,7 +80,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
               </Typography>
             </Box>
             <Box className="template-library-export-menu__tools-item">
-              <SvgIcon
+              <CSvgIcon
                 component={Pdf}
                 fill="var(--logile-utility-red-dark-600)"
                 size={15}
@@ -91,7 +91,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
             </Box>
 
             <Box className="template-library-export-menu__tools-item">
-              <SvgIcon
+              <CSvgIcon
                 component={Excel}
                 fill="var(--logile-utility-green-dark-600)"
                 size={15}
@@ -102,7 +102,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
             </Box>
 
             <Box className="template-library-export-menu__tools-item">
-              <SvgIcon
+              <CSvgIcon
                 component={CSV}
                 fill="var(--logile-utility-teal-dark-600)"
                 size={15}

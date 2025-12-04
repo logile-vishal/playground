@@ -1,3 +1,3 @@
 export const MULTISELECT = {
-    SELECT_ALL_FEATURE_LABEL: 'Select All',
-}
+  SELECT_ALL_FEATURE_LABEL: "Select All",
+};

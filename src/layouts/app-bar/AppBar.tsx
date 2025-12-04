@@ -5,9 +5,9 @@ import { styled } from "@mui/material/styles";
 
 import { defaultConstants } from "@/core/constants/app-constants";
 import clientLogo from "@/assets/logile-logo.svg";
-import IconButton from "@/core/components/button/IconButton";
+import CIconButton from "@/core/components/button/IconButton";
 import navAvatarPng from "@/assets/navbar-avatar.png";
-import SvgIcon from "@/core/components/icon/Icon";
+import CSvgIcon from "@/core/components/icon/Icon";
 import { ThemeContext } from "@/theme-mui/ThemeContext";
 import {
   CalendarBlank,
@@ -57,11 +57,7 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
       {/* Logo Section */}
       <div className="appbar__left-section">
         <MainMenu onClick={handleToggleMenu}>
-          <SvgIcon
-            component={Hamburger}
-            size={24}
-            color="primary"
-          />
+          <CSvgIcon component={Hamburger} size={24} color="primary" />
         </MainMenu>
 
         <div className="appbar__logo-box">
@@ -93,73 +89,49 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
       <div className="appbar__right-section">
         {/* Icons Section */}
         <Stack className="action-icons-box">
-          <IconButton
+          <CIconButton
             variant="primary"
             style={{ padding: "1rem" }}
             onClick={handleThemeToggle}
           >
             {mode === "light" ? (
-              <SvgIcon
-                component={Moon}
-                color="secondary"
-                size={18}
-              />
+              <CSvgIcon component={Moon} color="secondary" size={18} />
             ) : (
-              <SvgIcon
-                component={Sun}
-                color="warning"
-                size={20}
-              />
+              <CSvgIcon component={Sun} color="warning" size={20} />
             )}
-          </IconButton>
-          <IconButton
+          </CIconButton>
+          <CIconButton
             variant="primary"
             style={{
               padding: "1rem",
             }}
           >
-            <SvgIcon
-              component={CalendarBlank}
-              color="secondary"
-              size={20}
-            />
-          </IconButton>
-          <IconButton
+            <CSvgIcon component={CalendarBlank} color="secondary" size={20} />
+          </CIconButton>
+          <CIconButton
             variant="primary"
             style={{
               padding: "1rem",
             }}
           >
-            <SvgIcon
-              component={ClipboardToDo}
-              color="secondary"
-              size={20}
-            />
-          </IconButton>
-          <IconButton
+            <CSvgIcon component={ClipboardToDo} color="secondary" size={20} />
+          </CIconButton>
+          <CIconButton
             variant="primary"
             style={{
               padding: "1rem",
             }}
           >
-            <SvgIcon
-              component={Envelope}
-              color="secondary"
-              size={20}
-            />
-          </IconButton>
-          <IconButton
+            <CSvgIcon component={Envelope} color="secondary" size={20} />
+          </CIconButton>
+          <CIconButton
             variant="primary"
             style={{
               padding: "1rem",
             }}
           >
-            <SvgIcon
-              component={Comment}
-              color="secondary"
-              size={20}
-            />
-          </IconButton>
+            <CSvgIcon component={Comment} color="secondary" size={20} />
+          </CIconButton>
 
           <Badge
             className="notifiction-badge"
@@ -167,18 +139,14 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
             color="error"
             overlap="rectangular"
           >
-            <IconButton
+            <CIconButton
               variant="primary"
               style={{
                 padding: "1rem",
               }}
             >
-              <SvgIcon
-                component={Notification}
-                color="secondary"
-                size={20}
-              />
-            </IconButton>
+              <CSvgIcon component={Notification} color="secondary" size={20} />
+            </CIconButton>
           </Badge>
         </Stack>
         {/* User Profile Section */}

@@ -1,7 +1,7 @@
 import React from "react";
 import { SimpleTreeView, TreeItem, treeItemClasses } from "@mui/x-tree-view";
 import { styled } from "@mui/material/styles";
-import SvgIcon from "@/core/components/icon/Icon";
+import CSvgIcon from "@/core/components/icon/Icon";
 import Box from "@mui/material/Box";
 import "./TreeView.scss";
 import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
@@ -13,7 +13,7 @@ type TreeViewProps = {
   setSelectedData?: React.Dispatch<React.SetStateAction<number | null>>;
   handleClick?: (
     event: React.MouseEvent<HTMLLIElement>,
-    directory: TreeViewNodeDataType
+    directory: TreeViewNodeDataType,
   ) => void;
 };
 
@@ -52,27 +52,14 @@ const StyledTreeItem = styled(TreeItem)(() => ({
 }));
 
 const ArrowRightIcon = () => (
-  <SvgIcon
-    component={ArrowRightFill}
-    size={24}
-    color="primary"
-  />
+  <CSvgIcon component={ArrowRightFill} size={24} color="primary" />
 );
 
 const ArrowDownIcon = () => (
-  <SvgIcon
-    component={ArrowDownFill}
-    size={24}
-    color="primary"
-  />
+  <CSvgIcon component={ArrowDownFill} size={24} color="primary" />
 );
 
-const BlankIcon = () => (
-  <Box
-    height="24px"
-    width="24px"
-  ></Box>
-);
+const BlankIcon = () => <Box height="24px" width="24px"></Box>;
 
 function getExpandedTagIds(nodes: TreeViewNodeDataType[]): string[] {
   let result: string[] = [];
@@ -89,7 +76,7 @@ function getExpandedTagIds(nodes: TreeViewNodeDataType[]): string[] {
   return result;
 }
 
-const TreeView: React.FC<TreeViewProps> = ({ data, handleClick }) => {
+const CTreeView: React.FC<TreeViewProps> = ({ data, handleClick }) => {
   const renderTree = (nodes: TreeViewNodeDataType) => (
     <StyledTreeItem
       key={nodes.tagId}
@@ -119,4 +106,4 @@ const TreeView: React.FC<TreeViewProps> = ({ data, handleClick }) => {
   );
 };
 
-export default TreeView;
+export default CTreeView;

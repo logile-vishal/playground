@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import { Box } from "@mui/material";
 
-import IconButton from "@/core/components/button/IconButton";
-import SvgIcon from "@/core/components/icon/Icon";
-import CommonModal, {
-  ModalBody,
-  ModalHeader,
-} from "@/core/components/modal/Modal";
+import CIconButton from "@/core/components/button/IconButton";
+import CSvgIcon from "@/core/components/icon/Icon";
+import CModal, { ModalBody, ModalHeader } from "@/core/components/modal/Modal";
 import { Close, Desktop, MoreOption, Phone } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
@@ -43,7 +40,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
     const tagType = previewModal?.data?.templateBaseType?.toUpperCase();
     setTemplateType(tagType);
     setQuestionView(
-      tagType === TEMPLATE_TYPE.CHECKLIST || tagType === TEMPLATE_TYPE.GRID
+      tagType === TEMPLATE_TYPE.CHECKLIST || tagType === TEMPLATE_TYPE.GRID,
     );
   }, [previewModal]);
 
@@ -86,7 +83,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   ? renderGridContainer(
                       previewModal?.data?.gridsPreview,
                       isDesktopPreview,
-                      templateType
+                      templateType,
                     )
                   : // Checklist template preview
                     previewModal?.data?.checkListPreview?.subQuestions?.map(
@@ -95,8 +92,8 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                           question,
                           `${index + 1}.`,
                           isDesktopPreview,
-                          templateType
-                        )
+                          templateType,
+                        ),
                     )
               }
             </div>
@@ -107,7 +104,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
   };
 
   return (
-    <CommonModal
+    <CModal
       open={previewModal?.status}
       onClose={onClose}
       size={isDesktopPreview ? "large" : "small"}
@@ -141,7 +138,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
           <div className="template-preview-modal__action-wrapper">
             {/* modify template viewport icon */}
             {isQuestionView && isDesktopPreview ? (
-              <IconButton
+              <CIconButton
                 onClick={switchPopupLayout}
                 variant="outline"
                 className={clsx({
@@ -149,12 +146,8 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                     !isDesktopPreview,
                 })}
               >
-                <SvgIcon
-                  component={Phone}
-                  color={"secondary"}
-                  size={22}
-                />
-              </IconButton>
+                <CSvgIcon component={Phone} color={"secondary"} size={22} />
+              </CIconButton>
             ) : isQuestionView ? (
               <Box
                 onClick={switchPopupLayout}
@@ -163,22 +156,18 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   "template-preview-modal__desktop-icon": !isDesktopPreview,
                 })}
               >
-                <SvgIcon
-                  component={Desktop}
-                  fill={"transparent"}
-                  size={32}
-                />
+                <CSvgIcon component={Desktop} fill={"transparent"} size={32} />
               </Box>
             ) : (
               ""
             )}
             {/* more action icon */}
             {isDesktopPreview && isQuestionView && (
-              <IconButton
+              <CIconButton
                 variant="outline"
                 onClick={(event) => handleExportMenuOpen(event)}
               >
-                <SvgIcon
+                <CSvgIcon
                   className={clsx({
                     "template-preview-modal__outline-icon--mobile":
                       !isDesktopPreview,
@@ -186,17 +175,17 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   component={MoreOption}
                   size={22}
                 />
-              </IconButton>
+              </CIconButton>
             )}
             {/* close icon */}
-            <IconButton
+            <CIconButton
               onClick={onClose}
               className={clsx({
                 "template-preview-modal__outline-icon--mobile":
                   !isDesktopPreview,
               })}
             >
-              <SvgIcon
+              <CSvgIcon
                 component={Close}
                 fill={
                   !isDesktopPreview
@@ -205,7 +194,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                 }
                 size={30}
               />
-            </IconButton>
+            </CIconButton>
           </div>
         </div>
       </ModalHeader>
@@ -244,7 +233,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
           handleExportMenuClose={handleExportMenuClose}
         />
       </ModalBody>
-    </CommonModal>
+    </CModal>
   );
 };
 

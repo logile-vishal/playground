@@ -1,7 +1,6 @@
+import "@mui/material/styles";
 
-import  '@mui/material/styles';
-
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface Theme {
     custom: {
       sidebarWidth: number;

@@ -1,7 +1,7 @@
 export const defaultConstants = {
-    sidebarWidth: 90,
-    topBarHeight: 60,
-    appAbbr: "WFM",
-    IMS: "IMS",
-    WFM: "WFM",
-}
+  sidebarWidth: 90,
+  topBarHeight: 60,
+  appAbbr: "WFM",
+  IMS: "IMS",
+  WFM: "WFM",
+};

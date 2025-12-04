@@ -1,29 +1,25 @@
-import type { TextFieldProps } from "@mui/material";
-import type { SelectProps } from "@mui/material";
+import type { TextFieldProps as MuiTextFieldProps } from "@mui/material";
+import type { SelectProps as MuiSelectProps } from "@mui/material";
 
-export type SharedTextFieldProps = TextFieldProps & {
-    label?: string;
-    width?: string;
-    isRequired?: boolean;
-}
+export type BaseFieldProps = {
+  label?: string;
+  width?: string;
+  isRequired?: boolean;
+};
 
-export type SharedTextAreaProps = TextFieldProps & {
-    label?: string;
-    width?: string;
-    isRequired?: boolean;
-}
+export type TextFieldProps = MuiTextFieldProps & BaseFieldProps;
 
-type Option = {
-    label: string;
-    value: string;
-}
+export type TextAreaProps = MuiTextFieldProps & BaseFieldProps;
 
-export type SharedDropdownProps = SelectProps & {
-    label?: string;
+export type Option = {
+  label: string;
+  value: string;
+};
+
+export type DropdownProps = MuiSelectProps &
+  BaseFieldProps & {
     options?: Option[];
-    width?: string;
     placeholder?: string;
     isDesktopPreview?: boolean;
     menuClassName?: string;
-    isRequired?: boolean;
-}
+  };

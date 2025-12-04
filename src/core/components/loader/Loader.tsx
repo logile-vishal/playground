@@ -7,7 +7,7 @@ interface LoaderProps {
   text?: string;
 }
 
-const Loader: React.FC<LoaderProps> = ({ text = "Loading..." }) => {
+const CLoader: React.FC<LoaderProps> = ({ text = "Loading..." }) => {
   return (
     <Box className="loader__wrapper">
       <CircularProgress className="loader__spinner" size="6rem" />
@@ -16,4 +16,4 @@ const Loader: React.FC<LoaderProps> = ({ text = "Loading..." }) => {
   );
 };
 
-export default Loader;
+export default CLoader;
