@@ -18,6 +18,7 @@ export { default as ChevronExpanded } from '@/assets/icons/arrow/chevron-expande
 export { default as ChevronCollapse } from '@/assets/icons/arrow/chevron-collapse.svg?react';
 export { default as ClipboardToDo } from '@/assets/icons/common-icons/clipboard-to-do.svg?react';
 export { default as Close } from '@/assets/icons/common-icons/close.svg?react';
+export { default as CSV } from '@/assets/icons/common-icons/csv.svg?react';
 export { default as Comment } from '@/assets/icons/common-icons/comment.svg?react';
 export { default as Communication } from '@/assets/icons/common-icons/communication.svg?react';
 export { default as Copy } from '@/assets/icons/common-icons/copy.svg?react';
@@ -124,6 +125,7 @@ export type IconName =
   | 'ChevronCollapse'
   | 'ClipboardToDo'
   | 'Close'
+  | 'CSV'
   | 'Comment'
   | 'Communication'
   | 'Copy'

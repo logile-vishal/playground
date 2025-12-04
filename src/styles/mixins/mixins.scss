@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4xl);
-  color: var(--text-primary);
+  color: var(--logile-text-primary);
   font-size: var(--logile-size-secondary-heading);
   padding: var(--space-xl) var(--space-xl);
 }
@@ -21,7 +21,7 @@
 
 @mixin form-label-text {
   width: fit-content;
-  color: var(--text-secondary);
+  color: var(--logile-text-secondary);
   font-size: var(--logile-size-secondary-text);
   font-weight: var(--logile-weight-400);
   line-height: var(--line-height-body-large);

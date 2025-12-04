@@ -148,24 +148,24 @@
 }
 .toast--light {
   &.toast--information {
-    --toast-close-icon-color: var(--text-state-information-bold);
-    --toast-severity-icon-color: var(--text-state-information-bold);
-    --toast-body-text-title-color: var(--text-state-information-bold);
-    --toast-body-text-desc-color: var(--text-state-information-bold);
+    --toast-close-icon-color: var(--logile-text-state-information-bold);
+    --toast-severity-icon-color: var(--logile-text-state-information-bold);
+    --toast-body-text-title-color: var(--logile-text-state-information-bold);
+    --toast-body-text-desc-color: var(--logile-text-state-information-bold);
     --toast-bg-color: var(--logile-bg-state-information-x-subtle);
   }
   &.toast--success {
-    --toast-close-icon-color: var(--text-state-success-bold);
-    --toast-severity-icon-color: var(--text-state-success-bold);
-    --toast-body-text-title-color: var(--text-state-success-bold);
-    --toast-body-text-desc-color: var(--text-state-success-bold);
+    --toast-close-icon-color: var(--logile-text-state-success-bold);
+    --toast-severity-icon-color: var(--logile-text-state-success-bold);
+    --toast-body-text-title-color: var(--logile-text-state-success-bold);
+    --toast-body-text-desc-color: var(--logile-text-state-success-bold);
     --toast-bg-color: var(--logile-bg-state-success-x-subtle);
   }
   &.toast--warning {
-    --toast-close-icon-color: var(--text-state-warning-bold);
-    --toast-severity-icon-color: var(--text-state-warning-bold);
-    --toast-body-text-title-color: var(--text-state-warning-bold);
-    --toast-body-text-desc-color: var(--text-state-warning-bold);
+    --toast-close-icon-color: var(--logile-text-state-warning-bold);
+    --toast-severity-icon-color: var(--logile-text-state-warning-bold);
+    --toast-body-text-title-color: var(--logile-text-state-warning-bold);
+    --toast-body-text-desc-color: var(--logile-text-state-warning-bold);
     --toast-bg-color: var(--logile-bg-state-warning-x-subtle);
   }
   &.toast--error {
@@ -180,15 +180,13 @@
     --toast-severity-icon-color: var(--logile-icon-secondary);
     --toast-body-text-title-color: var(--logile-text-primary);
     --toast-body-text-desc-color: var(--logile-text-secondary);
-    --toast-bg-color: var(
-      --bg-surface-subtle
-    ); //TODO: Update it with variable once whitelabel is done
+    --toast-bg-color: var(--logile-bg-surface-subtle);
   }
 }
 .toast--lighter {
-  --toast-body-text-title-color: var(--text-black-333);
+  --toast-body-text-title-color: var(--logile-text-black);
   --toast-body-text-desc-color: var(--logile-text-secondary);
-  --toast-close-icon-color: var(--icon-tertiary);
+  --toast-close-icon-color: var(--logile-icon-tertiary);
 
   &.toast--information {
     --toast-severity-icon-color: var(--logile-bg-primary);
@@ -207,7 +205,7 @@
     --toast-bg-color: var(--logile-bg-state-violation-x-subtle);
   }
   &.toast--feature {
-    --toast-severity-icon-color: var(--icon-tertiary);
+    --toast-severity-icon-color: var(--logile-icon-tertiary);
     --toast-bg-color: var(--logile-bg-container-3);
   }
 }

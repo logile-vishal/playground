@@ -42,8 +42,9 @@ const SvgIcon: React.FC<SvgIconProps> = ({
     );
   }
   const iconClassName = clsx({
+    icon: true,
     [className || ""]: Boolean(className),
-    [color]: Boolean(color),
+    [`icon--${color}`]: Boolean(color),
   });
   const iconFill = fill ?? "currentColor";
 

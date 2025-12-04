@@ -1,131 +1,134 @@
-.primary {
+.icon {
+&--primary {
   fill: var(--logile-icon-primary);
 }
 
-.secondary {
+&--secondary {
   fill: var(--logile-icon-secondary);
 }
 
-.tertiary {
+&--tertiary {
   fill: var(--logile-icon-tertiary);
 }
 
-.white {
+&--white {
   fill: var(--logile-icon-white);
 }
 
-.brand-primary {
+&--brand-primary {
   fill: var(--logile-icon-brand-primary);
 }
 
-.brand-primary-subtle {
+&--brand-primary-subtle {
   fill: var(--logile-icon-brand-primary-subtle);
 }
 
-.disabled {
+&--disabled {
   fill: var(--logile-icon-state-disabled);
 }
 
-.disabled-subtle {
+&--disabled-subtle {
   fill: var(--logile-icon-state-disabled-subtle);
 }
 
-.success {
+&--success {
   fill: var(--logile-icon-state-success);
 }
 
-.success-subtle {
+&--success-subtle {
   fill: var(--logile-icon-state-success-subtle);
 }
 
-.success-bold {
+&--success-bold {
   fill: var(--logile-icon-state-success-bold);
 }
 
-.success-bold-subtle {
+&--success-bold-subtle {
   fill: var(--logile-icon-state-success-bold-subtle);
 }
 
-.success-alpha {
+&--success-alpha {
   fill: var(--logile-icon-state-success-alpha);
 }
 
-.violation {
+&--violation {
   fill: var(--logile-icon-state-violation);
 }
 
-.violation-subtle {
+&--violation-subtle {
   fill: var(--logile-icon-state-violation-subtle);
 }
 
-.violation-bold {
+&--violation-bold {
   fill: var(--logile-icon-state-violation-bold);
 }
 
-.violation-bold-subtle {
+&--violation-bold-subtle {
   fill: var(--logile-icon-state-violation-bold-subtle);
 }
 
-.violation-alpha {
+&--violation-alpha {
   fill: var(--logile-icon-state-violation-alpha);
 }
 
-.information {
+&--information {
   fill: var(--logile-icon-state-information);
 }
 
-.information-subtle {
+&--information-subtle {
   fill: var(--logile-icon-state-information-subtle);
 }
 
-.information-bold {
+&--information-bold {
   fill: var(--logile-icon-state-information-bold);
 }
 
-.information-bold-subtle {
+&--information-bold-subtle {
   fill: var(--logile-icon-state-information-bold-subtle);
 }
 
-.information-alpha {
+&--information-alpha {
   fill: var(--logile-icon-state-information-alpha);
 }
 
-.warning {
+&--warning {
   fill: var(--logile-icon-state-warning);
 }
 
-.warning-subtle {
+&--warning-subtle {
   fill: var(--logile-icon-state-warning-subtle);
 }
 
-.warning-bold {
+&--warning-bold {
   fill: var(--logile-icon-state-warning-bold);
 }
 
-.warning-bold-subtle {
+&--warning-bold-subtle {
   fill: var(--logile-icon-state-warning-bold-subtle);
 }
 
-.warning-alpha {
+&--warning-alpha {
   fill: var(--logile-icon-state-warning-alpha);
 }
 
-.navbar-active {
+&--navbar-active {
   fill: var(--logile-icon-state-navbar-active);
 }
 
-.success-alpha-2 {
+&--success-alpha-2 {
   fill: var(--logile-icon-state-success-alpha-2);
 }
 
-.violation-alpha-2 {
+&--violation-alpha-2 {
   fill: var(--logile-icon-state-violation-alpha-2);
 }
 
-.information-alpha-2 {
+&--information-alpha-2 {
   fill: var(--logile-icon-state-information-alpha-2);
 }
 
-.warning-alpha-2 {
+&--warning-alpha-2 {
   fill: var(--logile-icon-state-warning-alpha-2);
+}
+
 }

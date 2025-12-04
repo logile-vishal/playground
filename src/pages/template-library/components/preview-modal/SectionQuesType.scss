@@ -61,8 +61,8 @@
     font-weight: var(--logile-weight-500);
   }
   &__chip-mobile.question-accordion__chip-mobile {
-    background: var(--bg-utility-ess-Off-bg);
-    color: var(--text-black-333);
+    background: var(--logile-utility-ess-off-bg);
+    color: var(--logile-text-black);
   }
 
   .Mui-expanded {
@@ -99,7 +99,7 @@
     padding: 0;
   }
   &__details-mobile.question-accordion__details-mobile {
-    background: var(--bg-utility-ess-Off-bg); // TODO: check variable name
+    background: var(--logile-utility-ess-off-bg);
   }
 }
 
@@ -116,7 +116,7 @@
   }
 
   &__required.question-item__required {
-    color: var(--red-600); // TODO: remove root variables
+    color: var(--logile-text-state-violation);
   }
 
   &__options.question-item__options {

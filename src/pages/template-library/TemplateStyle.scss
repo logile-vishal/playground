@@ -272,6 +272,9 @@
   }
 
   .tablebody-col__checkbox--toggle {
+     .form-control-label {
+      opacity: 0;
+     }
     &:hover {
       & .form-control-label {
         opacity: 1;

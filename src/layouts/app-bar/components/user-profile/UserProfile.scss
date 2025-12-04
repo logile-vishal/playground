@@ -11,9 +11,8 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   &:hover {
-    background-color: var(--bg-hover-gray-50);
+    background-color: var(--logile-bg-container-2);
   }
-  background-color: var(bg-default);
   & .card-avatar {
     background-color: #cac2ff;
     width: 3.2rem;

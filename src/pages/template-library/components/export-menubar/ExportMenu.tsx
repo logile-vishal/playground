@@ -2,7 +2,7 @@ import { Box, Menu, MenuItem, Typography, type MenuProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import SvgIcon from "@/core/components/icon/Icon";
-import { Doc, Excel, Pdf, Printer } from "@/core/constants/icons";
+import { CSV, Excel, Pdf, Printer } from "@/core/constants/icons";
 
 import type { ExportMenuProps } from "../../types/template-library.type";
 import "./ExportMenu.scss";
@@ -72,7 +72,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
             <Box className="template-library-export-menu__tools-item">
               <SvgIcon
                 component={Printer}
-                fill="var(--logile-icon-state-information-bold)"
+                fill="var(--logile-utility-blue-dark-600)"
                 size={15}
               />
               <Typography className="template-library-export-menu__tools-item-label">
@@ -82,7 +82,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
             <Box className="template-library-export-menu__tools-item">
               <SvgIcon
                 component={Pdf}
-                fill="var(--logile-icon-state-violation)"
+                fill="var(--logile-utility-red-dark-600)"
                 size={15}
               />
               <Typography className="template-library-export-menu__tools-item-label">
@@ -93,7 +93,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
             <Box className="template-library-export-menu__tools-item">
               <SvgIcon
                 component={Excel}
-                fill="var(--logile-icon-state-success)"
+                fill="var(--logile-utility-green-dark-600)"
                 size={15}
               />
               <Typography className="template-library-export-menu__tools-item-label">
@@ -103,8 +103,8 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
 
             <Box className="template-library-export-menu__tools-item">
               <SvgIcon
-                component={Doc}
-                fill="var(--teal-base)"
+                component={CSV}
+                fill="var(--logile-utility-teal-dark-600)"
                 size={15}
               />
               <Typography className="template-library-export-menu__tools-item-label">
