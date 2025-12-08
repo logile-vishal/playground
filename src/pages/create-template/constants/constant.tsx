@@ -1,3 +1,7 @@
+import type z from "zod";
+
+import { createTemplateFormSchema } from "../services/create-template-form-schema";
+
 export const CREATE_TEMPLATE_HEADING = {
   createTaskTemplate: "Create Task Template",
 };
@@ -29,4 +33,27 @@ export const BASIC_INFO = {
   directory: "Directory",
   directoryPlaceholder: "Select Directory",
   subDirectoryPlaceholder: "Select Sub-Directory",
+};
+
+export const CREATE_TEMPLATE = {
+  DEFAULT_QUESTION_TYPE: "radio",
+  FORM_VALIDATION_ERROR: "This field is required",
+};
+
+export const CREATE_TEMPLATE_FORM_FIELDS: {
+  [key: string]: keyof z.infer<typeof createTemplateFormSchema>;
+} = {
+  basicData: "basicData",
+  questions: "questions",
+  advancedOptions: "advancedOptions",
+  notifications: "notifications",
+  followUpTask: "followUpTask",
+};
+
+export const CREATE_TEMPLATE_TABS = {
+  basicInfo: "Basic Info",
+  questions: "Questions",
+  advancedOptions: "Advanced Options",
+  notifications: "Notifications",
+  followUpTask: "Follow Up Task",
 };

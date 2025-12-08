@@ -16,6 +16,7 @@ import Questions from "./components/questions/Questions";
 import Notifications from "./components/notifications/Notifications";
 import FollowUp from "./components/follow-up/FollowUp";
 import AdvancedOptions from "./components/advanced-options/AdvancedOptions";
+import CreateTemplateFormProvider from "./providers/CreateTemplateFormProvider";
 import {
   CREATE_TEMPLATE_HEADING,
   CREATE_TEMPLATE_STEPS,
@@ -73,74 +74,76 @@ const CreateTemplate: React.FC = () => {
     []
   );
   return (
-    <PageTemplate>
-      <PageTemplate.Header>
-        <Stack
-          direction={"row"}
-          className="create-template-page-header"
-        >
-          <Box className="create-template-page-header__section">
-            <CIconButton
-              variant="outline"
-              disableHover={true}
-              disableTouchRipple
-              onClick={handleNavigateBack}
-              className="create-template-page-header__back-icon"
-            >
-              <CSvgIcon
-                component={ChevronLeft}
-                fill="var(--logile-icon-secondary)"
-                size={18}
-              />
-            </CIconButton>
-            <Typography
-              color="var(--logile-text-primary)"
-              variant="h2"
-            >
-              {CREATE_TEMPLATE_HEADING.createTaskTemplate}
-            </Typography>
+    <CreateTemplateFormProvider>
+      <PageTemplate>
+        <PageTemplate.Header>
+          <Stack
+            direction={"row"}
+            className="create-template-page-header"
+          >
+            <Box className="create-template-page-header__section">
+              <CIconButton
+                variant="outline"
+                disableHover={true}
+                disableTouchRipple
+                onClick={handleNavigateBack}
+                className="create-template-page-header__back-icon"
+              >
+                <CSvgIcon
+                  component={ChevronLeft}
+                  fill="var(--logile-icon-secondary)"
+                  size={18}
+                />
+              </CIconButton>
+              <Typography
+                color="var(--logile-text-primary)"
+                variant="h2"
+              >
+                {CREATE_TEMPLATE_HEADING.createTaskTemplate}
+              </Typography>
 
-            {/* TODO: to be done later when create template demo video available */}
-            {/* <Box className={clsx({ "create-template-page-header__cursor-pointer": true })}>
+              {/* TODO: to be done later when create template demo video available */}
+              {/* <Box className={clsx({ "create-template-page-header__cursor-pointer": true })}>
                         <CSvgIcon component={QuestionCircle} fill='var(--logile-icon-secondary)' size={16} />
                     </Box> */}
-          </Box>
-          <Box className="create-template-page-header__section">
-            <CButton
-              severity="secondary"
-              variant="outline"
-              disabled={true}
-            >
-              Preview
-            </CButton>
-            <CButton
-              severity="secondary"
-              disabled={true}
-            >
-              Next
-            </CButton>
-            <CButton
-              severity="primary"
-              disabled={true}
-            >
-              Save
-            </CButton>
-            <CButton
-              severity="primary"
-              disabled={true}
-            >
-              Submit
-            </CButton>
-          </Box>
-        </Stack>
-      </PageTemplate.Header>
-      <PageTemplate.Content>
-        <CStepper
-          onChange={handleStepChange}
-          options={stepperOptions}
-        />
-      </PageTemplate.Content>
-    </PageTemplate>
+            </Box>
+            <Box className="create-template-page-header__section">
+              <CButton
+                severity="secondary"
+                variant="outline"
+                disabled={true}
+              >
+                Preview
+              </CButton>
+              <CButton
+                severity="secondary"
+                disabled={true}
+              >
+                Next
+              </CButton>
+              <CButton
+                severity="primary"
+                disabled={true}
+              >
+                Save
+              </CButton>
+              <CButton
+                severity="primary"
+                disabled={true}
+              >
+                Submit
+              </CButton>
+            </Box>
+          </Stack>
+        </PageTemplate.Header>
+        <PageTemplate.Content>
+          <CStepper
+            onChange={handleStepChange}
+            options={stepperOptions}
+          />
+        </PageTemplate.Content>
+      </PageTemplate>
+    </CreateTemplateFormProvider>
   );
 };
 
