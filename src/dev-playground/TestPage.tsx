@@ -39,7 +39,10 @@ export default function TestPage(): ReactElement {
     >
       <h2>React Hook Form — Test Page</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
         <div style={{ marginBottom: 12 }}>
           <label>
             First name

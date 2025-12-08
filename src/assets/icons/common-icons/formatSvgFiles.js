@@ -41,7 +41,7 @@ fs.readdir(svgFolder, (err, files) => {
       // Prepare icon entry
       const key = toCamelCase(newFileName);
       iconEntries.push(
-        `    ${key}: React.lazy(() => import('@/assets/images/icons/${newFileName}?react'))`,
+        `    ${key}: React.lazy(() => import('@/assets/images/icons/${newFileName}?react'))`
       );
 
       console.log(`Processed: ${newFileName}`);

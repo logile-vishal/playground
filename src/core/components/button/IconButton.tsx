@@ -25,7 +25,9 @@ const IconButtonStyled = styled(ButtonBase, {
     border: "1px solid transparent",
     padding: "var(--space-s)",
     transition: "all 0.2s ease-in-out",
-    color: disabled ? "var(--logile-bg-state-disabled)" : "var(--logile-icon-secondary)",
+    color: disabled
+      ? "var(--logile-bg-state-disabled)"
+      : "var(--logile-icon-secondary)",
   };
 
   const hoverStyles: Record<Variant, object> = {

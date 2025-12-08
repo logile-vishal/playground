@@ -31,7 +31,10 @@ const Header: React.FC<SectionProps> = ({ children, style }) => {
 
 const Content: React.FC<SectionProps> = ({ children, className, ...props }) => {
   return (
-    <div className={`pagetemplate__content ${className}`} {...props}>
+    <div
+      className={`pagetemplate__content ${className}`}
+      {...props}
+    >
       {children}
     </div>
   );

@@ -55,7 +55,10 @@ export const TEMPLATE_SORTING: Record<string, SortOption[]> = {
             sx={{ transform: `rotate(90deg)`, display: "inline-block" }}
             height="18px"
           >
-            <CSvgIcon component={ArrowUp} size={18} />
+            <CSvgIcon
+              component={ArrowUp}
+              size={18}
+            />
           </Box>{" "}
           Z
         </Box>
@@ -76,7 +79,10 @@ export const TEMPLATE_SORTING: Record<string, SortOption[]> = {
             sx={{ transform: `rotate(90deg)`, display: "inline-block" }}
             height="18px"
           >
-            <CSvgIcon component={ArrowUp} size={18} />
+            <CSvgIcon
+              component={ArrowUp}
+              size={18}
+            />
           </Box>{" "}
           A
         </Box>
@@ -126,7 +132,10 @@ export const REPORT_SORTING: Record<string, SortOption[]> = {
             sx={{ transform: `rotate(90deg)`, display: "inline-block" }}
             height="18px"
           >
-            <CSvgIcon component={ArrowUp} size={18} />
+            <CSvgIcon
+              component={ArrowUp}
+              size={18}
+            />
           </Box>{" "}
           Z
         </Box>
@@ -147,7 +156,10 @@ export const REPORT_SORTING: Record<string, SortOption[]> = {
             sx={{ transform: `rotate(90deg)`, display: "inline-block" }}
             height="18px"
           >
-            <CSvgIcon component={ArrowUp} size={18} />
+            <CSvgIcon
+              component={ArrowUp}
+              size={18}
+            />
           </Box>{" "}
           A
         </Box>

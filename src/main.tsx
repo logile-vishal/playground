@@ -30,5 +30,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         </AuthProvider>
       </QueryClientProvider>
     </ThemeProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

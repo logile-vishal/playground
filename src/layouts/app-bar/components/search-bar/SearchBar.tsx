@@ -76,7 +76,11 @@ const NavSearchBar = (props: navSearchBarProps) => {
         onKeyDown={checkForEnter}
       />
       <SearchIconWrapper>
-        <CSvgIcon component={props.icon} color="secondary" size={18} />
+        <CSvgIcon
+          component={props.icon}
+          color="secondary"
+          size={18}
+        />
       </SearchIconWrapper>
     </Search>
   );

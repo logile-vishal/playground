@@ -22,7 +22,7 @@ export function NavigationGuard() {
   const shouldBlock = useCallback(
     ({ currentLocation, nextLocation }) =>
       isDirty && currentLocation.pathname !== nextLocation.pathname,
-    [isDirty],
+    [isDirty]
   );
 
   const blocker = useBlocker(shouldBlock);

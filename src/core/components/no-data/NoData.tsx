@@ -21,7 +21,10 @@ const CNoData: React.FC<NoDataProps> = ({
 }) => {
   return (
     <Box className="empty-list-container">
-      <CSvgIcon component={imageSrcName} size={imageWidth} />
+      <CSvgIcon
+        component={imageSrcName}
+        size={imageWidth}
+      />
       {title && <Box className="mt-16 mb-8 heading-text">{title}</Box>}
       {description && <Box className="body-text">{description}</Box>}
     </Box>

@@ -41,7 +41,10 @@ const Questions: React.FC = () => {
             />
           </CIconButton>
           <CIconButton className="create-template-questions__expanded-btn">
-            <CSvgIcon size={16} component={ChevronExpanded} />
+            <CSvgIcon
+              size={16}
+              component={ChevronExpanded}
+            />
           </CIconButton>
         </Box>
       </Box>
@@ -75,7 +78,10 @@ const Questions: React.FC = () => {
           severity="primary"
           size="small"
         >
-          <CSvgIcon size={15} component={AddIcon} />{" "}
+          <CSvgIcon
+            size={15}
+            component={AddIcon}
+          />{" "}
           {QUESTION_SECTION.ACTION_ADD_QUESTION}
         </CButton>
         <CButton
@@ -84,7 +90,10 @@ const Questions: React.FC = () => {
           severity="primary"
           size="small"
         >
-          <CSvgIcon size={15} component={AddIcon} />{" "}
+          <CSvgIcon
+            size={15}
+            component={AddIcon}
+          />{" "}
           {QUESTION_SECTION.ACTION_ADD_SECTION}
         </CButton>
       </Box>

@@ -40,7 +40,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
     const tagType = previewModal?.data?.templateBaseType?.toUpperCase();
     setTemplateType(tagType);
     setQuestionView(
-      tagType === TEMPLATE_TYPE.CHECKLIST || tagType === TEMPLATE_TYPE.GRID,
+      tagType === TEMPLATE_TYPE.CHECKLIST || tagType === TEMPLATE_TYPE.GRID
     );
   }, [previewModal]);
 
@@ -83,7 +83,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   ? renderGridContainer(
                       previewModal?.data?.gridsPreview,
                       isDesktopPreview,
-                      templateType,
+                      templateType
                     )
                   : // Checklist template preview
                     previewModal?.data?.checkListPreview?.subQuestions?.map(
@@ -92,8 +92,8 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                           question,
                           `${index + 1}.`,
                           isDesktopPreview,
-                          templateType,
-                        ),
+                          templateType
+                        )
                     )
               }
             </div>
@@ -146,7 +146,11 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                     !isDesktopPreview,
                 })}
               >
-                <CSvgIcon component={Phone} color={"secondary"} size={22} />
+                <CSvgIcon
+                  component={Phone}
+                  color={"secondary"}
+                  size={22}
+                />
               </CIconButton>
             ) : isQuestionView ? (
               <Box
@@ -156,7 +160,11 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   "template-preview-modal__desktop-icon": !isDesktopPreview,
                 })}
               >
-                <CSvgIcon component={Desktop} fill={"transparent"} size={32} />
+                <CSvgIcon
+                  component={Desktop}
+                  fill={"transparent"}
+                  size={32}
+                />
               </Box>
             ) : (
               ""

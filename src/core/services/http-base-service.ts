@@ -16,7 +16,7 @@ export function get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
 export function post<T, D = unknown>(
   url: string,
   data?: D,
-  config?: AxiosRequestConfig,
+  config?: AxiosRequestConfig
 ): Promise<T> {
   return axiosInstance.post<T>(url, data, config) as Promise<T>;
 }
@@ -24,7 +24,7 @@ export function post<T, D = unknown>(
 export function put<T, D = unknown>(
   url: string,
   data?: D,
-  config?: AxiosRequestConfig,
+  config?: AxiosRequestConfig
 ): Promise<T> {
   return axiosInstance.put<T>(url, data, config) as Promise<T>;
 }
@@ -32,7 +32,7 @@ export function put<T, D = unknown>(
 export function patch<T, D = unknown>(
   url: string,
   data?: D,
-  config?: AxiosRequestConfig,
+  config?: AxiosRequestConfig
 ): Promise<T> {
   return axiosInstance.patch<T>(url, data, config) as Promise<T>;
 }

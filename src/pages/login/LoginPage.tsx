@@ -21,11 +21,20 @@ const LoginPage = () => {
           gap: 2,
         }}
       >
-        <Typography variant="h5" align="center" gutterBottom>
+        <Typography
+          variant="h5"
+          align="center"
+          gutterBottom
+        >
           Login
         </Typography>
 
-        <TextField label="Email" type="email" variant="outlined" fullWidth />
+        <TextField
+          label="Email"
+          type="email"
+          variant="outlined"
+          fullWidth
+        />
 
         <TextField
           label="Password"
@@ -34,7 +43,12 @@ const LoginPage = () => {
           fullWidth
         />
 
-        <Button variant="contained" color="primary" size="large" fullWidth>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          fullWidth
+        >
           Login
         </Button>
       </Paper>

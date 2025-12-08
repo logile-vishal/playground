@@ -22,7 +22,7 @@ export const queryPersister = (config: CacheConfig = {}) => {
       localStorage.setItem(CACHE_KEY, JSON.stringify(data));
       localStorage.setItem(
         CACHE_EXPIRY_KEY,
-        String(Date.now() + CACHE_MAX_AGE),
+        String(Date.now() + CACHE_MAX_AGE)
       );
     } catch (error) {
       console.error("Failed to save to cache:", error);

@@ -45,16 +45,28 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
         onClick={handleDropdownClick}
         ref={anchorEl.current}
       >
-        <img src={user.avatar} alt={user.name} className="card-avatar" />
+        <img
+          src={user.avatar}
+          alt={user.name}
+          className="card-avatar"
+        />
         <div className="card-info">
           <Typography className="card-info__name">{user.name}</Typography>
           <Typography className="card-info__role">{user.role}</Typography>
         </div>
         <div className="card-dropdown-icon">
           {isDropdownOpen ? (
-            <CSvgIcon component={ArrowUpFill} size={20} color="secondary" />
+            <CSvgIcon
+              component={ArrowUpFill}
+              size={20}
+              color="secondary"
+            />
           ) : (
-            <CSvgIcon component={ArrowDownFill} size={20} color="secondary" />
+            <CSvgIcon
+              component={ArrowDownFill}
+              size={20}
+              color="secondary"
+            />
           )}
         </div>
       </div>
@@ -77,7 +89,10 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={User} size={18} />
+            <CSvgIcon
+              component={User}
+              size={18}
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">Change Role</Typography>
         </MenuItem>
@@ -87,7 +102,10 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={Focus} size={18} />
+            <CSvgIcon
+              component={Focus}
+              size={18}
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">Set Focus</Typography>
         </MenuItem>
@@ -97,7 +115,10 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={Users} size={18} />
+            <CSvgIcon
+              component={Users}
+              size={18}
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">User Profile</Typography>
         </MenuItem>
@@ -107,7 +128,10 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={Edit} size={18} />
+            <CSvgIcon
+              component={Edit}
+              size={18}
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">Modify Dashboard</Typography>
         </MenuItem>
@@ -117,7 +141,10 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={UserMinus} size={18} />
+            <CSvgIcon
+              component={UserMinus}
+              size={18}
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">Reduce Role</Typography>
         </MenuItem>
@@ -127,7 +154,10 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={UserSetting} size={18} />
+            <CSvgIcon
+              component={UserSetting}
+              size={18}
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">User Management</Typography>
         </MenuItem>
@@ -137,7 +167,10 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={UserStar} size={18} />
+            <CSvgIcon
+              component={UserStar}
+              size={18}
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">Admin Mode</Typography>
         </MenuItem>
@@ -147,7 +180,10 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={Theme} size={18} />
+            <CSvgIcon
+              component={Theme}
+              size={18}
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">Theme</Typography>
         </MenuItem>
@@ -157,7 +193,10 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={Globe} size={18} />
+            <CSvgIcon
+              component={Globe}
+              size={18}
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">Language</Typography>
         </MenuItem>
@@ -167,7 +206,11 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="user-profile-menu__option-item"
         >
           <ListItemIcon>
-            <CSvgIcon component={Signout} size={18} color="violation" />
+            <CSvgIcon
+              component={Signout}
+              size={18}
+              color="violation"
+            />
           </ListItemIcon>
           <Typography className="menubar-heading">Logout</Typography>
         </MenuItem>

@@ -26,11 +26,22 @@ export const ProtectedRoute = ({
 
   if (!isLoading && !user) {
     // Not logged in, redirect to login
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to="/login"
+        state={{ from: location }}
+        replace
+      />
+    );
   }
 
   if (!isLoading && !isLoadingCache && !checkIfUserAllowed()) {
-    return <Navigate to="/unauthorized" replace />;
+    return (
+      <Navigate
+        to="/unauthorized"
+        replace
+      />
+    );
   }
 
   // Render children if provided, otherwise render Outlet for nested routes

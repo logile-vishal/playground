@@ -45,5 +45,5 @@ export const oldTemplateIcons = Object.fromEntries(
   iconNames.map((name) => [
     name,
     React.lazy(() => import(`${ICON_PATH}/${name}.svg?react`)),
-  ]),
+  ])
 );

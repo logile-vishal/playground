@@ -57,7 +57,11 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
       {/* Logo Section */}
       <div className="appbar__left-section">
         <MainMenu onClick={handleToggleMenu}>
-          <CSvgIcon component={Hamburger} size={24} color="primary" />
+          <CSvgIcon
+            component={Hamburger}
+            size={24}
+            color="primary"
+          />
         </MainMenu>
 
         <div className="appbar__logo-box">
@@ -95,9 +99,17 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
             onClick={handleThemeToggle}
           >
             {mode === "light" ? (
-              <CSvgIcon component={Moon} color="secondary" size={18} />
+              <CSvgIcon
+                component={Moon}
+                color="secondary"
+                size={18}
+              />
             ) : (
-              <CSvgIcon component={Sun} color="warning" size={20} />
+              <CSvgIcon
+                component={Sun}
+                color="warning"
+                size={20}
+              />
             )}
           </CIconButton>
           <CIconButton
@@ -106,7 +118,11 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
               padding: "1rem",
             }}
           >
-            <CSvgIcon component={CalendarBlank} color="secondary" size={20} />
+            <CSvgIcon
+              component={CalendarBlank}
+              color="secondary"
+              size={20}
+            />
           </CIconButton>
           <CIconButton
             variant="primary"
@@ -114,7 +130,11 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
               padding: "1rem",
             }}
           >
-            <CSvgIcon component={ClipboardToDo} color="secondary" size={20} />
+            <CSvgIcon
+              component={ClipboardToDo}
+              color="secondary"
+              size={20}
+            />
           </CIconButton>
           <CIconButton
             variant="primary"
@@ -122,7 +142,11 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
               padding: "1rem",
             }}
           >
-            <CSvgIcon component={Envelope} color="secondary" size={20} />
+            <CSvgIcon
+              component={Envelope}
+              color="secondary"
+              size={20}
+            />
           </CIconButton>
           <CIconButton
             variant="primary"
@@ -130,7 +154,11 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
               padding: "1rem",
             }}
           >
-            <CSvgIcon component={Comment} color="secondary" size={20} />
+            <CSvgIcon
+              component={Comment}
+              color="secondary"
+              size={20}
+            />
           </CIconButton>
 
           <Badge
@@ -145,7 +173,11 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
                 padding: "1rem",
               }}
             >
-              <CSvgIcon component={Notification} color="secondary" size={20} />
+              <CSvgIcon
+                component={Notification}
+                color="secondary"
+                size={20}
+              />
             </CIconButton>
           </Badge>
         </Stack>

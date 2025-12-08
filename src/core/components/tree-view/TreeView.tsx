@@ -13,7 +13,7 @@ type TreeViewProps = {
   setSelectedData?: React.Dispatch<React.SetStateAction<number | null>>;
   handleClick?: (
     event: React.MouseEvent<HTMLLIElement>,
-    directory: TreeViewNodeDataType,
+    directory: TreeViewNodeDataType
   ) => void;
 };
 
@@ -52,14 +52,27 @@ const StyledTreeItem = styled(TreeItem)(() => ({
 }));
 
 const ArrowRightIcon = () => (
-  <CSvgIcon component={ArrowRightFill} size={24} color="primary" />
+  <CSvgIcon
+    component={ArrowRightFill}
+    size={24}
+    color="primary"
+  />
 );
 
 const ArrowDownIcon = () => (
-  <CSvgIcon component={ArrowDownFill} size={24} color="primary" />
+  <CSvgIcon
+    component={ArrowDownFill}
+    size={24}
+    color="primary"
+  />
 );
 
-const BlankIcon = () => <Box height="24px" width="24px"></Box>;
+const BlankIcon = () => (
+  <Box
+    height="24px"
+    width="24px"
+  ></Box>
+);
 
 function getExpandedTagIds(nodes: TreeViewNodeDataType[]): string[] {
   let result: string[] = [];

@@ -131,7 +131,10 @@ const CStepper = ({
                 })}
                 icon={
                   !isLastStep ? (
-                    <CSvgIcon component={ChevronRightIconFilled} size={16} />
+                    <CSvgIcon
+                      component={ChevronRightIconFilled}
+                      size={16}
+                    />
                   ) : (
                     <></>
                   )

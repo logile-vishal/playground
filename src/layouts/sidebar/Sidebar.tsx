@@ -98,7 +98,7 @@ const StyledListItemButton = styled(ListItemButton, {
       backgroundColor: alpha(theme.palette.primary.main, 0.1),
       color: theme.palette.primary.main,
     },
-  }),
+  })
 );
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -108,14 +108,12 @@ const Sidebar: React.FC<SidebarProps> = ({
   handleMenuClose,
 }) => {
   const [appSwitchValue, setAppSwitchValue] = useState<string>(
-    defaultConstants.WFM,
+    defaultConstants.WFM
   );
   const isDesktop = useIsDesktopViewport();
   const handleSwitchAppName = () => {
     setAppSwitchValue((prev) =>
-      prev == defaultConstants.IMS
-        ? defaultConstants.WFM
-        : defaultConstants.IMS,
+      prev == defaultConstants.IMS ? defaultConstants.WFM : defaultConstants.IMS
     );
   };
   const navlistItems = navLinkOptions[defaultConstants.IMS];
@@ -214,7 +212,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return !isDesktop ? (
-    <Drawer anchor="left" open={showMenu} onClose={handleMenuClose}>
+    <Drawer
+      anchor="left"
+      open={showMenu}
+      onClose={handleMenuClose}
+    >
       <Stack
         className={clsx({ sidebar: true, "sidebar-mobile": !isDesktop })}
         ref={sidebarRef}
@@ -223,7 +225,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       </Stack>
     </Drawer>
   ) : (
-    <Stack className="sidebar" ref={sidebarRef}>
+    <Stack
+      className="sidebar"
+      ref={sidebarRef}
+    >
       {renderSidebarContent()}
     </Stack>
   );

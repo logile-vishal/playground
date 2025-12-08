@@ -83,14 +83,22 @@ const BasicInfo: React.FC = () => {
               width="200"
               menuClassName="create-template-basic-info__dropdown-menu"
             />
-            <CSvgIcon component={ChevronRight} color="secondary" size={24} />
+            <CSvgIcon
+              component={ChevronRight}
+              color="secondary"
+              size={24}
+            />
             <CDropdown
               options={directoryDropdownOptions}
               placeholder={BASIC_INFO.subDirectoryPlaceholder}
               width="200"
               menuClassName="create-template-basic-info__dropdown-menu"
             />
-            <CSvgIcon component={ChevronRight} color="secondary" size={24} />
+            <CSvgIcon
+              component={ChevronRight}
+              color="secondary"
+              size={24}
+            />
             <CDropdown
               options={directoryDropdownOptions}
               placeholder={BASIC_INFO.subDirectoryPlaceholder}

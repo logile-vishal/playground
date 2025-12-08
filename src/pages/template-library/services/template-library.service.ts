@@ -22,7 +22,7 @@ export const getAllDirectories: () => Promise<
   PaginatedResponse<TreeViewNodeDataType>
 > = () => {
   return get<PaginatedResponse<TreeViewNodeDataType>>(
-    API_CONFIG.templateLibrary.getAllDirectories,
+    API_CONFIG.templateLibrary.getAllDirectories
   );
 };
 
@@ -32,11 +32,11 @@ export const getAllDirectories: () => Promise<
  */
 export const getTemplatesByTagId: (
   tagId: number,
-  params: Record<string, unknown>,
+  params: Record<string, unknown>
 ) => Promise<PaginatedResponse<TemplateType>> = (tagId, params = {}) => {
   const url = API_CONFIG.templateLibrary.getTemplateByTagId.replace(
     "{tagId}",
-    `${tagId}`,
+    `${tagId}`
   );
   return get<PaginatedResponse<TemplateType>>(url, { params });
 };
@@ -47,11 +47,11 @@ export const getTemplatesByTagId: (
  */
 export const getReportsByReportType: (
   reportType: number,
-  params: Record<string, unknown>,
+  params: Record<string, unknown>
 ) => Promise<PaginatedResponse<ReportType>> = (reportTypeId, params = {}) => {
   const url = API_CONFIG.templateLibrary.getReportByReportType.replace(
     "{reportTypeId}",
-    `${reportTypeId}`,
+    `${reportTypeId}`
   );
   return get<PaginatedResponse<ReportType>>(url, { params });
 };
@@ -94,7 +94,7 @@ export const getQuestionTags: () => Promise<
  * @description filter and fetch all the templates
  */
 export const filterTemplates: (
-  payload: FilterTemplatesPayload,
+  payload: FilterTemplatesPayload
 ) => Promise<PaginatedResponse<TemplateType | ReportType>> = (payload = {}) => {
   const url = API_CONFIG.templateLibrary.filterTemplates;
   return post<PaginatedResponse<TemplateType | ReportType>>(url, payload);
@@ -105,11 +105,11 @@ export const filterTemplates: (
  * @description fetch template preview by template id
  */
 export const getTemplatePreviewById: (
-  templateId: number,
+  templateId: number
 ) => Promise<TemplatePreviewResponseProps> = (templateId) => {
   const url = API_CONFIG.templateLibrary.getTemplatePreviewById.replace(
     "{templateId}",
-    `${templateId}`,
+    `${templateId}`
   );
   return get<TemplatePreviewResponseProps>(url);
 };
@@ -119,11 +119,11 @@ export const getTemplatePreviewById: (
  * @description fetch report preview by template id
  */
 export const getReportPreviewById: (
-  reportTypeId: number,
+  reportTypeId: number
 ) => Promise<TemplatePreviewResponseProps> = (reportTypeId) => {
   const url = API_CONFIG.templateLibrary.getReportPreviewById.replace(
     "{reportTypeId}",
-    `${reportTypeId}`,
+    `${reportTypeId}`
   );
   return get<TemplatePreviewResponseProps>(url);
 };
@@ -134,11 +134,11 @@ export const getReportPreviewById: (
  */
 export const deleteTaskTemplateById: (
   templateId: number,
-  params?: Record<string, unknown>,
+  params?: Record<string, unknown>
 ) => Promise<DeleteTemplateProps> = (templateId, params = {}) => {
   const url = API_CONFIG.templateLibrary.deleteTemplateById.replace(
     "{templateId}",
-    `${templateId}`,
+    `${templateId}`
   );
   return del<DeleteTemplateProps>(url, {
     params: { ...params, libType: LIB_TYPE.TEMPLATE },
@@ -151,11 +151,11 @@ export const deleteTaskTemplateById: (
  */
 export const deleteReportTemplateById: (
   templateId: number,
-  params?: Record<string, unknown>,
+  params?: Record<string, unknown>
 ) => Promise<DeleteTemplateProps> = (templateId, params = {}) => {
   const url = API_CONFIG.templateLibrary.deleteTemplateById.replace(
     "{templateId}",
-    `${templateId}`,
+    `${templateId}`
   );
   return del<DeleteTemplateProps>(url, {
     params: { ...params, libType: LIB_TYPE.REPORT },

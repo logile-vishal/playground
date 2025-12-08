@@ -10,7 +10,7 @@ import { buttonSizes } from "./button.sizes";
 export const buttonConfig = (
   severity: ButtonSeverity,
   variant: ButtonVariant,
-  size: ButtonSize,
+  size: ButtonSize
 ) => {
   const palette = buttonPalette[severity]?.[variant];
   if (!palette) return {};

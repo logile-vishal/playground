@@ -119,7 +119,7 @@ function StyledTextField({
   value: string;
   handleChange: (
     event: React.ChangeEvent<HTMLInputElement>,
-    className?: string,
+    className?: string
   ) => void;
   className?: string;
 }) {
@@ -153,7 +153,11 @@ function TaskTypeDropDown({ label = "", options, className, ...props }) {
         {...props}
         IconComponent={() => (
           <Box className="template-library-search-drawer__rotate-icon">
-            <CSvgIcon component={ChevronLeft} size={18} color="secondary" />
+            <CSvgIcon
+              component={ChevronLeft}
+              size={18}
+              color="secondary"
+            />
           </Box>
         )}
       ></CSelect>
@@ -267,14 +271,14 @@ const SearchDrawer = ({
    */
   const getPayload = () => {
     const questionTagsList = advanceFilterData?.questionTagsList?.map(
-      (tag: AutoCompleteOptionProps) => tag?.value,
+      (tag: AutoCompleteOptionProps) => tag?.value
     );
     const taskTagsList = advanceFilterData?.taskTagsList?.map(
-      (tag: AutoCompleteOptionProps) => tag?.value,
+      (tag: AutoCompleteOptionProps) => tag?.value
     );
     const taskType = advanceFilterData?.taskType?.value ?? "";
     const statusList = advanceFilterData?.status?.map(
-      (tag: AutoCompleteOptionProps) => tag?.value,
+      (tag: AutoCompleteOptionProps) => tag?.value
     );
 
     const payload = {
@@ -334,14 +338,23 @@ const SearchDrawer = ({
   }, [isFilterDataLoading]);
 
   return (
-    <StyledDrawer anchor="top" open={open} onClose={onClose} elevation={0}>
+    <StyledDrawer
+      anchor="top"
+      open={open}
+      onClose={onClose}
+      elevation={0}
+    >
       <Box className="template-library-search-drawer">
         <Box className="template-library-search-drawer__header">
           <Button
             className="template-library-search-drawer__back-btn"
             onClick={onClose}
             startIcon={
-              <CSvgIcon component={ChevronLeft} color="secondary" size={24} />
+              <CSvgIcon
+                component={ChevronLeft}
+                color="secondary"
+                size={24}
+              />
             }
           ></Button>
           <SearchField
@@ -374,9 +387,18 @@ const SearchDrawer = ({
         </Box>
         <Divider />
         <Box className="template-library-search-drawer__tab-container">
-          <StyledTabs onChange={handleTabChange} value={currentTab}>
-            <Tab label={RECENT.label} value={RECENT.value} />
-            <Tab label={ADVANCE.label} value={ADVANCE.value} />
+          <StyledTabs
+            onChange={handleTabChange}
+            value={currentTab}
+          >
+            <Tab
+              label={RECENT.label}
+              value={RECENT.value}
+            />
+            <Tab
+              label={ADVANCE.label}
+              value={ADVANCE.value}
+            />
           </StyledTabs>
           <TabPanel value={currentTab === RECENT.value}>
             <Box className="template-library-search-drawer__recent-tab-content">

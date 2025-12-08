@@ -247,7 +247,10 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({
                   isDesktopPreview={isDesktopPreview}
                 />
               ) : (
-                <RenderButtonContainer label={itemLabel} icon={itemIcon} />
+                <RenderButtonContainer
+                  label={itemLabel}
+                  icon={itemIcon}
+                />
               )}
             </Box>
           );
@@ -272,7 +275,7 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({
  */
 const isIconRequired = (question, option, type) => {
   const RequiredType = question?.attachments?.filter(
-    (item) => item?.attachmentType == type,
+    (item) => item?.attachmentType == type
   )?.[0]?.requiredType;
   const isCompaliantType = RequiredType === "In compliance only";
   if (RequiredType === "Always") return true;
@@ -298,7 +301,7 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
     question?.attachments?.length > 0
       ? question?.attachments?.filter(
           (item: AttachmentType) =>
-            item?.attachmentType === QUESTION_ATTACHEMENT.PHOTO.value,
+            item?.attachmentType === QUESTION_ATTACHEMENT.PHOTO.value
         )?.length > 0
       : false;
 
@@ -324,7 +327,7 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
           const cameraIcon = isIconRequired(
             question,
             option,
-            QUESTION_ATTACHEMENT.PHOTO.value,
+            QUESTION_ATTACHEMENT.PHOTO.value
           )
             ? CameraRequired
             : Camera;
@@ -351,7 +354,10 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
                     }
                   >
                     <Box height={16}>
-                      <CSvgIcon size={18} component={InfoCircle} />
+                      <CSvgIcon
+                        size={18}
+                        component={InfoCircle}
+                      />
                     </Box>
                   </Tooltip>
                 )}
@@ -363,7 +369,7 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
                         isIconRequired(
                           question,
                           option,
-                          QUESTION_ATTACHEMENT.PHOTO.value,
+                          QUESTION_ATTACHEMENT.PHOTO.value
                         )
                           ? 19
                           : 16
@@ -396,7 +402,7 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
     question?.attachments?.length > 0
       ? question?.attachments?.filter(
           (item: AttachmentType) =>
-            item?.attachmentType === QUESTION_ATTACHEMENT.PHOTO.value,
+            item?.attachmentType === QUESTION_ATTACHEMENT.PHOTO.value
         )?.length > 0
       : false;
   return (
@@ -427,13 +433,19 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
                 {option?.additionalInfo?.required && (
                   <Tooltip title="Required Info">
                     <Box height={16}>
-                      <CSvgIcon size={18} component={InfoCircle} />
+                      <CSvgIcon
+                        size={18}
+                        component={InfoCircle}
+                      />
                     </Box>
                   </Tooltip>
                 )}
                 {showCameraIcon && (
                   <Box height={16}>
-                    <CSvgIcon component={Camera} size={16} />
+                    <CSvgIcon
+                      component={Camera}
+                      size={16}
+                    />
                   </Box>
                 )}
               </Box>
@@ -461,7 +473,7 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
     question?.attachments?.length > 0
       ? question?.attachments?.filter(
           (item: AttachmentType) =>
-            item?.attachmentType === QUESTION_ATTACHEMENT.ATTACHMENT.value,
+            item?.attachmentType === QUESTION_ATTACHEMENT.ATTACHMENT.value
         )?.length > 0
       : false;
   return (
@@ -471,17 +483,23 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
           const attachmentIcon = isIconRequired(
             question,
             option,
-            QUESTION_ATTACHEMENT.ATTACHMENT.value,
+            QUESTION_ATTACHEMENT.ATTACHMENT.value
           )
             ? AttachmentRequired
             : Attachment;
           return (
             <Box className="template-preview-modal__radio-item">
-              <RenderRadio label={option?.value} value={option?.value} />
+              <RenderRadio
+                label={option?.value}
+                value={option?.value}
+              />
               {/* TODO: Attachment require or not required condition missing */}
               {showAttachmentIcon && (
                 <Box height={20}>
-                  <CSvgIcon component={attachmentIcon} size={20} />
+                  <CSvgIcon
+                    component={attachmentIcon}
+                    size={20}
+                  />
                 </Box>
               )}
             </Box>
@@ -545,7 +563,10 @@ export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
             isDesktopPreview={isDesktopPreview}
           />
         ) : question?.inputType === USER_INPUT_TYPES.DATE.value ? (
-          <RenderDatePicker type="date" isDesktopPreview={isDesktopPreview} />
+          <RenderDatePicker
+            type="date"
+            isDesktopPreview={isDesktopPreview}
+          />
         ) : (
           <RenderTextField
             multiline={isMultiLine ? true : false}

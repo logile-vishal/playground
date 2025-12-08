@@ -52,5 +52,10 @@ export const CDataTable = ({
       },
     }),
   });
-  return <MaterialReactTable table={table} {...props} />;
+  return (
+    <MaterialReactTable
+      table={table}
+      {...props}
+    />
+  );
 };

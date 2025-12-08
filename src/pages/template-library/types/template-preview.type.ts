@@ -78,7 +78,7 @@ export type RenderSectionProps = {
     item: QuestionType,
     index: string,
     isDesktopPreview?: boolean,
-    templateBaseType?: string,
+    templateBaseType?: string
   ) => React.ReactNode;
 };
 

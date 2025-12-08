@@ -11,7 +11,7 @@ import { ThemeContext } from "./ThemeContext";
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const isDarkPrefered = useMediaQuery("(prefers-color-scheme: dark)");
   const [mode, setMode] = useState<ThemeMode>(
-    isDarkPrefered ? "dark" : "light",
+    isDarkPrefered ? "dark" : "light"
   );
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         setMode((prevMode) => (prevMode === "light" ? "dark" : "light")),
       mode,
     }),
-    [mode],
+    [mode]
   );
 
   /**

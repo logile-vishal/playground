@@ -44,15 +44,36 @@ const CToast = ({
   autoHideDuration,
 }: ToastProps) => {
   const severityIcons = {
-    [Severity.SUCCESS]: <CSvgIcon component={CircleCheckFilled} size={16} />,
+    [Severity.SUCCESS]: (
+      <CSvgIcon
+        component={CircleCheckFilled}
+        size={16}
+      />
+    ),
     [Severity.ERROR]: (
-      <CSvgIcon component={ExclamationCircleFilled} size={16} />
+      <CSvgIcon
+        component={ExclamationCircleFilled}
+        size={16}
+      />
     ),
     [Severity.WARNING]: (
-      <CSvgIcon component={ExclamationTriangleFilled} size={16} />
+      <CSvgIcon
+        component={ExclamationTriangleFilled}
+        size={16}
+      />
     ),
-    [Severity.INFORMATION]: <CSvgIcon component={InfoCircleFilled} size={16} />,
-    [Severity.FEATURE]: <CSvgIcon component={InfoCircleFilled} size={16} />,
+    [Severity.INFORMATION]: (
+      <CSvgIcon
+        component={InfoCircleFilled}
+        size={16}
+      />
+    ),
+    [Severity.FEATURE]: (
+      <CSvgIcon
+        component={InfoCircleFilled}
+        size={16}
+      />
+    ),
   };
   const severityIcon = severityIcons[toastSeverity];
 
@@ -96,8 +117,14 @@ const CToast = ({
           })}
         </div>
       </div>
-      <div className="toast__close-btn" onClick={onClose}>
-        <CSvgIcon component={Close} size={20} />
+      <div
+        className="toast__close-btn"
+        onClick={onClose}
+      >
+        <CSvgIcon
+          component={Close}
+          size={20}
+        />
       </div>
     </div>
   );

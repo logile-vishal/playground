@@ -24,7 +24,7 @@ export const setInterceptor = (axiosInstance: AxiosInstance) => {
       // Add other headers as needed
       return config;
     },
-    (error) => Promise.reject(error),
+    (error) => Promise.reject(error)
   );
 
   // Response interceptor to handle errors globally
@@ -47,7 +47,7 @@ export const setInterceptor = (axiosInstance: AxiosInstance) => {
       }
 
       return Promise.reject(error);
-    },
+    }
   );
 };
 

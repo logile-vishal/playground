@@ -119,7 +119,7 @@ const TemplateLibrary: React.FC = () => {
 
   const fetchData = (
     directory: TreeViewNodeDataType,
-    paramsPayload: Record<string, unknown> = {},
+    paramsPayload: Record<string, unknown> = {}
   ) => {
     let payload: Record<string, unknown> = {
       ...paramsPayload,
@@ -136,7 +136,7 @@ const TemplateLibrary: React.FC = () => {
 
   const handleDirectoryClick = (
     event: React.MouseEvent<HTMLElement>,
-    directory: TreeViewNodeDataType,
+    directory: TreeViewNodeDataType
   ) => {
     event?.preventDefault();
     event?.stopPropagation();
@@ -186,7 +186,10 @@ const TemplateLibrary: React.FC = () => {
   return (
     <PageTemplate>
       <PageTemplate.Header>
-        <Stack direction={"row"} alignItems={"center"}>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+        >
           <CIconButton
             variant="outline"
             disableHover={true}
@@ -197,9 +200,16 @@ const TemplateLibrary: React.FC = () => {
               padding: ".8rem",
             }}
           >
-            <CSvgIcon component={ChevronLeft} color="secondary" size={18} />
+            <CSvgIcon
+              component={ChevronLeft}
+              color="secondary"
+              size={18}
+            />
           </CIconButton>
-          <Typography color="var(--logile-text-primary)" variant="h2">
+          <Typography
+            color="var(--logile-text-primary)"
+            variant="h2"
+          >
             {TEMPLATE_LIBRARY_HEADING.template}
           </Typography>
         </Stack>
@@ -227,7 +237,11 @@ const TemplateLibrary: React.FC = () => {
                       className="template-library__icon-button"
                       onClick={() => setSelectedTemplate([])}
                     >
-                      <CSvgIcon component={ArrowUp} size={24} color="primary" />
+                      <CSvgIcon
+                        component={ArrowUp}
+                        size={24}
+                        color="primary"
+                      />
                     </CIconButton>
                   </Box>
                   <Box className="template-library__sub-text">
@@ -243,7 +257,11 @@ const TemplateLibrary: React.FC = () => {
                     />
                   </CIconButton>
                   <CIconButton variant="outline">
-                    <CSvgIcon component={Delete} size={22} color="violation" />
+                    <CSvgIcon
+                      component={Delete}
+                      size={22}
+                      color="violation"
+                    />
                   </CIconButton>
                 </Box>
               </Box>
@@ -265,13 +283,20 @@ const TemplateLibrary: React.FC = () => {
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <CSvgIcon component={Search} size={20} />
+                          <CSvgIcon
+                            component={Search}
+                            size={20}
+                          />
                         </InputAdornment>
                       ),
                     }}
                   />
                 </Box>
-                <Stack direction={"row"} alignItems="center" gap="12px">
+                <Stack
+                  direction={"row"}
+                  alignItems="center"
+                  gap="12px"
+                >
                   <Box className="ws-nowrap">
                     <CButton
                       severity="primary"
@@ -286,13 +311,19 @@ const TemplateLibrary: React.FC = () => {
                     onClick={handleImportPopupOpen}
                     variant="outline"
                   >
-                    <CSvgIcon component={Upload} size={20} />
+                    <CSvgIcon
+                      component={Upload}
+                      size={20}
+                    />
                   </CIconButton>
                   <CIconButton
                     onClick={(event) => handleExportMenuOpen(event)}
                     variant="outline"
                   >
-                    <CSvgIcon component={MoreOption} size={20} />
+                    <CSvgIcon
+                      component={MoreOption}
+                      size={20}
+                    />
                   </CIconButton>
                 </Stack>
               </Box>
@@ -349,7 +380,7 @@ const TemplateLibrary: React.FC = () => {
             paginationData={paginationData}
             setTableData={
               setTableData as (
-                value: PaginatedResponse<TemplateType | ReportType>,
+                value: PaginatedResponse<TemplateType | ReportType>
               ) => void
             }
             setIsTableDataLoading={setIsTableDataLoading}
@@ -367,7 +398,11 @@ const TemplateLibrary: React.FC = () => {
           >
             <ModalBody>
               <Box className="template-library__import-modal">
-                <CSvgIcon component={Excel} size={44} color="success" />
+                <CSvgIcon
+                  component={Excel}
+                  size={44}
+                  color="success"
+                />
                 <Box>{IMPORT_MODAL.description}</Box>
               </Box>
             </ModalBody>

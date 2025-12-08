@@ -12,7 +12,7 @@ import { SELECT } from "../constants";
 const sortOptions = (
   list: OptionType[],
   optionLabelKey: string,
-  sortDirection: SortType,
+  sortDirection: SortType
 ): OptionType[] => {
   return list.sort((firstOption, secondOption) => {
     const firstValue =
@@ -57,7 +57,7 @@ const CFilterSortToolbar: React.FC<{
             return option.toLowerCase().includes(filterValue);
           } else if (typeof option === "object" && option !== null) {
             return Object.values(option).some((value) =>
-              String(value).toLowerCase().includes(filterValue),
+              String(value).toLowerCase().includes(filterValue)
             );
           }
           return false;
@@ -85,7 +85,7 @@ const CFilterSortToolbar: React.FC<{
         const sortedOptions = sortOptions(
           [...options],
           optionFilterLabelKey,
-          sort,
+          sort
         );
         return sortedOptions;
       }
@@ -104,7 +104,7 @@ const CFilterSortToolbar: React.FC<{
       const sortedOptions = sortOptions(
         options,
         optionFilterLabelKey,
-        sortDirection,
+        sortDirection
       );
       setOptions(sortedOptions);
     }
@@ -119,10 +119,13 @@ const CFilterSortToolbar: React.FC<{
    */
   const getSortIcon = (
     sort: SortType | null,
-    handleSortOptions: (e: React.MouseEvent<HTMLButtonElement>) => void,
+    handleSortOptions: (e: React.MouseEvent<HTMLButtonElement>) => void
   ) => {
     return (
-      <IconButton size="small" onClick={handleSortOptions}>
+      <IconButton
+        size="small"
+        onClick={handleSortOptions}
+      >
         <CSvgIcon
           component={sort === SORT_DIRECTION.ASCENDING ? ArrowUp : ArrowDown}
           size={16}

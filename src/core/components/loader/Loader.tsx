@@ -10,7 +10,10 @@ interface LoaderProps {
 const CLoader: React.FC<LoaderProps> = ({ text = "Loading..." }) => {
   return (
     <Box className="loader__wrapper">
-      <CircularProgress className="loader__spinner" size="6rem" />
+      <CircularProgress
+        className="loader__spinner"
+        size="6rem"
+      />
       <Box className="loader__text">{text}</Box>
     </Box>
   );

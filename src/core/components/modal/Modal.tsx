@@ -120,7 +120,7 @@ export const ModalFooter: React.FC<ModalActionProps> = ({
 const hasCustomHeader = (children: ReactNode): boolean => {
   const arr = React.Children.toArray(children);
   return arr.some(
-    (child) => React.isValidElement(child) && child.type === ModalHeader,
+    (child) => React.isValidElement(child) && child.type === ModalHeader
   );
 };
 
@@ -132,7 +132,7 @@ const hasCustomHeader = (children: ReactNode): boolean => {
 const hasCustomFooter = (children: ReactNode): boolean => {
   const arr = React.Children.toArray(children);
   return arr.some(
-    (child) => React.isValidElement(child) && child.type === ModalFooter,
+    (child) => React.isValidElement(child) && child.type === ModalFooter
   );
 };
 
@@ -171,8 +171,15 @@ const CModal: React.FC<ModalProps> = ({
         {title && !hasCustomHeader(children) && (
           <Box className={clsx({ "common-modal__content-header": true })}>
             <Box className="common-modal__content-header-title">{title}</Box>
-            <CIconButton disableHover={true} onClick={onClose}>
-              <CSvgIcon component={Close} size={32} color="secondary" />
+            <CIconButton
+              disableHover={true}
+              onClick={onClose}
+            >
+              <CSvgIcon
+                component={Close}
+                size={32}
+                color="secondary"
+              />
             </CIconButton>
           </Box>
         )}

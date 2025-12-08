@@ -13,13 +13,13 @@ import { AUTOCOMPLETE_CONSTANTS } from "@/core/constants/autocomplete";
 import "./AutoComplete.scss";
 
 const flattenOptions = (
-  options: AutoCompleteOptionProps[],
+  options: AutoCompleteOptionProps[]
 ): AutoCompleteOptionProps[] => {
   const result: AutoCompleteOptionProps[] = [];
   options.forEach((opt) => {
     if (opt.options) {
       result.push(
-        ...opt.options.map((child) => ({ ...child, groupLabel: opt.label })),
+        ...opt.options.map((child) => ({ ...child, groupLabel: opt.label }))
       );
     } else {
       result.push(opt);
@@ -86,13 +86,13 @@ export default function CAutocomplete({
       acc[key].push(opt);
       return acc;
     },
-    {},
+    {}
   );
 
   // Create a stable unique ID for this input.
   // useRef is used so the ID doesn't change on every render.
   const uniqId = useRef(
-    `auto-complete-${Math.random().toString(36).substr(2, 9)}`,
+    `auto-complete-${Math.random().toString(36).substr(2, 9)}`
   );
 
   useEffect(() => {
@@ -110,8 +110,14 @@ export default function CAutocomplete({
   }, [value]); // Runs whenever the auto-complete `value` updates
 
   return (
-    <div className="auto-complete" {...getRootProps()}>
-      <label className="auto-complete__label" {...getInputLabelProps()}>
+    <div
+      className="auto-complete"
+      {...getRootProps()}
+    >
+      <label
+        className="auto-complete__label"
+        {...getInputLabelProps()}
+      >
         {label}
       </label>
 
@@ -124,13 +130,21 @@ export default function CAutocomplete({
           selectedValues?.map((option, index) => {
             const tagProps = getTagProps({ index });
             return (
-              <div key={index} className="auto-complete__tag" {...tagProps}>
+              <div
+                key={index}
+                className="auto-complete__tag"
+                {...tagProps}
+              >
                 <span>{option.label}</span>
                 <Box
                   className="auto-complete__tag-img-container"
                   onClick={tagProps.onDelete}
                 >
-                  <CSvgIcon component={Close} size={16} color="primary" />
+                  <CSvgIcon
+                    component={Close}
+                    size={16}
+                    color="primary"
+                  />
                 </Box>
               </div>
             );
@@ -148,8 +162,15 @@ export default function CAutocomplete({
       </div>
 
       {groupedOptions.length > 0 && (
-        <Popper open placement="bottom-start" anchorEl={anchorEl}>
-          <ul className="auto-complete__listbox" {...getListboxProps()}>
+        <Popper
+          open
+          placement="bottom-start"
+          anchorEl={anchorEl}
+        >
+          <ul
+            className="auto-complete__listbox"
+            {...getListboxProps()}
+          >
             {Object.entries(groupedByParent).map(([group, groupOptions]) => (
               <Fragment key={group}>
                 {group !== AUTOCOMPLETE_CONSTANTS.ungrouped && (
@@ -166,7 +187,10 @@ export default function CAutocomplete({
                     index,
                   });
                   return (
-                    <li key={key} {...optionProps}>
+                    <li
+                      key={key}
+                      {...optionProps}
+                    >
                       <Typography className="auto-complete__group-label">
                         {option.label}
                       </Typography>

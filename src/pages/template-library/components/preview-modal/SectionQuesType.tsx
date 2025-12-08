@@ -34,7 +34,10 @@ const RenderSection: React.FC<RenderSectionProps> = ({
 
   return (
     <div className="question-accordion">
-      <Accordion expanded={expanded} className="question-accordion__wrapper">
+      <Accordion
+        expanded={expanded}
+        className="question-accordion__wrapper"
+      >
         <MuiAccordionSummary
           expandIcon={
             <Box className="question-accordion__header-wrapper">
@@ -81,8 +84,8 @@ const RenderSection: React.FC<RenderSectionProps> = ({
               item,
               `${parentIndex}${index + 1}`,
               isDesktopPreview,
-              templateBaseType,
-            ),
+              templateBaseType
+            )
           )}
         </AccordionDetails>
       </Accordion>

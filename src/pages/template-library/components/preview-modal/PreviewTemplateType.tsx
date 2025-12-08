@@ -89,7 +89,7 @@ const renderQuestionTitle = (
   question,
   index,
   isQuestionTagsVisible,
-  isDesktopPreview,
+  isDesktopPreview
 ) => {
   const isQuesMandatory = question?.isMandatory;
   return (
@@ -101,7 +101,10 @@ const renderQuestionTitle = (
     >
       <Box>
         {isQuesMandatory && (
-          <Typography component="span" className="question-item__required">
+          <Typography
+            component="span"
+            className="question-item__required"
+          >
             *
           </Typography>
         )}
@@ -109,7 +112,11 @@ const renderQuestionTitle = (
       </Box>
       {isQuestionTagsVisible && (
         <Box className="template-preview-modal__tags-wrapper">
-          <CSvgIcon component={BlockCode} size={16} color="secondary" />
+          <CSvgIcon
+            component={BlockCode}
+            size={16}
+            color="secondary"
+          />
           <Box>{question?.tags}</Box>
         </Box>
       )}
@@ -128,7 +135,7 @@ export const renderChecklistComponent = (
   question,
   index,
   isDesktopPreview,
-  templateType,
+  templateType
 ) => {
   return (
     <Box
@@ -152,7 +159,7 @@ export const renderChecklistComponent = (
               question,
               index,
               question.questionType === QUESTION_TYPES.LABEL.value,
-              isDesktopPreview,
+              isDesktopPreview
             )}
           {renderAnswer(question, isDesktopPreview, templateType)}
         </>
@@ -173,9 +180,17 @@ export const renderFormContainer = (question, type) => {
     <Box className="template-preview-modal__form-wrapper">
       <Box className="template-preview-modal__form-title">
         {type === TEMPLATE_TYPE.FORM ? (
-          <CSvgIcon component={Pdf} size={26} color="violation" />
+          <CSvgIcon
+            component={Pdf}
+            size={26}
+            color="violation"
+          />
         ) : (
-          <CSvgIcon component={Excel} size={26} color="success" />
+          <CSvgIcon
+            component={Excel}
+            size={26}
+            color="success"
+          />
         )}
         <Box>
           <Box>{question.fileName}</Box>
@@ -188,7 +203,10 @@ export const renderFormContainer = (question, type) => {
         variant="outline"
         className="template-preview-modal__download-icon"
       >
-        <CSvgIcon component={Download} size={18} />
+        <CSvgIcon
+          component={Download}
+          size={18}
+        />
       </CIconButton>
     </Box>
   );
@@ -221,7 +239,7 @@ const gridHeader = (list) => (
 export const renderGridContainer = (
   quesData,
   isDesktopPreview,
-  templateType,
+  templateType
 ) => {
   return (
     <TableContainer>
@@ -242,11 +260,14 @@ export const renderGridContainer = (
                     question,
                     `${index + 1}.`,
                     question.type === QUESTION_TYPES.LABEL.value,
-                    isDesktopPreview,
+                    isDesktopPreview
                   )}
                 </TableCell>
                 {quesData?.columns?.map((col, colIdx) => (
-                  <TableCell data-label={col?.qcontent} key={colIdx}>
+                  <TableCell
+                    data-label={col?.qcontent}
+                    key={colIdx}
+                  >
                     {renderAnswer(question, isDesktopPreview, templateType)}
                   </TableCell>
                 ))}

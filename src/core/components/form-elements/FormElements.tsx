@@ -201,7 +201,11 @@ export const CDropdown: React.FC<DropdownProps> = ({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="end">
-                  <CSvgIcon component={Search} size={20} color="secondary" />
+                  <CSvgIcon
+                    component={Search}
+                    size={20}
+                    color="secondary"
+                  />
                 </InputAdornment>
               ),
             }}
