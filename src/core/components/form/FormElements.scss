@@ -1,14 +1,14 @@
+/* TODO: Components in this file will be removed and shared form-element fields will be used */
 @use "@/styles/mixins/mixins.scss" as *;
 
-.shared-textfield {
+.c-textfield {
   @include flex-box(column);
 
   &__label {
-    @include form-label-text;
+    @include form-label;
 
-    &--required::after {
-      content: " *";
-      color: var(--logile-text-state-violation);
+    &--required {
+      @include form-label($required: true);
     }
   }
 
@@ -29,14 +29,14 @@
   }
 }
 
-.shared-dropdown {
+.c-dropdown {
   @include flex-box(column);
   --common-dropdown-height: 36px;
 
   &__label {
-    @include form-label-text;
+    @include form-label;
   }
-  &__label-required.shared-dropdown__label-required::after {
+  &__label-required.c-dropdown__label-required::after {
     content: " *";
     color: var(--logile-text-state-violation);
   }
@@ -63,7 +63,7 @@
 }
 
 /* Dropdown options styling*/
-div.MuiMenu-paper.shared-dropdown__menu-paper {
+div.MuiMenu-paper.c-dropdown__menu-paper {
   --menu-paper-height: 500px;
   --menu-max-height: 600px;
 
@@ -92,7 +92,7 @@ div.MuiMenu-paper.shared-dropdown__menu-paper {
   }
 }
 
-#shared-dropdown__menu-paper--search-field {
+#c-dropdown__menu-paper--search-field {
   background: none;
   .MuiInputBase-root {
     padding: var(--space-m);

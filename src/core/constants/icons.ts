@@ -100,6 +100,11 @@ export { default as CircleCheckFilled } from "@/assets/icons/alert/circle-check-
 export { default as CheckboxEmpty } from "@/assets/icons/common-icons/checkbox.svg?react";
 export { default as CheckboxChecked } from "@/assets/icons/common-icons/checkbox-checked.svg?react";
 export { default as ChevronRightIconFilled } from "@/assets/icons/arrow/circle-chevron-right-filled.svg?react";
+export { default as GenericCheckboxBlank } from "@/assets/icons/common-icons/generic-checkbox.svg?react";
+export { default as GenericCheckboxChecked } from "@/assets/icons/common-icons/generic-checkbox-checked.svg?react";
+export { default as GenericCheckboxIntermediate } from "@/assets/icons/common-icons/generic-checkbox-intermediate.svg?react";
+export { default as GenericRadioUnchecked } from "@/assets/icons/common-icons/generic-radio-unchecked.svg?react";
+export { default as GenericRadioChecked } from "@/assets/icons/common-icons/generic-radio-checked.svg?react";
 
 export type IconName =
   | "AddIcon"
@@ -138,6 +143,11 @@ export type IconName =
   | "FoodSafety"
   | "Forecast"
   | "Globe"
+  | "GenericCheckboxChecked"
+  | "GenericCheckboxBlank"
+  | "GenericCheckboxIntermediate"
+  | "GenericRadioChecked"
+  | "GenericRadioUnchecked"
   | "Hamburger"
   | "History"
   | "Home"

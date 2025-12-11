@@ -1,3 +1,4 @@
+/* TODO: Components in this file will be removed and shared form-element fields will be used */
 import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
@@ -36,12 +37,12 @@ export const CTextField: React.FC<TextFieldProps> = ({
 }) => {
   const inputId = useRef(uuidv4()).current;
   return (
-    <Box className="shared-textfield">
+    <Box className="c-textfield">
       <label
         htmlFor={inputId}
         className={clsx({
-          "shared-textfield__label": true,
-          "shared-textfield__label--required": isRequired,
+          "c-textfield__label": true,
+          "c-textfield__label--required": isRequired,
         })}
       >
         {label}
@@ -49,7 +50,7 @@ export const CTextField: React.FC<TextFieldProps> = ({
       <TextField
         id={inputId}
         size="small"
-        className="shared-textfield__input-field"
+        className="c-textfield__input-field"
         sx={{ width: width ? `${width}px` : "100%" }}
         {...props}
       />
@@ -77,12 +78,12 @@ export const CTextArea: React.FC<TextAreaProps> = ({
 }) => {
   const inputId = useRef(uuidv4()).current;
   return (
-    <Box className="shared-textfield">
+    <Box className="c-textfield">
       <label
         htmlFor={inputId}
         className={clsx({
-          "shared-textfield__label": true,
-          "shared-textfield__label--required": isRequired,
+          "c-textfield__label": true,
+          "c-textfield__label--required": isRequired,
         })}
       >
         {label}
@@ -90,7 +91,7 @@ export const CTextArea: React.FC<TextAreaProps> = ({
       <TextField
         id={inputId}
         size="small"
-        className="shared-textfield__input-field"
+        className="c-textfield__input-field"
         multiline={true}
         sx={{ width: width ? `${width}px` : "100%" }}
         rows={rows}
@@ -145,12 +146,12 @@ export const CDropdown: React.FC<DropdownProps> = ({
   }, [search, options]);
 
   return (
-    <Box className="shared-dropdown">
+    <Box className="c-dropdown">
       <label
         htmlFor={inputId}
         className={clsx({
-          "shared-dropdown__label": true,
-          "shared-dropdown__label-required": isRequired,
+          "c-dropdown__label": true,
+          "c-dropdown__label-required": isRequired,
         })}
       >
         {label}
@@ -160,7 +161,7 @@ export const CDropdown: React.FC<DropdownProps> = ({
         size="small"
         displayEmpty
         value={value}
-        className={clsx({ "shared-dropdown__input-field": true })}
+        className={clsx({ "c-dropdown__input-field": true })}
         sx={{ width: width ? `${width}px` : "100%" }}
         IconComponent={() => (
           <CSvgIcon
@@ -172,22 +173,20 @@ export const CDropdown: React.FC<DropdownProps> = ({
         MenuProps={{
           classes: {
             paper: clsx({
-              "shared-dropdown__menu-paper": true,
+              "c-dropdown__menu-paper": true,
               [menuClassName]: true,
             }),
           },
         }}
         renderValue={(selected) => {
           if (selected === "") {
-            return (
-              <Box className="shared-dropdown__placeholder">{placeholder}</Box>
-            );
+            return <Box className="c-dropdown__placeholder">{placeholder}</Box>;
           }
         }}
         {...props}
       >
         <MenuItem
-          id="shared-dropdown__menu-paper--search-field"
+          id="c-dropdown__menu-paper--search-field"
           onKeyDown={(e) => e.stopPropagation()}
         >
           <TextField
@@ -196,7 +195,7 @@ export const CDropdown: React.FC<DropdownProps> = ({
             onChange={handleFilter}
             onClick={(e) => e.stopPropagation()}
             size="small"
-            className="shared-dropdown__textfield"
+            className="c-dropdown__textfield"
             placeholder={"Search..."}
             InputProps={{
               startAdornment: (

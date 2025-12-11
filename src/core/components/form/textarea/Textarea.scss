@@ -1,0 +1,40 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.textarea {
+  display: flex;
+  flex-direction: column;
+
+  .MuiOutlinedInput-root {
+    min-height: var(--height-input);
+    border-radius: var(--radius-s);
+    padding: 0 var(--space-m);
+  }
+  .MuiOutlinedInput-input {
+    font-size: var(--logile-size-body);
+    padding: 0;
+  }
+  svg {
+    height: var(--size-input-svg);
+    width: var(--size-input-svg);
+  }
+  .MuiFormHelperText-root {
+    margin: var(--space-xs) var(--space-m);
+    font-size: var(--logile-size-caption-large);
+    font-weight: var(--logile-weight-400);
+    line-height: var(--line-height-caption-large);
+  }
+
+  &__label {
+    @include form-label;
+    &--row {
+      flex-direction: row;
+      align-items: center;
+    }
+    &--error {
+      @include form-label($required: false, $error: true);
+    }
+    &--required {
+      @include form-label($required: true);
+    }
+  }
+}

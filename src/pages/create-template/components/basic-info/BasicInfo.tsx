@@ -1,10 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-import {
-  CDropdown,
-  CTextField,
-} from "@/core/components/form-elements/FormElements";
+import { CDropdown, CTextField } from "@/core/components/form/FormElements";
 import { ChevronRight } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
 import clsx from "@/utils/clsx";

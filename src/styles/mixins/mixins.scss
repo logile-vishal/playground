@@ -19,10 +19,30 @@
   flex-direction: $direction;
 }
 
-@mixin form-label-text {
-  width: fit-content;
-  color: var(--logile-text-secondary);
-  font-size: var(--logile-size-secondary-text);
-  font-weight: var(--logile-weight-400);
-  line-height: var(--logile-line-height-body-large);
+@mixin form-label($required: false, $error: false, $isClickable: false) {
+  @if $required == true {
+    &::after {
+      content: "*";
+      position: absolute;
+      color: var(--logile-text-state-violation);
+    }
+  } @else {
+    width: fit-content;
+    position: relative;
+    font-size: var(--logile-size-secondary-text);
+    font-weight: var(--logile-weight-400);
+    line-height: var(--logile-line-height-secondary-text);
+    flex-shrink: 0;
+    color: var(--logile-text-primary);
+
+    @if $isClickable == true {
+      cursor: pointer;
+      font-size: var(--logile-size-body);
+      line-height: var(--logile-line-height-body);
+    }
+
+    @if $error == true {
+      color: var(--logile-text-state-violation);
+    }
+  }
 }

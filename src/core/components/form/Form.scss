@@ -1,0 +1,24 @@
+:root {
+  --height-radio: 20px;
+  --height-checkbox: 20px;
+  --height-input: 36px;
+  --size-input-svg: 18px;
+
+  .radio {
+    &--medium {
+      --height-radio: 18px;
+    }
+    &--small {
+      --height-radio: 16px;
+    }
+  }
+
+  .checkbox {
+    &--medium {
+      --height-checkbox: 18px;
+    }
+    &--small {
+      --height-checkbox: 16px;
+    }
+  }
+}

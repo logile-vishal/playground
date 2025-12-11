@@ -1,0 +1,24 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.radio {
+  @include flex-center(flex-start, center, var(--space-m));
+  .MuiRadio-root {
+    height: var(--height-radio);
+    width: var(--height-radio);
+    padding: 0;
+  }
+
+  flex-direction: row;
+  width: fit-content;
+  gap: var(--space-m);
+
+  &--label-start {
+    flex-direction: row-reverse;
+  }
+  &__label {
+    @include form-label($isClickable: true);
+    &--required {
+      @include form-label($required: true);
+    }
+  }
+}

@@ -1,0 +1,26 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.checkbox {
+  .MuiCheckbox-root {
+    height: var(--height-checkbox);
+    width: var(--height-checkbox);
+    padding: 0;
+  }
+  @include flex-center(flex-start, center, var(--space-m));
+  width: fit-content;
+
+  &--label-start {
+    flex-direction: row-reverse;
+  }
+
+  &--label-end {
+    flex-direction: row;
+  }
+
+  &__label {
+    @include form-label($isClickable: true);
+    &--required {
+      @include form-label($required: true);
+    }
+  }
+}
