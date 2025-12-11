@@ -65,11 +65,10 @@
 /* Dropdown options styling*/
 div.MuiMenu-paper.c-dropdown__menu-paper {
   --menu-paper-height: 500px;
-  --menu-max-height: 600px;
 
   overflow-y: auto;
   padding: var(--space-xs);
-  max-height: var(--menu-max-height);
+  max-height: var(--dropdown-menu-max-height);
 
   .MuiList-root {
     padding: 0;

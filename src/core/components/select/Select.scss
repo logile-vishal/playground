@@ -23,7 +23,7 @@
   }
   & .MuiMenu-list {
     padding: 0;
-    max-height: 408px; //TODO: Assign variable height once design team updates
+    max-height: var(--dropdown-menu-max-height);
     overflow-y: auto;
   }
 

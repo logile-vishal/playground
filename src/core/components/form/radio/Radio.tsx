@@ -5,8 +5,8 @@ import {
   GenericRadioChecked,
   GenericRadioUnchecked,
 } from "@/core/constants/icons";
+import CSvgIcon from "@/core/components/icon/Icon";
 import { isNonEmptyValue } from "@/utils";
-import SvgIcon from "@/core/components/icon/Icon";
 
 import type {
   LabelPlacement,
@@ -101,8 +101,8 @@ const CRadio = ({
         checked={checked}
         disabled={disabled}
         required={required}
-        icon={<SvgIcon component={GenericRadioUnchecked} />}
-        checkedIcon={<SvgIcon component={GenericRadioChecked} />}
+        icon={<CSvgIcon component={GenericRadioUnchecked} />}
+        checkedIcon={<CSvgIcon component={GenericRadioChecked} />}
         sx={{
           "& .MuiSvgIcon-root": {
             ...styles.icon,
