@@ -1,0 +1,107 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.nested-menu {
+  .MuiPaper-root,
+  .MuiPaper-root-MuiPopover-paper {
+    // used to override the mui paper and popover paper
+    border-radius: var(--radius-m);
+    overflow-y: auto;
+    border: 1px solid var(--logile-border-secondary);
+    max-height: var(--dropdown-menu-max-height);
+  }
+
+  &__filter {
+    padding: 0 var(--space-m);
+    margin-bottom: var(--space-m);
+  }
+
+  &__item {
+    cursor: pointer;
+    height: fit-content;
+    &.MuiButtonBase-root.MuiMenuItem-root {
+      padding: 0 var(--space-m);
+      min-height: max-content;
+      &:hover {
+        background: transparent;
+      }
+    }
+    &-content-wrapper {
+      flex: 1;
+      padding: var(--space-m) 0;
+      border-radius: var(--radius-s);
+
+      &:hover {
+        background: var(--logile-bg-primary-x-subtle);
+      }
+      &--selected {
+        color: var(--logile-text-brand-primary-dark-mode-alt);
+        font-weight: var(--weight-500);
+        background: var(--logile-bg-primary-x-subtle);
+      }
+    }
+    &-content {
+      display: flex;
+      align-items: space-between;
+      justify-content: start;
+      padding: 0 var(--space-s);
+      gap: var(--space-m);
+
+      &-left-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--space-m);
+      }
+      &-label {
+        font-size: var(--logile-size-body);
+        color: var(--logile-text-primary);
+        margin-right: auto;
+        &--selected {
+          color: var(--logile-text-brand-primary-dark-mode-alt);
+          font-weight: var(--weight-500);
+        }
+      }
+    }
+    &-path {
+      font-size: var(--logile-size-secondary-text);
+      color: var(--logile-text-tertiary);
+      white-space: normal;
+      overflow-wrap: break-word;
+    }
+  }
+
+  &__item-filter-wrapper {
+    @include flex-center(center, flex-start, var(--space-xxs));
+    flex-direction: row;
+    gap: var(--space-m);
+  }
+
+  &__item-chevron {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    & > svg {
+      fill: var(--logile-icon-secondary);
+    }
+  }
+
+  &__submenu-header {
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-xs);
+    border-bottom: 1px solid #eee;
+    &--clickable {
+      cursor: pointer;
+    }
+  }
+}
+
+.nested-menu__custom-popover {
+  .MuiPaper-root,
+  .MuiPaper-root-MuiPopover-paper {
+    // used to override the mui paper and popover paper
+    border-radius: var(--radius-m);
+    overflow-y: auto;
+    border: 1px solid var(--logile-border-secondary);
+    max-height: var(--dropdown-menu-max-height);
+  }
+}

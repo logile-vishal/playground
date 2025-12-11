@@ -7,7 +7,7 @@ import CFilterSortToolbar from "./components/FilterSortToolbar";
 import StyledMuiSelect from "./components/StyledSelect";
 import StyledMenuItem from "./components/StyledMenuItem";
 import type { OptionType } from "./types";
-import "./SharedSelect.scss";
+import "./Select.scss";
 
 type SelectProps = MuiSelectProps & {
   options: OptionType[];

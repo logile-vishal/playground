@@ -12,7 +12,7 @@ import {
   CHECKBOX_SIZE,
   CHECKBOX_STATE,
 } from "@/core/components/form/constants/checkbox";
-import SvgIcon from "@/core/components/icon/Icon";
+import CSvgIcon from "@/core/components/icon/Icon";
 
 import { checkboxPalette } from "./checkbox.palette";
 import "./Checkbox.scss";
@@ -100,9 +100,9 @@ const CCheckbox = ({
         id={checkboxId}
         disableRipple
         disabled={disabled}
-        icon={<SvgIcon component={GenericCheckboxBlank} />}
-        checkedIcon={<SvgIcon component={GenericCheckboxChecked} />}
-        indeterminateIcon={<SvgIcon component={GenericCheckboxIntermediate} />}
+        icon={<CSvgIcon component={GenericCheckboxBlank} />}
+        checkedIcon={<CSvgIcon component={GenericCheckboxChecked} />}
+        indeterminateIcon={<CSvgIcon component={GenericCheckboxIntermediate} />}
         required={required}
         size={size}
         sx={{

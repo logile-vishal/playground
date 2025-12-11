@@ -17,11 +17,12 @@ import {
   UserStar,
   Signout,
 } from "@/core/constants/icons";
+import { renderMacTruncate } from "@/utils/mac-truncate";
 
 import "./UserProfile.scss";
 
 type UserProfileInfoCardProps = {
-  user: { name: React.ReactNode; role: string; avatar: string };
+  user: { name: string; role: string; avatar: string };
 };
 
 const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
@@ -51,7 +52,9 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           className="card-avatar"
         />
         <div className="card-info">
-          <Typography className="card-info__name">{user.name}</Typography>
+          <Typography className="card-info__name">
+            {renderMacTruncate(user?.name || "User", 4, 150)}
+          </Typography>
           <Typography className="card-info__role">{user.role}</Typography>
         </div>
         <div className="card-dropdown-icon">

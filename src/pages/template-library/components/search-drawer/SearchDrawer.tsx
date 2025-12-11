@@ -23,7 +23,7 @@ import {
 } from "@/core/constants/icons";
 import CMultiSelect from "@/core/components/multi-select/MultiSelect";
 import CSvgIcon from "@/core/components/icon/Icon";
-import CSelect from "@/core/components/select/SharedSelect";
+import CSelect from "@/core/components/select/Select";
 
 import {
   useFilterTemplates,
