@@ -20,11 +20,12 @@ import {
   Notification,
   Search,
 } from "@/core/constants/icons";
+import { useAuth } from "@/core/services/auth.service";
+import { renderMacTruncate } from "@/utils/mac-truncate";
 
 import UserProfileInfoCard from "./components/user-profile/UserProfileInfoCard";
 import NavSearchBar from "./components/search-bar/SearchBar";
 import "./AppBar.scss";
-import { useAuth } from "@/core/services/auth.service";
 
 type AppBarProps = {
   handleToggleMenu: () => void;
@@ -186,7 +187,7 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
         {/* User Profile Section */}
         <UserProfileInfoCard
           user={{
-            name: user?.userName || "User",
+            name: renderMacTruncate(user?.userName || "User", 4, 150),
             role: user?.positionName,
             avatar: navAvatarPng,
           }}

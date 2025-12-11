@@ -21,7 +21,7 @@ import {
 import "./UserProfile.scss";
 
 type UserProfileInfoCardProps = {
-  user: { name: string; role: string; avatar: string };
+  user: { name: React.ReactNode; role: string; avatar: string };
 };
 
 const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
