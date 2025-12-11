@@ -1,6 +1,6 @@
 import type { DirectResponse } from "@/core/types/pagination.type";
-// import { get } from "@/core/services/http-base-service";
-// import { API_CONFIG } from "@/core/constants/api-config";
+import { get } from "@/core/services/http-base-service";
+import { API_CONFIG } from "@/core/constants/api-config";
 import {
   useQuery,
   useQueryClient,
@@ -9,13 +9,20 @@ import {
 import type { User } from "@/core/types/user.type";
 import { queryPersister } from "@/core/utils/query-persister";
 import { useEffect, useState } from "react";
+import { useNotification } from "@/core/services/notification.service";
+import { Severity } from "@/core/types/severity.type";
 
 // Create persister instance once, outside component
-const { getFromCache, saveToCache } = queryPersister();
+const { getFromCache, saveToCache } = queryPersister({
+  key: "user-cache",
+  expiryKey: "user-cache-expiry",
+  maxAge: 1000 * 60 * 60 * 24, // 24 hours
+});
 
 export const useUser = (): UseQueryResult<User> & {
   isLoadingCache: boolean;
 } => {
+  const { notify } = useNotification();
   const queryClient = useQueryClient();
   const [hasHydrated, setHasHydrated] = useState(false);
 
@@ -33,7 +40,7 @@ export const useUser = (): UseQueryResult<User> & {
   const queryResult = useQuery<User>({
     queryKey: ["me"],
     queryFn: async () => {
-      const { data } = await getUserDetails();
+      const { data } = await getUserDetails(notify);
       // Save to localStorage after successful fetch
       saveToCache(data);
       return data;
@@ -55,31 +62,18 @@ export const useUser = (): UseQueryResult<User> & {
  * @method getUserDetails
  * @description fetch user details
  */
-export const getUserDetails: () => Promise<DirectResponse<User>> = () => {
-  //   return get<DirectResponse<UserType>>(API_CONFIG.user.getUserDetails); // TODO: Uncomment this line when backend is ready
-
-  // Mocked response for demonstration
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        data: {
-          userId: 98765432101,
-          userName: "John Doe",
-          orgId: 45678912345,
-          orgName: "Deli Store - Downtown Branch",
-          orgType: "Retail",
-          orgLevelId: 2001,
-          orgLevelName: "Store Level",
-          positionId: 11223344556,
-          positionName: "Store Supervisor",
-          isAdmin: true,
-          parentPositionId: 99887766554,
-        },
-      });
-    }, 1000);
-
-    setTimeout(() => {
-      reject(new Error("Failed to fetch user details"));
-    }, 1000);
-  });
+export const getUserDetails: (notify) => Promise<DirectResponse<User>> = async (
+  notify
+) => {
+  try {
+    return await get<DirectResponse<User>>(API_CONFIG.user.getUserDetails);
+  } catch (error) {
+    notify({
+      title: "Error fetching user details",
+      config: {
+        severity: Severity.ERROR,
+      },
+    });
+    throw error;
+  }
 };

@@ -16,6 +16,7 @@ export const ProtectedRoute = ({
 }: ProtectedRouteProps) => {
   const { user, isLoading, isLoadingCache } = useAuth();
   const location = useLocation();
+
   const checkIfUserAllowed = () =>
     user && user.isAdmin && allowedRoles.includes("admin");
 

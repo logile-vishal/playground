@@ -6,7 +6,7 @@ import { SERVER_ERROR_CODES } from "@/core/constants/error-codes";
 
 const CUSTOM_HEADERS = {
   "Org-Id": "org_123",
-  "User-Id": "user_123",
+  "User-Id": 15393, // TODO: need to get it from old system
 };
 
 export const setInterceptor = (axiosInstance: AxiosInstance) => {

@@ -24,6 +24,7 @@ import {
 import UserProfileInfoCard from "./components/user-profile/UserProfileInfoCard";
 import NavSearchBar from "./components/search-bar/SearchBar";
 import "./AppBar.scss";
+import { useAuth } from "@/core/services/auth.service";
 
 type AppBarProps = {
   handleToggleMenu: () => void;
@@ -44,6 +45,7 @@ const MainMenu = styled(ButtonBase)(() => ({
 
 const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
   const { mode, toggleColorMode } = useContext(ThemeContext);
+  const { user } = useAuth();
 
   const handleThemeToggle = () => {
     toggleColorMode();
@@ -184,8 +186,8 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
         {/* User Profile Section */}
         <UserProfileInfoCard
           user={{
-            name: "Nathaniel Sheetz",
-            role: "Assoc. Vice President",
+            name: user?.userName || "User",
+            role: user?.positionName,
             avatar: navAvatarPng,
           }}
         />

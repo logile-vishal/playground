@@ -3,7 +3,7 @@ const baseURL = import.meta.env.VITE_API_BASE_URL;
 export const API_CONFIG = {
   user: {
     // User profile APIs
-    getUserDetails: `${baseURL}/users/me`,
+    getUserDetails: `${baseURL}/users`,
   },
   templateLibrary: {
     // Template Library APIs

@@ -47,7 +47,7 @@ const router = createHashRouter([
   {
     path: "/templates",
     element: (
-      <ProtectedRoute allowedRoles={["admin", "user"]}>
+      <ProtectedRoute allowedRoles={["admin"]}>
         <AppShell />
       </ProtectedRoute>
     ),

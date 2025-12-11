@@ -21,13 +21,13 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <DirtyFormProvider>
-            <NotificationContextProvider>
+        <NotificationContextProvider>
+          <AuthProvider>
+            <DirtyFormProvider>
               <App />
-            </NotificationContextProvider>
-          </DirtyFormProvider>
-        </AuthProvider>
+            </DirtyFormProvider>
+          </AuthProvider>
+        </NotificationContextProvider>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>

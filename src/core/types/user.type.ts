@@ -3,11 +3,9 @@ export type User = {
   userName: string;
   orgId: number;
   orgName: string;
-  orgType: string;
   orgLevelId: number;
   orgLevelName: string;
   positionId: number;
   positionName: string;
   isAdmin: boolean;
-  parentPositionId?: number;
 };
