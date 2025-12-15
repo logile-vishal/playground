@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Typography from "@mui/material/Typography";
 import { Badge, ButtonBase, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -8,14 +8,11 @@ import clientLogo from "@/assets/logile-logo.svg";
 import CIconButton from "@/core/components/button/IconButton";
 import navAvatarPng from "@/assets/navbar-avatar.png";
 import CSvgIcon from "@/core/components/icon/Icon";
-import { ThemeContext } from "@/theme-mui/ThemeContext";
 import {
   CalendarBlank,
   ClipboardToDo,
   Envelope,
   Hamburger,
-  Moon,
-  Sun,
   Comment,
   Notification,
   Search,
@@ -44,12 +41,7 @@ const MainMenu = styled(ButtonBase)(() => ({
 }));
 
 const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
-  const { mode, toggleColorMode } = useContext(ThemeContext);
   const { user } = useAuth();
-
-  const handleThemeToggle = () => {
-    toggleColorMode();
-  };
 
   const handleSearch = (value: string) => {
     console.log(value);
@@ -95,25 +87,6 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
       <div className="appbar__right-section">
         {/* Icons Section */}
         <Stack className="action-icons-box">
-          <CIconButton
-            variant="primary"
-            style={{ padding: "1rem" }}
-            onClick={handleThemeToggle}
-          >
-            {mode === "light" ? (
-              <CSvgIcon
-                component={Moon}
-                color="secondary"
-                size={18}
-              />
-            ) : (
-              <CSvgIcon
-                component={Sun}
-                color="warning"
-                size={20}
-              />
-            )}
-          </CIconButton>
           <CIconButton
             variant="primary"
             style={{

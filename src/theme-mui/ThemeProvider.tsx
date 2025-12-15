@@ -1,53 +1,80 @@
-// theme/ThemeProvider.tsx
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+  type ReactNode,
+} from "react";
 import {
   ThemeProvider as MuiThemeProvider,
   useMediaQuery,
 } from "@mui/material";
-import { getTheme } from "./theme";
+
 import type { ThemeMode } from "@/core/types/theme.type";
+import { THEME_MODES } from "@/core/constants/theme-mode";
+
+import { getMuiThemeObject } from "./theme";
 import { ThemeContext } from "./ThemeContext";
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const isDarkPrefered = useMediaQuery("(prefers-color-scheme: dark)");
+
   const [mode, setMode] = useState<ThemeMode>(
-    isDarkPrefered ? "dark" : "light"
-  );
-
-  useEffect(() => {
-    if (isDarkPrefered) {
-      setMode("dark");
-    }
-  }, [isDarkPrefered]);
-
-  const colorMode = useMemo(
-    () => ({
-      toggleColorMode: () =>
-        setMode((prevMode) => (prevMode === "light" ? "dark" : "light")),
-      mode,
-    }),
-    [mode]
+    isDarkPrefered ? THEME_MODES.DARK : THEME_MODES.LIGHT
   );
 
   /**
-   * @param themeMode = theme mode name e.g. dark,light etc..
-   *
-   * This method sets the data-theme attribute at the HTML Tag level
+   * @method updateThemeMode
+   * @param {ThemeMode} themeMode - The selected theme option.
+   * @description Updates the application theme mode based on the provided option.
+   * - When the user selects the system-preferred option, the theme mode is automatically matched to the system's light or dark setting.
+   * - When the user selects dark or light explicitly, the theme mode is set directly to the chosen value.
    */
-  const updateHtmlTheme = (themeMode: ThemeMode) => {
-    const htmlEle = document.querySelector("html");
-    htmlEle.setAttribute("data-theme", themeMode);
-  };
+  const updateThemeMode = useCallback(
+    (themeMode: ThemeMode) => {
+      if (themeMode === THEME_MODES.SYSTEM) {
+        setMode(isDarkPrefered ? THEME_MODES.DARK : THEME_MODES.LIGHT);
+      } else {
+        setMode(themeMode);
+      }
+    },
+    [isDarkPrefered] // deps
+  );
 
-  useEffect(() => updateHtmlTheme(mode), [mode]);
-  const theme = useMemo(() => getTheme(mode), [mode]);
+  useEffect(() => {
+    //TODO: replace this with a controlled method to update theme when app is able to fetch saved data of user from database
+    if (isDarkPrefered) {
+      setMode(THEME_MODES.DARK);
+    }
+  }, [isDarkPrefered]);
+
+  /**
+   * @method updateHtmlThemeAttr
+   * @param themeMode
+   * @description Updates the data-theme attribute with current theme mode value for html element to implement the theme
+   */
+  const updateHtmlThemeAttr = useCallback((themeMode: ThemeMode) => {
+    const htmlEle = document.documentElement;
+    htmlEle.setAttribute("data-theme", themeMode);
+  }, []);
+
+  useEffect(() => {
+    updateHtmlThemeAttr(mode);
+  }, [mode, updateHtmlThemeAttr]);
+
+  const theme = useMemo(() => getMuiThemeObject(mode), [mode]);
+
+  const themeProviderValue = useMemo(
+    () => ({
+      updateThemeMode,
+      mode,
+    }),
+    [updateThemeMode, mode]
+  );
 
   return (
-    <ThemeContext.Provider value={colorMode}>
-      <MuiThemeProvider theme={theme}>
-        {/* <CssBaseline /> */}
-        {children}
-      </MuiThemeProvider>
+    <ThemeContext.Provider value={themeProviderValue}>
+      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };

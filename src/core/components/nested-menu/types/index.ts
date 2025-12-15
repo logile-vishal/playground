@@ -13,6 +13,7 @@ export type NestedMenuItem = {
   labelStyleProps?: { color?: string; fontWeight?: number | string };
   pathArray?: string[];
   path?: string;
+  parentAsItem?: boolean;
 };
 export type PopupPosition = {
   anchorOrigin: {

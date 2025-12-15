@@ -63,3 +63,18 @@
     }
   }
 }
+.admin-mode-custom-menu {
+  padding: var(--space-m);
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--logile-size-secondary-text);
+    color: var(--logile-text-primary);
+    gap: var(--space-l);
+    padding: var(--space-m) var(--space-s);
+  }
+  .MuiPaper-root {
+    border: 1px solid var(--logile-border-tertiary);
+  }
+}

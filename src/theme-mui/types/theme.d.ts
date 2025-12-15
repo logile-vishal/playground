@@ -1,4 +1,7 @@
 import "@mui/material/styles";
+import { THEME_MODES } from "@/core/constants/theme-mode";
+
+type updateThemeModeArg = (typeof THEME_MODES)[keyof typeof THEME_MODES];
 
 declare module "@mui/material/styles" {
   interface Theme {
@@ -16,7 +19,7 @@ declare module "@mui/material/styles" {
   }
 
   interface ThemeContextType {
-    toggleColorMode: () => void;
+    updateThemeMode: (themeMode: updateThemeModeArg) => void;
     mode: ThemeMode;
   }
 }

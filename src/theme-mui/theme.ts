@@ -1,10 +1,11 @@
-// theme/theme.ts
-
 import { createTheme } from "@mui/material/styles";
+
+import type { ThemeMode } from "@/core/types/theme.type";
+
 import typography from "./typography";
 import { lightPalette, darkPalette } from "./palette";
 
-export const getTheme = (mode: "light" | "dark") =>
+export const getMuiThemeObject = (mode: ThemeMode) =>
   createTheme({
     breakpoints: {
       values: {

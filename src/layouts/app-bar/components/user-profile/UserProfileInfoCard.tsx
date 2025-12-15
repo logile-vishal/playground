@@ -1,25 +1,17 @@
-import React, { useRef, type Ref } from "react";
-import { ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
+import React, { useContext, useRef, type Ref } from "react";
+import { Typography } from "@mui/material";
 
 import CSvgIcon from "@/core/components/icon/Icon";
 import clsx from "@/utils/clsx";
-import {
-  ArrowDownFill,
-  ArrowUpFill,
-  Edit,
-  Focus,
-  Globe,
-  Theme,
-  User,
-  UserMinus,
-  Users,
-  UserSetting,
-  UserStar,
-  Signout,
-} from "@/core/constants/icons";
+import { ArrowDownFill, ArrowUpFill } from "@/core/constants/icons";
 import { renderMacTruncate } from "@/utils/mac-truncate";
+import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
+import { ThemeContext } from "@/theme-mui/ThemeContext";
+import type { NestedMenuItem } from "@/core/components/nested-menu/types";
+import type { ThemeMode } from "@/core/types/theme.type";
 
 import "./UserProfile.scss";
+import { adminMenuItemsList } from "./constants";
 
 type UserProfileInfoCardProps = {
   user: { name: string; role: string; avatar: string };
@@ -27,6 +19,7 @@ type UserProfileInfoCardProps = {
 
 const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const { updateThemeMode } = useContext(ThemeContext);
   const anchorEl = useRef<undefined | Ref<HTMLDivElement>>(undefined);
   const handleDropdownClick = (event: React.MouseEvent<HTMLDivElement>) => {
     anchorEl.current = event.currentTarget as unknown as Ref<HTMLDivElement>;
@@ -36,6 +29,14 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
     anchorEl.current = undefined;
     setIsDropdownOpen(false);
   };
+
+  const handleProfileMenuSelect = (menuItem: NestedMenuItem) => {
+    if (menuItem.value) {
+      updateThemeMode(menuItem.value as ThemeMode);
+    }
+    handleClose();
+  };
+
   return (
     <>
       <div
@@ -73,151 +74,18 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           )}
         </div>
       </div>
-      <Menu
-        className="user-profile-menu"
-        id="profile-menu"
-        elevation={0}
-        anchorEl={anchorEl.current as unknown as HTMLElement}
-        open={isDropdownOpen}
-        onClose={handleClose}
-        autoFocus={false}
-        slotProps={{
-          list: {
-            "aria-labelledby": "basic-button",
-          },
-        }}
-      >
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={User}
-              size={18}
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">Change Role</Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={Focus}
-              size={18}
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">Set Focus</Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={Users}
-              size={18}
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">User Profile</Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={Edit}
-              size={18}
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">Modify Dashboard</Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={UserMinus}
-              size={18}
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">Reduce Role</Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={UserSetting}
-              size={18}
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">User Management</Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={UserStar}
-              size={18}
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">Admin Mode</Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={Theme}
-              size={18}
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">Theme</Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={Globe}
-              size={18}
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">Language</Typography>
-        </MenuItem>
-
-        <MenuItem
-          onClick={handleClose}
-          className="user-profile-menu__option-item"
-        >
-          <ListItemIcon>
-            <CSvgIcon
-              component={Signout}
-              size={18}
-              color="violation"
-            />
-          </ListItemIcon>
-          <Typography className="menubar-heading">Logout</Typography>
-        </MenuItem>
-      </Menu>
+      {isDropdownOpen && (
+        <CNestedMenu
+          className="user-profile-menu"
+          onClose={handleClose}
+          anchorEl={anchorEl.current as unknown as HTMLElement}
+          menuItems={adminMenuItemsList}
+          subMenuPosition="left"
+          onMenuItemSelect={handleProfileMenuSelect}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+        />
+      )}
     </>
   );
 };

@@ -19,7 +19,7 @@
     cursor: pointer;
     height: fit-content;
     &.MuiButtonBase-root.MuiMenuItem-root {
-      padding: 0 var(--space-m);
+      padding: 0 var(--space-xs);
       min-height: max-content;
       &:hover {
         background: transparent;
@@ -27,7 +27,7 @@
     }
     &-content-wrapper {
       flex: 1;
-      padding: var(--space-m) 0;
+      padding: var(--space-m) var(--space-xl) var(--space-m) var(--space-m);
       border-radius: var(--radius-s);
 
       &:hover {
@@ -43,7 +43,6 @@
       display: flex;
       align-items: space-between;
       justify-content: start;
-      padding: 0 var(--space-s);
       gap: var(--space-m);
 
       &-left-icon {

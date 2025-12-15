@@ -184,6 +184,7 @@ const CNestedMenuItem = ({
           keepMounted={keepMounted}
           selectedItems={selectedItems}
           parentPath={currentPath}
+          parentItem={menuItemData}
           subMenuPosition={subMenuPosition}
           onMenuItemSelect={onSelect}
           onClick={handleOnClick}

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Menu, TextField } from "@mui/material";
 import type { TextFieldProps, PopoverProps } from "@mui/material";
 
@@ -21,11 +21,13 @@ type NestedMenuProps = {
   onMenuItemSelect?: (item: NestedMenuItem, fullPath: string) => void;
   keepMounted?: boolean;
   className?: string;
+  minMenuWidth?: string | number;
   slotProps?: {
     textField?: Partial<TextFieldProps>;
     popover?: Partial<PopoverProps>;
   };
   parentPath?: string[];
+  parentItem?: NestedMenuItem;
   subMenuPosition?: "left" | "right";
   anchorOrigin?: PopupPosition["anchorOrigin"];
   transformOrigin?: PopupPosition["transformOrigin"];
@@ -95,12 +97,22 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
   className,
   slotProps = {},
   parentPath = [],
+  parentItem,
+  minMenuWidth = 200,
   subMenuPosition = "right",
   anchorOrigin,
   transformOrigin,
   onMenuItemSelect,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (anchorEl) {
+      const rect = anchorEl.getBoundingClientRect();
+      setMenuWidth(rect.width);
+    }
+  }, [anchorEl]);
 
   const flattenedItems = useMemo(
     () => flattenMenuItems(menuItems, parentPath),
@@ -169,6 +181,14 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
       anchorOrigin={anchorOrigin}
       transformOrigin={transformOrigin}
       elevation={0}
+      slotProps={{
+        paper: {
+          style: {
+            width: menuWidth,
+            minWidth: minMenuWidth,
+          },
+        },
+      }}
       className={clsx({
         "nested-menu": true,
         [className || ""]: !!className,
@@ -194,8 +214,8 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
         </div>
       )}
 
-      {/* Parent heading in submenu */}
-      {level > 0 && parentPath.length > 0 && (
+      {/* Parent heading in submenu if parentAsItem is true */}
+      {level > 0 && parentItem?.parentAsItem && parentPath.length > 0 && (
         <div className="nested-menu__submenu-header">
           <CNestedMenuItem
             menuItemData={{
