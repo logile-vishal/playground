@@ -1,11 +1,8 @@
 import { createTheme } from "@mui/material/styles";
 
-import type { ThemeMode } from "@/core/types/theme.type";
-
 import typography from "./typography";
-import { lightPalette, darkPalette } from "./palette";
 
-export const getMuiThemeObject = (mode: ThemeMode) =>
+export const getMuiThemeObject = () =>
   createTheme({
     breakpoints: {
       values: {
@@ -16,7 +13,6 @@ export const getMuiThemeObject = (mode: ThemeMode) =>
         xl: 2560,
       },
     },
-    palette: mode === "light" ? lightPalette : darkPalette,
     typography,
     shape: {
       borderRadius: 8,
@@ -33,6 +29,14 @@ export const getMuiThemeObject = (mode: ThemeMode) =>
         styleOverrides: {
           root: {
             zIndex: 2000,
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "var(--logile-bg-container-1)",
+            color: "var(--logile-text-primary)",
           },
         },
       },

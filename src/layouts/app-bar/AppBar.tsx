@@ -4,7 +4,6 @@ import { Badge, ButtonBase, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { defaultConstants } from "@/core/constants/app-constants";
-import clientLogo from "@/assets/logile-logo.svg";
 import CIconButton from "@/core/components/button/IconButton";
 import navAvatarPng from "@/assets/navbar-avatar.png";
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -16,6 +15,7 @@ import {
   Comment,
   Notification,
   Search,
+  ClientLogo,
 } from "@/core/constants/icons";
 import { useAuth } from "@/core/services/auth.service";
 
@@ -59,16 +59,13 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
         </MainMenu>
 
         <div className="appbar__logo-box">
-          <img src={clientLogo} />
-          <Typography
-            sx={(theme) => ({
-              color: theme.palette.primary.main,
-              marginLeft: ".8rem",
-              fontSize: "1.5rem",
-              fontWeight: "var(--logile-weight-500)",
-              lineHeight: "2rem",
-            })}
-          >
+          <div>
+            <CSvgIcon
+              component={ClientLogo}
+              className="appbar__logo-box--logo"
+            />
+          </div>
+          <Typography className="appbar__logo-box--text">
             {defaultConstants.appAbbr}
           </Typography>
         </div>

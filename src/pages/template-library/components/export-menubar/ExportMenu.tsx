@@ -73,7 +73,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
               <CSvgIcon
                 component={Printer}
                 fill="var(--logile-utility-blue-dark-600)"
-                size={15}
+                size={18}
               />
               <Typography className="template-library-export-menu__tools-item-label">
                 {EXPORT_MODAL.print}
@@ -83,7 +83,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
               <CSvgIcon
                 component={Pdf}
                 fill="var(--logile-utility-red-dark-600)"
-                size={15}
+                size={18}
               />
               <Typography className="template-library-export-menu__tools-item-label">
                 {EXPORT_MODAL.pdf}
@@ -94,7 +94,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
               <CSvgIcon
                 component={Excel}
                 fill="var(--logile-utility-green-dark-600)"
-                size={15}
+                size={18}
               />
               <Typography className="template-library-export-menu__tools-item-label">
                 {EXPORT_MODAL.excel}
@@ -105,7 +105,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
               <CSvgIcon
                 component={CSV}
                 fill="var(--logile-utility-teal-dark-600)"
-                size={15}
+                size={18}
               />
               <Typography className="template-library-export-menu__tools-item-label">
                 {EXPORT_MODAL.csv}

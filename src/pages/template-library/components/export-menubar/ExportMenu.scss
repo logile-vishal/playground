@@ -17,17 +17,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-xs);
     background-color: var(--logile-bg-base);
     border-radius: var(--radius-s);
     border: var(--border-s) solid var(--logile-border-secondary);
-    height: 40px;
-    width: 40px;
+    padding: var(--space-xs) var(--space-m);
   }
   &__tools-item-label.template-library-export-menu__tools-item-label {
     font-size: var(--logile-size-caption);
-    font-weight: var(--logile-weight-300);
-    color: var(--logile-text-secondary);
-    line-height: normal;
+    font-weight: var(--logile-weight-400);
+    color: var(--logile-text-primary);
   }
 }

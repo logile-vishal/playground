@@ -10,7 +10,7 @@
   box-sizing: border-box;
   word-break: keep-all;
   background-color: var(--logile-bg-base);
-  transition: all 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out;
 
   & .sidebar__content {
     display: flex;
@@ -44,6 +44,10 @@
         font-size: var(--logile-size-body);
         width: auto;
         text-overflow: ellipsis;
+      }
+      &--active {
+        font-weight: var(--logile-weight-500);
+        color: var(--logile-text-state-navbar-active);
       }
     }
     .sidebar__list-container {
@@ -109,15 +113,12 @@
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     gap: var(--space-xs);
-    font-size: 1.4rem;
     margin: var(--space-xl) 0;
     & .sidebar__switch-text {
-      text-align: center;
+      margin-left: var(--space-s);
+      color: var(--logile-text-brand-primary-dark-mode-alt);
+      font-size: var(--logile-size-body);
       font-weight: var(--logile-weight-500);
-      line-height: 2.2rem;
-      transition: ease-in-out 1s;
-      font-size: 1.7rem;
-      color: var(--logile-text-state-navbar-active);
     }
   }
   & .sidebar__app-toggle {

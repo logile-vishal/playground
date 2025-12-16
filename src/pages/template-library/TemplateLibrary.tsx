@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, InputAdornment, Stack } from "@mui/material";
-import TextField from "@mui/material/TextField";
+import { Box, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { styled } from "@mui/material/styles";
 
 import CSvgIcon from "@/core/components/icon/Icon";
 import CModal, { ModalBody, ModalFooter } from "@/core/components/modal/Modal";
@@ -27,6 +25,7 @@ import type { PaginatedResponse } from "@/core/types/pagination.type";
 import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
 import { CButton } from "@/core/components/button/button";
 import CNoData from "@/core/components/no-data/NoData";
+import CTextfield from "@/core/components/form/textfield/Textfield";
 import clsx from "@/utils/clsx";
 
 import type {
@@ -50,22 +49,6 @@ import {
 import { templateSkelton } from "./components/skeleton/Skeleton";
 import LibraryTable from "./TemplateTable";
 import "./TemplateStyle.scss";
-
-const SearchField = styled(TextField)(() => ({
-  "& .MuiOutlinedInput-root": {
-    borderRadius: "8px",
-    fontWeight: "var(--logile-weight-400)",
-    "& fieldset": {
-      border: "1px solid var(--logile-border-secondary)",
-    },
-    "&:hover fieldset": {
-      border: "1px solid var(--logile-border-secondary)",
-    },
-    "&.Mui-focused fieldset": {
-      border: "1px solid gray",
-    },
-  },
-}));
 
 const TemplateLibrary: React.FC = () => {
   const [searchDrawer, setSearchDrawer] = useState({ status: false, text: "" });
@@ -271,25 +254,18 @@ const TemplateLibrary: React.FC = () => {
                   {TEMPLATE_LIBRARY_HEADING.templateLibrary}
                 </Box>
                 <Box className="template-library__searchbar">
-                  <SearchField
-                    className="search-bar"
-                    variant="outlined"
+                  <CTextfield
                     placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
-                    size="small"
-                    fullWidth
                     autoComplete="off"
                     value={searchTemplateText}
+                    className="template-library__searchbar-field"
                     onClick={openSearchDrawer}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <CSvgIcon
-                            component={Search}
-                            size={20}
-                          />
-                        </InputAdornment>
-                      ),
-                    }}
+                    endIcon={
+                      <CSvgIcon
+                        component={Search}
+                        size={20}
+                      />
+                    }
                   />
                 </Box>
                 <Stack

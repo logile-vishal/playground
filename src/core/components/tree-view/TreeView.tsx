@@ -40,7 +40,7 @@ const StyledTreeItem = styled(TreeItem)(() => ({
   },
   [`& .${treeItemClasses.content}.${treeItemClasses.selected} .${treeItemClasses.label}`]:
     {
-      color: "#0A68DB",
+      color: "var(--logile-text-brand-primary)",
       fontWeight: "var(--logile-weight-500)",
     },
   [`& .MuiTreeItem-iconContainer`]: {

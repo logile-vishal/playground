@@ -142,6 +142,8 @@ export const renderChecklistComponent = (
       className={clsx({
         "template-preview-modal__question-wrapper": true,
         "template-preview-modal__question-wrapper--mobile": !isDesktopPreview,
+        "template-preview-modal__section-accordion--mobile":
+          question?.subQuestions?.length > 0 && !isDesktopPreview,
       })}
     >
       {question?.subQuestions?.length > 0 ? (

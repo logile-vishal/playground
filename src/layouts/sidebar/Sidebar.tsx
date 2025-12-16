@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  alpha,
   Box,
   Drawer,
   ListItemButton,
@@ -87,16 +86,16 @@ const StyledListItemButton = styled(ListItemButton, {
     textOverflow: "ellipsis",
     whiteSpace: "normal",
     backgroundColor: activePath
-      ? alpha(theme.palette.primary.main, 0.1)
+      ? "var(--logile-bg-state-navbar-active)"
       : "transparent",
-    color: activePath ? theme.palette.primary.main : "inherit",
+    color: activePath ? "var(--logile-text-state-navbar-active)" : "inherit",
     minHeight: "max-content",
     maxHeight: "max-content",
     transition: "all .2s ease-in-out",
     "&:hover": {
       cursor: "pointer",
-      backgroundColor: alpha(theme.palette.primary.main, 0.1),
-      color: theme.palette.primary.main,
+      backgroundColor: "var(--logile-bg-state-navbar-active)",
+      color: "var(--logile-text-state-navbar-active)",
     },
   })
 );
@@ -125,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <CSvgIcon
             component={Exchange}
             size={18}
-            fill="var(--logile-icon-state-information)"
+            fill="var(--logile-text-brand-primary-dark-mode-alt)"
           />
           <Typography className="sidebar__switch-text">
             {appSwitchValue}
@@ -197,6 +196,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   <Typography
                     className={clsx({
                       "sidebar__list-item-label": true,
+                      "sidebar__list-item-label--active": isActive,
                       "layout-tablet": (() => !isDesktop)(),
                     })}
                   >

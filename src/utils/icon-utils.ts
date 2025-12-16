@@ -1,4 +1,4 @@
-import { oldTemplateIcons } from "@/core/constants/old-template-icons";
+import * as OldTemplateIcons from "@/core/constants/old-template-icons";
 
 /**
  * @method stripVersionPrefix
@@ -25,12 +25,26 @@ export const formatHexColor = (iconColor: string) => {
 };
 
 /**
+ * @method kebabToPascalCase
+ * @description Converts kebab-case string to PascalCase (e.g., "compose-message" to "ComposeMessage")
+ * @param str {string} kebab-case string
+ * @returns string in PascalCase
+ */
+export const kebabToPascalCase = (str: string) => {
+  return str
+    ?.trim()
+    ?.replace(/(^|-)([a-z])/g, (_, __, letter) => letter?.toUpperCase());
+};
+
+/**
  * @method getOldTemplateIcon
  * @description get template icons from the icon mapping
  * @param iconName icon name
- * @returns React.LazyExoticComponent<React.FunctionComponent<React.SVGProps<SVGSVGElement>
+ * @returns React.FunctionComponent<React.SVGProps<SVGSVGElement>>
  */
 export const getOldTemplateIcon = (iconName: string) => {
   if (!iconName) return null;
-  return oldTemplateIcons[stripVersionPrefix(iconName)] ?? null;
+  const formattedName = stripVersionPrefix(iconName);
+  const iconKey = kebabToPascalCase(formattedName) + "Icon";
+  return OldTemplateIcons[iconKey] || null;
 };

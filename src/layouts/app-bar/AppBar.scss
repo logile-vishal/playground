@@ -1,4 +1,6 @@
 .appbar {
+  --logo-height: 20px;
+  --logo-width: 95px;
   height: var(--appbar-height);
   padding: var(--space-xs) var(--space-xl) var(--space-xs) var(--space-xl);
   background-color: var(--logile-bg-base);
@@ -12,12 +14,23 @@
   &__left-section {
     display: flex;
     align-items: center;
-    gap: var(
-      --space-3xl
-    ); // TODO: change to var(--space-3xl) after fixing variable value
-    .appbar__logo-box {
-      display: flex;
-      flex-direction: row;
+    gap: var(--space-3xl);
+  }
+  &__logo-box {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    &--logo {
+      height: var(--logo-height);
+      width: var(--logo-width);
+      color: var(--logile-icon-brand-primary);
+    }
+    &--text.appbar__logo-box--text {
+      margin-left: var(--space-s);
+      color: var(--logile-icon-brand-primary);
+      font-size: var(--logile-size-body);
+      font-weight: var(--logile-weight-500);
+      height: var(--logo-height);
     }
   }
 

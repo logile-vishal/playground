@@ -74,6 +74,11 @@
       max-width: 50.5rem;
       flex-grow: 1;
     }
+    .template-library__searchbar-field {
+      .MuiOutlinedInput-root {
+        border: 1px solid var(--logile-border-secondary);
+      }
+    }
 
     .template-library__border {
       border-bottom-width: var(--border-s);
@@ -163,6 +168,7 @@
   .template-head-text {
     font-size: var(--logile-size-body);
     font-weight: var(--logile-weight-500);
+    color: var(--logile-text-primary);
     & > div {
       min-width: fit-content;
       margin-top: 1rem;
@@ -173,11 +179,7 @@
     min-width: fit-content;
 
     .tableheader__checkbox {
-      background-color: var(--logile-bg-base);
-
       position: absolute;
-      border-radius: 50%;
-
       .MuiCheckbox-root {
         padding: 0;
       }
@@ -254,8 +256,6 @@
   .checkbox-container {
     height: 4rem;
     width: 4rem;
-    background-color: var(--logile-bg-base);
-    border-radius: 50%;
     position: relative;
     user-select: none;
 

@@ -35,7 +35,7 @@ const CSvgIcon: React.FC<SvgIconProps> = ({
         sx={{
           width: size,
           height: size,
-          bgcolor: "var(--logile-bg-base)",
+          bgcolor: "var(--logile-bg-container-1)",
           borderRadius: "50%",
         }}
       ></Box>

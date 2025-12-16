@@ -9,19 +9,21 @@ import {
 import { styled } from "@mui/material/styles";
 
 import CSvgIcon from "@/core/components/icon/Icon";
-import { ChevronDownUp, ChevronLeft } from "@/core/constants/icons";
+import { ChevronDown, ChevronDownUp, ChevronUp } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
 import type { QuestionType } from "../../types/template-questions.type";
 import type { RenderSectionProps } from "../../types/template-preview.type";
 import "./SectionQuesType.scss";
 
-const MuiAccordionSummary = styled(AccordionSummary)({
+const MuiAccordionSummary = styled(AccordionSummary)(() => ({
   "& .MuiAccordionSummary-expandIconWrapper": {
     transform: "none",
-    transition: "none",
   },
-});
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "none",
+  },
+}));
 
 const RenderSection: React.FC<RenderSectionProps> = ({
   question,
@@ -31,9 +33,20 @@ const RenderSection: React.FC<RenderSectionProps> = ({
   templateBaseType,
 }) => {
   const [expanded, setExpanded] = useState(true);
-
+  const expandIcon = isDesktopPreview
+    ? expanded
+      ? ChevronDownUp
+      : ChevronDown
+    : expanded
+      ? ChevronUp
+      : ChevronDown;
   return (
-    <div className="question-accordion">
+    <div
+      className={clsx({
+        "question-accordion": true,
+        "question-accordion--mobile": !isDesktopPreview,
+      })}
+    >
       <Accordion
         expanded={expanded}
         className="question-accordion__wrapper"
@@ -48,21 +61,24 @@ const RenderSection: React.FC<RenderSectionProps> = ({
                     {question?.subQuestions?.length} Questions
                   </Box>
                 )}
-
               <Box
-                onClick={() => setExpanded(!expanded)}
-                className={`question-accordion__icon ${
-                  !expanded ? "question-accordion__icon--rotated" : ""
-                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setExpanded((prev) => !prev);
+                }}
+                className="question-accordion__icon"
               >
                 <CSvgIcon
-                  component={expanded ? ChevronDownUp : ChevronLeft}
+                  component={expandIcon}
                   size={24}
                 />
               </Box>
             </Box>
           }
-          className="question-accordion__summary"
+          className={clsx({
+            "question-accordion__summary": true,
+            "question-accordion__summary--mobile": !isDesktopPreview,
+          })}
         >
           <Chip
             label={question?.qcontent}

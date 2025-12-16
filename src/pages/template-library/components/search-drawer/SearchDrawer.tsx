@@ -45,6 +45,7 @@ import {
 import type { TemplateType } from "../../types/template-preview.type";
 import "./SearchDrawer.scss";
 import { SEARCH_DRAWER } from "./constants";
+import { isNonEmptyValue } from "@/utils";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -190,7 +191,7 @@ function StatusDropDown({ label = "", options, className, ...props }) {
 const defaultFilters = {
   questionText: "",
   taskType: null,
-  status: [],
+  statusList: [],
   modifiedInLast: "",
   taskTagsList: [] as AutoCompleteOptionProps[],
   questionTagsList: [] as AutoCompleteOptionProps[],
@@ -277,7 +278,7 @@ const SearchDrawer = ({
       (tag: AutoCompleteOptionProps) => tag?.value
     );
     const taskType = advanceFilterData?.taskType?.value ?? "";
-    const statusList = advanceFilterData?.status?.map(
+    const statusList = advanceFilterData?.statusList?.map(
       (tag: AutoCompleteOptionProps) => tag?.value
     );
 
@@ -288,9 +289,18 @@ const SearchDrawer = ({
       taskTagsList: taskTagsList,
       templateName: searchText,
       taskType,
-      status: statusList,
+      statusList: statusList,
     };
-    return payload;
+
+    const filteredPayload = {};
+    if (isNonEmptyValue(payload)) {
+      Object.entries(payload).forEach(([key, value]) => {
+        if (isNonEmptyValue(value)) {
+          filteredPayload[key] = value;
+        }
+      });
+    }
+    return filteredPayload;
   };
 
   /**
@@ -467,8 +477,8 @@ const SearchDrawer = ({
                   className="template-library-search-drawer__status-dropdown-container"
                   options={TEMPLATE_STATUS_OPTIONS}
                   placeholder={SEARCH_DRAWER.STATUS_DROPDOWN_PLACEHOLDER}
-                  onChange={(event) => handleChange("status", event)}
-                  value={advanceFilterData?.status}
+                  onChange={(event) => handleChange("statusList", event)}
+                  value={advanceFilterData?.statusList}
                   optionLabelKey="label"
                 />
               </Box>

@@ -173,6 +173,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   const { data: reportPreviewData } = useGetPreviewByReportTypeId();
   const {
     mutateAsync: deleteTemplateById,
+    isPending: isDeleteTemplateLoading,
     isSuccess: isDeleteTemplateSuccessful,
   } = useDeleteTemplateById();
   const { mutateAsync: deleteReportById, isSuccess: isDeleteReportSuccessful } =
@@ -496,7 +497,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
                 sx={{
                   "& .MuiSvgIcon-root": { fontSize: 20 },
                   color: "var(--logile-icon-secondary)",
-                  "&.Mui-checked": {
+                  "&.Mui-checked, &.MuiCheckbox-indeterminate": {
                     color: "var(--logile-bg-primary)",
                   },
                   "&.MuiFormControlLabel-root": {
@@ -863,6 +864,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           <CSvgIcon
             component={Send}
             size={20}
+            color={disabledActions ? "disabled" : "secondary"}
           />
         </CIconButton>
         <CIconButton
@@ -872,6 +874,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           <CSvgIcon
             component={Copy}
             size={20}
+            color={disabledActions ? "disabled" : "secondary"}
           />
         </CIconButton>
         <CIconButton
@@ -881,6 +884,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           <CSvgIcon
             component={Edit}
             size={20}
+            color={disabledActions ? "disabled" : "secondary"}
           />
         </CIconButton>
         <CIconButton
@@ -890,6 +894,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           <CSvgIcon
             component={Download}
             size={20}
+            color={disabledActions ? "disabled" : "secondary"}
           />
         </CIconButton>
         <CIconButton
@@ -900,7 +905,11 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           <CSvgIcon
             component={Delete}
             size={20}
-            color={disabledActions ? "violation-subtle" : "violation"}
+            color={
+              disabledActions || isDeleteTemplateLoading
+                ? "disabled"
+                : "violation"
+            }
           />
         </CIconButton>
       </Box>

@@ -62,7 +62,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     updateHtmlThemeAttr(mode);
   }, [mode, updateHtmlThemeAttr]);
 
-  const theme = useMemo(() => getMuiThemeObject(mode), [mode]);
+  const theme = useMemo(() => getMuiThemeObject(), []);
 
   const themeProviderValue = useMemo(
     () => ({
