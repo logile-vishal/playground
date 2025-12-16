@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { Menu, TextField } from "@mui/material";
 import type { TextFieldProps, PopoverProps } from "@mui/material";
 
-import { delimiter } from "@/core/constants/modal-constants";
+import { NESTED_MENU_PATH_DELIMITER } from "@/core/constants/nested-menu";
 import clsx from "@/utils/clsx";
 import { isNonEmptyValue } from "@/utils";
 
@@ -55,7 +55,7 @@ const flattenMenuItems = (
     const currentPath = [...parentPath, item.name];
     const base = {
       ...item,
-      fullPath: currentPath.join(delimiter.path),
+      fullPath: currentPath.join(NESTED_MENU_PATH_DELIMITER),
       pathArray: currentPath,
     };
     const children =
@@ -151,7 +151,7 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
     const hasCustom = isNonEmptyValue(item.customSubMenu);
     if (!hasNested && !hasCustom) {
       // trigger onMenuItemSelect only if the clicked item doesn't have a child menu
-      onMenuItemSelect(item, currentPath.join(delimiter.path));
+      onMenuItemSelect(item, currentPath.join(NESTED_MENU_PATH_DELIMITER));
     }
   };
 

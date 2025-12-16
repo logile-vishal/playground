@@ -22,7 +22,7 @@
     }
 
     width: min(var(--common-modal-width), 90vw);
-    background-color: var(--logile-bg-base);
+    background-color: var(--logile-bg-container-1);
     border-radius: var(--radius-2xl);
     outline: none;
     max-height: var(--common-modal-height);
@@ -39,7 +39,7 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--space-xl);
-      background-color: var(--logile-bg-base);
+      background-color: var(--logile-bg-container-1);
       padding: var(--space-xl) var(--space-xl) 0;
 
       &-title {

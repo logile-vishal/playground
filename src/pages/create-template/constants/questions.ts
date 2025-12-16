@@ -8,7 +8,10 @@ import {
   Random,
   Tag,
   Temperature,
+  InlineEdit,
+  Delete,
 } from "@/core/constants/icons";
+import type { IconColorType } from "@/core/types/icon.type";
 
 export const QUESTION_OPTION_LABELS = {
   RADIO: "Radio Button",
@@ -71,3 +74,45 @@ export const BADGE_CONFIG = {
     // TODO: label handled dynamically
   },
 };
+
+export const SECTION_SETTINGS_MENU_KEY = {
+  RENAME: "rename_section",
+  DELETE: "delete_section",
+};
+
+export const SECTION_SETTINGS_MENU_OPTIONS = [
+  {
+    name: "Rename",
+    value: SECTION_SETTINGS_MENU_KEY.RENAME,
+    leftIcon: InlineEdit,
+  },
+  {
+    name: "Delete",
+    value: SECTION_SETTINGS_MENU_KEY.DELETE,
+    leftIcon: Delete,
+    labelStyleProps: { color: "var(--logile-text-state-violation)" },
+    leftIconStyleProps: { color: "violation" as IconColorType },
+  },
+];
+
+export const QUESTION_MODAL = {
+  ADD_SECTION: {
+    TITLE: "Add Section",
+    PRIMARY_ACTION: "Add",
+  },
+  RENAME_SECTION: {
+    TITLE: "Rename Section",
+    PRIMARY_ACTION: "Rename",
+  },
+  FIELDS: {
+    SECTION_NAME: "Section Name",
+    MEDIUM: "medium",
+  },
+};
+
+export const DELETE_SECTION_MODAL = {
+  TITLE: "Delete questions and section?",
+  DESCRIPTION:
+    "Deleting a section also deletes the questions and responses it contains.",
+  CONFIRM_TEXT: "Delete",
+} as const;

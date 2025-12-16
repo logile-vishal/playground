@@ -1,4 +1,8 @@
-import type { ButtonSeverity } from "./button.type";
+import type { MODAL_SIZE } from "@/core/constants/modal-constants";
+
+import type { ButtonSeverity } from "@/core/types/button.type";
+
+export type ModalSizeType = (typeof MODAL_SIZE)[keyof typeof MODAL_SIZE];
 
 export type ModalProps = {
   open: boolean;
@@ -11,7 +15,7 @@ export type ModalProps = {
   cancelText?: string;
   className?: string;
   width?: string;
-  size?: "small" | "medium" | "large";
+  size?: ModalSizeType;
   severity?: ButtonSeverity;
   containerClassName?: string;
   disableBackdropClick?: boolean;

@@ -3,6 +3,8 @@ export const modalDefaultBtnConstants = {
   cancel: "Cancel",
 };
 
-export const delimiter = {
-  path: " > ",
-};
+export const MODAL_SIZE = {
+  SMALL: "small",
+  MEDIUM: "medium",
+  LARGE: "large",
+} as const;

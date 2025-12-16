@@ -8,7 +8,7 @@ import {
 
 import { ChevronRight } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
-import { delimiter } from "@/core/constants/modal-constants";
+import { NESTED_MENU_PATH_DELIMITER } from "@/core/constants/nested-menu";
 import { isNonEmptyValue } from "@/utils";
 import clsx from "@/utils/clsx";
 
@@ -94,7 +94,7 @@ const CNestedMenuItem = ({
     if (!menuItemData.subMenu && !menuItemData.customSubMenu) {
       setOpenSubMenu(false);
       setIsFocused(false);
-      onSelect?.(menuItemData, currentPath.join(delimiter.path));
+      onSelect?.(menuItemData, currentPath.join(NESTED_MENU_PATH_DELIMITER));
     }
     onMenuItemClick(e, menuItemData, currentPath);
     if (hasCustomMenu || isNested) {
@@ -155,7 +155,7 @@ const CNestedMenuItem = ({
             <Typography>{menuItemData.name}</Typography>
             {searchTerm && (
               <div className="nested-menu__item-path">
-                {currentPath.join(delimiter.path)}
+                {currentPath.join(NESTED_MENU_PATH_DELIMITER)}
               </div>
             )}
           </div>

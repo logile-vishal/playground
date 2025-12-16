@@ -17,9 +17,29 @@ import "./Questions.scss";
 import { QUESTION_SECTION } from "../../constants/constant";
 import QuestionCardCollapsed from "./components/question-card-collapsed/QuestionCardCollapsed";
 import QuestionSection from "./components/section/Section";
+import { QUESTION_MODAL } from "../../constants/questions";
+import AddEditSectionModal from "./components/AddEditSectionModal/AddEditSectionModal";
 
 const Questions: React.FC = () => {
   const [questionList, setQuestionList] = useState([]);
+  const [addSectionModal, setAddSectionModal] = useState({
+    status: false,
+    data: null,
+  });
+
+  const openAddSectionModal = (data) => {
+    setAddSectionModal({
+      status: true,
+      data: data,
+    });
+  };
+
+  const closeAddSectionModal = () => {
+    setAddSectionModal({
+      status: false,
+      data: null,
+    });
+  };
 
   useEffect(() => {
     setQuestionList([]); //TODO: Fetch question list from API and set it here
@@ -99,6 +119,7 @@ const Questions: React.FC = () => {
           variant="outline"
           severity="primary"
           size="small"
+          onClick={openAddSectionModal}
         >
           <CSvgIcon
             size={15}
@@ -161,6 +182,11 @@ const Questions: React.FC = () => {
         )}
         {renderQuestionAction()}
       </Box>
+      <AddEditSectionModal
+        open={addSectionModal.status}
+        onClose={closeAddSectionModal}
+        type={QUESTION_MODAL.ADD_SECTION}
+      />
     </Box>
   );
 };

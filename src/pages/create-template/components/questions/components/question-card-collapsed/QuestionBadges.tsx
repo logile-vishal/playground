@@ -27,6 +27,9 @@ export const StyledChip = styled(Chip)(() => ({
     lineHeight: "var(--line-height-secondary-text)",
     textTransform: "capitalize",
   },
+  "& .MuiChip-label::first-letter": {
+    textTransform: "uppercase",
+  },
 }));
 
 /**

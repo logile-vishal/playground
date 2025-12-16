@@ -2,6 +2,7 @@
 
 .question-section {
   --section-collapse-ques-width: 152px;
+  --section-setting-popup-width: 180px;
   &__header {
     @include flex-center(space-between, center, var(--space-l));
     padding: 0 var(--space-l);
@@ -30,6 +31,12 @@
     padding: var(--space-s);
     cursor: pointer;
     border: 1px solid var(--logile-border-primary);
+    &--active,
+    &:hover {
+      background: var(--logile-bg-primary-x-subtle);
+      border: 1px solid var(--logile-border-brand-primary);
+      color: var(--logile-icon-brand-primary);
+    }
   }
 
   &__header-icon {
@@ -99,6 +106,11 @@
     border-bottom: 1px solid var(--logile-border-primary);
     &:last-child {
       border-bottom: none;
+    }
+  }
+  &__settings-menu {
+    .MuiPaper-root {
+      width: var("--section-setting-popup-width");
     }
   }
 }

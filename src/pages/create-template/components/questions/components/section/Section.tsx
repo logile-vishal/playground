@@ -7,19 +7,87 @@ import {
   DraggableDots,
   Setting,
 } from "@/core/constants/icons";
+import {
+  QUESTION_MODAL,
+  SECTION_SETTINGS_MENU_KEY,
+  SECTION_SETTINGS_MENU_OPTIONS,
+} from "@/pages/create-template/constants/questions";
 import CSvgIcon from "@/core/components/icon/Icon";
 import type { QuestionSectionProps } from "@/pages/create-template/types/questions.type";
 import { QUESTION_TYPES } from "@/pages/template-library/constants/constant";
 import clsx from "@/utils/clsx";
+import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 
 import "./Section.scss";
 import QuestionCardCollapsed from "../question-card-collapsed/QuestionCardCollapsed";
+import DeleteSectionModal from "../DeleteSectionModal/DeleteSectionModal";
+import AddEditSectionModal from "../AddEditSectionModal/AddEditSectionModal";
 
+type SectionSettingProps = {
+  anchor: HTMLElement | null;
+  status: boolean;
+};
 const QuestionSection = (props: QuestionSectionProps) => {
   const [isSectionCollapsed, setIsSectionCollapsed] = useState(false);
+  const [sectionSetting, setSectionSetting] = useState<SectionSettingProps>({
+    anchor: null,
+    status: false,
+  });
+  const [renameModal, setRenameModal] = useState({
+    status: false,
+    data: null,
+  });
+  const [deleteModal, setDeleteModal] = useState({
+    status: false,
+    data: null,
+  });
 
   const toggleSectionCollapse = () => {
     setIsSectionCollapsed(!isSectionCollapsed);
+  };
+
+  const openSectionSettingsMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setSectionSetting({
+      anchor: event.currentTarget,
+      status: true,
+    });
+  };
+
+  const closeSectionSettingsMenu = () => {
+    setSectionSetting({
+      anchor: null,
+      status: false,
+    });
+  };
+
+  /* Rename Modal */
+  const openRenameModal = (data) => {
+    setRenameModal({
+      status: true,
+      data: data,
+    });
+  };
+
+  const closeRenameModal = () => {
+    setRenameModal({
+      status: false,
+      data: null,
+    });
+  };
+
+  /* Delete Modal */
+  const openDeleteModal = (data) => {
+    setDeleteModal({
+      status: true,
+      data: data,
+    });
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({
+      status: false,
+      data: null,
+    });
   };
 
   const sectionCollapsed = () => {
@@ -67,6 +135,28 @@ const QuestionSection = (props: QuestionSectionProps) => {
     );
   };
 
+  const sectionSettingsMenu = () => {
+    const { anchor: anchorEl } = sectionSetting;
+    return (
+      <CNestedMenu
+        anchorEl={anchorEl}
+        menuItems={SECTION_SETTINGS_MENU_OPTIONS}
+        onClose={closeSectionSettingsMenu}
+        showSearch={false}
+        className="question-section__settings-menu"
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
+        onMenuItemSelect={(item) => {
+          if (item?.value === SECTION_SETTINGS_MENU_KEY.RENAME) {
+            openRenameModal(null);
+          } else if (item?.value === SECTION_SETTINGS_MENU_KEY.DELETE) {
+            openDeleteModal(null);
+          }
+        }}
+      />
+    );
+  };
+
   const sectionExpanded = () => {
     return (
       <>
@@ -75,7 +165,14 @@ const QuestionSection = (props: QuestionSectionProps) => {
             <Box className="question-section__header-title-text">
               {props.title}
             </Box>
-            <Box className="question-section__header-title-icon">
+            <Box
+              onClick={openSectionSettingsMenu}
+              className={clsx({
+                "question-section__header-title-icon": true,
+                "question-section__header-title-icon--active":
+                  sectionSetting.status,
+              })}
+            >
               <CSvgIcon
                 size={18}
                 component={Setting}
@@ -131,6 +228,16 @@ const QuestionSection = (props: QuestionSectionProps) => {
             />
           </Box>
         </Box>
+        {sectionSettingsMenu()}
+        <DeleteSectionModal
+          open={deleteModal.status}
+          onClose={closeDeleteModal}
+        />
+        <AddEditSectionModal
+          open={renameModal.status}
+          onClose={closeRenameModal}
+          type={QUESTION_MODAL.RENAME_SECTION}
+        />
       </>
     );
   };

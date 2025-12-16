@@ -118,6 +118,7 @@ export { default as Random } from "@/assets/icons/common-icons/random.svg?react"
 export { default as CalculatorQuestionBadge } from "@/assets/icons/common-icons/calculator-question-badge.svg?react";
 export { default as CurlyBracket } from "@/assets/icons/common-icons/curly-bracket.svg?react";
 export { default as Setting } from "@/assets/icons/common-icons/setting.svg?react";
+export { default as InlineEdit } from "@/assets/icons/common-icons/inline-edit.svg?react";
 
 export type IconName =
   | "AddIcon"
@@ -237,4 +238,5 @@ export type IconName =
   | "Random"
   | "CalculatorQuestionBadge"
   | "CurlyBracket"
-  | "Setting";
+  | "Setting"
+  | "InlineEdit";
