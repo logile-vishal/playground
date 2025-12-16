@@ -5,8 +5,7 @@
   padding: var(--space-m) var(--space-xl);
   gap: var(--space-m);
   &__header-wrapper {
-    display: flex;
-    justify-content: space-between;
+    @include flex-center(space-between, center, var(--space-l));
   }
   &__header.create-template-questions__header {
     color: var(--logile-text-primary);
@@ -56,6 +55,11 @@
         align-items: center;
         gap: var(--space-xs);
       }
+    }
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
     }
   }
 }

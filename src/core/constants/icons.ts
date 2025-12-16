@@ -3,6 +3,7 @@ export { default as AddIcon } from "@/assets/icons/common-icons/add.svg?react";
 export { default as ArrowDown } from "@/assets/icons/common-icons/arrow-down.svg?react";
 export { default as ArrowDownFill } from "@/assets/icons/common-icons/arrow-down-fill.svg?react";
 export { default as ArrowLeftFill } from "@/assets/icons/common-icons/arrow-left-fill.svg?react";
+export { default as ArrowLeft } from "@/assets/icons/common-icons/arrow-left.svg?react";
 export { default as ArrowRightFill } from "@/assets/icons/common-icons/arrow-right-fill.svg?react";
 export { default as ArrowUp } from "@/assets/icons/common-icons/arrow-up.svg?react";
 export { default as ArrowUpFill } from "@/assets/icons/common-icons/arrow-up-fill.svg?react";
@@ -106,11 +107,23 @@ export { default as GenericCheckboxChecked } from "@/assets/icons/common-icons/g
 export { default as GenericCheckboxIntermediate } from "@/assets/icons/common-icons/generic-checkbox-intermediate.svg?react";
 export { default as GenericRadioUnchecked } from "@/assets/icons/common-icons/generic-radio-unchecked.svg?react";
 export { default as GenericRadioChecked } from "@/assets/icons/common-icons/generic-radio-checked.svg?react";
+export { default as DraggableDots } from "@/assets/icons/common-icons/draggable-dots.svg?react";
+//Question badge icons
+export { default as Tag } from "@/assets/icons/common-icons/tag.svg?react";
+export { default as Photo } from "@/assets/icons/common-icons/photo.svg?react";
+export { default as File } from "@/assets/icons/common-icons/file.svg?react";
+export { default as Cluster } from "@/assets/icons/common-icons/cluster.svg?react";
+export { default as Previous } from "@/assets/icons/common-icons/previous-execution-status.svg?react";
+export { default as Random } from "@/assets/icons/common-icons/random.svg?react";
+export { default as CalculatorQuestionBadge } from "@/assets/icons/common-icons/calculator-question-badge.svg?react";
+export { default as CurlyBracket } from "@/assets/icons/common-icons/curly-bracket.svg?react";
+export { default as Setting } from "@/assets/icons/common-icons/setting.svg?react";
 
 export type IconName =
   | "AddIcon"
   | "ArrowDown"
   | "ArrowDownFill"
+  | "ArrowLeft"
   | "ArrowLeftFill"
   | "ArrowRightFill"
   | "ArrowUp"
@@ -214,4 +227,14 @@ export type IconName =
   | "QuestionCircle"
   | "CircleCheckFilled"
   | "ChevronRightIconFilled"
-  | "Printer";
+  | "Printer"
+  | "DraggableDots"
+  | "Tag"
+  | "Photo"
+  | "File"
+  | "Cluster"
+  | "Previous"
+  | "Random"
+  | "CalculatorQuestionBadge"
+  | "CurlyBracket"
+  | "Setting";

@@ -1,0 +1,33 @@
+.wildcard-label {
+  --wildcard-chip-height: 24px;
+  display: inline-block;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
+    flex-shrink: 0;
+    padding: 0 var(--space-m);
+    border-radius: var(--radius-xs);
+    background: var(--logile-bg-primary-x-subtle);
+    height: var(--wildcard-chip-height);
+    margin: var(--space-none) var(--space-xs);
+    svg {
+      flex-shrink: 0;
+    }
+    p {
+      margin: 0;
+      white-space: nowrap;
+      color: var(--logile-text-primary);
+      font-size: var(--logile-size-body);
+      font-weight: var(--logile-weight-400);
+      line-height: var(--logile-line-height-body);
+    }
+  }
+}

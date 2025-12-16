@@ -1,0 +1,100 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.ques-card-collapsed {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding: var(--space-l);
+  border-radius: var(--radius-m);
+  border: 1px solid var(--logile-border-primary);
+  background: var(--logile-bg-container-1);
+  box-shadow: var(--shadow-m-1-x) var(--shadow-m-1-y) var(--shadow-m-1-blur)
+    var(--shadow-m-1-spread) rgba(0, 0, 0, 0.15);
+  &--error {
+    border: 1px solid var(--logile-border-state-violation);
+  }
+  &__label {
+    flex: 1;
+    max-width: 50%;
+    & p {
+      color: var(--logile-text-primary);
+      font-family: var(--logile-family-body-family);
+      font-size: var(--logile-size-body);
+      font-style: normal;
+      margin: 0;
+      font-weight: var(--logile-weight-400);
+      line-height: var(--logile-line-height-body);
+      width: 100%;
+    }
+  }
+  &__order-index {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & p {
+      color: var(--logile-text-primary);
+      font-family: var(--logile-family-body-family);
+      font-size: var(--logile-size-body);
+      font-style: normal;
+      font-weight: var(--logile-weight-500);
+      line-height: var(--logile-line-height-body);
+    }
+    &.required::after {
+      content: "*";
+      color: var(--logile-text-state-violation-bold-subtle);
+      margin-right: var(--space-s);
+      display: inline-block;
+    }
+  }
+  &__dnd {
+    margin-right: var(--space-s);
+    cursor: grab;
+  }
+  &__badges {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    justify-content: end;
+  }
+  &__divider {
+    padding: var(--space-none) var(--space-l);
+    display: flex;
+    align-self: stretch;
+    & span {
+      display: block;
+      width: 1px;
+      height: 100%;
+      background: var(--logile-border-secondary);
+      border-right: 1px solid var(--logile-border-secondary);
+    }
+  }
+  &__type-label {
+    @include flex-center(center, center, var(--space-xs));
+    min-width: 152px;
+    height: 36px;
+    padding: var(--space-s) var(--space-l);
+    margin: 0 var(--space-m);
+    flex-shrink: 0;
+    border-radius: var(--radius-m);
+    border: 1px solid var(--logile-border-primary);
+    background: var(--logile-bg-container-1);
+    & p {
+      overflow: hidden;
+      color: var(--logile-text-primary);
+      text-align: center;
+      text-overflow: ellipsis;
+      font-family: var(--logile-family-body-family);
+      font-size: var(--logile-size-body);
+      font-style: normal;
+      font-weight: var(--logile-weight-400);
+      line-height: var(--logile-line-height-body);
+    }
+  }
+  &__chevron-down {
+    @include flex-center(center, center);
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+  }
+}

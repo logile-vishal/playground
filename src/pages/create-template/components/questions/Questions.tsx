@@ -1,4 +1,5 @@
 import type React from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 
 import CIconButton from "@/core/components/button/IconButton";
@@ -9,12 +10,21 @@ import {
   ChevronExpanded,
 } from "@/core/constants/icons";
 import { CButton } from "@/core/components/button/button";
+import { QUESTION_TYPES } from "@/pages/template-library/constants/constant";
 import clsx from "@/utils/clsx";
 
 import "./Questions.scss";
 import { QUESTION_SECTION } from "../../constants/constant";
+import QuestionCardCollapsed from "./components/question-card-collapsed/QuestionCardCollapsed";
+import QuestionSection from "./components/section/Section";
 
 const Questions: React.FC = () => {
+  const [questionList, setQuestionList] = useState([]);
+
+  useEffect(() => {
+    setQuestionList([]); //TODO: Fetch question list from API and set it here
+  }, []);
+
   /**
    * @method renderQuestionHeader
    * @description Renders the header section with title and expand/collapse controls.
@@ -103,7 +113,52 @@ const Questions: React.FC = () => {
     <Box className="create-template-questions">
       {renderQuestionHeader()}
       <Box className="create-template-questions-cards-wrapper">
-        {renderQuestionPlaceholder()}
+        {questionList?.length !== 0 ? ( // TODO: Update condition after API integration (change !== 0 to === 0)
+          renderQuestionPlaceholder()
+        ) : (
+          <Box className="create-template-questions-cards-wrapper__content">
+            {/* TODO: Replace hardcoded data with mapped questions fetched from the API */}
+            <QuestionCardCollapsed
+              label="Is the floor clean %abc% and organised? Is the floor clean %abc% and organised?"
+              isRequired={true}
+              orderIndex={"1"}
+              optiontypeLabel={QUESTION_TYPES.RADIO_BUTTON.label}
+              isPhotoBadgeVisible={true}
+              isTagBadgeVisible={true}
+              isFileBadgeVisible={true}
+              isRandomBadgeVisible={true}
+              isClusterBadgeVisible={true}
+              isAnswerBadgeVisible={true}
+              isPreviousBadgeVisible={true}
+              isNumberBadgeVisible={true}
+              isTemperatureBadgeVisible={true}
+              hasError={false}
+            />
+            <QuestionCardCollapsed
+              label="Is the shared display case in use in the department?"
+              isRequired={true}
+              orderIndex={"2"}
+              optiontypeLabel={QUESTION_TYPES.DROPDOWN.label}
+              isFileBadgeVisible={true}
+              isPreviousBadgeVisible={true}
+              isNumberBadgeVisible={true}
+              isTemperatureBadgeVisible={true}
+              hasError={false}
+            />
+            <QuestionSection
+              title="Bakery"
+              orderindex={"3"}
+              data={[
+                {
+                  id: "2",
+                  label: "Is the bakery area clean and organized?",
+                  isRequired: true,
+                  orderIndex: "3.1",
+                },
+              ]}
+            />
+          </Box>
+        )}
         {renderQuestionAction()}
       </Box>
     </Box>

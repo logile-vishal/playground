@@ -91,7 +91,7 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
   onClose,
   menuItems = [],
   level = 0,
-  showSearch = true,
+  showSearch = false,
   selectedItems = [],
   keepMounted = true,
   className,
