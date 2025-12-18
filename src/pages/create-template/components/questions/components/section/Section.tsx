@@ -225,6 +225,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
               optiontypeLabel={QUESTION_TYPES.USER_INPUT.label}
               isAnswerBadgeVisible={true}
               isPreviousBadgeVisible={true}
+              isNumberBadgeVisible={true}
             />
           </Box>
         </Box>

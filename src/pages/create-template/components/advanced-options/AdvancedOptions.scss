@@ -2,4 +2,41 @@
 
 .create-template-advanced-options {
   @include placeholder-page;
+  --hours-select-width: 180px;
+  --toggle-margin: 3px;
+  gap: var(--space-3xl);
+
+  &__row {
+    width: 100%;
+    display: flex;
+    gap: var(--space-3xl);
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    // for Firefox browser
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+  }
+  &__row-item {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+  }
+  &__row-item-container {
+    @include flex-center(flex-start, center, var(--space-m));
+  }
+  &__row-item-container-select {
+    margin-top: 4%;
+    width: var(--hours-select-width);
+  }
+  &__row-item-signature {
+    @include flex-center(flex-start, flex-end, var(--space-xl));
+    padding-bottom: var(--space-m);
+    color: var(--logile-text-secondary);
+    font-size: var(--logile-size-body);
+  }
 }

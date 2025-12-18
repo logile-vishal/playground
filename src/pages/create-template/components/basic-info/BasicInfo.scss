@@ -4,15 +4,15 @@
   @include placeholder-page;
   --basic-info-row-width: 440px;
   --basic-info-dropdown-width: 200px;
+  --basic-info-tag-dropdown-width: 100%;
 
-  gap: var(--space-m);
+  gap: var(--space-3xl);
   padding: var(--space-xl);
 
   &__row {
     width: 100%;
     display: flex;
     gap: var(--space-4xl);
-    padding: var(--space-m) 0;
   }
 
   &__row-item {

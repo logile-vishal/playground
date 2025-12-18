@@ -24,6 +24,7 @@
   }
   &__label {
     @include form-label;
+    color: var(--logile-text-secondary);
     &--row {
       flex-direction: row;
       align-items: center;

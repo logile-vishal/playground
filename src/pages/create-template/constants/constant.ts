@@ -57,3 +57,25 @@ export const CREATE_TEMPLATE_TABS = {
   notifications: "Notifications",
   followUpTask: "Follow Up Task",
 };
+
+export const ADVANCED_OPTIONS = {
+  compilanceThreshold: "Compilance Threshold",
+  compilanceThresholdPlaceholder: "Enter value",
+  labourHours: "Labor Hours",
+  labourHoursPlaceholder: "Select Option",
+  templateAccess: "Template Access",
+  templateAccessPlaceholder: "Select Access",
+  signature: "Signature",
+};
+
+export const LABOUR_HOUR_OPTIONS = [
+  { label: "Minutes", value: "Minutes" },
+  { label: "Hours", value: "Hours" },
+  { label: "Seconds", value: "Seconds" },
+];
+
+export const TEMPLATE_ACCESS_OPTIONS = [
+  { label: "Public", value: "Public" },
+  { label: "Private", value: "Private" },
+  { label: "Hidden", value: "Hidden" },
+];

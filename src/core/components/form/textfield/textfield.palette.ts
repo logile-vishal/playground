@@ -25,7 +25,6 @@ export const textfieldPalette = {
     },
     focus: {
       root: {
-        marginLeft: "var(--space-xs)",
         boxShadow:
           "0 0 0 2px var(--logile-bg-container-1), 0 0 0 4px var(--logile-focus-ring-default)",
       },
@@ -74,7 +73,6 @@ export const textfieldPalette = {
     },
     focus: {
       root: {
-        marginLeft: "var(--space-xs)",
         boxShadow:
           "0 0 0 2px var(--logile-bg-container-1), 0 0 0 4px var(--logile-focus-ring-error)",
       },

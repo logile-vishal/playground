@@ -1,9 +1,10 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-import { CDropdown, CTextField } from "@/core/components/form/FormElements";
+import CTextfield from "@/core/components/form/textfield/Textfield";
 import { ChevronRight } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
+import CSelect from "@/core/components/select/Select";
 import clsx from "@/utils/clsx";
 
 import { BASIC_INFO } from "../../constants/constant";
@@ -28,14 +29,14 @@ const BasicInfo: React.FC = () => {
     <Box className="create-template-basic-info">
       <Box className="create-template-basic-info__row">
         <Box className="create-template-basic-info__row-item create-template-basic-info__row-first-item">
-          <CTextField
+          <CTextfield
             label={BASIC_INFO.templateName}
-            isRequired={true}
+            required={true}
             placeholder={BASIC_INFO.templateNamePlaceholder}
           />
         </Box>
         <Box className="create-template-basic-info__row-item">
-          <CTextField
+          <CTextfield
             label={BASIC_INFO.description}
             placeholder={BASIC_INFO.descriptionPlaceholder}
           />
@@ -44,27 +45,30 @@ const BasicInfo: React.FC = () => {
 
       <Box className="create-template-basic-info__row">
         <Box className="create-template-basic-info__row-item create-template-basic-info__row-first-item">
-          <CDropdown
+          <CSelect
             label={BASIC_INFO.type}
-            isRequired={true}
-            width="200"
+            required={true}
+            optionValueKey="value"
+            optionLabelKey="label"
             placeholder={BASIC_INFO.typePlaceholder}
             options={typeDropdownOptions}
-            menuClassName="create-template-basic-info__dropdown-menu"
+            sx={{ width: "200px" }}
           />
         </Box>
         <Box className="create-template-basic-info__row-item">
-          <CDropdown
+          <CSelect
             label={BASIC_INFO.tags}
             placeholder={BASIC_INFO.tagsPlaceholder}
             options={tagsDropdownOptions}
+            optionValueKey="value"
+            optionLabelKey="label"
+            sx={{ width: "100%" }}
           />
         </Box>
       </Box>
 
       <Box className="create-template-basic-info__row">
         <Box className="create-template-basic-info__row-item create-template-basic-info__dropdown-container">
-          {/* TODO: CDropdown component from FormElement will replaced when shared Select file added */}
           <Box
             className={clsx({
               "create-template-basic-info__label": true,
@@ -74,33 +78,36 @@ const BasicInfo: React.FC = () => {
             {BASIC_INFO.directory}
           </Box>
           <Box className="create-template-basic-info__dropdown-row">
-            <CDropdown
+            <CSelect
               options={directoryDropdownOptions}
               placeholder={BASIC_INFO.directoryPlaceholder}
-              width="200"
-              menuClassName="create-template-basic-info__dropdown-menu"
+              sx={{ width: "200px" }}
+              optionValueKey="value"
+              optionLabelKey="label"
             />
             <CSvgIcon
               component={ChevronRight}
               color="secondary"
               size={24}
             />
-            <CDropdown
+            <CSelect
               options={directoryDropdownOptions}
               placeholder={BASIC_INFO.subDirectoryPlaceholder}
-              width="200"
-              menuClassName="create-template-basic-info__dropdown-menu"
+              sx={{ width: "200px" }}
+              optionValueKey="value"
+              optionLabelKey="label"
             />
             <CSvgIcon
               component={ChevronRight}
               color="secondary"
               size={24}
             />
-            <CDropdown
+            <CSelect
               options={directoryDropdownOptions}
               placeholder={BASIC_INFO.subDirectoryPlaceholder}
-              width="200"
-              menuClassName="create-template-basic-info__dropdown-menu"
+              optionValueKey="value"
+              optionLabelKey="label"
+              sx={{ width: "200px" }}
             />
           </Box>
         </Box>

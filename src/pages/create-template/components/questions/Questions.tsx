@@ -144,14 +144,11 @@ const Questions: React.FC = () => {
               isRequired={true}
               orderIndex={"1"}
               optiontypeLabel={QUESTION_TYPES.RADIO_BUTTON.label}
-              isPhotoBadgeVisible={true}
               isTagBadgeVisible={true}
               isFileBadgeVisible={true}
               isRandomBadgeVisible={true}
               isClusterBadgeVisible={true}
-              isAnswerBadgeVisible={true}
               isPreviousBadgeVisible={true}
-              isNumberBadgeVisible={true}
               isTemperatureBadgeVisible={true}
               hasError={false}
             />
@@ -162,6 +159,7 @@ const Questions: React.FC = () => {
               optiontypeLabel={QUESTION_TYPES.DROPDOWN.label}
               isFileBadgeVisible={true}
               isPreviousBadgeVisible={true}
+              isAnswerBadgeVisible={true}
               isNumberBadgeVisible={true}
               isTemperatureBadgeVisible={true}
               hasError={false}

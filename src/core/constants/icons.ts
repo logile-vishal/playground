@@ -120,6 +120,7 @@ export { default as Setting } from "@/assets/icons/common-icons/setting.svg?reac
 export { default as ChevronUp } from "@/assets/icons/arrow/chevron-up.svg?react";
 export { default as InlineEdit } from "@/assets/icons/common-icons/inline-edit.svg?react";
 export { default as ClientLogo } from "@/assets/logile-logo.svg?react";
+export { default as Percentage } from "@/assets/icons/common-icons/percentage.svg?react";
 
 export type IconName =
   | "AddIcon"
@@ -241,4 +242,5 @@ export type IconName =
   | "Setting"
   | "ChevronUp"
   | "InlineEdit"
-  | "ClientLogo";
+  | "ClientLogo"
+  | "Percentage";

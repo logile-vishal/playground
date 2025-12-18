@@ -12,11 +12,15 @@
   .MuiSelect-select {
     padding: 0;
   }
+  .MuiOutlinedInput-input {
+    color: var(--logile-text-primary);
+  }
 }
 .select__menu {
   &.MuiPaper-root {
     box-shadow: none;
     border: 1px solid var(--logile-border-secondary);
+    padding: var(--space-m) 0;
     &.MuiPopover-paper {
       max-height: unset;
     }
@@ -25,6 +29,9 @@
     padding: 0;
     max-height: var(--dropdown-menu-max-height);
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
   }
 
   .select-menuitem__toolbar {

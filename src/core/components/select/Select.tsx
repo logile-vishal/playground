@@ -59,13 +59,15 @@ const CSelect = (props: SelectProps) => {
           },
         }}
       >
-        <CFilterSortToolbar
-          allowFilter={allowFilter}
-          allowSort={allowSort}
-          setOptions={setFilteredOptions}
-          options={options}
-          optionFilterLabelKey={props.optionLabelKey}
-        />
+        {(allowFilter || allowSort) && (
+          <CFilterSortToolbar
+            allowFilter={allowFilter}
+            allowSort={allowSort}
+            setOptions={setFilteredOptions}
+            options={options}
+            optionFilterLabelKey={props.optionLabelKey}
+          />
+        )}
 
         {filteredOptions?.map((option, index) => {
           const optionValue =
