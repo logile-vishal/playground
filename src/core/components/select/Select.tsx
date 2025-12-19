@@ -1,6 +1,8 @@
 import { type SelectProps as MuiSelectProps } from "@mui/material/Select";
 import { useEffect, useState } from "react";
 
+import { ChevronDown } from "@/core/constants/icons";
+import CSvgIcon from "@/core/components/icon/Icon";
 import { isNonEmptyValue } from "@/utils";
 
 import CFilterSortToolbar from "./components/FilterSortToolbar";
@@ -53,6 +55,16 @@ const CSelect = (props: SelectProps) => {
         displayEmpty
         renderValue={renderValue}
         onKeyDown={handleOnKeyDown}
+        IconComponent={
+          props.IconComponent ??
+          ((iconProps) => (
+            <CSvgIcon
+              component={ChevronDown}
+              size={18}
+              {...iconProps}
+            />
+          ))
+        }
         MenuProps={{
           PaperProps: {
             className: "select__menu",

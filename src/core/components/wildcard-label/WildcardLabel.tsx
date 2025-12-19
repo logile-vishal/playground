@@ -1,15 +1,22 @@
 import { useMemo } from "react";
 import { CurlyBracket } from "@/core/constants/icons";
 
-import "./WildcardLabel.scss";
 import CSvgIcon from "@/core/components/icon/Icon";
+import clsx from "@/utils/clsx";
+
+import "./WildcardLabel.scss";
 
 type WildCardLabelProps = {
   label: string;
+  truncate?: boolean;
 };
 
 //TODO: replace with master data for wildcards once available
-const WILD_CARD_MAP = new Map([["%abc%", "Question 2 Content"]]);
+const WILD_CARD_MAP = new Map([
+  ["%abc%", "Question 2 Content"],
+  ["%assignee_store%", "Assignee Store"],
+  ["%task_name%", "Task Name"],
+]);
 
 const generateLabel = (label: WildCardLabelProps["label"]) => {
   const splitLabel = label.split(" ");
@@ -33,11 +40,20 @@ const generateLabel = (label: WildCardLabelProps["label"]) => {
   });
 };
 
-const WildcardLabel = ({ label }: WildCardLabelProps) => {
+const WildcardLabel = ({ label, truncate = true }: WildCardLabelProps) => {
   const labelWithWildcard = useMemo(() => {
     return generateLabel(label);
   }, [label]);
-  return <p className="wildcard-label">{labelWithWildcard}</p>;
+  return (
+    <p
+      className={clsx({
+        "wildcard-label": true,
+        "wildcard-label--truncate": truncate,
+      })}
+    >
+      {labelWithWildcard}
+    </p>
+  );
 };
 
 export default WildcardLabel;

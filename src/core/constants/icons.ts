@@ -121,6 +121,8 @@ export { default as ChevronUp } from "@/assets/icons/arrow/chevron-up.svg?react"
 export { default as InlineEdit } from "@/assets/icons/common-icons/inline-edit.svg?react";
 export { default as ClientLogo } from "@/assets/logile-logo.svg?react";
 export { default as Percentage } from "@/assets/icons/common-icons/percentage.svg?react";
+export { default as QuickShift } from "@/assets/icons/common-icons/quick-shift.svg?react";
+export { default as TeamLine } from "@/assets/icons/common-icons/team-line.svg?react";
 
 export type IconName =
   | "AddIcon"
@@ -243,4 +245,6 @@ export type IconName =
   | "ChevronUp"
   | "InlineEdit"
   | "ClientLogo"
-  | "Percentage";
+  | "Percentage"
+  | "QuickShift"
+  | "TeamLine";

@@ -1,13 +1,11 @@
 .wildcard-label {
   --wildcard-chip-height: 24px;
-  display: inline-block;
+  display: block;
   align-items: center;
   gap: var(--space-xs);
-  flex-wrap: wrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   max-width: 100%;
+  margin: 0;
   &__chip {
     display: inline-flex;
     align-items: center;
@@ -29,5 +27,10 @@
       font-weight: var(--logile-weight-400);
       line-height: var(--logile-line-height-body);
     }
+  }
+  &--truncate {
+    text-overflow: ellipsis;
+    display: inline-block;
+    white-space: nowrap;
   }
 }
