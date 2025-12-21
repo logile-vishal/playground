@@ -32,6 +32,10 @@ type NestedMenuProps = {
   anchorOrigin?: PopupPosition["anchorOrigin"];
   transformOrigin?: PopupPosition["transformOrigin"];
   onClick?: (e: React.MouseEvent<HTMLElement>, item: NestedMenuItem) => void;
+  onSubmenuClick?: (
+    e: React.MouseEvent<HTMLElement>,
+    item: NestedMenuItem
+  ) => void;
 };
 
 /**
@@ -59,8 +63,8 @@ const flattenMenuItems = (
       pathArray: currentPath,
     };
     const children =
-      Array.isArray(item.subMenu) && item.subMenu.length > 0
-        ? flattenMenuItems(item.subMenu, currentPath)
+      Array.isArray(item.subMenu?.items) && item.subMenu?.items.length > 0
+        ? flattenMenuItems(item.subMenu?.items, currentPath)
         : [];
     return [base, ...children];
   });
@@ -103,6 +107,7 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
   anchorOrigin,
   transformOrigin,
   onMenuItemSelect,
+  onSubmenuClick,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined);
@@ -147,7 +152,8 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
     currentPath: string[]
   ) => {
     e?.stopPropagation();
-    const hasNested = Array.isArray(item.subMenu) && item.subMenu.length > 0;
+    const hasNested =
+      Array.isArray(item.subMenu?.items) && item.subMenu?.items.length > 0;
     const hasCustom = isNonEmptyValue(item.customSubMenu);
     if (!hasNested && !hasCustom) {
       // trigger onMenuItemSelect only if the clicked item doesn't have a child menu
@@ -261,6 +267,7 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
             level={level + 1}
             onSelect={onMenuItemSelect}
             onClose={handleCloseAll}
+            onSubmenuClick={onSubmenuClick}
           />
         );
       })}

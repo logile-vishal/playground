@@ -4,7 +4,13 @@ import type { SvgIconComponent } from "../../icon/Icon";
 export type NestedMenuItem = {
   name: string;
   value: string;
-  subMenu?: NestedMenuItem[];
+  subMenu?: {
+    items: NestedMenuItem[];
+    onClick?: (
+      event: React.MouseEvent<HTMLElement>,
+      item: NestedMenuItem
+    ) => void;
+  };
   customSubMenu?: React.ReactNode;
   righticon?: string;
   leftIcon?: SvgIconComponent;

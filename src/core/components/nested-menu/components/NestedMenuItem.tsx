@@ -35,6 +35,10 @@ type NestedMenuItemProps = {
     onClose?: (event?: React.MouseEvent<HTMLElement>) => void;
   };
   closeAll?: () => void;
+  onSubmenuClick?: (
+    e: React.MouseEvent<HTMLElement>,
+    item: NestedMenuItem
+  ) => void;
 };
 
 const CNestedMenuItem = ({
@@ -48,6 +52,7 @@ const CNestedMenuItem = ({
   level,
   onSelect,
   onClose,
+  onSubmenuClick,
 }: NestedMenuItemProps) => {
   const [openSubMenu, setOpenSubMenu] = useState<boolean>(false);
   const menuItemAnchorRef = useRef(null);
@@ -55,7 +60,8 @@ const CNestedMenuItem = ({
 
   const hasCustomMenu = isNonEmptyValue(menuItemData.customSubMenu);
   const isNested =
-    Array.isArray(menuItemData.subMenu) && menuItemData.subMenu.length > 0;
+    Array.isArray(menuItemData?.subMenu?.items) &&
+    menuItemData?.subMenu?.items.length > 0;
 
   const menuItemProps: Partial<MenuItemProps> =
     isNested || hasCustomMenu
@@ -125,7 +131,14 @@ const CNestedMenuItem = ({
       className={"nested-menu__item"}
       {...(menuItemProps as MenuItemProps)}
       ref={menuItemAnchorRef}
-      onClick={handleOnClick}
+      onClick={
+        onSubmenuClick
+          ? (e) => {
+              handleOnClick(e);
+              onSubmenuClick(e, menuItemData);
+            }
+          : handleOnClick
+      }
       onMouseDown={(e) => e.stopPropagation()}
       onKeyDown={handleKeyDown}
     >
@@ -176,7 +189,7 @@ const CNestedMenuItem = ({
         <CNestedMenu
           anchorEl={menuItemAnchorRef.current}
           onClose={handleOnClose}
-          menuItems={menuItemData.subMenu!}
+          menuItems={menuItemData.subMenu.items!}
           level={level + 1}
           anchorOrigin={subMenuAnchorOrigin}
           transformOrigin={subMenuTransformOrigin}
@@ -188,6 +201,7 @@ const CNestedMenuItem = ({
           subMenuPosition={subMenuPosition}
           onMenuItemSelect={onSelect}
           onClick={handleOnClick}
+          onSubmenuClick={menuItemData.subMenu?.onClick}
         />
       )}
 
