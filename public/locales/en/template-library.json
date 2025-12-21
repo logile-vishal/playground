@@ -1,0 +1,25 @@
+{
+  "TEMPLATE_LIBRARY_NO_DATA": {
+    "title": "To view task templates, select a folder on the left or search above",
+    "description": "Nothing is selected"
+  },
+  "NO_DATA_SEARCH": {
+    "title": "No results found",
+    "description": "Try adjusting your search criteria"
+  },
+  "TEMPLATE_LIBRARY_HEADING": {
+    "createTemplate": "Create Template",
+    "folderTree": "Folder Tree",
+    "template": "Template",
+    "templateLibrary": "Template Library",
+    "searchTemplates": "Search by template name"
+  },
+  "TEMPLATE_TABLE_COLUMN_HEADINGS": {
+    "name": "Template Name",
+    "type": "Type",
+    "status": "Status",
+    "created": "Created",
+    "lastModified": "Last Modified",
+    "actions": "Actions"
+  }
+}

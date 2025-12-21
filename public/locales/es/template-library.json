@@ -1,0 +1,21 @@
+{
+  "TEMPLATE_LIBRARY_NO_DATA": {
+    "title": "Para ver las plantillas de tareas, seleccione una carpeta a la izquierda o busque arriba",
+    "description": "Nada está seleccionado"
+  },
+  "TEMPLATE_LIBRARY_HEADING": {
+    "createTemplate": "Crear Plantilla",
+    "folderTree": "Árbol de Carpetas",
+    "template": "Plantilla",
+    "templateLibrary": "Biblioteca de Plantillas",
+    "searchTemplates": "Buscar por nombre de plantilla"
+  },
+  "TEMPLATE_TABLE_COLUMN_HEADINGS": {
+    "name": "Nombre de Plantilla",
+    "type": "Tipo",
+    "status": "Estado",
+    "created": "Creado",
+    "lastModified": "Última Modificación",
+    "actions": "Acciones"
+  }
+}

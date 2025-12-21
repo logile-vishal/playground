@@ -1,0 +1,25 @@
+{
+  "TEMPLATE_LIBRARY_NO_DATA": {
+    "title": "要查看任务模板，请在左侧选择文件夹或在上方搜索",
+    "description": "未选择任何内容"
+  },
+  "NO_DATA_SEARCH": {
+    "title": "未找到结果",
+    "description": "请尝试调整搜索条件"
+  },
+  "TEMPLATE_LIBRARY_HEADING": {
+    "createTemplate": "创建模板",
+    "folderTree": "文件夹树",
+    "template": "模板",
+    "templateLibrary": "模板库",
+    "searchTemplates": "按模板名称搜索"
+  },
+  "TEMPLATE_TABLE_COLUMN_HEADINGS": {
+    "name": "模板名称",
+    "type": "类型",
+    "status": "状态",
+    "created": "创建时间",
+    "lastModified": "最后修改时间",
+    "actions": "操作"
+  }
+}

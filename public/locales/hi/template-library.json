@@ -1,0 +1,25 @@
+{
+  "TEMPLATE_LIBRARY_NO_DATA": {
+    "title": "कार्य टेम्पलेट देखने के लिए, बाईं ओर एक फ़ोल्डर चुनें या ऊपर खोजें",
+    "description": "कुछ भी चयनित नहीं है"
+  },
+  "NO_DATA_SEARCH": {
+    "title": "कोई परिणाम नहीं मिला",
+    "description": "अपने खोज मानदंड को समायोजित करने का प्रयास करें"
+  },
+  "TEMPLATE_LIBRARY_HEADING": {
+    "createTemplate": "टेम्पलेट बनाएं",
+    "folderTree": "फ़ोल्डर ट्री",
+    "template": "टेम्पलेट",
+    "templateLibrary": "टेम्पलेट लाइब्रेरी",
+    "searchTemplates": "टेम्पलेट नाम से खोजें"
+  },
+  "TEMPLATE_TABLE_COLUMN_HEADINGS": {
+    "name": "टेम्पलेट नाम",
+    "type": "प्रकार",
+    "status": "स्थिति",
+    "created": "बनाया गया",
+    "lastModified": "अंतिम संशोधित",
+    "actions": "कार्रवाइयाँ"
+  }
+}
