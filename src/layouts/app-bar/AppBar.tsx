@@ -22,6 +22,7 @@ import { useAuth } from "@/core/services/auth.service";
 import UserProfileInfoCard from "./components/user-profile/UserProfileInfoCard";
 import NavSearchBar from "./components/search-bar/SearchBar";
 import "./AppBar.scss";
+import { useLayoutTranslations } from "../translation/useLayoutTranslations";
 
 type AppBarProps = {
   handleToggleMenu: () => void;
@@ -41,6 +42,7 @@ const MainMenu = styled(ButtonBase)(() => ({
 }));
 
 const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
+  const { APP_BAR } = useLayoutTranslations();
   const { user } = useAuth();
 
   const handleSearch = (value: string) => {
@@ -74,7 +76,7 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
       {/* Search Bar */}
       <Stack className="appbar__search-bar">
         <NavSearchBar
-          placeholder="Search..."
+          placeholder={APP_BAR.searchPlaceholder}
           onSearch={handleSearch}
           iconPosition="left"
           icon={Search}

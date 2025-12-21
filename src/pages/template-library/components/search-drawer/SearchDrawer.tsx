@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -215,7 +214,7 @@ const SearchDrawer = ({
     taskTagsOptions: [] as { label: string; value: number }[],
     questionTagsOptions: [] as { label: string; value: number }[],
   });
-  const { t } = useTranslation();
+
   const { data: taskTypeOptions } = useGetTaskTypesOptions();
   const { data: taskTagsOptions } = useGetTaskTagsOptions();
   const { data: questionTagsOptions } = useGetQuestionTagsOptions();
@@ -414,8 +413,8 @@ const SearchDrawer = ({
             <Box className="template-library-search-drawer__recent-tab-content">
               {!recentFilterData || recentFilterData?.length === 0 ? (
                 <CNoData
-                  title={t("NO_DATA_SEARCH.title")}
-                  description={t("NO_DATA_SEARCH.description")}
+                  title={"NO_DATA_SEARCH.title"}
+                  description={"NO_DATA_SEARCH.description"}
                   imageSrcName={EmptyState}
                   imageWidth={90}
                 />

@@ -40,17 +40,16 @@ import {
   useGetReportsByReportType,
 } from "./services/template-library-api-hooks";
 import RenderExportMenu from "./components/export-menubar/ExportMenu";
-import {
-  IMPORT_MODAL,
-  TEMPLATE_LIBRARY_HEADING,
-  TEMPLATE_LIBRARY_NO_DATA,
-  TEMPLATE_LIST_PAGE_SIZE,
-} from "./constants/constant";
+import { IMPORT_MODAL, TEMPLATE_LIST_PAGE_SIZE } from "./constants/constant";
 import { templateSkelton } from "./components/skeleton/Skeleton";
 import LibraryTable from "./TemplateTable";
+import { useTemplateLibraryTranslations } from "./translation/useTemplateLibraryTranslations";
 import "./TemplateStyle.scss";
 
 const TemplateLibrary: React.FC = () => {
+  const { TEMPLATE_LIBRARY_HEADING, TEMPLATE_LIBRARY_NO_DATA } =
+    useTemplateLibraryTranslations();
+
   const [searchDrawer, setSearchDrawer] = useState({ status: false, text: "" });
   const [selectedDirectory, setSelectedDirectory] =
     useState<DirectoryType | null>(null);

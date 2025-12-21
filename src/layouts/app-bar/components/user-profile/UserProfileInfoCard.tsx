@@ -1,4 +1,4 @@
-import React, { useContext, useRef, type Ref } from "react";
+import React, { useRef, type Ref } from "react";
 import { Typography } from "@mui/material";
 
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -6,20 +6,17 @@ import clsx from "@/utils/clsx";
 import { ArrowDownFill, ArrowUpFill } from "@/core/constants/icons";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
-import { ThemeContext } from "@/theme-mui/ThemeContext";
-import type { NestedMenuItem } from "@/core/components/nested-menu/types";
-import type { ThemeMode } from "@/core/types/theme.type";
 
 import "./UserProfile.scss";
-import { adminMenuItemsList } from "./constants";
+import { useAdminMenuItemsList } from "./constants";
 
 type UserProfileInfoCardProps = {
   user: { name: string; role: string; avatar: string };
 };
 
 const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
+  const adminMenuItemsList = useAdminMenuItemsList();
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-  const { updateThemeMode } = useContext(ThemeContext);
   const anchorEl = useRef<undefined | Ref<HTMLDivElement>>(undefined);
   const handleDropdownClick = (event: React.MouseEvent<HTMLDivElement>) => {
     anchorEl.current = event.currentTarget as unknown as Ref<HTMLDivElement>;
@@ -30,10 +27,7 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
     setIsDropdownOpen(false);
   };
 
-  const handleProfileMenuSelect = (menuItem: NestedMenuItem) => {
-    if (menuItem.value) {
-      updateThemeMode(menuItem.value as ThemeMode);
-    }
+  const handleProfileMenuSelect = () => {
     handleClose();
   };
 

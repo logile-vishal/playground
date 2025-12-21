@@ -60,6 +60,7 @@ import {
   useGetPreviewByReportTypeId,
   useGetPreviewByTemplateId,
 } from "./services/template-library-api-hooks";
+import { useTemplateLibraryTranslations } from "./translation/useTemplateLibraryTranslations";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -120,6 +121,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   handleExportMenuOpen,
   fetchData,
 }) => {
+  const { TEMPLATE_TABLE_COLUMN_HEADINGS } = useTemplateLibraryTranslations();
   const [tableActionMenu, setTableActionMenu] = useState<
     Record<ActionMenuKeys, MenuState>
   >({
@@ -937,7 +939,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     {
       order: 1,
       accessorKey: TEMPLATE_NAME,
-      header: "Name",
+      header: TEMPLATE_TABLE_COLUMN_HEADINGS.name,
       hide: false,
       size: 1,
       Header: renderTemplateNameHeader,
@@ -959,7 +961,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       order: 2,
       hide: !isDesktop,
       accessorKey: TAG_TYPE,
-      header: "Type",
+      header: TEMPLATE_TABLE_COLUMN_HEADINGS.type,
       Header: renderTemplateHeader,
       size: 1,
       Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateTypeCell,
@@ -973,7 +975,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       order: 3,
       hide: !isDesktop,
       accessorKey: STATUS,
-      header: "Status",
+      header: TEMPLATE_TABLE_COLUMN_HEADINGS.status,
       size: 1,
       Header: renderTemplateHeader,
       Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateStatusCell,
@@ -986,7 +988,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     {
       order: 4,
       accessorKey: CREATED_TIME,
-      header: "Created",
+      header: TEMPLATE_TABLE_COLUMN_HEADINGS.created,
       hide: false,
       size: 1,
       Header: renderTemplateCreatedHeader,
@@ -1002,7 +1004,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     {
       order: 5,
       accessorKey: LAST_MODIFIED_TIME,
-      header: "Last Modified",
+      header: TEMPLATE_TABLE_COLUMN_HEADINGS.lastModified,
       hide: false,
       size: 1,
       Header: renderTemplateModifiedHeader,
@@ -1018,7 +1020,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     {
       order: 6,
       accessorKey: ACTIONS,
-      header: "Actions",
+      header: TEMPLATE_TABLE_COLUMN_HEADINGS.actions,
       hide: false,
       size: 1,
       Header: renderTemplateActionHeader,

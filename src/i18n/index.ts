@@ -8,12 +8,11 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    lng: "en", // default language
     fallbackLng: "en",
     debug: import.meta.env.MODE === "development",
-    ns: ["common"], // default namespace
-    defaultNS: "common",
     interpolation: { escapeValue: false },
+    ns: ["common", "template-library"], // Preload namespaces
+    defaultNS: "common", // Default namespace for t() calls
     backend: {
       loadPath: "./locales/{{lng}}/{{ns}}.json", // dynamic loading
     },
