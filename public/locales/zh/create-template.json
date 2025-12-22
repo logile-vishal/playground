@@ -1,0 +1,51 @@
+{
+  "BASIC_INFO": {
+    "templateName": "模板名称",
+    "templateNamePlaceholder": "输入模板名称",
+    "description": "描述",
+    "descriptionPlaceholder": "输入描述",
+    "type": "类型",
+    "typePlaceholder": "选择类型",
+    "tags": "标签",
+    "tagsPlaceholder": "选择标签",
+    "directory": "目录",
+    "directoryPlaceholder": "选择目录",
+    "subDirectoryPlaceholder": "选择子目录"
+  },
+  "CREATE_TEMPLATE_STEPS": {
+    "basicInfoLabel": "基本信息",
+    "questionsLabel": "问题",
+    "advancedOptionLabel": "高级选项",
+    "notificationLabel": "通知",
+    "followUpLabel": "后续任务"
+  },
+  "CREATE_TEMPLATE_HEADING": {
+    "createTaskTemplate": "创建任务模板"
+  },
+  "CREATE_TEMPLATE_HEADER_ACTIONS": {
+    "preview": "预览",
+    "next": "下一步",
+    "save": "保存",
+    "submit": "提交"
+  },
+  "ADVANCED_OPTIONS": {
+    "compilanceThreshold": "合规阈值",
+    "compilanceThresholdPlaceholder": "输入值",
+    "labourHours": "工时",
+    "labourHoursPlaceholder": "选择选项",
+    "templateAccess": "模板访问权限",
+    "templateAccessPlaceholder": "选择权限",
+    "signature": "签名",
+
+    "LABOUR_HOUR_OPTIONS": {
+      "labourHoursMinutes": "分钟",
+      "labourHoursHours": "小时",
+      "labourHoursSeconds": "秒"
+    },
+    "TEMPLATE_ACCESS_OPTIONS": {
+      "templateAccessPublic": "公开",
+      "templateAccessPrivate": "私有",
+      "templateAccessHidden": "隐藏"
+    }
+  }
+}

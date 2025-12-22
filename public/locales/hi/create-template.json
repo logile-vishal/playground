@@ -1,0 +1,51 @@
+{
+  "BASIC_INFO": {
+    "templateName": "टेम्पलेट नाम",
+    "templateNamePlaceholder": "टेम्पलेट नाम दर्ज करें",
+    "description": "विवरण",
+    "descriptionPlaceholder": "विवरण दर्ज करें",
+    "type": "प्रकार",
+    "typePlaceholder": "प्रकार चुनें",
+    "tags": "टैग",
+    "tagsPlaceholder": "टैग चुनें",
+    "directory": "निर्देशिका",
+    "directoryPlaceholder": "निर्देशिका चुनें",
+    "subDirectoryPlaceholder": "उप-निर्देशिका चुनें"
+  },
+  "CREATE_TEMPLATE_STEPS": {
+    "basicInfoLabel": "मूल जानकारी",
+    "questionsLabel": "प्रश्न",
+    "advancedOptionLabel": "उन्नत विकल्प",
+    "notificationLabel": "सूचनाएं",
+    "followUpLabel": "अनुवर्ती कार्य"
+  },
+  "CREATE_TEMPLATE_HEADING": {
+    "createTaskTemplate": "कार्य टेम्पलेट बनाएं"
+  },
+  "CREATE_TEMPLATE_HEADER_ACTIONS": {
+    "preview": "पूर्वावलोकन",
+    "next": "अगला",
+    "save": "सहेजें",
+    "submit": "जमा करें"
+  },
+  "ADVANCED_OPTIONS": {
+    "compilanceThreshold": "अनुपालन सीमा",
+    "compilanceThresholdPlaceholder": "मान दर्ज करें",
+    "labourHours": "श्रम घंटे",
+    "labourHoursPlaceholder": "विकल्प चुनें",
+    "templateAccess": "टेम्पलेट एक्सेस",
+    "templateAccessPlaceholder": "एक्सेस चुनें",
+    "signature": "हस्ताक्षर",
+
+    "LABOUR_HOUR_OPTIONS": {
+      "labourHoursMinutes": "मिनट",
+      "labourHoursHours": "घंटे",
+      "labourHoursSeconds": "सेकंड"
+    },
+    "TEMPLATE_ACCESS_OPTIONS": {
+      "templateAccessPublic": "सार्वजनिक",
+      "templateAccessPrivate": "निजी",
+      "templateAccessHidden": "छिपा हुआ"
+    }
+  }
+}

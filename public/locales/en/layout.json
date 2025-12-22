@@ -1,5 +1,27 @@
 {
   "APP_BAR": {
     "searchPlaceholder": "Search..."
+  },
+  "SIDEBAR": {
+    "IMS_NAV_LINKS": {
+      "home": "Home",
+      "quickLinks": "Quick Links",
+      "ess": "ESS",
+      "communication": "Communication",
+      "standards": "Standards",
+      "labourModel": "Labour Model",
+      "forecast": "Forecast",
+      "staffing": "Staffing",
+      "labourReport": "Labour Report",
+      "foodSafety": "Food Safety",
+      "queueManagement": "Queue Management"
+    },
+    "WFM_NAV_LINKS": {
+      "home": "Home",
+      "quickLinks": "Quick Links",
+      "ess": "ESS",
+      "communication": "Communication",
+      "queueManagement": "Queue Management"
+    }
   }
 }

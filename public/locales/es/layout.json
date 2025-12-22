@@ -1,5 +1,27 @@
 {
   "APP_BAR": {
     "searchPlaceholder": "Buscar..."
+  },
+  "SIDEBAR": {
+    "IMS_NAV_LINKS": {
+      "home": "Inicio",
+      "quickLinks": "Enlaces rápidos",
+      "ess": "ESS",
+      "communication": "Comunicación",
+      "standards": "Estándares",
+      "labourModel": "Modelo laboral",
+      "forecast": "Pronóstico",
+      "staffing": "Dotación de personal",
+      "labourReport": "Informe laboral",
+      "foodSafety": "Seguridad alimentaria",
+      "queueManagement": "Gestión de colas"
+    },
+    "WFM_NAV_LINKS": {
+      "home": "Inicio",
+      "quickLinks": "Enlaces rápidos",
+      "ess": "ESS",
+      "communication": "Comunicación",
+      "queueManagement": "Gestión de colas"
+    }
   }
 }

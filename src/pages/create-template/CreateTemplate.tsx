@@ -17,14 +17,16 @@ import Notifications from "./components/notifications/Notifications";
 import FollowUp from "./components/follow-up/FollowUp";
 import AdvancedOptions from "./components/advanced-options/AdvancedOptions";
 import CreateTemplateFormProvider from "./providers/CreateTemplateFormProvider";
-import {
-  CREATE_TEMPLATE_HEADING,
-  CREATE_TEMPLATE_STEPS,
-} from "./constants/constant";
+import { useCreateTemplateTranslations } from "./translation/useCreateTemplateTranslations";
 import "./CreateTemplate.scss";
 
 const CreateTemplate: React.FC = () => {
   const navigate = useNavigate();
+  const {
+    CREATE_TEMPLATE_STEPS,
+    CREATE_TEMPLATE_HEADING,
+    CREATE_TEMPLATE_HEADER_ACTIONS,
+  } = useCreateTemplateTranslations();
   const { basicInfo, questions, advancedOption, notification, followUp } =
     CREATE_TEMPLATE_STEPS;
 
@@ -113,25 +115,25 @@ const CreateTemplate: React.FC = () => {
                 variant="outline"
                 disabled={true}
               >
-                Preview
+                {CREATE_TEMPLATE_HEADER_ACTIONS.preview}
               </CButton>
               <CButton
                 severity="secondary"
                 disabled={true}
               >
-                Next
+                {CREATE_TEMPLATE_HEADER_ACTIONS.next}
               </CButton>
               <CButton
                 severity="primary"
                 disabled={true}
               >
-                Save
+                {CREATE_TEMPLATE_HEADER_ACTIONS.save}
               </CButton>
               <CButton
                 severity="primary"
                 disabled={true}
               >
-                Submit
+                {CREATE_TEMPLATE_HEADER_ACTIONS.submit}
               </CButton>
             </Box>
           </Stack>

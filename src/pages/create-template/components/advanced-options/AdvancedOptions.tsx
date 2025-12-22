@@ -6,12 +6,8 @@ import CSelect from "@/core/components/select/Select";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { Percentage } from "@/core/constants/icons";
 
-import {
-  ADVANCED_OPTIONS,
-  LABOUR_HOUR_OPTIONS,
-  TEMPLATE_ACCESS_OPTIONS,
-} from "../../constants/constant";
 import "./AdvancedOptions.scss";
+import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
 
 const StyledSwitch = styled((props) => (
   <Switch
@@ -53,6 +49,9 @@ const StyledSwitch = styled((props) => (
 }));
 
 const AdvancedOptions: React.FC = () => {
+  const { ADVANCED_OPTIONS, LABOUR_HOUR_OPTIONS, TEMPLATE_ACCESS_OPTIONS } =
+    useCreateTemplateTranslations();
+
   return (
     <Box className="create-template-advanced-options">
       <Box className="create-template-advanced-options__row">

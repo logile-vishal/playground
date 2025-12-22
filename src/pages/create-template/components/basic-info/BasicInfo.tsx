@@ -7,7 +7,7 @@ import CSvgIcon from "@/core/components/icon/Icon";
 import CSelect from "@/core/components/select/Select";
 import clsx from "@/utils/clsx";
 
-import { BASIC_INFO } from "../../constants/constant";
+import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
 import "./BasicInfo.scss";
 
 //TODO: To be removed static data when dropdown api response
@@ -25,6 +25,7 @@ const directoryDropdownOptions = [
 ];
 
 const BasicInfo: React.FC = () => {
+  const { BASIC_INFO } = useCreateTemplateTranslations();
   return (
     <Box className="create-template-basic-info">
       <Box className="create-template-basic-info__row">

@@ -11,24 +11,12 @@ import {
 
 import { defaultConstants } from "@/core/constants/app-constants";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
-import CSvgIcon, { type SvgIconComponent } from "@/core/components/icon/Icon";
-import {
-  Calendar,
-  Communication,
-  Exchange,
-  FoodSafety,
-  Forecast,
-  Home,
-  LabourModel,
-  LabourReport,
-  QueueManagement,
-  QuickLink,
-  Staffing,
-  Standards,
-} from "@/core/constants/icons";
+import CSvgIcon from "@/core/components/icon/Icon";
+import { Exchange } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
 import "./Sidebar.scss";
+import { useLayoutTranslations } from "../translation/useLayoutTranslations";
 
 type SidebarProps = {
   activePath: string;
@@ -37,38 +25,6 @@ type SidebarProps = {
   handleMenuClose: () => void;
 };
 
-const imsNavLinks: {
-  text: string;
-  path: string;
-  icon: SvgIconComponent;
-}[] = [
-  { text: "Home", path: "/", icon: Home },
-  { text: "Quick Links", path: "/quickLinks", icon: QuickLink },
-  { text: "ESS", path: "/ess", icon: Calendar },
-  { text: "Communication", path: "/communication", icon: Communication },
-  { text: "Standards", path: "/standards", icon: Standards },
-  { text: "Labour Model", path: "/labourModel", icon: LabourModel },
-  { text: "Forecast", path: "/forecast", icon: Forecast },
-  { text: "Staffing", path: "/staffing", icon: Staffing },
-  { text: "Labour Report", path: "/labourReport", icon: LabourReport },
-  { text: "Food Safety", path: "/foodSafety", icon: FoodSafety },
-  { text: "Queue Management", path: "/queueManagement", icon: QueueManagement },
-];
-const wfmNavLinks: {
-  text: string;
-  path: string;
-  icon: SvgIconComponent;
-}[] = [
-  { text: "Home", path: "/", icon: Home },
-  { text: "Quick Links", path: "/quickLinks", icon: QuickLink },
-  { text: "ESS", path: "/ess", icon: Calendar },
-  { text: "Communication", path: "/communication", icon: Communication },
-  { text: "Queue Management", path: "/queueManagement", icon: QueueManagement },
-];
-const navLinkOptions = {
-  IMS: imsNavLinks,
-  WFM: wfmNavLinks,
-};
 const StyledListItemButton = styled(ListItemButton, {
   shouldForwardProp: (prop) => prop !== "activePath",
 })<{ activePath?: boolean; component?: React.ElementType; to?: string }>(
@@ -106,6 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   showMenu,
   handleMenuClose,
 }) => {
+  const { NAV_LINKS } = useLayoutTranslations();
   const [appSwitchValue, setAppSwitchValue] = useState<string>(
     defaultConstants.WFM
   );
@@ -115,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       prev == defaultConstants.IMS ? defaultConstants.WFM : defaultConstants.IMS
     );
   };
-  const navlistItems = navLinkOptions[defaultConstants.IMS];
+  const navlistItems = NAV_LINKS[defaultConstants.IMS];
 
   const renderDesktopSwitch = () => {
     return (

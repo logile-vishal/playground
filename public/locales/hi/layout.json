@@ -1,5 +1,27 @@
 {
   "APP_BAR": {
     "searchPlaceholder": "खोजें..."
+  },
+  "SIDEBAR": {
+    "IMS_NAV_LINKS": {
+      "home": "होम",
+      "quickLinks": "त्वरित लिंक",
+      "ess": "ESS",
+      "communication": "संचार",
+      "standards": "मानक",
+      "labourModel": "श्रम मॉडल",
+      "forecast": "पूर्वानुमान",
+      "staffing": "स्टाफिंग",
+      "labourReport": "श्रम रिपोर्ट",
+      "foodSafety": "खाद्य सुरक्षा",
+      "queueManagement": "कतार प्रबंधन"
+    },
+    "WFM_NAV_LINKS": {
+      "home": "होम",
+      "quickLinks": "त्वरित लिंक",
+      "ess": "ESS",
+      "communication": "संचार",
+      "queueManagement": "कतार प्रबंधन"
+    }
   }
 }

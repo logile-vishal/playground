@@ -1,0 +1,51 @@
+{
+  "BASIC_INFO": {
+    "templateName": "Nombre de la plantilla",
+    "templateNamePlaceholder": "Ingrese el nombre de la plantilla",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Ingrese la descripción",
+    "type": "Tipo",
+    "typePlaceholder": "Seleccionar tipo",
+    "tags": "Etiquetas",
+    "tagsPlaceholder": "Seleccionar etiquetas",
+    "directory": "Directorio",
+    "directoryPlaceholder": "Seleccionar directorio",
+    "subDirectoryPlaceholder": "Seleccionar subdirectorio"
+  },
+  "CREATE_TEMPLATE_STEPS": {
+    "basicInfoLabel": "Información básica",
+    "questionsLabel": "Preguntas",
+    "advancedOptionLabel": "Opciones avanzadas",
+    "notificationLabel": "Notificaciones",
+    "followUpLabel": "Tareas de seguimiento"
+  },
+  "CREATE_TEMPLATE_HEADING": {
+    "createTaskTemplate": "Crear plantilla de tarea"
+  },
+  "CREATE_TEMPLATE_HEADER_ACTIONS": {
+    "preview": "Vista previa",
+    "next": "Siguiente",
+    "save": "Guardar",
+    "submit": "Enviar"
+  },
+  "ADVANCED_OPTIONS": {
+    "compilanceThreshold": "Umbral de cumplimiento",
+    "compilanceThresholdPlaceholder": "Ingrese el valor",
+    "labourHours": "Horas de trabajo",
+    "labourHoursPlaceholder": "Seleccionar opción",
+    "templateAccess": "Acceso a la plantilla",
+    "templateAccessPlaceholder": "Seleccionar acceso",
+    "signature": "Firma",
+
+    "LABOUR_HOUR_OPTIONS": {
+      "labourHoursMinutes": "Minutos",
+      "labourHoursHours": "Horas",
+      "labourHoursSeconds": "Segundos"
+    },
+    "TEMPLATE_ACCESS_OPTIONS": {
+      "templateAccessPublic": "Público",
+      "templateAccessPrivate": "Privado",
+      "templateAccessHidden": "Oculto"
+    }
+  }
+}

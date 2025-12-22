@@ -1,0 +1,51 @@
+{
+  "BASIC_INFO": {
+    "templateName": "Template Name",
+    "templateNamePlaceholder": "Enter Template Name",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter Description",
+    "type": "Type",
+    "typePlaceholder": "Select Type",
+    "tags": "Tags",
+    "tagsPlaceholder": "Select Tags",
+    "directory": "Directory",
+    "directoryPlaceholder": "Select Directory",
+    "subDirectoryPlaceholder": "Select Sub-Directory"
+  },
+  "CREATE_TEMPLATE_STEPS": {
+    "basicInfoLabel": "Basic Information",
+    "questionsLabel": "Questions",
+    "advancedOptionLabel": "Advanced Options",
+    "notificationLabel": "Notifications",
+    "followUpLabel": "Follow-up Tasks"
+  },
+  "CREATE_TEMPLATE_HEADING": {
+    "createTaskTemplate": "Create Task Template"
+  },
+  "CREATE_TEMPLATE_HEADER_ACTIONS": {
+    "preview": "Preview",
+    "next": "Next",
+    "save": "Save",
+    "submit": "Submit"
+  },
+  "ADVANCED_OPTIONS": {
+    "compilanceThreshold": "Compilance Threshold",
+    "compilanceThresholdPlaceholder": "Enter value",
+    "labourHours": "Labor Hours",
+    "labourHoursPlaceholder": "Select Option",
+    "templateAccess": "Template Access",
+    "templateAccessPlaceholder": "Select Access",
+    "signature": "Signature",
+
+    "LABOUR_HOUR_OPTIONS": {
+      "labourHoursMinutes": "Minutes",
+      "labourHoursHours": "Hours",
+      "labourHoursSeconds": "Seconds"
+    },
+    "TEMPLATE_ACCESS_OPTIONS": {
+      "templateAccessPublic": "Public",
+      "templateAccessPrivate": "Private",
+      "templateAccessHidden": "Hidden"
+    }
+  }
+}

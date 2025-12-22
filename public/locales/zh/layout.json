@@ -1,5 +1,27 @@
 {
   "APP_BAR": {
     "searchPlaceholder": "搜索..."
+  },
+  "SIDEBAR": {
+    "IMS_NAV_LINKS": {
+      "home": "首页",
+      "quickLinks": "快速链接",
+      "ess": "ESS",
+      "communication": "通讯",
+      "standards": "标准",
+      "labourModel": "劳动力模型",
+      "forecast": "预测",
+      "staffing": "人员配置",
+      "labourReport": "劳动力报告",
+      "foodSafety": "食品安全",
+      "queueManagement": "队列管理"
+    },
+    "WFM_NAV_LINKS": {
+      "home": "首页",
+      "quickLinks": "快速链接",
+      "ess": "ESS",
+      "communication": "通讯",
+      "queueManagement": "队列管理"
+    }
   }
 }
