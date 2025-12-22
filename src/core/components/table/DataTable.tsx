@@ -35,6 +35,12 @@ export const CDataTable = ({
         "& td": {
           color: "var(--logile-text-primary)",
         },
+        "& tr.MuiTableRow-root:hover": {
+          backgroundColor: "var(--logile-bg-primary-x-subtle)",
+        },
+        "& .MuiTableRow-root:hover td:after": {
+          backgroundColor: "transparent",
+        },
         ...(muiTableStyleProps && muiTableStyleProps),
       },
     },
