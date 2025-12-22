@@ -1,0 +1,53 @@
+.tabs__container {
+  .tabs {
+    // Color variables
+    --tabs-border-color: var(--logile-border-secondary);
+    --tabs-border-width: var(--border-s);
+    --tabs-tab-color: var(--logile-text-secondary);
+    --tabs-tab-selected-color: var(--logile-text-brand-primary-dark-mode-alt);
+    --tabs-indicator-color: var(--logile-border-brand-primary-alt-dark-mode);
+
+    // Size variables
+    --tabs-min-height: auto;
+    --tabs-padding-left: var(--space-l);
+    --tabs-tab-padding: var(--space-m);
+    --tabs-gap: var(--space-m);
+    --tabs-indicator-height: 1px;
+    --tabs-tab-font-size: var(--logile-size-body);
+    --tabs-tab-font-weight: var(--logile-weight-400);
+    --tabs-tab-selected-font-weight: var(--logile-weight-500);
+
+    // Border bottom
+    border-bottom: var(--tabs-border-width) solid var(--tabs-border-color);
+    min-height: auto;
+    padding-left: var(--tabs-padding-left);
+
+    // Tab list styling
+    .MuiTabs-list {
+      gap: var(--tabs-gap);
+    }
+
+    // Individual tab styling
+    .MuiButtonBase-root {
+      padding: var(--tabs-tab-padding);
+      min-height: var(--tabs-min-height);
+      min-width: auto;
+      text-transform: capitalize;
+      font-size: var(--tabs-tab-font-size);
+      font-weight: var(--tabs-tab-font-weight);
+      color: var(--tabs-tab-color);
+    }
+
+    // Selected tab styling
+    .Mui-selected {
+      font-weight: var(--tabs-tab-selected-font-weight);
+      color: var(--tabs-tab-selected-color);
+    }
+
+    // Indicator (bottom underline) styling
+    .MuiTabs-indicator {
+      height: var(--tabs-indicator-height);
+      background-color: var(--tabs-indicator-color);
+    }
+  }
+}

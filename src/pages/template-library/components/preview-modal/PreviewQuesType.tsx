@@ -4,7 +4,6 @@ import {
   MenuItem,
   Select,
   TextField,
-  Checkbox,
   FormControlLabel,
   Radio,
   InputAdornment,
@@ -24,8 +23,10 @@ import {
   CalendarBlank,
   Camera,
   CameraRequired,
+  ChevronDown,
   InfoCircle,
 } from "@/core/constants/icons";
+import CCheckbox from "@/core/components/form/checkbox/Checkbox";
 import clsx from "@/utils/clsx";
 
 import type {
@@ -101,6 +102,12 @@ export const RenderDropdown: React.FC<RenderDropdownProps> = ({
         "template-preview-modal__common-dropdown": true,
         "template-preview-modal__common-dropdown--mobile": !isDesktopPreview,
       })}
+      IconComponent={() => (
+        <CSvgIcon
+          component={ChevronDown}
+          className="template-preview-modal__common-dropdown-icon"
+        />
+      )}
       MenuProps={{ classes: { paper: "template-preview-modal__paper" } }}
       renderValue={() => (
         <Box className="template-preview__dropdown">{placeholder}</Box>
@@ -122,10 +129,10 @@ export const RenderCheckbox: React.FC<RenderCheckboxProps> = ({
   isChecked = false,
 }) => {
   return (
-    <FormControlLabel
+    <CCheckbox
       className="template-preview-modal__common-checkbox"
-      control={<Checkbox checked={isChecked} />}
       label=""
+      checked={isChecked}
     />
   );
 };
@@ -168,7 +175,7 @@ export const RenderButtonContainer: React.FC<RenderButtonContainerProps> = ({
           <CSvgIcon
             component={icon}
             size={16}
-            fill="var(--logile-text-white)"
+            fill="var(--logile-text-white-dark-mode)"
           />
         )}
         {label && <span>{label}</span>}

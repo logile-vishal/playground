@@ -8,6 +8,7 @@ export type StepOption = {
 };
 
 export type StepperProps = {
+  currentStep?: number;
   options: StepOption[];
   componentClassName?: string;
   onChange?: (event: { activeStep: number; data: StepOption }) => void;

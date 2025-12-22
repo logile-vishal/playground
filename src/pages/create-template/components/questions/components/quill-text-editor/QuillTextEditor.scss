@@ -1,0 +1,85 @@
+/* TODO Demo: Will be modified later */
+.editor-wrapper {
+  position: relative;
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--logile-border-secondary);
+  background: var(--logile-bg-container-1);
+  position: relative;
+  .quill {
+    height: 60%;
+  }
+  #toolbar {
+    border: none;
+    float: right;
+  }
+  .ql-container {
+    border: none;
+  }
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .ql-variable-btn {
+    padding: var(--space-xs) var(--space-s);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: var(--logile-size-body);
+  }
+
+  .ql-variable-btn:hover {
+    background-color: var(--logile-gray-light-50);
+    border-radius: var(--radius-xs);
+  }
+
+  .dropdown {
+    position: absolute;
+    top: var(--space-5xl);
+    right: var(--space-none);
+    background: var(--logile-base-white);
+    border: 1px solid var(--logile-gray-light-200);
+    border-radius: var(--radius-s);
+    box-shadow: var(--shadow-l-2);
+    z-index: 10;
+    width: 180px;
+  }
+
+  .dropdown-item {
+    padding: var(--space-m) var(--space-l);
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .dropdown-item:hover {
+    background-color: var(--logile-gray-light-50);
+  }
+
+  .ql-variable {
+    background-color: var(--logile-blue-50);
+    color: var(--logile-blue-500);
+    padding: var(--space-xxs) var(--space-s);
+    border-radius: var(--radius-xs);
+    margin: var(--space-none) var(--space-xxs);
+    font-weight: var(--logile-weight-500);
+  }
+  .ql-editor {
+    color: var(--logile-text-primary);
+    font-family: var(--logile-family-body-family);
+    font-size: var(--logile-size-body);
+    font-weight: var(--logile-weight-400);
+  }
+  .ql-editor.ql-blank::before {
+    color: var(--logile-text-tertiary);
+    font-family: var(--logile-family-body-family);
+    font-size: var(--logile-size-body);
+    font-weight: var(--logile-weight-400);
+    font-style: normal;
+  }
+  .toolbar-custom-icons {
+    color: var(--logile-icon-secondary);
+  }
+}

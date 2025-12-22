@@ -1,6 +1,7 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .create-template-page-header {
+  margin-bottom: var(--space-m);
   @include flex-center(space-between, center, var(--space-l));
   gap: var(--space-l);
   width: 100%;

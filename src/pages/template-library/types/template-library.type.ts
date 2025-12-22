@@ -112,12 +112,12 @@ export type PreviewModalProps = {
   onClose: () => void;
   isPreviewLoading: boolean;
   hasTemplatePreviewError: Error | null;
-  exportMenu: {
+  exportMenu?: {
     anchorEl: null | HTMLElement;
     status: boolean;
   };
-  handleExportMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
-  handleExportMenuClose: () => void;
+  handleExportMenuOpen?: (event: React.MouseEvent<HTMLElement>) => void;
+  handleExportMenuClose?: () => void;
 };
 
 export type PreviewButtonProps = {

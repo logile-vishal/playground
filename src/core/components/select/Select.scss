@@ -1,13 +1,14 @@
 .select {
   &__label {
     display: block;
-    font-size: var(--logile-size-secondary-text);
+    font-size: var(--logile-size-body);
     font-weight: var(--logile-weight-400);
     color: var(--logile-text-secondary);
     line-height: var(--logile-line-height-secondary-text);
   }
   &__placeholder-text {
     color: var(--logile-text-tertiary);
+    font-weight: var(--logile-weight-400);
   }
   .MuiSelect-select {
     padding: 0;

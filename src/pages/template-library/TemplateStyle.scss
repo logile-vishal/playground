@@ -131,7 +131,7 @@
     height: 100%;
 
     ul.MuiSimpleTreeView-root {
-      padding: var(space-lg) var(space-xl);
+      padding: var(--space-lg) var(--space-xl);
       scrollbar-width: none;
     }
   }
@@ -149,9 +149,11 @@
     box-shadow: none;
     border-radius: 0px;
     height: 100%;
+    background-color: var(--logile-bg-container-1);
   }
 
   .MuiTableCell-root {
+    border-bottom: 1px solid var(--logile-border-tertiary);
     padding: var(--space-m);
     width: auto;
   }

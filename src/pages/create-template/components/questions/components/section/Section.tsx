@@ -14,14 +14,14 @@ import {
 } from "@/pages/create-template/constants/questions";
 import CSvgIcon from "@/core/components/icon/Icon";
 import type { QuestionSectionProps } from "@/pages/create-template/types/questions.type";
-import { QUESTION_TYPES } from "@/pages/template-library/constants/constant";
 import clsx from "@/utils/clsx";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
+import IconButton from "@/core/components/button/IconButton";
 
+import DeleteSectionModal from "../delete-section-modal/DeleteSectionModal";
+import AddEditSectionModal from "../add-edit-section-modal/AddEditSectionModal";
+import QuestionCard from "../question-card/QuestionCard";
 import "./Section.scss";
-import QuestionCardCollapsed from "../question-card-collapsed/QuestionCardCollapsed";
-import DeleteSectionModal from "../DeleteSectionModal/DeleteSectionModal";
-import AddEditSectionModal from "../AddEditSectionModal/AddEditSectionModal";
 
 type SectionSettingProps = {
   anchor: HTMLElement | null;
@@ -179,7 +179,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
               />
             </Box>
           </Box>
-          <Box
+          <IconButton
             className="question-section__header-icon"
             onClick={toggleSectionCollapse}
           >
@@ -188,7 +188,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
               component={ChevronCollapse}
               color="secondary"
             />
-          </Box>
+          </IconButton>
         </Box>
         <Box className="question-section__questions-wrapper">
           {/* TODO: Replace question data after API data */}
@@ -206,28 +206,20 @@ const QuestionSection = (props: QuestionSectionProps) => {
             </Box>
           ))} */}
           {/* TODO: Replace hardcoded data with mapped questions fetched from the API */}
-          <Box className="question-section__questions-item">
-            <QuestionCardCollapsed
-              label="Which areas in the department require attention?"
-              isRequired={true}
-              orderIndex={"3.1"}
-              optiontypeLabel={QUESTION_TYPES.RADIO_BUTTON.label}
-              isPhotoBadgeVisible={true}
-              isTagBadgeVisible={true}
-              isFileBadgeVisible={true}
-            />
-          </Box>
-          <Box className="question-section__questions-item">
-            <QuestionCardCollapsed
-              label="Describe any issues found during inspection."
-              isRequired={true}
-              orderIndex={"3.2"}
-              optiontypeLabel={QUESTION_TYPES.USER_INPUT.label}
-              isAnswerBadgeVisible={true}
-              isPreviousBadgeVisible={true}
-              isNumberBadgeVisible={true}
-            />
-          </Box>
+          {props.data && props.data?.length > 0
+            ? props.data?.map((question) => (
+                <Box
+                  className="question-section__questions-item"
+                  key={question.id}
+                >
+                  <QuestionCard
+                    question={question}
+                    expandedList={props?.expandedList}
+                    toggleExpand={props?.toggleExpand}
+                  />
+                </Box>
+              ))
+            : null}
         </Box>
         {sectionSettingsMenu()}
         <DeleteSectionModal

@@ -2,8 +2,9 @@ import type { QUESTION_OPTION_LABELS } from "../constants/questions";
 
 export type QuestionOptionType =
   (typeof QUESTION_OPTION_LABELS)[keyof typeof QUESTION_OPTION_LABELS];
-
-export type QuestionCardCollapsedProps = {
+// TODO: update question section data type after API integration
+export type QuestionProps = {
+  id: number | string;
   orderIndex: string;
   isRequired: boolean;
   label: string;
@@ -17,7 +18,23 @@ export type QuestionCardCollapsedProps = {
   isPreviousBadgeVisible?: boolean;
   isNumberBadgeVisible?: boolean;
   isTemperatureBadgeVisible?: boolean;
+  onLabelChange?: (newLabel: string) => void;
   hasError?: boolean;
+};
+
+export type QuestionSectionProps = {
+  title: string;
+  orderindex: string;
+  hasError?: boolean;
+  data: QuestionProps[];
+  expandedList: Record<string, boolean>;
+  toggleExpand: (id: string) => void;
+};
+
+export type QuestionCardProps = {
+  question: QuestionProps;
+  toggleExpand: (id: number | string) => void;
+  expandedList?: Record<string | number, boolean>;
 };
 
 export type QuestionBadgeVariant =
@@ -45,19 +62,4 @@ export type QuestionBadgeProps = {
 export type ButtonConfigProps = {
   label?: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
-};
-
-// TODO: update question section data type after API integration
-export type question = {
-  id: string;
-  orderIndex: string;
-  isRequired: boolean;
-  label: string;
-};
-
-export type QuestionSectionProps = {
-  title: string;
-  orderindex: string;
-  hasError?: boolean;
-  data: question[];
 };

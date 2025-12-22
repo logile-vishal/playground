@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Step, StepLabel, Stepper } from "@mui/material";
 
 import type { StepperProps } from "@/core/types/stepper.type";
@@ -35,9 +35,10 @@ const runStepValidator = (validateFn?: () => boolean): boolean => {
 const CStepper = ({
   options = [],
   onChange,
+  currentStep = 0,
   componentClassName,
 }: StepperProps) => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(currentStep);
   const [largestSelectedStep, setLargestSelectedStep] = useState(0);
   const isDesktop = useIsDesktopViewport();
 
@@ -82,6 +83,11 @@ const CStepper = ({
       data: options[targetIndex],
     });
   };
+
+  useEffect(() => {
+    setActiveStep(currentStep);
+    setLargestSelectedStep((prev) => Math.max(prev, currentStep));
+  }, [currentStep]);
 
   const renderComponent = () => {
     const component = options[activeStep]?.component as React.ElementType;

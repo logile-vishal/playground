@@ -40,6 +40,13 @@ export const getMuiThemeObject = () =>
           },
         },
       },
+      MuiDivider: {
+        styleOverrides: {
+          root: {
+            borderColor: "var(--logile-border-secondary)",
+          },
+        },
+      },
       MuiOutlinedInput: {
         styleOverrides: {
           notchedOutline: {},

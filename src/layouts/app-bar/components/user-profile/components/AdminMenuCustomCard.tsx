@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 
-import { StyledSwitch } from "./StyledSwitch";
+import CSwitch from "@/core/components/switch/Switch";
+
 import { adminModeList } from "../constants";
 
 const AdminModeCustomMenu = () => {
@@ -15,7 +16,10 @@ const AdminModeCustomMenu = () => {
           key={item.value}
         >
           <Typography>{item.name}</Typography>
-          <StyledSwitch onChange={handleOnChange} />
+          <CSwitch
+            size="small"
+            onChange={handleOnChange}
+          />
         </div>
       ))}
     </div>

@@ -1,27 +1,49 @@
+import React from "react";
 import { Box, Typography } from "@mui/material";
 
-import { ChevronDown, DraggableDots } from "@/core/constants/icons";
-import CSvgIcon from "@/core/components/icon/Icon";
 import clsx from "@/utils/clsx";
+import CSvgIcon from "@/core/components/icon/Icon";
+import { ChevronDown, DraggableDots } from "@/core/constants/icons";
 import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
 import { FEATURE_ACTION_CHIP_LABELS } from "@/pages/create-template/constants/questions";
-import type { QuestionCardCollapsedProps } from "@/pages/create-template/types/questions.type";
+import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
 
 import { QuestionBadge } from "./QuestionBadges";
 import "./QuestionCardCollapsed.scss";
 
-const QuestionCardCollapsed = (props: QuestionCardCollapsedProps) => {
+const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
+  question,
+  toggleExpand,
+}) => {
+  const {
+    CLUSTER,
+    ANSWER,
+    RANDOM,
+    PREVIOUS,
+    PHOTO,
+    TAGS,
+    FILE,
+    NUMBER,
+    TEMPERATURE,
+  } = FEATURE_ACTION_CHIP_LABELS;
+
+  /**
+   * @method isDividerVisible
+   * @description Checks if any badge visibility flag is enabled to show divider
+   * @return {boolean} True if any badge is visible, false otherwise
+   */
+  // Todo Demo: remove hardcoded count and add logic later
   const isDividerVisible = () => {
     return !!(
-      props.isTagBadgeVisible ||
-      props.isPhotoBadgeVisible ||
-      props.isFileBadgeVisible ||
-      props.isRandomBadgeVisible ||
-      props.isClusterBadgeVisible ||
-      props.isAnswerBadgeVisible ||
-      props.isPreviousBadgeVisible ||
-      props.isNumberBadgeVisible ||
-      props.isTemperatureBadgeVisible
+      question?.isTagBadgeVisible ||
+      question?.isPhotoBadgeVisible ||
+      question?.isFileBadgeVisible ||
+      question?.isRandomBadgeVisible ||
+      question?.isClusterBadgeVisible ||
+      question?.isAnswerBadgeVisible ||
+      question?.isPreviousBadgeVisible ||
+      question?.isNumberBadgeVisible ||
+      question?.isTemperatureBadgeVisible
     );
   };
 
@@ -29,7 +51,7 @@ const QuestionCardCollapsed = (props: QuestionCardCollapsedProps) => {
     <Box
       className={clsx({
         "ques-card-collapsed": true,
-        "ques-card-collapsed--error": props.hasError,
+        "ques-card-collapsed--error": question?.hasError,
       })}
     >
       <Box className="ques-card-collapsed__dnd">
@@ -40,46 +62,32 @@ const QuestionCardCollapsed = (props: QuestionCardCollapsedProps) => {
       </Box>
       <Box
         className={`ques-card-collapsed__order-index ${
-          props.isRequired ? "required" : ""
+          question?.isRequired ? "required" : ""
         }`}
       >
-        <Typography>{`${props.orderIndex}.`}</Typography>
+        <Typography>{`${question?.orderIndex}.`}</Typography>
       </Box>
 
       <Box className="ques-card-collapsed__label">
-        <WildcardLabel label={props.label} />
+        <WildcardLabel label={question?.label} />
       </Box>
 
       <Box className="ques-card-collapsed__badges">
-        {props.isClusterBadgeVisible && (
-          <QuestionBadge type={FEATURE_ACTION_CHIP_LABELS.CLUSTER} />
-        )}
-        {props.isAnswerBadgeVisible && (
-          <QuestionBadge type={FEATURE_ACTION_CHIP_LABELS.ANSWER} />
-        )}
-        {props.isRandomBadgeVisible && (
-          <QuestionBadge type={FEATURE_ACTION_CHIP_LABELS.RANDOM} />
-        )}
-        {props.isPreviousBadgeVisible && (
-          <QuestionBadge type={FEATURE_ACTION_CHIP_LABELS.PREVIOUS} />
-        )}
-        {props.isPhotoBadgeVisible && (
-          <QuestionBadge type={FEATURE_ACTION_CHIP_LABELS.PHOTO} />
-        )}
-        {props.isTagBadgeVisible && (
+        {question?.isClusterBadgeVisible && <QuestionBadge type={CLUSTER} />}
+        {question?.isAnswerBadgeVisible && <QuestionBadge type={ANSWER} />}
+        {question?.isRandomBadgeVisible && <QuestionBadge type={RANDOM} />}
+        {question?.isPreviousBadgeVisible && <QuestionBadge type={PREVIOUS} />}
+        {question?.isPhotoBadgeVisible && <QuestionBadge type={PHOTO} />}
+        {question?.isTagBadgeVisible && (
           <QuestionBadge
-            type={FEATURE_ACTION_CHIP_LABELS.TAGS}
+            type={TAGS}
             count={3} // TODO: replace with actual tag count when available
           />
         )}
-        {props.isFileBadgeVisible && (
-          <QuestionBadge type={FEATURE_ACTION_CHIP_LABELS.FILE} />
-        )}
-        {props.isNumberBadgeVisible && (
-          <QuestionBadge type={FEATURE_ACTION_CHIP_LABELS.NUMBER} />
-        )}
-        {props.isTemperatureBadgeVisible && (
-          <QuestionBadge type={FEATURE_ACTION_CHIP_LABELS.TEMPRATURE} />
+        {question?.isFileBadgeVisible && <QuestionBadge type={FILE} />}
+        {question?.isNumberBadgeVisible && <QuestionBadge type={NUMBER} />}
+        {question?.isTemperatureBadgeVisible && (
+          <QuestionBadge type={TEMPERATURE} />
         )}
       </Box>
 
@@ -88,7 +96,10 @@ const QuestionCardCollapsed = (props: QuestionCardCollapsedProps) => {
           <span></span>
         </Box>
       )}
-      <Box className="ques-card-collapsed__chevron-down">
+      <Box
+        onClick={() => toggleExpand(question?.id)}
+        className="ques-card-collapsed__chevron-down"
+      >
         <CSvgIcon
           component={ChevronDown}
           color="secondary"

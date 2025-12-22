@@ -7,6 +7,7 @@ export const buttonSizes = {
     paddingTop: "var(--space-xs)",
     paddingBottom: "var(--space-xs)",
     borderRadius: "var(--radius-s)",
+    height: "var(--size-8)",
   },
   medium: {
     fontSize: "var(--logile-size-body)",
@@ -16,6 +17,7 @@ export const buttonSizes = {
     paddingTop: "var(--space-s)",
     paddingBottom: "var(--space-s)",
     borderRadius: "var(--radius-s)",
+    height: "var(--size-9)",
   },
   large: {
     fontSize: "var(--logile-size-body)",
@@ -25,5 +27,6 @@ export const buttonSizes = {
     paddingTop: "var(--space-m)",
     paddingBottom: "var(--space-m)",
     borderRadius: "var(--radius-m)",
+    height: "var(--size-10)",
   },
 };

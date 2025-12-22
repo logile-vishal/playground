@@ -8,12 +8,14 @@
   border-radius: var(--radius-m);
   border: 1px solid var(--logile-border-primary);
   background: var(--logile-bg-container-1);
-  box-shadow: var(--shadow-m-1-x) var(--shadow-m-1-y) var(--shadow-m-1-blur)
-    var(--shadow-m-1-spread) rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-l-2-x) var(--shadow-l-2-y) var(--shadow-l-2-blur)
+    var(--shadow-l-2-spread) var(--logile-utility-gray-1a);
   &--error {
     border: 1px solid var(--logile-border-state-violation);
   }
   &__label {
+    display: flex;
+    align-items: center;
     flex: 1;
     min-width: 20%;
     max-width: 50%;
@@ -49,7 +51,9 @@
     }
   }
   &__dnd {
-    margin-right: var(--space-s);
+    margin-right: var(--space-m);
+    display: flex;
+    align-items: center;
     cursor: grab;
   }
   &__badges {

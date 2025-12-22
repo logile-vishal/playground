@@ -76,7 +76,7 @@ export const buttonPalette = {
       default: {
         borderRadius: "var(--radius-m)",
         background: "var(--logile-bg-surface-bold)",
-        color: "var(--logile-text-white)",
+        color: "var(--logile-text-white-dark-mode)",
       },
       hover: {
         background: "var(--logile-bg-surface-x-bold)",

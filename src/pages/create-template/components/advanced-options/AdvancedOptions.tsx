@@ -1,52 +1,14 @@
 import type React from "react";
-import { Box, styled, Switch } from "@mui/material";
+import { Box } from "@mui/material";
 
 import CTextfield from "@/core/components/form/textfield/Textfield";
+import CSwitch from "@/core/components/switch/Switch";
 import CSelect from "@/core/components/select/Select";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { Percentage } from "@/core/constants/icons";
 
 import "./AdvancedOptions.scss";
 import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
-
-const StyledSwitch = styled((props) => (
-  <Switch
-    focusVisibleClassName=".Mui-focusVisible"
-    disableRipple
-    {...props}
-  />
-))(() => ({
-  width: "var(--size-10)",
-  height: "var(--size-5)",
-  padding: 0,
-  color: "var(--logile-bg-container-1)",
-  "& .MuiSwitch-switchBase": {
-    padding: 0,
-    margin: "var(--toggle-margin)",
-    transitionDuration: "300ms",
-    "&.Mui-checked": {
-      transform: "translateX(var(--size-5))",
-      color: "var(--logile-bg-container-1)",
-      "& + .MuiSwitch-track": {
-        backgroundColor: "var(--logile-bg-primary)",
-        opacity: 1,
-        border: 0,
-      },
-    },
-  },
-  "& .MuiSwitch-thumb": {
-    boxSizing: "border-box",
-    width: "calc(var(--size-3) + var(--size-0-2))",
-    height: "calc(var(--size-3) + var(--size-0-2))",
-    boxShadow: "none",
-  },
-  "& .MuiSwitch-track": {
-    borderRadius: "var(--radius-l)",
-    // TODO: change variable for background color after dark mode colors are finalized
-    backgroundColor: "var(--logile-bg-surface-subtle)",
-    opacity: 1,
-  },
-}));
 
 const AdvancedOptions: React.FC = () => {
   const { ADVANCED_OPTIONS, LABOUR_HOUR_OPTIONS, TEMPLATE_ACCESS_OPTIONS } =
@@ -95,7 +57,7 @@ const AdvancedOptions: React.FC = () => {
         </Box>
         <Box className="ct-advanced-options__row-item-signature">
           <Box>{ADVANCED_OPTIONS.signature}</Box>
-          <StyledSwitch />
+          <CSwitch />
         </Box>
       </Box>
     </Box>

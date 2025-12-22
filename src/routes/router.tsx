@@ -3,7 +3,7 @@ import { createHashRouter } from "react-router-dom";
 // import { IconsDemo } from '@/dev-playground/Icons';
 
 import AppShell from "@/layouts/app-shell/AppShell";
-import NoPageFound from "@/layouts/NoPageFound";
+import NoPageFound from "@/layouts/no-page-found/NoPageFound";
 import TemplateLibrary from "@/pages/template-library";
 import CreateTemplate from "@/pages/create-template";
 import { ComponentLibraryLandingPage } from "@/dev-playground/LandingPage";

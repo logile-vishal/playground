@@ -1,5 +1,5 @@
 import type React from "react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Stack, Typography } from "@mui/material";
 
@@ -19,6 +19,9 @@ import AdvancedOptions from "./components/advanced-options/AdvancedOptions";
 import CreateTemplateFormProvider from "./providers/CreateTemplateFormProvider";
 import { useCreateTemplateTranslations } from "./translation/useCreateTemplateTranslations";
 import "./CreateTemplate.scss";
+import { useGetPreviewByTemplateId } from "../template-library/services/template-library-api-hooks";
+import PreviewModal from "../template-library/components/preview-modal/PreviewModal";
+import type { TemplatePreviewModalProps } from "../template-library/types/template-library.type";
 
 const CreateTemplate: React.FC = () => {
   const navigate = useNavigate();
@@ -29,6 +32,24 @@ const CreateTemplate: React.FC = () => {
   } = useCreateTemplateTranslations();
   const { basicInfo, questions, advancedOption, notification, followUp } =
     CREATE_TEMPLATE_STEPS;
+  const [currentStep, setCurrentStep] = useState({
+    activeStep: 0,
+    data: CREATE_TEMPLATE_STEPS.basicInfo,
+  });
+  /** TODO Demo start */
+  const [previewModal, setPreviewModal] = useState<TemplatePreviewModalProps>({
+    status: false,
+    data: null,
+  });
+
+  const {
+    data: templatePreviewData,
+    isPending: isPreviewLoading,
+    mutateAsync: getPreviewByTemplateId,
+    error: hasTemplatePreviewError,
+  } = useGetPreviewByTemplateId();
+
+  /** TODO Demo end */
 
   const handleNavigateBack = () => {
     navigate("/templates");
@@ -71,10 +92,38 @@ const CreateTemplate: React.FC = () => {
   const handleStepChange = useCallback(
     (event: { activeStep: number; data: StepOption }) => {
       /* TODO: Conditions to be added later */
-      console.log("activeStep", event.activeStep, event.data);
+      setCurrentStep((prev) => ({
+        ...prev,
+        activeStep: event.activeStep,
+        data: event.data,
+      }));
     },
     []
   );
+
+  const handleNextStep = () => {
+    if (currentStep.activeStep < stepperOptions.length - 1) {
+      setCurrentStep((prev) => ({
+        ...prev,
+        activeStep: prev.activeStep + 1,
+        data: stepperOptions[prev.activeStep + 1],
+      }));
+    }
+  };
+
+  /** TODO Demo start */
+  const handlePreviewModalOpen = () => {
+    getPreviewByTemplateId(1829);
+    setPreviewModal((prev) => ({ ...prev, status: true }));
+  };
+
+  useEffect(() => {
+    if (templatePreviewData?.data) {
+      setPreviewModal((prev) => ({ ...prev, data: templatePreviewData?.data }));
+    }
+  }, [templatePreviewData]);
+  /** TODO Demo end */
+
   return (
     <CreateTemplateFormProvider>
       <PageTemplate>
@@ -110,40 +159,50 @@ const CreateTemplate: React.FC = () => {
                     </Box> */}
             </Box>
             <Box className="create-template-page-header__section">
-              <CButton
-                severity="secondary"
-                variant="outline"
-                disabled={true}
-              >
-                {CREATE_TEMPLATE_HEADER_ACTIONS.preview}
-              </CButton>
-              <CButton
-                severity="secondary"
-                disabled={true}
-              >
-                {CREATE_TEMPLATE_HEADER_ACTIONS.next}
-              </CButton>
-              <CButton
-                severity="primary"
-                disabled={true}
-              >
-                {CREATE_TEMPLATE_HEADER_ACTIONS.save}
-              </CButton>
-              <CButton
-                severity="primary"
-                disabled={true}
-              >
-                {CREATE_TEMPLATE_HEADER_ACTIONS.submit}
-              </CButton>
+              {currentStep.activeStep >= 2 && (
+                <CButton
+                  severity="secondary"
+                  variant="outline"
+                  onClick={handlePreviewModalOpen}
+                >
+                  {CREATE_TEMPLATE_HEADER_ACTIONS.preview}
+                </CButton>
+              )}
+              {currentStep.activeStep < stepperOptions.length - 1 && (
+                <CButton
+                  severity="secondary"
+                  onClick={handleNextStep}
+                >
+                  {CREATE_TEMPLATE_HEADER_ACTIONS.next}
+                </CButton>
+              )}
+
+              {currentStep.activeStep < 2 && (
+                <CButton severity="primary">
+                  {CREATE_TEMPLATE_HEADER_ACTIONS.save}
+                </CButton>
+              )}
+              {currentStep.activeStep >= 2 && (
+                <CButton severity="primary">
+                  {CREATE_TEMPLATE_HEADER_ACTIONS.submit}
+                </CButton>
+              )}
             </Box>
           </Stack>
         </PageTemplate.Header>
         <PageTemplate.Content>
           <CStepper
+            currentStep={currentStep.activeStep}
             onChange={handleStepChange}
             options={stepperOptions}
           />
         </PageTemplate.Content>
+        <PreviewModal
+          previewModal={previewModal}
+          onClose={() => setPreviewModal({ status: false, data: null })}
+          isPreviewLoading={isPreviewLoading}
+          hasTemplatePreviewError={hasTemplatePreviewError}
+        />
       </PageTemplate>
     </CreateTemplateFormProvider>
   );

@@ -96,15 +96,15 @@ export const useAdminMenuItemsList = (): NestedMenuItem[] => {
             value: "en",
           },
           {
-            name: "Spanish",
+            name: "Español",
             value: "es",
           },
           {
-            name: "Chinese",
+            name: "中文",
             value: "zh",
           },
           {
-            name: "Hindi",
+            name: "हिन्दी",
             value: "hi",
           },
         ],

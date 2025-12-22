@@ -19,7 +19,7 @@ type SelectProps = MuiSelectProps & {
   allowSort?: boolean;
   renderOption?: (option: OptionType) => React.ReactNode;
   renderOptionValue?: (option: OptionType) => string;
-  value?: Array<OptionType>;
+  value?: Array<OptionType> | OptionType | string | number | null;
   placeholder?: string;
 };
 
@@ -42,6 +42,7 @@ const CSelect = (props: SelectProps) => {
     }
     return selected as string;
   };
+
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     e.stopPropagation();

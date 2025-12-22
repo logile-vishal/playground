@@ -16,12 +16,12 @@ import "./BasicInfo.scss";
 
 //TODO: To be removed static data when dropdown api response
 const typeDropdownOptions = [
-  { value: "type1", label: "Type 1" },
-  { value: "type2", label: "Type 2" },
+  { value: "Type 1", label: "Type 1" },
+  { value: "Type 2", label: "Type 2" },
 ];
 const directoryDropdownOptions = [
-  { value: "Directory1", label: "Directory 1" },
-  { value: "Directory2", label: "Directory 2" },
+  { value: "Directory 1", label: "Directory 1" },
+  { value: "Directory 2", label: "Directory 2" },
 ];
 
 const BasicInfo: React.FC = () => {

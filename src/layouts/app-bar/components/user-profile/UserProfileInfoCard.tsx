@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import CSvgIcon from "@/core/components/icon/Icon";
 import clsx from "@/utils/clsx";
 import { ArrowDownFill, ArrowUpFill } from "@/core/constants/icons";
-import { renderMacTruncate } from "@/utils/mac-truncate";
+//TODO: import { renderMacTruncate } from "@/utils/mac-truncate";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 
 import "./UserProfile.scss";
@@ -18,6 +18,7 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
   const adminMenuItemsList = useAdminMenuItemsList();
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const anchorEl = useRef<undefined | Ref<HTMLDivElement>>(undefined);
+
   const handleDropdownClick = (event: React.MouseEvent<HTMLDivElement>) => {
     anchorEl.current = event.currentTarget as unknown as Ref<HTMLDivElement>;
     setIsDropdownOpen(!isDropdownOpen);
@@ -48,7 +49,9 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
         />
         <div className="card-info">
           <Typography className="card-info__name">
-            {renderMacTruncate(user?.name || "User", 4, 150)}
+            {/* TODO: Uncomment it later */}
+            {/* {renderMacTruncate(user?.name || "User", 4, 150)} */}
+            {"Logile Admin User"}
           </Typography>
           <Typography className="card-info__role">{user.role}</Typography>
         </div>

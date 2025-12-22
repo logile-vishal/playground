@@ -7,6 +7,7 @@ export const QUESTION_SECTION = {
   NO_QUESTION_PLACEHOLDER: `No questions added yet. Click "+ Question" to get started.`,
   ACTION_ADD_QUESTION: "Questions",
   ACTION_ADD_SECTION: "Sections",
+  ACTION_ADD_OPTION: "Option",
 };
 
 export const CREATE_TEMPLATE = {

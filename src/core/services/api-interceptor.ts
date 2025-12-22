@@ -29,7 +29,8 @@ export const setInterceptor = (axiosInstance: AxiosInstance) => {
 
   // Response interceptor to handle errors globally
   axiosInstance.interceptors.response.use(
-    (response) => response?.data,
+    (response) =>
+      new Promise((resolve) => setTimeout(() => resolve(response?.data), 2000)), // TODO Demo: Remove delay
     (error) => {
       // Example: Handle 401 Unauthorized globally
       if (error.response && error.response.status === 401) {

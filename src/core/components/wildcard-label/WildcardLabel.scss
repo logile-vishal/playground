@@ -1,11 +1,14 @@
 .wildcard-label {
   --wildcard-chip-height: 24px;
-  display: block;
-  align-items: center;
-  gap: var(--space-xs);
+  display: inline-block;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: var(--wildcard-chip-height);
   max-width: 100%;
   margin: 0;
+  vertical-align: middle;
+
   &__chip {
     display: inline-flex;
     align-items: center;
@@ -16,6 +19,7 @@
     background: var(--logile-bg-primary-x-subtle);
     height: var(--wildcard-chip-height);
     margin: var(--space-none) var(--space-xs);
+    vertical-align: middle;
     svg {
       flex-shrink: 0;
     }
@@ -25,7 +29,7 @@
       color: var(--logile-text-primary);
       font-size: var(--logile-size-body);
       font-weight: var(--logile-weight-400);
-      line-height: var(--logile-line-height-body);
+      line-height: var(--wildcard-chip-height);
     }
   }
   &--truncate {

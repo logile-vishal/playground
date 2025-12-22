@@ -10,15 +10,14 @@ import {
   ChevronExpanded,
 } from "@/core/constants/icons";
 import { CButton } from "@/core/components/button/button";
-import { QUESTION_TYPES } from "@/pages/template-library/constants/constant";
 import clsx from "@/utils/clsx";
 
-import "./Questions.scss";
 import { QUESTION_SECTION } from "../../constants/constant";
-import QuestionCardCollapsed from "./components/question-card-collapsed/QuestionCardCollapsed";
 import QuestionSection from "./components/section/Section";
-import { QUESTION_MODAL } from "../../constants/questions";
-import AddEditSectionModal from "./components/AddEditSectionModal/AddEditSectionModal";
+import { QUESTION_ARRAY, QUESTION_MODAL } from "../../constants/questions";
+import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
+import QuestionCard from "./components/question-card/QuestionCard";
+import "./Questions.scss";
 
 const Questions: React.FC = () => {
   const [questionList, setQuestionList] = useState([]);
@@ -26,6 +25,7 @@ const Questions: React.FC = () => {
     status: false,
     data: null,
   });
+  const [expandedList, setExpandedList] = useState({});
 
   const openAddSectionModal = (data) => {
     setAddSectionModal({
@@ -41,6 +41,29 @@ const Questions: React.FC = () => {
     });
   };
 
+  const toggleExpand = (id) => {
+    setExpandedList((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const handleExpandAll = () => {
+    const newExpandedList = {};
+    QUESTION_ARRAY.forEach((question) => {
+      newExpandedList[question.id] = true;
+      question?.subQuestions?.forEach((subQ) => {
+        newExpandedList[subQ.id] = true;
+      });
+    });
+    setExpandedList(newExpandedList);
+  };
+
+  const handleCollapseAll = () => {
+    setExpandedList({});
+  };
+
+  const handleQuestionAdd = () => {
+    setQuestionList(QUESTION_ARRAY);
+  };
+
   useEffect(() => {
     setQuestionList([]); //TODO: Fetch question list from API and set it here
   }, []);
@@ -52,31 +75,38 @@ const Questions: React.FC = () => {
    */
   const renderQuestionHeader = () => {
     return (
-      <Box className="create-template-questions__header-wrapper">
-        <Typography className="create-template-questions__header">
+      <Box className="ct-questions__header-wrapper">
+        <Typography className="ct-questions__header">
           {QUESTION_SECTION.HEADER}
         </Typography>
-        <Box className="create-template-questions__all-ques-expand-container">
-          <CIconButton
-            className={clsx({
-              "create-template-questions__expanded-btn": true,
-              "create-template-questions__expanded-btn--active": true,
-            })}
-            variant="primary"
-          >
-            <CSvgIcon
-              size={16}
-              component={ChevronCollapse}
-              fill="var(--logile-icon-secondary)"
-            />
-          </CIconButton>
-          <CIconButton className="create-template-questions__expanded-btn">
-            <CSvgIcon
-              size={16}
-              component={ChevronExpanded}
-            />
-          </CIconButton>
-        </Box>
+        {questionList?.length > 0 && (
+          <Box className="ct-questions__all-ques-expand-container">
+            <CIconButton
+              className={clsx({
+                "ct-questions__expanded-btn": true,
+                "ct-questions__expanded-btn--active": true,
+              })}
+              variant="primary"
+              onClick={handleCollapseAll}
+            >
+              <CSvgIcon
+                size={16}
+                component={ChevronCollapse}
+                color="secondary"
+              />
+            </CIconButton>
+            <CIconButton
+              onClick={handleExpandAll}
+              className="ct-questions__expanded-btn"
+            >
+              <CSvgIcon
+                color="secondary"
+                size={16}
+                component={ChevronExpanded}
+              />
+            </CIconButton>
+          </Box>
+        )}
       </Box>
     );
   };
@@ -87,8 +117,8 @@ const Questions: React.FC = () => {
    */
   const renderQuestionPlaceholder = () => {
     return (
-      <Box className="create-template-questions-cards-wrapper__placeholder">
-        <Typography className="create-template-questions-cards-wrapper__placeholder-text">
+      <Box className="ct-questions-cards-wrapper__placeholder">
+        <Typography className="ct-questions-cards-wrapper__placeholder-text">
           {QUESTION_SECTION.NO_QUESTION_PLACEHOLDER}
         </Typography>
       </Box>
@@ -101,12 +131,13 @@ const Questions: React.FC = () => {
    */
   const renderQuestionAction = () => {
     return (
-      <Box className="create-template-questions-cards-wrapper__action">
+      <Box className="ct-questions-cards-wrapper__action">
         <CButton
-          className="create-template-questions-cards-wrapper__action-item"
+          className="ct-questions-cards-wrapper__action-item"
           variant="outline"
           severity="primary"
           size="small"
+          onClick={handleQuestionAdd}
         >
           <CSvgIcon
             size={15}
@@ -115,7 +146,7 @@ const Questions: React.FC = () => {
           {QUESTION_SECTION.ACTION_ADD_QUESTION}
         </CButton>
         <CButton
-          className="create-template-questions-cards-wrapper__action-item"
+          className="ct-questions-cards-wrapper__action-item"
           variant="outline"
           severity="primary"
           size="small"
@@ -131,51 +162,33 @@ const Questions: React.FC = () => {
     );
   };
   return (
-    <Box className="create-template-questions">
+    <Box className="ct-questions">
       {renderQuestionHeader()}
-      <Box className="create-template-questions-cards-wrapper">
-        {questionList?.length !== 0 ? ( // TODO: Update condition after API integration (change !== 0 to === 0)
+      <Box className="ct-questions-cards-wrapper">
+        {questionList?.length === 0 ? ( // TODO: Update condition after API integration (change !== 0 to === 0)
           renderQuestionPlaceholder()
         ) : (
-          <Box className="create-template-questions-cards-wrapper__content">
-            {/* TODO: Replace hardcoded data with mapped questions fetched from the API */}
-            <QuestionCardCollapsed
-              label="Is the floor clean %abc% and organised? Is the floor clean %abc% and organised?"
-              isRequired={true}
-              orderIndex={"1"}
-              optiontypeLabel={QUESTION_TYPES.RADIO_BUTTON.label}
-              isTagBadgeVisible={true}
-              isFileBadgeVisible={true}
-              isRandomBadgeVisible={true}
-              isClusterBadgeVisible={true}
-              isPreviousBadgeVisible={true}
-              isTemperatureBadgeVisible={true}
-              hasError={false}
-            />
-            <QuestionCardCollapsed
-              label="Is the shared display case in use in the department?"
-              isRequired={true}
-              orderIndex={"2"}
-              optiontypeLabel={QUESTION_TYPES.DROPDOWN.label}
-              isFileBadgeVisible={true}
-              isPreviousBadgeVisible={true}
-              isAnswerBadgeVisible={true}
-              isNumberBadgeVisible={true}
-              isTemperatureBadgeVisible={true}
-              hasError={false}
-            />
-            <QuestionSection
-              title="Bakery"
-              orderindex={"3"}
-              data={[
-                {
-                  id: "2",
-                  label: "Is the bakery area clean and organized?",
-                  isRequired: true,
-                  orderIndex: "3.1",
-                },
-              ]}
-            />
+          <Box className="ct-questions-cards-wrapper__content">
+            {questionList?.map((question) => {
+              if (question?.subQuestions && question?.subQuestions.length > 0) {
+                return (
+                  <QuestionSection
+                    title={question.label}
+                    orderindex={question.orderIndex}
+                    data={question.subQuestions}
+                    expandedList={expandedList}
+                    toggleExpand={toggleExpand}
+                  />
+                );
+              }
+              return (
+                <QuestionCard
+                  question={question}
+                  expandedList={expandedList}
+                  toggleExpand={toggleExpand}
+                />
+              );
+            })}
           </Box>
         )}
         {renderQuestionAction()}

@@ -125,6 +125,10 @@ const getStyle = (state) => {
         ...state.disabled.fieldset,
       },
     },
+    "input::placeholder": {
+      opacity: 1,
+      ...state.default.placeholder,
+    },
   };
 };
 

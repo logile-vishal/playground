@@ -1,0 +1,61 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.ques-card-options {
+  --select-icon-rotation: 180deg;
+  --select-icon-top-offset: var(--space-xl);
+  --select-icon-vertical-center: 50%;
+  --ques-card-dropdown-width: 180px;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-l);
+  width: 100%;
+  &__dnd {
+    margin-right: var(-space-s);
+    cursor: grab;
+  }
+  &__dropdown {
+    width: var(--ques-card-dropdown-width);
+    .select div.MuiInputBase-input,
+    .select div.MuiOutlinedInput-input {
+      padding: 0px;
+    }
+  }
+  &__textbox {
+    flex: 1;
+  }
+  &__delete-icon {
+    color: var(--logile-text-state-violation);
+  }
+  &__active-icon {
+    color: var(--logile-icon-brand-primary);
+  }
+  &__disabled-icon {
+    color: var(--logile-text-state-disabled);
+  }
+  .MuiSelect-iconOpen {
+    transform: rotateX(var(--select-icon-rotation));
+    top: calc(
+      var(--select-icon-vertical-center) - var(--select-icon-top-offset)
+    );
+  }
+}
+
+.attachment-badge {
+  & .MuiBadge-badge {
+    top: ".4rem";
+    font-weight: var(--logile-weight-400);
+    font-size: 13px;
+    background: var(--logile-bg-state-information-bold);
+  }
+}
+
+.ques-card-options-component {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--space-l);
+  &__option-collapsed {
+    display: none;
+  }
+}

@@ -1,0 +1,95 @@
+// Common styles
+.switch-wrapper {
+  display: inline-flex;
+  .switch {
+    // Color variables
+    --switch-color-checked: var(--logile-bg-container-1);
+    --switch-bg-checked: var(--logile-bg-primary);
+    --switch-bg-unchecked: var(--logile-bg-surface-subtle);
+    --switch-opacity-disabled: 0.5;
+
+    // Default size variables (medium)
+    --switch-width: var(--space-5xl);
+    --switch-height: var(--space-2xl);
+    --switch-margin: 3px;
+    --switch-transform: var(--space-2xl);
+    --switch-thumb-size: 14px;
+    --switch-track-radius: var(--radius-l);
+
+    // Large variant
+    &--large {
+      --switch-width: var(--space-7xl);
+      --switch-height: 30px;
+      --switch-margin: var(--space-xs);
+      --switch-transform: 34px;
+      --switch-thumb-size: 22px;
+      --switch-track-radius: 15px;
+    }
+
+    // Small variant
+    &--small {
+      --switch-width: 26px;
+      --switch-height: 14px;
+      --switch-margin: var(--space-xxs);
+      --switch-transform: var(--space-l);
+      --switch-thumb-size: 10px;
+      --switch-track-radius: 7px;
+    }
+
+    padding: 0;
+    width: var(--switch-width);
+    height: var(--switch-height);
+
+    // Switch base styles
+    .MuiSwitch-switchBase {
+      padding: 0;
+      margin: var(--switch-margin);
+      transition-duration: 300ms;
+
+      // Checked state
+      &.Mui-checked {
+        transform: translateX(var(--switch-transform));
+        color: var(--switch-color-checked);
+
+        .MuiSwitch-track {
+          background-color: var(--switch-bg-checked);
+          opacity: 1;
+          border: 0;
+        }
+
+        &.Mui-disabled .MuiSwitch-track {
+          opacity: var(--switch-opacity-disabled);
+        }
+      }
+      &.Mui-checked + .MuiSwitch-track {
+        background-color: var(--switch-bg-checked);
+        opacity: 1;
+        border: 0;
+      }
+
+      // Disabled states
+      &.Mui-disabled .MuiSwitch-thumb {
+        opacity: var(--switch-opacity-disabled);
+      }
+
+      &.Mui-disabled + .MuiSwitch-track {
+        opacity: var(--switch-opacity-disabled);
+      }
+    }
+
+    // Thumb styles
+    .MuiSwitch-thumb {
+      box-sizing: border-box;
+      width: var(--switch-thumb-size);
+      height: var(--switch-thumb-size);
+      box-shadow: none;
+    }
+
+    // Track styles
+    .MuiSwitch-track {
+      border-radius: var(--switch-track-radius);
+      background-color: var(--switch-bg-unchecked);
+      opacity: 1;
+    }
+  }
+}

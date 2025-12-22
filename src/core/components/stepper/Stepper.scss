@@ -54,18 +54,10 @@
     color: inherit;
   }
 
-  /* Stepper state: Active */
-  &--active {
-    color: var(--logile-text-brand-primary);
-    font-size: var(--logile-size-body-large);
-    font-weight: var(--logile-weight-500);
-    svg {
-      fill: var(--logile-icon-secondary);
-    }
-  }
-
   /* Stepper state: Completed */
   &--completed {
+    font-size: var(--logile-size-body);
+    font-weight: var(--logile-weight-400);
     color: var(--logile-text-state-success-bold-subtle);
     svg {
       fill: var(--logile-icon-state-success-bold-subtle);
@@ -74,7 +66,19 @@
 
   /* Stepper state: Error */
   &--error {
+    font-size: var(--logile-size-body);
+    font-weight: var(--logile-weight-400);
     color: var(--logile-text-state-violation-bold-subtle);
+    svg {
+      fill: var(--logile-icon-secondary);
+    }
+  }
+
+  /* Stepper state: Active */
+  &--active {
+    color: var(--logile-text-brand-primary);
+    font-size: var(--logile-size-body-large);
+    font-weight: var(--logile-weight-500);
     svg {
       fill: var(--logile-icon-secondary);
     }

@@ -252,6 +252,9 @@
   }
   &__common-textfield.template-preview-modal__common-textfield {
     min-width: 200px;
+    .MuiOutlinedInput-root {
+      border: 1px solid var(--logile-border-primary);
+    }
     .MuiOutlinedInput-input.Mui-disabled {
       -webkit-text-fill-color: var(--logile-text-primary);
     }
@@ -369,7 +372,7 @@
     gap: var(--space-s);
     border-radius: var(--radius-m);
     background: var(--logile-bg-surface-bold);
-    color: var(--logile-text-white);
+    color: var(--logile-text-white-dark-mode);
     font-size: var(--logile-size-body);
     width: fit-content;
     min-width: 152px;
@@ -553,5 +556,9 @@
     .template-preview-modal__attachment-wrapper {
       padding: var(--space-l) var(--space-l) var(--space-xl) var(--space-l);
     }
+  }
+  &__common-dropdown-icon {
+    margin-right: var(--space-m);
+    color: var(--logile-icon-secondary);
   }
 }

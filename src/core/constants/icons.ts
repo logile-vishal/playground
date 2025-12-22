@@ -123,6 +123,14 @@ export { default as ClientLogo } from "@/assets/logile-logo.svg?react";
 export { default as Percentage } from "@/assets/icons/common-icons/percentage.svg?react";
 export { default as QuickShift } from "@/assets/icons/common-icons/quick-shift.svg?react";
 export { default as TeamLine } from "@/assets/icons/common-icons/team-line.svg?react";
+export { default as EditorBold } from "@/assets/icons/common-icons/bold.svg?react";
+export { default as EditorItalic } from "@/assets/icons/common-icons/italic.svg?react";
+export { default as EditorLink } from "@/assets/icons/common-icons/link.svg?react";
+export { default as EditorTextEdit } from "@/assets/icons/common-icons/text-edit.svg?react";
+export { default as EditorUnderline } from "@/assets/icons/common-icons/underline.svg?react";
+export { default as EditorTemplateVariable } from "@/assets/icons/common-icons/template-variable.svg?react";
+export { default as ChevronUpLarge } from "@/assets/icons/common-icons/chevron-up-large.svg?react";
+export { default as AttachmentLink } from "@/assets/icons/common-icons/attachment-link.svg?react";
 
 export type IconName =
   | "AddIcon"
@@ -247,4 +255,12 @@ export type IconName =
   | "ClientLogo"
   | "Percentage"
   | "QuickShift"
-  | "TeamLine";
+  | "TeamLine"
+  | "EditorBold"
+  | "EditorItalic"
+  | "EditorLink"
+  | "EditorTextEdit"
+  | "EditorUnderline"
+  | "EditorTemplateVariable"
+  | "ChevronUpLarge"
+  | "AttachmentLink";
