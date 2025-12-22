@@ -53,9 +53,9 @@ const AdvancedOptions: React.FC = () => {
     useCreateTemplateTranslations();
 
   return (
-    <Box className="create-template-advanced-options">
-      <Box className="create-template-advanced-options__row">
-        <Box className="create-template-advanced-options__row-item">
+    <Box className="ct-advanced-options">
+      <Box className="ct-advanced-options__row">
+        <Box className="ct-advanced-options__row-item">
           <CTextfield
             label={ADVANCED_OPTIONS.compilanceThreshold}
             type="number"
@@ -64,8 +64,8 @@ const AdvancedOptions: React.FC = () => {
             placeholder={ADVANCED_OPTIONS.compilanceThresholdPlaceholder}
           />
         </Box>
-        <Box className="create-template-advanced-options__row-item">
-          <Box className="create-template-advanced-options__row-item-container">
+        <Box className="ct-advanced-options__row-item">
+          <Box className="ct-advanced-options__row-item-container">
             <CTextfield
               label={ADVANCED_OPTIONS.labourHours}
               type="number"
@@ -76,14 +76,14 @@ const AdvancedOptions: React.FC = () => {
               optionValueKey="value"
               optionLabelKey="label"
               placeholder={ADVANCED_OPTIONS.labourHoursPlaceholder}
-              className="create-template-advanced-options__row-item-container-select"
+              className="ct-advanced-options__row-item-container-select"
             />
           </Box>
         </Box>
       </Box>
 
-      <Box className="create-template-advanced-options__row">
-        <Box className="create-template-advanced-options__row-item ">
+      <Box className="ct-advanced-options__row">
+        <Box className="ct-advanced-options__row-item ">
           <CSelect
             label={ADVANCED_OPTIONS.templateAccess}
             options={TEMPLATE_ACCESS_OPTIONS}
@@ -93,7 +93,7 @@ const AdvancedOptions: React.FC = () => {
             sx={{ width: "90%" }}
           />
         </Box>
-        <Box className="create-template-advanced-options__row-item-signature">
+        <Box className="ct-advanced-options__row-item-signature">
           <Box>{ADVANCED_OPTIONS.signature}</Box>
           <StyledSwitch />
         </Box>

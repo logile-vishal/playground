@@ -1,10 +1,11 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
-.create-template-basic-info {
+.ct-basic-info {
   @include placeholder-page;
   --basic-info-row-width: 440px;
   --basic-info-dropdown-width: 200px;
-  --basic-info-tag-dropdown-width: 100%;
+  --basic-info-row-width-desktop: 1036px;
+  --basic-info-tags-width-desktop: 800px;
 
   gap: var(--space-3xl);
   padding: var(--space-xl);
@@ -13,6 +14,9 @@
     width: 100%;
     display: flex;
     gap: var(--space-4xl);
+    &--desktop {
+      @include flex-box(column);
+    }
   }
 
   &__row-item {
@@ -21,8 +25,36 @@
     flex-direction: column;
   }
 
+  &__row-item-tags {
+    &--desktop {
+      width: var(--basic-info-tags-width-desktop);
+    }
+  }
+
+  &__row-item-label {
+    color: var(--logile-text-secondary);
+    font-size: var(--logile-size-secondary-text);
+    line-height: var(--logile-line-height-secondary-text);
+  }
+
+  &__row-item-tags-dropdown {
+    .MuiOutlinedInput-root {
+      padding-left: var(--space-s);
+    }
+    &--desktop {
+      --dropdown-max-height-desktop: 220px;
+      .MuiPaper-root,
+      .MuiPaper-root-MuiPopover-paper {
+        max-height: var(--dropdown-max-height-desktop);
+      }
+    }
+  }
+
   &__row-first-item {
     width: var(--basic-info-row-width);
+    &--desktop {
+      width: var(--basic-info-row-width-desktop);
+    }
   }
 
   &__dropdown-row {
@@ -30,11 +62,11 @@
     width: 100%;
   }
 
-  &__dropdown-menu.create-template-basic-info__dropdown-menu {
+  &__dropdown-menu.ct-basic-info__dropdown-menu {
     width: var(--basic-info-dropdown-width);
   }
 
-  &__label.create-template-basic-info__label {
+  &__label.ct-basic-info__label {
     width: fit-content;
     color: var(--logile-text-secondary);
     font-size: var(--logile-size-secondary-text);

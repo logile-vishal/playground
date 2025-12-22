@@ -1,3 +1,5 @@
+import type { PopoverProps, TextFieldProps } from "@mui/material";
+
 import type { NestedMenuItem } from "@/core/components/nested-menu/types/index";
 import CInputWithChip from "@/core/components/input-chip/InputWithChip";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
@@ -17,8 +19,15 @@ type MultiSelectWithChipProps = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   onMenuItemSelect: (item: NestedMenuItem, path?: string) => void;
-  width?: number;
+  width?: number | string;
   inputPlacement?: "start" | "end";
+  className?: string;
+  [key: string]: unknown;
+  isInputVisible?: boolean;
+  slotProps?: {
+    textField?: Partial<TextFieldProps>;
+    popover?: Partial<PopoverProps>;
+  };
 };
 
 /**
@@ -45,6 +54,10 @@ const CMultiSelectWithChip: React.FC<MultiSelectWithChipProps> = ({
   onMenuClose,
   onMenuItemSelect,
   width,
+  isInputVisible,
+  slotProps,
+  className,
+  ...props
 }) => {
   return (
     <div>
@@ -58,6 +71,7 @@ const CMultiSelectWithChip: React.FC<MultiSelectWithChipProps> = ({
         onMenuOpen={onMenuOpen}
         width={width}
         placeholder={placeholder}
+        isInputVisible={isInputVisible}
       />
 
       <CNestedMenu
@@ -69,6 +83,9 @@ const CMultiSelectWithChip: React.FC<MultiSelectWithChipProps> = ({
         selectedItems={selectedItems}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
+        slotProps={slotProps}
+        className={className}
+        {...props}
       />
     </div>
   );

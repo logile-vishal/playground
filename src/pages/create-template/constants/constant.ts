@@ -52,3 +52,12 @@ export const NOTIFICATION_HEADING = {
   messageSubject: "Message Subject",
   recipients: "Recipients",
 };
+
+export const FOLLOW_UP_HEADING = {
+  followUp: "Follow-up Task",
+  condition: "Condition",
+  conditionQuestion: "Condition Question",
+  conditionAnswer: "Condition Answer",
+  taskName: "Task Name",
+  recipients: "Recipients",
+};

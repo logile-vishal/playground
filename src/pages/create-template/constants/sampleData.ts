@@ -77,3 +77,62 @@ export const followupTriggerByAnswersSampleData = [
     recipients: ["Assignee", "Ad Hoc", "Execution Manager"],
   },
 ];
+
+export const basicTagsSampleData = [
+  {
+    name: "Cleaning",
+    value: "cleaning",
+    parentAsItem: true,
+    righticon: "arrowRightFill",
+    subMenu: {
+      items: [
+        {
+          name: "Floors",
+          value: "cleaning_floors",
+        },
+        {
+          name: "Sinks",
+          value: "cleaning_sinks",
+        },
+        {
+          name: "Shelves",
+          value: "cleaning_shelves",
+        },
+        {
+          name: "Displays",
+          value: "cleaning_displays",
+        },
+      ],
+    },
+  },
+  {
+    name: "Cook",
+    value: "cook",
+    customSubMenu: [],
+  },
+  {
+    name: "Corrective Actions",
+    value: "corrective_actions",
+    customSubMenu: [],
+  },
+  {
+    name: "Merchandising",
+    value: "merchandising",
+    customSubMenu: [],
+  },
+  {
+    name: "Promotion",
+    value: "promotion",
+    customSubMenu: [],
+  },
+  {
+    name: "Reports",
+    value: "reports",
+    customSubMenu: [],
+  },
+  {
+    name: "Safety",
+    value: "safety",
+    customSubMenu: [],
+  },
+];

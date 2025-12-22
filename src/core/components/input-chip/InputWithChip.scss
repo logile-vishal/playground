@@ -1,24 +1,47 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .input-with-chip {
-  --input-with-chip-width: 220px;
   --input-with-chip-height: 36px;
+  --input-with-chip-width: 200px;
 
-  width: var(--input-with-chip-width);
   height: var(--input-with-chip-height);
   display: flex;
   align-items: center;
+  gap: var(--space-s);
+  cursor: pointer;
   border: 1px solid var(--logile-border-primary);
   border-radius: var(--radius-m);
   padding: 0 var(--space-m);
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  scrollbar-width: none;
-  scroll-behavior: smooth;
+  background: var(--logile-bg-container-1);
 
-  &::-webkit-scrollbar {
-    display: none;
+  &:hover {
+    border: 1px solid var(--logile-border-bold-subtle);
+  }
+  &--focus {
+    border: 1px solid var(--logile-border-brand-primary-subtle);
+    box-shadow: 0 0 0 4px var(--logile-shadow-focus);
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__scroll-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__content {
@@ -58,6 +81,18 @@
     white-space: nowrap;
     flex-shrink: 0;
     padding: 0;
+    .MuiOutlinedInput-root,
+    .MuiOutlinedInput-notchedOutline,
+    .MuiOutlinedInput-input {
+      border: none;
+      padding: 0;
+    }
+  }
+
+  &__content-placeholder {
+    color: var(--logile-text-tertiary);
+    font-size: var(--logile-size-body);
+    line-height: var(--logile-line-height-body);
   }
 
   .MuiChip-root {
@@ -79,5 +114,8 @@
     .MuiChip-label {
       padding-right: var(--space-xl);
     }
+  }
+  .MuiOutlinedInput-input {
+    color: var(--logile-text-primary);
   }
 }

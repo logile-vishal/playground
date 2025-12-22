@@ -1,5 +1,30 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
-.create-template-follow-up {
+.ct-follow-up {
   @include placeholder-page;
+  gap: var(--space-l);
+  &__answer-trigger-group {
+    @include flex-box(column);
+    padding: var(--space-l) var(--space-xl);
+    border-radius: var(--radius-m);
+    border: 1px solid var(--logile-border-primary);
+    gap: var(--space-l);
+    &-header {
+      @include flex-center(flex-start, center, var(--space-s));
+      cursor: pointer;
+      &-title {
+        color: var(--logile-text-primary);
+        font-size: var(--logile-size-body);
+        font-weight: var(--logile-weight-500);
+        line-height: var(--logile-line-height-body);
+      }
+      &-icon {
+        @include flex-center(center, center);
+      }
+    }
+  }
+  &__action-btn {
+    @include flex-center(center, center, var(--space-s));
+    width: fit-content;
+  }
 }

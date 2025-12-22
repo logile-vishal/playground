@@ -61,6 +61,7 @@ const CSelect = (props: SelectProps) => {
             <CSvgIcon
               component={ChevronDown}
               size={18}
+              color="secondary"
               {...iconProps}
             />
           ))

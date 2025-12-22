@@ -1,14 +1,18 @@
 import { useEffect, useRef } from "react";
-import { Box, Chip } from "@mui/material";
+import { Box, Chip, TextField } from "@mui/material";
+import type { TextFieldProps } from "@mui/material";
 
-import { Close } from "@/core/constants/icons";
+import { ChevronDown, ChevronUp, Close } from "@/core/constants/icons";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import clsx from "@/utils/clsx";
 import CSvgIcon from "@/core/components/icon/Icon";
 
 import "./InputWithChip.scss";
 
-type InputWithChipProps = {
+type InputWithChipProps = Omit<
+  TextFieldProps,
+  "value" | "onChange" | "placeholder"
+> & {
   searchText?: string;
   selectedItems?: NestedMenuItem[];
   onDelete?: (event: React.MouseEvent, data: NestedMenuItem) => void;
@@ -17,8 +21,9 @@ type InputWithChipProps = {
   placeholder?: string;
   anchorEl?: HTMLElement | null;
   onMenuOpen?: (event: React.MouseEvent<HTMLElement>) => void;
-  width?: number;
+  width?: number | string;
   inputPlacement?: "start" | "end";
+  isInputVisible?: boolean;
 };
 
 /**
@@ -33,12 +38,14 @@ type InputWithChipProps = {
 const CInputWithChip: React.FC<InputWithChipProps> = ({
   searchText,
   selectedItems,
-  inputPlacement = "start",
+  inputPlacement = "end",
   onDelete,
   onChange,
-  width = 200,
+  width = "var(--input-with-chip-width)",
   onMenuOpen,
   placeholder = "Search",
+  isInputVisible = true,
+  ...props
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLSpanElement>(null);
@@ -69,7 +76,7 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
 
   // Auto scroll to right
   useEffect(() => {
-    if (!scrollRef.current) return;
+    if (!scrollRef.current || searchText?.length > 0) return;
     const container = scrollRef.current;
 
     // Use requestAnimationFrame to ensure scroll happens after DOM updates
@@ -88,55 +95,78 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
       }
     });
     return () => cancelAnimationFrame(containerRef);
-  }, [selectedItems, inputPlacement]);
+  }, [searchText, selectedItems, inputPlacement]);
 
   return (
     <Box
-      className="input-with-chip"
-      width={`${width}px`}
+      className={clsx({
+        "input-with-chip": true,
+        "input-with-chip--focus": Boolean(props.anchorEl),
+      })}
+      width={width}
       onClick={onMenuOpen}
-      ref={scrollRef}
     >
-      <div
-        className={clsx({
-          "input-with-chip__content": true,
-          "input-with-chip__content--end": inputPlacement === "end",
-        })}
+      <Box
+        className="input-with-chip__scroll-container"
+        ref={scrollRef}
       >
-        {/* Hidden element : 
-        This hidden element measures the text width so the input can automatically grow to fit its content.*/}
-        <span
-          className="input-with-chip__content-hidden-field"
-          ref={measureRef}
+        <div
+          className={clsx({
+            "input-with-chip__content": true,
+            "input-with-chip__content--end": inputPlacement === "end",
+          })}
         >
-          {searchText}
-        </span>
-        {/* Growing input */}
-        <input
-          ref={inputRef}
-          className="input-with-chip__content-input-field"
-          placeholder={selectedItems?.length == 0 ? placeholder : ""}
-          value={searchText}
-          onChange={onChange}
-        />
-        <div className="input-with-chip__content-chip-wrapper">
-          {/* Chips */}
-          {selectedItems.map((item) => (
-            <Chip
-              key={item.path || item.value}
-              label={item.path || item.value}
-              size="small"
-              deleteIcon={
-                <CSvgIcon
-                  component={Close}
-                  size={16}
-                />
-              }
-              onDelete={(e) => onDelete(e, item)}
-            />
-          ))}
+          {isInputVisible ? (
+            <>
+              {/* Hidden element : 
+              This hidden element measures the text width so the input can automatically grow to fit its content.*/}
+              <span
+                className="input-with-chip__content-hidden-field"
+                ref={measureRef}
+              >
+                {searchText}
+              </span>
+              {/* Growing input */}
+              <TextField
+                ref={inputRef}
+                className="input-with-chip__content-input-field"
+                placeholder={selectedItems?.length == 0 ? placeholder : ""}
+                value={searchText}
+                onChange={onChange}
+                {...props}
+              />
+            </>
+          ) : (
+            <Box className="input-with-chip__content-placeholder">
+              {selectedItems?.length == 0 ? placeholder : ""}
+            </Box>
+          )}
+          <div className="input-with-chip__content-chip-wrapper">
+            {/* Chips */}
+            {selectedItems?.map((item) => (
+              <Chip
+                key={item.path || item.value}
+                label={item.path || item.value}
+                size="small"
+                deleteIcon={
+                  <CSvgIcon
+                    component={Close}
+                    size={16}
+                  />
+                }
+                onDelete={(e) => onDelete(e, item)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      </Box>
+      <Box className="input-with-chip__icon">
+        <CSvgIcon
+          component={props.anchorEl ? ChevronUp : ChevronDown}
+          size={18}
+          color="secondary"
+        />
+      </Box>
     </Box>
   );
 };

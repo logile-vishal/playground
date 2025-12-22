@@ -92,6 +92,9 @@
       cursor: pointer;
     }
   }
+  .MuiOutlinedInput-input {
+    color: var(--logile-text-primary);
+  }
 }
 
 .nested-menu__custom-popover {

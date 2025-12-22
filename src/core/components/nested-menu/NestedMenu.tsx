@@ -26,6 +26,7 @@ type NestedMenuProps = {
     textField?: Partial<TextFieldProps>;
     popover?: Partial<PopoverProps>;
   };
+  customMenuWidth?: number | string;
   parentPath?: string[];
   parentItem?: NestedMenuItem;
   subMenuPosition?: "left" | "right";
@@ -108,16 +109,19 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
   transformOrigin,
   onMenuItemSelect,
   onSubmenuClick,
+  customMenuWidth,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-    if (anchorEl) {
+    if (anchorEl && !isNonEmptyValue(customMenuWidth)) {
       const rect = anchorEl.getBoundingClientRect();
       setMenuWidth(rect.width);
+    } else if (isNonEmptyValue(customMenuWidth)) {
+      setMenuWidth(customMenuWidth as number);
     }
-  }, [anchorEl]);
+  }, [anchorEl, customMenuWidth]);
 
   const flattenedItems = useMemo(
     () => flattenMenuItems(menuItems, parentPath),

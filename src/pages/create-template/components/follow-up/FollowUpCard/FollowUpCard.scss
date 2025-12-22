@@ -1,0 +1,57 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.followup-card {
+  --followup-answer-width: 20%;
+  --followup-message-width: 20%;
+  --followup-recipients-width: 20%;
+
+  @include flex-center(space-between, flex-start);
+  border-radius: var(--radius-m);
+  border: 1px solid var(--logile-border-primary);
+  padding: var(--space-l) var(--space-xl);
+
+  &__title {
+    @include flex-center(flex-start, center, var(--space-s));
+    color: var(--logile-text-secondary);
+    font-size: var(--logile-size-secondary-text);
+    line-height: var(--logile-line-height-secondary-text);
+  }
+  &__content {
+    color: var(--logile-text-primary);
+    font-size: var(--logile-size-body);
+    line-height: var(--logile-line-height-body);
+
+    &-condition {
+      flex-shrink: 2;
+      flex: 1;
+      margin-right: auto;
+    }
+    &-question {
+      flex-shrink: 1;
+      flex: 1;
+      margin-right: auto;
+    }
+    &-answer {
+      flex-shrink: 1;
+      width: var(--followup-answer-width);
+    }
+    &-message {
+      flex-shrink: 1;
+      width: var(--followup-message-width);
+    }
+    &-recipients {
+      flex-shrink: 1;
+      width: var(--followup-recipients-width);
+    }
+    &-label-truncate-btn {
+      color: var(--logile-text-state-information);
+      font-size: var(--logile-size-secondary-text);
+      line-height: var(--logile-line-height-secondary-text);
+      margin-left: var(--space-xs);
+      cursor: pointer;
+    }
+  }
+  &__actions {
+    @include flex-center(center, center, var(--space-l));
+  }
+}
