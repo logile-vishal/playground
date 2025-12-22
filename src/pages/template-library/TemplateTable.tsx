@@ -674,7 +674,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
                 gap="4px"
                 className="template-body-text template-status"
               >
-                <span className="template-title-text">Type:</span>
+                <span className="template-title-text">
+                  {TEMPLATE_TABLE_COLUMN_HEADINGS.type}:
+                </span>
                 {type}
               </Box>
               <Box
@@ -682,7 +684,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
                 gap="4px"
                 className="template-body-text template-status"
               >
-                <span className="template-title-text">Status:</span>
+                <span className="template-title-text">
+                  {TEMPLATE_TABLE_COLUMN_HEADINGS.status}:
+                </span>
                 {status === "Incomplete" ? (
                   <Box
                     display="flex"
