@@ -72,7 +72,6 @@ export { default as Printer } from "@/assets/icons/common-icons/printer.svg?reac
 
 export { default as Attachment } from "@/assets/icons/common-icons/attachment.svg?react";
 export { default as AttachmentRequired } from "@/assets/icons/common-icons/attachment-req.svg?react";
-export { default as BlockCode } from "@/assets/icons/common-icons/block-code.svg?react";
 export { default as Calculator } from "@/assets/icons/common-icons/calculator.svg?react";
 export { default as Camera } from "@/assets/icons/common-icons/camera.svg?react";
 export { default as CameraRequired } from "@/assets/icons/common-icons/camera-req.svg?react";
@@ -126,9 +125,8 @@ export { default as TeamLine } from "@/assets/icons/common-icons/team-line.svg?r
 export { default as EditorBold } from "@/assets/icons/common-icons/bold.svg?react";
 export { default as EditorItalic } from "@/assets/icons/common-icons/italic.svg?react";
 export { default as EditorLink } from "@/assets/icons/common-icons/link.svg?react";
-export { default as EditorTextEdit } from "@/assets/icons/common-icons/text-edit.svg?react";
+export { default as EditorClearFormat } from "@/assets/icons/common-icons/format-clear.svg?react";
 export { default as EditorUnderline } from "@/assets/icons/common-icons/underline.svg?react";
-export { default as EditorTemplateVariable } from "@/assets/icons/common-icons/template-variable.svg?react";
 export { default as ChevronUpLarge } from "@/assets/icons/common-icons/chevron-up-large.svg?react";
 export { default as AttachmentLink } from "@/assets/icons/common-icons/attachment-link.svg?react";
 
@@ -213,7 +211,6 @@ export type IconName =
   | "Printer"
   | "Attachment"
   | "AttachmentRequired"
-  | "BlockCode"
   | "Calculator"
   | "Camera"
   | "CameraRequired"
@@ -259,8 +256,7 @@ export type IconName =
   | "EditorBold"
   | "EditorItalic"
   | "EditorLink"
-  | "EditorTextEdit"
+  | "EditorClearFormat"
   | "EditorUnderline"
-  | "EditorTemplateVariable"
   | "ChevronUpLarge"
   | "AttachmentLink";

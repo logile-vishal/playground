@@ -11,7 +11,7 @@ import {
 
 import CIconButton from "@/core/components/button/IconButton";
 import CSvgIcon from "@/core/components/icon/Icon";
-import { BlockCode, Download, Excel, Pdf } from "@/core/constants/icons";
+import { CurlyBracket, Download, Excel, Pdf } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
 import {
@@ -113,7 +113,7 @@ const renderQuestionTitle = (
       {isQuestionTagsVisible && (
         <Box className="template-preview-modal__tags-wrapper">
           <CSvgIcon
-            component={BlockCode}
+            component={CurlyBracket}
             size={16}
             color="secondary"
           />

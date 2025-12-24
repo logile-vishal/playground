@@ -45,12 +45,14 @@ export default function AppShell() {
       <NavigationGuard />
       <AppBar handleToggleMenu={handleToggleMenu} />
       <div className="app-shell__layout">
-        <Sidebar
-          activePath={activePath}
-          sidebarRef={sidebarRef}
-          showMenu={showMenu}
-          handleMenuClose={handleMenuClose}
-        />
+        {showMenu && (
+          <Sidebar
+            activePath={activePath}
+            sidebarRef={sidebarRef}
+            showMenu={showMenu}
+            handleMenuClose={handleMenuClose}
+          />
+        )}
         <main className="app-shell__content">
           <Outlet />
         </main>

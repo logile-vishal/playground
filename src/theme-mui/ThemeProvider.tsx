@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  CssBaseline,
   ThemeProvider as MuiThemeProvider,
   useMediaQuery,
 } from "@mui/material";
@@ -62,7 +63,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     updateHtmlThemeAttr(mode);
   }, [mode, updateHtmlThemeAttr]);
 
-  const theme = useMemo(() => getMuiThemeObject(), []);
+  const theme = useMemo(() => getMuiThemeObject(mode), [mode]);
 
   const themeProviderValue = useMemo(
     () => ({
@@ -74,7 +75,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ThemeContext.Provider value={themeProviderValue}>
-      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };

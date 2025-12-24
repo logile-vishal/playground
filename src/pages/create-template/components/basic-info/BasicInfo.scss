@@ -66,6 +66,10 @@
     width: var(--basic-info-dropdown-width);
   }
 
+  .input-with-chip__content {
+    gap: 0px;
+  }
+
   &__label.ct-basic-info__label {
     width: fit-content;
     color: var(--logile-text-secondary);

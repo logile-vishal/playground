@@ -22,7 +22,6 @@ import {
   Check,
   Copy,
   Delete,
-  Download,
   Edit,
   ExclamationTriangle,
   InfoCircle,
@@ -873,36 +872,30 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             color={disabledActions ? "disabled" : "secondary"}
           />
         </CIconButton>
-        <CIconButton
-          disabled={disabledActions}
-          disableHover
-        >
-          <CSvgIcon
-            component={Copy}
-            size={20}
-            color={disabledActions ? "disabled" : "secondary"}
-          />
-        </CIconButton>
-        <CIconButton
-          disabled={disabledActions}
-          disableHover
-        >
-          <CSvgIcon
-            component={Edit}
-            size={20}
-            color={disabledActions ? "disabled" : "secondary"}
-          />
-        </CIconButton>
-        <CIconButton
-          disabled={disabledActions}
-          disableHover
-        >
-          <CSvgIcon
-            component={Download}
-            size={20}
-            color={disabledActions ? "disabled" : "secondary"}
-          />
-        </CIconButton>
+        {!isReportType && (
+          <>
+            <CIconButton
+              disabled={disabledActions}
+              disableHover
+            >
+              <CSvgIcon
+                component={Copy}
+                size={20}
+                color={disabledActions ? "disabled" : "secondary"}
+              />
+            </CIconButton>
+            <CIconButton
+              disabled={disabledActions}
+              disableHover
+            >
+              <CSvgIcon
+                component={Edit}
+                size={20}
+                color={disabledActions ? "disabled" : "secondary"}
+              />
+            </CIconButton>
+          </>
+        )}
         <CIconButton
           disabled={disabledActions}
           disableHover

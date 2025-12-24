@@ -1,9 +1,14 @@
 import { createTheme } from "@mui/material/styles";
 
-import typography from "./typography";
+import type { ThemeMode } from "@/core/types/theme.type";
 
-export const getMuiThemeObject = () =>
-  createTheme({
+import typography from "./typography";
+import { themePalette } from "./theme.palette";
+
+export const getMuiThemeObject = (mode: ThemeMode) => {
+  const palette = themePalette[mode];
+
+  return createTheme({
     breakpoints: {
       values: {
         xs: 0,
@@ -35,6 +40,7 @@ export const getMuiThemeObject = () =>
       MuiPaper: {
         styleOverrides: {
           root: {
+            marginTop: "var(--space-xs)",
             backgroundColor: "var(--logile-bg-container-1)",
             color: "var(--logile-text-primary)",
           },
@@ -77,6 +83,30 @@ export const getMuiThemeObject = () =>
           },
         },
       },
+      MuiCssBaseline: {
+        styleOverrides: {
+          "*::-webkit-scrollbar": {
+            width: "8px",
+          },
+
+          "*::-webkit-scrollbar-track": {
+            backgroundColor: palette.scrollbar.track,
+          },
+
+          "*::-webkit-scrollbar-thumb": {
+            backgroundColor: palette.scrollbar.thumb,
+            borderRadius: "4px",
+          },
+
+          "*::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: palette.scrollbar.thumbHover,
+          },
+
+          "*::-webkit-scrollbar-corner": {
+            backgroundColor: palette.scrollbar.track,
+          },
+        },
+      },
       MuiSelect: {
         styleOverrides: {
           root: {
@@ -94,3 +124,4 @@ export const getMuiThemeObject = () =>
       },
     },
   });
+};

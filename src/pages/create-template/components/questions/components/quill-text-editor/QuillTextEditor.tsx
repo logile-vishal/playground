@@ -8,8 +8,8 @@ import {
   EditorBold,
   EditorItalic,
   EditorLink,
-  EditorTemplateVariable,
-  EditorTextEdit,
+  CurlyBracket,
+  EditorClearFormat,
   EditorUnderline,
 } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -109,7 +109,7 @@ const CustomToolbar: FC<CustomToolbarProps> = ({ onVariableClick }) => (
       color="secondary"
     >
       <CSvgIcon
-        component={EditorTextEdit}
+        component={EditorClearFormat}
         color="secondary"
         size={24}
       />
@@ -119,7 +119,7 @@ const CustomToolbar: FC<CustomToolbarProps> = ({ onVariableClick }) => (
       type="button"
     >
       <CSvgIcon
-        component={EditorTemplateVariable}
+        component={CurlyBracket}
         color="secondary"
         size={24}
       />
