@@ -11,6 +11,8 @@ on:
         options:
           - QA1
           - QA2
+          - QA3
+          - QA4
       branch:
         description: "Branch to deploy"
         required: true
