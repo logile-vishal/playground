@@ -10,6 +10,7 @@ import { ChevronLeft } from "@/core/constants/icons";
 import CStepper from "@/core/components/stepper/Stepper";
 import type { StepOption } from "@/core/types/stepper.type";
 import PageTemplate from "@/layouts/page-template/PageTemplate";
+import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 
 import BasicInfo from "./components/basic-info/BasicInfo";
 import Questions from "./components/questions/Questions";
@@ -25,6 +26,7 @@ import type { TemplatePreviewModalProps } from "../template-library/types/templa
 
 const CreateTemplate: React.FC = () => {
   const navigate = useNavigate();
+  const { generateId } = useWalkmeId();
   const {
     CREATE_TEMPLATE_STEPS,
     CREATE_TEMPLATE_HEADING,
@@ -164,6 +166,10 @@ const CreateTemplate: React.FC = () => {
                   severity="secondary"
                   variant="outline"
                   onClick={handlePreviewModalOpen}
+                  data-walkme-id={generateId([
+                    "header actions",
+                    "preview button",
+                  ])}
                 >
                   {CREATE_TEMPLATE_HEADER_ACTIONS.preview}
                 </CButton>
@@ -172,18 +178,28 @@ const CreateTemplate: React.FC = () => {
                 <CButton
                   severity="secondary"
                   onClick={handleNextStep}
+                  data-walkme-id={generateId(["header actions", "next button"])}
                 >
                   {CREATE_TEMPLATE_HEADER_ACTIONS.next}
                 </CButton>
               )}
 
               {currentStep.activeStep < 2 && (
-                <CButton severity="primary">
+                <CButton
+                  severity="primary"
+                  data-walkme-id={generateId(["header actions", "save button"])}
+                >
                   {CREATE_TEMPLATE_HEADER_ACTIONS.save}
                 </CButton>
               )}
               {currentStep.activeStep >= 2 && (
-                <CButton severity="primary">
+                <CButton
+                  severity="primary"
+                  data-walkme-id={generateId([
+                    "header actions",
+                    "submit button",
+                  ])}
+                >
                   {CREATE_TEMPLATE_HEADER_ACTIONS.submit}
                 </CButton>
               )}
