@@ -1,17 +1,31 @@
-name: dev
+name: deploy
+
 on:
-  push:
-    branches:
-      - dev
-      - feat/template-preview
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment to deploy to (QA1 or QA2)"
+        required: true
+        default: QA1
+        type: choice
+        options:
+          - QA1
+          - QA2
+      branch:
+        description: "Branch to deploy"
+        required: true
+        default: dev
+
 jobs:
-  dev-build:
+  deploy-build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -24,4 +38,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: dist/dev
+          folder: dist/${{ github.event.inputs.env }}
