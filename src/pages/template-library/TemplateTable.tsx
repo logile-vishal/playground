@@ -77,7 +77,6 @@ const StyledMenu = styled((props: MenuProps) => (
 ))(({ theme }) => ({
   "& .MuiPaper-root": {
     borderRadius: 6,
-    marginTop: theme.spacing(1),
     minWidth: 180,
     border: "1px solid #0A68DB",
     color: "rgb(55, 65, 81)",

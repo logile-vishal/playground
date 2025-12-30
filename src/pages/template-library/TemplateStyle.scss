@@ -86,7 +86,7 @@
   }
 
   .template-library__container {
-    height: 100%;
+    flex: 1;
     display: flex;
     overflow: auto;
     flex-direction: var(--template-library-directoryTreePosition);
