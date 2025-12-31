@@ -47,5 +47,101 @@
       "templateAccessPrivate": "Private",
       "templateAccessHidden": "Hidden"
     }
+  },
+  "QUESTIONS": {
+    "header": "Questions",
+    "noQuestionPlaceholder": "No questions added yet. Click \"Add Question\" to get started.",
+    "addQuestionButtonLabel": "Questions",
+    "addSectionButtonLabel": "Sections",
+    "SECTION_ADD_EDIT_MODAL": {
+      "ADD_SECTION": {
+        "title": "Add Section"
+      },
+      "RENAME_SECTION": {
+        "title": "Rename Section"
+      },
+      "FIELDS": {
+        "sectionName": "Section Name"
+      }
+    },
+    "DELETE_SECTION_MODAL": {
+      "title": "Delete questions and section?",
+      "description": "Deleting a section also deletes the questions and responses it contains."
+    },
+    "EXPANDED_QUESTION_CARD": {
+      "optionPlaceholder": "Option",
+      "minLengthPlaceholder": "Min Length",
+      "maxLengthPlaceholder": "Max Length",
+      "requiredPlaceholder": "Required",
+      "questionTextPlaceholder": "Question Text"
+    },
+    "EXPANDED_QUESTION_CARD_TAB_LABELS": {
+      "basicLabel": "Basic",
+      "advancedLabel": "Advanced"
+    },
+    "QUESTION_OPTION_TYPES_DROPDOWN_LABELS": {
+      "radioLabel": "Radio Button",
+      "dropdownLabel": "Dropdown",
+      "longInputLabel": "Long Input",
+      "label": "Label",
+      "dynamicDropdownLabel": "Dynamic Dropdown"
+    }
+  },
+  "QUESTION_OPTION": {
+    "addOptionButtonLabel": "Option",
+    "optionInputPlaceholder": "Option",
+    "COMPLIANT_DROPDOWN_OPTIONS": {
+      "compliantLabel": "Compliant",
+      "nonCompliantLabel": "Non-Compliant",
+      "naLabel": "N/A"
+    },
+    "ADDITIONAL_INFO_DROPDOWN": {
+      "noAdditionalInfoLabel": "No Additional Info",
+      "optionalInfoLabel": "Optional Info",
+      "requiredInfoLabel": "Required Info"
+    }
+  },
+  "NOTIFICATIONS": {
+    "seeMoreButtonLabel": "See more",
+    "seeLessButtonLabel": "See less",
+    "addNotificationButtonLabel": "Notification",
+    "CARD_COLUMN_HEADINGS": {
+      "notification": "Notification",
+      "condition": "Condition",
+      "conditionQuestion": "Condition Question",
+      "conditionAnswer": "Condition Answer",
+      "messageSubject": "Message Subject",
+      "recipients": "Recipients"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "notification": "Notifications triggered by answers",
+      "followUp": "Follow-up tasks triggered by answers",
+      "assigneeRecipient": "Assignee"
+    }
+  },
+  "FOLLOWUP_TASKS": {
+    "addFollowUpTaskButtonLabel": "Follow-up Task",
+    "CARD_COLUMN_HEADINGS": {
+      "followUp": "Follow-up Task",
+      "condition": "Condition",
+      "conditionQuestion": "Condition Question",
+      "conditionAnswer": "Condition Answer",
+      "taskName": "Task Name",
+      "recipients": "Recipients"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "followUp": "Follow-up tasks triggered by answers"
+    }
+  },
+  "QUESTION_BADGE_CONFIG": {
+    "photoLabel": "Photo",
+    "randomLabel": "Random",
+    "clusterLabel": "Cluster",
+    "answerLabel": "Answer",
+    "previousLabel": "Previous",
+    "fileLabel": "File",
+    "numberLabel": "Number",
+    "temperatureLabel": "Temperature",
+    "tagLabel": "Tag"
   }
 }

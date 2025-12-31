@@ -1,16 +1,14 @@
 import { Chip, styled } from "@mui/material";
-import CSvgIcon from "@/core/components/icon/Icon";
-import {
-  BADGE_CONFIG,
-  FEATURE_ACTION_CHIP_LABELS,
-} from "@/pages/create-template/constants/questions";
-import { isNonEmptyValue } from "@/utils/index";
 
-import { questionBadgePalette } from "./QuestionBadgePalette";
+import CSvgIcon from "@/core/components/icon/Icon";
+import { isNonEmptyValue } from "@/utils/index";
 import type {
   ButtonConfigProps,
   QuestionBadgeProps,
 } from "@/pages/create-template/types/questions.type";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+
+import { questionBadgePalette } from "./QuestionBadgePalette";
 
 export const StyledChip = styled(Chip)(() => ({
   "--chip-height": "18px",
@@ -41,15 +39,15 @@ export const StyledChip = styled(Chip)(() => ({
  * @returns {JSX.Element} The rendered badge component.
  */
 export const QuestionBadge = ({ type, count }: QuestionBadgeProps) => {
+  const { QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
   const palette = questionBadgePalette[type];
-  const config: ButtonConfigProps = BADGE_CONFIG[type];
-  let label = config.label;
-  const icon = config.icon;
+  const config: ButtonConfigProps = QUESTION_BADGE_CONFIG[type];
+  let label = config?.label;
+  const icon = config?.icon;
   if (!label || !icon) return <></>;
 
   if (isNonEmptyValue(count)) {
-    // TODO: replace with proper pluralization utility with translation support
-    label = `${count} ${FEATURE_ACTION_CHIP_LABELS.TAGS}${count && count > 1 ? "s" : ""}`;
+    label = `${count} ${config.label}s`;
   }
 
   return (

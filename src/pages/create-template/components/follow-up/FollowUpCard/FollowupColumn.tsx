@@ -6,6 +6,7 @@ import type { FollowupColumnProps } from "@/pages/create-template/types/followup
 import { TEXT_CONTENT } from "@/pages/create-template/constants/constant";
 import { truncateLabel } from "@/utils/truncate-label";
 import clsx from "@/utils/clsx";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 import "./FollowUpCard.scss";
 
@@ -17,6 +18,7 @@ const FollowupColumn: React.FC<FollowupColumnProps> = ({
   icon,
   enableSeeMore,
 }) => {
+  const { FOLLOWUP_TASKS } = useCreateTemplateTranslations();
   const [isLabelExpanded, setIsLabelExpanded] = useState(false);
 
   /**
@@ -66,7 +68,7 @@ const FollowupColumn: React.FC<FollowupColumnProps> = ({
             onClick={() => setIsLabelExpanded(true)}
             className="followup-card__content-label-truncate-btn"
           >
-            {TEXT_CONTENT.seeMore}
+            {FOLLOWUP_TASKS.seeMoreButtonLabel}
           </span>
         )}
         {enableSeeMore && isLabelExpanded && (
@@ -74,7 +76,7 @@ const FollowupColumn: React.FC<FollowupColumnProps> = ({
             onClick={() => setIsLabelExpanded(false)}
             className="followup-card__content-label-truncate-btn"
           >
-            {TEXT_CONTENT.seeLess}
+            {FOLLOWUP_TASKS.seeLessButtonLabel}
           </span>
         )}
       </Box>

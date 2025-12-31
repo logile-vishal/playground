@@ -47,5 +47,101 @@
       "templateAccessPrivate": "私有",
       "templateAccessHidden": "隐藏"
     }
+  },
+  "QUESTIONS": {
+    "header": "问题",
+    "noQuestionPlaceholder": "尚未添加任何问题。点击“添加问题”开始。",
+    "addQuestionButtonLabel": "问题",
+    "addSectionButtonLabel": "分区",
+    "SECTION_ADD_EDIT_MODAL": {
+      "ADD_SECTION": {
+        "title": "添加分区"
+      },
+      "RENAME_SECTION": {
+        "title": "重命名分区"
+      },
+      "FIELDS": {
+        "sectionName": "分区名称"
+      }
+    },
+    "DELETE_SECTION_MODAL": {
+      "title": "删除问题和分区？",
+      "description": "删除分区也会同时删除其中包含的问题和回答。"
+    },
+    "EXPANDED_QUESTION_CARD": {
+      "optionPlaceholder": "选项",
+      "minLengthPlaceholder": "最小长度",
+      "maxLengthPlaceholder": "最大长度",
+      "requiredPlaceholder": "必填",
+      "questionTextPlaceholder": "问题文本"
+    },
+    "EXPANDED_QUESTION_CARD_TAB_LABELS": {
+      "basicLabel": "基础",
+      "advancedLabel": "高级"
+    },
+    "QUESTION_OPTION_TYPES_DROPDOWN_LABELS": {
+      "radioLabel": "单选按钮",
+      "dropdownLabel": "下拉菜单",
+      "longInputLabel": "长文本输入",
+      "label": "标签",
+      "dynamicDropdownLabel": "动态下拉菜单"
+    }
+  },
+  "QUESTION_OPTION": {
+    "addOptionButtonLabel": "选项",
+    "optionInputPlaceholder": "选项",
+    "COMPLIANT_DROPDOWN_OPTIONS": {
+      "compliantLabel": "合规",
+      "nonCompliantLabel": "不合规",
+      "naLabel": "不适用"
+    },
+    "ADDITIONAL_INFO_DROPDOWN": {
+      "noAdditionalInfoLabel": "无附加信息",
+      "optionalInfoLabel": "可选信息",
+      "requiredInfoLabel": "必填信息"
+    }
+  },
+  "NOTIFICATIONS": {
+    "seeMoreButtonLabel": "查看更多",
+    "seeLessButtonLabel": "收起",
+    "addNotificationButtonLabel": "通知",
+    "CARD_COLUMN_HEADINGS": {
+      "notification": "通知",
+      "condition": "条件",
+      "conditionQuestion": "条件问题",
+      "conditionAnswer": "条件答案",
+      "messageSubject": "消息主题",
+      "recipients": "接收人"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "notification": "由答案触发的通知",
+      "followUp": "由答案触发的后续任务",
+      "assigneeRecipient": "负责人"
+    }
+  },
+  "FOLLOWUP_TASKS": {
+    "addFollowUpTaskButtonLabel": "后续任务",
+    "CARD_COLUMN_HEADINGS": {
+      "followUp": "后续任务",
+      "condition": "条件",
+      "conditionQuestion": "条件问题",
+      "conditionAnswer": "条件答案",
+      "taskName": "任务名称",
+      "recipients": "接收人"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "followUp": "由答案触发的后续任务"
+    }
+  },
+  "QUESTION_BADGE_CONFIG": {
+    "photoLabel": "照片",
+    "randomLabel": "随机",
+    "clusterLabel": "集群",
+    "answerLabel": "答案",
+    "previousLabel": "上一项",
+    "fileLabel": "文件",
+    "numberLabel": "数字",
+    "temperatureLabel": "温度",
+    "tagLabel": "标签"
   }
 }

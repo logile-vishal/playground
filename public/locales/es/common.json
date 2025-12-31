@@ -2,5 +2,14 @@
   "NO_DATA_SEARCH": {
     "title": "No se encontró ninguna plantilla reciente",
     "description": "Buscar algo"
+  },
+  "GENERAL": {
+    "renameButtonLabel": "Renombrar",
+    "deleteButtonLabel": "Eliminar",
+    "cancelButtonLabel": "Cancelar",
+    "saveButtonLabel": "Guardar",
+    "addButtonLabel": "Agregar",
+    "seeMoreButtonLabel": "Ver más",
+    "seeLessButtonLabel": "Ver menos"
   }
 }

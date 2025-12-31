@@ -1,18 +1,3 @@
-import {
-  CalculatorQuestionBadge,
-  Cluster,
-  ArrowLeft,
-  File,
-  Photo,
-  Previous,
-  Random,
-  Tag,
-  Temperature,
-  InlineEdit,
-  Delete,
-} from "@/core/constants/icons";
-import type { IconColorType } from "@/core/types/icon.type";
-
 export const QUESTION_OPTION_LABELS = {
   RADIO: "Radio Button",
   DROPDOWN: "Dropdown",
@@ -22,56 +7,45 @@ export const QUESTION_OPTION_LABELS = {
 };
 
 export const FEATURE_ACTION_CHIP_LABELS = {
-  PHOTO: "photo",
-  TAGS: "tag",
-  RANDOM: "random",
-  CLUSTER: "cluster",
-  ANSWER: "answer",
-  PREVIOUS: "previous",
-  FILE: "file",
-  NUMBER: "number",
-  TEMPERATURE: "temperature",
-  TAG: "tag",
-};
-
-export const BADGE_CONFIG = {
-  photo: {
-    icon: Photo,
-    label: FEATURE_ACTION_CHIP_LABELS.PHOTO,
+  PHOTO: {
+    label: "Photo",
+    value: "photo",
   },
-  random: {
-    icon: Random,
-    label: FEATURE_ACTION_CHIP_LABELS.RANDOM,
+  TAGS: {
+    label: "Tags",
+    value: "tag",
   },
-  cluster: {
-    icon: Cluster,
-    label: FEATURE_ACTION_CHIP_LABELS.CLUSTER,
+  RANDOM: {
+    label: "Random",
+    value: "random",
   },
-  answer: {
-    icon: ArrowLeft,
-    label: FEATURE_ACTION_CHIP_LABELS.ANSWER,
+  CLUSTER: {
+    label: "Cluster",
+    value: "cluster",
   },
-  previous: {
-    icon: Previous,
-    label: FEATURE_ACTION_CHIP_LABELS.PREVIOUS,
+  ANSWER: {
+    label: "Answer",
+    value: "answer",
   },
-  file: {
-    icon: File,
-    label: FEATURE_ACTION_CHIP_LABELS.FILE,
+  PREVIOUS: {
+    label: "Previous",
+    value: "previous",
   },
-  number: {
-    icon: CalculatorQuestionBadge,
-    label: FEATURE_ACTION_CHIP_LABELS.NUMBER,
+  FILE: {
+    label: "File",
+    value: "file",
   },
-  temperature: {
-    icon: Temperature,
-    label: FEATURE_ACTION_CHIP_LABELS.TEMPERATURE,
+  NUMBER: {
+    label: "Number",
+    value: "number",
   },
-  tag: {
-    icon: Tag,
-    label: FEATURE_ACTION_CHIP_LABELS.TAGS,
-    count: 3,
-    // TODO: label handled dynamically
+  TEMPERATURE: {
+    label: "Temperature",
+    value: "temperature",
+  },
+  TAG: {
+    label: "Tag",
+    value: "tag",
   },
 };
 
@@ -79,43 +53,6 @@ export const SECTION_SETTINGS_MENU_KEY = {
   RENAME: "rename_section",
   DELETE: "delete_section",
 };
-
-export const SECTION_SETTINGS_MENU_OPTIONS = [
-  {
-    name: "Rename",
-    value: SECTION_SETTINGS_MENU_KEY.RENAME,
-    leftIcon: InlineEdit,
-  },
-  {
-    name: "Delete",
-    value: SECTION_SETTINGS_MENU_KEY.DELETE,
-    leftIcon: Delete,
-    labelStyleProps: { color: "var(--logile-text-state-violation)" },
-    leftIconStyleProps: { color: "violation" as IconColorType },
-  },
-];
-
-export const QUESTION_MODAL = {
-  ADD_SECTION: {
-    TITLE: "Add Section",
-    PRIMARY_ACTION: "Add",
-  },
-  RENAME_SECTION: {
-    TITLE: "Rename Section",
-    PRIMARY_ACTION: "Rename",
-  },
-  FIELDS: {
-    SECTION_NAME: "Section Name",
-    MEDIUM: "medium",
-  },
-};
-
-export const DELETE_SECTION_MODAL = {
-  TITLE: "Delete questions and section?",
-  DESCRIPTION:
-    "Deleting a section also deletes the questions and responses it contains.",
-  CONFIRM_TEXT: "Delete",
-} as const;
 
 export const QUESTION_TABS = {
   BASIC: {
@@ -194,25 +131,3 @@ export const QUESTION_ARRAY = [
     ],
   },
 ];
-
-export const QUESTION_CARD_COMPLIANT_OPTIONS = {
-  COMPLIANT: { label: "Compliant", value: "Compliant" },
-  NON_COMPLIANT: { label: "Non-Compliant", value: "Non-Compliant" },
-  NA: { label: "NA", value: "NA" },
-};
-
-export const QUESTION_CARD_ADDITIONAL_OPTIONS = {
-  NO_ADDITIONAL_INFO: {
-    label: "No Additional Info",
-    value: "No Additional Info",
-  },
-  OPTIONAL_INFO: { label: "Optional Info", value: "Optional Info" },
-  REQUIRED_INFO: { label: "Required Info", value: "Required Info" },
-};
-
-export const QUESTION_CARD_OPTION = {
-  optionPlaceholder: "Option",
-  minLengthPlaceholder: "Min Length",
-  maxLengthPlaceholder: "Max Length",
-  requiredPlaceholder: "Required",
-};

@@ -11,10 +11,12 @@ import {
   followupSampleData,
   followupTriggerByAnswersSampleData,
 } from "../../constants/sampleData";
-import { FOLLOW_UP_HEADING, TRIGGER_ANSWER } from "../../constants/constant";
+
 import FollowUpCard from "./FollowUpCard/FollowUpCard";
+import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
 
 const FollowUp: React.FC = () => {
+  const { FOLLOWUP_TASKS } = useCreateTemplateTranslations();
   const [isGroupedFollowupOpen, setIsGroupedFollowupOpen] =
     useState<boolean>(false);
 
@@ -39,7 +41,7 @@ const FollowUp: React.FC = () => {
             />
           </Box>
           <Box className="ct-follow-up__answer-trigger-group-header-title">
-            {TRIGGER_ANSWER.followUp}
+            {FOLLOWUP_TASKS.TRIGGER_BY_ANSWER_GROUP.followUp}
           </Box>
         </Box>
         {isGroupedFollowupOpen &&
@@ -61,7 +63,7 @@ const FollowUp: React.FC = () => {
           size={15}
           component={AddIcon}
         />
-        {FOLLOW_UP_HEADING.followUp}
+        {FOLLOWUP_TASKS.addFollowUpTaskButtonLabel}
       </CButton>
     </Box>
   );

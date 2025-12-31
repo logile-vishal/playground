@@ -5,12 +5,12 @@
     "description": "Descripción",
     "descriptionPlaceholder": "Ingrese la descripción",
     "type": "Tipo",
-    "typePlaceholder": "Seleccionar tipo",
+    "typePlaceholder": "Seleccione el tipo",
     "tags": "Etiquetas",
-    "tagsPlaceholder": "Seleccionar etiquetas",
+    "tagsPlaceholder": "Seleccione etiquetas",
     "directory": "Directorio",
-    "directoryPlaceholder": "Seleccionar directorio",
-    "subDirectoryPlaceholder": "Seleccionar subdirectorio"
+    "directoryPlaceholder": "Seleccione directorio",
+    "subDirectoryPlaceholder": "Seleccione subdirectorio"
   },
   "CREATE_TEMPLATE_STEPS": {
     "basicInfoLabel": "Información básica",
@@ -20,7 +20,7 @@
     "followUpLabel": "Tareas de seguimiento"
   },
   "CREATE_TEMPLATE_HEADING": {
-    "createTaskTemplate": "Crear plantilla de tarea"
+    "createTaskTemplate": "Crear plantilla de tareas"
   },
   "CREATE_TEMPLATE_HEADER_ACTIONS": {
     "preview": "Vista previa",
@@ -32,11 +32,10 @@
     "compilanceThreshold": "Umbral de cumplimiento",
     "compilanceThresholdPlaceholder": "Ingrese el valor",
     "labourHours": "Horas de trabajo",
-    "labourHoursPlaceholder": "Seleccionar opción",
+    "labourHoursPlaceholder": "Seleccione una opción",
     "templateAccess": "Acceso a la plantilla",
-    "templateAccessPlaceholder": "Seleccionar acceso",
+    "templateAccessPlaceholder": "Seleccione el acceso",
     "signature": "Firma",
-
     "LABOUR_HOUR_OPTIONS": {
       "labourHoursMinutes": "Minutos",
       "labourHoursHours": "Horas",
@@ -47,5 +46,101 @@
       "templateAccessPrivate": "Privado",
       "templateAccessHidden": "Oculto"
     }
+  },
+  "QUESTIONS": {
+    "header": "Preguntas",
+    "noQuestionPlaceholder": "Aún no se han agregado preguntas. Haga clic en \"Agregar pregunta\" para comenzar.",
+    "addQuestionButtonLabel": "Preguntas",
+    "addSectionButtonLabel": "Secciones",
+    "SECTION_ADD_EDIT_MODAL": {
+      "ADD_SECTION": {
+        "title": "Agregar sección"
+      },
+      "RENAME_SECTION": {
+        "title": "Renombrar sección"
+      },
+      "FIELDS": {
+        "sectionName": "Nombre de la sección"
+      }
+    },
+    "DELETE_SECTION_MODAL": {
+      "title": "¿Eliminar preguntas y sección?",
+      "description": "Al eliminar una sección, también se eliminan las preguntas y respuestas que contiene."
+    },
+    "EXPANDED_QUESTION_CARD": {
+      "optionPlaceholder": "Opción",
+      "minLengthPlaceholder": "Longitud mínima",
+      "maxLengthPlaceholder": "Longitud máxima",
+      "requiredPlaceholder": "Obligatorio",
+      "questionTextPlaceholder": "Texto de la pregunta"
+    },
+    "EXPANDED_QUESTION_CARD_TAB_LABELS": {
+      "basicLabel": "ásico",
+      "advancedLabel": "Avanzado"
+    },
+    "QUESTION_OPTION_TYPES_DROPDOWN_LABELS": {
+      "radioLabel": "Botón de opción",
+      "dropdownLabel": "Lista desplegable",
+      "longInputLabel": "Entrada larga",
+      "label": "Etiqueta",
+      "dynamicDropdownLabel": "Lista desplegable dinámica"
+    }
+  },
+  "QUESTION_OPTION": {
+    "addOptionButtonLabel": "Opción",
+    "optionInputPlaceholder": "Opción",
+    "COMPLIANT_DROPDOWN_OPTIONS": {
+      "compliantLabel": "Conforme",
+      "nonCompliantLabel": "No conforme",
+      "naLabel": "No aplica"
+    },
+    "ADDITIONAL_INFO_DROPDOWN": {
+      "noAdditionalInfoLabel": "Sin información adicional",
+      "optionalInfoLabel": "Información opcional",
+      "requiredInfoLabel": "Información requerida"
+    }
+  },
+  "NOTIFICATIONS": {
+    "seeMoreButtonLabel": "Ver más",
+    "seeLessButtonLabel": "Ver menos",
+    "addNotificationButtonLabel": "Notificación",
+    "CARD_COLUMN_HEADINGS": {
+      "notification": "Notificación",
+      "condition": "Condición",
+      "conditionQuestion": "Pregunta de condición",
+      "conditionAnswer": "Respuesta de condición",
+      "messageSubject": "Asunto del mensaje",
+      "recipients": "Destinatarios"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "notification": "Notificaciones activadas por respuestas",
+      "followUp": "Tareas de seguimiento activadas por respuestas",
+      "assigneeRecipient": "Asignado a"
+    }
+  },
+  "FOLLOWUP_TASKS": {
+    "addFollowUpTaskButtonLabel": "Tarea de seguimiento",
+    "CARD_COLUMN_HEADINGS": {
+      "followUp": "Tarea de seguimiento",
+      "condition": "Condición",
+      "conditionQuestion": "Pregunta de condición",
+      "conditionAnswer": "Respuesta de condición",
+      "taskName": "Nombre de la tarea",
+      "recipients": "Destinatarios"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "followUp": "Tareas de seguimiento activadas por respuestas"
+    }
+  },
+  "QUESTION_BADGE_CONFIG": {
+    "photoLabel": "Foto",
+    "randomLabel": "Aleatorio",
+    "clusterLabel": "Grupo",
+    "answerLabel": "Respuesta",
+    "previousLabel": "Anterior",
+    "fileLabel": "Archivo",
+    "numberLabel": "Número",
+    "temperatureLabel": "Temperatura",
+    "tagLabel": "Etiqueta"
   }
 }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Badge, Box } from "@mui/material";
 
 import {
@@ -8,18 +9,13 @@ import {
   DraggableDots,
   Setting,
 } from "@/core/constants/icons";
-import {
-  QUESTION_CARD_ADDITIONAL_OPTIONS,
-  QUESTION_CARD_COMPLIANT_OPTIONS,
-  QUESTION_CARD_OPTION,
-} from "@/pages/create-template/constants/questions";
 import clsx from "@/utils/clsx";
 import CTextField from "@/core/components/form/textfield/Textfield";
 import CSvgIcon from "@/core/components/icon/Icon";
 import CSelect from "@/core/components/select/Select";
 import { CButton } from "@/core/components/button/button";
-import { QUESTION_SECTION } from "@/pages/create-template/constants/constant";
 import CIconButton from "@/core/components/button/IconButton";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 import "./QuestionCardOptions.scss";
 
@@ -31,18 +27,6 @@ type QuestionCardOptionProps = {
   linkCount?: number;
 };
 
-const ComplientOptions = [
-  QUESTION_CARD_COMPLIANT_OPTIONS.COMPLIANT,
-  QUESTION_CARD_COMPLIANT_OPTIONS.NON_COMPLIANT,
-  QUESTION_CARD_COMPLIANT_OPTIONS.NA,
-];
-
-const AdditionalOptions = [
-  QUESTION_CARD_ADDITIONAL_OPTIONS.NO_ADDITIONAL_INFO,
-  QUESTION_CARD_ADDITIONAL_OPTIONS.OPTIONAL_INFO,
-  QUESTION_CARD_ADDITIONAL_OPTIONS.REQUIRED_INFO,
-];
-
 /**
  * @method QuestionCardOption
  * @description Renders a single question option with input field, dropdowns, and action buttons
@@ -51,6 +35,16 @@ const AdditionalOptions = [
  * @return {React.ReactNode} Option row JSX element
  */
 const QuestionCardOption = (props: QuestionCardOptionProps) => {
+  const { QUESTION_OPTION } = useCreateTemplateTranslations();
+  const [isCompliant, setIsCompliant] = useState({});
+  const CompliantOptions = Object.values(
+    QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS
+  );
+  const AdditionalOptions = [
+    QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.NO_ADDITIONAL_INFO,
+    QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.OPTIONAL_INFO,
+    QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.REQUIRED_INFO,
+  ];
   return (
     <Box className="ques-card-options">
       <Box className="ques-card-options__dnd">
@@ -63,18 +57,22 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
       <Box className="ques-card-options__textbox">
         <CTextField
           required={false}
-          placeholder={`${QUESTION_CARD_OPTION.optionPlaceholder}`}
+          placeholder={`${QUESTION_OPTION.optionInputPlaceholder}`}
         />
       </Box>
 
       <Box className="ques-card-options__dropdown">
         <CSelect
-          options={ComplientOptions ?? []}
+          options={CompliantOptions ?? []}
           optionLabelKey={"label"}
           optionValueKey={"value"}
           fullWidth
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setIsCompliant(e.target.value);
+          }}
           allowFilter={false}
-          value={QUESTION_CARD_COMPLIANT_OPTIONS.COMPLIANT.value}
+          value={isCompliant}
+          renderValue={(sel: { label?: string }) => sel?.label}
           IconComponent={(sel) => (
             <Box
               className={clsx({
@@ -98,7 +96,9 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           optionLabelKey={"label"}
           optionValueKey={"value"}
           allowFilter={false}
-          value={QUESTION_CARD_ADDITIONAL_OPTIONS.NO_ADDITIONAL_INFO.value}
+          value={
+            QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.NO_ADDITIONAL_INFO.value
+          }
           IconComponent={(sel) => (
             <Box
               className={clsx({
@@ -158,6 +158,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
  * @return {React.ReactNode} Options container JSX element
  */
 const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
+  const { QUESTION_OPTION } = useCreateTemplateTranslations();
   return (
     <Box
       className={clsx({
@@ -179,7 +180,7 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
             size={15}
             component={AddIcon}
           />
-          {QUESTION_SECTION.ACTION_ADD_OPTION}
+          {QUESTION_OPTION.addOptionButtonLabel}
         </CButton>
       </Box>
     </Box>

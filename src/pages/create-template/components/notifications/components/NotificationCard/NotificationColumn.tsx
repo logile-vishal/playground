@@ -8,6 +8,7 @@ import { truncateLabel } from "@/utils/truncate-label";
 import clsx from "@/utils/clsx";
 
 import "./NotificationCard.scss";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 const NotificationColumn: React.FC<NotificationColumnProps> = ({
   title,
@@ -17,6 +18,7 @@ const NotificationColumn: React.FC<NotificationColumnProps> = ({
   icon,
   enableSeeMore,
 }) => {
+  const { NOTIFICATIONS } = useCreateTemplateTranslations();
   const [isLabelExpanded, setIsLabelExpanded] = useState(false);
 
   /**
@@ -66,7 +68,7 @@ const NotificationColumn: React.FC<NotificationColumnProps> = ({
             onClick={() => setIsLabelExpanded(true)}
             className="notifications-card__content-label-truncate-btn"
           >
-            {TEXT_CONTENT.seeMore}
+            {NOTIFICATIONS.seeMoreButtonLabel}
           </span>
         )}
         {enableSeeMore && isLabelExpanded && (
@@ -74,7 +76,7 @@ const NotificationColumn: React.FC<NotificationColumnProps> = ({
             onClick={() => setIsLabelExpanded(false)}
             className="notifications-card__content-label-truncate-btn"
           >
-            {TEXT_CONTENT.seeLess}
+            {NOTIFICATIONS.seeLessButtonLabel}
           </span>
         )}
       </Box>

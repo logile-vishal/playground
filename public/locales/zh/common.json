@@ -1,6 +1,15 @@
 {
   "NO_DATA_SEARCH": {
     "title": "未找到最近的模板",
-    "description": "搜索一些内容"
+    "description": "搜索内容"
+  },
+  "GENERAL": {
+    "renameButtonLabel": "重命名",
+    "deleteButtonLabel": "删除",
+    "cancelButtonLabel": "取消",
+    "saveButtonLabel": "保存",
+    "addButtonLabel": "添加",
+    "seeMoreButtonLabel": "查看更多",
+    "seeLessButtonLabel": "收起"
   }
 }

@@ -7,16 +7,13 @@ import {
   DraggableDots,
   Setting,
 } from "@/core/constants/icons";
-import {
-  QUESTION_MODAL,
-  SECTION_SETTINGS_MENU_KEY,
-  SECTION_SETTINGS_MENU_OPTIONS,
-} from "@/pages/create-template/constants/questions";
+import { SECTION_SETTINGS_MENU_KEY } from "@/pages/create-template/constants/questions";
 import CSvgIcon from "@/core/components/icon/Icon";
 import type { QuestionSectionProps } from "@/pages/create-template/types/questions.type";
 import clsx from "@/utils/clsx";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 import IconButton from "@/core/components/button/IconButton";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 import DeleteSectionModal from "../delete-section-modal/DeleteSectionModal";
 import AddEditSectionModal from "../add-edit-section-modal/AddEditSectionModal";
@@ -28,6 +25,7 @@ type SectionSettingProps = {
   status: boolean;
 };
 const QuestionSection = (props: QuestionSectionProps) => {
+  const { QUESTIONS } = useCreateTemplateTranslations();
   const [isSectionCollapsed, setIsSectionCollapsed] = useState(false);
   const [sectionSetting, setSectionSetting] = useState<SectionSettingProps>({
     anchor: null,
@@ -140,7 +138,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
     return (
       <CNestedMenu
         anchorEl={anchorEl}
-        menuItems={SECTION_SETTINGS_MENU_OPTIONS}
+        menuItems={QUESTIONS.SECTION_SETTINGS_MENU_OPTIONS}
         onClose={closeSectionSettingsMenu}
         showSearch={false}
         className="question-section__settings-menu"
@@ -229,7 +227,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
         <AddEditSectionModal
           open={renameModal.status}
           onClose={closeRenameModal}
-          type={QUESTION_MODAL.RENAME_SECTION}
+          type={QUESTIONS.SECTION_ADD_EDIT_MODAL.RENAME_SECTION}
         />
       </>
     );

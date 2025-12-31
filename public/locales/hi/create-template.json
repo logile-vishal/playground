@@ -47,5 +47,101 @@
       "templateAccessPrivate": "निजी",
       "templateAccessHidden": "छिपा हुआ"
     }
+  },
+  "QUESTIONS": {
+    "header": "प्रश्न",
+    "noQuestionPlaceholder": "अभी तक कोई प्रश्न जोड़ा नहीं गया है। शुरू करने के लिए \"प्रश्न जोड़ें\" पर क्लिक करें।",
+    "addQuestionButtonLabel": "प्रश्न",
+    "addSectionButtonLabel": "अनुभाग",
+    "SECTION_ADD_EDIT_MODAL": {
+      "ADD_SECTION": {
+        "title": "अनुभाग जोड़ें"
+      },
+      "RENAME_SECTION": {
+        "title": "अनुभाग का नाम बदलें"
+      },
+      "FIELDS": {
+        "sectionName": "अनुभाग का नाम"
+      }
+    },
+    "DELETE_SECTION_MODAL": {
+      "title": "प्रश्न और अनुभाग हटाएँ?",
+      "description": "किसी अनुभाग को हटाने पर उसमें मौजूद प्रश्न और उत्तर भी हटा दिए जाएंगे।"
+    },
+    "EXPANDED_QUESTION_CARD": {
+      "optionPlaceholder": "विकल्प",
+      "minLengthPlaceholder": "न्यूनतम लंबाई",
+      "maxLengthPlaceholder": "अधिकतम लंबाई",
+      "requiredPlaceholder": "आवश्यक",
+      "questionTextPlaceholder": "प्रश्न पाठ"
+    },
+    "EXPANDED_QUESTION_CARD_TAB_LABELS": {
+      "basicLabel": "मूल",
+      "advancedLabel": "उन्नत"
+    },
+    "QUESTION_OPTION_TYPES_DROPDOWN_LABELS": {
+      "radioLabel": "रेडियो बटन",
+      "dropdownLabel": "ड्रॉपडाउन",
+      "longInputLabel": "लंबा इनपुट",
+      "label": "लेबल",
+      "dynamicDropdownLabel": "डायनामिक ड्रॉपडाउन"
+    }
+  },
+  "QUESTION_OPTION": {
+    "addOptionButtonLabel": "विकल्प",
+    "optionInputPlaceholder": "विकल्प",
+    "COMPLIANT_DROPDOWN_OPTIONS": {
+      "compliantLabel": "अनुपालक",
+      "nonCompliantLabel": "अनुपालक नहीं",
+      "naLabel": "लागू नहीं"
+    },
+    "ADDITIONAL_INFO_DROPDOWN": {
+      "noAdditionalInfoLabel": "कोई अतिरिक्त जानकारी नहीं",
+      "optionalInfoLabel": "वैकल्पिक जानकारी",
+      "requiredInfoLabel": "आवश्यक जानकारी"
+    }
+  },
+  "NOTIFICATIONS": {
+    "seeMoreButtonLabel": "और देखें",
+    "seeLessButtonLabel": "कम देखें",
+    "addNotificationButtonLabel": "सूचना",
+    "CARD_COLUMN_HEADINGS": {
+      "notification": "सूचना",
+      "condition": "शर्त",
+      "conditionQuestion": "शर्त से संबंधित प्रश्न",
+      "conditionAnswer": "शर्त का उत्तर",
+      "messageSubject": "संदेश विषय",
+      "recipients": "प्राप्तकर्ता"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "notification": "उत्तर द्वारा ट्रिगर की गई सूचनाएँ",
+      "followUp": "उत्तर द्वारा ट्रिगर किए गए फ़ॉलो-अप कार्य",
+      "assigneeRecipient": "असाइनी"
+    }
+  },
+  "FOLLOWUP_TASKS": {
+    "addFollowUpTaskButtonLabel": "फ़ॉलो-अप कार्य",
+    "CARD_COLUMN_HEADINGS": {
+      "followUp": "फ़ॉलो-अप कार्य",
+      "condition": "शर्त",
+      "conditionQuestion": "शर्त से संबंधित प्रश्न",
+      "conditionAnswer": "शर्त का उत्तर",
+      "taskName": "कार्य का नाम",
+      "recipients": "प्राप्तकर्ता"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "followUp": "उत्तर द्वारा ट्रिगर किए गए फ़ॉलो-अप कार्य"
+    }
+  },
+  "QUESTION_BADGE_CONFIG": {
+    "photoLabel": "फ़ोटो",
+    "randomLabel": "रैंडम",
+    "clusterLabel": "क्लस्टर",
+    "answerLabel": "उत्तर",
+    "previousLabel": "पिछला",
+    "fileLabel": "फ़ाइल",
+    "numberLabel": "संख्या",
+    "temperatureLabel": "तापमान",
+    "tagLabel": "टैग"
   }
 }

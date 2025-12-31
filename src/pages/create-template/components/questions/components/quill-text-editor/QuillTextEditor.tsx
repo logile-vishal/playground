@@ -130,7 +130,8 @@ const CustomToolbar: FC<CustomToolbarProps> = ({ onVariableClick }) => (
 const QuillTextEditor: FC<{
   value?: string;
   onChange: (content: string) => void;
-}> = ({ value = "", onChange }) => {
+  placeholder?: string;
+}> = ({ value = "", onChange, placeholder }) => {
   /**
    * @method QuillTextEditor
    * @description Rich text editor with custom toolbar, formatting tools, and template variable support
@@ -205,7 +206,7 @@ const QuillTextEditor: FC<{
         onChange={onChange}
         modules={modules}
         theme="snow"
-        placeholder="Question Text"
+        placeholder={placeholder}
       />
       <CustomToolbar onVariableClick={handleVariableButtonClick} />
 

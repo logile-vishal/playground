@@ -12,9 +12,10 @@ import {
   notificationTriggerByAnswersSampleData,
 } from "../../constants/sampleData";
 import NotificationCard from "./components/NotificationCard/NotificationCard";
-import { NOTIFICATION_HEADING, TRIGGER_ANSWER } from "../../constants/constant";
+import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
 
 const Notifications: React.FC = () => {
+  const { NOTIFICATIONS } = useCreateTemplateTranslations();
   const [isGroupedNotificationOpen, setIsGroupedNotificationOpen] =
     useState<boolean>(false);
 
@@ -41,7 +42,7 @@ const Notifications: React.FC = () => {
             />
           </Box>
           <Box className="ct-notifications__answer-trigger-group-header-title">
-            {TRIGGER_ANSWER.notification}
+            {NOTIFICATIONS.TRIGGER_BY_ANSWER_GROUP.notification}
           </Box>
         </Box>
         {isGroupedNotificationOpen &&
@@ -62,8 +63,8 @@ const Notifications: React.FC = () => {
         <CSvgIcon
           size={15}
           component={AddIcon}
-        />{" "}
-        {NOTIFICATION_HEADING.notification}
+        />
+        {NOTIFICATIONS.addNotificationButtonLabel}
       </CButton>
     </Box>
   );

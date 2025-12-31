@@ -12,10 +12,8 @@ import {
 } from "@/core/constants/icons";
 import type { FollowUpCardProps } from "@/pages/create-template/types/followup.type";
 import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
-import {
-  FOLLOW_UP_HEADING,
-  TRIGGER_ANSWER,
-} from "@/pages/create-template/constants/constant";
+import { TRIGGER_ANSWER } from "@/pages/create-template/constants/constant";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 import "./FollowUpCard.scss";
 import FollowupColumn from "./FollowupColumn";
@@ -24,18 +22,20 @@ const FollowUpCard: React.FC<FollowUpCardProps> = ({
   item,
   triggeredByAnswers,
 }) => {
+  const { FOLLOWUP_TASKS } = useCreateTemplateTranslations();
+
   return (
     <Box className="followup-card">
       {triggeredByAnswers ? (
         <>
           <FollowupColumn
-            title={FOLLOW_UP_HEADING.conditionQuestion}
+            title={FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.conditionQuestion}
             value={`${item.index}. ${item.conditionQuestion}`}
             className="followup-card__content-question"
             enableSeeMore
           />
           <FollowupColumn
-            title={FOLLOW_UP_HEADING.conditionAnswer}
+            title={FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.conditionAnswer}
             value={item.conditionAnswer}
             className="followup-card__content-answer"
           />
@@ -43,14 +43,14 @@ const FollowUpCard: React.FC<FollowUpCardProps> = ({
       ) : (
         <>
           <FollowupColumn
-            title={FOLLOW_UP_HEADING.condition}
+            title={FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.condition}
             value={item.condition}
             className="followup-card__content-condition"
           />
         </>
       )}
       <FollowupColumn
-        title={FOLLOW_UP_HEADING.taskName}
+        title={FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.taskName}
         value={
           <WildcardLabel
             label={item.taskName}
@@ -61,7 +61,7 @@ const FollowUpCard: React.FC<FollowUpCardProps> = ({
         className="followup-card__content-message"
       />
       <FollowupColumn
-        title={FOLLOW_UP_HEADING.recipients}
+        title={FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.recipients}
         value={item.recipients.join(", ")}
         className="followup-card__content-recipients"
         iconVisible={item.recipients.length > 0}

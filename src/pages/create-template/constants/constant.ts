@@ -34,31 +34,9 @@ export const CREATE_TEMPLATE_TABS = {
 };
 
 export const TRIGGER_ANSWER = {
-  notification: "Notifications triggered by answers",
-  followUp: "Follow-up tasks triggered by answers",
   assigneeRecipient: "Assignee",
 };
 
 export const TEXT_CONTENT = {
-  seeMore: "see more",
-  seeLess: "see less",
   textLength: 80,
-};
-
-export const NOTIFICATION_HEADING = {
-  notification: "Notification",
-  condition: "Condition",
-  conditionQuestion: "Condition Question",
-  conditionAnswer: "Condition Answer",
-  messageSubject: "Message Subject",
-  recipients: "Recipients",
-};
-
-export const FOLLOW_UP_HEADING = {
-  followUp: "Follow-up Task",
-  condition: "Condition",
-  conditionQuestion: "Condition Question",
-  conditionAnswer: "Condition Answer",
-  taskName: "Task Name",
-  recipients: "Recipients",
 };

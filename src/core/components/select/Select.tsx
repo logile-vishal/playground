@@ -40,7 +40,19 @@ const CSelect = (props: SelectProps) => {
     if (props.renderValue) {
       return props.renderValue(selected);
     }
-    return selected as string;
+    if (
+      typeof selected === "object" &&
+      !(props.renderOptionValue || props.optionLabelKey)
+    ) {
+      throw new Error(
+        "Either 'renderOptionValue' or 'optionLabelKey' prop must be provided when 'selected' is an object."
+      );
+    }
+    const valueToBeRendered =
+      typeof selected === "object"
+        ? selected[props.optionLabelKey]
+        : String(selected);
+    return valueToBeRendered;
   };
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -84,10 +96,7 @@ const CSelect = (props: SelectProps) => {
         )}
 
         {filteredOptions?.map((option, index) => {
-          const optionValue =
-            typeof option === "object" && props.optionValueKey
-              ? (option as object)[props.optionValueKey]
-              : option;
+          const optionValue = option;
           const optionLabel =
             typeof option === "object" && props.optionLabelKey
               ? (option as object)[props.optionLabelKey]

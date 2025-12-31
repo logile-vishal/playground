@@ -5,8 +5,8 @@ import clsx from "@/utils/clsx";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { ChevronDown, DraggableDots } from "@/core/constants/icons";
 import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
-import { FEATURE_ACTION_CHIP_LABELS } from "@/pages/create-template/constants/questions";
 import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 import { QuestionBadge } from "./QuestionBadges";
 import "./QuestionCardCollapsed.scss";
@@ -15,17 +15,7 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
   question,
   toggleExpand,
 }) => {
-  const {
-    CLUSTER,
-    ANSWER,
-    RANDOM,
-    PREVIOUS,
-    PHOTO,
-    TAGS,
-    FILE,
-    NUMBER,
-    TEMPERATURE,
-  } = FEATURE_ACTION_CHIP_LABELS;
+  const { QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
 
   /**
    * @method isDividerVisible
@@ -73,21 +63,35 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
       </Box>
 
       <Box className="ques-card-collapsed__badges">
-        {question?.isClusterBadgeVisible && <QuestionBadge type={CLUSTER} />}
-        {question?.isAnswerBadgeVisible && <QuestionBadge type={ANSWER} />}
-        {question?.isRandomBadgeVisible && <QuestionBadge type={RANDOM} />}
-        {question?.isPreviousBadgeVisible && <QuestionBadge type={PREVIOUS} />}
-        {question?.isPhotoBadgeVisible && <QuestionBadge type={PHOTO} />}
+        {question?.isClusterBadgeVisible && (
+          <QuestionBadge type={QUESTION_BADGE_CONFIG.cluster.value} />
+        )}
+        {question?.isAnswerBadgeVisible && (
+          <QuestionBadge type={QUESTION_BADGE_CONFIG.answer.value} />
+        )}
+        {question?.isRandomBadgeVisible && (
+          <QuestionBadge type={QUESTION_BADGE_CONFIG.random.value} />
+        )}
+        {question?.isPreviousBadgeVisible && (
+          <QuestionBadge type={QUESTION_BADGE_CONFIG.previous.value} />
+        )}
+        {question?.isPhotoBadgeVisible && (
+          <QuestionBadge type={QUESTION_BADGE_CONFIG.photo.value} />
+        )}
         {question?.isTagBadgeVisible && (
           <QuestionBadge
-            type={TAGS}
+            type={QUESTION_BADGE_CONFIG.tag.value}
             count={3} // TODO: replace with actual tag count when available
           />
         )}
-        {question?.isFileBadgeVisible && <QuestionBadge type={FILE} />}
-        {question?.isNumberBadgeVisible && <QuestionBadge type={NUMBER} />}
+        {question?.isFileBadgeVisible && (
+          <QuestionBadge type={QUESTION_BADGE_CONFIG.file.value} />
+        )}
+        {question?.isNumberBadgeVisible && (
+          <QuestionBadge type={QUESTION_BADGE_CONFIG.number.value} />
+        )}
         {question?.isTemperatureBadgeVisible && (
-          <QuestionBadge type={TEMPERATURE} />
+          <QuestionBadge type={QUESTION_BADGE_CONFIG.temperature.value} />
         )}
       </Box>
 

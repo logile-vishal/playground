@@ -2,5 +2,14 @@
   "NO_DATA_SEARCH": {
     "title": "कोई हालिया टेम्पलेट नहीं मिला",
     "description": "कुछ खोजें"
+  },
+  "GENERAL": {
+    "renameButtonLabel": "नाम बदलें",
+    "deleteButtonLabel": "हटाएँ",
+    "cancelButtonLabel": "रद्द करें",
+    "saveButtonLabel": "सहेजें",
+    "addButtonLabel": "जोड़ें",
+    "seeMoreButtonLabel": "और देखें",
+    "seeLessButtonLabel": "कम देखें"
   }
 }

@@ -12,14 +12,16 @@ import {
 import { CButton } from "@/core/components/button/button";
 import clsx from "@/utils/clsx";
 
-import { QUESTION_SECTION } from "../../constants/constant";
-import QuestionSection from "./components/section/Section";
-import { QUESTION_ARRAY, QUESTION_MODAL } from "../../constants/questions";
+import { QUESTION_ARRAY } from "../../constants/questions";
 import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "./components/question-card/QuestionCard";
 import "./Questions.scss";
+import "./Questions.scss";
+import QuestionSection from "./components/section/Section";
+import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
 
 const Questions: React.FC = () => {
+  const { QUESTIONS } = useCreateTemplateTranslations();
   const [questionList, setQuestionList] = useState([]);
   const [addSectionModal, setAddSectionModal] = useState({
     status: false,
@@ -77,7 +79,7 @@ const Questions: React.FC = () => {
     return (
       <Box className="ct-questions__header-wrapper">
         <Typography className="ct-questions__header">
-          {QUESTION_SECTION.HEADER}
+          {QUESTIONS.header}
         </Typography>
         {questionList?.length > 0 && (
           <Box className="ct-questions__all-ques-expand-container">
@@ -119,7 +121,7 @@ const Questions: React.FC = () => {
     return (
       <Box className="ct-questions-cards-wrapper__placeholder">
         <Typography className="ct-questions-cards-wrapper__placeholder-text">
-          {QUESTION_SECTION.NO_QUESTION_PLACEHOLDER}
+          {QUESTIONS.noQuestionPlaceholder}
         </Typography>
       </Box>
     );
@@ -143,7 +145,7 @@ const Questions: React.FC = () => {
             size={15}
             component={AddIcon}
           />{" "}
-          {QUESTION_SECTION.ACTION_ADD_QUESTION}
+          {QUESTIONS.addQuestionButtonLabel}
         </CButton>
         <CButton
           className="ct-questions-cards-wrapper__action-item"
@@ -156,7 +158,7 @@ const Questions: React.FC = () => {
             size={15}
             component={AddIcon}
           />{" "}
-          {QUESTION_SECTION.ACTION_ADD_SECTION}
+          {QUESTIONS.addSectionButtonLabel}
         </CButton>
       </Box>
     );
@@ -196,7 +198,7 @@ const Questions: React.FC = () => {
       <AddEditSectionModal
         open={addSectionModal.status}
         onClose={closeAddSectionModal}
-        type={QUESTION_MODAL.ADD_SECTION}
+        type={QUESTIONS.SECTION_ADD_EDIT_MODAL.ADD_SECTION}
       />
     </Box>
   );

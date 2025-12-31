@@ -3,10 +3,7 @@ import { Box, FormControlLabel, Tab, Typography } from "@mui/material";
 
 import {
   QUESTION_OPTION_LABELS,
-  QUESTION_TABS,
   QUESTION_TYPES_OPTIONS,
-  FEATURE_ACTION_CHIP_LABELS,
-  QUESTION_CARD_OPTION,
 } from "@/pages/create-template/constants/questions";
 import { DraggableDots } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -17,6 +14,7 @@ import CTextfield from "@/core/components/form/textfield/Textfield";
 import CSwitch from "@/core/components/switch/Switch";
 import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
 import CTabs from "@/core/components/tabs/Tabs";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 import { QuestionBadge } from "../question-card-collapsed/QuestionBadges";
 import QuestionCardOptionsComponent from "../question-card-options/QuestionCardOptions";
@@ -25,7 +23,6 @@ import "./QuestionCardExpanded.scss";
 
 function TabPanel(props) {
   const { children, value } = props;
-
   return <div>{value && <Box>{children}</Box>}</div>;
 }
 
@@ -40,12 +37,13 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   question,
   toggleExpand,
 }) => {
-  const { BASIC, ADVANCED } = QUESTION_TABS;
-  const [currentTab, setCurrentTab] = useState(BASIC.value);
+  const { QUESTIONS, QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
+  const [currentTab, setCurrentTab] = useState(
+    QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.BASIC.value
+  );
   const [questionType, setQuestionType] = useState(
     QUESTION_TYPES_OPTIONS[0].value
   );
-  const { PHOTO, FILE, NUMBER } = FEATURE_ACTION_CHIP_LABELS;
 
   /**
    * @method handleTabChange
@@ -82,11 +80,11 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
         return (
           <Box className="ct-question-card-expanded__long-input-fields">
             <CTextfield
-              label={QUESTION_CARD_OPTION.minLengthPlaceholder}
+              label={QUESTIONS.EXPANDED_QUESTION_CARD.minLengthPlaceholder}
               className="ct-question-card-expanded__long-input"
             />
             <CTextfield
-              label={QUESTION_CARD_OPTION.maxLengthPlaceholder}
+              label={QUESTIONS.EXPANDED_QUESTION_CARD.maxLengthPlaceholder}
               className="ct-question-card-expanded__long-input"
             />
           </Box>
@@ -132,15 +130,21 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
               />
             }
             labelPlacement="start"
-            label={QUESTION_CARD_OPTION.requiredPlaceholder}
+            label={QUESTIONS.EXPANDED_QUESTION_CARD.requiredPlaceholder}
             className="ct-question-card-expanded__required-switch"
           />
         </Box>
         <Box className="ct-question-card-expanded__header-right-content">
           <Box className="ct-question-card-expanded__badges">
-            {question?.isPhotoBadgeVisible && <QuestionBadge type={PHOTO} />}
-            {question?.isFileBadgeVisible && <QuestionBadge type={FILE} />}
-            {question?.isNumberBadgeVisible && <QuestionBadge type={NUMBER} />}
+            {question?.isPhotoBadgeVisible && (
+              <QuestionBadge type={QUESTION_BADGE_CONFIG.photo.value} />
+            )}
+            {question?.isFileBadgeVisible && (
+              <QuestionBadge type={QUESTION_BADGE_CONFIG.file.value} />
+            )}
+            {question?.isNumberBadgeVisible && (
+              <QuestionBadge type={QUESTION_BADGE_CONFIG.number.value} />
+            )}
           </Box>
           <Divider />
           <Box className="ct-question-card-expanded__actions-icons">
@@ -190,16 +194,22 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
       <Box className="ct-question-card-expanded__basic-tab-content">
         <Box className="ct-question-card-expanded__question-header">
           <QuillTextEditor
+            placeholder={
+              QUESTIONS.EXPANDED_QUESTION_CARD.questionTextPlaceholder
+            }
             value=""
             onChange={question?.onLabelChange}
           />
           <Box className="ct-question-card-expanded__question-type-selection-container">
             <CSelect
-              options={QUESTION_TYPES_OPTIONS}
+              options={QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN}
               optionLabelKey="label"
               optionValueKey="value"
               className="ct-question-card-expanded__question-type-selection"
               value={questionType}
+              renderValue={(sel: { label: string; value: string }) => {
+                return sel.label;
+              }}
               onChange={(e) => setQuestionType(e.target.value as string)}
             />
             {renderConditionsBasedOnType()}
@@ -233,18 +243,28 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
           value={currentTab}
         >
           <Tab
-            label={BASIC.label}
-            value={BASIC.value}
+            label={QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.BASIC.label}
+            value={QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.BASIC.value}
           />
           <Tab
-            label={ADVANCED.label}
-            value={ADVANCED.value}
+            label={QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.ADVANCED.label}
+            value={QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.ADVANCED.value}
           />
         </CTabs>
-        <TabPanel value={currentTab === BASIC.value}>
+        <TabPanel
+          value={
+            currentTab ===
+            QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.BASIC.value
+          }
+        >
           {renderBasicTab()}
         </TabPanel>
-        <TabPanel value={currentTab === ADVANCED.value}>
+        <TabPanel
+          value={
+            currentTab ===
+            QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.ADVANCED.value
+          }
+        >
           {renderAdvanceTab()}
         </TabPanel>
       </Box>

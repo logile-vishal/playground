@@ -12,10 +12,8 @@ import {
 } from "@/core/constants/icons";
 import type { NotificationCardProps } from "@/pages/create-template/types/notification.type";
 import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
-import {
-  NOTIFICATION_HEADING,
-  TRIGGER_ANSWER,
-} from "@/pages/create-template/constants/constant";
+import { TRIGGER_ANSWER } from "@/pages/create-template/constants/constant";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 import "./NotificationCard.scss";
 import NotificationColumn from "./NotificationColumn";
@@ -24,18 +22,19 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
   item,
   triggeredByAnswers,
 }) => {
+  const { NOTIFICATIONS } = useCreateTemplateTranslations();
   return (
     <Box className="notifications-card">
       {triggeredByAnswers ? (
         <>
           <NotificationColumn
-            title={NOTIFICATION_HEADING.conditionQuestion}
+            title={NOTIFICATIONS.CARD_COLUMN_HEADINGS.conditionQuestion}
             value={`${item.index}. ${item.conditionQuestion}`}
             className="notifications-card__content-question"
             enableSeeMore
           />
           <NotificationColumn
-            title={NOTIFICATION_HEADING.conditionAnswer}
+            title={NOTIFICATIONS.CARD_COLUMN_HEADINGS.conditionAnswer}
             value={item.conditionAnswer}
             className="notifications-card__content-answer"
           />
@@ -43,14 +42,14 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
       ) : (
         <>
           <NotificationColumn
-            title={NOTIFICATION_HEADING.condition}
+            title={NOTIFICATIONS.CARD_COLUMN_HEADINGS.condition}
             value={item.condition}
             className="notifications-card__content-condition"
           />
         </>
       )}
       <NotificationColumn
-        title={NOTIFICATION_HEADING.messageSubject}
+        title={NOTIFICATIONS.CARD_COLUMN_HEADINGS.messageSubject}
         value={
           <WildcardLabel
             label={item.messageSubject}
@@ -61,7 +60,7 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
         className="notifications-card__content-message"
       />
       <NotificationColumn
-        title={NOTIFICATION_HEADING.recipients}
+        title={NOTIFICATIONS.CARD_COLUMN_HEADINGS.recipients}
         value={item.recipients.join(", ")}
         className="notifications-card__content-recipients"
         iconVisible={item.recipients.length > 0}

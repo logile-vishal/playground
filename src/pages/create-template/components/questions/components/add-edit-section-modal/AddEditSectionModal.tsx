@@ -1,8 +1,7 @@
 import CModal, { ModalBody } from "@/core/components/modal/Modal";
 import CTextfield from "@/core/components/form/textfield/Textfield";
 import { MODAL_SIZE } from "@/core/constants/modal-constants";
-import { QUESTION_MODAL } from "@/pages/create-template/constants/questions";
-
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 /**
  * Modal component for adding and editing sections in the template
  *
@@ -27,6 +26,7 @@ const AddEditSectionModal: React.FC<SectionModalProps> = ({
   onClose = () => {},
   type = {} as TypeProps,
 }) => {
+  const { QUESTIONS } = useCreateTemplateTranslations();
   const { TITLE, PRIMARY_ACTION } = type;
   return (
     <div>
@@ -39,7 +39,7 @@ const AddEditSectionModal: React.FC<SectionModalProps> = ({
       >
         <ModalBody>
           <CTextfield
-            label={QUESTION_MODAL.FIELDS.SECTION_NAME}
+            label={QUESTIONS.SECTION_ADD_EDIT_MODAL.FIELDS.sectionName}
             required
           />
         </ModalBody>

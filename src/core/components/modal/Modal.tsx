@@ -10,7 +10,7 @@ import type {
   ModalHeaderProps,
   ModalProps,
 } from "@/core/types/modal.type";
-import { modalDefaultBtnConstants } from "@/core/constants/modal-constants";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import clsx from "@/utils/clsx";
 import { Close } from "@/core/constants/icons";
 
@@ -144,14 +144,15 @@ const CModal: React.FC<ModalProps> = ({
   showActions = true,
   onConfirm,
   size,
-  confirmText = modalDefaultBtnConstants.confirm,
-  cancelText = modalDefaultBtnConstants.cancel,
+  confirmText,
+  cancelText,
   className = "",
   severity = "primary",
   containerClassName = "",
   disableBackdropClick = false,
   ...props
 }) => {
+  const { GENERAL } = useCommonTranslation();
   return (
     <Modal
       open={open}
@@ -188,25 +189,22 @@ const CModal: React.FC<ModalProps> = ({
 
         {showActions && !hasCustomFooter(children) && (
           <Box className="common-modal__content-footer">
-            {cancelText && (
-              <CButton
-                variant="outline"
-                size="large"
-                onClick={onClose}
-                severity="secondary"
-              >
-                {cancelText}
-              </CButton>
-            )}
-            {confirmText && (
-              <CButton
-                onClick={onConfirm}
-                className="common-modal__content-footer-confirm"
-                severity={severity}
-              >
-                {confirmText}
-              </CButton>
-            )}
+            <CButton
+              variant="outline"
+              size="large"
+              onClick={onClose}
+              severity="secondary"
+            >
+              {cancelText || GENERAL.cancelButtonLabel}
+            </CButton>
+
+            <CButton
+              onClick={onConfirm}
+              className="common-modal__content-footer-confirm"
+              severity={severity}
+            >
+              {confirmText || GENERAL.confirmButtonLabel}
+            </CButton>
           </Box>
         )}
       </Box>

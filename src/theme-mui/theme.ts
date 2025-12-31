@@ -40,6 +40,7 @@ export const getMuiThemeObject = (mode: ThemeMode) => {
       MuiPaper: {
         styleOverrides: {
           root: {
+            marginTop: "var(--space-xs)",
             backgroundColor: "var(--logile-bg-container-1)",
             color: "var(--logile-text-primary)",
           },

@@ -2,5 +2,14 @@
   "NO_DATA_SEARCH": {
     "title": "No recent template found",
     "description": "Search something"
+  },
+  "GENERAL": {
+    "renameButtonLabel": "Rename",
+    "deleteButtonLabel": "Delete",
+    "cancelButtonLabel": "Cancel",
+    "saveButtonLabel": "Save",
+    "addButtonLabel": "Add",
+    "seeMoreButtonLabel": "See More",
+    "seeLessButtonLabel": "See Less"
   }
 }
