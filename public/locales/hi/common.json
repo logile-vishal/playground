@@ -11,5 +11,9 @@
     "addButtonLabel": "जोड़ें",
     "seeMoreButtonLabel": "और देखें",
     "seeLessButtonLabel": "कम देखें"
+  },
+  "PAGINATION": {
+    "pageLabel": "पृष्ठ",
+    "ofLabel": "का"
   }
 }

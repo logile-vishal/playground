@@ -11,5 +11,9 @@
     "addButtonLabel": "Add",
     "seeMoreButtonLabel": "See More",
     "seeLessButtonLabel": "See Less"
+  },
+  "PAGINATION": {
+    "pageLabel": "Page",
+    "ofLabel": "of"
   }
 }

@@ -11,5 +11,9 @@
     "addButtonLabel": "添加",
     "seeMoreButtonLabel": "查看更多",
     "seeLessButtonLabel": "收起"
+  },
+  "PAGINATION": {
+    "pageLabel": "页面",
+    "ofLabel": "的"
   }
 }

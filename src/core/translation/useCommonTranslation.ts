@@ -12,7 +12,13 @@ export const useCommonTranslation = () => {
     confirmButtonLabel: t("GENERAL.confirmButtonLabel"),
   };
 
+  const PAGINATION = {
+    pageLabel: t("PAGINATION.pageLabel"),
+    ofLabel: t("PAGINATION.ofLabel"),
+  };
+
   return {
     GENERAL,
+    PAGINATION,
   };
 };

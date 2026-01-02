@@ -11,5 +11,9 @@
     "addButtonLabel": "Agregar",
     "seeMoreButtonLabel": "Ver más",
     "seeLessButtonLabel": "Ver menos"
+  },
+  "PAGINATION": {
+    "pageLabel": "Página",
+    "ofLabel": "de"
   }
 }
