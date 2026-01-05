@@ -124,6 +124,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             control={
               <CSwitch
                 size="medium"
+                checked={question?.isRequired}
                 defaultChecked
                 disableRipple
                 className="ct-question-card-expanded__required-switch-control"
@@ -207,9 +208,6 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
               optionValueKey="value"
               className="ct-question-card-expanded__question-type-selection"
               value={questionType}
-              renderValue={(sel: { label: string; value: string }) => {
-                return sel.label;
-              }}
               onChange={(e) => setQuestionType(e.target.value as string)}
             />
             {renderConditionsBasedOnType()}

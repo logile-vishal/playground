@@ -6,9 +6,9 @@ import CSwitch from "@/core/components/switch/Switch";
 import CSelect from "@/core/components/select/Select";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { Percentage } from "@/core/constants/icons";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 import "./AdvancedOptions.scss";
-import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
 
 const AdvancedOptions: React.FC = () => {
   const { ADVANCED_OPTIONS, LABOUR_HOUR_OPTIONS, TEMPLATE_ACCESS_OPTIONS } =

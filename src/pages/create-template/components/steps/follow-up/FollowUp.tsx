@@ -10,22 +10,25 @@ import "./FollowUp.scss";
 import {
   followupSampleData,
   followupTriggerByAnswersSampleData,
-} from "../../constants/sampleData";
+} from "../../../constants/sampleData";
 
-import FollowUpCard from "./FollowUpCard/FollowUpCard";
-import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
+import { useCreateTemplateTranslations } from "../../../translation/useCreateTemplateTranslations";
+import TriggerCard from "../../trigger-card/TriggerCard";
+import { TRIGGER_TYPE } from "../../../constants/constant";
 
 const FollowUp: React.FC = () => {
   const { FOLLOWUP_TASKS } = useCreateTemplateTranslations();
   const [isGroupedFollowupOpen, setIsGroupedFollowupOpen] =
-    useState<boolean>(false);
+    useState<boolean>(true);
 
   return (
     <Box className="ct-follow-up">
+      {/* TODO: Remove sample data after api integration */}
       {followupSampleData?.map((item) => (
-        <FollowUpCard
+        <TriggerCard
           key={item.id}
           item={item}
+          type={TRIGGER_TYPE.followup}
         />
       ))}
       <Box className="ct-follow-up__answer-trigger-group">
@@ -44,12 +47,14 @@ const FollowUp: React.FC = () => {
             {FOLLOWUP_TASKS.TRIGGER_BY_ANSWER_GROUP.followUp}
           </Box>
         </Box>
+        {/* TODO: Remove sample data after api integration */}
         {isGroupedFollowupOpen &&
-          followupTriggerByAnswersSampleData.map((item) => (
-            <FollowUpCard
+          followupTriggerByAnswersSampleData?.map((item) => (
+            <TriggerCard
               key={item.id}
               item={item}
               triggeredByAnswers={true}
+              type={TRIGGER_TYPE.followup}
             />
           ))}
       </Box>

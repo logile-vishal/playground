@@ -19,7 +19,7 @@
     @include flex-center($gap: var(--space-m));
   }
   &__order-index {
-    @include flex-center;
+    @include flex-center(center, center, var(--space-none));
     & p {
       color: var(--logile-text-primary);
       font-family: var(--logile-family-body-family);

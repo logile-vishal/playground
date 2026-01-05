@@ -7,7 +7,17 @@ export const questionsSchema = zod.discriminatedUnion("type", [
     qId: zod.string(),
     type: zod.literal("radio"),
     basicData: zod.object({
-      title: zod.string().min(1, "This field is required"),
+      title: zod
+        .string()
+        .refine(
+          (val) =>
+            val.trim() !== "" &&
+            val.trim() !== "<p></p>" &&
+            val.trim() !== "<p><br></p>",
+          {
+            message: "This field is required", //TODO: Check for error message and replace once confirmed
+          }
+        ),
       response: zod
         .array(
           zod.object({

@@ -10,15 +10,15 @@ import {
   ChevronExpanded,
 } from "@/core/constants/icons";
 import { CButton } from "@/core/components/button/button";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import clsx from "@/utils/clsx";
 
-import { QUESTION_ARRAY } from "../../constants/questions";
 import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "./components/question-card/QuestionCard";
 import "./Questions.scss";
 import "./Questions.scss";
 import QuestionSection from "./components/section/Section";
-import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
+import { QUESTION_ARRAY } from "@/pages/create-template/constants/questions";
 
 const Questions: React.FC = () => {
   const { QUESTIONS } = useCreateTemplateTranslations();
@@ -67,7 +67,7 @@ const Questions: React.FC = () => {
   };
 
   useEffect(() => {
-    setQuestionList([]); //TODO: Fetch question list from API and set it here
+    setQuestionList(QUESTION_ARRAY); //TODO: Fetch question list from API and set it here
   }, []);
 
   /**
@@ -167,7 +167,7 @@ const Questions: React.FC = () => {
     <Box className="ct-questions">
       {renderQuestionHeader()}
       <Box className="ct-questions-cards-wrapper">
-        {questionList?.length === 0 ? ( // TODO: Update condition after API integration (change !== 0 to === 0)
+        {questionList?.length === 0 ? (
           renderQuestionPlaceholder()
         ) : (
           <Box className="ct-questions-cards-wrapper__content">

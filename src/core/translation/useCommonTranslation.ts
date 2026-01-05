@@ -10,6 +10,8 @@ export const useCommonTranslation = () => {
     addButtonLabel: t("GENERAL.addButtonLabel"),
     closeButtonLabel: t("GENERAL.closeButtonLabel"),
     confirmButtonLabel: t("GENERAL.confirmButtonLabel"),
+    seeMoreButtonLabel: t("GENERAL.seeMoreButtonLabel"),
+    seeLessButtonLabel: t("GENERAL.seeLessButtonLabel"),
   };
 
   const PAGINATION = {

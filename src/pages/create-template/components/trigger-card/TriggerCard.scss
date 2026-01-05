@@ -1,22 +1,26 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
-.followup-card {
-  --followup-answer-width: 20%;
-  --followup-message-width: 20%;
-  --followup-recipients-width: 20%;
+.trigger-card {
+  --trigger-answer-width: 20%;
+  --trigger-message-width: 20%;
+  --trigger-recipients-width: 20%;
 
-  @include flex-center(space-between, flex-start);
+  @include flex-center(space-between, center);
   border-radius: var(--radius-m);
   border: 1px solid var(--logile-border-primary);
   padding: var(--space-l) var(--space-xl);
 
   &__title {
-    @include flex-center(flex-start, center, var(--space-s));
     color: var(--logile-text-secondary);
     font-size: var(--logile-size-secondary-text);
     line-height: var(--logile-line-height-secondary-text);
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
   }
   &__content {
+    @include flex-center(space-between, flex-start, var(--space-2xl));
+    width: 100%;
     color: var(--logile-text-primary);
     font-size: var(--logile-size-body);
     line-height: var(--logile-line-height-body);
@@ -33,22 +37,15 @@
     }
     &-answer {
       flex-shrink: 1;
-      width: var(--followup-answer-width);
+      width: var(--trigger-answer-width);
     }
     &-message {
       flex-shrink: 1;
-      width: var(--followup-message-width);
+      width: var(--trigger-message-width);
     }
     &-recipients {
       flex-shrink: 1;
-      width: var(--followup-recipients-width);
-    }
-    &-label-truncate-btn {
-      color: var(--logile-text-state-information);
-      font-size: var(--logile-size-secondary-text);
-      line-height: var(--logile-line-height-secondary-text);
-      margin-left: var(--space-xs);
-      cursor: pointer;
+      width: var(--trigger-recipients-width);
     }
   }
   &__actions {

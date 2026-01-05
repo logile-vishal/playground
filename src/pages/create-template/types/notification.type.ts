@@ -1,4 +1,4 @@
-export type NotificationCardProps = {
+export type TriggerCardProps = {
   item: {
     id: number;
     index?: string;
@@ -6,18 +6,22 @@ export type NotificationCardProps = {
     conditionQuestion?: string;
     conditionAnswer?: string;
     messageSubject?: string;
+    taskName?: string;
     recipients?: string[];
     recipientsIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
   };
   triggeredByAnswers?: boolean;
+  type: string;
 };
 
-export type NotificationColumnProps = {
-  title: string;
-  value: string | React.ReactNode;
-  className?: string;
-  isWildcardText?: boolean;
-  iconVisible?: boolean;
-  icon?: React.FC<React.SVGProps<SVGSVGElement>>;
-  enableSeeMore?: boolean;
+export type NotificationCardProps = TriggerCardProps & {
+  item: TriggerCardProps["item"] & {
+    messageSubject: string;
+  };
+};
+
+export type FollowUpCardProps = TriggerCardProps & {
+  item: TriggerCardProps["item"] & {
+    taskName: string;
+  };
 };

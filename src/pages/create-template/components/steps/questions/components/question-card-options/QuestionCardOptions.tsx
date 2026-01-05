@@ -36,7 +36,9 @@ type QuestionCardOptionProps = {
  */
 const QuestionCardOption = (props: QuestionCardOptionProps) => {
   const { QUESTION_OPTION } = useCreateTemplateTranslations();
-  const [isCompliant, setIsCompliant] = useState({});
+  const [isCompliant, setIsCompliant] = useState(
+    QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.COMPLIANT.value
+  );
   const CompliantOptions = Object.values(
     QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS
   );
@@ -72,7 +74,6 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           }}
           allowFilter={false}
           value={isCompliant}
-          renderValue={(sel: { label?: string }) => sel?.label}
           IconComponent={(sel) => (
             <Box
               className={clsx({

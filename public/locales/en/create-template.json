@@ -102,8 +102,6 @@
     }
   },
   "NOTIFICATIONS": {
-    "seeMoreButtonLabel": "See more",
-    "seeLessButtonLabel": "See less",
     "addNotificationButtonLabel": "Notification",
     "CARD_COLUMN_HEADINGS": {
       "notification": "Notification",

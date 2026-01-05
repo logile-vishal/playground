@@ -37,6 +37,7 @@ export const TRIGGER_ANSWER = {
   assigneeRecipient: "Assignee",
 };
 
-export const TEXT_CONTENT = {
-  textLength: 80,
+export const TRIGGER_TYPE = {
+  notification: "notification",
+  followup: "followup",
 };

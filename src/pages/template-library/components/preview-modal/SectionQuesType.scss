@@ -28,6 +28,13 @@
     padding: var(--space-xxs);
     display: flex;
     align-items: center;
+    color: var(--logile-icon-primary);
+    &--mobile {
+      height: var(--size-9);
+      width: var(--size-9);
+      color: var(--logile-border-primary);
+      border: none;
+    }
   }
 
   .MuiAccordionSummary-expandIconWrapper {

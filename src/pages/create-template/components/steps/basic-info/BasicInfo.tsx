@@ -9,9 +9,9 @@ import CMultiSelectWithChip from "@/core/components/multi-select-chip/MultiSelec
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import { basicTagsSampleData } from "@/pages/create-template/constants/sampleData";
 
-import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
-import { basicTagsSampleData } from "../../constants/sampleData";
 import "./BasicInfo.scss";
 
 //TODO: To be removed static data when dropdown api response

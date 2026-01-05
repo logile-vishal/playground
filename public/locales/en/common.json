@@ -9,8 +9,8 @@
     "cancelButtonLabel": "Cancel",
     "saveButtonLabel": "Save",
     "addButtonLabel": "Add",
-    "seeMoreButtonLabel": "See More",
-    "seeLessButtonLabel": "See Less"
+    "seeMoreButtonLabel": "see more",
+    "seeLessButtonLabel": "see less"
   },
   "PAGINATION": {
     "pageLabel": "Page",

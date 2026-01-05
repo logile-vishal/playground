@@ -10,21 +10,24 @@ import "./Notifications.scss";
 import {
   notificationSampleData,
   notificationTriggerByAnswersSampleData,
-} from "../../constants/sampleData";
-import NotificationCard from "./components/NotificationCard/NotificationCard";
-import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
+} from "../../../constants/sampleData";
+import TriggerCard from "../../trigger-card/TriggerCard";
+import { useCreateTemplateTranslations } from "../../../translation/useCreateTemplateTranslations";
+import { TRIGGER_TYPE } from "../../../constants/constant";
 
 const Notifications: React.FC = () => {
   const { NOTIFICATIONS } = useCreateTemplateTranslations();
   const [isGroupedNotificationOpen, setIsGroupedNotificationOpen] =
-    useState<boolean>(false);
+    useState<boolean>(true);
 
   return (
     <Box className="ct-notifications">
+      {/* TODO: Remove sample data after api integration */}
       {notificationSampleData?.map((item) => (
-        <NotificationCard
+        <TriggerCard
           key={item.id}
           item={item}
+          type={TRIGGER_TYPE.notification}
         />
       ))}
       <Box className="ct-notifications__answer-trigger-group">
@@ -45,12 +48,14 @@ const Notifications: React.FC = () => {
             {NOTIFICATIONS.TRIGGER_BY_ANSWER_GROUP.notification}
           </Box>
         </Box>
+        {/* TODO: Remove sample data after api integration */}
         {isGroupedNotificationOpen &&
-          notificationTriggerByAnswersSampleData.map((item) => (
-            <NotificationCard
+          notificationTriggerByAnswersSampleData?.map((item) => (
+            <TriggerCard
               key={item.id}
               item={item}
               triggeredByAnswers={true}
+              type={TRIGGER_TYPE.notification}
             />
           ))}
       </Box>

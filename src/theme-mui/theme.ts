@@ -37,10 +37,16 @@ export const getMuiThemeObject = (mode: ThemeMode) => {
           },
         },
       },
-      MuiPaper: {
+      MuiPopover: {
         styleOverrides: {
           root: {
             marginTop: "var(--space-xs)",
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
             backgroundColor: "var(--logile-bg-container-1)",
             color: "var(--logile-text-primary)",
           },

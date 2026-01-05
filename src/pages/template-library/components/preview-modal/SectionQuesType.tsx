@@ -66,7 +66,10 @@ const RenderSection: React.FC<RenderSectionProps> = ({
                   e.stopPropagation();
                   setExpanded((prev) => !prev);
                 }}
-                className="question-accordion__icon"
+                className={clsx({
+                  "question-accordion__icon": true,
+                  "question-accordion__icon--mobile": !isDesktopPreview,
+                })}
               >
                 <CSvgIcon
                   component={expandIcon}

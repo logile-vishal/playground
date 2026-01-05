@@ -12,11 +12,11 @@ import type { StepOption } from "@/core/types/stepper.type";
 import PageTemplate from "@/layouts/page-template/PageTemplate";
 import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 
-import BasicInfo from "./components/basic-info/BasicInfo";
-import Questions from "./components/questions/Questions";
-import Notifications from "./components/notifications/Notifications";
-import FollowUp from "./components/follow-up/FollowUp";
-import AdvancedOptions from "./components/advanced-options/AdvancedOptions";
+import BasicInfo from "./components/steps/basic-info/BasicInfo";
+import Questions from "./components/steps/questions/Questions";
+import Notifications from "./components/steps/notifications/Notifications";
+import FollowUp from "./components/steps/follow-up/FollowUp";
+import AdvancedOptions from "./components/steps/advanced-options/AdvancedOptions";
 import CreateTemplateFormProvider from "./providers/CreateTemplateFormProvider";
 import { useCreateTemplateTranslations } from "./translation/useCreateTemplateTranslations";
 import "./CreateTemplate.scss";

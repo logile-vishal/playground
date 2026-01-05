@@ -244,8 +244,6 @@ export const useCreateTemplateTranslations = () => {
     },
   };
   const NOTIFICATIONS = {
-    seeMoreButtonLabel: t("NOTIFICATIONS.seeMoreButtonLabel"),
-    seeLessButtonLabel: t("NOTIFICATIONS.seeLessButtonLabel"),
     addNotificationButtonLabel: t("NOTIFICATIONS.addNotificationButtonLabel"),
     CARD_COLUMN_HEADINGS: {
       notification: t("NOTIFICATIONS.CARD_COLUMN_HEADINGS.notification"),
@@ -266,8 +264,6 @@ export const useCreateTemplateTranslations = () => {
   };
   const FOLLOWUP_TASKS = {
     addFollowUpTaskButtonLabel: t("FOLLOWUP_TASKS.addFollowUpTaskButtonLabel"),
-    seeMoreButtonLabel: commonT("GENERAL.seeMoreButtonLabel"),
-    seeLessButtonLabel: commonT("GENERAL.seeLessButtonLabel"),
     CARD_COLUMN_HEADINGS: {
       followUp: t("FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.followUp"),
       condition: t("FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.condition"),
