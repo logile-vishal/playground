@@ -116,7 +116,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
       })}
     >
       <ModalHeader
-        headerClass={clsx({
+        headerClassName={clsx({
           "template-preview-modal__header": true,
           "template-preview-modal__header--mobile": !isDesktopPreview,
         })}

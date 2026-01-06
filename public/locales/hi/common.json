@@ -7,6 +7,7 @@
     "renameButtonLabel": "नाम बदलें",
     "deleteButtonLabel": "हटाएँ",
     "cancelButtonLabel": "रद्द करें",
+    "confirmButtonLabel": "पुष्टि करें",
     "saveButtonLabel": "सहेजें",
     "addButtonLabel": "जोड़ें",
     "seeMoreButtonLabel": "और देखें",
@@ -15,5 +16,32 @@
   "PAGINATION": {
     "pageLabel": "पृष्ठ",
     "ofLabel": "का"
+  },
+  "EDITOR_TOOLBAR": {
+    "bold": "बोल्ड",
+    "italic": "इटैलिक",
+    "underline": "अंडरलाइन",
+    "link": "लिंक जोड़ें",
+    "attachment": "अटैचमेंट जोड़ें",
+    "clearFormat": "फॉर्मेटिंग साफ़ करें",
+    "wildcard": "वाइल्डकार्ड वेरिएबल"
+  },
+  "EDITOR_FILE_UPLOAD": {
+    "text": "छवि/फ़ाइल ब्राउज़ और अपलोड करने के लिए यहां टैप करें।",
+    "title": "फ़ाइल अपलोड करें",
+    "linkPlaceholder": "URL दर्ज करें:"
+  },
+  "EDITOR_LINK_UPLOAD": {
+    "title": "लिंक सम्मिलित करें",
+    "editTitle": "लिंक संपादित करें",
+    "text": "प्रदर्शन पाठ",
+    "link": "लिंक",
+    "placeholder": "दर्ज करें",
+    "cancelBtn": "रद्द करें",
+    "removeLinkBtn": "लिंक हटाएं",
+    "submitBtn": "जमा करें"
+  },
+  "EDITOR_ERROR": {
+    "REQUIRED_FIELD": "यह क्षेत्र आवश्यक है।"
   }
 }

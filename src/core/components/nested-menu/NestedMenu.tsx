@@ -11,7 +11,7 @@ import type { NestedMenuItem, PopupPosition } from "./types";
 import { NESTED_MENU } from "./constants";
 import CNestedMenuItem from "./components/NestedMenuItem";
 
-type NestedMenuProps = {
+export type NestedMenuProps = {
   anchorEl: HTMLElement | null;
   onClose: (event?: React.MouseEvent<HTMLElement>) => void;
   menuItems: NestedMenuItem[];

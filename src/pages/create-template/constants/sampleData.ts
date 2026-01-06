@@ -76,6 +76,15 @@ export const followupTriggerByAnswersSampleData = [
     taskName: "Cleaning supplies needed %assignee_store%",
     recipients: ["Assignee", "Ad Hoc", "Execution Manager"],
   },
+  {
+    id: 6,
+    index: "3.2",
+    conditionQuestion:
+      "Did you successfully clean the floors in compliance with company hygiene policies and maintain proper sanitation standards throughout the entire facility?",
+    conditionAnswer: "No",
+    taskName: "Store cleaning in %assignee_store% with proper time frame",
+    recipients: ["Assignee", "Ad Hoc", "Execution Manager"],
+  },
 ];
 
 export const basicTagsSampleData = [

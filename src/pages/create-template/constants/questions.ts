@@ -87,7 +87,7 @@ export const QUESTION_ARRAY = [
   {
     id: "1",
     label:
-      "Is the floor clean %abc% and organised? Is the floor clean %abc% and organised?",
+      "Is the floor clean %template_name% and organised? Is the floor clean %template_name% and organised?",
     isRequired: true,
     orderIndex: "1",
     optiontypeLabel: QUESTION_OPTION_LABELS.RADIO,

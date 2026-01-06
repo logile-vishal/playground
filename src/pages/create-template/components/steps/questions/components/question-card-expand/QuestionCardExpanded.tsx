@@ -15,10 +15,10 @@ import CSwitch from "@/core/components/switch/Switch";
 import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
 import CTabs from "@/core/components/tabs/Tabs";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import CRichTextEditor from "@/core/components/rich-text-editor/RichTextEditor";
 
 import { QuestionBadge } from "../question-card-collapsed/QuestionBadges";
 import QuestionCardOptionsComponent from "../question-card-options/QuestionCardOptions";
-import QuillTextEditor from "../quill-text-editor/QuillTextEditor";
 import "./QuestionCardExpanded.scss";
 
 function TabPanel(props) {
@@ -44,6 +44,17 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   const [questionType, setQuestionType] = useState(
     QUESTION_TYPES_OPTIONS[0].value
   );
+  const [attachments, setAttachments] = useState<File[]>([]);
+
+  /**
+   * @method onUpdateAttachments
+   * @description Updates the attachments state with new files
+   * @param {File[]} files - Array of new attachment files
+   * @return {void}
+   */
+  const onUpdateAttachments = (files: File[]) => {
+    setAttachments(files);
+  };
 
   /**
    * @method handleTabChange
@@ -194,12 +205,14 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     return (
       <Box className="ct-question-card-expanded__basic-tab-content">
         <Box className="ct-question-card-expanded__question-header">
-          <QuillTextEditor
-            placeholder={
-              QUESTIONS.EXPANDED_QUESTION_CARD.questionTextPlaceholder
-            }
-            value=""
+          <CRichTextEditor
+            value={question?.label}
             onChange={question?.onLabelChange}
+            placeholder={QUESTIONS.QUESTION_CARD.QUESTION_TITLE_PLACEHOLDER}
+            error={!question?.label} // TODO: Change error condition and onChange after form integration done
+            attachments={attachments}
+            onUpdateAttachments={onUpdateAttachments}
+            walkMeIdPrefix={["create template", "question card expanded"]}
           />
           <Box className="ct-question-card-expanded__question-type-selection-container">
             <CSelect

@@ -13,28 +13,28 @@ import type {
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import clsx from "@/utils/clsx";
 import { Close } from "@/core/constants/icons";
+import { CButton } from "@/core/components/button/button";
+import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 
-import { CButton } from "../button/button";
 import "./Modal.scss";
 
 /**
  * @component ModalHeader
- * @description Modal header component.
- * @param {object} props
- * @param {string} props.title - Header title.
- * @param {Function} props.onClose - Close handler.
- * @param {string} [props.headerClass] - Custom class.
- * @returns {ReactNode} returns wrapper component for modal header.
+ * @description Modal header component for displaying title and custom header content
+ * @param {object} props - Component props
+ * @param {string} [props.headerClassName] - Custom CSS class name for header styling
+ * @param {React.ReactNode} props.children - Header content
+ * @return {React.ReactNode} Modal header wrapper component
  */
 export const ModalHeader: React.FC<ModalHeaderProps> = ({
-  headerClass,
+  headerClassName,
   children,
 }) => {
   return (
     <Box
       className={clsx({
         "common-modal__content-header": true,
-        [headerClass]: true,
+        [headerClassName]: !!headerClassName,
       })}
     >
       {children}
@@ -44,12 +44,11 @@ export const ModalHeader: React.FC<ModalHeaderProps> = ({
 
 /**
  * @component ModalBody
- * @description Modal body component.
- * @param {object} props
- * @param {string} [props.title] - Applies alternate style.
- * @param {string} [props.containerClassName] - Custom class.
- * @param {React.ReactNode} props.children - Body content.
- * @returns {ReactNode} return wrapper component for modal body.
+ * @description Modal body component for displaying main content
+ * @param {object} props - Component props
+ * @param {string} [props.containerClassName] - Custom CSS class name for body styling
+ * @param {React.ReactNode} props.children - Body content
+ * @return {React.ReactNode} Modal body wrapper component
  */
 export const ModalBody: React.FC<ModalBodyProps> = ({
   containerClassName,
@@ -59,7 +58,7 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
     <Box
       className={clsx({
         "common-modal__content-body": true,
-        [containerClassName]: true,
+        [containerClassName]: !!containerClassName,
       })}
     >
       {children}
@@ -69,45 +68,24 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
 
 /**
  * @component ModalFooter
- * @description Modal footer component.
- * @param {object} props
- * @param {string} [props.cancelText] - Cancel button text.
- * @param {Function} [props.onClose] - Cancel handler.
- * @param {string} [props.confirmText] - Confirm button text.
- * @param {Function} [props.onConfirm] - Confirm handler.
- * @param {string} [props.actionClass] - Applies action button class.
- * @returns {ReactNode} return wrapper component for modal footer.
+ * @description Modal footer component for displaying action buttons and custom content
+ * @param {object} props - Component props
+ * @param {string} [props.footerClassName] - Custom CSS class name for footer styling
+ * @param {React.ReactNode} props.children - Footer content and buttons
+ * @return {React.ReactNode} Modal footer wrapper component
  */
 export const ModalFooter: React.FC<ModalActionProps> = ({
-  cancelText,
-  onClose,
-  confirmText,
-  onConfirm,
-  actionClass = "common-modal__content-footer-confirm",
-  severity,
+  footerClassName,
+  children,
 }) => {
   return (
-    <Box className="common-modal__content-footer">
-      {cancelText && (
-        <CButton
-          variant="outline"
-          size="large"
-          className="common-modal__content-footer-cancel"
-          onClick={onClose}
-          severity="secondary"
-        >
-          {cancelText}
-        </CButton>
-      )}
-      {confirmText && (
-        <CButton
-          onClick={onConfirm}
-          className={clsx({ [actionClass]: true })}
-          severity={severity}
-        >
-          {confirmText}
-        </CButton>
-      )}
+    <Box
+      className={clsx({
+        "common-modal__content-footer": true,
+        [footerClassName]: !!footerClassName,
+      })}
+    >
+      {children}
     </Box>
   );
 };
@@ -150,9 +128,12 @@ const CModal: React.FC<ModalProps> = ({
   severity = "primary",
   containerClassName = "",
   disableBackdropClick = false,
+  disablePrimaryAction = false,
+  walkMeIdPrefix = [],
   ...props
 }) => {
   const { GENERAL } = useCommonTranslation();
+  const { generateId } = useWalkmeId();
   return (
     <Modal
       open={open}
@@ -175,11 +156,17 @@ const CModal: React.FC<ModalProps> = ({
             <CIconButton
               disableHover={true}
               onClick={onClose}
+              data-walkme-id={generateId([...walkMeIdPrefix, "close button"])}
             >
               <CSvgIcon
                 component={Close}
                 size={32}
                 color="secondary"
+                data-walkme-id={generateId([
+                  ...walkMeIdPrefix,
+                  "close button",
+                  "icon",
+                ])}
               />
             </CIconButton>
           </Box>
@@ -194,6 +181,11 @@ const CModal: React.FC<ModalProps> = ({
               size="large"
               onClick={onClose}
               severity="secondary"
+              data-walkme-id={generateId([
+                ...walkMeIdPrefix,
+                "modal",
+                "cancel button",
+              ])}
             >
               {cancelText || GENERAL.cancelButtonLabel}
             </CButton>
@@ -202,6 +194,12 @@ const CModal: React.FC<ModalProps> = ({
               onClick={onConfirm}
               className="common-modal__content-footer-confirm"
               severity={severity}
+              disabled={disablePrimaryAction}
+              data-walkme-id={generateId([
+                ...walkMeIdPrefix,
+                "modal",
+                "confirm button",
+              ])}
             >
               {confirmText || GENERAL.confirmButtonLabel}
             </CButton>

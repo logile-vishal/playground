@@ -15,6 +15,7 @@ export const CButton: React.FC<ButtonProps> = ({
   className,
   children,
   sx,
+  title,
   ...props
 }) => {
   const variantStyles = buttonPalette[severity][variant];
@@ -37,6 +38,7 @@ export const CButton: React.FC<ButtonProps> = ({
     <MUIButton
       disabled={disabled}
       className={className}
+      title={title}
       {...props}
       sx={{
         ...baseStyle,

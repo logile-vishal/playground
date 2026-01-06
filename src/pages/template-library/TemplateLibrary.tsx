@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
 import CSvgIcon from "@/core/components/icon/Icon";
-import CModal, { ModalBody, ModalFooter } from "@/core/components/modal/Modal";
+import CModal, { ModalBody } from "@/core/components/modal/Modal";
 import CTreeView from "@/core/components/tree-view/TreeView";
 import CIconButton from "@/core/components/button/IconButton";
 import PageTemplate from "@/layouts/page-template/PageTemplate";
@@ -370,6 +370,8 @@ const TemplateLibrary: React.FC = () => {
             size="medium"
             onClose={() => setImportPopup(false)}
             onConfirm={() => setImportPopup(false)}
+            cancelText={IMPORT_MODAL.cancelBtnText}
+            confirmText={IMPORT_MODAL.confirmBtnText}
           >
             <ModalBody>
               <Box className="template-library__import-modal">
@@ -381,12 +383,6 @@ const TemplateLibrary: React.FC = () => {
                 <Box>{IMPORT_MODAL.description}</Box>
               </Box>
             </ModalBody>
-            <ModalFooter
-              cancelText={IMPORT_MODAL.cancelBtnText}
-              onClose={() => setImportPopup(false)}
-              confirmText={IMPORT_MODAL.confirmBtnText}
-              onConfirm={() => setImportPopup(false)}
-            />
           </CModal>
         </Box>
       </PageTemplate.Content>

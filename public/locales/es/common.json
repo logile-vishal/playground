@@ -7,6 +7,7 @@
     "renameButtonLabel": "Renombrar",
     "deleteButtonLabel": "Eliminar",
     "cancelButtonLabel": "Cancelar",
+    "confirmButtonLabel": "Confirmar",
     "saveButtonLabel": "Guardar",
     "addButtonLabel": "Agregar",
     "seeMoreButtonLabel": "Ver más",
@@ -15,5 +16,32 @@
   "PAGINATION": {
     "pageLabel": "Página",
     "ofLabel": "de"
+  },
+  "EDITOR_TOOLBAR": {
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "underline": "Subrayado",
+    "link": "Agregar enlace",
+    "attachment": "Agregar archivo adjunto",
+    "clearFormat": "Borrar formato",
+    "wildcard": "Variable comodín"
+  },
+  "EDITOR_FILE_UPLOAD": {
+    "text": "Toca aquí para buscar y subir una imagen/archivo.",
+    "title": "Subir archivo",
+    "linkPlaceholder": "Ingresa la URL:"
+  },
+  "EDITOR_LINK_UPLOAD": {
+    "title": "Insertar enlace",
+    "editTitle": "Editar enlace",
+    "text": "Texto a mostrar",
+    "link": "Enlace",
+    "placeholder": "Ingresar",
+    "cancelBtn": "Cancelar",
+    "removeLinkBtn": "Eliminar enlace",
+    "submitBtn": "Enviar"
+  },
+  "EDITOR_ERROR": {
+    "REQUIRED_FIELD": "Este campo es obligatorio."
   }
 }

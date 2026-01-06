@@ -129,6 +129,8 @@ export { default as EditorClearFormat } from "@/assets/icons/common-icons/format
 export { default as EditorUnderline } from "@/assets/icons/common-icons/underline.svg?react";
 export { default as ChevronUpLarge } from "@/assets/icons/common-icons/chevron-up-large.svg?react";
 export { default as AttachmentLink } from "@/assets/icons/common-icons/attachment-link.svg?react";
+export { default as Eye } from "@/assets/icons/common-icons/eye.svg?react";
+export { default as Preview } from "@/assets/icons/common-icons/preview.svg?react";
 
 export type IconName =
   | "AddIcon"
@@ -259,4 +261,6 @@ export type IconName =
   | "EditorClearFormat"
   | "EditorUnderline"
   | "ChevronUpLarge"
-  | "AttachmentLink";
+  | "AttachmentLink"
+  | "Eye"
+  | "Preview";

@@ -7,6 +7,7 @@
     "renameButtonLabel": "重命名",
     "deleteButtonLabel": "删除",
     "cancelButtonLabel": "取消",
+    "confirmButtonLabel": "确认",
     "saveButtonLabel": "保存",
     "addButtonLabel": "添加",
     "seeMoreButtonLabel": "查看更多",
@@ -15,5 +16,32 @@
   "PAGINATION": {
     "pageLabel": "页面",
     "ofLabel": "的"
+  },
+  "EDITOR_TOOLBAR": {
+    "bold": "加粗",
+    "italic": "斜体",
+    "underline": "下划线",
+    "link": "添加链接",
+    "attachment": "添加附件",
+    "clearFormat": "清除格式",
+    "wildcard": "通配符变量"
+  },
+  "EDITOR_FILE_UPLOAD": {
+    "text": "点击此处浏览并上传图片/文件。",
+    "title": "上传文件",
+    "linkPlaceholder": "输入网址："
+  },
+  "EDITOR_LINK_UPLOAD": {
+    "title": "插入链接",
+    "editTitle": "编辑链接",
+    "text": "显示文本",
+    "link": "链接",
+    "placeholder": "输入",
+    "cancelBtn": "取消",
+    "removeLinkBtn": "移除链接",
+    "submitBtn": "提交"
+  },
+  "EDITOR_ERROR": {
+    "REQUIRED_FIELD": "此字段为必填项。"
   }
 }

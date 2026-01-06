@@ -206,6 +206,9 @@ export const useCreateTemplateTranslations = () => {
         value: QUESTION_OPTION_LABELS.DYNAMIC_DROPDOWN,
       },
     ],
+    QUESTION_CARD: {
+      QUESTION_TITLE_PLACEHOLDER: "Question Text",
+    },
   };
   const QUESTION_OPTION = {
     addOptionButtonLabel: t("QUESTION_OPTION.addOptionButtonLabel"),

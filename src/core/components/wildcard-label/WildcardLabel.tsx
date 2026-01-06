@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { CurlyBracket } from "@/core/constants/icons";
 
 import CSvgIcon from "@/core/components/icon/Icon";
+import { WILDCARD_MAP } from "@/core/constants/wildcard-list";
 import clsx from "@/utils/clsx";
 
 import "./WildcardLabel.scss";
@@ -11,17 +12,10 @@ type WildCardLabelProps = {
   truncate?: boolean;
 };
 
-//TODO: replace with master data for wildcards once available
-const WILD_CARD_MAP = new Map([
-  ["%abc%", "Question 2 Content"],
-  ["%assignee_store%", "Assignee Store"],
-  ["%task_name%", "Task Name"],
-]);
-
 const generateLabel = (label: WildCardLabelProps["label"]) => {
   const splitLabel = label.split(" ");
   return splitLabel.map((word, index) => {
-    if (WILD_CARD_MAP.has(word)) {
+    if (WILDCARD_MAP.has(word)) {
       return (
         <span
           className="wildcard-label__chip"
@@ -32,7 +26,7 @@ const generateLabel = (label: WildCardLabelProps["label"]) => {
             color="secondary"
             size={16}
           />
-          <p>{WILD_CARD_MAP.get(word)}</p>
+          <p>{WILDCARD_MAP.get(word)}</p>
         </span>
       );
     }

@@ -19,11 +19,13 @@ export type ModalProps = {
   severity?: ButtonSeverity;
   containerClassName?: string;
   disableBackdropClick?: boolean;
+  disablePrimaryAction?: boolean;
+  walkMeIdPrefix?: string[];
 };
 
 export type ModalHeaderProps = {
+  headerClassName?: string;
   children: React.ReactNode;
-  headerClass?: string;
 };
 
 export type ModalBodyProps = {
@@ -32,10 +34,6 @@ export type ModalBodyProps = {
 };
 
 export type ModalActionProps = {
-  cancelText?: string;
-  onClose: () => void;
-  confirmText?: string;
-  onConfirm?: () => void;
-  actionClass?: string;
-  severity?: ButtonSeverity;
+  footerClassName?: string;
+  children: React.ReactNode;
 };

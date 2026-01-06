@@ -7,6 +7,7 @@
     "renameButtonLabel": "Rename",
     "deleteButtonLabel": "Delete",
     "cancelButtonLabel": "Cancel",
+    "confirmButtonLabel": "Confirm",
     "saveButtonLabel": "Save",
     "addButtonLabel": "Add",
     "seeMoreButtonLabel": "see more",
@@ -15,5 +16,32 @@
   "PAGINATION": {
     "pageLabel": "Page",
     "ofLabel": "of"
+  },
+  "EDITOR_TOOLBAR": {
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "link": "Add Link",
+    "attachment": "Add Attachment",
+    "clearFormat": "Clear Formatting",
+    "wildcard": "Wildcard Variable"
+  },
+  "EDITOR_FILE_UPLOAD": {
+    "text": "Tap here to browse and upload an image/file.",
+    "title": "Upload File",
+    "linkPlaceholder": "Enter the URL:"
+  },
+  "EDITOR_LINK_UPLOAD": {
+    "title": "Insert Link",
+    "editTitle": "Edit Link",
+    "text": "Display Text",
+    "link": "Link",
+    "placeholder": "Enter",
+    "cancelBtn": "Cancel",
+    "removeLinkBtn": "Remove Link",
+    "submitBtn": "Submit"
+  },
+  "EDITOR_ERROR": {
+    "REQUIRED_FIELD": "This field is required."
   }
 }
