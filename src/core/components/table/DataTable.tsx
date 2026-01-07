@@ -1,21 +1,41 @@
-import type { TemplateType } from "@/pages/template-library/types/template-library.type";
-import type { SxProps, Theme } from "@mui/material";
 import {
+  type MRT_RowData,
+  type MRT_Row,
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import type { MRT_RowData, MRT_Row } from "material-react-table";
+import { Box, type SxProps, type Theme } from "@mui/material";
+
+import type { TemplateType } from "@/pages/template-library/types/template-library.type";
+import type { Pagination } from "@/core/types/pagination.type";
+import CPagination from "@/core/components/pagination/Pagination";
+
+import "./DataTable.scss";
 
 type TableProps = {
   tableProps;
   isRowSelected?: (rowData: TemplateType) => boolean;
   muiTableStyleProps?: SxProps<Theme>;
+  pagination: Pagination;
+  walkMeIdPrefix: string[];
+  isLoading?: boolean;
+  showPagination?: boolean;
+  handlePaginationChange: (newPagination: Pagination) => void;
+  paginationClassName?: string;
+  pageSizeOptions?: Array<{ label: string; value: number }>;
 };
 
 export const CDataTable = ({
   tableProps,
   isRowSelected,
   muiTableStyleProps,
+  pagination,
+  walkMeIdPrefix,
+  handlePaginationChange,
+  paginationClassName,
+  pageSizeOptions,
+  isLoading = false,
+  showPagination = true,
   ...props
 }: TableProps) => {
   const table = useMaterialReactTable({
@@ -59,9 +79,26 @@ export const CDataTable = ({
     }),
   });
   return (
-    <MaterialReactTable
-      table={table}
-      {...props}
-    />
+    <Box className="data-table">
+      <Box className="data-table__table-container">
+        <MaterialReactTable
+          table={table}
+          {...props}
+        />
+      </Box>
+      {!isLoading && (
+        <Box className="data-table__pagination-container">
+          <CPagination
+            pagination={pagination}
+            walkMeIdPrefix={walkMeIdPrefix}
+            size="large"
+            onChange={handlePaginationChange}
+            className={paginationClassName}
+            pageSizeOptions={pageSizeOptions}
+            showPagination={showPagination}
+          />
+        </Box>
+      )}
+    </Box>
   );
 };

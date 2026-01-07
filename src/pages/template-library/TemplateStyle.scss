@@ -7,6 +7,11 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  border: 1px solid var(--logile-border-secondary);
+  border-radius: var(--radius-m);
+  border-top-right-radius: var(--space-none);
+  border-bottom-right-radius: var(--space-none);
+
   & .template-library__header {
     display: flex;
     align-items: center;
@@ -143,7 +148,6 @@
 }
 
 .template-library-table-container {
-  overflow-y: auto;
   height: 100%;
 
   .MuiPaper-root {

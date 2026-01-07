@@ -304,3 +304,9 @@ export const TEMPLATE_TABLE_DATA = {
   reportTask: "Report Task",
   active: "Active",
 };
+
+export const TABLE_PAGINATION_OPTIONS = [
+  { label: "20", value: 20 },
+  { label: "50", value: 50 },
+  { label: "100", value: 100 },
+];

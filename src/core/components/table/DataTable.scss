@@ -1,0 +1,21 @@
+.data-table {
+  --pagination-height: var(--size-10);
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  &__table-container {
+    overflow-y: auto;
+  }
+  &__pagination-container {
+    width: 100%;
+    background: var(--logile-bg-container-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    bottom: var(--space-none);
+    padding: var(--space-m);
+    border-top: 1px solid var(--logile-border-primary);
+  }
+}

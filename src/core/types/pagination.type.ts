@@ -35,5 +35,6 @@ export type PaginationProps = defaultProps & {
   pagination: Pagination;
   className?: string;
   walkMeIdPrefix: string[];
+  showPagination?: boolean;
   pageSizeOptions?: Array<{ label: string; value: number }>;
 };

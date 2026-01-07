@@ -1,5 +1,8 @@
 import type { IconName } from "@/core/types/icon.type";
-import type { PaginatedResponse } from "@/core/types/pagination.type";
+import type {
+  PaginatedResponse,
+  Pagination,
+} from "@/core/types/pagination.type";
 
 import type { TemplatePreviewType } from "./template-questions.type";
 import type { TEMPLATE_TABLE_COLUMNS } from "../constants/constant";
@@ -80,6 +83,8 @@ export type LibraryTableProps = {
     anchorEl: null | HTMLElement;
     status: boolean;
   };
+  paginationData: Pagination;
+  handlePaginationChange: (newPagination: Pagination) => void;
   fetchData: (value: DirectoryType, params?: Record<string, unknown>) => void;
   handleExportMenuClose: () => void;
   handleExportMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;

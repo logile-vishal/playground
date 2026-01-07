@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Box, type SelectChangeEvent } from "@mui/material";
 
 import type {
@@ -6,6 +6,7 @@ import type {
   PaginationProps,
 } from "@/core/types/pagination.type";
 import {
+  DEFAULT_PAGINATION_SIZE_OPTIONS,
   PAGINATION_EVENT_TYPE,
   PAGINATION_SIZE,
 } from "@/core/constants/pagination";
@@ -34,11 +35,8 @@ const CPagination: React.FC<PaginationProps> = ({
   pagination = defaultPagination,
   walkMeIdPrefix = [],
   pageSizeOptions = [],
+  showPagination = true,
 }) => {
-  const [initialPageSize] = useState(pagination?.pageSize);
-  const [numberOfPages, setNumberOfPages] = useState<number>(
-    pagination?.totalPages
-  );
   const { PAGINATION } = useCommonTranslation();
   const { generateId } = useWalkmeId();
 
@@ -57,7 +55,7 @@ const CPagination: React.FC<PaginationProps> = ({
       newPaginationData.currentPage = pagination.currentPage - 1;
     } else if (
       actionType === PAGINATION_EVENT_TYPE.next &&
-      pagination.currentPage < numberOfPages
+      pagination.currentPage < pagination?.totalPages
     ) {
       newPaginationData.currentPage = pagination.currentPage + 1;
     }
@@ -131,44 +129,38 @@ const CPagination: React.FC<PaginationProps> = ({
 
   /**
    * @method currentPageOption
-   * @description Generates page number options for dropdown (1 to numberOfPages).
+   * @description Generates page number options for dropdown (1 to  pagination totalPages).
    * @returns {Array<{ label: number; value: number }>} Array of page options
    */
   const currentPageOption = useMemo(() => {
     const arr = [];
-    if (isNonEmptyValue(numberOfPages)) {
-      for (let i = 1; i <= numberOfPages; i++) {
+    if (isNonEmptyValue(pagination?.totalPages)) {
+      for (let i = 1; i <= pagination?.totalPages; i++) {
         arr.push({ label: i, value: i });
       }
     }
     return arr;
-  }, [numberOfPages]);
+  }, [pagination?.totalPages]);
 
   /**
-   * @method pageSizeOption
-   * @description Generates page size options incrementing by 10 from initialPageSize.
-   * @returns {Array<{ label: number; value: number }>} Array of page size options
+   * @method isPaginationRequired
+   * @description Checks if pagination is required based on total items and page size options.
+   * @returns {boolean} True if pagination is needed, false otherwise
    */
-  const defaultPageSizeOption = useMemo(() => {
-    const arr = [];
-    if (
-      isNonEmptyValue(initialPageSize) &&
-      isNonEmptyValue(pagination?.totalPages)
-    ) {
-      for (let i = initialPageSize; i <= pagination?.totalPages; i += 10) {
-        arr.push({ label: i, value: i });
-      }
-    }
-    return arr;
-  }, [pagination, initialPageSize]);
-
-  useEffect(() => {
-    const newPaginationData = { ...pagination };
-    newPaginationData.totalPages = Math.ceil(
-      pagination.totalPages / pagination.pageSize
+  const isPaginationRequired = () => {
+    return (
+      (pageSizeOptions &&
+        Math.min(...pageSizeOptions.map((option) => option.value)) <
+          pagination?.totalItems) ||
+      Math.min(
+        ...DEFAULT_PAGINATION_SIZE_OPTIONS.map((option) => option.value)
+      ) < pagination?.totalItems
     );
-    setNumberOfPages(Math.ceil(pagination.totalPages / pagination.pageSize));
-  }, [pagination]);
+  };
+
+  if (!showPagination || !isPaginationRequired()) {
+    return null;
+  }
 
   return (
     <Box
@@ -216,12 +208,12 @@ const CPagination: React.FC<PaginationProps> = ({
           {/* Next button */}
           <CIconButton
             onClick={() => handleChange(PAGINATION_EVENT_TYPE.next)}
-            disabled={pagination?.currentPage === numberOfPages}
+            disabled={pagination?.currentPage === pagination?.totalPages}
             className={clsx({
               "pagination__action-btn": true,
               "pagination__next-button": true,
               "pagination__next-button--disabled":
-                pagination?.currentPage === numberOfPages,
+                pagination?.currentPage === pagination?.totalPages,
             })}
             data-walkme-id={generateId([
               ...walkMeIdPrefix,
@@ -237,7 +229,7 @@ const CPagination: React.FC<PaginationProps> = ({
           </CIconButton>
         </Box>
         <Box>
-          {PAGINATION.ofLabel} {numberOfPages}
+          {PAGINATION.ofLabel} {pagination?.totalPages}
         </Box>
       </Box>
       {/* Page size */}
@@ -245,7 +237,7 @@ const CPagination: React.FC<PaginationProps> = ({
         <CSelect
           options={
             !isNonEmptyValue(pageSizeOptions)
-              ? defaultPageSizeOption
+              ? DEFAULT_PAGINATION_SIZE_OPTIONS
               : pageSizeOptions
           }
           optionLabelKey="label"

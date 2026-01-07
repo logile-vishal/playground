@@ -21,17 +21,20 @@ import {
   Upload,
 } from "@/core/constants/icons";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
-import type { PaginatedResponse } from "@/core/types/pagination.type";
+import type {
+  PaginatedResponse,
+  Pagination,
+} from "@/core/types/pagination.type";
 import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
 import { CButton } from "@/core/components/button/button";
 import CNoData from "@/core/components/no-data/NoData";
 import CTextfield from "@/core/components/form/textfield/Textfield";
+import { isNonEmptyValue } from "@/utils";
 import clsx from "@/utils/clsx";
 
 import type {
   DirectoryType,
   ReportType,
-  TemplatePaginationData,
   TemplateType,
 } from "./types/template-library.type";
 import {
@@ -46,6 +49,13 @@ import LibraryTable from "./TemplateTable";
 import { useTemplateLibraryTranslations } from "./translation/useTemplateLibraryTranslations";
 import "./TemplateStyle.scss";
 
+const defaultPagination: Pagination = {
+  currentPage: 1,
+  pageSize: TEMPLATE_LIST_PAGE_SIZE,
+  totalPages: 1,
+  totalItems: 0,
+};
+
 const TemplateLibrary: React.FC = () => {
   const { TEMPLATE_LIBRARY_HEADING, TEMPLATE_LIBRARY_NO_DATA } =
     useTemplateLibraryTranslations();
@@ -58,10 +68,8 @@ const TemplateLibrary: React.FC = () => {
     TemplateType[] | ReportType[]
   >([]);
 
-  const [paginationData] = useState<TemplatePaginationData>({
-    currentPage: 1,
-    pageSize: TEMPLATE_LIST_PAGE_SIZE,
-  });
+  const [paginationData, setPaginationData] =
+    useState<Pagination>(defaultPagination);
   const [searchTemplateText, setSearchTemplateText] = useState("");
   const [exportMenu, setExportMenu] = useState<{
     anchorEl: null | HTMLElement;
@@ -100,12 +108,12 @@ const TemplateLibrary: React.FC = () => {
   };
 
   const fetchData = (
-    directory: TreeViewNodeDataType,
+    directory: DirectoryType,
     paramsPayload: Record<string, unknown> = {}
   ) => {
     let payload: Record<string, unknown> = {
-      ...paramsPayload,
       ...paginationData,
+      ...paramsPayload,
     };
     if (directory?.reportType) {
       payload = { ...payload, reportTypeId: directory?.reportType };
@@ -122,7 +130,9 @@ const TemplateLibrary: React.FC = () => {
   ) => {
     event?.preventDefault();
     event?.stopPropagation();
-    fetchData(directory);
+    const paginationPayload = defaultPagination;
+    setPaginationData(paginationPayload);
+    fetchData(directory, paginationPayload);
     setSelectedDirectory(directory);
   };
 
@@ -147,6 +157,13 @@ const TemplateLibrary: React.FC = () => {
     });
   };
 
+  const handlePaginationChange = (newPagination: Pagination) => {
+    if (selectedDirectory) {
+      fetchData(selectedDirectory, newPagination);
+    }
+    setPaginationData(newPagination);
+  };
+
   useEffect(() => {
     let data = null;
     if (selectedDirectory?.reportType !== undefined) {
@@ -156,6 +173,15 @@ const TemplateLibrary: React.FC = () => {
     }
     setTableData(data);
   }, [reportsList, templatesList, selectedDirectory]);
+
+  useEffect(() => {
+    if (isNonEmptyValue(tableData?.pagination)) {
+      setPaginationData((prev) => ({
+        ...prev,
+        ...tableData?.pagination,
+      }));
+    }
+  }, [tableData]);
 
   useEffect(() => {
     setIsTableDataLoading(isTemplatesLoading);
@@ -339,6 +365,8 @@ const TemplateLibrary: React.FC = () => {
                   handleExportMenuClose={handleExportMenuClose}
                   handleExportMenuOpen={handleExportMenuOpen}
                   fetchData={fetchData}
+                  paginationData={paginationData}
+                  handlePaginationChange={handlePaginationChange}
                 />
               )}
             </Box>

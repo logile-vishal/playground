@@ -31,6 +31,7 @@ import {
   DELETE_MODAL,
   formatDate,
   REPORT_SORTING,
+  TABLE_PAGINATION_OPTIONS,
   TEMPLATE_SORTING,
   TEMPLATE_TABLE_COLUMNS,
   TEMPLATE_TABLE_DATA,
@@ -118,6 +119,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   handleExportMenuClose,
   handleExportMenuOpen,
   fetchData,
+  paginationData,
+  handlePaginationChange,
 }) => {
   const { TEMPLATE_TABLE_COLUMN_HEADINGS } = useTemplateLibraryTranslations();
   const [tableActionMenu, setTableActionMenu] = useState<
@@ -1101,6 +1104,11 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           height: "100%",
           scrollbarWidth: "none",
         }}
+        isLoading={isDataLoading}
+        pagination={paginationData}
+        handlePaginationChange={handlePaginationChange}
+        walkMeIdPrefix={["template table", "pagination"]}
+        pageSizeOptions={TABLE_PAGINATION_OPTIONS}
       />
       <PreviewModal
         previewModal={previewModal}
