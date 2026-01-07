@@ -1,24 +1,53 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 import { DirtyFormContext } from "@/core/services/dirty-form-check.service";
 
 /**
  * Provides dirty-form tracking to descendant components via DirtyFormContext.
  *
- * This provider manages an internal boolean state `isDirty` and exposes it along with
- * its state updater (`setIsDirty`) through the context. It is intended to wrap parts
- * of the application that contain forms or other editable content so that consumers
- * can read whether any tracked form has unsaved changes and mark the form as dirty.
+ * This provider manages an array of dirty form identifiers and computes `isDirty`
+ * based on whether any forms are currently marked as dirty. It exposes helper
+ * functions to add/remove forms from the dirty list.
  *
  * @param props.children - The React nodes that will have access to the DirtyFormContext.
  *
  * @returns A React element that renders `children` wrapped by DirtyFormContext.Provider.
  */
 export const DirtyFormProvider = ({ children }) => {
-  const [isDirty, setIsDirty] = useState(false);
+  const [dirtyForms, setDirtyForms] = useState<Set<string>>(new Set());
+
+  const addDirtyForm = useCallback((formName: string) => {
+    setDirtyForms((prev) => {
+      if (prev.has(formName)) return prev;
+      const next = new Set(prev);
+      next.add(formName);
+      return next;
+    });
+  }, []);
+
+  const removeDirtyForm = useCallback((formName: string) => {
+    setDirtyForms((prev) => {
+      if (!prev.has(formName)) return prev;
+      const next = new Set(prev);
+      next.delete(formName);
+      return next;
+    });
+  }, []);
+
+  const isDirty = dirtyForms.size > 0;
+
+  const value = useMemo(
+    () => ({
+      isDirty,
+      dirtyForms: Array.from(dirtyForms),
+      addDirtyForm,
+      removeDirtyForm,
+    }),
+    [isDirty, dirtyForms, addDirtyForm, removeDirtyForm]
+  );
 
   return (
-    <DirtyFormContext.Provider value={{ isDirty, setIsDirty }}>
+    <DirtyFormContext.Provider value={value}>
       {children}
     </DirtyFormContext.Provider>
   );
