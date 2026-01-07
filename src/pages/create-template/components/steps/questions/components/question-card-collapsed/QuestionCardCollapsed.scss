@@ -60,20 +60,8 @@
     flex: 1;
     display: flex;
     gap: var(--space-m);
-    margin-left: var(--space-m);
+    margin: var(--space-none) var(--space-l);
     justify-content: end;
-  }
-  &__divider {
-    padding: var(--space-none) var(--space-l);
-    display: flex;
-    align-self: stretch;
-    & span {
-      display: block;
-      width: 1px;
-      height: 100%;
-      background: var(--logile-border-secondary);
-      border-right: 1px solid var(--logile-border-secondary);
-    }
   }
   &__type-label {
     @include flex-center(center, center, var(--space-xs));
@@ -102,5 +90,6 @@
     width: 36px;
     height: 36px;
     cursor: pointer;
+    margin-left: var(--space-l);
   }
 }

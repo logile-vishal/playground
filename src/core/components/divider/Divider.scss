@@ -1,0 +1,15 @@
+.divider {
+  --thickness-divider: 1px;
+
+  &--horizontal {
+    width: 100%;
+    height: var(--thickness-divider);
+    border-bottom: var(--thickness-divider) solid var(--logile-border-secondary);
+  }
+  &--vertical {
+    height: auto;
+    align-self: stretch;
+    width: var(--thickness-divider);
+    border-left: var(--thickness-divider) solid var(--logile-border-secondary);
+  }
+}

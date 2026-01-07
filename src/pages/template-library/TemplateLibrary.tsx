@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 
 import CSvgIcon from "@/core/components/icon/Icon";
 import CModal, { ModalBody } from "@/core/components/modal/Modal";
@@ -31,6 +30,7 @@ import CNoData from "@/core/components/no-data/NoData";
 import CTextfield from "@/core/components/form/textfield/Textfield";
 import { isNonEmptyValue } from "@/utils";
 import clsx from "@/utils/clsx";
+import CDivider from "@/core/components/divider/Divider";
 
 import type {
   DirectoryType,
@@ -330,8 +330,7 @@ const TemplateLibrary: React.FC = () => {
               </Box>
             )}
           </Box>
-          <Divider className="template-library__border" />
-
+          <CDivider orientation="horizontal" />
           <Box className="template-library__container">
             <div className="directory-tree__container">
               {isDirectoriesLoading ? (

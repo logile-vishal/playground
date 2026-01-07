@@ -6,7 +6,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { styled } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
-import { Divider, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 
 import { CButton } from "@/core/components/button/button";
 import CAutocomplete from "@/core/components/auto-complete/AutoComplete";
@@ -23,6 +23,7 @@ import {
 import CMultiSelect from "@/core/components/multi-select/MultiSelect";
 import CSvgIcon from "@/core/components/icon/Icon";
 import CSelect from "@/core/components/select/Select";
+import CDivider from "@/core/components/divider/Divider";
 
 import {
   useFilterTemplates,
@@ -394,7 +395,7 @@ const SearchDrawer = ({
             }}
           />
         </Box>
-        <Divider />
+        <CDivider orientation="horizontal" />
         <Box className="template-library-search-drawer__tab-container">
           <StyledTabs
             onChange={handleTabChange}

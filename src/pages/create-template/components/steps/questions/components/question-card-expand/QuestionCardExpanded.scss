@@ -45,17 +45,6 @@
     gap: var(--space-m);
     justify-content: end;
   }
-  &__divider {
-    @include flex-box(row);
-    align-self: stretch;
-    & span {
-      display: block;
-      width: 1px;
-      height: 100%;
-      background: var(--logile-border-secondary);
-      border-right: 1px solid var(--logile-border-secondary);
-    }
-  }
   &__required-switch.MuiFormControlLabel-root {
     margin-left: 0;
     .MuiFormControlLabel-label {

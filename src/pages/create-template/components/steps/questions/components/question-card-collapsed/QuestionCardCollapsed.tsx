@@ -7,6 +7,7 @@ import { ChevronDown, DraggableDots } from "@/core/constants/icons";
 import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
 import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import CDivider from "@/core/components/divider/Divider";
 
 import { QuestionBadge } from "./QuestionBadges";
 import "./QuestionCardCollapsed.scss";
@@ -95,11 +96,7 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
         )}
       </Box>
 
-      {isDividerVisible() && (
-        <Box className="ques-card-collapsed__divider">
-          <span></span>
-        </Box>
-      )}
+      {isDividerVisible() && <CDivider orientation="vertical" />}
       <Box
         onClick={() => toggleExpand(question?.id)}
         className="ques-card-collapsed__chevron-down"

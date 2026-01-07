@@ -15,6 +15,7 @@ import CSwitch from "@/core/components/switch/Switch";
 import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
 import CTabs from "@/core/components/tabs/Tabs";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import CDivider from "@/core/components/divider/Divider";
 import CRichTextEditor from "@/core/components/rich-text-editor/RichTextEditor";
 
 import { QuestionBadge } from "../question-card-collapsed/QuestionBadges";
@@ -25,13 +26,6 @@ function TabPanel(props) {
   const { children, value } = props;
   return <div>{value && <Box>{children}</Box>}</div>;
 }
-
-/* TODO demo: A shared component for divider will be created later */
-const Divider = () => (
-  <Box className="ct-question-card-expanded__divider">
-    <span></span>
-  </Box>
-);
 
 const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   question,
@@ -130,7 +124,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
           >
             <Typography>{`${question?.orderIndex}.`}</Typography>
           </Box>
-          <Divider />
+          <CDivider orientation="vertical" />
           <FormControlLabel
             control={
               <CSwitch
@@ -158,7 +152,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
               <QuestionBadge type={QUESTION_BADGE_CONFIG.number.value} />
             )}
           </Box>
-          <Divider />
+          <CDivider orientation="vertical" />
           <Box className="ct-question-card-expanded__actions-icons">
             <CIconButton disableHover={true}>
               <CSvgIcon
