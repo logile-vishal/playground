@@ -43,5 +43,8 @@
   },
   "EDITOR_ERROR": {
     "REQUIRED_FIELD": "Este campo es obligatorio."
+  },
+  "NO_DATA": {
+    "TITLE": "Nada aquí todavía"
   }
 }

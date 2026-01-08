@@ -101,8 +101,8 @@
     }
   },
   "NOTIFICATIONS": {
-    "seeMoreButtonLabel": "Ver más",
-    "seeLessButtonLabel": "Ver menos",
+    "heading": "Notificaciones",
+    "noNotificationsPlaceholder": "No se han definido notificaciones",
     "addNotificationButtonLabel": "Notificación",
     "CARD_COLUMN_HEADINGS": {
       "notification": "Notificación",
@@ -116,9 +116,12 @@
       "notification": "Notificaciones activadas por respuestas",
       "followUp": "Tareas de seguimiento activadas por respuestas",
       "assigneeRecipient": "Asignado a"
-    }
+    },
+    "NO_DATA": "No se han agregado notificaciones aún. Haga clic en \"+ Notificación\" para comenzar."
   },
   "FOLLOWUP_TASKS": {
+    "heading": "Tareas de seguimiento",
+    "noFollowUpTasksPlaceholder": "No se han definido tareas de seguimiento",
     "addFollowUpTaskButtonLabel": "Tarea de seguimiento",
     "CARD_COLUMN_HEADINGS": {
       "followUp": "Tarea de seguimiento",
@@ -130,7 +133,8 @@
     },
     "TRIGGER_BY_ANSWER_GROUP": {
       "followUp": "Tareas de seguimiento activadas por respuestas"
-    }
+    },
+    "NO_DATA": "No se han agregado tareas de seguimiento aún. Haga clic en \"+ Tarea de seguimiento\" para comenzar."
   },
   "QUESTION_BADGE_CONFIG": {
     "photoLabel": "Foto",

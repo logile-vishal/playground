@@ -54,6 +54,11 @@ export const SECTION_SETTINGS_MENU_KEY = {
   DELETE: "delete_section",
 };
 
+export const OPTION_TRIGGER_MENU_KEY = {
+  Notification: "notification",
+  FollowUp: "follow_up",
+};
+
 export const QUESTION_TABS = {
   BASIC: {
     label: "Basic",

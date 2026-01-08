@@ -102,8 +102,8 @@
     }
   },
   "NOTIFICATIONS": {
-    "seeMoreButtonLabel": "查看更多",
-    "seeLessButtonLabel": "收起",
+    "heading": "通知",
+    "noNotificationsPlaceholder": "尚未定义任何通知",
     "addNotificationButtonLabel": "通知",
     "CARD_COLUMN_HEADINGS": {
       "notification": "通知",
@@ -117,9 +117,12 @@
       "notification": "由答案触发的通知",
       "followUp": "由答案触发的后续任务",
       "assigneeRecipient": "负责人"
-    }
+    },
+    "NO_DATA": "尚未添加任何通知。点击“+ 通知”开始。"
   },
   "FOLLOWUP_TASKS": {
+    "heading": "后续任务",
+    "noFollowUpTasksPlaceholder": "尚未定义任何后续任务",
     "addFollowUpTaskButtonLabel": "后续任务",
     "CARD_COLUMN_HEADINGS": {
       "followUp": "后续任务",
@@ -131,7 +134,8 @@
     },
     "TRIGGER_BY_ANSWER_GROUP": {
       "followUp": "由答案触发的后续任务"
-    }
+    },
+    "NO_DATA": "尚未添加任何后续任务。点击“+ 后续任务”开始。"
   },
   "QUESTION_BADGE_CONFIG": {
     "photoLabel": "照片",

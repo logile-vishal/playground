@@ -102,6 +102,8 @@
     }
   },
   "NOTIFICATIONS": {
+    "heading": "Notifications",
+    "noNotificationsPlaceholder": "No Notifications Defined",
     "addNotificationButtonLabel": "Notification",
     "CARD_COLUMN_HEADINGS": {
       "notification": "Notification",
@@ -115,9 +117,12 @@
       "notification": "Notifications triggered by answers",
       "followUp": "Follow-up tasks triggered by answers",
       "assigneeRecipient": "Assignee"
-    }
+    },
+    "NO_DATA": "No notifications added yet. Click \"+ Notification\" to get started."
   },
   "FOLLOWUP_TASKS": {
+    "heading": "Follow-up Tasks",
+    "noFollowUpTasksPlaceholder": "No Follow-up Tasks Defined",
     "addFollowUpTaskButtonLabel": "Follow-up Task",
     "CARD_COLUMN_HEADINGS": {
       "followUp": "Follow-up Task",
@@ -129,7 +134,8 @@
     },
     "TRIGGER_BY_ANSWER_GROUP": {
       "followUp": "Follow-up tasks triggered by answers"
-    }
+    },
+    "NO_DATA": "No follow-up tasks added yet. Click \"+ Follow-up Task\" to get started."
   },
   "QUESTION_BADGE_CONFIG": {
     "photoLabel": "Photo",

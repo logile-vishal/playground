@@ -16,16 +16,21 @@ import CSelect from "@/core/components/select/Select";
 import { CButton } from "@/core/components/button/button";
 import CIconButton from "@/core/components/button/IconButton";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import TriggerModal from "@/pages/create-template/components/trigger-modal/TriggerModal";
+import { TRIGGER_TYPE } from "@/pages/create-template/constants/constant";
+import {
+  followupSampleData,
+  notificationSampleData,
+} from "@/pages/create-template/constants/sampleData";
+import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
+import { OPTION_TRIGGER_MENU_KEY } from "@/pages/create-template/constants/questions";
+import type {
+  QuestionCardOptionProps,
+  QuestionCardOptionsProps,
+  TriggerCardMenuProps,
+} from "@/pages/create-template/types/questions.type";
 
 import "./QuestionCardOptions.scss";
-
-type QuestionCardOptionsProps = {
-  isVisible?: boolean;
-};
-
-type QuestionCardOptionProps = {
-  linkCount?: number;
-};
 
 /**
  * @method QuestionCardOption
@@ -35,7 +40,7 @@ type QuestionCardOptionProps = {
  * @return {React.ReactNode} Option row JSX element
  */
 const QuestionCardOption = (props: QuestionCardOptionProps) => {
-  const { QUESTION_OPTION } = useCreateTemplateTranslations();
+  const { QUESTION_OPTION, QUESTIONS } = useCreateTemplateTranslations();
   const [isCompliant, setIsCompliant] = useState(
     QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.COMPLIANT.value
   );
@@ -47,6 +52,74 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.OPTIONAL_INFO,
     QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.REQUIRED_INFO,
   ];
+  const [triggerCardMenu, setTriggerCardMenu] = useState<TriggerCardMenuProps>({
+    anchor: null,
+    status: false,
+  });
+  const [triggerCardModal, setTriggerCardModal] = useState({
+    status: false,
+    data: null,
+    type: null,
+  });
+
+  const openTriggerCardMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setTriggerCardMenu({
+      anchor: event.currentTarget,
+      status: true,
+    });
+  };
+
+  const closeTriggerCardMenu = () => {
+    setTriggerCardMenu({
+      anchor: null,
+      status: false,
+    });
+  };
+
+  const closeTriggerCardModal = () => {
+    setTriggerCardModal({
+      status: false,
+      data: null,
+      type: null,
+    });
+  };
+
+  /**
+   * @method renderTriggerCardMenu
+   * @description Renders the trigger card menu with nested options
+   * @return {React.ReactNode} Nested menu JSX element
+   */
+  const renderTriggerCardMenu = () => {
+    const { anchor: anchorEl } = triggerCardMenu;
+    return (
+      // TODO: Need to add badge on menu items for count of triggers
+      <CNestedMenu
+        anchorEl={anchorEl}
+        menuItems={QUESTIONS.OPTION_TRIGGER_MENU_OPTIONS}
+        onClose={closeTriggerCardMenu}
+        showSearch={false}
+        className="question-section__settings-menu"
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        onMenuItemSelect={(item) => {
+          if (item?.value === OPTION_TRIGGER_MENU_KEY.Notification) {
+            setTriggerCardModal({
+              status: true,
+              data: null,
+              type: TRIGGER_TYPE.notification,
+            });
+          } else if (item?.value === OPTION_TRIGGER_MENU_KEY.FollowUp) {
+            setTriggerCardModal({
+              status: true,
+              data: null,
+              type: TRIGGER_TYPE.followup,
+            });
+          }
+        }}
+      />
+    );
+  };
+
   return (
     <Box className="ques-card-options">
       <Box className="ques-card-options__dnd">
@@ -115,7 +188,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           )}
         />
       </Box>
-      <CIconButton>
+      <CIconButton onClick={openTriggerCardMenu}>
         <Badge
           className="attachment-badge"
           badgeContent={props.linkCount}
@@ -147,6 +220,25 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           size={22}
         />
       </CIconButton>
+
+      {renderTriggerCardMenu()}
+
+      {/* TODO: Remove sample data after api integration */}
+      <TriggerModal
+        type={triggerCardModal.type}
+        data={
+          triggerCardModal.type === TRIGGER_TYPE.followup
+            ? followupSampleData
+            : notificationSampleData
+        }
+        showModal={triggerCardModal.status}
+        handleCloseModal={closeTriggerCardModal}
+        walkMeIdPrefix={[
+          "create template",
+          "question options",
+          "trigger modal",
+        ]}
+      />
     </Box>
   );
 };

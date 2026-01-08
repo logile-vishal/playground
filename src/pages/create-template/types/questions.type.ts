@@ -63,3 +63,33 @@ export type ButtonConfigProps = {
   label?: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
 };
+
+export type QuestionCardOptionsProps = {
+  isVisible?: boolean;
+};
+
+export type QuestionCardOptionProps = {
+  linkCount?: number;
+};
+
+export type TriggerCardMenuProps = {
+  anchor: HTMLElement | null;
+  status: boolean;
+  data?: [] | null;
+  type?: string;
+};
+
+export type TriggerItem = {
+  id: number;
+  recipients: string[];
+  messageSubject?: string;
+  taskName?: string;
+};
+
+export type TriggerModalProps = {
+  showModal: boolean;
+  handleCloseModal: () => void;
+  type: string;
+  data: TriggerItem[];
+  walkMeIdPrefix: string[];
+};

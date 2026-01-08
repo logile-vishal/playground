@@ -50,6 +50,10 @@ export const useCommonTranslation = () => {
     REQUIRED_FIELD: t("EDITOR_ERROR.REQUIRED_FIELD"),
   };
 
+  const NO_DATA = {
+    TITLE: t("NO_DATA.TITLE"),
+  };
+
   return {
     GENERAL,
     PAGINATION,
@@ -57,5 +61,6 @@ export const useCommonTranslation = () => {
     EDITOR_FILE_UPLOAD,
     EDITOR_LINK_UPLOAD,
     EDITOR_ERROR,
+    NO_DATA,
   };
 };

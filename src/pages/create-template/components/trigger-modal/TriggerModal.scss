@@ -1,0 +1,48 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.trigger-modal {
+  --trigger-modal-min-height: 423px;
+  --trigger-modal-recipients-width: 30%;
+  --trigger-modal-message-width: 60%;
+  min-height: var(--trigger-modal-min-height);
+
+  &__list {
+    @include flex-center(space-between, center);
+    border-radius: var(--radius-m);
+    border: 1px solid var(--logile-border-primary);
+    padding: var(--space-l) var(--space-xl);
+    margin-bottom: var(--space-l);
+
+    &__title {
+      color: var(--logile-text-secondary);
+      font-size: var(--logile-size-secondary-text);
+      line-height: var(--logile-line-height-secondary-text);
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+    }
+    &-content {
+      @include flex-center(space-between, flex-start, var(--space-2xl));
+      width: 100%;
+      color: var(--logile-text-primary);
+      font-size: var(--logile-size-body);
+      line-height: var(--logile-line-height-body);
+
+      &-recipients {
+        flex-shrink: 1;
+        width: var(--trigger-modal-recipients-width);
+      }
+      &-message {
+        flex-shrink: 1;
+        width: var(--trigger-modal-message-width);
+      }
+    }
+    &-actions {
+      @include flex-center(center, center, var(--space-l));
+    }
+  }
+  &__action-btn {
+    @include flex-center(center, center, var(--space-s));
+    width: fit-content;
+  }
+}

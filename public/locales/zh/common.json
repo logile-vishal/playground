@@ -43,5 +43,8 @@
   },
   "EDITOR_ERROR": {
     "REQUIRED_FIELD": "此字段为必填项。"
+  },
+  "NO_DATA": {
+    "TITLE": "这里还什么都没有"
   }
 }

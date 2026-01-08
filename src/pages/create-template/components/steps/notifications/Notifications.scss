@@ -3,6 +3,10 @@
 .ct-notifications {
   @include placeholder-page;
   gap: var(--space-l);
+  &__list {
+    @include flex-box(column);
+    gap: var(--space-l);
+  }
   &__answer-trigger-group {
     @include flex-box(column);
     padding: var(--space-l) var(--space-xl);

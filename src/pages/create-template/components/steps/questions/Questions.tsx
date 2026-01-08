@@ -11,6 +11,7 @@ import {
 } from "@/core/constants/icons";
 import { CButton } from "@/core/components/button/button";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import CNoData from "@/core/components/no-data/NoData";
 import clsx from "@/utils/clsx";
 
 import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
@@ -112,20 +113,7 @@ const Questions: React.FC = () => {
       </Box>
     );
   };
-  /**
-   * @method renderQuestionPlaceholder
-   * @description Renders placeholder message when no questions are added.
-   * @returns {JSX.Element} Box element with placeholder text
-   */
-  const renderQuestionPlaceholder = () => {
-    return (
-      <Box className="ct-questions-cards-wrapper__placeholder">
-        <Typography className="ct-questions-cards-wrapper__placeholder-text">
-          {QUESTIONS.noQuestionPlaceholder}
-        </Typography>
-      </Box>
-    );
-  };
+
   /**
    * @method renderQuestionAction
    * @description Renders action buttons for adding questions and sections.
@@ -168,7 +156,10 @@ const Questions: React.FC = () => {
       {renderQuestionHeader()}
       <Box className="ct-questions-cards-wrapper">
         {questionList?.length === 0 ? (
-          renderQuestionPlaceholder()
+          <CNoData
+            title={QUESTIONS.noQuestionPlaceholder}
+            variant="box"
+          />
         ) : (
           <Box className="ct-questions-cards-wrapper__content">
             {questionList?.map((question) => {

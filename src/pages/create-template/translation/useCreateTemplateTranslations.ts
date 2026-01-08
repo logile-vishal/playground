@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import {
+  OPTION_TRIGGER_MENU_KEY,
   QUESTION_OPTION_LABELS,
   SECTION_SETTINGS_MENU_KEY,
 } from "../constants/questions";
@@ -209,6 +210,16 @@ export const useCreateTemplateTranslations = () => {
     QUESTION_CARD: {
       QUESTION_TITLE_PLACEHOLDER: "Question Text",
     },
+    OPTION_TRIGGER_MENU_OPTIONS: [
+      {
+        name: t("NOTIFICATIONS.heading"),
+        value: OPTION_TRIGGER_MENU_KEY.Notification,
+      },
+      {
+        name: t("FOLLOWUP_TASKS.heading"),
+        value: OPTION_TRIGGER_MENU_KEY.FollowUp,
+      },
+    ],
   };
   const QUESTION_OPTION = {
     addOptionButtonLabel: t("QUESTION_OPTION.addOptionButtonLabel"),
@@ -247,6 +258,8 @@ export const useCreateTemplateTranslations = () => {
     },
   };
   const NOTIFICATIONS = {
+    heading: t("NOTIFICATIONS.heading"),
+    noNotificationsPlaceholder: t("NOTIFICATIONS.noNotificationsPlaceholder"),
     addNotificationButtonLabel: t("NOTIFICATIONS.addNotificationButtonLabel"),
     CARD_COLUMN_HEADINGS: {
       notification: t("NOTIFICATIONS.CARD_COLUMN_HEADINGS.notification"),
@@ -264,8 +277,11 @@ export const useCreateTemplateTranslations = () => {
         "NOTIFICATIONS.TRIGGER_BY_ANSWER_GROUP.assigneeRecipient"
       ),
     },
+    NO_DATA: t("NOTIFICATIONS.NO_DATA"),
   };
   const FOLLOWUP_TASKS = {
+    heading: t("FOLLOWUP_TASKS.heading"),
+    noFollowUpTasksPlaceholder: t("FOLLOWUP_TASKS.noFollowUpTasksPlaceholder"),
     addFollowUpTaskButtonLabel: t("FOLLOWUP_TASKS.addFollowUpTaskButtonLabel"),
     CARD_COLUMN_HEADINGS: {
       followUp: t("FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.followUp"),
@@ -280,6 +296,7 @@ export const useCreateTemplateTranslations = () => {
     TRIGGER_BY_ANSWER_GROUP: {
       followUp: t("FOLLOWUP_TASKS.TRIGGER_BY_ANSWER_GROUP.followUp"),
     },
+    NO_DATA: t("FOLLOWUP_TASKS.NO_DATA"),
   };
   const QUESTION_BADGE_CONFIG = {
     photo: {

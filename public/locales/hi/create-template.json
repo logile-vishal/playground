@@ -102,8 +102,8 @@
     }
   },
   "NOTIFICATIONS": {
-    "seeMoreButtonLabel": "और देखें",
-    "seeLessButtonLabel": "कम देखें",
+    "heading": "सूचनाएं",
+    "noNotificationsPlaceholder": "कोई सूचनाएं परिभाषित नहीं हैं",
     "addNotificationButtonLabel": "सूचना",
     "CARD_COLUMN_HEADINGS": {
       "notification": "सूचना",
@@ -117,9 +117,12 @@
       "notification": "उत्तर द्वारा ट्रिगर की गई सूचनाएँ",
       "followUp": "उत्तर द्वारा ट्रिगर किए गए फ़ॉलो-अप कार्य",
       "assigneeRecipient": "असाइनी"
-    }
+    },
+    "NO_DATA": "कोई सूचनाएं अभी तक नहीं जोड़ी गई हैं। शुरू करने के लिए \"+ सूचना\" पर क्लिक करें।"
   },
   "FOLLOWUP_TASKS": {
+    "heading": "फ़ॉलो-अप कार्य",
+    "noFollowUpTasksPlaceholder": "कोई फ़ॉलो-अप कार्य परिभाषित नहीं हैं",
     "addFollowUpTaskButtonLabel": "फ़ॉलो-अप कार्य",
     "CARD_COLUMN_HEADINGS": {
       "followUp": "फ़ॉलो-अप कार्य",
@@ -131,7 +134,8 @@
     },
     "TRIGGER_BY_ANSWER_GROUP": {
       "followUp": "उत्तर द्वारा ट्रिगर किए गए फ़ॉलो-अप कार्य"
-    }
+    },
+    "NO_DATA": "कोई फ़ॉलो-अप कार्य अभी तक नहीं जोड़ा गया है। शुरू करने के लिए \"+ फ़ॉलो-अप कार्य\" पर क्लिक करें।"
   },
   "QUESTION_BADGE_CONFIG": {
     "photoLabel": "फ़ोटो",
