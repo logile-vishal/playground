@@ -1,0 +1,329 @@
+// Utility Classes for Spacing
+
+$spacing-map: (
+  "0": var(--space-none),
+  "1": var(--space-3xs),
+  "2": var(--space-xxs),
+  "4": var(--space-xs),
+  "6": var(--space-s),
+  "8": var(--space-m),
+  "12": var(--space-l),
+  "16": var(--space-xl),
+  "20": var(--space-2xl),
+  "24": var(--space-3xl),
+  "32": var(--space-4xl),
+  "40": var(--space-5xl),
+  "48": var(--space-6xl),
+  "64": var(--space-7xl),
+  "80": var(--space-8xl),
+  "96": var(--space-9xl),
+  "128": var(--space-10xl),
+  "160": var(--space-11xl),
+);
+
+// Margin Utilities
+@each $name, $value in $spacing-map {
+  // Margin all sides
+  .m-#{$name} {
+    margin: #{$value};
+  }
+
+  // Margin top
+  .mt-#{$name} {
+    margin-top: #{$value};
+  }
+
+  // Margin bottom
+  .mb-#{$name} {
+    margin-bottom: #{$value};
+  }
+
+  // Margin left
+  .ml-#{$name} {
+    margin-left: #{$value};
+  }
+
+  // Margin right
+  .mr-#{$name} {
+    margin-right: #{$value};
+  }
+
+  // Margin horizontal (left & right)
+  .mx-#{$name} {
+    margin-left: #{$value};
+    margin-right: #{$value};
+  }
+
+  // Margin vertical (top & bottom)
+  .my-#{$name} {
+    margin-top: #{$value};
+    margin-bottom: #{$value};
+  }
+}
+
+// Padding Utilities
+@each $name, $value in $spacing-map {
+  // Padding all sides
+  .p-#{$name} {
+    padding: #{$value};
+  }
+
+  // Padding top
+  .pt-#{$name} {
+    padding-top: #{$value};
+  }
+
+  // Padding bottom
+  .pb-#{$name} {
+    padding-bottom: #{$value};
+  }
+
+  // Padding left
+  .pl-#{$name} {
+    padding-left: #{$value};
+  }
+
+  // Padding right
+  .pr-#{$name} {
+    padding-right: #{$value};
+  }
+
+  // Padding horizontal (left & right)
+  .px-#{$name} {
+    padding-left: #{$value};
+    padding-right: #{$value};
+  }
+
+  // Padding vertical (top & bottom)
+  .py-#{$name} {
+    padding-top: #{$value};
+    padding-bottom: #{$value};
+  }
+}
+
+// Gap Utilities
+@each $name, $value in $spacing-map {
+  // Gap (for flexbox/grid)
+  .gap-#{$name} {
+    gap: #{$value};
+  }
+
+  // Row gap
+  .gap-x-#{$name} {
+    column-gap: #{$value};
+  }
+
+  // Column gap
+  .gap-y-#{$name} {
+    row-gap: #{$value};
+  }
+}
+
+// Display Utilities
+.d-none {
+  display: none;
+}
+
+.d-block {
+  display: block;
+}
+
+.d-inline {
+  display: inline;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.d-inline-flex {
+  display: inline-flex;
+}
+
+// Flex Utilities
+
+// Flex direction
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
+
+// Flex wrap
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+// Justify content
+.justify-start {
+  justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+// Align items
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-baseline {
+  align-items: baseline;
+}
+
+.items-stretch {
+  align-items: stretch;
+}
+
+// Align content
+.content-start {
+  align-content: flex-start;
+}
+
+.content-end {
+  align-content: flex-end;
+}
+
+.content-center {
+  align-content: center;
+}
+
+.content-between {
+  align-content: space-between;
+}
+
+.content-around {
+  align-content: space-around;
+}
+
+.content-evenly {
+  align-content: space-evenly;
+}
+
+.content-stretch {
+  align-content: stretch;
+}
+
+// Align self
+.self-auto {
+  align-self: auto;
+}
+
+.self-start {
+  align-self: flex-start;
+}
+
+.self-end {
+  align-self: flex-end;
+}
+
+.self-center {
+  align-self: center;
+}
+
+.self-baseline {
+  align-self: baseline;
+}
+
+.self-stretch {
+  align-self: stretch;
+}
+
+// Flex grow/shrink
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.flex-auto {
+  flex: 1 1 auto;
+}
+
+.flex-initial {
+  flex: 0 1 auto;
+}
+
+.flex-none {
+  flex: none;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.grow-0 {
+  flex-grow: 0;
+}
+
+.shrink {
+  flex-shrink: 1;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
+}
+
+// Order
+@for $i from 1 through 12 {
+  .order-#{$i} {
+    order: #{$i};
+  }
+}
+
+.order-first {
+  order: -9999;
+}
+
+.order-last {
+  order: 9999;
+}
+
+.order-none {
+  order: 0;
+}

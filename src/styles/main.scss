@@ -17,3 +17,6 @@
 
 /* Form styles */
 @use "../core/components/form/Form.scss";
+
+/* Utility classes */
+@use "./_utility-class.scss";
