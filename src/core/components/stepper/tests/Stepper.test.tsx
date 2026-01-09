@@ -13,7 +13,6 @@ import {
   mockOnChange,
   mockCheckValidity1,
   mockCheckValidity2,
-  mockCheckValidity3,
   resetMocks,
 } from "./__mocks__/Stepper.mocks";
 

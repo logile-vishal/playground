@@ -1,5 +1,5 @@
 import React, { act } from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
 import CToast from "../Toast";
 import {
@@ -18,7 +18,6 @@ import {
   mockOnClose,
   resetMocks,
 } from "./__mocks__/Toast.mocks";
-import { Severity } from "@/core/types/severity.type";
 import { ToastVariant } from "../toast.type";
 
 // Mock clsx

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
 
 import CNoData from "../NoData";
-import type { NoDataProps } from "../NoData";
+import type { NoDataProps } from "@/core/types/no-data.type";
 import {
   mockNoDataProps,
   mockNoDataPropsWithoutOptionals,

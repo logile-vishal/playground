@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CAutocomplete, { flattenOptions } from "../AutoComplete";
 import {
@@ -7,10 +7,8 @@ import {
   mockGroupedOptions,
   mockMixedOptions,
   mockDefaultValue,
-  mockHandleChange,
   mockAutoCompleteProps,
   mockAutoCompletePropsWithGrouped,
-  mockAutoCompletePropsWithValue,
 } from "./__mocks__/AutoComplete.mocks";
 import type { AutoCompleteOptionProps } from "@/core/types/autocomplete.type";
 import { AUTOCOMPLETE_CONSTANTS } from "@/core/constants/autocomplete";

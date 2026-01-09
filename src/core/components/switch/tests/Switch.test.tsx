@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import CSwitch from "../Switch";
 import type { CSwitchProps } from "../Switch";
 import {
@@ -130,7 +129,6 @@ describe("CSwitch Component", () => {
     });
 
     it("should not call onChange when disabled", async () => {
-      const user = userEvent.setup();
       const onChange = vi.fn();
 
       const { container } = render(

@@ -640,7 +640,7 @@ describe("CNestedMenu Component", () => {
     });
 
     it("should not set width from anchorEl when customMenuWidth is provided", () => {
-      const { container } = render(
+      render(
         <CNestedMenu
           {...mockNestedMenuProps}
           customMenuWidth={350}

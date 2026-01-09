@@ -1,6 +1,6 @@
 import { EmptyState } from "@/core/constants/icons";
 import type { SvgIconComponent } from "@/core/components/icon/Icon";
-import type { NoDataProps } from "../../NoData";
+import type { NoDataProps } from "@/core/types/no-data.type";
 import { vi } from "vitest";
 
 import React from "react";

@@ -318,7 +318,7 @@ describe("CIconButton Component", () => {
           <span>Label</span>
         </CIconButton>
       );
-      const button = screen.getByRole("button");
+      screen.getByRole("button");
       expect(screen.getByText("Icon")).toBeInTheDocument();
       expect(screen.getByText("Label")).toBeInTheDocument();
     });

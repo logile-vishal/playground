@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { act } from "react";
 import CInputWithChip from "../InputWithChip";
 import type { InputWithChipProps } from "../InputWithChip";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";

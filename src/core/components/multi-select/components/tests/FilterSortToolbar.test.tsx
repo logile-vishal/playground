@@ -206,7 +206,7 @@ describe("CFilterSortToolbar Component", () => {
     it("should stop event propagation on filter input change", async () => {
       const user = userEvent.setup();
       const propagationSpy = vi.fn();
-      const { container } = render(
+      render(
         <div onClick={propagationSpy}>
           <CFilterSortToolbar {...defaultFilterSortToolbarProps} />
         </div>
@@ -276,12 +276,7 @@ describe("CFilterSortToolbar Component", () => {
 
     it("should call resetOptions when filter is cleared with active sort state", async () => {
       const user = userEvent.setup();
-      let capturedCallback: any = null;
-      const mockSetOptionsWithCapture = vi.fn((callbackOrValue) => {
-        if (typeof callbackOrValue === "function") {
-          capturedCallback = callbackOrValue;
-        }
-      });
+      const mockSetOptionsWithCapture = vi.fn();
 
       render(
         <CFilterSortToolbar

@@ -1,11 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-} from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CRichTextEditor from "../RichTextEditor";
@@ -17,11 +11,9 @@ import {
   mockRichTextEditorPropsWithVariables,
   mockRichTextEditorPropsComplete,
   mockOnChange,
-  mockOnVariableInserted,
   mockOnUpdateAttachments,
   mockUseWildcardVariableManager,
   mockUseCommonTranslation,
-  mockQuillEditor,
   mockAttachments,
   mockFile1,
   mockFile2,
@@ -82,23 +74,21 @@ vi.mock("@/core/translation/useCommonTranslation", () => ({
 
 // Mock Toolbar component
 vi.mock("../Toolbar", () => ({
-  default: vi.fn(
-    ({ onVariableButtonClick, attachments, onUpdateAttachments }) => (
-      <div data-testid="toolbar">
-        <button
-          data-testid="variable-button"
-          onClick={onVariableButtonClick}
-        >
-          Variable Button
-        </button>
-        {attachments && attachments.length > 0 && (
-          <div data-testid="toolbar-attachments">
-            {attachments.length} attachments
-          </div>
-        )}
-      </div>
-    )
-  ),
+  default: vi.fn(({ onVariableButtonClick, attachments }) => (
+    <div data-testid="toolbar">
+      <button
+        data-testid="variable-button"
+        onClick={onVariableButtonClick}
+      >
+        Variable Button
+      </button>
+      {attachments && attachments.length > 0 && (
+        <div data-testid="toolbar-attachments">
+          {attachments.length} attachments
+        </div>
+      )}
+    </div>
+  )),
 }));
 
 // Mock AttachmentPreviewModal component

@@ -5,7 +5,6 @@ import CFilterSortToolbar, { sortOptions } from "../FilterSortToolbar";
 import {
   mockStringOptions,
   mockObjectOptions,
-  mockMixedOptions,
   mockEmptyOptions,
   mockSetOptions,
   mockFilterSortToolbarProps,
@@ -313,7 +312,6 @@ describe("CFilterSortToolbar", () => {
       );
 
       const sortButton = screen.getByRole("button");
-      const initialIcon = container.querySelector("svg");
 
       fireEvent.click(sortButton);
 

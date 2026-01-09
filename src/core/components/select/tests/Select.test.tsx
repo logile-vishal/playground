@@ -1,7 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
 import CSelect from "../Select";
-import type { SelectProps } from "../Select";
 import {
   mockStringOptions,
   mockObjectOptions,
@@ -9,13 +8,9 @@ import {
   mockLargeOptions,
   mockOptionsWithMissingKeys,
   mockOnChange,
-  mockOnClose,
-  mockOnOpen,
-  mockRenderValue,
   MockIconComponent,
   resetAllMocks,
 } from "./__mocks__/Select.mocks";
-import type { OptionType } from "../types";
 
 // Mock external dependencies
 vi.mock("@/core/components/icon/Icon", () => ({
