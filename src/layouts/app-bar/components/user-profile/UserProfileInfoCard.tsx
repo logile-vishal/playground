@@ -77,10 +77,7 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           onClose={handleClose}
           anchorEl={anchorEl.current as unknown as HTMLElement}
           menuItems={adminMenuItemsList}
-          subMenuPosition="left"
-          onMenuItemSelect={handleProfileMenuSelect}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          transformOrigin={{ vertical: "top", horizontal: "right" }}
+          onSelect={handleProfileMenuSelect}
         />
       )}
     </>

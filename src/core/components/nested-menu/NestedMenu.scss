@@ -1,18 +1,18 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .nested-menu {
-  .MuiPaper-root,
-  .MuiPaper-root-MuiPopover-paper {
-    // used to override the mui paper and popover paper
-    border-radius: var(--radius-m);
-    overflow-y: auto;
-    border: 1px solid var(--logile-border-secondary);
-    max-height: var(--dropdown-menu-max-height);
+  position: relative;
+
+  & .MuiList-root.MuiMenu-list {
+    padding: 0;
   }
 
   &__filter {
-    padding: 0 var(--space-m);
-    margin-bottom: var(--space-m);
+    z-index: calc(var(--zindex-dropdown) + 2);
+    position: sticky;
+    top: 0;
+    background-color: var(--logile-bg-container-1);
+    padding: var(--space-m);
   }
 
   &__item {
@@ -55,6 +55,7 @@
         font-size: var(--logile-size-body);
         color: var(--logile-text-primary);
         margin-right: auto;
+        white-space: normal;
         &--selected {
           color: var(--logile-text-brand-primary-dark-mode-alt);
           font-weight: var(--weight-500);

@@ -24,58 +24,58 @@ export const useAdminMenuItemsList = (): NestedMenuItem[] => {
 
   return [
     {
-      name: "Change Role",
+      label: "Change Role",
       value: "change-role",
       leftIcon: User,
     },
     {
-      name: "Set Focus",
+      label: "Set Focus",
       value: "set-focus",
       leftIcon: Focus,
     },
     {
-      name: "User Profile",
+      label: "User Profile",
       value: "user-profile",
       leftIcon: Users,
     },
     {
-      name: "Modify Dashboard",
+      label: "Modify Dashboard",
       value: "modify-dashboard",
       leftIcon: Edit,
     },
     {
-      name: "Reduce Role",
+      label: "Reduce Role",
       value: "reduce-role",
       leftIcon: UserMinus,
     },
     {
-      name: "User Management",
+      label: "User Management",
       value: "user-management",
       leftIcon: UserSetting,
     },
     {
-      name: "Admin Mode",
+      label: "Admin Mode",
       value: "admin-mode",
       leftIcon: UserStar,
       customSubMenu: <AdminModeCustomMenu />,
     },
     {
-      name: "Theme",
+      label: "Theme",
       value: "theme",
       leftIcon: Theme,
       parentAsItem: false,
       subMenu: {
         items: [
           {
-            name: "Dark",
+            label: "Dark",
             value: THEME_MODES.DARK,
           },
           {
-            name: "Light",
+            label: "Light",
             value: THEME_MODES.LIGHT,
           },
           {
-            name: "System Default",
+            label: "System Default",
             value: THEME_MODES.SYSTEM,
           },
         ],
@@ -85,26 +85,26 @@ export const useAdminMenuItemsList = (): NestedMenuItem[] => {
       },
     },
     {
-      name: "Language",
+      label: "Language",
       value: "language",
       leftIcon: Globe,
       parentAsItem: false,
       subMenu: {
         items: [
           {
-            name: "English",
+            label: "English",
             value: "en",
           },
           {
-            name: "Español",
+            label: "Español",
             value: "es",
           },
           {
-            name: "中文",
+            label: "中文",
             value: "zh",
           },
           {
-            name: "हिन्दी",
+            label: "हिन्दी",
             value: "hi",
           },
         ],
@@ -114,7 +114,7 @@ export const useAdminMenuItemsList = (): NestedMenuItem[] => {
       },
     },
     {
-      name: "Logout",
+      label: "Logout",
       value: "logout",
       leftIcon: Signout,
       leftIconStyleProps: { color: "violation" },
@@ -125,15 +125,15 @@ export const useAdminMenuItemsList = (): NestedMenuItem[] => {
 
 export const adminModeList = [
   {
-    name: "All Settings",
+    label: "All Settings",
     value: "all-settings",
   },
   {
-    name: "Permissions",
+    label: "Permissions",
     value: "permissions",
   },
   {
-    name: "Internationalization",
+    label: "Internationalization",
     value: "internationalization",
   },
 ];

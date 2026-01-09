@@ -53,6 +53,9 @@ export const useCommonTranslation = () => {
   const NO_DATA = {
     TITLE: t("NO_DATA.TITLE"),
   };
+  const NESTED_MENU = {
+    filterPlaceholder: t("GENERAL.filterPlaceholder"),
+  };
 
   return {
     GENERAL,
@@ -62,5 +65,6 @@ export const useCommonTranslation = () => {
     EDITOR_LINK_UPLOAD,
     EDITOR_ERROR,
     NO_DATA,
+    NESTED_MENU,
   };
 };

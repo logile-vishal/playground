@@ -5,5 +5,6 @@ export const KEYBOARD_KEYS = {
   KEY_ARROW_LEFT: "ArrowLeft",
 };
 export const NESTED_MENU = {
-  searchPlaceholder: "Search...",
+  defaultMenuWidth: "100%",
+  defaultMenuHeight: "360px",
 };

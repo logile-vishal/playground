@@ -11,7 +11,8 @@
     "saveButtonLabel": "保存",
     "addButtonLabel": "添加",
     "seeMoreButtonLabel": "查看更多",
-    "seeLessButtonLabel": "收起"
+    "seeLessButtonLabel": "收起",
+    "filterPlaceholder": "搜索..."
   },
   "PAGINATION": {
     "pageLabel": "页面",

@@ -31,6 +31,7 @@ import type {
 } from "@/pages/create-template/types/questions.type";
 
 import "./QuestionCardOptions.scss";
+import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 
 /**
  * @method QuestionCardOption
@@ -95,13 +96,11 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
       // TODO: Need to add badge on menu items for count of triggers
       <CNestedMenu
         anchorEl={anchorEl}
-        menuItems={QUESTIONS.OPTION_TRIGGER_MENU_OPTIONS}
+        menuItems={QUESTIONS.OPTION_TRIGGER_MENU_OPTIONS as NestedMenuItem[]}
         onClose={closeTriggerCardMenu}
         showSearch={false}
         className="question-section__settings-menu"
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        onMenuItemSelect={(item) => {
+        onSelect={(item) => {
           if (item?.value === OPTION_TRIGGER_MENU_KEY.Notification) {
             setTriggerCardModal({
               status: true,

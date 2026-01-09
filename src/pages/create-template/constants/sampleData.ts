@@ -89,58 +89,60 @@ export const followupTriggerByAnswersSampleData = [
 
 export const basicTagsSampleData = [
   {
-    name: "Cleaning",
+    label: "Cleaning",
     value: "cleaning",
     parentAsItem: true,
     righticon: "arrowRightFill",
     subMenu: {
+      width: "200px",
+
       items: [
         {
-          name: "Floors",
+          label: "Floors",
           value: "cleaning_floors",
         },
         {
-          name: "Sinks",
+          label: "Sinks",
           value: "cleaning_sinks",
         },
         {
-          name: "Shelves",
+          label: "Shelves",
           value: "cleaning_shelves",
         },
         {
-          name: "Displays",
+          label: "Displays",
           value: "cleaning_displays",
         },
       ],
     },
   },
   {
-    name: "Cook",
+    label: "Cook",
     value: "cook",
     customSubMenu: [],
   },
   {
-    name: "Corrective Actions",
+    label: "Corrective Actions",
     value: "corrective_actions",
     customSubMenu: [],
   },
   {
-    name: "Merchandising",
+    label: "Merchandising",
     value: "merchandising",
     customSubMenu: [],
   },
   {
-    name: "Promotion",
+    label: "Promotion",
     value: "promotion",
     customSubMenu: [],
   },
   {
-    name: "Reports",
+    label: "Reports",
     value: "reports",
     customSubMenu: [],
   },
   {
-    name: "Safety",
+    label: "Safety",
     value: "safety",
     customSubMenu: [],
   },

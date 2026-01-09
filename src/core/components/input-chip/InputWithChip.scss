@@ -2,120 +2,151 @@
 
 .input-with-chip {
   --input-with-chip-height: 36px;
-  --input-with-chip-width: 200px;
+  --input-with-chip-width: 100%;
 
-  height: var(--input-with-chip-height);
-  display: flex;
-  align-items: center;
-  gap: var(--space-s);
-  cursor: pointer;
-  border: 1px solid var(--logile-border-primary);
-  border-radius: var(--radius-m);
-  padding: 0 var(--space-m);
-  background: var(--logile-bg-container-1);
+  width: var(--input-with-chip-width);
+  @include flex-box(column);
 
-  &:hover {
-    border: 1px solid var(--logile-border-bold-subtle);
-  }
-  &--focus {
-    border: 1px solid var(--logile-border-brand-primary-subtle);
-    box-shadow: 0 0 0 4px var(--logile-shadow-focus);
-  }
-
-  &__icon {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__scroll-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  &__content {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    flex-shrink: 0;
-    gap: var(--space-s);
-    &--end {
-      flex-direction: row-reverse;
-    }
-  }
-
-  &__content-chip-wrapper {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-s);
-  }
-
-  &__content-hidden-field {
-    position: absolute;
-    visibility: hidden;
-    white-space: pre;
-    font-size: var(--logile-size-secondary-text);
-    font-family: inherit;
-    pointer-events: none;
-    border: none;
-  }
-
-  &__content-input-field {
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: var(--logile-size-secondary-text);
-    font-family: inherit;
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding: 0;
-    .MuiOutlinedInput-root,
-    .MuiOutlinedInput-notchedOutline,
-    .MuiOutlinedInput-input {
-      border: none;
-      padding: 0;
-    }
-  }
-
-  &__content-placeholder {
-    color: var(--logile-text-tertiary);
-    font-size: var(--logile-size-body);
-    line-height: var(--logile-line-height-body);
-  }
-
-  .MuiChip-root {
+  &.input-with-chip--inline-label {
     @include flex-center(flex-start, center);
-
-    border: 1px solid var(--logile-border-primary);
-    background: var(--logile-bg-container-3);
-    color: var(--logile-text-primary);
-    border-radius: var(--radius-s);
-    height: var(--logile-dropdown-chip-height);
+    gap: var(--space-xs);
+  }
+  & .input-with-chip__label {
+    color: var(--logile-text-secondary);
     font-size: var(--logile-size-secondary-text);
+    line-height: var(--logile-line-height-secondary-text);
+  }
+  & .input-with-chip__helper-text {
+    color: var(--logile-text-secondary);
+    font-size: var(--logile-size-caption-large);
     font-weight: var(--logile-weight-400);
-    width: fit-content;
-    flex-shrink: 0;
+    line-height: var(--line-height-caption-large);
+    margin-left: var(--space-m);
+  }
+  .input-with-chip__input {
+    height: var(--input-with-chip-height);
+    width: var(--input-with-chip-width);
+    @include flex-center(flex-start, center);
+    gap: var(--space-s);
+    cursor: pointer;
+    border: 1px solid var(--logile-border-primary);
+    border-radius: var(--radius-m);
+    padding: 0 var(--space-m);
+    background: var(--logile-bg-container-1);
 
-    .MuiChip-deleteIcon {
-      fill: var(--logile-icon-primary);
+    &:hover {
+      border: 1px solid var(--logile-border-bold-subtle);
     }
-    .MuiChip-label {
-      padding-right: var(--space-xl);
+    &--focus {
+      border: 1px solid var(--logile-border-brand-primary-subtle);
+      box-shadow: 0 0 0 4px var(--logile-shadow-focus);
+    }
+
+    &-icon {
+      flex-shrink: 0;
+      @include flex-center(center, center);
+    }
+
+    &-scroll-container {
+      flex: 1;
+      @include flex-center(flex-start, center);
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &-content {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+      gap: var(--space-s);
+      &--end {
+        flex-direction: row-reverse;
+      }
+    }
+
+    &-content-chip-wrapper {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-s);
+    }
+
+    &-content-hidden-field {
+      position: absolute;
+      visibility: hidden;
+      white-space: pre;
+      font-size: var(--logile-size-secondary-text);
+      pointer-events: none;
+      border: none;
+    }
+
+    &-content-input-field {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: var(--logile-size-secondary-text);
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 0;
+      .MuiOutlinedInput-root,
+      .MuiOutlinedInput-notchedOutline,
+      .MuiOutlinedInput-input {
+        border: none;
+        padding: 0;
+      }
+    }
+
+    &-content-placeholder {
+      color: var(--logile-text-tertiary);
+      font-size: var(--logile-size-body);
+      line-height: var(--logile-line-height-body);
+    }
+
+    .MuiChip-root {
+      @include flex-center(flex-start, center);
+
+      border: 1px solid var(--logile-border-primary);
+      background: var(--logile-bg-container-3);
+      color: var(--logile-text-primary);
+      border-radius: var(--radius-s);
+      height: var(--logile-dropdown-chip-height);
+      font-size: var(--logile-size-secondary-text);
+      font-weight: var(--logile-weight-400);
+      width: fit-content;
+      flex-shrink: 0;
+
+      .MuiChip-deleteIcon {
+        fill: var(--logile-icon-primary);
+      }
+      .MuiChip-label {
+        padding-right: var(--space-xl);
+      }
+    }
+    .MuiOutlinedInput-input {
+      color: var(--logile-text-primary);
     }
   }
-  .MuiOutlinedInput-input {
-    color: var(--logile-text-primary);
+
+  &--error {
+    & .input-with-chip__label {
+      color: var(--logile-text-state-violation);
+    }
+    & .input-with-chip__input.MuiBox-root {
+      border: var(--border-s) solid var(--logile-border-state-violation);
+      &:hover {
+        border: var(--border-s) solid var(--logile-border-state-violation);
+      }
+    }
+    & .input-with-chip__helper-text {
+      color: var(--logile-text-state-violation);
+    }
   }
 }

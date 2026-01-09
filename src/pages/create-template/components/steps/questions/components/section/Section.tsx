@@ -142,9 +142,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
         onClose={closeSectionSettingsMenu}
         showSearch={false}
         className="question-section__settings-menu"
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-        transformOrigin={{ vertical: "top", horizontal: "left" }}
-        onMenuItemSelect={(item) => {
+        onSelect={(item) => {
           if (item?.value === SECTION_SETTINGS_MENU_KEY.RENAME) {
             openRenameModal(null);
           } else if (item?.value === SECTION_SETTINGS_MENU_KEY.DELETE) {

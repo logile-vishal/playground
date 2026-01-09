@@ -15,7 +15,7 @@ const AdminModeCustomMenu = () => {
           className="admin-mode-custom-menu__item"
           key={item.value}
         >
-          <Typography>{item.name}</Typography>
+          <Typography>{item.label}</Typography>
           <CSwitch
             size="small"
             onChange={handleOnChange}

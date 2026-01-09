@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { Box, Chip, TextField } from "@mui/material";
-import type { TextFieldProps } from "@mui/material";
 
 import { ChevronDown, ChevronUp, Close } from "@/core/constants/icons";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
@@ -9,10 +8,9 @@ import CSvgIcon from "@/core/components/icon/Icon";
 
 import "./InputWithChip.scss";
 
-type InputWithChipProps = Omit<
-  TextFieldProps,
-  "value" | "onChange" | "placeholder"
-> & {
+export type InputWithChipProps = {
+  label?: string;
+  name?: string;
   searchText?: string;
   selectedItems?: NestedMenuItem[];
   onDelete?: (event: React.MouseEvent, data: NestedMenuItem) => void;
@@ -20,36 +18,74 @@ type InputWithChipProps = Omit<
   isSelectIconShown?: boolean;
   placeholder?: string;
   anchorEl?: HTMLElement | null;
-  onMenuOpen?: (event: React.MouseEvent<HTMLElement>) => void;
   width?: number | string;
   inputPlacement?: "start" | "end";
   isInputVisible?: boolean;
+  endIcon?: React.ReactNode;
+  startIcon?: React.ReactNode;
+  inLineLabel?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  renderInputChipLabel?: (item: NestedMenuItem) => React.ReactNode;
+  isFocused?: boolean;
+  error?: boolean;
+  helperText?: string;
+  hideEndIcon?: boolean;
+  className?: string;
 };
 
-/**
- * @method CInputWithChip
- * @description Renders a select input component with chip display for selected items
- * @param {boolean} isSelectIconShown - Whether to show the select dropdown icon (default: false)
- * @param {HTMLElement | null} anchorEl - Anchor element for menu positioning
- * @param {function} onMenuOpen - Callback function when menu is opened
- * @param {number} width - Width of the component in pixels
- * @return {React.ReactNode} A select input component with chip display
- */
 const CInputWithChip: React.FC<InputWithChipProps> = ({
   searchText,
   selectedItems,
   inputPlacement = "end",
   onDelete,
   onChange,
-  width = "var(--input-with-chip-width)",
-  onMenuOpen,
-  placeholder = "Search",
+  width,
+  placeholder,
   isInputVisible = true,
-  ...props
+  renderInputChipLabel,
+  endIcon,
+  startIcon,
+  inLineLabel,
+  label,
+  name,
+  isFocused,
+  error,
+  helperText,
+  hideEndIcon = true,
+  onClick,
+  className,
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  /**
+   * @method getInputChipLabel
+   * @param {NestedMenuItem} item - The menu item to get the label for
+   * @description Returns the label for the chip, using custom render function if provided
+   * @returns {React.ReactNode} - The label for the chip
+   */
+  const getInputChipLabel = (item: NestedMenuItem) => {
+    if (renderInputChipLabel) {
+      return renderInputChipLabel(item);
+    }
+    return item.label || item.value;
+  };
+
+  /**
+   * @method handleFieldClick
+   * @param e - Mouse event
+   * @description Handles click on the input wrapper area to focus input
+   * @returns {void}
+   */
+  const handleFieldClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    if (onClick) {
+      onClick(e);
+    }
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
 
   // Set dynamic input width
   useEffect(() => {
@@ -98,76 +134,97 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
   }, [searchText, selectedItems, inputPlacement]);
 
   return (
-    <Box
+    <div
       className={clsx({
         "input-with-chip": true,
-        "input-with-chip--focus": Boolean(props.anchorEl),
+        [className || ""]: Boolean(className),
+        "input-with-chip--inline-label": inLineLabel,
+        "input-with-chip--error": Boolean(error),
       })}
-      width={width}
-      onClick={onMenuOpen}
     >
+      <label className="input-with-chip__label">{label}</label>
       <Box
-        className="input-with-chip__scroll-container"
-        ref={scrollRef}
+        className={clsx({
+          "input-with-chip__input": true,
+          "input-with-chip__input--focus": Boolean(isFocused),
+        })}
+        width={width}
+        onClick={handleFieldClick}
       >
-        <div
-          className={clsx({
-            "input-with-chip__content": true,
-            "input-with-chip__content--end": inputPlacement === "end",
-          })}
+        {startIcon && (
+          <Box className="input-with-chip__input-icon">{startIcon}</Box>
+        )}
+        <Box
+          className="input-with-chip__input-scroll-container"
+          ref={scrollRef}
         >
-          {isInputVisible ? (
-            <>
-              {/* Hidden element : 
+          <div
+            className={clsx({
+              "input-with-chip__input-content": true,
+              "input-with-chip__input-content--end": inputPlacement === "end",
+            })}
+          >
+            {isInputVisible ? (
+              <>
+                {/* Hidden element : 
               This hidden element measures the text width so the input can automatically grow to fit its content.*/}
-              <span
-                className="input-with-chip__content-hidden-field"
-                ref={measureRef}
-              >
-                {searchText}
-              </span>
-              {/* Growing input */}
-              <TextField
-                ref={inputRef}
-                className="input-with-chip__content-input-field"
-                placeholder={selectedItems?.length == 0 ? placeholder : ""}
-                value={searchText}
-                onChange={onChange}
-                {...props}
-              />
-            </>
-          ) : (
-            <Box className="input-with-chip__content-placeholder">
-              {selectedItems?.length == 0 ? placeholder : ""}
-            </Box>
-          )}
-          <div className="input-with-chip__content-chip-wrapper">
-            {/* Chips */}
-            {selectedItems?.map((item) => (
-              <Chip
-                key={item.path || item.value}
-                label={item.path || item.value}
-                size="small"
-                deleteIcon={
-                  <CSvgIcon
-                    component={Close}
-                    size={16}
-                  />
-                }
-                onDelete={(e) => onDelete(e, item)}
-              />
-            ))}
+                <span
+                  className="input-with-chip__input-content-hidden-field"
+                  ref={measureRef}
+                >
+                  {searchText}
+                </span>
+                {/* Growing input */}
+                <TextField
+                  inputRef={inputRef}
+                  className="input-with-chip__input-content-input-field"
+                  placeholder={selectedItems?.length == 0 ? placeholder : ""}
+                  value={searchText}
+                  onChange={onChange}
+                  name={name}
+                />
+              </>
+            ) : (
+              <Box className="input-with-chip__input-content-placeholder">
+                {selectedItems?.length == 0 ? placeholder : ""}
+              </Box>
+            )}
+            <div className="input-with-chip__input-content-chip-wrapper">
+              {/* Chips */}
+              {selectedItems?.map((item) => (
+                <Chip
+                  key={item.label || item.value}
+                  label={getInputChipLabel(item)}
+                  size="small"
+                  deleteIcon={
+                    <CSvgIcon
+                      component={Close}
+                      size={16}
+                    />
+                  }
+                  onDelete={(e) => onDelete(e, item)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        </Box>
+        {!hideEndIcon && (
+          <Box className="input-with-chip__input-icon">
+            {endIcon ? (
+              endIcon
+            ) : (
+              <CSvgIcon
+                component={isFocused ? ChevronUp : ChevronDown}
+                size={18}
+                color="secondary"
+              />
+            )}
+          </Box>
+        )}
       </Box>
-      <Box className="input-with-chip__icon">
-        <CSvgIcon
-          component={props.anchorEl ? ChevronUp : ChevronDown}
-          size={18}
-          color="secondary"
-        />
-      </Box>
-    </Box>
+
+      <div className="input-with-chip__helper-text">{helperText}</div>
+    </div>
   );
 };
 

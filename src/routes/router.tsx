@@ -10,6 +10,7 @@ import { ComponentLibraryLandingPage } from "@/dev-playground/LandingPage";
 import TestPage from "@/dev-playground/TestPage";
 import { ProtectedRoute } from "@/layouts/protected-routes/ProtectedRoutes";
 import LoginPage from "@/pages/login/LoginPage";
+import NestedMenuDev from "@/dev-playground/NestedMenuDev";
 
 const getDevRoutes = () => {
   if (import.meta.env.DEV) {
@@ -28,6 +29,10 @@ const getDevRoutes = () => {
         {
           path: "test-page",
           element: <TestPage />,
+        },
+        {
+          path: "nested-menu-dev",
+          element: <NestedMenuDev />,
         },
       ],
     };

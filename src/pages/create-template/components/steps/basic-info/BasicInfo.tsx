@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Box, InputAdornment } from "@mui/material";
+import { Box } from "@mui/material";
 
 import CTextfield from "@/core/components/form/textfield/Textfield";
-import { ChevronRight, Search } from "@/core/constants/icons";
+import { ChevronRight } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
 import CSelect from "@/core/components/select/Select";
 import CMultiSelectWithChip from "@/core/components/multi-select-chip/MultiSelectWithChip";
@@ -26,49 +26,14 @@ const directoryDropdownOptions = [
 
 const BasicInfo: React.FC = () => {
   const { BASIC_INFO } = useCreateTemplateTranslations();
-  const [tagAnchorEl, setTagAnchorEl] = useState<null | HTMLElement>(null);
-  const [tagSearch, setTagSearch] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const isDesktop = useIsDesktopViewport();
-
-  /**
-   * @method onTagsMenuItemSelect
-   * @description Handles selection of a menu item and adds it to selected items
-   * @param {NestedMenuItem} item - The selected menu item
-   * @param {string} path - Optional path string for the item
-   * @return {void} Updates the selected items state without returning a value
-   */
-  const onTagsMenuItemSelect = (item: NestedMenuItem, path?: string) => {
-    const fullPath = path ?? item.value ?? item.name;
-    const enhanced: NestedMenuItem = {
-      ...item,
-      path: fullPath,
-    };
-    setSelectedTags((prev) => {
-      if (prev.some((s) => s.value === enhanced.value)) return prev;
-      return [...prev, enhanced];
-    });
-  };
-
-  const handleTagsDropdownOpenMenu = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    setTagAnchorEl(event.currentTarget);
-  };
-
-  const handleTagsDropdownCloseMenu = () => {
-    setTagAnchorEl(null);
-  };
 
   const handleTagsDelete = (_: React.MouseEvent, data: NestedMenuItem) => {
     const updatedItems = selectedTags.filter(
       (item) => item?.value !== data?.value
     );
     setSelectedTags(updatedItems);
-  };
-
-  const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTagSearch(event.target.value);
   };
 
   return (
@@ -130,16 +95,11 @@ const BasicInfo: React.FC = () => {
         >
           <Box className="ct-basic-info__row-item-label">{BASIC_INFO.tags}</Box>
           <CMultiSelectWithChip
-            anchorEl={tagAnchorEl}
-            menuItems={basicTagsSampleData}
-            onMenuOpen={handleTagsDropdownOpenMenu}
-            searchText={tagSearch}
-            selectedItems={selectedTags}
+            name="tags"
+            options={basicTagsSampleData}
             placeholder={BASIC_INFO.tagsPlaceholder}
             onDelete={handleTagsDelete}
-            onChange={handleTagsChange}
-            onMenuItemSelect={onTagsMenuItemSelect}
-            onMenuClose={handleTagsDropdownCloseMenu}
+            onChange={() => {}}
             isInputVisible={false}
             className={clsx({
               "ct-basic-info__row-item-tags-dropdown": true,
@@ -147,23 +107,8 @@ const BasicInfo: React.FC = () => {
             })}
             width="100%"
             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-            transformOrigin={{ vertical: "top", horizontal: "200px" }}
-            customMenuWidth={200}
-            slotProps={{
-              textField: {
-                InputProps: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <CSvgIcon
-                        component={Search}
-                        size={18}
-                        color="tertiary"
-                      />
-                    </InputAdornment>
-                  ),
-                },
-              },
-            }}
+            transformOrigin={{ vertical: "top", horizontal: 200 }}
+            menuWidth={"300px"}
           />
         </Box>
       </Box>

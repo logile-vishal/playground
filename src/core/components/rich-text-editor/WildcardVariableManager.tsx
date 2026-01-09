@@ -178,7 +178,7 @@ const useWildcardVariableManager = ({
    * @return {void}
    */
   const insertWildcardFromDropdown = useCallback(
-    (item: WildcardVariable) => {
+    (_event, item: WildcardVariable) => {
       const variable = item?.value;
 
       // Prevent duplicate insertions
@@ -423,10 +423,9 @@ const useWildcardVariableManager = ({
         anchorEl={variableAnchorEl}
         menuItems={variables}
         onClose={() => setShowDropdown(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-        transformOrigin={{ vertical: "top", horizontal: "left" }}
-        onMenuItemSelect={insertWildcardFromDropdown}
+        onClick={insertWildcardFromDropdown}
         className="editor__wrapper-dropdown"
+        menuWidth={200}
         {...nestedMenuProps}
       />
     );

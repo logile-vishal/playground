@@ -13,7 +13,7 @@ const CurlyBracketIcon = `<svg height="19" width="19" fill="var(--logile-icon-se
  * Generated from WILDCARD_LIST to avoid duplication
  */
 export const WILD_CARD_MAP = new Map(
-  WILDCARD_LIST.map(({ value, name }) => [value, name])
+  WILDCARD_LIST.map(({ value, label }) => [value, label])
 );
 
 /**

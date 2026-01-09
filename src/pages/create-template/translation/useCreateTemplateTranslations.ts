@@ -121,12 +121,12 @@ export const useCreateTemplateTranslations = () => {
     addSectionButtonLabel: t("QUESTIONS.addSectionButtonLabel"),
     SECTION_SETTINGS_MENU_OPTIONS: [
       {
-        name: commonT("GENERAL.renameButtonLabel"),
+        label: commonT("GENERAL.renameButtonLabel"),
         value: SECTION_SETTINGS_MENU_KEY.RENAME,
         leftIcon: InlineEdit,
       },
       {
-        name: commonT("GENERAL.deleteButtonLabel"),
+        label: commonT("GENERAL.deleteButtonLabel"),
         value: SECTION_SETTINGS_MENU_KEY.DELETE,
         leftIcon: Delete,
         labelStyleProps: { color: "var(--logile-text-state-violation)" },
@@ -212,11 +212,11 @@ export const useCreateTemplateTranslations = () => {
     },
     OPTION_TRIGGER_MENU_OPTIONS: [
       {
-        name: t("NOTIFICATIONS.heading"),
+        label: t("NOTIFICATIONS.heading"),
         value: OPTION_TRIGGER_MENU_KEY.Notification,
       },
       {
-        name: t("FOLLOWUP_TASKS.heading"),
+        label: t("FOLLOWUP_TASKS.heading"),
         value: OPTION_TRIGGER_MENU_KEY.FollowUp,
       },
     ],

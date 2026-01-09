@@ -11,7 +11,8 @@
     "saveButtonLabel": "Guardar",
     "addButtonLabel": "Agregar",
     "seeMoreButtonLabel": "Ver más",
-    "seeLessButtonLabel": "Ver menos"
+    "seeLessButtonLabel": "Ver menos",
+    "filterPlaceholder": "Buscar..."
   },
   "PAGINATION": {
     "pageLabel": "Página",

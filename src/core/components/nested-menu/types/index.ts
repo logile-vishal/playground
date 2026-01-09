@@ -2,14 +2,14 @@ import type { IconColorType } from "@/core/types/icon.type";
 import type { SvgIconComponent } from "../../icon/Icon";
 
 export type NestedMenuItem = {
-  name: string;
+  label: string;
+  filterHelperText?: string;
   value: string;
   subMenu?: {
     items: NestedMenuItem[];
-    onClick?: (
-      event: React.MouseEvent<HTMLElement>,
-      item: NestedMenuItem
-    ) => void;
+    onClick?: (e: React.MouseEvent<HTMLElement>, item: NestedMenuItem) => void;
+    width?: number | string;
+    minWidth?: number | string;
   };
   customSubMenu?: React.ReactNode;
   righticon?: string;
@@ -17,17 +17,27 @@ export type NestedMenuItem = {
   leftIconStyleProps?: { color?: IconColorType; fill?: string };
   rightIconStyleProps?: { color?: IconColorType; fill?: string };
   labelStyleProps?: { color?: string; fontWeight?: number | string };
-  pathArray?: string[];
-  path?: string;
   parentAsItem?: boolean;
+  filterPath?: string;
 };
-export type PopupPosition = {
-  anchorOrigin: {
-    vertical: "top" | "bottom";
-    horizontal: "left" | "right";
-  };
-  transformOrigin: {
-    vertical: "top" | "bottom";
-    horizontal: "left" | "right";
-  };
+
+// Template types for customizing menu item
+export type MenuItemTemplateContext = {
+  item: NestedMenuItem;
+  isSelected: boolean;
+  isFocused: boolean;
+  isNested: boolean;
+  hasCustomMenu: boolean;
+  level: number;
+};
+
+export type MenuItemTemplates = {
+  /** Custom template for rendering the entire item content */
+  itemTemplate?: (context: MenuItemTemplateContext) => React.ReactNode;
+  /** Custom template for rendering the label section */
+  labelTemplate?: (context: MenuItemTemplateContext) => React.ReactNode;
+  /** Custom template for rendering the left icon */
+  leftIconTemplate?: (context: MenuItemTemplateContext) => React.ReactNode;
+  /** Custom template for rendering the right/chevron icon */
+  rightIconTemplate?: (context: MenuItemTemplateContext) => React.ReactNode;
 };

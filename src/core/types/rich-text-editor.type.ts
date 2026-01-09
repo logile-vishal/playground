@@ -18,7 +18,7 @@ export type RichTextEditorProps = {
 };
 
 export type WildcardVariable = {
-  name: string;
+  label: string;
   value: string;
 };
 

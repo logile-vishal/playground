@@ -1,175 +1,210 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Menu, TextField } from "@mui/material";
-import type { TextFieldProps, PopoverProps } from "@mui/material";
-
-import { NESTED_MENU_PATH_DELIMITER } from "@/core/constants/nested-menu";
+import { type PopperPlacementType } from "@mui/material";
 import clsx from "@/utils/clsx";
 import { isNonEmptyValue } from "@/utils";
+import { Search } from "@/core/constants/icons";
+import CSvgIcon from "@/core/components/icon/Icon";
+import { NESTED_MENU_PATH_DELIMITER } from "@/core/constants/nested-menu";
 
 import "./NestedMenu.scss";
-import type { NestedMenuItem, PopupPosition } from "./types";
+import type { MenuItemTemplates, NestedMenuItem } from "./types";
 import { NESTED_MENU } from "./constants";
 import CNestedMenuItem from "./components/NestedMenuItem";
+import CTextfield from "../form/textfield/Textfield";
+import CPopper from "../popper/Popper";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 
 export type NestedMenuProps = {
   anchorEl: HTMLElement | null;
-  onClose: (event?: React.MouseEvent<HTMLElement>) => void;
+  onClose: (event?: MouseEvent | TouchEvent) => void;
   menuItems: NestedMenuItem[];
   level?: number;
   showSearch?: boolean;
   selectedItems?: NestedMenuItem[];
-  onMenuItemSelect?: (item: NestedMenuItem, fullPath: string) => void;
   keepMounted?: boolean;
   className?: string;
-  minMenuWidth?: string | number;
-  slotProps?: {
-    textField?: Partial<TextFieldProps>;
-    popover?: Partial<PopoverProps>;
-  };
-  customMenuWidth?: number | string;
-  parentPath?: string[];
   parentItem?: NestedMenuItem;
-  subMenuPosition?: "left" | "right";
-  anchorOrigin?: PopupPosition["anchorOrigin"];
-  transformOrigin?: PopupPosition["transformOrigin"];
+
   onClick?: (e: React.MouseEvent<HTMLElement>, item: NestedMenuItem) => void;
-  onSubmenuClick?: (
-    e: React.MouseEvent<HTMLElement>,
-    item: NestedMenuItem
-  ) => void;
+  onSelect?: (menuItem: NestedMenuItem) => void;
+  menuWidth?: number | string;
+  menuHeight?: number | string;
+  templates?: MenuItemTemplates;
+  menuPlacement?: PopperPlacementType;
 };
 
 /**
- * @method flattenMenuItems
- * @param {NestedMenuItem[]} menuItems
- * @param {string[]} parentPath
- * @summary Flattens the nested menu items into a single array for search functionality
+ * @function flattenMenuItems
+ * @param {NestedMenuItem[]} menuItems - Array of nested menu items to flatten
+ * @returns {NestedMenuItem[]} Flattened array of menu items with all nested items at the same level
  * @description
- * Recursively traverses nested menu items and returns a flat array.
- * Each item is added with:
- * - 'fullPath': A string like "Parent > Child > Subchild"
- * - 'pathArray': An array representing the hierarchy path
- * @return {NestedMenuItem[]} Flattened array of menu items
+ * Recursively traverses nested menu items and returns a flat array for search functionality.
+ * This function extracts all items from their hierarchical structure while preserving
+ * their original properties. Useful for implementing search across all menu levels.
  */
-const flattenMenuItems = (
-  menuItems: NestedMenuItem[],
-  parentPath: string[]
-) => {
-  if (!Array.isArray(parentPath)) parentPath = [];
+const flattenMenuItems = (menuItems: NestedMenuItem[]) => {
   return menuItems.flatMap((item) => {
-    const currentPath = [...parentPath, item.name];
     const base = {
       ...item,
-      fullPath: currentPath.join(NESTED_MENU_PATH_DELIMITER),
-      pathArray: currentPath,
     };
     const children =
       Array.isArray(item.subMenu?.items) && item.subMenu?.items.length > 0
-        ? flattenMenuItems(item.subMenu?.items, currentPath)
+        ? flattenMenuItems(item.subMenu.items)
         : [];
     return [base, ...children];
   });
 };
 /**
  * @function filterMenuItems
- * @param {NestedMenuItem[]} flattenedItems - List of menu items that have already been flattened.
- * @param {string} searchTerm - The text used to filter menu item names.
- *
- * @summary Filters flattened menu items based on a search term.
+ * @param {NestedMenuItem[]} flattenedItems - List of menu items that have already been flattened
+ * @param {string} searchTerm - The text used to filter menu item names
+ * @returns {NestedMenuItem[]} Filtered list of menu items that match the search term
  * @description
  * Takes an already flattened list of menu items and returns only those
- * whose 'name' property matches the provided search term (case-insensitive).
+ * whose 'label' property matches the provided search term (case-insensitive).
  * If the search term is empty or only whitespace, an empty array is returned.
- *
- * @returns {NestedMenuItem[]} Filtered list of menu items.
+ * This function performs a substring match on the item's label.
  */
 const filterMenuItems = (flattenedItems, searchTerm: string) => {
   if (!searchTerm.trim()) return [];
-  const term = searchTerm.trim().toLowerCase();
+  const term = searchTerm.trim()?.toLowerCase();
   return flattenedItems.filter((item) =>
-    item.name.toLowerCase().includes(term)
+    item.label.toLowerCase().includes(term)
   );
+};
+/**
+ * @function addFilterPath
+ * @param {NestedMenuItem[]} menuItems - Array of menu items to process
+ * @param {string[]} parentPath - Array representing the current hierarchical path
+ * @returns {NestedMenuItem[]} Menu items with filterPath property added
+ * @description
+ * Recursively adds a 'filterPath' property to each menu item that represents
+ * the full hierarchical path as a string (e.g., "Parent > Child > Item").
+ * If an item already has a filterPath, it's preserved. For nested items,
+ * the function recursively processes sub-menu items with an extended path.
+ */
+const addFilterPath = (
+  menuItems: NestedMenuItem[],
+  parentPath: string[] = []
+): NestedMenuItem[] => {
+  return menuItems.map((item) => {
+    if (item.filterPath) {
+      return item;
+    }
+    const newItem = { ...item };
+    if (
+      Array.isArray(newItem.subMenu?.items) &&
+      newItem.subMenu?.items?.length > 0
+    ) {
+      newItem.subMenu.items = addFilterPath(newItem.subMenu?.items ?? [], [
+        ...parentPath,
+        newItem.label,
+      ]);
+    }
+    newItem.filterPath = [...parentPath, newItem.label].join(
+      NESTED_MENU_PATH_DELIMITER
+    );
+    return newItem;
+  });
 };
 
 const CNestedMenu: React.FC<NestedMenuProps> = ({
   anchorEl,
   onClose,
-  menuItems = [],
+  menuItems: providedMenuItems = [],
   level = 0,
   showSearch = false,
   selectedItems = [],
   keepMounted = true,
   className,
-  slotProps = {},
-  parentPath = [],
   parentItem,
-  minMenuWidth = 200,
-  subMenuPosition = "right",
-  anchorOrigin,
-  transformOrigin,
-  onMenuItemSelect,
-  onSubmenuClick,
-  customMenuWidth,
+  onSelect,
+  onClick,
+  menuWidth: providedMenuWidth,
+  menuHeight,
+  templates,
+  menuPlacement,
 }) => {
+  const { NESTED_MENU: NESTED_MENU_TRANSLATIONS } = useCommonTranslation();
   const [searchTerm, setSearchTerm] = useState("");
-  const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined);
+  const [menuWidth, setMenuWidth] = useState<number | string | undefined>(
+    undefined
+  );
+  const [activeSubmenuId, setActiveSubmenuId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (anchorEl && !isNonEmptyValue(customMenuWidth)) {
+  /**
+   * @method updateMenuWidth
+   * @description Updates menu width based on anchor element or custom width
+   * @param {HTMLElement | null} anchorEl - Anchor element reference
+   * @param {number | string | undefined} providedMenuWidth - Custom width override
+   * @summary
+   * - If level > 0, sets menuWidth to "max-content" - apply to main menu only
+   * - If providedMenuWidth is provided, sets menuWidth to that value
+   * - Otherwise, calculates width from anchorEl's bounding rectangle
+   * - Runs whenever anchorEl or providedMenuWidth changes
+   * @returns {void}
+   */
+  const updateMenuWidth = () => {
+    if (providedMenuWidth) {
+      setMenuWidth(providedMenuWidth);
+      return;
+    }
+    if (anchorEl) {
       const rect = anchorEl.getBoundingClientRect();
       setMenuWidth(rect.width);
-    } else if (isNonEmptyValue(customMenuWidth)) {
-      setMenuWidth(customMenuWidth as number);
-    }
-  }, [anchorEl, customMenuWidth]);
-
-  const flattenedItems = useMemo(
-    () => flattenMenuItems(menuItems, parentPath),
-    [menuItems, parentPath]
-  );
-
-  /**
-   * @method filteredFlatItems
-   * @description Filters the flattened menu items based on the search term
-   * @return {NestedMenuItem[]} Filtered array of menu items
-   */
-  const filteredFlatItems = useMemo(
-    () => filterMenuItems(flattenedItems, searchTerm),
-    [searchTerm, flattenedItems]
-  );
-
-  /**
-   * @method handleItemClick
-   * @description Handles click events on menu items, triggering selection or submenu opening
-   * @param {React.MouseEvent<HTMLElement>} e - The click event
-   * @param {NestedMenuItem} item - The clicked menu item
-   * @param {string[]} currentPath - The path array of the clicked item
-   * @summary
-   * - Stops event propagation to prevent unwanted side effects
-   * - Checks if the clicked item has nested submenus or custom submenus
-   * - If not, invokes the onMenuItemSelect callback with the item and its full path
-   * @return {void}
-   */
-  const handleItemClick = (
-    e: React.MouseEvent<HTMLElement>,
-    item: NestedMenuItem,
-    currentPath: string[]
-  ) => {
-    e?.stopPropagation();
-    const hasNested =
-      Array.isArray(item.subMenu?.items) && item.subMenu?.items.length > 0;
-    const hasCustom = isNonEmptyValue(item.customSubMenu);
-    if (!hasNested && !hasCustom) {
-      // trigger onMenuItemSelect only if the clicked item doesn't have a child menu
-      onMenuItemSelect(item, currentPath.join(NESTED_MENU_PATH_DELIMITER));
+      return;
     }
   };
 
   /**
+   * @method handleMenuItemClick
+   * @description Handles click events on menu items, triggering selection or submenu opening
+   * @param {React.MouseEvent<HTMLElement>} e - The click event
+   * @param {NestedMenuItem} item - The clicked menu item
+   * @summary
+   * - Stops event propagation to prevent unwanted side effects
+   * - Checks if the clicked item has nested submenus or custom submenus
+   * - If not, invokes the onSelect callback with the item
+   * @returns {void}
+   */
+  const handleMenuItemClick = (
+    e: React.MouseEvent<HTMLElement>,
+    item: NestedMenuItem
+  ) => {
+    e?.stopPropagation();
+    onClick?.(e, item);
+    const hasNested =
+      Array.isArray(item.subMenu?.items) && item.subMenu.items.length > 0;
+    const hasCustom = isNonEmptyValue(item.customSubMenu);
+    if (hasNested || hasCustom) {
+      return;
+    }
+    // trigger onSelect only if the clicked item doesn't have a child menu
+    onSelect?.(item);
+  };
+
+  /**
+   * @method handleSubmenuToggle
+   * @description Handles opening/closing of submenus, ensuring only one submenu is open at a time
+   * @param {string} itemId - The unique identifier of the menu item
+   * @summary
+   * - If the clicked submenu is already active, closes it
+   * - Otherwise, closes any active submenu and opens the new one
+   * @returns {void}
+   */
+  const handleSubmenuToggle = (itemId: string) => {
+    setActiveSubmenuId((prevId) => (prevId === itemId ? null : itemId));
+  };
+
+  /**
    * @method handlefilterChange
-   * @description Updates the search term state and resets active menu item
-   * @param event - Change event for search input
-   * @summary Updates the search term state and resets active menu item
+   * @description Updates the search term state when user types in the search input
+   * @param {React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>} event - The input change event
+   * @summary
+   * - Stops event propagation to prevent unwanted side effects
+   * - Updates the searchTerm state with the new input value
+   * - Triggers re-filtering of menu items through useMemo dependencies
+   * @returns {void}
    */
   const handlefilterChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -178,32 +213,56 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
     setSearchTerm(event.target.value);
   };
 
-  const handleCloseAll = () => {
-    onClose();
-  };
+  /**
+   * @constant menuItems
+   * @description Memoized computation that includes filter paths to provided menu items
+   * @returns {NestedMenuItem[]} Menu items enhanced with filter paths for search functionality
+   * @summary Processes the provided menu items to add hierarchical filter paths
+   */
+  const menuItems = useMemo(
+    () => addFilterPath(providedMenuItems),
+    [providedMenuItems]
+  );
+
+  /**
+   * @constant flattenedItems
+   * @description Memoized computation of the flattened nested menu structure
+   * @returns {NestedMenuItem[]} Flattened array of all menu items for efficient searching
+   * @summary Converts the nested menu structure into a flat array for search operations
+   */
+  const flattenedItems = useMemo(
+    () => flattenMenuItems(menuItems),
+    [menuItems]
+  );
+
+  /**
+   * @ignore filteredFlatItems
+   * @description Memoized computation of filtered flattened items based on search term
+   * @returns {NestedMenuItem[]} Filtered array of menu items matching the search criteria
+   * @summary Applies search filtering to the flattened menu items
+   */
+  const filteredFlatItems = useMemo(
+    () => filterMenuItems(flattenedItems, searchTerm),
+    [searchTerm, flattenedItems]
+  );
+  const popperPlacement =
+    level === 0 ? (menuPlacement ?? "bottom-start") : undefined;
+  useEffect(updateMenuWidth, [anchorEl, providedMenuWidth]);
 
   return (
-    <Menu
+    <CPopper
+      onClose={onClose}
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
-      onClose={handleCloseAll}
-      transitionDuration={0}
-      anchorOrigin={anchorOrigin}
-      transformOrigin={transformOrigin}
-      elevation={0}
-      slotProps={{
-        paper: {
-          style: {
-            width: menuWidth,
-            minWidth: minMenuWidth,
-          },
-        },
-      }}
+      placement={popperPlacement}
       className={clsx({
         "nested-menu": true,
         [className || ""]: !!className,
       })}
-      keepMounted={keepMounted}
+      sx={{
+        width: menuWidth || NESTED_MENU.defaultMenuWidth,
+        maxHeight: menuHeight || NESTED_MENU.defaultMenuHeight,
+      }}
     >
       {/* Search Field */}
       {level === 0 && showSearch && (
@@ -211,71 +270,71 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
           className="nested-menu__filter"
           onKeyDown={(e) => e.stopPropagation()}
         >
-          <TextField
-            placeholder={NESTED_MENU.searchPlaceholder}
-            size="small"
+          <CTextfield
+            placeholder={NESTED_MENU_TRANSLATIONS.filterPlaceholder}
             variant="outlined"
             fullWidth
             value={searchTerm}
             onChange={handlefilterChange}
             onClick={(e) => e.stopPropagation()}
-            {...slotProps.textField}
+            startIcon={
+              <CSvgIcon
+                component={Search}
+                size={18}
+                color="secondary"
+              />
+            }
           />
         </div>
       )}
 
       {/* Parent heading in submenu if parentAsItem is true */}
-      {level > 0 && parentItem?.parentAsItem && parentPath.length > 0 && (
+      {level > 0 && parentItem?.parentAsItem && (
         <div className="nested-menu__submenu-header">
           <CNestedMenuItem
             menuItemData={{
-              name: parentPath[parentPath.length - 1],
-              value: parentPath[parentPath.length - 1],
+              label: parentItem.label,
+              value: parentItem.value,
+              filterPath: parentItem.filterPath,
             }}
             key={`parent-header-${level}`}
             searchTerm={searchTerm}
-            onMenuItemClick={(e) =>
-              handleItemClick(
-                e,
-                {
-                  name: parentPath[parentPath.length - 1],
-                  value: parentPath[parentPath.length - 1],
-                },
-                parentPath
-              )
-            }
-            subMenuPosition={subMenuPosition}
             selectedItems={selectedItems}
-            parentPath={parentPath.slice(0, -1)} // keep parent path correct
             keepMounted={keepMounted}
             level={level + 1}
-            onSelect={onMenuItemSelect}
-            onClose={handleCloseAll}
+            onClose={onClose}
+            onClick={handleMenuItemClick}
           />
         </div>
       )}
 
       {/* Render items */}
       {(searchTerm ? filteredFlatItems : menuItems).map((item, index) => {
+        const subMenuId = `${item.value || item.name}-${level}-${index}`;
         const key = `menu-item-${level}-${index}-${item.value || item.name}`;
         return (
           <CNestedMenuItem
             menuItemData={item}
             key={key}
             searchTerm={searchTerm}
-            onMenuItemClick={handleItemClick}
-            subMenuPosition={subMenuPosition}
             selectedItems={selectedItems}
-            parentPath={parentPath}
             keepMounted={keepMounted}
             level={level + 1}
-            onSelect={onMenuItemSelect}
-            onClose={handleCloseAll}
-            onSubmenuClick={onSubmenuClick}
+            onClick={handleMenuItemClick}
+            onClose={onClose}
+            activeSubmenuId={activeSubmenuId}
+            onSubmenuToggle={handleSubmenuToggle}
+            subMenuId={subMenuId}
+            templates={{
+              itemTemplate: templates?.itemTemplate,
+              labelTemplate: templates?.labelTemplate,
+              leftIconTemplate: templates?.leftIconTemplate,
+              rightIconTemplate: templates?.rightIconTemplate,
+            }}
           />
         );
       })}
-    </Menu>
+    </CPopper>
   );
 };
 

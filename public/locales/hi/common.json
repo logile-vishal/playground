@@ -11,7 +11,8 @@
     "saveButtonLabel": "सहेजें",
     "addButtonLabel": "जोड़ें",
     "seeMoreButtonLabel": "और देखें",
-    "seeLessButtonLabel": "कम देखें"
+    "seeLessButtonLabel": "कम देखें",
+    "filterPlaceholder": "खोजें..."
   },
   "PAGINATION": {
     "pageLabel": "पृष्ठ",

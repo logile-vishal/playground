@@ -11,7 +11,8 @@
     "saveButtonLabel": "Save",
     "addButtonLabel": "Add",
     "seeMoreButtonLabel": "see more",
-    "seeLessButtonLabel": "see less"
+    "seeLessButtonLabel": "see less",
+    "filterPlaceholder": "Search..."
   },
   "PAGINATION": {
     "pageLabel": "Page",
