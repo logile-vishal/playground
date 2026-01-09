@@ -6,7 +6,7 @@ import type { Theme } from "@mui/material/styles";
 
 type Variant = "primary" | "secondary" | "outline";
 
-type IconButtonProps = ButtonBaseProps & {
+export type IconButtonProps = ButtonBaseProps & {
   variant?: Variant;
   disableHover?: boolean;
   disabled?: boolean;

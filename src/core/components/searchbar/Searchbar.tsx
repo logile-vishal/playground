@@ -44,12 +44,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-type props = {
+
+export type SearchbarProps = {
   placeholder: string;
   iconPosition: "start" | "end";
   onSearch: (value: string) => void;
 };
-const CSearchbar = (props: props) => {
+
+const CSearchbar = (props: SearchbarProps) => {
   const { placeholder } = props;
   const handleOnKeyPress = () => {};
   return (

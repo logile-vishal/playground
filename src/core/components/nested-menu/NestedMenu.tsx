@@ -249,6 +249,8 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
     level === 0 ? (menuPlacement ?? "bottom-start") : undefined;
   useEffect(updateMenuWidth, [anchorEl, providedMenuWidth]);
 
+  if (!Array.isArray(parentPath)) parentPath = [];
+
   return (
     <CPopper
       onClose={onClose}

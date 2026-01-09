@@ -7,14 +7,14 @@ import clsx from "@/utils/clsx";
 
 import "./WildcardLabel.scss";
 
-type WildCardLabelProps = {
+export type WildCardLabelProps = {
   label: string;
   truncate?: boolean;
 };
 
 const generateLabel = (label: WildCardLabelProps["label"]) => {
-  const splitLabel = label.split(" ");
-  return splitLabel.map((word, index) => {
+  const splitLabel = label?.split(" ");
+  return splitLabel?.map((word, index) => {
     if (WILDCARD_MAP.has(word)) {
       return (
         <span

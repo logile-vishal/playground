@@ -6,7 +6,7 @@ import CInputWithChip from "@/core/components/input-chip/InputWithChip";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 import clsx from "@/utils/clsx";
 
-type MultiSelectWithChipProps = {
+export type MultiSelectWithChipProps = {
   isSelectIconShown?: boolean;
   options: NestedMenuItem[];
   onDelete?: (

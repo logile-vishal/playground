@@ -9,7 +9,7 @@ import type { SortType } from "@/core/types/sort.type";
 import type { OptionType } from "../types";
 import { SELECT } from "../constants";
 
-const sortOptions = (
+export const sortOptions = (
   list: OptionType[],
   optionLabelKey: string,
   sortDirection: SortType

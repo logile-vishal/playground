@@ -6,7 +6,7 @@ import "./Switch.scss";
 
 export type CSwitchSize = "small" | "medium" | "large";
 
-interface CSwitchProps extends Omit<SwitchProps, "size"> {
+export interface CSwitchProps extends Omit<SwitchProps, "size"> {
   size?: CSwitchSize;
 }
 

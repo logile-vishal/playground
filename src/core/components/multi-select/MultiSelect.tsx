@@ -35,7 +35,7 @@ const CMultiSelect = (props: MultiSelectProps) => {
   const isAllOptionsSelected = useMemo(() => {
     if (Array.isArray(props.value)) {
       return (
-        props.options.length > 0 && props.value.length === props.options.length
+        props.options.length > 0 && props.value?.length === props.options.length
       );
     }
     return false;
@@ -86,7 +86,7 @@ const CMultiSelect = (props: MultiSelectProps) => {
     if (props.renderValue) {
       return props.renderValue(selected);
     }
-    if (selected.length == 0) {
+    if (selected?.length == 0) {
       return (
         <span className="multiselect__placeholder-text">
           {props.placeholder}
@@ -95,7 +95,7 @@ const CMultiSelect = (props: MultiSelectProps) => {
     }
 
     if (!isAllOptionsSelected) {
-      return `${selected.length} ${props.label} Selected`;
+      return `${selected?.length} ${props.label} Selected`;
     }
     return `All ${props.label ?? "Items"} Selected`;
   };

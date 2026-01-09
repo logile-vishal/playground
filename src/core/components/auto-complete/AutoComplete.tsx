@@ -12,7 +12,7 @@ import { AUTOCOMPLETE_CONSTANTS } from "@/core/constants/autocomplete";
 
 import "./AutoComplete.scss";
 
-const flattenOptions = (
+export const flattenOptions = (
   options: AutoCompleteOptionProps[]
 ): AutoCompleteOptionProps[] => {
   const result: AutoCompleteOptionProps[] = [];
