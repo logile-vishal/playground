@@ -254,7 +254,7 @@ describe("CSearchbar Component", () => {
     it("should handle undefined placeholder gracefully", () => {
       renderWithTheme(
         <CSearchbar
-          placeholder={undefined as any}
+          placeholder={undefined as unknown as string}
           iconPosition="start"
           onSearch={mockOnSearch}
         />
@@ -271,7 +271,7 @@ describe("CSearchbar Component", () => {
           <CSearchbar
             placeholder="Search"
             iconPosition="start"
-            onSearch={null as any}
+            onSearch={null as unknown as (value: string) => void}
           />
         )
       ).not.toThrow();
@@ -365,7 +365,7 @@ describe("CSearchbar Component", () => {
       const errorOnSearch = vi.fn(() => {
         try {
           throw new Error("Search error");
-        } catch (error) {
+        } catch {
           // Error caught
         }
       });
@@ -385,7 +385,7 @@ describe("CSearchbar Component", () => {
         renderWithTheme(
           <CSearchbar
             placeholder="Search"
-            iconPosition={"invalid" as any}
+            iconPosition={"invalid" as unknown as "start" | "end"}
             onSearch={mockOnSearch}
           />
         )
@@ -396,9 +396,9 @@ describe("CSearchbar Component", () => {
       expect(() =>
         renderWithTheme(
           <CSearchbar
-            placeholder={null as any}
-            iconPosition={null as any}
-            onSearch={null as any}
+            placeholder={null as unknown as string}
+            iconPosition={null as unknown as "start" | "end"}
+            onSearch={null as unknown as (value: string) => void}
           />
         )
       ).not.toThrow();

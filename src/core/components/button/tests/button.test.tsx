@@ -590,7 +590,9 @@ describe("CButton Component", () => {
       const errorClick = vi.fn(() => {
         try {
           throw new Error("Click error");
-        } catch (error) {}
+        } catch {
+          // Error caught and ignored for testing
+        }
       });
 
       render(<CButton onClick={errorClick}>Error Button</CButton>);

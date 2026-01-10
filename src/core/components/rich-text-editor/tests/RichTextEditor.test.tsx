@@ -601,6 +601,7 @@ describe("CRichTextEditor Component", () => {
         renderWithProviders(
           <CRichTextEditor
             {...mockDefaultRichTextEditorProps}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={undefined as any}
           />
         );
@@ -725,6 +726,7 @@ describe("CRichTextEditor Component", () => {
       renderWithProviders(
         <CRichTextEditor
           {...mockDefaultRichTextEditorProps}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           value={null as any}
         />
       );

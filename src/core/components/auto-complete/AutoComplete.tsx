@@ -9,24 +9,9 @@ import type {
   AutocompleteProps,
 } from "@/core/types/autocomplete.type";
 import { AUTOCOMPLETE_CONSTANTS } from "@/core/constants/autocomplete";
+import { flattenOptions } from "./utils/flattenOptions";
 
 import "./AutoComplete.scss";
-
-export const flattenOptions = (
-  options: AutoCompleteOptionProps[]
-): AutoCompleteOptionProps[] => {
-  const result: AutoCompleteOptionProps[] = [];
-  options.forEach((opt) => {
-    if (opt.options) {
-      result.push(
-        ...opt.options.map((child) => ({ ...child, groupLabel: opt.label }))
-      );
-    } else {
-      result.push(opt);
-    }
-  });
-  return result;
-};
 
 export default function CAutocomplete({
   label = AUTOCOMPLETE_CONSTANTS.label,

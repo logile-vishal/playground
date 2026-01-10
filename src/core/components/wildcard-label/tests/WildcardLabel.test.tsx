@@ -23,7 +23,7 @@ vi.mock("@/core/constants/icons", () => ({
 
 // Mock CSvgIcon
 vi.mock("@/core/components/icon/Icon", () => ({
-  default: ({ component, color, size }: any) => (
+  default: ({ component, color, size }: { [key: string]: unknown }) => (
     <span
       data-testid="svg-icon"
       data-component={component}
@@ -270,12 +270,14 @@ describe("WildcardLabel Component", () => {
 
   describe("Edge Cases and Boundary Conditions", () => {
     it("should handle null label gracefully", () => {
-      expect(() => render(<WildcardLabel label={null as any} />)).not.toThrow();
+      expect(() =>
+        render(<WildcardLabel label={null as unknown as string} />)
+      ).not.toThrow();
     });
 
     it("should handle undefined label gracefully", () => {
       expect(() =>
-        render(<WildcardLabel label={undefined as any} />)
+        render(<WildcardLabel label={undefined as unknown as string} />)
       ).not.toThrow();
     });
 

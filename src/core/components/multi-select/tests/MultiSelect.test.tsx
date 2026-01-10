@@ -22,11 +22,11 @@ import {
 
 // Mock clsx
 vi.mock("@/utils/clsx", () => ({
-  default: (classes: any) => {
+  default: (classes: string | Record<string, boolean> | null) => {
     if (typeof classes === "string") return classes;
     if (typeof classes === "object" && classes !== null) {
       return Object.entries(classes)
-        .filter(([_, value]) => value)
+        .filter(([, value]) => value)
         .map(([key]) => key)
         .join(" ");
     }
@@ -42,7 +42,17 @@ vi.mock("@/core/constants/icons", () => ({
 
 // Mock CSvgIcon
 vi.mock("@/core/components/icon/Icon", () => ({
-  default: ({ component, size, fill, stroke }: any) => (
+  default: ({
+    component,
+    size,
+    fill,
+    stroke,
+  }: {
+    component: string;
+    size?: string | number;
+    fill?: string;
+    stroke?: string;
+  }) => (
     <span
       data-testid="svg-icon"
       data-component={component}
@@ -55,7 +65,17 @@ vi.mock("@/core/components/icon/Icon", () => ({
 
 // Mock StyledMuiSelect
 vi.mock("../components/StyledSelect", () => ({
-  default: ({ children, renderValue, value, ...props }: any) => {
+  default: ({
+    children,
+    renderValue,
+    value,
+    ...props
+  }: {
+    children: React.ReactNode;
+    renderValue?: (value: unknown) => React.ReactNode;
+    value: unknown;
+    [key: string]: unknown;
+  }) => {
     const safeValue = value || [];
     const displayValue = renderValue
       ? renderValue(safeValue)
@@ -79,7 +99,13 @@ vi.mock("../components/StyledSelect", () => ({
 
 // Mock StyledMenuItem
 vi.mock("../components/StyledMenuItem", () => ({
-  default: ({ children, ...props }: any) => (
+  default: ({
+    children,
+    ...props
+  }: {
+    children: React.ReactNode;
+    [key: string]: unknown;
+  }) => (
     <div
       data-testid="styled-menuitem"
       role="option"
@@ -538,7 +564,7 @@ describe("CMultiSelect Component", () => {
       render(
         <CMultiSelect
           {...defaultMultiSelectProps}
-          value={null as any}
+          value={null as unknown as string[]}
         />
       );
       expect(screen.getByText("Select options")).toBeInTheDocument();
@@ -594,6 +620,7 @@ describe("CMultiSelect Component", () => {
           <CMultiSelect
             options={simpleOptions}
             value={[]}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={undefined as any}
             label="No Callback"
           />
@@ -607,7 +634,7 @@ describe("CMultiSelect Component", () => {
       const errorOnChange = vi.fn(() => {
         try {
           throw new Error("onChange error");
-        } catch (error) {
+        } catch {
           // Error caught
         }
       });
@@ -638,7 +665,7 @@ describe("CMultiSelect Component", () => {
     });
 
     it("should handle invalid option structure", () => {
-      const invalidOptions = [null, undefined, "", 0] as any;
+      const invalidOptions = [null, undefined, "", 0] as unknown as string[];
       render(
         <CMultiSelect
           options={invalidOptions}

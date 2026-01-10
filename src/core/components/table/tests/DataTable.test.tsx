@@ -1,7 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { CDataTable } from "../DataTable";
-import type { MRT_Row, MRT_RowData } from "material-react-table";
+import type {
+  MRT_Row,
+  MRT_RowData,
+  MRT_TableOptions,
+} from "material-react-table";
 import {
   mockDefaultProps,
   mockPropsWithRowSelection,
@@ -17,7 +21,7 @@ import {
 } from "./__mocks__/DataTable.mocks";
 
 // Track useMaterialReactTable calls
-let useMaterialReactTableCalls: any[] = [];
+let useMaterialReactTableCalls: MRT_TableOptions<MRT_RowData>[] = [];
 
 // Mock MaterialReactTable
 vi.mock("material-react-table", async () => {
@@ -267,7 +271,8 @@ describe("CDataTable Component", () => {
 
       const callArgs = useMaterialReactTableCalls[0];
       expect(callArgs.muiTableContainerProps).toBeDefined();
-      expect(callArgs.muiTableContainerProps.sx).toBeDefined();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((callArgs.muiTableContainerProps as any).sx).toBeDefined();
     });
   });
 
@@ -313,7 +318,8 @@ describe("CDataTable Component", () => {
         original: { templateId: 1, templateName: "Template 1" },
       } as unknown as MRT_Row<MRT_RowData>;
 
-      const rowProps = callArgs.muiTableBodyRowProps({ row: mockRow });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rowProps = (callArgs.muiTableBodyRowProps as any)({ row: mockRow });
       expect(rowProps).toBeDefined();
       expect(rowProps.hover).toBe(false); // Row is selected, so hover is false
       expect(rowProps.sx).toBeDefined();
@@ -328,7 +334,8 @@ describe("CDataTable Component", () => {
         original: { templateId: 2, templateName: "Template 2" },
       } as unknown as MRT_Row<MRT_RowData>;
 
-      const rowProps = callArgs.muiTableBodyRowProps({ row: mockRow });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rowProps = (callArgs.muiTableBodyRowProps as any)({ row: mockRow });
       expect(rowProps.hover).toBe(true); // Row is not selected, so hover is true
     });
 
@@ -341,7 +348,8 @@ describe("CDataTable Component", () => {
         original: { templateId: 1, templateName: "Template 1" },
       } as unknown as MRT_Row<MRT_RowData>;
 
-      const rowProps = callArgs.muiTableBodyRowProps({ row: mockRow });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rowProps = (callArgs.muiTableBodyRowProps as any)({ row: mockRow });
       expect(rowProps.hover).toBe(true); // No isRowSelected function, so hover is true
     });
 
@@ -354,7 +362,8 @@ describe("CDataTable Component", () => {
         original: { templateId: 1, templateName: "Template 1" },
       } as unknown as MRT_Row<MRT_RowData>;
 
-      const rowProps = callArgs.muiTableBodyRowProps({ row: mockRow });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rowProps = (callArgs.muiTableBodyRowProps as any)({ row: mockRow });
       expect(rowProps.sx.backgroundColor).toBe(
         "var(--logile-bg-primary-x-subtle)"
       );
@@ -369,7 +378,8 @@ describe("CDataTable Component", () => {
         original: { templateId: 2, templateName: "Template 2" },
       } as unknown as MRT_Row<MRT_RowData>;
 
-      const rowProps = callArgs.muiTableBodyRowProps({ row: mockRow });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rowProps = (callArgs.muiTableBodyRowProps as any)({ row: mockRow });
       expect(rowProps.sx.backgroundColor).toBe("inherit");
     });
   });
@@ -379,7 +389,8 @@ describe("CDataTable Component", () => {
       render(<CDataTable {...mockDefaultProps} />);
 
       const callArgs = useMaterialReactTableCalls[0];
-      const sx = callArgs.muiTableContainerProps.sx;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const sx = (callArgs.muiTableContainerProps as any).sx;
 
       expect(sx["& .MuiTableHead-root"].backgroundColor).toBe(
         "var(--logile-bg-table-header)"
@@ -393,7 +404,8 @@ describe("CDataTable Component", () => {
       render(<CDataTable {...mockDefaultProps} />);
 
       const callArgs = useMaterialReactTableCalls[0];
-      const sx = callArgs.muiTableContainerProps.sx;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const sx = (callArgs.muiTableContainerProps as any).sx;
 
       expect(sx["& tr.MuiTableRow-root:hover"].backgroundColor).toBe(
         "var(--logile-bg-primary-x-subtle)"
@@ -407,7 +419,8 @@ describe("CDataTable Component", () => {
       render(<CDataTable {...mockPropsWithCustomStyles} />);
 
       const callArgs = useMaterialReactTableCalls[0];
-      const sx = callArgs.muiTableContainerProps.sx;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const sx = (callArgs.muiTableContainerProps as any).sx;
 
       // Check that default styles are still applied
       expect(sx["& .MuiTableHead-root"]).toBeDefined();

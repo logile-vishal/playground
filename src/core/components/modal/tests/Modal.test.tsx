@@ -585,7 +585,9 @@ describe("CModal Component", () => {
       const errorOnClose = vi.fn(() => {
         try {
           throw new Error("Close error");
-        } catch (error) {}
+        } catch {
+          // Error caught and ignored for testing
+        }
       });
 
       renderWithProviders(
@@ -599,7 +601,7 @@ describe("CModal Component", () => {
       // Click will throw but we just verify the callback was invoked
       try {
         fireEvent.click(cancelButton);
-      } catch (error) {
+      } catch {
         // Expected to throw
       }
 
@@ -610,7 +612,9 @@ describe("CModal Component", () => {
       const errorOnConfirm = vi.fn(() => {
         try {
           throw new Error("Confirm error");
-        } catch (error) {}
+        } catch {
+          // Error caught and ignored for testing
+        }
       });
 
       renderWithProviders(
@@ -624,7 +628,7 @@ describe("CModal Component", () => {
       // Click will throw but we just verify the callback was invoked
       try {
         fireEvent.click(confirmButton);
-      } catch (error) {
+      } catch {
         // Expected to throw
       }
 

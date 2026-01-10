@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import type ReactQuill from "react-quill-new";
 import Toolbar from "../Toolbar";
 import {
   mockDefaultToolbarProps,
@@ -849,7 +850,7 @@ describe("Toolbar Component", () => {
           current: {
             getEditor: vi.fn(() => brokenEditor),
           },
-        } as any,
+        } as unknown as React.RefObject<ReactQuill>,
       };
 
       renderWithProviders(<Toolbar {...propsWithBrokenEditor} />);
@@ -1067,7 +1068,7 @@ describe("Toolbar Component", () => {
           current: {
             getEditor: vi.fn(() => editorWithError),
           },
-        } as any,
+        } as unknown as React.RefObject<ReactQuill>,
       };
 
       renderWithProviders(<Toolbar {...propsWithErrorEditor} />);

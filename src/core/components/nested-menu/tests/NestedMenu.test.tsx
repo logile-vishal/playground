@@ -450,7 +450,9 @@ describe("CNestedMenu Component", () => {
       render(
         <CNestedMenu
           {...mockNestedMenuProps}
-          menuItems={undefined as any}
+          menuItems={
+            undefined as unknown as typeof mockNestedMenuProps.menuItems
+          }
         />
       );
 
@@ -502,7 +504,9 @@ describe("CNestedMenu Component", () => {
     });
 
     it("should handle menu items without value property", () => {
-      const itemsWithoutValue = [{ name: "Item Without Value" }] as any;
+      const itemsWithoutValue = [
+        { name: "Item Without Value" },
+      ] as unknown as typeof mockNestedMenuProps.menuItems;
 
       render(
         <CNestedMenu
@@ -728,7 +732,9 @@ describe("CNestedMenu Component", () => {
       const errorOnSelect = vi.fn(() => {
         try {
           throw new Error("Selection error");
-        } catch (error) {}
+        } catch {
+          /* Error caught and ignored for testing */
+        }
       });
 
       try {
@@ -743,8 +749,8 @@ describe("CNestedMenu Component", () => {
         fireEvent.click(menuItem);
 
         expect(errorOnSelect).toHaveBeenCalledTimes(1);
-      } catch (error) {
-        expect(error).toBeDefined();
+      } catch {
+        /* Error caught and ignored for testing */
       }
     });
 
@@ -752,7 +758,7 @@ describe("CNestedMenu Component", () => {
       render(
         <CNestedMenu
           {...mockNestedMenuProps}
-          parentPath={null as any}
+          parentPath={null as unknown as string[]}
           level={1}
         />
       );
@@ -767,7 +773,7 @@ describe("CNestedMenu Component", () => {
           value: "null-submenu",
           subMenu: null,
         },
-      ] as any;
+      ] as unknown as typeof mockNestedMenuProps.menuItems;
 
       render(
         <CNestedMenu

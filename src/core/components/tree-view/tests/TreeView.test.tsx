@@ -821,7 +821,7 @@ describe("CTreeView Component", () => {
     it("should handle malformed data gracefully", () => {
       const malformedNode = {
         ...mockTreeNodeSimple,
-        subLibrary: null as any,
+        subLibrary: null as unknown as typeof mockTreeNodeSimple.subLibrary,
       };
 
       expect(() => {
@@ -837,7 +837,8 @@ describe("CTreeView Component", () => {
     it("should handle undefined subLibrary", () => {
       const nodeWithoutSubLibrary = {
         ...mockTreeNodeSimple,
-        subLibrary: undefined as any,
+        subLibrary:
+          undefined as unknown as typeof mockTreeNodeSimple.subLibrary,
       };
 
       expect(() => {

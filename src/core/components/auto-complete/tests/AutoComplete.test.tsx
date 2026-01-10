@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import CAutocomplete, { flattenOptions } from "../AutoComplete";
+import CAutocomplete from "../AutoComplete";
+import { flattenOptions } from "../utils/flattenOptions";
 import {
   mockFlatOptions,
   mockGroupedOptions,
@@ -13,6 +14,10 @@ import {
 import type { AutoCompleteOptionProps } from "@/core/types/autocomplete.type";
 import { AUTOCOMPLETE_CONSTANTS } from "@/core/constants/autocomplete";
 import useAutocomplete from "@mui/material/useAutocomplete";
+import type {
+  AutocompleteChangeDetails,
+  AutocompleteChangeReason,
+} from "@mui/material";
 
 // Mock MUI components
 vi.mock("@mui/material/useAutocomplete", () => ({
@@ -223,12 +228,22 @@ describe("CAutocomplete Component", () => {
       mockUseAutocomplete.mockImplementation((config) => {
         if (!hasCalled && config.onChange) {
           hasCalled = true;
-          config.onChange({} as any, [mockFlatOptions[0]]);
+          // Use proper types for the event and details
+          const mockEvent = {} as React.SyntheticEvent;
+          const mockDetails:
+            | AutocompleteChangeDetails<AutoCompleteOptionProps>
+            | undefined = undefined;
+          config.onChange(
+            mockEvent,
+            [mockFlatOptions[0]],
+            "selectOption" as AutocompleteChangeReason,
+            mockDetails
+          );
         }
 
         return {
           ...defaultUseAutocompleteReturn,
-          getRootProps: () => ({ role: "combobox" }),
+          getRootProps: () => ({ role: "combobox" as const }),
         };
       });
 
@@ -547,7 +562,7 @@ describe("CAutocomplete Component", () => {
         render(
           <CAutocomplete
             {...mockAutoCompleteProps}
-            value={null as any}
+            value={null as unknown as AutoCompleteOptionProps[]}
           />
         )
       ).not.toThrow();
@@ -569,7 +584,13 @@ describe("CAutocomplete Component", () => {
         ...defaultUseAutocompleteReturn,
         getInputProps: () => ({
           onChange: () => {
-            config.onChange?.({} as any, [mockFlatOptions[0]]);
+            const mockEvent = {} as React.SyntheticEvent;
+            config.onChange?.(
+              mockEvent,
+              [mockFlatOptions[0]],
+              "selectOption" as AutocompleteChangeReason,
+              undefined
+            );
           },
         }),
       }));

@@ -5,30 +5,10 @@ import { ArrowDown, ArrowUp } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { SORT_DIRECTION } from "@/core/constants/sort";
 import type { SortType } from "@/core/types/sort.type";
+import { sortOptions } from "../utils/sortOptions";
 
 import type { OptionType } from "../types";
 import { SELECT } from "../constants";
-
-export const sortOptions = (
-  list: OptionType[],
-  optionLabelKey: string,
-  sortDirection: SortType
-): OptionType[] => {
-  return list.sort((firstOption, secondOption) => {
-    const firstValue =
-      typeof firstOption === "string"
-        ? firstOption
-        : firstOption[optionLabelKey] || JSON.stringify(firstOption);
-    const secondValue =
-      typeof secondOption === "string"
-        ? secondOption
-        : secondOption[optionLabelKey] || JSON.stringify(secondOption);
-    if (sortDirection === SORT_DIRECTION.ASCENDING) {
-      return firstValue.localeCompare(secondValue);
-    }
-    return secondValue.localeCompare(firstValue);
-  });
-};
 
 const CFilterSortToolbar: React.FC<{
   allowFilter?: boolean;

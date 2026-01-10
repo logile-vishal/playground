@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CPagination from "../Pagination";
+import type { Pagination } from "@/core/types/pagination.type";
 import {
   mockPaginationData,
   mockPaginationDataSinglePage,
@@ -654,7 +655,7 @@ describe("CPagination Component", () => {
       const { container } = renderWithRouter(
         <CPagination
           walkMeIdPrefix={["test"]}
-          pagination={undefined as any}
+          pagination={undefined as unknown as Pagination}
           showPagination={true}
         />
       );
@@ -969,7 +970,7 @@ describe("CPagination Component", () => {
       const { container } = renderWithRouter(
         <CPagination
           walkMeIdPrefix={["test"]}
-          pagination={undefined as any}
+          pagination={undefined as unknown as Pagination}
           showPagination={true}
         />
       );

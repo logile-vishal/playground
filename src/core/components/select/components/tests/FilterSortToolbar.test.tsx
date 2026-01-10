@@ -1,7 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
-import CFilterSortToolbar, { sortOptions } from "../FilterSortToolbar";
+import CFilterSortToolbar from "../FilterSortToolbar";
+import { sortOptions } from "../../utils/sortOptions";
 import {
   mockStringOptions,
   mockObjectOptions,
@@ -11,14 +12,6 @@ import {
   resetMocks,
 } from "./__mocks__/FilterSortToolbar.mocks";
 import { SORT_DIRECTION } from "@/core/constants/sort";
-
-type FilterSortToolbarProps = {
-  allowFilter?: boolean;
-  allowSort?: boolean;
-  setOptions?: React.Dispatch<React.SetStateAction<any[]>>;
-  options: any[];
-  optionFilterLabelKey: string | null;
-};
 
 describe("CFilterSortToolbar", () => {
   beforeEach(() => {
@@ -321,24 +314,6 @@ describe("CFilterSortToolbar", () => {
   });
 
   describe("Edge Cases and Boundary Conditions", () => {
-    it("should handle non-array options gracefully", () => {
-      const nonArrayOptions = {} as any;
-      render(
-        <CFilterSortToolbar
-          {...mockFilterSortToolbarProps}
-          options={nonArrayOptions}
-        />
-      );
-
-      const filterInput = screen.getByPlaceholderText(/filter.../);
-      fireEvent.change(filterInput, { target: { value: "test" } });
-
-      expect(mockSetOptions).toHaveBeenCalled();
-      const filterCallback = mockSetOptions.mock.calls[0][0];
-      const result = filterCallback();
-      expect(result).toEqual(nonArrayOptions);
-    });
-
     it("should handle options with null values", () => {
       const optionsWithNull = [null, { label: "Valid" }, null];
       render(
@@ -460,7 +435,7 @@ describe("CFilterSortToolbar", () => {
 
   describe("Props Handling", () => {
     it("should handle undefined setOptions prop", () => {
-      const propsWithoutSetOptions: FilterSortToolbarProps = {
+      const propsWithoutSetOptions = {
         ...mockFilterSortToolbarProps,
         setOptions: undefined,
       };

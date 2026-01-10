@@ -18,7 +18,15 @@ import {
 } from "./__mocks__/NestedMenuItem.mocks";
 
 vi.mock("@/core/components/icon/Icon", () => ({
-  default: ({ component, color, size }: any) => (
+  default: ({
+    component,
+    color,
+    size,
+  }: {
+    component?: { name?: string };
+    color?: string;
+    size?: string | number;
+  }) => (
     <div
       data-testid="svg-icon"
       data-color={color}
@@ -532,7 +540,7 @@ describe("CNestedMenuItem", () => {
     it("should handle null subMenu", () => {
       const nullSubMenuItem = {
         ...mockLeafMenuItem,
-        subMenu: null as any,
+        subMenu: undefined,
       };
 
       render(
@@ -645,7 +653,7 @@ describe("CNestedMenuItem", () => {
     it("should not select item without value", () => {
       const itemWithoutValue = {
         name: "No Value Item",
-        value: undefined as any,
+        value: undefined as unknown as string,
         pathArray: ["root", "no-value"],
       };
 

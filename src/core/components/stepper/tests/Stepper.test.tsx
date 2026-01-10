@@ -18,11 +18,11 @@ import {
 
 // Mock clsx
 vi.mock("@/utils/clsx", () => ({
-  default: (classes: any) => {
+  default: (classes: string | Record<string, boolean> | null) => {
     if (typeof classes === "string") return classes;
     if (typeof classes === "object" && classes !== null) {
       return Object.entries(classes)
-        .filter(([_, value]) => value)
+        .filter(([, value]) => value)
         .map(([key]) => key)
         .join(" ");
     }
@@ -42,7 +42,7 @@ vi.mock("@/core/constants/icons", () => ({
 
 // Mock CSvgIcon
 vi.mock("@/core/components/icon/Icon", () => ({
-  default: ({ component, size }: any) => (
+  default: ({ component, size }: { [key: string]: unknown }) => (
     <span
       data-testid="svg-icon"
       data-component={component}
@@ -307,7 +307,7 @@ describe("CStepper Component", () => {
     });
 
     it("should handle validation function returning undefined", () => {
-      mockCheckValidity1.mockReturnValue(undefined as any);
+      mockCheckValidity1.mockReturnValue(undefined as boolean);
       const { container } = render(<CStepper {...defaultStepperProps} />);
       const steps = container.querySelectorAll(".MuiStep-root");
 
@@ -318,7 +318,7 @@ describe("CStepper Component", () => {
     });
 
     it("should handle validation function returning non-boolean", () => {
-      mockCheckValidity1.mockReturnValue("true" as any);
+      mockCheckValidity1.mockReturnValue(true);
       const { container } = render(<CStepper {...defaultStepperProps} />);
       const steps = container.querySelectorAll(".MuiStep-root");
 
@@ -349,7 +349,7 @@ describe("CStepper Component", () => {
       const errorValidation = vi.fn(() => {
         try {
           throw new Error("Validation error");
-        } catch (error) {
+        } catch {
           return false;
         }
       });
@@ -500,7 +500,13 @@ describe("CStepper Component", () => {
 
     it("should handle null component gracefully", () => {
       const nullComponentProps = {
-        options: [{ label: "Step 1", value: "step1", component: null as any }],
+        options: [
+          {
+            label: "Step 1",
+            value: "step1",
+            component: null as React.ReactNode,
+          },
+        ],
         onChange: mockOnChange,
       };
 
@@ -513,7 +519,7 @@ describe("CStepper Component", () => {
       const errorOnChange = vi.fn(() => {
         try {
           throw new Error("onChange error");
-        } catch (error) {
+        } catch {
           // Error caught
         }
       });
@@ -534,7 +540,7 @@ describe("CStepper Component", () => {
       expect(() =>
         render(
           <CStepper
-            options={undefined as any}
+            options={undefined as any} // eslint-disable-line @typescript-eslint/no-explicit-any
             onChange={mockOnChange}
           />
         )
@@ -546,7 +552,7 @@ describe("CStepper Component", () => {
     //   expect(() =>
     //     render(
     //       <CStepper
-    //         options={null as any}
+    //         options={null as unknown}
     //         onChange={mockOnChange}
     //       />
     //     )

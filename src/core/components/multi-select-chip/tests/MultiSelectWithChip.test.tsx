@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import CMultiSelectWithChip from "../MultiSelectWithChip";
+import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import {
   defaultMultiSelectWithChipProps,
   multiSelectWithAnchorEl,
@@ -30,7 +31,16 @@ vi.mock("@/core/components/input-chip/InputWithChip", () => ({
     placeholder,
     width,
     inputPlacement,
-  }: any) => (
+  }: {
+    searchText: string;
+    selectedItems: unknown[];
+    onDelete: (event: React.MouseEvent<HTMLElement>, item: unknown) => void;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
+    placeholder?: string;
+    width?: number | string;
+    inputPlacement?: "start" | "end";
+  }) => (
     <div data-testid="input-with-chip">
       <input
         data-testid="chip-input"
@@ -40,7 +50,7 @@ vi.mock("@/core/components/input-chip/InputWithChip", () => ({
         onClick={onMenuOpen}
       />
       <div data-testid="selected-items">
-        {selectedItems?.map((item: any, index: number) => (
+        {selectedItems?.map((item: { label?: string }, index: number) => (
           <div
             key={index}
             data-testid={`chip-${index}`}
@@ -70,7 +80,14 @@ vi.mock("@/core/components/nested-menu/NestedMenu", () => ({
     onMenuItemSelect,
     selectedItems,
     showSearch,
-  }: any) =>
+  }: {
+    anchorEl: HTMLElement | null;
+    onClose: () => void;
+    menuItems: unknown[];
+    onMenuItemSelect: (item: unknown, path?: string) => void;
+    selectedItems: unknown[];
+    showSearch: boolean;
+  }) =>
     anchorEl ? (
       <div data-testid="nested-menu">
         <button
@@ -80,15 +97,17 @@ vi.mock("@/core/components/nested-menu/NestedMenu", () => ({
           Close
         </button>
         <div data-testid="menu-items">
-          {menuItems?.map((item: any, index: number) => (
-            <button
-              key={index}
-              data-testid={`menu-item-${index}`}
-              onClick={() => onMenuItemSelect(item, item.path)}
-            >
-              {item.label}
-            </button>
-          ))}
+          {menuItems?.map(
+            (item: { label?: string; path?: string }, index: number) => (
+              <button
+                key={index}
+                data-testid={`menu-item-${index}`}
+                onClick={() => onMenuItemSelect(item, item.path)}
+              >
+                {item.label}
+              </button>
+            )
+          )}
         </div>
         <span data-testid="show-search">{String(showSearch)}</span>
         <span data-testid="selected-count">{selectedItems?.length || 0}</span>
@@ -458,7 +477,9 @@ describe("CMultiSelectWithChip Component", () => {
     });
 
     it("should handle items with missing properties", () => {
-      const incompleteItems = [{ label: "Item", value: "item" } as any];
+      const incompleteItems = [
+        { name: "Item", value: "item" },
+      ] as NestedMenuItem[];
 
       render(
         <CMultiSelectWithChip
@@ -475,8 +496,8 @@ describe("CMultiSelectWithChip Component", () => {
       const errorOnMenuOpen = vi.fn(() => {
         try {
           throw new Error("Menu open error");
-        } catch (error) {
-          // Error caught
+        } catch {
+          // Error caught and ignored for testing
         }
       });
 
@@ -497,8 +518,8 @@ describe("CMultiSelectWithChip Component", () => {
       const errorOnMenuClose = vi.fn(() => {
         try {
           throw new Error("Menu close error");
-        } catch (error) {
-          // Error caught
+        } catch {
+          // Error caught and ignored for testing
         }
       });
 
@@ -519,8 +540,8 @@ describe("CMultiSelectWithChip Component", () => {
       const errorOnDelete = vi.fn(() => {
         try {
           throw new Error("Delete error");
-        } catch (error) {
-          // Error caught
+        } catch {
+          // Error caught and ignored for testing
         }
       });
 
@@ -541,8 +562,8 @@ describe("CMultiSelectWithChip Component", () => {
       const errorOnMenuItemSelect = vi.fn(() => {
         try {
           throw new Error("Select error");
-        } catch (error) {
-          // Error caught
+        } catch {
+          // Error caught and ignored for testing
         }
       });
 
@@ -564,7 +585,7 @@ describe("CMultiSelectWithChip Component", () => {
         render(
           <CMultiSelectWithChip
             {...defaultMultiSelectWithChipProps}
-            menuItems={null as any}
+            menuItems={null as unknown as NestedMenuItem[]}
           />
         )
       ).not.toThrow();
@@ -575,7 +596,7 @@ describe("CMultiSelectWithChip Component", () => {
         render(
           <CMultiSelectWithChip
             {...defaultMultiSelectWithChipProps}
-            menuItems={undefined as any}
+            menuItems={undefined as unknown as NestedMenuItem[]}
           />
         )
       ).not.toThrow();

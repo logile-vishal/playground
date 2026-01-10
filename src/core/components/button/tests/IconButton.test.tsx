@@ -438,7 +438,9 @@ describe("CIconButton Component", () => {
       const errorClick = vi.fn(() => {
         try {
           throw new Error("Click error");
-        } catch (error) {}
+        } catch {
+          // Error caught and ignored for testing
+        }
       });
 
       renderWithTheme(

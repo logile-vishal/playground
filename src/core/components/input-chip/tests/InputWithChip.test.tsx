@@ -11,7 +11,7 @@ vi.mock("@/core/components/icon/Icon", () => ({
     size,
     color,
   }: {
-    component: any;
+    component: React.ElementType;
     size: number;
     color?: string;
   }) => (
@@ -20,7 +20,7 @@ vi.mock("@/core/components/icon/Icon", () => ({
       data-size={size}
       data-color={color}
     >
-      {component?.name || "Icon"}
+      {(component as { name?: string })?.name || "Icon"}
     </span>
   ),
 }));

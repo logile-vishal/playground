@@ -37,7 +37,9 @@ export const mockOnChange = vi.fn();
 export const mockOnClose = vi.fn();
 export const mockOnOpen = vi.fn();
 export const mockRenderOption = vi.fn((option: OptionType) => {
-  return typeof option === "object" ? (option as any).label : option;
+  return typeof option === "object"
+    ? (option as { label?: string }).label
+    : option;
 });
 export const mockRenderValue = vi.fn((selected: unknown) => {
   if (Array.isArray(selected)) {
@@ -46,11 +48,13 @@ export const mockRenderValue = vi.fn((selected: unknown) => {
   return `Custom: ${selected}`;
 });
 export const mockRenderOptionValue = vi.fn((option: OptionType) => {
-  return typeof option === "object" ? (option as any).value : option;
+  return typeof option === "object"
+    ? (option as { value?: string }).value
+    : option;
 });
 
 // Mock icon component
-export const MockIconComponent = vi.fn((props: any) =>
+export const MockIconComponent = vi.fn((props: { [key: string]: unknown }) =>
   React.createElement("span", props, "MockIcon")
 );
 

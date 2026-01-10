@@ -24,7 +24,7 @@ vi.mock("@/core/constants/icons", () => ({
 
 // Mock CSvgIcon
 vi.mock("@/core/components/icon/Icon", () => ({
-  default: ({ component, size, fill }: any) => (
+  default: ({ component, size, fill }: { [key: string]: unknown }) => (
     <span
       data-testid="svg-icon"
       data-component={component}
@@ -342,7 +342,8 @@ describe("CFilterSortToolbar Component", () => {
     });
 
     it("should execute sort logic and return sorted options", () => {
-      let capturedCallback: any = null;
+      let capturedCallback: ((prevOptions: unknown[]) => unknown[]) | null =
+        null;
       const mockSetOptionsWithCapture = vi.fn((callback) => {
         if (typeof callback === "function") {
           capturedCallback = callback;
@@ -361,7 +362,7 @@ describe("CFilterSortToolbar Component", () => {
 
       // Execute the captured callback to test the sorting logic (lines 84-92)
       if (capturedCallback) {
-        const result = capturedCallback();
+        const result = capturedCallback(stringOptions);
         expect(result).toBeDefined();
       }
     });
@@ -382,7 +383,8 @@ describe("CFilterSortToolbar Component", () => {
     });
 
     it("should sort in descending order on second click", () => {
-      let capturedCallback: any = null;
+      let capturedCallback: ((prevOptions: unknown[]) => unknown[]) | null =
+        null;
       const mockSetOptionsWithCapture = vi.fn((callback) => {
         if (typeof callback === "function") {
           capturedCallback = callback;
@@ -405,7 +407,7 @@ describe("CFilterSortToolbar Component", () => {
 
       // Execute the callback to trigger the descending sort logic
       if (capturedCallback) {
-        const result = capturedCallback();
+        const result = capturedCallback(stringOptions);
         expect(result).toBeDefined();
       }
 
@@ -476,10 +478,14 @@ describe("CFilterSortToolbar Component", () => {
     it("should handle sorting non-array options", () => {
       const nonArrayProps = {
         ...defaultFilterSortToolbarProps,
-        options: null as any,
+        options: null as unknown,
       };
 
-      render(<CFilterSortToolbar {...nonArrayProps} />);
+      render(
+        <CFilterSortToolbar
+          {...(nonArrayProps as unknown as typeof defaultFilterSortToolbarProps)}
+        />
+      );
       const sortButton = screen.getByRole("button");
 
       fireEvent.click(sortButton);
@@ -488,28 +494,33 @@ describe("CFilterSortToolbar Component", () => {
     });
 
     it("should return options unchanged when sorting non-array options", () => {
-      let capturedCallback: any = null;
+      let capturedCallback: ((prevOptions: unknown[]) => unknown[]) | null =
+        null;
       const mockSetOptionsWithCapture = vi.fn((callback) => {
         if (typeof callback === "function") {
           capturedCallback = callback;
         }
       });
 
-      const nonArrayOptions = { key: "value" } as any;
+      const nonArrayOptions = { key: "value" } as unknown;
       const nonArrayProps = {
         ...defaultFilterSortToolbarProps,
         options: nonArrayOptions,
         setOptions: mockSetOptionsWithCapture,
       };
 
-      render(<CFilterSortToolbar {...nonArrayProps} />);
+      render(
+        <CFilterSortToolbar
+          {...(nonArrayProps as unknown as typeof defaultFilterSortToolbarProps)}
+        />
+      );
       const sortButton = screen.getByRole("button");
 
       fireEvent.click(sortButton);
 
       // Execute the callback to test line 92 (return options when not array)
       if (capturedCallback) {
-        const result = capturedCallback();
+        const result = capturedCallback(nonArrayOptions as unknown[]);
         expect(result).toBe(nonArrayOptions);
       }
     });
@@ -528,7 +539,8 @@ describe("CFilterSortToolbar Component", () => {
 
     it("should execute filter callback and return filtered results", async () => {
       const user = userEvent.setup();
-      let capturedCallback: any = null;
+      let capturedCallback: ((prevOptions: unknown[]) => unknown[]) | null =
+        null;
       const mockSetOptionsWithCapture = vi.fn((callback) => {
         if (typeof callback === "function") {
           capturedCallback = callback;
@@ -548,7 +560,7 @@ describe("CFilterSortToolbar Component", () => {
 
       // Execute the captured callback to test the filtering logic
       if (capturedCallback) {
-        const result = capturedCallback();
+        const result = capturedCallback(defaultFilterSortToolbarProps.options);
         expect(result).toBeDefined();
         expect(Array.isArray(result)).toBe(true);
       }
@@ -588,10 +600,14 @@ describe("CFilterSortToolbar Component", () => {
       const user = userEvent.setup();
       const nonArrayProps = {
         ...defaultFilterSortToolbarProps,
-        options: null as any,
+        options: null as unknown,
       };
 
-      render(<CFilterSortToolbar {...nonArrayProps} />);
+      render(
+        <CFilterSortToolbar
+          {...(nonArrayProps as unknown as typeof defaultFilterSortToolbarProps)}
+        />
+      );
       const filterInput = screen.getByPlaceholderText("Select All");
 
       await user.type(filterInput, "test");
@@ -603,10 +619,14 @@ describe("CFilterSortToolbar Component", () => {
       const user = userEvent.setup();
       const optionsWithNull = {
         ...defaultFilterSortToolbarProps,
-        options: [null, "Valid Option"] as any,
+        options: [null, "Valid Option"] as unknown,
       };
 
-      render(<CFilterSortToolbar {...optionsWithNull} />);
+      render(
+        <CFilterSortToolbar
+          {...(optionsWithNull as unknown as typeof defaultFilterSortToolbarProps)}
+        />
+      );
       const filterInput = screen.getByPlaceholderText("Select All");
 
       await user.type(filterInput, "valid");
@@ -653,10 +673,14 @@ describe("CFilterSortToolbar Component", () => {
       const user = userEvent.setup();
       const optionsWithUndefined = {
         ...defaultFilterSortToolbarProps,
-        options: [{ label: undefined, value: "test" }] as any,
+        options: [{ label: undefined, value: "test" }] as unknown,
       };
 
-      render(<CFilterSortToolbar {...optionsWithUndefined} />);
+      render(
+        <CFilterSortToolbar
+          {...(optionsWithUndefined as unknown as typeof defaultFilterSortToolbarProps)}
+        />
+      );
       const filterInput = screen.getByPlaceholderText("Select All");
 
       await user.type(filterInput, "test");
@@ -691,10 +715,14 @@ describe("CFilterSortToolbar Component", () => {
       const user = userEvent.setup();
       const mixedOptions = {
         ...defaultFilterSortToolbarProps,
-        options: ["String", { label: "Object" }, 123, null] as any,
+        options: ["String", { label: "Object" }, 123, null] as unknown,
       };
 
-      render(<CFilterSortToolbar {...mixedOptions} />);
+      render(
+        <CFilterSortToolbar
+          {...(mixedOptions as unknown as typeof defaultFilterSortToolbarProps)}
+        />
+      );
       const filterInput = screen.getByPlaceholderText("Select All");
 
       await user.type(filterInput, "string");
@@ -708,7 +736,7 @@ describe("CFilterSortToolbar Component", () => {
       const errorSetOptions = vi.fn(() => {
         try {
           throw new Error("setOptions error");
-        } catch (error) {
+        } catch {
           // Error caught
         }
       });
@@ -731,7 +759,7 @@ describe("CFilterSortToolbar Component", () => {
       const errorSetOptions = vi.fn(() => {
         try {
           throw new Error("setOptions error");
-        } catch (error) {
+        } catch {
           // Error caught
         }
       });
@@ -753,10 +781,14 @@ describe("CFilterSortToolbar Component", () => {
       const user = userEvent.setup();
       const undefinedOptionsProps = {
         ...defaultFilterSortToolbarProps,
-        options: undefined as any,
+        options: undefined as unknown,
       };
 
-      render(<CFilterSortToolbar {...undefinedOptionsProps} />);
+      render(
+        <CFilterSortToolbar
+          {...(undefinedOptionsProps as unknown as typeof defaultFilterSortToolbarProps)}
+        />
+      );
       const filterInput = screen.getByPlaceholderText("Select All");
 
       await expect(user.type(filterInput, "test")).resolves.not.toThrow();

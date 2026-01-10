@@ -1,5 +1,6 @@
 import { vi } from "vitest";
 import type { ToolbarProps } from "../../Toolbar";
+import type ReactQuill from "react-quill-new";
 
 /**
  * Mock File for Toolbar Component Tests
@@ -83,7 +84,7 @@ export const mockUseWalkmeId = {
 
 // Mock ToolbarProps
 export const mockDefaultToolbarProps: ToolbarProps = {
-  quillRef: createMockQuillRef() as any,
+  quillRef: createMockQuillRef() as unknown as React.RefObject<ReactQuill>,
   attachments: [],
   onUpdateAttachments: mockOnUpdateAttachments,
   onVariableButtonClick: mockOnVariableButtonClick,
@@ -91,7 +92,7 @@ export const mockDefaultToolbarProps: ToolbarProps = {
 };
 
 export const mockToolbarPropsWithAttachments: ToolbarProps = {
-  quillRef: createMockQuillRef() as any,
+  quillRef: createMockQuillRef() as unknown as React.RefObject<ReactQuill>,
   attachments: mockAttachments,
   onUpdateAttachments: mockOnUpdateAttachments,
   onVariableButtonClick: mockOnVariableButtonClick,
@@ -99,14 +100,14 @@ export const mockToolbarPropsWithAttachments: ToolbarProps = {
 };
 
 export const mockToolbarPropsWithoutCallbacks: ToolbarProps = {
-  quillRef: createMockQuillRef() as any,
+  quillRef: createMockQuillRef() as unknown as React.RefObject<ReactQuill>,
   attachments: [],
   walkMeIdPrefix: [],
   onVariableButtonClick: mockOnVariableButtonClick,
 };
 
 export const mockToolbarPropsComplete: ToolbarProps = {
-  quillRef: createMockQuillRef() as any,
+  quillRef: createMockQuillRef() as unknown as React.RefObject<ReactQuill>,
   attachments: mockAttachments,
   onUpdateAttachments: mockOnUpdateAttachments,
   onVariableButtonClick: mockOnVariableButtonClick,
@@ -173,6 +174,7 @@ export const createEditorWithWildcards = () => {
   mockEditor.getContents.mockReturnValue({
     ops: [
       { insert: "Hello " },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       { insert: { wildcard: "employee_name" } as any },
       { insert: " world" },
     ],
@@ -187,12 +189,12 @@ export const createEditorWithFormattedText = () => {
       {
         insert: "Bold text",
         attributes: { bold: true },
-      } as any,
+      } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
       { insert: " " },
       {
         insert: "Italic text",
         attributes: { italic: true },
-      } as any,
+      } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
     ],
   });
   return mockEditor;

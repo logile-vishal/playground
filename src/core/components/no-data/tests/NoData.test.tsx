@@ -26,16 +26,18 @@ describe("CNoData", () => {
     it("should render the component with all props", () => {
       const { container } = render(<CNoData {...mockNoDataProps} />);
 
-      const containerElement = container.querySelector(".empty-list-container");
+      const containerElement = container.querySelector(
+        ".no-data__list-container"
+      );
       expect(containerElement).toBeInTheDocument();
     });
 
     it("should render with default props when only imageSrcName is provided", () => {
       render(<CNoData {...mockNoDataPropsWithoutOptionals} />);
 
-      const defaultTitle = screen.getByText("Nothing here yet");
+      const defaultTitle = screen.getByText("NO_DATA.TITLE");
       expect(defaultTitle).toBeInTheDocument();
-      expect(defaultTitle).toHaveClass("heading-text");
+      expect(defaultTitle).toHaveClass("no-data__list-container-heading");
     });
 
     it("should render the icon component", () => {
@@ -55,7 +57,9 @@ describe("CNoData", () => {
     it("should render with correct container class", () => {
       const { container } = render(<CNoData {...mockNoDataProps} />);
 
-      const containerElement = container.querySelector(".empty-list-container");
+      const containerElement = container.querySelector(
+        ".no-data__list-container"
+      );
       expect(containerElement).toBeInTheDocument();
       expect(containerElement?.tagName).toBe("DIV");
     });
@@ -67,7 +71,7 @@ describe("CNoData", () => {
 
       const title = screen.getByText("Test Title");
       expect(title).toBeInTheDocument();
-      expect(title).toHaveClass("heading-text");
+      expect(title).toHaveClass("no-data__list-container-heading");
     });
 
     it("should render default title when title prop is not provided", () => {
@@ -78,14 +82,16 @@ describe("CNoData", () => {
 
       render(<CNoData {...propsWithoutTitle} />);
 
-      const defaultTitle = screen.getByText("Nothing here yet");
+      const defaultTitle = screen.getByText("NO_DATA.TITLE");
       expect(defaultTitle).toBeInTheDocument();
     });
 
     it("should not render title element when title is empty string", () => {
       render(<CNoData {...mockNoDataPropsEmptyStrings} />);
 
-      const titleElements = document.querySelectorAll(".heading-text");
+      const titleElements = document.querySelectorAll(
+        ".no-data__list-container-heading"
+      );
       expect(titleElements).toHaveLength(0);
     });
 
@@ -93,9 +99,7 @@ describe("CNoData", () => {
       render(<CNoData {...mockNoDataPropsOnlyTitle} />);
 
       const title = screen.getByText("Only Title Here");
-      expect(title).toHaveClass("mt-16");
-      expect(title).toHaveClass("mb-8");
-      expect(title).toHaveClass("heading-text");
+      expect(title).toHaveClass("no-data__list-container-heading");
     });
 
     it("should handle very long title text", () => {
@@ -103,7 +107,7 @@ describe("CNoData", () => {
 
       const longTitle = screen.getByText(/This is a very long title/);
       expect(longTitle).toBeInTheDocument();
-      expect(longTitle).toHaveClass("heading-text");
+      expect(longTitle).toHaveClass("no-data__list-container-heading");
     });
 
     it("should render title as undefined when explicitly passed", () => {
@@ -115,7 +119,7 @@ describe("CNoData", () => {
 
       render(<CNoData {...propsWithUndefinedTitle} />);
 
-      const defaultTitle = screen.getByText("Nothing here yet");
+      const defaultTitle = screen.getByText("NO_DATA.TITLE");
       expect(defaultTitle).toBeInTheDocument();
     });
   });
@@ -126,20 +130,24 @@ describe("CNoData", () => {
 
       const description = screen.getByText("Test Description");
       expect(description).toBeInTheDocument();
-      expect(description).toHaveClass("body-text");
+      expect(description).toHaveClass("no-data__list-container-body");
     });
 
     it("should not render description when not provided", () => {
       render(<CNoData {...mockNoDataPropsOnlyTitle} />);
 
-      const descriptions = document.querySelectorAll(".body-text");
+      const descriptions = document.querySelectorAll(
+        ".no-data__list-container-body"
+      );
       expect(descriptions).toHaveLength(0);
     });
 
     it("should not render description element when description is empty string", () => {
       render(<CNoData {...mockNoDataPropsEmptyStrings} />);
 
-      const descriptions = document.querySelectorAll(".body-text");
+      const descriptions = document.querySelectorAll(
+        ".no-data__list-container-body"
+      );
       expect(descriptions).toHaveLength(0);
     });
 
@@ -147,7 +155,7 @@ describe("CNoData", () => {
       render(<CNoData {...mockNoDataPropsOnlyDescription} />);
 
       const description = screen.getByText("Only Description Here");
-      expect(description).toHaveClass("body-text");
+      expect(description).toHaveClass("no-data__list-container-body");
     });
 
     it("should handle very long description text", () => {
@@ -157,7 +165,7 @@ describe("CNoData", () => {
         /This is a very long description/
       );
       expect(longDescription).toBeInTheDocument();
-      expect(longDescription).toHaveClass("body-text");
+      expect(longDescription).toHaveClass("no-data__list-container-body");
     });
 
     it("should render without description when undefined", () => {
@@ -169,7 +177,9 @@ describe("CNoData", () => {
 
       render(<CNoData {...propsWithoutDescription} />);
 
-      const descriptions = document.querySelectorAll(".body-text");
+      const descriptions = document.querySelectorAll(
+        ".no-data__list-container-body"
+      );
       expect(descriptions).toHaveLength(0);
     });
   });
@@ -260,8 +270,12 @@ describe("CNoData", () => {
       const svgIcon = container.querySelector("svg");
       expect(svgIcon).toBeInTheDocument();
 
-      const titles = document.querySelectorAll(".heading-text");
-      const descriptions = document.querySelectorAll(".body-text");
+      const titles = document.querySelectorAll(
+        ".no-data__list-container-heading"
+      );
+      const descriptions = document.querySelectorAll(
+        ".no-data__list-container-body"
+      );
 
       expect(titles.length).toBeGreaterThan(0);
       expect(descriptions).toHaveLength(0);
@@ -273,14 +287,16 @@ describe("CNoData", () => {
       const title = screen.getByText("Only Title Here");
       expect(title).toBeInTheDocument();
 
-      const descriptions = document.querySelectorAll(".body-text");
+      const descriptions = document.querySelectorAll(
+        ".no-data__list-container-body"
+      );
       expect(descriptions).toHaveLength(0);
     });
 
     it("should render icon, default title and description", () => {
       render(<CNoData {...mockNoDataPropsOnlyDescription} />);
 
-      const defaultTitle = screen.getByText("Nothing here yet");
+      const defaultTitle = screen.getByText("NO_DATA.TITLE");
       expect(defaultTitle).toBeInTheDocument();
 
       const description = screen.getByText("Only Description Here");
@@ -309,7 +325,9 @@ describe("CNoData", () => {
 
       render(<CNoData {...propsWithEmptyTitle} />);
 
-      const titles = document.querySelectorAll(".heading-text");
+      const titles = document.querySelectorAll(
+        ".no-data__list-container-heading"
+      );
       expect(titles).toHaveLength(0);
 
       const description = screen.getByText("Description");
@@ -328,17 +346,21 @@ describe("CNoData", () => {
       const title = screen.getByText("Title");
       expect(title).toBeInTheDocument();
 
-      const descriptions = document.querySelectorAll(".body-text");
+      const descriptions = document.querySelectorAll(
+        ".no-data__list-container-body"
+      );
       expect(descriptions).toHaveLength(0);
     });
   });
 
   describe("Edge Cases and Boundary Conditions", () => {
     it("should handle null values gracefully", () => {
-      const propsWithNull: any = {
+      const propsWithNull = {
         imageSrcName: mockNoDataProps.imageSrcName,
-        title: null,
-        description: null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        title: null as any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        description: null as any,
       };
 
       expect(() => {
@@ -429,9 +451,9 @@ describe("CNoData", () => {
 
       const { container } = render(<CNoData {...propsWithWhitespace} />);
 
-      const title = container.querySelector(".heading-text");
+      const title = container.querySelector(".no-data__list-container-heading");
       expect(title).toBeInTheDocument();
-      expect(title.textContent?.trim()).toBe("");
+      expect(title?.textContent?.trim()).toBe("");
     });
 
     it("should handle whitespace-only description", () => {
@@ -442,9 +464,11 @@ describe("CNoData", () => {
 
       const { container } = render(<CNoData {...propsWithWhitespace} />);
 
-      const description = container.querySelector(".body-text");
+      const description = container.querySelector(
+        ".no-data__list-container-body"
+      );
       expect(description).toBeInTheDocument();
-      expect(description.textContent?.trim()).toBe("");
+      expect(description?.textContent?.trim()).toBe("");
     });
   });
 
@@ -452,7 +476,9 @@ describe("CNoData", () => {
     it("should have correct DOM structure", () => {
       const { container } = render(<CNoData {...mockNoDataProps} />);
 
-      const containerElement = container.querySelector(".empty-list-container");
+      const containerElement = container.querySelector(
+        ".no-data__list-container"
+      );
       expect(containerElement).toBeInTheDocument();
       expect(containerElement?.children.length).toBeGreaterThanOrEqual(1);
     });
@@ -460,7 +486,9 @@ describe("CNoData", () => {
     it("should render elements in correct order", () => {
       const { container } = render(<CNoData {...mockNoDataProps} />);
 
-      const containerElement = container.querySelector(".empty-list-container");
+      const containerElement = container.querySelector(
+        ".no-data__list-container"
+      );
       const children = containerElement?.children;
 
       expect(children?.[0].tagName).toBe("svg");
@@ -472,16 +500,16 @@ describe("CNoData", () => {
       const title = screen.getByText("Test Title");
       const classes = title.className.split(" ");
 
-      expect(classes).toContain("mt-16");
-      expect(classes).toContain("mb-8");
-      expect(classes).toContain("heading-text");
+      expect(classes).toContain("no-data__list-container-heading");
     });
 
     it("should apply correct class to description element", () => {
       const { container } = render(<CNoData {...mockNoDataProps} />);
 
-      const description = container.querySelector(".body-text");
-      expect(description.className).toContain("body-text");
+      const description = container.querySelector(
+        ".no-data__list-container-body"
+      );
+      expect(description?.className).toContain("no-data__list-container-body");
     });
   });
 

@@ -12,6 +12,7 @@ export const mockMenuItemWithLeftIcon: NestedMenuItem = {
   name: "Item with Icon",
   value: "item-icon",
   pathArray: ["root", "item-icon"],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   leftIcon: vi.fn(() => null) as any,
   leftIconStyleProps: {
     color: "primary",
@@ -93,6 +94,8 @@ export const resetAllMocks = () => {
   mockOnClose.mockReset();
   mockOnSubmenuClick.mockReset();
   if (mockNestedMenuItem.subMenu?.onClick) {
-    (mockNestedMenuItem.subMenu.onClick as any).mockReset();
+    (
+      mockNestedMenuItem.subMenu.onClick as ReturnType<typeof vi.fn>
+    ).mockReset();
   }
 };

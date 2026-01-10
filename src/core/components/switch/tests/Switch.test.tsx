@@ -334,7 +334,9 @@ describe("CSwitch Component", () => {
       const errorOnChange = vi.fn(() => {
         try {
           throw new Error("Test error");
-        } catch (error) {}
+        } catch {
+          /* Error caught and ignored for testing */
+        }
       });
 
       try {
@@ -349,7 +351,7 @@ describe("CSwitch Component", () => {
         ) as HTMLInputElement;
 
         fireEvent.click(switchInput);
-      } catch (error) {
+      } catch {
         // Expected to catch error
       }
 

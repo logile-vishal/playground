@@ -6,33 +6,23 @@ export const mockCheckValidity1 = vi.fn(() => true);
 export const mockCheckValidity2 = vi.fn(() => true);
 export const mockCheckValidity3 = vi.fn(() => true);
 
-const StepComponent1 = () => (
-  <div data-testid="step-component-1">Step Content 1</div>
-);
-const StepComponent2 = () => (
-  <div data-testid="step-component-2">Step Content 2</div>
-);
-const StepComponent3 = () => (
-  <div data-testid="step-component-3">Step Content 3</div>
-);
-
 export const defaultStepperOptions: StepOption[] = [
   {
     label: "Step 1",
     value: "step1",
-    component: <StepComponent1 />,
+    component: <div data-testid="step-component-1">Step Content 1</div>,
     checkValidity: mockCheckValidity1,
   },
   {
     label: "Step 2",
     value: "step2",
-    component: <StepComponent2 />,
+    component: <div data-testid="step-component-2">Step Content 2</div>,
     checkValidity: mockCheckValidity2,
   },
   {
     label: "Step 3",
     value: "step3",
-    component: <StepComponent3 />,
+    component: <div data-testid="step-component-3">Step Content 3</div>,
     checkValidity: mockCheckValidity3,
   },
 ];
@@ -47,18 +37,18 @@ export const stepperPropsWithDisabled: StepperProps = {
     {
       label: "Step 1",
       value: "step1",
-      component: <StepComponent1 />,
+      component: <div data-testid="step-component-1">Step Content 1</div>,
     },
     {
       label: "Step 2",
       value: "step2",
-      component: <StepComponent2 />,
+      component: <div data-testid="step-component-2">Step Content 2</div>,
       disabled: true,
     },
     {
       label: "Step 3",
       value: "step3",
-      component: <StepComponent3 />,
+      component: <div data-testid="step-component-3">Step Content 3</div>,
     },
   ],
   onChange: mockOnChange,
@@ -69,18 +59,18 @@ export const stepperPropsWithError: StepperProps = {
     {
       label: "Step 1",
       value: "step1",
-      component: <StepComponent1 />,
+      component: <div data-testid="step-component-1">Step Content 1</div>,
       error: true,
     },
     {
       label: "Step 2",
       value: "step2",
-      component: <StepComponent2 />,
+      component: <div data-testid="step-component-2">Step Content 2</div>,
     },
     {
       label: "Step 3",
       value: "step3",
-      component: <StepComponent3 />,
+      component: <div data-testid="step-component-3">Step Content 3</div>,
     },
   ],
   onChange: mockOnChange,
@@ -106,7 +96,7 @@ export const stepperPropsSingleStep: StepperProps = {
     {
       label: "Only Step",
       value: "onlyStep",
-      component: <StepComponent1 />,
+      component: <div data-testid="step-component-1">Step Content 1</div>,
     },
   ],
   onChange: mockOnChange,
