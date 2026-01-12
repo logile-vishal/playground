@@ -33,11 +33,14 @@ describe("CNoData", () => {
     });
 
     it("should render with default props when only imageSrcName is provided", () => {
-      render(<CNoData {...mockNoDataPropsWithoutOptionals} />);
+      const { container } = render(
+        <CNoData {...mockNoDataPropsWithoutOptionals} />
+      );
 
-      const defaultTitle = screen.getByText("NO_DATA.TITLE");
-      expect(defaultTitle).toBeInTheDocument();
-      expect(defaultTitle).toHaveClass("no-data__list-container-heading");
+      const titles = container.querySelectorAll(
+        ".no-data__list-container-heading"
+      );
+      expect(titles).toHaveLength(0);
     });
 
     it("should render the icon component", () => {
@@ -74,16 +77,18 @@ describe("CNoData", () => {
       expect(title).toHaveClass("no-data__list-container-heading");
     });
 
-    it("should render default title when title prop is not provided", () => {
+    it("should not render title when title prop is not provided", () => {
       const propsWithoutTitle: NoDataProps = {
         imageSrcName: mockNoDataProps.imageSrcName,
         description: "Some description",
       };
 
-      render(<CNoData {...propsWithoutTitle} />);
+      const { container } = render(<CNoData {...propsWithoutTitle} />);
 
-      const defaultTitle = screen.getByText("NO_DATA.TITLE");
-      expect(defaultTitle).toBeInTheDocument();
+      const titles = container.querySelectorAll(
+        ".no-data__list-container-heading"
+      );
+      expect(titles).toHaveLength(0);
     });
 
     it("should not render title element when title is empty string", () => {
@@ -110,17 +115,19 @@ describe("CNoData", () => {
       expect(longTitle).toHaveClass("no-data__list-container-heading");
     });
 
-    it("should render title as undefined when explicitly passed", () => {
+    it("should not render title when undefined is explicitly passed", () => {
       const propsWithUndefinedTitle: NoDataProps = {
         imageSrcName: mockNoDataProps.imageSrcName,
         title: undefined,
         description: "Some description",
       };
 
-      render(<CNoData {...propsWithUndefinedTitle} />);
+      const { container } = render(<CNoData {...propsWithUndefinedTitle} />);
 
-      const defaultTitle = screen.getByText("NO_DATA.TITLE");
-      expect(defaultTitle).toBeInTheDocument();
+      const titles = container.querySelectorAll(
+        ".no-data__list-container-heading"
+      );
+      expect(titles).toHaveLength(0);
     });
   });
 
@@ -270,14 +277,14 @@ describe("CNoData", () => {
       const svgIcon = container.querySelector("svg");
       expect(svgIcon).toBeInTheDocument();
 
-      const titles = document.querySelectorAll(
+      const titles = container.querySelectorAll(
         ".no-data__list-container-heading"
       );
-      const descriptions = document.querySelectorAll(
+      const descriptions = container.querySelectorAll(
         ".no-data__list-container-body"
       );
 
-      expect(titles.length).toBeGreaterThan(0);
+      expect(titles).toHaveLength(0);
       expect(descriptions).toHaveLength(0);
     });
 
@@ -293,11 +300,15 @@ describe("CNoData", () => {
       expect(descriptions).toHaveLength(0);
     });
 
-    it("should render icon, default title and description", () => {
-      render(<CNoData {...mockNoDataPropsOnlyDescription} />);
+    it("should render icon and description but not title", () => {
+      const { container } = render(
+        <CNoData {...mockNoDataPropsOnlyDescription} />
+      );
 
-      const defaultTitle = screen.getByText("NO_DATA.TITLE");
-      expect(defaultTitle).toBeInTheDocument();
+      const titles = container.querySelectorAll(
+        ".no-data__list-container-heading"
+      );
+      expect(titles).toHaveLength(0);
 
       const description = screen.getByText("Only Description Here");
       expect(description).toBeInTheDocument();
@@ -578,6 +589,118 @@ describe("CNoData", () => {
 
       const mockIcon = screen.getByTestId("mock-icon");
       expect(mockIcon).toBeInTheDocument();
+    });
+  });
+
+  describe("Variant Handling", () => {
+    it("should render page variant by default", () => {
+      const { container } = render(<CNoData {...mockNoDataProps} />);
+
+      const pageContainer = container.querySelector(".no-data__list-container");
+      expect(pageContainer).toBeInTheDocument();
+
+      const boxContainer = container.querySelector(".no-data__box-container");
+      expect(boxContainer).not.toBeInTheDocument();
+    });
+
+    it("should render page variant when variant is explicitly set to 'page'", () => {
+      const { container } = render(
+        <CNoData
+          {...mockNoDataProps}
+          variant="page"
+        />
+      );
+
+      const pageContainer = container.querySelector(".no-data__list-container");
+      expect(pageContainer).toBeInTheDocument();
+    });
+
+    it("should render box variant when variant is set to 'box'", () => {
+      const { container } = render(
+        <CNoData
+          imageSrcName={mockNoDataProps.imageSrcName}
+          title="Box Title"
+          variant="box"
+        />
+      );
+
+      const boxContainer = container.querySelector(".no-data__box-container");
+      expect(boxContainer).toBeInTheDocument();
+
+      const title = screen.getByText("Box Title");
+      expect(title).toBeInTheDocument();
+    });
+
+    it("should render box variant with default title when title is not provided", () => {
+      render(
+        <CNoData
+          imageSrcName={mockNoDataProps.imageSrcName}
+          variant="box"
+        />
+      );
+
+      const defaultTitle = screen.getByText("NO_DATA.TITLE");
+      expect(defaultTitle).toBeInTheDocument();
+    });
+
+    it("should render box variant with custom className", () => {
+      const { container } = render(
+        <CNoData
+          imageSrcName={mockNoDataProps.imageSrcName}
+          title="Box Title"
+          variant="box"
+          className="custom-class"
+        />
+      );
+
+      const boxContainer = container.querySelector(".no-data__box-container");
+      expect(boxContainer).toHaveClass("custom-class");
+    });
+
+    it("should not render icon in box variant", () => {
+      const { container } = render(
+        <CNoData
+          imageSrcName={mockNoDataProps.imageSrcName}
+          title="Box Title"
+          variant="box"
+        />
+      );
+
+      const svgIcon = container.querySelector("svg");
+      expect(svgIcon).not.toBeInTheDocument();
+    });
+
+    it("should not render description in box variant", () => {
+      render(
+        <CNoData
+          imageSrcName={mockNoDataProps.imageSrcName}
+          title="Box Title"
+          description="This should not render"
+          variant="box"
+        />
+      );
+
+      const title = screen.getByText("Box Title");
+      expect(title).toBeInTheDocument();
+
+      const description = screen.queryByText("This should not render");
+      expect(description).not.toBeInTheDocument();
+    });
+
+    it("should render box variant with provided title over default", () => {
+      render(
+        <CNoData
+          imageSrcName={mockNoDataProps.imageSrcName}
+          title="Custom Box Title"
+          variant="box"
+        />
+      );
+
+      const customTitle = screen.getByText("Custom Box Title");
+      expect(customTitle).toBeInTheDocument();
+
+      const defaultTitle = screen.queryByText("NO_DATA.TITLE");
+      expect(defaultTitle).not.toBeInTheDocument();
     });
   });
 });

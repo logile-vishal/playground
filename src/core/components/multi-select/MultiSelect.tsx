@@ -35,7 +35,7 @@ const CMultiSelect = (props: MultiSelectProps) => {
   const isAllOptionsSelected = useMemo(() => {
     if (Array.isArray(props.value)) {
       return (
-        props.options.length > 0 && props.value?.length === props.options.length
+        props.options.length > 0 && props.value.length === props.options.length
       );
     }
     return false;

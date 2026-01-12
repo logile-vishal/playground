@@ -237,7 +237,7 @@ describe("CTreeView Component", () => {
       // Event may bubble, check that handleClick was called with the child node data
       expect(mockHandleClick).toHaveBeenCalled();
       const calls = mockHandleClick.mock.calls;
-      const childNodeCall = calls.find((call) => call[1].tagId === 3);
+      const childNodeCall = calls.find((call) => call[1].libraryId === 3);
       expect(childNodeCall).toBeDefined();
       expect(childNodeCall[1]).toEqual(mockTreeNodeWithChildren.subLibrary[0]);
     });
@@ -452,10 +452,10 @@ describe("CTreeView Component", () => {
       ).toBeInTheDocument();
     });
 
-    it("should handle node with tagId of 0", () => {
+    it("should handle node with libraryId of 0", () => {
       const nodeWithZeroId = {
         ...mockTreeNodeSimple,
-        tagId: 0,
+        libraryId: 0,
       };
 
       expect(() => {
@@ -468,10 +468,10 @@ describe("CTreeView Component", () => {
       }).not.toThrow();
     });
 
-    it("should handle node with empty tagName", () => {
+    it("should handle node with empty libraryName", () => {
       const nodeWithEmptyName = {
         ...mockTreeNodeSimple,
-        tagName: "",
+        libraryName: "",
       };
 
       const { container } = render(
@@ -484,10 +484,10 @@ describe("CTreeView Component", () => {
       expect(container.querySelector('[role="treeitem"]')).toBeInTheDocument();
     });
 
-    it("should handle node with special characters in tagName", () => {
+    it("should handle node with special characters in libraryName", () => {
       const nodeWithSpecialChars = {
         ...mockTreeNodeSimple,
-        tagName: "Folder @#$%^&*() Test",
+        libraryName: "Folder @#$%^&*() Test",
       };
 
       render(
@@ -519,8 +519,8 @@ describe("CTreeView Component", () => {
     it("should handle large number of siblings", () => {
       const manyChildren = Array.from({ length: 50 }, (_, i) => ({
         ...mockTreeNodeSimple,
-        tagId: i + 100,
-        tagName: `Child ${i + 1}`,
+        libraryId: i + 100,
+        libraryName: `Child ${i + 1}`,
         subLibrary: [],
       }));
 
@@ -558,10 +558,10 @@ describe("CTreeView Component", () => {
       }).not.toThrow();
     });
 
-    it("should handle node with reportType as 0", () => {
+    it("should handle node with reportLibraryId as 0", () => {
       const nodeWithZeroReportType = {
         ...mockTreeNodeSimple,
-        reportType: 0,
+        reportLibraryId: 0,
       };
 
       expect(() => {
@@ -684,7 +684,7 @@ describe("CTreeView Component", () => {
     });
   });
 
-  describe("getExpandedTagIds Internal Logic", () => {
+  describe("getExpandedLibraryIds Internal Logic", () => {
     it("should identify expanded nodes correctly", () => {
       render(
         <CTreeView
@@ -856,8 +856,8 @@ describe("CTreeView Component", () => {
     it("should render large tree without errors", () => {
       const largeTree = Array.from({ length: 100 }, (_, i) => ({
         ...mockTreeNodeSimple,
-        tagId: i + 1000,
-        tagName: `Node ${i + 1}`,
+        libraryId: i + 1000,
+        libraryName: `Node ${i + 1}`,
       }));
 
       expect(() => {
