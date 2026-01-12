@@ -1,20 +1,20 @@
-export type TreeViewNodeDataType = {
-  tagId: number;
-  tagName: string;
-  tagType: string;
-  tagSort: string | null;
-  tagLevel: number;
+export type DirectoryType = {
+  libraryId: number;
+  libraryName: string;
+  libraryType: string;
+  librarySort: string | null;
+  libraryLevel: number;
   isPublic: boolean;
   isPrivate: boolean;
   isHidden: boolean;
   isNoShow: boolean;
-  reportType: number | null;
+  reportLibraryId?: number | null;
   isExpanded: boolean | null;
-  subLibrary: TreeViewNodeDataType[];
+  subLibrary: DirectoryType[];
 };
 
 export type FolderTreeResponse = {
   success: boolean;
   message: string;
-  data: TreeViewNodeDataType[];
+  data: DirectoryType[];
 };

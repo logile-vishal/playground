@@ -1,4 +1,5 @@
 import type { IconName } from "@/core/types/icon.type";
+import type { DirectoryType } from "@/core/types/tree-view.type";
 import type {
   PaginatedResponse,
   Pagination,
@@ -6,21 +7,6 @@ import type {
 
 import type { TemplatePreviewType } from "./template-questions.type";
 import type { TEMPLATE_TABLE_COLUMNS } from "../constants/constant";
-
-export type DirectoryType = {
-  tagId: number;
-  tagName: string;
-  tagType: string;
-  tagSort: string | number | null;
-  tagLevel: number;
-  isPublic: boolean;
-  isPrivate: boolean;
-  isHidden: boolean;
-  isNoShow: boolean;
-  reportType: number | string | null;
-  isExpanded: boolean | null;
-  subLibrary?: DirectoryType[];
-};
 
 export type TemplateType = {
   name?: string;
@@ -72,7 +58,7 @@ export type MenuState = {
 export type LibraryTableProps = {
   showCheckbox: boolean;
   setShowCheckbox: (value: boolean) => void;
-  selectedDirectory: DirectoryType;
+  selectedDirectory: DirectoryType | null;
   selectedTemplate: TemplateType[] | ReportType[];
   setSelectedTemplate: (value: TemplateType[] | ReportType[]) => void;
   hoveredRowId?: string | null;

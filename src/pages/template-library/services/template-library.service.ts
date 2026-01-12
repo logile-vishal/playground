@@ -1,7 +1,7 @@
 import { get, del, post } from "@/core/services/http-base-service";
 import type { PaginatedResponse } from "@/core/types/pagination.type";
 import { API_CONFIG } from "@/core/constants/api-config";
-import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
+import type { DirectoryType } from "@/core/types/tree-view.type";
 
 import type {
   DeleteTemplateProps,
@@ -19,9 +19,9 @@ import { LIB_TYPE } from "../constants/constant";
  * @description fetch all the directories list
  */
 export const getAllDirectories: () => Promise<
-  PaginatedResponse<TreeViewNodeDataType>
+  PaginatedResponse<DirectoryType>
 > = () => {
-  return get<PaginatedResponse<TreeViewNodeDataType>>(
+  return get<PaginatedResponse<DirectoryType>>(
     API_CONFIG.templateLibrary.getAllDirectories
   );
 };
@@ -30,13 +30,13 @@ export const getAllDirectories: () => Promise<
  * @method getTemplatesByTagId
  * @description fetch templates by their tag id
  */
-export const getTemplatesByTagId: (
-  tagId: number,
+export const getTemplatesByLibraryId: (
+  libraryId: number,
   params: Record<string, unknown>
-) => Promise<PaginatedResponse<TemplateType>> = (tagId, params = {}) => {
-  const url = API_CONFIG.templateLibrary.getTemplateByTagId.replace(
-    "{tagId}",
-    `${tagId}`
+) => Promise<PaginatedResponse<TemplateType>> = (libraryId, params = {}) => {
+  const url = API_CONFIG.templateLibrary.getTemplateByLibraryId.replace(
+    "{libraryId}",
+    `${libraryId}`
   );
   return get<PaginatedResponse<TemplateType>>(url, { params });
 };

@@ -164,7 +164,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     LAST_MODIFIED_TIME,
     ACTIONS,
   } = TEMPLATE_TABLE_COLUMNS;
-  const isReportType = isNonEmptyValue(selectedDirectory?.reportType);
+  const isReportType = isNonEmptyValue(selectedDirectory?.reportLibraryId);
 
   /* APIs */
   const {
@@ -192,7 +192,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
 
   const handleDeleteTemplate = () => {
     if (deleteModal?.data?.savedDate)
-      deleteReportById(deleteModal?.data?.templateId);
+      deleteReportById(deleteModal?.data?.reportId);
     else deleteTemplateById(deleteModal?.data?.templateId);
 
     handleDeleteModalClose();

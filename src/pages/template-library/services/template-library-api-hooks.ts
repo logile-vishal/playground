@@ -12,7 +12,7 @@ import type {
 } from "../types/template-library.type";
 import {
   getAllDirectories,
-  getTemplatesByTagId,
+  getTemplatesByLibraryId,
   getReportsByReportType,
   getTaskTypes,
   getTaskTags,
@@ -23,7 +23,7 @@ import {
   deleteReportTemplateById,
   deleteTaskTemplateById,
 } from "./template-library.service";
-import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
+import type { DirectoryType } from "@/core/types/tree-view.type";
 
 /**
  * @method useGetAllDirectories
@@ -32,7 +32,7 @@ import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
 export function useGetAllDirectories() {
   const { notify } = useNotification();
 
-  const query = useQuery<PaginatedResponse<TreeViewNodeDataType>>({
+  const query = useQuery<PaginatedResponse<DirectoryType>>({
     queryKey: ["directories"],
     queryFn: getAllDirectories,
     retry: false,
@@ -53,18 +53,17 @@ export function useGetAllDirectories() {
 }
 
 /**
- * @method useGetTemplatesByTagId
- * @description hook to fetch templates by tagId
+ * @method useGetTemplatesByLibraryId
+ * @description hook to fetch templates by libraryId
  */
-export function useGetTemplatesByTagId() {
+export function useGetTemplatesByLibraryId() {
   const { notify } = useNotification();
 
   const query = useMutation({
     mutationKey: ["templates"],
     mutationFn: (params?: Record<string, unknown>) => {
-      const { tagId } = params;
-      delete params?.tagId;
-      return getTemplatesByTagId(tagId as number, params);
+      const { libraryId, ...restParams } = params;
+      return getTemplatesByLibraryId(libraryId as number, restParams);
     },
     retry: false,
   });

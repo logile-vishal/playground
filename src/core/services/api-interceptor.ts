@@ -43,7 +43,9 @@ export const setInterceptor = (axiosInstance: AxiosInstance) => {
         error.response.data.errorCode
       ) {
         error["message"] =
-          SERVER_ERROR_CODES[error.response.data.errorCode].reason || error;
+          SERVER_ERROR_CODES[error.response.data.errorCode]?.reason ||
+          error?.response?.data?.errorMessage ||
+          error;
       }
 
       return Promise.reject(error);

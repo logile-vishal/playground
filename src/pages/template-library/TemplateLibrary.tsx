@@ -24,7 +24,7 @@ import type {
   PaginatedResponse,
   Pagination,
 } from "@/core/types/pagination.type";
-import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
+import type { DirectoryType } from "@/core/types/tree-view.type";
 import { CButton } from "@/core/components/button/button";
 import CNoData from "@/core/components/no-data/NoData";
 import CTextfield from "@/core/components/form/textfield/Textfield";
@@ -32,15 +32,11 @@ import { isNonEmptyValue } from "@/utils";
 import clsx from "@/utils/clsx";
 import CDivider from "@/core/components/divider/Divider";
 
-import type {
-  DirectoryType,
-  ReportType,
-  TemplateType,
-} from "./types/template-library.type";
+import type { ReportType, TemplateType } from "./types/template-library.type";
 import {
   useGetAllDirectories,
-  useGetTemplatesByTagId,
   useGetReportsByReportType,
+  useGetTemplatesByLibraryId,
 } from "./services/template-library-api-hooks";
 import RenderExportMenu from "./components/export-menubar/ExportMenu";
 import { IMPORT_MODAL, TEMPLATE_LIST_PAGE_SIZE } from "./constants/constant";
@@ -88,8 +84,8 @@ const TemplateLibrary: React.FC = () => {
   const {
     data: templatesList,
     isPending: isTemplatesLoading,
-    mutateAsync: getTemplatesByTagId,
-  } = useGetTemplatesByTagId();
+    mutateAsync: getTemplatesByLibraryId,
+  } = useGetTemplatesByLibraryId();
   const {
     data: reportsList,
     isPending: isReportsLoading,
@@ -115,18 +111,18 @@ const TemplateLibrary: React.FC = () => {
       ...paginationData,
       ...paramsPayload,
     };
-    if (directory?.reportType) {
-      payload = { ...payload, reportTypeId: directory?.reportType };
+    if (directory?.reportLibraryId) {
+      payload = { ...payload, reportTypeId: directory?.reportLibraryId };
       getReportsByReportTypeId(payload);
     } else {
-      payload = { ...payload, tagId: directory?.tagId };
-      getTemplatesByTagId(payload);
+      payload = { ...payload, libraryId: directory?.libraryId };
+      getTemplatesByLibraryId(payload);
     }
   };
 
   const handleDirectoryClick = (
     event: React.MouseEvent<HTMLElement>,
-    directory: TreeViewNodeDataType
+    directory: DirectoryType
   ) => {
     event?.preventDefault();
     event?.stopPropagation();
@@ -166,9 +162,9 @@ const TemplateLibrary: React.FC = () => {
 
   useEffect(() => {
     let data = null;
-    if (selectedDirectory?.reportType !== undefined) {
+    if (selectedDirectory?.reportLibraryId !== undefined) {
       data = reportsList;
-    } else if (selectedDirectory?.tagId !== undefined) {
+    } else if (selectedDirectory?.libraryId !== undefined) {
       data = templatesList;
     }
     setTableData(data);

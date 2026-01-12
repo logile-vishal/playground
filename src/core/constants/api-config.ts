@@ -8,7 +8,7 @@ export const API_CONFIG = {
   templateLibrary: {
     // Template Library APIs
     getAllDirectories: `${baseURL}/template-libraries`,
-    getTemplateByTagId: `${baseURL}/template-libraries/tag-id/{tagId}/templates`,
+    getTemplateByLibraryId: `${baseURL}/template-libraries/tag-id/{libraryId}/templates`,
     getReportByReportType: `${baseURL}/template-libraries/report-types/{reportTypeId}/reports`,
     getTaskTypes: `${baseURL}/template-libraries/advance/task-types`,
     getTaskTags: `${baseURL}/template-libraries/advance/task-tags`,

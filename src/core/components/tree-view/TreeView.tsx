@@ -4,16 +4,16 @@ import { styled } from "@mui/material/styles";
 import CSvgIcon from "@/core/components/icon/Icon";
 import Box from "@mui/material/Box";
 import "./TreeView.scss";
-import type { TreeViewNodeDataType } from "@/core/types/tree-view.type";
+import type { DirectoryType } from "@/core/types/tree-view.type";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 import { ArrowDownFill, ArrowRightFill } from "@/core/constants/icons";
 
 type TreeViewProps = {
-  data: TreeViewNodeDataType[];
+  data: DirectoryType[];
   setSelectedData?: React.Dispatch<React.SetStateAction<number | null>>;
   handleClick?: (
     event: React.MouseEvent<HTMLLIElement>,
-    directory: TreeViewNodeDataType
+    directory: DirectoryType
   ) => void;
 };
 
@@ -74,15 +74,15 @@ const BlankIcon = () => (
   ></Box>
 );
 
-function getExpandedTagIds(nodes: TreeViewNodeDataType[]): string[] {
+function getExpandedLibraryIds(nodes: DirectoryType[]): string[] {
   let result: string[] = [];
 
   for (const node of nodes) {
     if (node.isExpanded === true) {
-      result.push(String(node.tagId));
+      result.push(String(node.libraryId));
     }
     if (node.subLibrary && node.subLibrary.length > 0) {
-      result = result.concat(getExpandedTagIds(node.subLibrary));
+      result = result.concat(getExpandedLibraryIds(node.subLibrary));
     }
   }
 
@@ -90,11 +90,11 @@ function getExpandedTagIds(nodes: TreeViewNodeDataType[]): string[] {
 }
 
 const CTreeView: React.FC<TreeViewProps> = ({ data, handleClick }) => {
-  const renderTree = (nodes: TreeViewNodeDataType) => (
+  const renderTree = (nodes: DirectoryType) => (
     <StyledTreeItem
-      key={nodes.tagId}
-      itemId={String(nodes.tagId)}
-      label={renderMacTruncate(nodes.tagName)}
+      key={nodes.libraryId}
+      itemId={String(nodes.libraryId)}
+      label={renderMacTruncate(nodes.libraryName)}
       onClick={(e) => handleClick(e, nodes)}
     >
       {Array.isArray(nodes.subLibrary)
@@ -112,7 +112,7 @@ const CTreeView: React.FC<TreeViewProps> = ({ data, handleClick }) => {
         endIcon: BlankIcon,
       }}
       sx={{ flexGrow: 1, overflowY: "auto", height: "100%" }}
-      defaultExpandedItems={getExpandedTagIds(data) || []}
+      defaultExpandedItems={getExpandedLibraryIds(data) || []}
     >
       {data.map((tree) => renderTree(tree))}
     </SimpleTreeView>
