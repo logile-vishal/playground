@@ -17,6 +17,7 @@ import {
 } from "./PreviewTemplateType";
 import RenderExportMenu from "../export-menubar/ExportMenu";
 import "./PreviewModal.scss";
+import { useTemplateLibraryTranslations } from "../../translation/useTemplateLibraryTranslations";
 import {
   renderTemplatePreviewMobileSkeleton,
   renderTemplatePreviewSkeleton,
@@ -31,6 +32,13 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
   handleExportMenuClose,
   handleExportMenuOpen,
 }) => {
+  const {
+    TEMPLATE_PREVIEW_GRID_HEADER,
+    QUESTION_TYPES,
+    DATE_INPUT_TYPE,
+    QUESTION_ATTACHMENT,
+    ATTACHMENT_BUTTON_CONFIG,
+  } = useTemplateLibraryTranslations();
   const [isDesktopPreview, setIsDesktopPreview] = React.useState<boolean>(true);
   const [templateType, setTemplateType] = React.useState<string>();
   const [isQuestionView, setQuestionView] = React.useState<boolean>(true);
@@ -83,7 +91,12 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   ? renderGridContainer(
                       previewModal?.data?.gridsPreview,
                       isDesktopPreview,
-                      templateType
+                      templateType,
+                      TEMPLATE_PREVIEW_GRID_HEADER,
+                      QUESTION_TYPES,
+                      DATE_INPUT_TYPE,
+                      QUESTION_ATTACHMENT,
+                      ATTACHMENT_BUTTON_CONFIG
                     )
                   : // Checklist template preview
                     previewModal?.data?.checkListPreview?.subQuestions?.map(
@@ -92,7 +105,11 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                           question,
                           `${index + 1}.`,
                           isDesktopPreview,
-                          templateType
+                          templateType,
+                          QUESTION_TYPES,
+                          DATE_INPUT_TYPE,
+                          QUESTION_ATTACHMENT,
+                          ATTACHMENT_BUTTON_CONFIG
                         )
                     )
               }

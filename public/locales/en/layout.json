@@ -23,5 +23,23 @@
       "communication": "Communication",
       "queueManagement": "Queue Management"
     }
+  },
+  "USER_PROFILE_MENU_OPTIONS": {
+    "changeRole": "Change Role",
+    "setFocus": "Set Focus",
+    "userProfile": "User Profile",
+    "modifyDashboard": "Modify Dashboard",
+    "reduceRole": "Reduce Role",
+    "userManagement": "User Management",
+    "adminMode": "Admin Mode",
+    "adminModeAllSettings": "All Settings",
+    "adminModePermissions": "Permissions",
+    "adminModeInternationalization": "Internationalization",
+    "theme": "Theme",
+    "themeDark": "Dark",
+    "themeLight": "Light",
+    "themeSystemDefault": "System Default",
+    "language": "Language",
+    "logout": "Logout"
   }
 }

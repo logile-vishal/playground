@@ -19,6 +19,12 @@
     cursor: pointer;
     height: fit-content;
     &.MuiButtonBase-root.MuiMenuItem-root {
+      &:first-of-type {
+        padding-top: var(--space-xs);
+      }
+      &:last-of-type {
+        padding-bottom: var(--space-xs);
+      }
       padding: 0 var(--space-xs);
       min-height: max-content;
       &:hover {

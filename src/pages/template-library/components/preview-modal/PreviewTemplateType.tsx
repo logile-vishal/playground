@@ -14,11 +14,7 @@ import CSvgIcon from "@/core/components/icon/Icon";
 import { CurlyBracket, Download, Excel, Pdf } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
-import {
-  QUESTION_TYPES,
-  TEMPLATE_PREVIEW_GRID_HEADER,
-  TEMPLATE_TYPE,
-} from "../../constants/constant";
+import { getQuestionTypes, TEMPLATE_TYPE } from "../../constants/constant";
 import {
   RenderDropdownQues,
   RenderRadioQues,
@@ -34,9 +30,17 @@ import RenderSection from "./SectionQuesType";
  * @param {string} templateType - templateType for various question type.
  * @returns {ReactNode} The rendered answer component or null for unknown types.
  */
-export const renderAnswer = (question, isDesktopPreview, templateType) => {
+export const renderAnswer = (
+  question,
+  isDesktopPreview,
+  templateType,
+  QUESTION_TYPES,
+  DATE_INPUT_TYPE,
+  QUESTION_ATTACHMENT,
+  ATTACHMENT_BUTTON_CONFIG
+) => {
   const { DROPDOWN, CHECKBOX, RADIO_BUTTON, LONG_USER_INPUT, USER_INPUT } =
-    QUESTION_TYPES;
+    getQuestionTypes(QUESTION_TYPES);
   const type = question?.questionType;
   switch (type) {
     case DROPDOWN.value:
@@ -46,6 +50,9 @@ export const renderAnswer = (question, isDesktopPreview, templateType) => {
           question={question}
           isDesktopPreview={isDesktopPreview}
           templateBaseType={templateType}
+          QUESTION_TYPES={QUESTION_TYPES}
+          QUESTION_ATTACHMENT={QUESTION_ATTACHMENT}
+          ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
         />
       );
     case RADIO_BUTTON.value:
@@ -54,6 +61,9 @@ export const renderAnswer = (question, isDesktopPreview, templateType) => {
           question={question}
           isDesktopPreview={isDesktopPreview}
           templateBaseType={templateType}
+          QUESTION_TYPES={QUESTION_TYPES}
+          QUESTION_ATTACHMENT={QUESTION_ATTACHMENT}
+          ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
         />
       );
     case USER_INPUT.value:
@@ -62,6 +72,10 @@ export const renderAnswer = (question, isDesktopPreview, templateType) => {
           question={question}
           isDesktopPreview={isDesktopPreview}
           templateBaseType={templateType}
+          QUESTION_TYPES={QUESTION_TYPES}
+          QUESTION_ATTACHMENT={QUESTION_ATTACHMENT}
+          ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
+          DATE_INPUT_TYPE={DATE_INPUT_TYPE}
         />
       );
     case LONG_USER_INPUT.value:
@@ -70,6 +84,10 @@ export const renderAnswer = (question, isDesktopPreview, templateType) => {
           question={question}
           isDesktopPreview={isDesktopPreview}
           templateBaseType={templateType}
+          QUESTION_TYPES={QUESTION_TYPES}
+          QUESTION_ATTACHMENT={QUESTION_ATTACHMENT}
+          ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
+          DATE_INPUT_TYPE={DATE_INPUT_TYPE}
         />
       );
     default:
@@ -135,7 +153,11 @@ export const renderChecklistComponent = (
   question,
   index,
   isDesktopPreview,
-  templateType
+  templateType,
+  QUESTION_TYPES,
+  DATE_INPUT_TYPE,
+  QUESTION_ATTACHMENT,
+  ATTACHMENT_BUTTON_CONFIG
 ) => {
   return (
     <Box
@@ -153,17 +175,31 @@ export const renderChecklistComponent = (
           isDesktopPreview={isDesktopPreview}
           templateBaseType={templateType}
           renderChecklistComponent={renderChecklistComponent}
+          QUESTION_TYPES={QUESTION_TYPES}
+          DATE_INPUT_TYPE={DATE_INPUT_TYPE}
+          QUESTION_ATTACHMENT={QUESTION_ATTACHMENT}
+          ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
         />
       ) : (
         <>
-          {question?.questionType !== QUESTION_TYPES.TITLE.value &&
+          {question?.questionType !==
+            getQuestionTypes(QUESTION_TYPES).TITLE.value &&
             renderQuestionTitle(
               question,
               index,
-              question.questionType === QUESTION_TYPES.LABEL.value,
+              question.questionType ===
+                getQuestionTypes(QUESTION_TYPES).LABEL.value,
               isDesktopPreview
             )}
-          {renderAnswer(question, isDesktopPreview, templateType)}
+          {renderAnswer(
+            question,
+            isDesktopPreview,
+            templateType,
+            QUESTION_TYPES,
+            DATE_INPUT_TYPE,
+            QUESTION_ATTACHMENT,
+            ATTACHMENT_BUTTON_CONFIG
+          )}
         </>
       )}
     </Box>
@@ -220,7 +256,7 @@ export const renderFormContainer = (question, type) => {
  * @param {Object[]} list - Array of column question objects.
  * @returns {ReactNode} Table header JSX.
  */
-const gridHeader = (list) => (
+const gridHeader = (list, TEMPLATE_PREVIEW_GRID_HEADER) => (
   <TableHead className="template-preview-modal__grid-table-header">
     <TableRow>
       <TableCell>{TEMPLATE_PREVIEW_GRID_HEADER.title}</TableCell>
@@ -241,7 +277,12 @@ const gridHeader = (list) => (
 export const renderGridContainer = (
   quesData,
   isDesktopPreview,
-  templateType
+  templateType,
+  TEMPLATE_PREVIEW_GRID_HEADER,
+  QUESTION_TYPES,
+  DATE_INPUT_TYPE,
+  QUESTION_ATTACHMENT,
+  ATTACHMENT_BUTTON_CONFIG
 ) => {
   return (
     <TableContainer>
@@ -252,7 +293,7 @@ export const renderGridContainer = (
         })}
         data-responsive="true"
       >
-        {gridHeader(quesData.columns)}
+        {gridHeader(quesData.columns, TEMPLATE_PREVIEW_GRID_HEADER)}
         <TableBody>
           {quesData.rows.map((question, index) => {
             return (
@@ -261,7 +302,8 @@ export const renderGridContainer = (
                   {renderQuestionTitle(
                     question,
                     `${index + 1}.`,
-                    question.type === QUESTION_TYPES.LABEL.value,
+                    question.type ===
+                      getQuestionTypes(QUESTION_TYPES).LABEL.value,
                     isDesktopPreview
                   )}
                 </TableCell>
@@ -270,7 +312,15 @@ export const renderGridContainer = (
                     data-label={col?.qcontent}
                     key={colIdx}
                   >
-                    {renderAnswer(question, isDesktopPreview, templateType)}
+                    {renderAnswer(
+                      question,
+                      isDesktopPreview,
+                      templateType,
+                      QUESTION_TYPES,
+                      DATE_INPUT_TYPE,
+                      QUESTION_ATTACHMENT,
+                      ATTACHMENT_BUTTON_CONFIG
+                    )}
                   </TableCell>
                 ))}
               </TableRow>

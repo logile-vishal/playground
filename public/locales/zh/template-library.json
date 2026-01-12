@@ -21,5 +21,76 @@
     "created": "创建时间",
     "lastModified": "最后修改时间",
     "actions": "操作"
+  },
+  "IMPORT_MODAL": {
+    "title": "快速导入 - Excel",
+    "description": "选择 .XLSX 文件进行导入",
+    "confirmBtnText": "导入",
+    "cancelBtnText": "取消"
+  },
+  "DELETE_MODAL": {
+    "title": "删除模板",
+    "description": "您要永久删除选定的模板吗？",
+    "confirmBtnText": "确定",
+    "cancelBtnText": "取消"
+  },
+  "EXPORT_MODAL": {
+    "title": "导出",
+    "print": "打印",
+    "pdf": "PDF",
+    "excel": "Excel",
+    "csv": "CSV"
+  },
+  "TEMPLATE_PREVIEW_GRID_HEADER": {
+    "title": "内容"
+  },
+  "TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS": {
+    "nameAsc": "排序 (A → Z)",
+    "nameDesc": "排序 (Z → A)",
+    "sortAsc": "升序排列",
+    "sortDesc": "降序排列"
+  },
+  "TEMPLATE_PREVIEW_MODAL": {
+    "QUESTION_TYPES": {
+      "numeric": "数值",
+      "dropdown": "下拉菜单",
+      "radioButton": "单选按钮",
+      "checkbox": "复选框",
+      "userInput": "用户输入",
+      "longUserInput": "长文本输入",
+      "label": "标签",
+      "reminder": "提醒",
+      "title": "标题",
+      "responseTemplate": "响应模板",
+      "dynamicDropdown": "动态下拉菜单",
+      "upcBarcodeScan": "UPC条码扫描"
+    },
+    "DATE_INPUT_TYPE": {
+      "date": "日期",
+      "time": "时间",
+      "dateTime": "日期和时间"
+    },
+    "QUESTION_ATTACHMENT": {
+      "photo": "照片",
+      "barcode": "条码",
+      "temperatureProbe": "温度探针",
+      "numeric": "数值",
+      "attachment": "附件"
+    },
+    "ATTACHMENT_BUTTON_CONFIG": {
+      "capturePhoto": "拍摄照片",
+      "captureTemperature": "捕获温度",
+      "enterValue": "输入值",
+      "scanItem": "扫描物品",
+      "chooseFile": "选择文件"
+    },
+    "PLACEHOLDER_TEXT": {
+      "enterValue": "输入值",
+      "enterDetails": "输入详情",
+      "selectOption": "选择一个选项",
+      "selectDate": "选择日期",
+      "selectTime": "选择时间",
+      "selectDateTime": "选择日期和时间"
+    }
   }
 }

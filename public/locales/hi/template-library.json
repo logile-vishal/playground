@@ -21,5 +21,76 @@
     "created": "बनाया गया",
     "lastModified": "अंतिम संशोधित",
     "actions": "कार्रवाइयाँ"
+  },
+  "IMPORT_MODAL": {
+    "title": "त्वरित आयात - Excel",
+    "description": "आयात करने के लिए .XLSX फ़ाइल चुनें",
+    "confirmBtnText": "आयात करें",
+    "cancelBtnText": "रद्द करें"
+  },
+  "DELETE_MODAL": {
+    "title": "टेम्पलेट हटाएं",
+    "description": "क्या आप चयनित टेम्पलेट को स्थायी रूप से हटाना चाहते हैं?",
+    "confirmBtnText": "ठीक है",
+    "cancelBtnText": "रद्द करें"
+  },
+  "EXPORT_MODAL": {
+    "title": "निर्यात करें",
+    "print": "प्रिंट करें",
+    "pdf": "PDF",
+    "excel": "Excel",
+    "csv": "CSV"
+  },
+  "TEMPLATE_PREVIEW_GRID_HEADER": {
+    "title": "सामग्री"
+  },
+  "TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS": {
+    "nameAsc": "क्रमबद्ध करें (A → Z)",
+    "nameDesc": "क्रमबद्ध करें (Z → A)",
+    "sortAsc": "आरोही क्रम में क्रमबद्ध करें",
+    "sortDesc": "अवरोही क्रम में क्रमबद्ध करें"
+  },
+  "TEMPLATE_PREVIEW_MODAL": {
+    "QUESTION_TYPES": {
+      "numeric": "संख्यात्मक",
+      "dropdown": "ड्रॉपडाउन",
+      "radioButton": "रेडियो बटन",
+      "checkbox": "चेकबॉक्स",
+      "userInput": "उपयोगकर्ता इनपुट",
+      "longUserInput": "लंबा उपयोगकर्ता इनपुट",
+      "label": "लेबल",
+      "reminder": "अनुस्मारक",
+      "title": "शीर्षक",
+      "responseTemplate": "प्रतिक्रिया टेम्पलेट",
+      "dynamicDropdown": "गतिशील ड्रॉपडाउन",
+      "upcBarcodeScan": "UPC बारकोड स्कैन"
+    },
+    "DATE_INPUT_TYPE": {
+      "date": "तारीख",
+      "time": "समय",
+      "dateTime": "तारीख और समय"
+    },
+    "QUESTION_ATTACHMENT": {
+      "photo": "फ़ोटो",
+      "barcode": "बारकोड",
+      "temperatureProbe": "तापमान जांच",
+      "numeric": "संख्यात्मक",
+      "attachment": "संलग्नक"
+    },
+    "ATTACHMENT_BUTTON_CONFIG": {
+      "capturePhoto": "फ़ोटो कैप्चर करें",
+      "captureTemperature": "तापमान कैप्चर करें",
+      "enterValue": "मान दर्ज करें",
+      "scanItem": "आइटम स्कैन करें",
+      "chooseFile": "फ़ाइल चुनें"
+    },
+    "PLACEHOLDER_TEXT": {
+      "enterValue": "मान दर्ज करें",
+      "enterDetails": "विवरण दर्ज करें",
+      "selectOption": "एक विकल्प चुनें",
+      "selectDate": "तारीख चुनें",
+      "selectTime": "समय चुनें",
+      "selectDateTime": "तारीख और समय चुनें"
+    }
   }
 }

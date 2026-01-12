@@ -31,6 +31,10 @@ const RenderSection: React.FC<RenderSectionProps> = ({
   isDesktopPreview,
   renderChecklistComponent,
   templateBaseType,
+  QUESTION_TYPES,
+  DATE_INPUT_TYPE,
+  QUESTION_ATTACHMENT,
+  ATTACHMENT_BUTTON_CONFIG,
 }) => {
   const [expanded, setExpanded] = useState(true);
   const expandIcon = isDesktopPreview
@@ -103,7 +107,11 @@ const RenderSection: React.FC<RenderSectionProps> = ({
               item,
               `${parentIndex}${index + 1}`,
               isDesktopPreview,
-              templateBaseType
+              templateBaseType,
+              QUESTION_TYPES,
+              DATE_INPUT_TYPE,
+              QUESTION_ATTACHMENT,
+              ATTACHMENT_BUTTON_CONFIG
             )
           )}
         </AccordionDetails>

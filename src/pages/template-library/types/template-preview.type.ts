@@ -67,9 +67,20 @@ export type RenderAttachmentProps = {
   isDesktopPreview?: boolean;
   type?: string;
   templateBaseType?: string;
+  QUESTION_TYPES?: Record<string, { label: string; value: string }>;
+  DATE_INPUT_TYPE?: Record<string, { label: string; value: string }>;
+  QUESTION_ATTACHMENT?: Record<string, { label: string; value: string }>;
+  ATTACHMENT_BUTTON_CONFIG?: Record<string, string>;
 };
 
-export type RenderSectionProps = {
+type fieldProps = {
+  QUESTION_TYPES?: Record<string, { label: string; value: string }>;
+  DATE_INPUT_TYPE?: Record<string, { label: string; value: string }>;
+  QUESTION_ATTACHMENT?: Record<string, { label: string; value: string }>;
+  ATTACHMENT_BUTTON_CONFIG?: Record<string, string>;
+};
+
+export type RenderSectionProps = fieldProps & {
   question: QuestionType;
   parentIndex?: number;
   isDesktopPreview: boolean;
@@ -78,7 +89,8 @@ export type RenderSectionProps = {
     item: QuestionType,
     index: string,
     isDesktopPreview?: boolean,
-    templateBaseType?: string
+    templateBaseType?: string,
+    ...fieldProps
   ) => React.ReactNode;
 };
 

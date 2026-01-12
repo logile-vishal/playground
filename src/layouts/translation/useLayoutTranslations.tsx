@@ -105,8 +105,34 @@ export const useLayoutTranslations = () => {
     WFM: WFM_NAV_LINKS,
   };
 
+  const USER_PROFILE_MENU_OPTIONS = {
+    changeRole: t("USER_PROFILE_MENU_OPTIONS.changeRole"),
+    setFocus: t("USER_PROFILE_MENU_OPTIONS.setFocus"),
+    userProfile: t("USER_PROFILE_MENU_OPTIONS.userProfile"),
+    modifyDashboard: t("USER_PROFILE_MENU_OPTIONS.modifyDashboard"),
+    reduceRole: t("USER_PROFILE_MENU_OPTIONS.reduceRole"),
+    userManagement: t("USER_PROFILE_MENU_OPTIONS.userManagement"),
+    adminMode: t("USER_PROFILE_MENU_OPTIONS.adminMode"),
+    adminModeAllSettings: t("USER_PROFILE_MENU_OPTIONS.adminModeAllSettings"),
+    adminModePermissions: t("USER_PROFILE_MENU_OPTIONS.adminModePermissions"),
+    adminModeInternationalization: t(
+      "USER_PROFILE_MENU_OPTIONS.adminModeInternationalization"
+    ),
+    theme: t("USER_PROFILE_MENU_OPTIONS.theme"),
+    themeDark: t("USER_PROFILE_MENU_OPTIONS.themeDark"),
+    themeLight: t("USER_PROFILE_MENU_OPTIONS.themeLight"),
+    themeSystemDefault: t("USER_PROFILE_MENU_OPTIONS.themeSystemDefault"),
+    language: t("USER_PROFILE_MENU_OPTIONS.language"),
+    languageEnglish: "English",
+    languageSpanish: "Español",
+    languageChinese: "中文",
+    languageHindi: "हिन्दी",
+    logout: t("USER_PROFILE_MENU_OPTIONS.logout"),
+  };
+
   return {
     APP_BAR,
     NAV_LINKS,
+    USER_PROFILE_MENU_OPTIONS,
   };
 };

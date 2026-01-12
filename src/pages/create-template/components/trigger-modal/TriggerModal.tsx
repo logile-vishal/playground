@@ -113,7 +113,7 @@ const TriggerModal: React.FC<TriggerModalProps> = ({
                 size={15}
                 component={AddIcon}
               />
-              <Box ml="var(--space-s)">
+              <Box ml="var(--space-xs)">
                 {type === TRIGGER_TYPE.notification
                   ? NOTIFICATIONS.addNotificationButtonLabel
                   : FOLLOWUP_TASKS.addFollowUpTaskButtonLabel}

@@ -28,7 +28,6 @@ import {
   Send,
 } from "@/core/constants/icons";
 import {
-  DELETE_MODAL,
   formatDate,
   REPORT_SORTING,
   TABLE_PAGINATION_OPTIONS,
@@ -122,7 +121,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   paginationData,
   handlePaginationChange,
 }) => {
-  const { TEMPLATE_TABLE_COLUMN_HEADINGS } = useTemplateLibraryTranslations();
+  const { TEMPLATE_TABLE_COLUMN_HEADINGS, DELETE_MODAL } =
+    useTemplateLibraryTranslations();
   const [tableActionMenu, setTableActionMenu] = useState<
     Record<ActionMenuKeys, MenuState>
   >({
@@ -463,7 +463,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     renderHeaderWithMenu(
       column,
       "name",
-      isReportType ? REPORT_SORTING.NAME : TEMPLATE_SORTING.NAME
+      isReportType ? REPORT_SORTING().NAME : TEMPLATE_SORTING().NAME
     );
   const renderTemplateCreatedHeader = ({
     column,
@@ -473,7 +473,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     renderHeaderWithMenu(
       column,
       "created",
-      isReportType ? null : TEMPLATE_SORTING.CREATED
+      isReportType ? null : TEMPLATE_SORTING().CREATED
     );
   const renderTemplateModifiedHeader = ({
     column,
@@ -483,7 +483,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     renderHeaderWithMenu(
       column,
       "modified",
-      isReportType ? REPORT_SORTING.SAVED_DATE : TEMPLATE_SORTING.MODIFIED
+      isReportType ? REPORT_SORTING().SAVED_DATE : TEMPLATE_SORTING().MODIFIED
     );
 
   const renderTemplateIconHeader = () => {

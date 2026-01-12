@@ -39,7 +39,7 @@ import {
   useGetTemplatesByLibraryId,
 } from "./services/template-library-api-hooks";
 import RenderExportMenu from "./components/export-menubar/ExportMenu";
-import { IMPORT_MODAL, TEMPLATE_LIST_PAGE_SIZE } from "./constants/constant";
+import { TEMPLATE_LIST_PAGE_SIZE } from "./constants/constant";
 import { templateSkelton } from "./components/skeleton/Skeleton";
 import LibraryTable from "./TemplateTable";
 import { useTemplateLibraryTranslations } from "./translation/useTemplateLibraryTranslations";
@@ -53,7 +53,7 @@ const defaultPagination: Pagination = {
 };
 
 const TemplateLibrary: React.FC = () => {
-  const { TEMPLATE_LIBRARY_HEADING, TEMPLATE_LIBRARY_NO_DATA } =
+  const { TEMPLATE_LIBRARY_HEADING, TEMPLATE_LIBRARY_NO_DATA, IMPORT_MODAL } =
     useTemplateLibraryTranslations();
 
   const [searchDrawer, setSearchDrawer] = useState({ status: false, text: "" });

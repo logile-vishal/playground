@@ -38,7 +38,6 @@ import type {
   TemplatePaginationData,
 } from "../../types/template-library.type";
 import {
-  TEMPLATE_LIBRARY_HEADING,
   TEMPLATE_SEARCH_TABS,
   TEMPLATE_STATUS_OPTIONS,
 } from "../../constants/constant";
@@ -46,6 +45,7 @@ import type { TemplateType } from "../../types/template-preview.type";
 import "./SearchDrawer.scss";
 import { SEARCH_DRAWER } from "./constants";
 import { isNonEmptyValue } from "@/utils";
+import { useTemplateLibraryTranslations } from "../../translation/useTemplateLibraryTranslations";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -207,6 +207,7 @@ const SearchDrawer = ({
   setSearchText,
 }: SearchDrawerProps) => {
   const { RECENT, ADVANCE } = TEMPLATE_SEARCH_TABS;
+  const { TEMPLATE_LIBRARY_HEADING } = useTemplateLibraryTranslations();
   const [currentTab, setCurrentTab] = useState(ADVANCE.value);
   const [recentFilterData] = useState([]);
   const [advanceFilterData, setAdvanceFilterData] = useState(defaultFilters);

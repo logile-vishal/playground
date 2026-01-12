@@ -23,5 +23,23 @@
       "communication": "संचार",
       "queueManagement": "कतार प्रबंधन"
     }
+  },
+  "USER_PROFILE_MENU_OPTIONS": {
+    "changeRole": "भूमिका बदलें",
+    "setFocus": "फोकस सेट करें",
+    "userProfile": "उपयोगकर्ता प्रोफ़ाइल",
+    "modifyDashboard": "डैशबोर्ड संशोधित करें",
+    "reduceRole": "भूमिका कम करें",
+    "userManagement": "उपयोगकर्ता प्रबंधन",
+    "adminMode": "व्यवस्थापक मोड",
+    "adminModeAllSettings": "सभी सेटिंग्स",
+    "adminModePermissions": "अनुमतियाँ",
+    "adminModeInternationalization": "अंतर्राष्ट्रीयकरण",
+    "theme": "थीम",
+    "themeDark": "गहरा",
+    "themeLight": "हल्का",
+    "themeSystemDefault": "सिस्टम डिफ़ॉल्ट",
+    "language": "भाषा",
+    "logout": "लॉग आउट"
   }
 }

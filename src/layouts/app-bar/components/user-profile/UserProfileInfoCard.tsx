@@ -78,6 +78,9 @@ const UserProfileInfoCard: React.FC<UserProfileInfoCardProps> = ({ user }) => {
           anchorEl={anchorEl.current as unknown as HTMLElement}
           menuItems={adminMenuItemsList}
           onSelect={handleProfileMenuSelect}
+          menuWidth="fit-content"
+          menuHeight="fit-content"
+          menuPlacement="bottom-end"
         />
       )}
     </>

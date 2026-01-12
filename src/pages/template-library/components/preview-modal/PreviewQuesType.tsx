@@ -28,7 +28,6 @@ import {
 } from "@/core/constants/icons";
 import CCheckbox from "@/core/components/form/checkbox/Checkbox";
 import clsx from "@/utils/clsx";
-
 import type {
   DatePickerProps,
   RenderButtonContainerProps,
@@ -39,16 +38,18 @@ import type {
   RenderTextFieldProps,
 } from "../../types/template-preview.type";
 import {
-  PREVIEW_BUTTON_CONFIG,
-  QUESTION_ATTACHEMENT,
-  QUESTION_TYPES,
+  getQuestionAttachment,
+  getQuestionTypes,
+  getPreviewButtonConfig,
+  getUserInputTypes,
   TEMPLATE_TYPE,
-  USER_INPUT_TYPES,
+  QUESTION_ATTACHMENT_TYPE,
 } from "../../constants/constant";
 import type {
   AnswerType,
   AttachmentType,
 } from "../../types/template-questions.type";
+import { useTemplateLibraryTranslations } from "../../translation/useTemplateLibraryTranslations";
 
 /**
  * @description Renders a read-only Material UI TextField used for preview mode.
@@ -64,6 +65,7 @@ export const RenderTextField: React.FC<RenderTextFieldProps> = ({
   width,
   ...props
 }) => {
+  const { PLACEHOLDER_TEXT } = useTemplateLibraryTranslations();
   return (
     <TextField
       size="small"
@@ -71,7 +73,9 @@ export const RenderTextField: React.FC<RenderTextFieldProps> = ({
       value=""
       fullWidth
       className="template-preview-modal__common-textfield"
-      placeholder={multiline ? "Enter Details" : "Enter Value"}
+      placeholder={
+        multiline ? PLACEHOLDER_TEXT.enterDetails : PLACEHOLDER_TEXT.enterValue
+      }
       multiline={multiline}
       sx={{ width: width || "200px" }}
       rows={rows}
@@ -90,14 +94,15 @@ export const RenderTextField: React.FC<RenderTextFieldProps> = ({
  * @returns {ReactNode} return disabled dropdown preview component.
  */
 export const RenderDropdown: React.FC<RenderDropdownProps> = ({
-  placeholder = "Select Option",
+  placeholder,
   isDesktopPreview = true,
   children,
 }) => {
+  const { PLACEHOLDER_TEXT } = useTemplateLibraryTranslations();
   return (
     <Select
       size="small"
-      value={placeholder}
+      value={placeholder || PLACEHOLDER_TEXT.selectOption}
       className={clsx({
         "template-preview-modal__common-dropdown": true,
         "template-preview-modal__common-dropdown--mobile": !isDesktopPreview,
@@ -110,7 +115,9 @@ export const RenderDropdown: React.FC<RenderDropdownProps> = ({
       )}
       MenuProps={{ classes: { paper: "template-preview-modal__paper" } }}
       renderValue={() => (
-        <Box className="template-preview__dropdown">{placeholder}</Box>
+        <Box className="template-preview__dropdown">
+          {placeholder || PLACEHOLDER_TEXT.selectOption}
+        </Box>
       )}
     >
       {children}
@@ -229,6 +236,8 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({
   question,
   isDesktopPreview,
   type,
+  QUESTION_TYPES,
+  ATTACHMENT_BUTTON_CONFIG,
 }) => {
   // to avoid unused styling if attachments are not present
   if (!question?.attachments || question?.attachments?.length == 0)
@@ -239,12 +248,15 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({
       className={clsx({ "template-preview-modal__attachment-wrapper": true })}
     >
       {question?.attachments?.map((item) => {
-        const itemLabel = PREVIEW_BUTTON_CONFIG[item?.attachmentType]?.label;
-        const itemIcon: SvgIconComponent =
-          PREVIEW_BUTTON_CONFIG[item?.attachmentType]?.icon;
+        const itemLabel = getPreviewButtonConfig(ATTACHMENT_BUTTON_CONFIG)[
+          item?.attachmentType
+        ]?.label;
+        const itemIcon: SvgIconComponent = getPreviewButtonConfig(
+          ATTACHMENT_BUTTON_CONFIG
+        )[item?.attachmentType]?.icon;
         const showPicUpload =
-          item.attachmentType === QUESTION_ATTACHEMENT.PHOTO.value &&
-          type === QUESTION_TYPES.RADIO_BUTTON.value;
+          item.attachmentType === QUESTION_ATTACHMENT_TYPE.photo &&
+          type === getQuestionTypes(QUESTION_TYPES).RADIO_BUTTON.value;
         if (itemLabel && itemIcon)
           return (
             <Box width={showPicUpload ? "100%" : "fit-content"}>
@@ -303,12 +315,15 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
   question,
   isDesktopPreview,
   templateBaseType,
+  QUESTION_TYPES,
+  QUESTION_ATTACHMENT,
+  ATTACHMENT_BUTTON_CONFIG,
 }) => {
   const showCameraIcon =
     question?.attachments?.length > 0
       ? question?.attachments?.filter(
           (item: AttachmentType) =>
-            item?.attachmentType === QUESTION_ATTACHEMENT.PHOTO.value
+            item?.attachmentType === QUESTION_ATTACHMENT_TYPE.photo
         )?.length > 0
       : false;
 
@@ -327,14 +342,16 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
       <RenderAttachement
         question={question}
         isDesktopPreview={isDesktopPreview}
-        type={QUESTION_TYPES.DROPDOWN.value}
+        type={getQuestionTypes(QUESTION_TYPES).DROPDOWN.value}
+        QUESTION_TYPES={QUESTION_TYPES}
+        ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
       />
       <RenderDropdown isDesktopPreview={isDesktopPreview}>
         {question?.answers?.map((option: AnswerType) => {
           const cameraIcon = isIconRequired(
             question,
             option,
-            QUESTION_ATTACHEMENT.PHOTO.value
+            getQuestionAttachment(QUESTION_ATTACHMENT).PHOTO.value
           )
             ? CameraRequired
             : Camera;
@@ -345,7 +362,8 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
               value={option?.value}
             >
               <Box className="template-preview-modal__dropdown-menu-item">
-                {question?.questionType === QUESTION_TYPES.CHECKBOX.value && (
+                {question?.questionType ===
+                  getQuestionTypes(QUESTION_TYPES).CHECKBOX.value && (
                   <RenderCheckbox label={option?.value} />
                 )}
                 <Box>{option?.value}</Box>
@@ -376,7 +394,7 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
                         isIconRequired(
                           question,
                           option,
-                          QUESTION_ATTACHEMENT.PHOTO.value
+                          getQuestionAttachment(QUESTION_ATTACHMENT).PHOTO.value
                         )
                           ? 19
                           : 16
@@ -404,12 +422,16 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
 export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
   question,
   isDesktopPreview,
+  QUESTION_TYPES,
+  QUESTION_ATTACHMENT,
+  ATTACHMENT_BUTTON_CONFIG,
 }) => {
   const showCameraIcon =
     question?.attachments?.length > 0
       ? question?.attachments?.filter(
           (item: AttachmentType) =>
-            item?.attachmentType === QUESTION_ATTACHEMENT.PHOTO.value
+            item?.attachmentType ===
+            getQuestionAttachment(QUESTION_ATTACHMENT).PHOTO.value
         )?.length > 0
       : false;
   return (
@@ -422,7 +444,9 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
       <RenderAttachement
         question={question}
         isDesktopPreview={isDesktopPreview}
-        type={QUESTION_TYPES.DROPDOWN.value}
+        type={getQuestionTypes(QUESTION_TYPES).DROPDOWN.value}
+        QUESTION_TYPES={QUESTION_TYPES}
+        ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
       />
       <RenderDropdown>
         {question?.answers?.map((option) => {
@@ -475,12 +499,15 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
 export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
   question,
   isDesktopPreview,
+  QUESTION_TYPES,
+  QUESTION_ATTACHMENT,
+  ATTACHMENT_BUTTON_CONFIG,
 }) => {
   const showAttachmentIcon =
     question?.attachments?.length > 0
       ? question?.attachments?.filter(
           (item: AttachmentType) =>
-            item?.attachmentType === QUESTION_ATTACHEMENT.ATTACHMENT.value
+            item?.attachmentType === QUESTION_ATTACHMENT_TYPE.attachment
         )?.length > 0
       : false;
   return (
@@ -490,7 +517,7 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
           const attachmentIcon = isIconRequired(
             question,
             option,
-            QUESTION_ATTACHEMENT.ATTACHMENT.value
+            getQuestionAttachment(QUESTION_ATTACHMENT).ATTACHMENT.value
           )
             ? AttachmentRequired
             : Attachment;
@@ -522,7 +549,9 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
         <RenderAttachement
           question={question}
           isDesktopPreview={isDesktopPreview}
-          type={QUESTION_TYPES.RADIO_BUTTON.value}
+          type={getQuestionTypes(QUESTION_TYPES).RADIO_BUTTON.value}
+          QUESTION_TYPES={QUESTION_TYPES}
+          ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
         />
       </Box>
     </Box>
@@ -542,9 +571,13 @@ export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
   question,
   isDesktopPreview,
   templateBaseType,
+  QUESTION_TYPES,
+  ATTACHMENT_BUTTON_CONFIG,
+  DATE_INPUT_TYPE,
 }) => {
   const isMultiLine =
-    question?.questionType === QUESTION_TYPES.LONG_USER_INPUT.value;
+    question?.questionType ===
+    getQuestionTypes(QUESTION_TYPES).LONG_USER_INPUT.value;
   return (
     <Box
       className={clsx({
@@ -561,15 +594,19 @@ export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
       <RenderAttachement
         question={question}
         isDesktopPreview={isDesktopPreview}
-        type={QUESTION_TYPES.USER_INPUT.value}
+        type={getQuestionTypes(QUESTION_TYPES).USER_INPUT.value}
+        QUESTION_TYPES={QUESTION_TYPES}
+        ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
       />
       <Box width="100%">
-        {question?.inputType === USER_INPUT_TYPES.DATE_AND_TIME.value ? (
+        {question?.inputType ===
+        getUserInputTypes(DATE_INPUT_TYPE).DATE_AND_TIME.value ? (
           <RenderDatePicker
             type="datetime"
             isDesktopPreview={isDesktopPreview}
           />
-        ) : question?.inputType === USER_INPUT_TYPES.DATE.value ? (
+        ) : question?.inputType ===
+          getUserInputTypes(DATE_INPUT_TYPE).DATE.value ? (
           <RenderDatePicker
             type="date"
             isDesktopPreview={isDesktopPreview}
@@ -604,6 +641,7 @@ export const RenderDatePicker: React.FC<DatePickerProps> = ({
   value,
   onChange,
 }) => {
+  const { PLACEHOLDER_TEXT } = useTemplateLibraryTranslations();
   const [isOpen, setIsOpen] = useState(false);
   const Picker = type === "datetime" ? DateTimePicker : DatePicker;
 
@@ -614,7 +652,10 @@ export const RenderDatePicker: React.FC<DatePickerProps> = ({
       rows={1}
       {...params}
       placeholder={
-        placeholder || (type === "date" ? "Select Date" : "Select Date & Time")
+        placeholder ||
+        (type === "date"
+          ? PLACEHOLDER_TEXT.selectDate
+          : PLACEHOLDER_TEXT.selectDateTime)
       }
       value={value ? value.toString() : ""}
       onClick={() => setIsOpen(!isOpen)}

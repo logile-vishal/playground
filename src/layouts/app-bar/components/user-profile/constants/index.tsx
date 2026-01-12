@@ -14,6 +14,7 @@ import {
 } from "@/core/constants/icons";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import { THEME_MODES } from "@/core/constants/theme-mode";
+import { useLayoutTranslations } from "@/layouts/translation/useLayoutTranslations";
 import { ThemeContext } from "@/theme-mui/ThemeContext";
 import i18n from "@/i18n";
 
@@ -21,61 +22,62 @@ import AdminModeCustomMenu from "../components/AdminMenuCustomCard";
 
 export const useAdminMenuItemsList = (): NestedMenuItem[] => {
   const { updateThemeMode } = useContext(ThemeContext);
+  const { USER_PROFILE_MENU_OPTIONS } = useLayoutTranslations();
 
   return [
     {
-      label: "Change Role",
+      label: USER_PROFILE_MENU_OPTIONS.changeRole,
       value: "change-role",
       leftIcon: User,
     },
     {
-      label: "Set Focus",
+      label: USER_PROFILE_MENU_OPTIONS.setFocus,
       value: "set-focus",
       leftIcon: Focus,
     },
     {
-      label: "User Profile",
+      label: USER_PROFILE_MENU_OPTIONS.userProfile,
       value: "user-profile",
       leftIcon: Users,
     },
     {
-      label: "Modify Dashboard",
+      label: USER_PROFILE_MENU_OPTIONS.modifyDashboard,
       value: "modify-dashboard",
       leftIcon: Edit,
     },
     {
-      label: "Reduce Role",
+      label: USER_PROFILE_MENU_OPTIONS.reduceRole,
       value: "reduce-role",
       leftIcon: UserMinus,
     },
     {
-      label: "User Management",
+      label: USER_PROFILE_MENU_OPTIONS.userManagement,
       value: "user-management",
       leftIcon: UserSetting,
     },
     {
-      label: "Admin Mode",
+      label: USER_PROFILE_MENU_OPTIONS.adminMode,
       value: "admin-mode",
       leftIcon: UserStar,
       customSubMenu: <AdminModeCustomMenu />,
     },
     {
-      label: "Theme",
+      label: USER_PROFILE_MENU_OPTIONS.theme,
       value: "theme",
       leftIcon: Theme,
       parentAsItem: false,
       subMenu: {
         items: [
           {
-            label: "Dark",
+            label: USER_PROFILE_MENU_OPTIONS.themeDark,
             value: THEME_MODES.DARK,
           },
           {
-            label: "Light",
+            label: USER_PROFILE_MENU_OPTIONS.themeLight,
             value: THEME_MODES.LIGHT,
           },
           {
-            label: "System Default",
+            label: USER_PROFILE_MENU_OPTIONS.themeSystemDefault,
             value: THEME_MODES.SYSTEM,
           },
         ],
@@ -85,26 +87,26 @@ export const useAdminMenuItemsList = (): NestedMenuItem[] => {
       },
     },
     {
-      label: "Language",
+      label: USER_PROFILE_MENU_OPTIONS.language,
       value: "language",
       leftIcon: Globe,
       parentAsItem: false,
       subMenu: {
         items: [
           {
-            label: "English",
+            label: USER_PROFILE_MENU_OPTIONS.languageEnglish,
             value: "en",
           },
           {
-            label: "Español",
+            label: USER_PROFILE_MENU_OPTIONS.languageSpanish,
             value: "es",
           },
           {
-            label: "中文",
+            label: USER_PROFILE_MENU_OPTIONS.languageChinese,
             value: "zh",
           },
           {
-            label: "हिन्दी",
+            label: USER_PROFILE_MENU_OPTIONS.languageHindi,
             value: "hi",
           },
         ],
@@ -114,7 +116,7 @@ export const useAdminMenuItemsList = (): NestedMenuItem[] => {
       },
     },
     {
-      label: "Logout",
+      label: USER_PROFILE_MENU_OPTIONS.logout,
       value: "logout",
       leftIcon: Signout,
       leftIconStyleProps: { color: "violation" },
@@ -123,17 +125,25 @@ export const useAdminMenuItemsList = (): NestedMenuItem[] => {
   ];
 };
 
-export const adminModeList = [
-  {
-    label: "All Settings",
-    value: "all-settings",
-  },
-  {
-    label: "Permissions",
-    value: "permissions",
-  },
-  {
-    label: "Internationalization",
-    value: "internationalization",
-  },
-];
+/**
+ * @hook useAdminModeList
+ * @description Custom hook that returns the admin mode list with translated labels
+ * @return {Array} Array of admin mode items with names and values
+ */
+export const useAdminModeList = () => {
+  const { USER_PROFILE_MENU_OPTIONS } = useLayoutTranslations();
+  return [
+    {
+      label: USER_PROFILE_MENU_OPTIONS.adminModeAllSettings,
+      value: "all-settings",
+    },
+    {
+      label: USER_PROFILE_MENU_OPTIONS.adminModePermissions,
+      value: "permissions",
+    },
+    {
+      label: USER_PROFILE_MENU_OPTIONS.adminModeInternationalization,
+      value: "internationalization",
+    },
+  ];
+};

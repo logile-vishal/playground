@@ -4,8 +4,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
 import CIconButton from "@mui/material/IconButton";
 
-import { TEMPLATE_LIBRARY_HEADING } from "../../constants/constant";
-
 const SearchField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     borderRadius: "8px",
@@ -23,6 +21,7 @@ const SearchField = styled(TextField)(({ theme }) => ({
 }));
 
 const CSearchbar = (props) => {
+  const { TEMPLATE_LIBRARY_HEADING } = useTemplateLibraryTranslations();
   return (
     <SearchField
       className="search-bar"

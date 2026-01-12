@@ -6,7 +6,7 @@ import { CSV, Excel, Pdf, Printer } from "@/core/constants/icons";
 
 import type { ExportMenuProps } from "../../types/template-library.type";
 import "./ExportMenu.scss";
-import { EXPORT_MODAL } from "../../constants/constant";
+import { useTemplateLibraryTranslations } from "../../translation/useTemplateLibraryTranslations";
 
 const StyledExportMenu = styled((props: MenuProps) => (
   <Menu
@@ -57,6 +57,7 @@ const RenderExportMenu: React.FC<ExportMenuProps> = ({
   exportMenu,
   handleExportMenuClose,
 }) => {
+  const { EXPORT_MODAL } = useTemplateLibraryTranslations();
   return (
     <StyledExportMenu
       anchorEl={exportMenu?.anchorEl}

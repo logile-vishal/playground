@@ -1,12 +1,9 @@
 import Box from "@mui/material/Box";
 import moment from "moment";
 
-import CSvgIcon from "@/core/components/icon/Icon";
 import {
-  ArrowUp,
   Attachment,
   Calculator,
-  EmptyState,
   Scan,
   Scenary,
   Temperature,
@@ -14,6 +11,7 @@ import {
 
 import type { SortOption } from "../types/template-constants.type";
 import type { PreviewButtonConfigProp } from "../types/template-preview.type";
+import { useTemplateLibraryTranslations } from "../translation/useTemplateLibraryTranslations";
 
 export const TEMPLATE_LIST_PAGE_SIZE = 50;
 
@@ -40,146 +38,148 @@ export const TEMPLATE_STATUS_OPTIONS = [
   { label: "Incomplete", value: "Not_Completed" },
 ];
 
-export const TEMPLATE_SORTING: Record<string, SortOption[]> = {
-  NAME: [
-    {
-      getLabel: () => (
-        <Box
-          display="flex"
-          alignItems="center"
-          fontSize="14px"
-          fontWeight="400"
-        >
-          Sort A{" "}
+/**
+ * @function getTemplateSorting
+ * @description Returns template sorting options with translated labels
+ * @return {Record<string, SortOption[]>} Template sorting configuration
+ */
+export const getTemplateSorting = (
+  TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS
+): Record<string, SortOption[]> => {
+  return {
+    NAME: [
+      {
+        getLabel: () => (
           <Box
-            sx={{ transform: `rotate(90deg)`, display: "inline-block" }}
-            height="18px"
+            display="flex"
+            alignItems="center"
+            fontSize="14px"
+            fontWeight="400"
           >
-            <CSvgIcon
-              component={ArrowUp}
-              size={18}
-            />
-          </Box>{" "}
-          Z
-        </Box>
-      ),
-      key: "ASC",
-      name: "templateName",
-    },
-    {
-      getLabel: () => (
-        <Box
-          display="flex"
-          alignItems="center"
-          fontSize="14px"
-          fontWeight="400"
-        >
-          Sort Z{" "}
+            {TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameAsc}
+          </Box>
+        ),
+        key: "ASC",
+        name: "templateName",
+      },
+      {
+        getLabel: () => (
           <Box
-            sx={{ transform: `rotate(90deg)`, display: "inline-block" }}
-            height="18px"
+            display="flex"
+            alignItems="center"
+            fontSize="14px"
+            fontWeight="400"
           >
-            <CSvgIcon
-              component={ArrowUp}
-              size={18}
-            />
-          </Box>{" "}
-          A
-        </Box>
-      ),
-      key: "DESC",
-      name: "templateName",
-    },
-  ],
-  CREATED: [
-    {
-      getLabel: () => <Box>Sort Ascending</Box>,
-      key: "ASC",
-      name: "createdTime",
-    },
-    {
-      getLabel: () => <Box>Sort Descending</Box>,
-      key: "DESC",
-      name: "createdTime",
-    },
-  ],
-  MODIFIED: [
-    {
-      getLabel: () => <Box>Sort Ascending</Box>,
-      key: "ASC",
-      name: "lastModifiedTime",
-    },
-    {
-      getLabel: () => <Box>Sort Descending</Box>,
-      key: "DESC",
-      name: "lastModifiedTime",
-    },
-  ],
+            {TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameDesc}
+          </Box>
+        ),
+        key: "DESC",
+        name: "templateName",
+      },
+    ],
+    CREATED: [
+      {
+        getLabel: () => (
+          <Box>{TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortAsc}</Box>
+        ),
+        key: "ASC",
+        name: "createdTime",
+      },
+      {
+        getLabel: () => (
+          <Box>{TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortDesc}</Box>
+        ),
+        key: "DESC",
+        name: "createdTime",
+      },
+    ],
+    MODIFIED: [
+      {
+        getLabel: () => (
+          <Box>{TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortAsc}</Box>
+        ),
+        key: "ASC",
+        name: "lastModifiedTime",
+      },
+      {
+        getLabel: () => (
+          <Box>{TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortDesc}</Box>
+        ),
+        key: "DESC",
+        name: "lastModifiedTime",
+      },
+    ],
+  };
 };
 
-export const REPORT_SORTING: Record<string, SortOption[]> = {
-  NAME: [
-    {
-      getLabel: () => (
-        <Box
-          display="flex"
-          alignItems="center"
-          fontSize="14px"
-          fontWeight="400"
-        >
-          Sort A{" "}
+export const TEMPLATE_SORTING = () => {
+  const { TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS } =
+    useTemplateLibraryTranslations();
+  return getTemplateSorting(TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS);
+};
+
+/**
+ * @function getReportSorting
+ * @description Returns report sorting options with translated labels
+ * @return {Record<string, SortOption[]>} Report sorting configuration
+ */
+export const getReportSorting = (
+  TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS
+): Record<string, SortOption[]> => {
+  return {
+    NAME: [
+      {
+        getLabel: () => (
           <Box
-            sx={{ transform: `rotate(90deg)`, display: "inline-block" }}
-            height="18px"
+            display="flex"
+            alignItems="center"
+            fontSize="14px"
+            fontWeight="400"
           >
-            <CSvgIcon
-              component={ArrowUp}
-              size={18}
-            />
-          </Box>{" "}
-          Z
-        </Box>
-      ),
-      key: "ASC",
-      name: "name",
-    },
-    {
-      getLabel: () => (
-        <Box
-          display="flex"
-          alignItems="center"
-          fontSize="14px"
-          fontWeight="400"
-        >
-          Sort Z{" "}
+            {TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameAsc}
+          </Box>
+        ),
+        key: "ASC",
+        name: "name",
+      },
+      {
+        getLabel: () => (
           <Box
-            sx={{ transform: `rotate(90deg)`, display: "inline-block" }}
-            height="18px"
+            display="flex"
+            alignItems="center"
+            fontSize="14px"
+            fontWeight="400"
           >
-            <CSvgIcon
-              component={ArrowUp}
-              size={18}
-            />
-          </Box>{" "}
-          A
-        </Box>
-      ),
-      key: "DESC",
-      name: "name",
-    },
-  ],
-  SAVED_DATE: [
-    {
-      getLabel: () => <Box>Sort Ascending</Box>,
-      key: "ASC",
-      name: "savedDate",
-    },
-    {
-      getLabel: () => <Box>Sort Descending</Box>,
-      key: "DESC",
-      name: "savedDate",
-    },
-  ],
+            {TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameDesc}
+          </Box>
+        ),
+        key: "DESC",
+        name: "name",
+      },
+    ],
+    SAVED_DATE: [
+      {
+        getLabel: () => (
+          <Box>{TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortAsc}</Box>
+        ),
+        key: "ASC",
+        name: "savedDate",
+      },
+      {
+        getLabel: () => (
+          <Box>{TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortDesc}</Box>
+        ),
+        key: "DESC",
+        name: "savedDate",
+      },
+    ],
+  };
+};
+
+export const REPORT_SORTING = () => {
+  const { TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS } =
+    useTemplateLibraryTranslations();
+  return getReportSorting(TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS);
 };
 
 export const TEMPLATE_TABLE_COLUMNS = {
@@ -208,96 +208,120 @@ export const TEMPLATE_TYPE = {
   SPREADSHEET: "SPREADSHEET",
 };
 
-export const QUESTION_TYPES = {
-  NUMERIC: { label: "Numeric", value: "Numeric" },
-  DROPDOWN: { label: "Dropdown", value: "Dropdown" },
-  RADIO_BUTTON: { label: "Radio Button", value: "Radio Button" },
-  CHECKBOX: { label: "Checkbox", value: "Checkbox" },
-  USER_INPUT: { label: "User Input", value: "User Input" },
-  LONG_USER_INPUT: { label: "Long User Input", value: "Long User Input" },
-  LABEL: { label: "Label", value: "Label" },
-  REMINDER: { label: "Reminder", value: "Reminder" },
-  TITLE: { label: "Title", value: "Title" },
-  RESPONSE_TEMPLATE: { label: "Response Template", value: "Response Template" },
-  DYNAMIC_DROPDOWN: { label: "Dynamic Dropdown", value: "Dynamic Dropdown" },
-  UPC_BARCODE_SCAN: { label: "UPC Barcode Scan", value: "UPC Barcode Scan" },
+/**
+ * @function getQuestionTypes
+ * @description Returns question types with translated labels
+ * @param {Object} QUESTION_TYPES - Question types translations
+ * @return {Object} Question types configuration
+ */
+export const getQuestionTypes = (QUESTION_TYPES) => {
+  return {
+    NUMERIC: { label: QUESTION_TYPES.numeric, value: "Numeric" },
+    DROPDOWN: { label: QUESTION_TYPES.dropdown, value: "Dropdown" },
+    RADIO_BUTTON: {
+      label: QUESTION_TYPES.radioButton,
+      value: "Radio Button",
+    },
+    CHECKBOX: { label: QUESTION_TYPES.checkbox, value: "Checkbox" },
+    USER_INPUT: { label: QUESTION_TYPES.userInput, value: "User Input" },
+    LONG_USER_INPUT: {
+      label: QUESTION_TYPES.longUserInput,
+      value: "Long User Input",
+    },
+    LABEL: { label: QUESTION_TYPES.label, value: "Label" },
+    REMINDER: { label: QUESTION_TYPES.reminder, value: "Reminder" },
+    TITLE: { label: QUESTION_TYPES.title, value: "Title" },
+    RESPONSE_TEMPLATE: {
+      label: QUESTION_TYPES.responseTemplate,
+      value: "Response Template",
+    },
+    DYNAMIC_DROPDOWN: {
+      label: QUESTION_TYPES.dynamicDropdown,
+      value: "Dynamic Dropdown",
+    },
+    UPC_BARCODE_SCAN: {
+      label: QUESTION_TYPES.upcBarcodeScan,
+      value: "UPC Barcode Scan",
+    },
+  };
 };
 
-export const USER_INPUT_TYPES = {
-  DATE: { label: "Date", value: "Date" },
-  DATE_AND_TIME: { label: "Date & Time", value: "Date & Time" },
+/**
+ * @function getUserInputTypes
+ * @description Returns user input types with translated labels
+ * @param {Object} DATE_INPUT_TYPE - User input types translations
+ * @return {Object} User input types configuration
+ */
+export const getUserInputTypes = (DATE_INPUT_TYPE) => {
+  return {
+    DATE: { label: DATE_INPUT_TYPE.date, value: "Date" },
+    TIME: { label: DATE_INPUT_TYPE.time, value: "Time" },
+    DATE_AND_TIME: {
+      label: DATE_INPUT_TYPE.dateAndTime,
+      value: "Date & Time",
+    },
+  };
 };
 
-export const QUESTION_ATTACHEMENT = {
-  PHOTO: { label: "Photo", value: "Photo" },
-  BARCODE: { label: "Barcode", value: "Barcode" },
-  TEMPERATURE_PROBE: { label: "Temperature Probe", value: "Temperature Probe" },
-  NUMERIC: { label: "Numeric", value: "Numeric" },
-  ATTACHMENT: { label: "Attachment", value: "Attachment" },
+/**
+ * @function getQuestionAttachment
+ * @description Returns question attachment types with translated labels
+ * @param {Object} QUESTION_ATTACHMENT - Question attachment translations
+ * @return {Object} Question attachment types configuration
+ */
+export const getQuestionAttachment = (QUESTION_ATTACHMENT) => {
+  return {
+    PHOTO: { label: QUESTION_ATTACHMENT.photo, value: "Photo" },
+    BARCODE: { label: QUESTION_ATTACHMENT.barcode, value: "Barcode" },
+    TEMPERATURE_PROBE: {
+      label: QUESTION_ATTACHMENT.temperatureProbe,
+      value: "Temperature Probe",
+    },
+    NUMERIC: { label: QUESTION_ATTACHMENT.numeric, value: "Numeric" },
+    ATTACHMENT: { label: QUESTION_ATTACHMENT.attachment, value: "Attachment" },
+  };
 };
 
-export const PREVIEW_BUTTON_CONFIG: PreviewButtonConfigProp = {
-  [QUESTION_ATTACHEMENT.PHOTO.value]: {
-    label: "Capture Photo",
-    icon: Scenary,
-  },
-  [QUESTION_ATTACHEMENT.TEMPERATURE_PROBE.value]: {
-    label: "Capture Temperature",
-    icon: Temperature,
-  },
-  [QUESTION_ATTACHEMENT.NUMERIC.value]: {
-    label: "Enter Value",
-    icon: Calculator,
-  },
-  [QUESTION_ATTACHEMENT.BARCODE.value]: {
-    label: "Scan Item",
-    icon: Scan,
-  },
-  [QUESTION_ATTACHEMENT.ATTACHMENT.value]: {
-    label: "Choose File",
-    icon: Attachment,
-    type: "filetype",
-  },
+export const QUESTION_ATTACHMENT_TYPE = {
+  photo: "Photo",
+  barcode: "Barcode",
+  temperatureProbe: "Temperature Probe",
+  numeric: "Numeric",
+  attachment: "Attachment",
 };
 
-export const IMPORT_MODAL = {
-  title: "Quick Import - Excel",
-  description: "Select a .XSLX file to import",
-  confirmBtnText: "Import",
-  cancelBtnText: "Cancel",
-};
-
-export const DELETE_MODAL = {
-  title: "Delete Template",
-  description: "Do you want to permanently delete the selected template?",
-  confirmBtnText: "Ok",
-  cancelBtnText: "Cancel",
-};
-
-export const EXPORT_MODAL = {
-  title: "Export",
-  print: "Print",
-  pdf: "PDF",
-  excel: "Excel",
-  csv: "CSV",
-};
-
-export const TEMPLATE_PREVIEW_GRID_HEADER = {
-  title: "Content",
-};
-
-export const TEMPLATE_LIBRARY_HEADING = {
-  createTemplate: "Create Template",
-  folderTree: "Folder Tree",
-  template: "Template",
-  templateLibrary: "Template Library",
-  searchTemplates: "Search by template name",
-};
-
-export const TEMPLATE_LIBRARY_NO_DATA = {
-  title: "To view task templates, select a folder on the left or search above",
-  description: "Nothing is selected",
-  imageSrcName: EmptyState,
+/**
+ * @function getPreviewButtonConfig
+ * @description Returns preview button configuration with translated labels
+ * @param {Object} ATTACHMENT_BUTTON_CONFIG - Preview button translations
+ * @return {PreviewButtonConfigProp} Preview button configuration
+ */
+export const getPreviewButtonConfig = (
+  ATTACHMENT_BUTTON_CONFIG
+): PreviewButtonConfigProp => {
+  return {
+    [QUESTION_ATTACHMENT_TYPE.photo]: {
+      label: ATTACHMENT_BUTTON_CONFIG.capturePhoto,
+      icon: Scenary,
+    },
+    [QUESTION_ATTACHMENT_TYPE.temperatureProbe]: {
+      label: ATTACHMENT_BUTTON_CONFIG.captureTemperature,
+      icon: Temperature,
+    },
+    [QUESTION_ATTACHMENT_TYPE.numeric]: {
+      label: ATTACHMENT_BUTTON_CONFIG.enterValue,
+      icon: Calculator,
+    },
+    [QUESTION_ATTACHMENT_TYPE.barcode]: {
+      label: ATTACHMENT_BUTTON_CONFIG.scanItem,
+      icon: Scan,
+    },
+    [QUESTION_ATTACHMENT_TYPE.attachment]: {
+      label: ATTACHMENT_BUTTON_CONFIG.chooseFile,
+      icon: Attachment,
+      type: "filetype",
+    },
+  };
 };
 
 export const TEMPLATE_TABLE_DATA = {
