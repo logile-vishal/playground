@@ -7,7 +7,7 @@ export const sortOptions = (
   optionLabelKey: string,
   sortDirection: SortType
 ): OptionType[] => {
-  return list.sort((firstOption, secondOption) => {
+  return [...list].sort((firstOption, secondOption) => {
     const firstValue =
       typeof firstOption === "string"
         ? firstOption
