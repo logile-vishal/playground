@@ -12,7 +12,6 @@ export const mockMenuItems: NestedMenuItem[] = [
     label: "Item 1",
     value: "item1",
     filterPath: "Item 1",
-    path: "Item 1",
   },
   {
     label: "Item 2",
@@ -32,7 +31,6 @@ export const mockMenuItems: NestedMenuItem[] = [
     label: "Item 3",
     value: "item3",
     filterPath: "Item 3",
-    path: "Item 3",
   },
 ];
 
@@ -41,7 +39,6 @@ export const mockSelectedItems: NestedMenuItem[] = [
     label: "Item 1",
     value: "item1",
     filterPath: "Item 1",
-    path: "Item 1",
   },
 ];
 

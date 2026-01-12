@@ -3,13 +3,8 @@ import type { SvgIconComponent } from "../../icon/Icon";
 
 export type NestedMenuItem = {
   label: string;
-  /** Legacy fields used by some tests */
-  name?: string;
   filterHelperText?: string;
   value: string;
-  /** Optional legacy path fields for tests */
-  path?: string;
-  pathArray?: string[];
   subMenu?: {
     items: NestedMenuItem[];
     onClick?: (e: React.MouseEvent<HTMLElement>, item: NestedMenuItem) => void;

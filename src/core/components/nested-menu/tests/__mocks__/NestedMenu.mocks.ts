@@ -99,11 +99,8 @@ export const mockNestedMenuPropsBase: Omit<NestedMenuProps, "anchorEl"> = {
   level: 0,
   showSearch: false,
   selectedItems: [],
-  onMenuItemSelect: mockOnMenuItemSelect,
   keepMounted: true,
   menuWidth: 200,
-  subMenuPosition: "right",
-  parentPath: [],
 };
 
 export const mockNestedMenuProps: NestedMenuProps = {
@@ -119,7 +116,6 @@ export const mockNestedMenuPropsWithSearch: NestedMenuProps = {
 export const mockNestedMenuPropsLevel1: NestedMenuProps = {
   ...mockNestedMenuProps,
   level: 1,
-  parentPath: ["Parent Item"],
   parentItem: mockMenuItemWithParentAsItem,
 };
 

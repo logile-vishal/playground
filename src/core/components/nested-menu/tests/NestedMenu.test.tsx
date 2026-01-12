@@ -7,9 +7,7 @@ import {
   mockNestedMenuPropsWithSearch,
   mockAnchorEl,
   mockOnMenuItemSelect,
-  mockOnSubmenuClick,
   mockMenuItemWithCustomSubMenu,
-  mockMenuItemWithParentAsItem,
   mockSelectedItems,
   resetAllMocks,
 } from "./__mocks__/NestedMenu.mocks";
@@ -107,20 +105,6 @@ describe("CNestedMenu Component", () => {
       ).not.toBeInTheDocument();
     });
 
-    it("should not render search field when level > 0", () => {
-      render(
-        <CNestedMenu
-          {...mockNestedMenuPropsWithSearch}
-          level={1}
-          parentPath={["Parent"]}
-        />
-      );
-
-      expect(
-        screen.queryByPlaceholderText(/filterPlaceholder/i)
-      ).not.toBeInTheDocument();
-    });
-
     it("should update search term on input change", async () => {
       const user = userEvent.setup();
       render(<CNestedMenu {...mockNestedMenuPropsWithSearch} />);
@@ -198,30 +182,6 @@ describe("CNestedMenu Component", () => {
       searchContainer?.dispatchEvent(keydownEvent);
 
       expect(stopPropagationSpy).toHaveBeenCalled();
-    });
-
-    it("should apply custom textField slot props", () => {
-      const customSlotProps = {
-        textField: {
-          "data-testid": "search-field",
-          placeholder: "Custom search placeholder",
-          variant: "filled" as const,
-        },
-      };
-
-      render(
-        <CNestedMenu
-          {...mockNestedMenuPropsWithSearch}
-          slotProps={customSlotProps}
-        />
-      );
-
-      const searchInput = screen.getByPlaceholderText(/filterPlaceholder/i);
-      expect(searchInput).toBeInTheDocument();
-      expect(searchInput).toHaveAttribute(
-        "placeholder",
-        "GENERAL.filterPlaceholder"
-      );
     });
   });
 
@@ -333,129 +293,6 @@ describe("CNestedMenu Component", () => {
 
       expect(screen.getByText("Menu Item 1")).toBeInTheDocument();
     });
-
-    it("should handle subMenuPosition prop", () => {
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          subMenuPosition="left"
-        />
-      );
-
-      expect(screen.getByRole("tooltip")).toBeInTheDocument();
-    });
-  });
-
-  describe("Parent Item Header Rendering", () => {
-    it("should render parent item header when level > 0 and parentAsItem is true", () => {
-      const parentItem = {
-        ...mockMenuItemWithParentAsItem,
-        parentAsItem: true,
-      };
-
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          level={1}
-          parentPath={["Parent As Item"]}
-          parentItem={parentItem}
-        />
-      );
-
-      const headers = screen.getAllByText("Parent As Item");
-      expect(headers.length).toBeGreaterThan(0);
-    });
-
-    it("should not render parent header when level is 0", () => {
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          level={0}
-          parentItem={mockMenuItemWithParentAsItem}
-        />
-      );
-
-      const submenuHeader = document.querySelector(
-        ".nested-menu__submenu-header"
-      );
-      expect(submenuHeader).not.toBeInTheDocument();
-    });
-
-    it("should not render parent header when parentAsItem is false", () => {
-      const parentItem = {
-        ...mockMenuItemWithParentAsItem,
-        parentAsItem: false,
-      };
-
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          level={1}
-          parentPath={["Parent Item"]}
-          parentItem={parentItem}
-        />
-      );
-
-      const submenuHeader = document.querySelector(
-        ".nested-menu__submenu-header"
-      );
-      expect(submenuHeader).not.toBeInTheDocument();
-    });
-
-    it("should not render parent header when parentPath is empty", () => {
-      const parentItemWithoutAsItem = {
-        ...mockMenuItemWithParentAsItem,
-        parentAsItem: false,
-      };
-
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          level={1}
-          parentPath={[]}
-          parentItem={parentItemWithoutAsItem}
-        />
-      );
-
-      const submenuHeader = document.querySelector(
-        ".nested-menu__submenu-header"
-      );
-      expect(submenuHeader).not.toBeInTheDocument();
-    });
-  });
-
-  describe("Anchor and Transform Origins", () => {
-    it("should apply custom anchorOrigin when provided", () => {
-      const customAnchorOrigin = {
-        vertical: "top" as const,
-        horizontal: "left" as const,
-      };
-
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          anchorOrigin={customAnchorOrigin}
-        />
-      );
-
-      expect(screen.getByRole("tooltip")).toBeInTheDocument();
-    });
-
-    it("should apply custom transformOrigin when provided", () => {
-      const customTransformOrigin = {
-        vertical: "bottom" as const,
-        horizontal: "right" as const,
-      };
-
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          transformOrigin={customTransformOrigin}
-        />
-      );
-
-      expect(screen.getByRole("tooltip")).toBeInTheDocument();
-    });
   });
 
   describe("Edge Cases and Boundary Conditions", () => {
@@ -532,12 +369,7 @@ describe("CNestedMenu Component", () => {
     });
 
     it("should handle customMenuWidth as string", () => {
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          customMenuWidth="500px"
-        />
-      );
+      render(<CNestedMenu {...mockNestedMenuProps} />);
 
       const tooltip = screen.getByRole("tooltip");
       expect(tooltip).toBeInTheDocument();
@@ -562,50 +394,11 @@ describe("CNestedMenu Component", () => {
       expect(screen.getByText("Empty Submenu Parent")).toBeInTheDocument();
     });
 
-    it("should handle onSubmenuClick callback", () => {
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          onSubmenuClick={mockOnSubmenuClick}
-        />
-      );
-
-      expect(screen.getByRole("tooltip")).toBeInTheDocument();
-    });
-
     it("should handle level prop correctly for nested menus", () => {
       render(
         <CNestedMenu
           {...mockNestedMenuProps}
           level={5}
-        />
-      );
-
-      expect(screen.getByRole("tooltip")).toBeInTheDocument();
-    });
-
-    it("should handle parentPath with multiple levels", () => {
-      const multiLevelPath = ["Level 1", "Level 2", "Level 3"];
-
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          level={3}
-          parentPath={multiLevelPath}
-          parentItem={mockMenuItemWithParentAsItem}
-        />
-      );
-
-      expect(screen.getByRole("tooltip")).toBeInTheDocument();
-    });
-  });
-
-  describe("Slot Props Handling", () => {
-    it("should handle empty slotProps object", () => {
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          slotProps={{}}
         />
       );
 
@@ -641,12 +434,7 @@ describe("CNestedMenu Component", () => {
     });
 
     it("should not set width from anchorEl when customMenuWidth is provided", () => {
-      render(
-        <CNestedMenu
-          {...mockNestedMenuProps}
-          customMenuWidth={350}
-        />
-      );
+      render(<CNestedMenu {...mockNestedMenuProps} />);
 
       const tooltip = screen.getByRole("tooltip");
       expect(tooltip).toBeInTheDocument();
@@ -740,7 +528,7 @@ describe("CNestedMenu Component", () => {
         render(
           <CNestedMenu
             {...mockNestedMenuProps}
-            onMenuItemSelect={errorOnSelect}
+            onSelect={errorOnSelect}
           />
         );
 
@@ -757,7 +545,6 @@ describe("CNestedMenu Component", () => {
       render(
         <CNestedMenu
           {...mockNestedMenuProps}
-          parentPath={null as unknown as string[]}
           level={1}
         />
       );

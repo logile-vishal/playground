@@ -8,7 +8,6 @@ import { NESTED_MENU_PATH_DELIMITER } from "@/core/constants/nested-menu";
 
 import "./NestedMenu.scss";
 import type { MenuItemTemplates, NestedMenuItem } from "./types";
-import type { PopoverProps } from "@mui/material";
 import { NESTED_MENU } from "./constants";
 import CNestedMenuItem from "./components/NestedMenuItem";
 import CTextfield from "../form/textfield/Textfield";
@@ -32,24 +31,6 @@ export type NestedMenuProps = {
   menuHeight?: number | string;
   templates?: MenuItemTemplates;
   menuPlacement?: PopperPlacementType;
-  /** Optional parent path for filter path computation */
-  parentPath?: string[];
-  /** Optional submenu position hint for tests */
-  subMenuPosition?: "left" | "right";
-  /** Optional slot props passthrough (unused by component) */
-  slotProps?: Record<string, unknown>;
-  /** Optional origin props passed by tests (unused) */
-  anchorOrigin?: PopoverProps["anchorOrigin"];
-  transformOrigin?: PopoverProps["transformOrigin"];
-  /** Optional custom width prop used by tests (use menuWidth instead) */
-  customMenuWidth?: number | string;
-  /** Optional submenu click handler */
-  onSubmenuClick?: (
-    e: React.MouseEvent<HTMLElement>,
-    item: NestedMenuItem
-  ) => void;
-  /** Optional item select handler used by some tests */
-  onMenuItemSelect?: (item: NestedMenuItem) => void;
 };
 
 /**
@@ -143,7 +124,6 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
   menuHeight,
   templates,
   menuPlacement,
-  parentPath,
 }) => {
   const { NESTED_MENU: NESTED_MENU_TRANSLATIONS } = useCommonTranslation();
   const [searchTerm, setSearchTerm] = useState("");
@@ -268,8 +248,6 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
   const popperPlacement =
     level === 0 ? (menuPlacement ?? "bottom-start") : undefined;
   useEffect(updateMenuWidth, [anchorEl, providedMenuWidth]);
-
-  if (!Array.isArray(parentPath)) parentPath = [];
 
   return (
     <CPopper

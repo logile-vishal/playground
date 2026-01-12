@@ -36,14 +36,6 @@ export type MultiSelectWithChipProps = {
   hideInputEndIcon?: boolean;
   renderInputChipLabel?: (item: NestedMenuItem) => React.ReactNode | string;
   menuHeight?: number | string;
-  /** Additional optional props used in tests (ignored by component) */
-  anchorEl?: HTMLElement | null;
-  selectedItems?: NestedMenuItem[];
-  searchText?: string;
-  menuItems?: NestedMenuItem[];
-  onMenuOpen?: () => void;
-  onMenuClose?: () => void;
-  onMenuItemSelect?: () => void;
 };
 
 const CMultiSelectWithChip = ({

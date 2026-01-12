@@ -506,20 +506,6 @@ describe("CMultiSelectWithChip Component", () => {
       const widthDisplay = screen.getByTestId("input-width");
       expect(widthDisplay.textContent).toBe("10000");
     });
-
-    it("should handle items with missing properties", () => {
-      const incompleteItems = [
-        { name: "Item", value: "item" },
-      ] as NestedMenuItem[];
-
-      render(
-        <CMultiSelectWithChip
-          {...defaultMultiSelectWithChipProps}
-          value={incompleteItems}
-        />
-      );
-      expect(screen.getByTestId("chip-0")).toBeInTheDocument();
-    });
   });
 
   describe("Negative Scenarios", () => {

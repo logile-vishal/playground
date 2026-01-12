@@ -19,9 +19,6 @@ export type NestedMenuItemProps = {
   level?: number;
   searchTerm: string;
   selectedItems: NestedMenuItem[];
-  onSelect?: (menuItem: NestedMenuItem) => void;
-  parentPath?: string[];
-  subMenuPosition?: "left" | "right";
   onMenuItemClick?: (
     e: React.MouseEvent<HTMLElement>,
     item: NestedMenuItem,
@@ -33,7 +30,6 @@ export type NestedMenuItemProps = {
   menuProps?: {
     onClick?: (item: NestedMenuItem) => void;
     onClose?: (event?: MouseEvent | TouchEvent) => void;
-    onSelect?: (item: NestedMenuItem) => void;
   };
   closeAll?: () => void;
   onSubmenuClick?: (

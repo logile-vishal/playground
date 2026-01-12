@@ -301,36 +301,6 @@ describe("CNestedMenuItem", () => {
     });
   });
 
-  describe("Submenu Positioning", () => {
-    it("should use right positioning by default", () => {
-      render(
-        <CNestedMenuItem
-          {...nestedItemProps}
-          subMenuPosition="right"
-        />
-      );
-
-      const menuItem = screen.getByRole("menuitem");
-      fireEvent.click(menuItem);
-
-      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
-    });
-
-    it("should use left positioning when specified", () => {
-      render(
-        <CNestedMenuItem
-          {...nestedItemProps}
-          subMenuPosition="left"
-        />
-      );
-
-      const menuItem = screen.getByRole("menuitem");
-      fireEvent.click(menuItem);
-
-      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
-    });
-  });
-
   describe("Submenu Close Handling", () => {
     it("should close submenu when handleOnClose is called", () => {
       render(<CNestedMenuItem {...nestedItemProps} />);
@@ -375,14 +345,12 @@ describe("CNestedMenuItem", () => {
     });
 
     it("should handle menuProps correctly", () => {
-      const menuPropsOnSelect = vi.fn();
       const menuPropsOnClose = vi.fn();
 
       render(
         <CNestedMenuItem
           {...defaultProps}
           menuProps={{
-            onSelect: menuPropsOnSelect,
             onClose: menuPropsOnClose,
           }}
         />
@@ -534,21 +502,6 @@ describe("CNestedMenuItem", () => {
       expect(screen.getByRole("menuitem")).toBeInTheDocument();
     });
 
-    it("should handle missing onSelect callback", () => {
-      const propsWithoutOnSelect: NestedMenuItemProps = {
-        ...defaultProps,
-        onSelect: undefined,
-      };
-
-      render(<CNestedMenuItem {...propsWithoutOnSelect} />);
-
-      const menuItem = screen.getByRole("menuitem");
-
-      expect(() => {
-        fireEvent.click(menuItem);
-      }).not.toThrow();
-    });
-
     it("should handle missing onClose callback", () => {
       const propsWithoutOnClose: NestedMenuItemProps = {
         ...defaultProps,
@@ -569,12 +522,7 @@ describe("CNestedMenuItem", () => {
     });
 
     it("should handle empty parentPath", () => {
-      render(
-        <CNestedMenuItem
-          {...defaultProps}
-          parentPath={[]}
-        />
-      );
+      render(<CNestedMenuItem {...defaultProps} />);
 
       const menuItem = screen.getByRole("menuitem");
       fireEvent.click(menuItem);
