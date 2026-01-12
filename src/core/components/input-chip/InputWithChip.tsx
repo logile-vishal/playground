@@ -11,6 +11,7 @@ import "./InputWithChip.scss";
 export type InputWithChipProps = {
   label?: string;
   name?: string;
+  id?: string;
   searchText?: string;
   selectedItems?: NestedMenuItem[];
   onDelete?: (event: React.MouseEvent, data: NestedMenuItem) => void;
@@ -31,6 +32,7 @@ export type InputWithChipProps = {
   helperText?: string;
   hideEndIcon?: boolean;
   className?: string;
+  disabled?: boolean;
 };
 
 const CInputWithChip: React.FC<InputWithChipProps> = ({
@@ -48,11 +50,13 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
   inLineLabel,
   label,
   name,
+  id,
   isFocused,
   error,
   helperText,
   hideEndIcon = true,
   onClick,
+  disabled,
   className,
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -182,6 +186,8 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
                   value={searchText}
                   onChange={onChange}
                   name={name}
+                  id={id}
+                  disabled={disabled}
                 />
               </>
             ) : (

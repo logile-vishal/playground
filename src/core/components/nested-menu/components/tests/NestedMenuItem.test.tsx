@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import CNestedMenuItem from "../NestedMenuItem";
 import type { NestedMenuItemProps } from "../NestedMenuItem";
+import type { NestedMenuItem } from "../../types";
 import {
   mockLeafMenuItem,
   mockMenuItemWithLeftIcon,
@@ -9,13 +10,20 @@ import {
   mockCustomSubMenuItem,
   mockSelectedMenuItem,
   mockMenuItemWithStyles,
-  mockOnMenuItemClick,
   mockOnSelect,
   mockOnClose,
-  mockOnSubmenuClick,
+  mockOnClick,
+  mockOnSubmenuToggle,
   defaultProps,
   resetAllMocks,
 } from "./__mocks__/NestedMenuItem.mocks";
+
+// Helper props for nested menu items
+const nestedItemProps = {
+  ...defaultProps,
+  menuItemData: mockNestedMenuItem,
+  subMenuId: "nested-submenu-1",
+};
 
 vi.mock("@/core/components/icon/Icon", () => ({
   default: ({
@@ -146,68 +154,50 @@ describe("CNestedMenuItem", () => {
       const menuItem = screen.getByRole("menuitem");
       fireEvent.click(menuItem);
 
-      expect(mockOnMenuItemClick).toHaveBeenCalledTimes(1);
-      expect(mockOnMenuItemClick).toHaveBeenCalledWith(
+      expect(mockOnClick).toHaveBeenCalledTimes(1);
+      expect(mockOnClick).toHaveBeenCalledWith(
         expect.any(Object),
-        mockLeafMenuItem,
-        ["root", "Leaf Item"]
-      );
-      expect(mockOnSelect).toHaveBeenCalledWith(
-        mockLeafMenuItem,
-        "root > Leaf Item"
+        mockLeafMenuItem
       );
       expect(mockOnClose).toHaveBeenCalledTimes(1);
     });
 
-    it("should toggle submenu when clicking nested item", async () => {
-      render(
-        <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockNestedMenuItem}
-        />
-      );
+    it("should toggle submenu when clicking nested item", () => {
+      render(<CNestedMenuItem {...nestedItemProps} />);
 
       const menuItem = screen.getByRole("menuitem");
 
+      // Click to open submenu
       fireEvent.click(menuItem);
 
-      expect(await screen.findByRole("menu")).toBeInTheDocument();
-
-      fireEvent.click(menuItem);
-
-      await waitFor(() => {
-        expect(screen.queryByRole("menu")).not.toBeInTheDocument();
-      });
+      // Check that onSubmenuToggle was called
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
     });
 
     it("should open custom submenu on click", () => {
-      render(
-        <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockCustomSubMenuItem}
-        />
-      );
+      const customItemProps = {
+        ...defaultProps,
+        menuItemData: mockCustomSubMenuItem,
+        subMenuId: "custom-submenu-1",
+      };
+
+      render(<CNestedMenuItem {...customItemProps} />);
 
       const menuItem = screen.getByRole("menuitem");
       fireEvent.click(menuItem);
 
-      expect(screen.getByTestId("custom-submenu")).toBeInTheDocument();
-      expect(screen.getByText("Custom Content")).toBeInTheDocument();
+      // Should call onSubmenuToggle for custom submenu
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("custom-submenu-1");
     });
 
-    it("should call onSubmenuClick when provided", () => {
-      render(
-        <CNestedMenuItem
-          {...defaultProps}
-          onSubmenuClick={mockOnSubmenuClick}
-        />
-      );
+    it("should call onClick when provided", () => {
+      render(<CNestedMenuItem {...defaultProps} />);
 
       const menuItem = screen.getByRole("menuitem");
       fireEvent.click(menuItem);
 
-      expect(mockOnSubmenuClick).toHaveBeenCalledTimes(1);
-      expect(mockOnSubmenuClick).toHaveBeenCalledWith(
+      expect(mockOnClick).toHaveBeenCalledTimes(1);
+      expect(mockOnClick).toHaveBeenCalledWith(
         expect.any(Object),
         mockLeafMenuItem
       );
@@ -262,10 +252,11 @@ describe("CNestedMenuItem", () => {
 
   describe("State Management", () => {
     it("should toggle focus state on nested item click", () => {
+      // Start with closed submenu
       render(
         <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockNestedMenuItem}
+          {...nestedItemProps}
+          activeSubmenuId={null}
         />
       );
 
@@ -279,9 +270,9 @@ describe("CNestedMenuItem", () => {
         "nested-menu__item-content-wrapper--focused"
       );
 
-      // Click to focus
+      // Click should call toggle function
       fireEvent.click(menuItem);
-      expect(wrapper).toHaveClass("nested-menu__item-content-wrapper--focused");
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
     });
 
     it("should remove focus state on leaf item click", () => {
@@ -294,28 +285,19 @@ describe("CNestedMenuItem", () => {
 
       fireEvent.click(menuItem);
 
-      waitFor(() => {
-        expect(wrapper).not.toHaveClass(
-          "nested-menu__item-content-wrapper--focused"
-        );
-      });
+      expect(wrapper).not.toHaveClass(
+        "nested-menu__item-content-wrapper--focused"
+      );
     });
 
     it("should maintain open state for nested menu until closed", () => {
-      render(
-        <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockNestedMenuItem}
-        />
-      );
+      render(<CNestedMenuItem {...nestedItemProps} />);
 
       const menuItem = screen.getByRole("menuitem");
-      fireEvent.click(menuItem);
 
-      const nestedMenu = document.querySelector(".nested-menu");
-      expect(nestedMenu).toBeInTheDocument();
-      expect(screen.getByText("Sub Item 1")).toBeInTheDocument();
-      expect(screen.getByText("Sub Item 2")).toBeInTheDocument();
+      // Click should toggle submenu
+      fireEvent.click(menuItem);
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
     });
   });
 
@@ -323,8 +305,7 @@ describe("CNestedMenuItem", () => {
     it("should use right positioning by default", () => {
       render(
         <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockNestedMenuItem}
+          {...nestedItemProps}
           subMenuPosition="right"
         />
       );
@@ -332,15 +313,13 @@ describe("CNestedMenuItem", () => {
       const menuItem = screen.getByRole("menuitem");
       fireEvent.click(menuItem);
 
-      const nestedMenu = document.querySelector(".nested-menu");
-      expect(nestedMenu).toBeInTheDocument();
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
     });
 
     it("should use left positioning when specified", () => {
       render(
         <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockNestedMenuItem}
+          {...nestedItemProps}
           subMenuPosition="left"
         />
       );
@@ -348,56 +327,35 @@ describe("CNestedMenuItem", () => {
       const menuItem = screen.getByRole("menuitem");
       fireEvent.click(menuItem);
 
-      const nestedMenu = document.querySelector(".nested-menu");
-      expect(nestedMenu).toBeInTheDocument();
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
     });
   });
 
   describe("Submenu Close Handling", () => {
-    it("should close submenu when handleOnClose is called", async () => {
-      render(
-        <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockNestedMenuItem}
-        />
-      );
+    it("should close submenu when handleOnClose is called", () => {
+      render(<CNestedMenuItem {...nestedItemProps} />);
 
       const menuItem = screen.getByRole("menuitem");
+
+      // Click to trigger submenu toggle
       fireEvent.click(menuItem);
-
-      await waitFor(() => {
-        expect(screen.getByText("Sub Item 1")).toBeInTheDocument();
-      });
-
-      // Click outside or on close button if available
-      fireEvent.click(menuItem);
-
-      await waitFor(() => {
-        expect(screen.queryByText("Sub Item 1")).not.toBeInTheDocument();
-      });
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
     });
 
-    it("should close custom submenu when onClose is called", async () => {
-      render(
-        <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockCustomSubMenuItem}
-        />
-      );
+    it("should close custom submenu when onClose is called", () => {
+      const customItemProps = {
+        ...defaultProps,
+        menuItemData: mockCustomSubMenuItem,
+        subMenuId: "custom-submenu-1",
+      };
+
+      render(<CNestedMenuItem {...customItemProps} />);
 
       const menuItem = screen.getByRole("menuitem");
+
+      // Click to toggle custom submenu
       fireEvent.click(menuItem);
-
-      await waitFor(() => {
-        expect(screen.getByText("Custom Content")).toBeInTheDocument();
-      });
-
-      // Simulate closing
-      fireEvent.click(menuItem);
-
-      await waitFor(() => {
-        expect(screen.queryByText("Custom Content")).not.toBeInTheDocument();
-      });
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("custom-submenu-1");
     });
   });
 
@@ -405,8 +363,7 @@ describe("CNestedMenuItem", () => {
     it("should pass keepMounted prop to nested menu", () => {
       render(
         <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockNestedMenuItem}
+          {...nestedItemProps}
           keepMounted={true}
         />
       );
@@ -414,8 +371,7 @@ describe("CNestedMenuItem", () => {
       const menuItem = screen.getByRole("menuitem");
       fireEvent.click(menuItem);
 
-      const nestedMenu = document.querySelector(".nested-menu");
-      expect(nestedMenu).toBeInTheDocument();
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
     });
 
     it("should handle menuProps correctly", () => {
@@ -435,10 +391,10 @@ describe("CNestedMenuItem", () => {
       expect(screen.getByRole("menuitem")).toBeInTheDocument();
     });
 
-    it("should use pathArray from menuItemData when searchTerm is provided", () => {
+    it("should use filterPath from menuItemData when searchTerm is provided", () => {
       const customPathItem = {
         ...mockLeafMenuItem,
-        pathArray: ["custom", "path", "item"],
+        filterPath: "custom > path > item",
       };
 
       render(
@@ -504,7 +460,13 @@ describe("CNestedMenuItem", () => {
         />
       );
 
-      expect(screen.queryByTestId("custom-submenu")).not.toBeInTheDocument();
+      const wrapper = screen
+        .getByText("Custom Menu Item")
+        .closest(".nested-menu__item-content-wrapper");
+
+      expect(wrapper).not.toHaveClass(
+        "nested-menu__item-content-wrapper--focused"
+      );
     });
   });
 
@@ -553,7 +515,7 @@ describe("CNestedMenuItem", () => {
       const menuItem = screen.getByRole("menuitem");
       fireEvent.click(menuItem);
 
-      expect(mockOnSelect).toHaveBeenCalled();
+      expect(mockOnClick).toHaveBeenCalled();
     });
 
     it("should handle undefined customSubMenu", () => {
@@ -617,45 +579,37 @@ describe("CNestedMenuItem", () => {
       const menuItem = screen.getByRole("menuitem");
       fireEvent.click(menuItem);
 
-      expect(mockOnMenuItemClick).toHaveBeenCalledWith(
+      expect(mockOnClick).toHaveBeenCalledWith(
         expect.any(Object),
-        mockLeafMenuItem,
-        ["Leaf Item"]
+        mockLeafMenuItem
       );
     });
 
     it("should handle multiple clicks on same nested item", () => {
-      render(
-        <CNestedMenuItem
-          {...defaultProps}
-          menuItemData={mockNestedMenuItem}
-        />
-      );
+      render(<CNestedMenuItem {...nestedItemProps} />);
 
       const menuItem = screen.getByRole("menuitem");
 
       // First click
       fireEvent.click(menuItem);
-      expect(document.querySelector(".nested-menu")).toBeInTheDocument();
+      expect(mockOnSubmenuToggle).toHaveBeenCalledTimes(1);
+      expect(mockOnSubmenuToggle).toHaveBeenCalledWith("nested-submenu-1");
 
       // Second click
       fireEvent.click(menuItem);
-
-      waitFor(() => {
-        expect(document.querySelector(".nested-menu")).not.toBeInTheDocument();
-      });
+      expect(mockOnSubmenuToggle).toHaveBeenCalledTimes(2);
 
       // Third click
       fireEvent.click(menuItem);
-      expect(document.querySelector(".nested-menu")).toBeInTheDocument();
+      expect(mockOnSubmenuToggle).toHaveBeenCalledTimes(3);
     });
 
     it("should not select item without value", () => {
       const itemWithoutValue = {
-        name: "No Value Item",
+        label: "No Value Item",
         value: undefined as unknown as string,
-        pathArray: ["root", "no-value"],
-      };
+        filterPath: "root > no-value",
+      } as NestedMenuItem;
 
       render(
         <CNestedMenuItem

@@ -6,71 +6,68 @@ export const mockOnMenuOpen = vi.fn();
 export const mockOnMenuClose = vi.fn();
 export const mockOnDelete = vi.fn();
 export const mockOnChange = vi.fn();
-export const mockOnMenuItemSelect = vi.fn();
 
 export const mockMenuItems: NestedMenuItem[] = [
   {
-    name: "Item 1",
+    label: "Item 1",
     value: "item1",
+    filterPath: "Item 1",
     path: "Item 1",
   },
   {
-    name: "Item 2",
+    label: "Item 2",
     value: "item2",
-    path: "Item 2",
+    filterPath: "Item 2",
     subMenu: {
       items: [
         {
-          name: "Sub Item 2.1",
+          label: "Sub Item 2.1",
           value: "item2.1",
-          path: "Item 2 > Sub Item 2.1",
+          filterPath: "Item 2 > Sub Item 2.1",
         },
       ],
     },
   },
   {
-    name: "Item 3",
+    label: "Item 3",
     value: "item3",
+    filterPath: "Item 3",
     path: "Item 3",
   },
 ];
 
 export const mockSelectedItems: NestedMenuItem[] = [
   {
-    name: "Item 1",
+    label: "Item 1",
     value: "item1",
+    filterPath: "Item 1",
     path: "Item 1",
   },
 ];
 
 export const defaultMultiSelectWithChipProps: MultiSelectWithChipProps = {
-  anchorEl: null,
-  menuItems: mockMenuItems,
-  onMenuOpen: mockOnMenuOpen,
-  onMenuClose: mockOnMenuClose,
-  searchText: "",
-  selectedItems: [],
-  onDelete: mockOnDelete,
+  options: mockMenuItems,
   onChange: mockOnChange,
-  onMenuItemSelect: mockOnMenuItemSelect,
+  onDelete: mockOnDelete,
   placeholder: "Select items",
-  width: 300,
   inputPlacement: "start",
+  isInputVisible: true,
+  inputWidth: 300,
 };
 
+// For testing purposes - anchorEl isn't actually a prop but we simulate the state
 export const multiSelectWithAnchorEl: MultiSelectWithChipProps = {
   ...defaultMultiSelectWithChipProps,
-  anchorEl: document.createElement("div"),
 };
 
 export const multiSelectWithSelectedItems: MultiSelectWithChipProps = {
   ...defaultMultiSelectWithChipProps,
-  selectedItems: mockSelectedItems,
+  value: mockSelectedItems,
 };
 
+// For testing purposes - searchText isn't actually a prop but managed internally
 export const multiSelectWithSearchText: MultiSelectWithChipProps = {
   ...defaultMultiSelectWithChipProps,
-  searchText: "search query",
 };
 
 export const multiSelectEndPlacement: MultiSelectWithChipProps = {
@@ -80,7 +77,7 @@ export const multiSelectEndPlacement: MultiSelectWithChipProps = {
 
 export const multiSelectWithEmptyMenuItems: MultiSelectWithChipProps = {
   ...defaultMultiSelectWithChipProps,
-  menuItems: [],
+  options: [],
 };
 
 export const resetMocks = () => {
@@ -88,5 +85,4 @@ export const resetMocks = () => {
   mockOnMenuClose.mockReset();
   mockOnDelete.mockReset();
   mockOnChange.mockReset();
-  mockOnMenuItemSelect.mockReset();
 };

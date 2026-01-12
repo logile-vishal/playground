@@ -8,9 +8,9 @@ import { vi } from "vitest";
  * Mock wildcard variables
  */
 export const mockWildcardVariables: WildcardVariable[] = [
-  { name: "Employee Name", value: "%%employee_name%%" },
-  { name: "Task Name", value: "%task_name%" },
-  { name: "Template Name", value: "%template_name%" },
+  { label: "Employee Name", value: "%%employee_name%%" },
+  { label: "Task Name", value: "%task_name%" },
+  { label: "Template Name", value: "%template_name%" },
 ];
 
 /**

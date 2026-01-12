@@ -3,21 +3,21 @@ import type { NestedMenuItem } from "../../types";
 import type { NestedMenuProps } from "../../NestedMenu";
 
 export const mockMenuItem: NestedMenuItem = {
-  name: "Item 1",
+  label: "Item 1",
   value: "item-1",
 };
 
 export const mockMenuItemWithSubMenu: NestedMenuItem = {
-  name: "Parent Item",
+  label: "Parent Item",
   value: "parent-item",
   subMenu: {
     items: [
       {
-        name: "Child Item 1",
+        label: "Child Item 1",
         value: "child-item-1",
       },
       {
-        name: "Child Item 2",
+        label: "Child Item 2",
         value: "child-item-2",
       },
     ],
@@ -26,25 +26,25 @@ export const mockMenuItemWithSubMenu: NestedMenuItem = {
 
 export const mockNestedMenuItems: NestedMenuItem[] = [
   {
-    name: "Menu Item 1",
+    label: "Menu Item 1",
     value: "menu-1",
   },
   {
-    name: "Menu Item 2",
+    label: "Menu Item 2",
     value: "menu-2",
     subMenu: {
       items: [
         {
-          name: "Sub Item 1",
+          label: "Sub Item 1",
           value: "sub-1",
         },
         {
-          name: "Sub Item 2",
+          label: "Sub Item 2",
           value: "sub-2",
           subMenu: {
             items: [
               {
-                name: "Nested Sub Item 1",
+                label: "Nested Sub Item 1",
                 value: "nested-sub-1",
               },
             ],
@@ -54,25 +54,25 @@ export const mockNestedMenuItems: NestedMenuItem[] = [
     },
   },
   {
-    name: "Menu Item 3",
+    label: "Menu Item 3",
     value: "menu-3",
   },
 ];
 
 export const mockMenuItemWithCustomSubMenu: NestedMenuItem = {
-  name: "Custom Parent",
+  label: "Custom Parent",
   value: "custom-parent",
   customSubMenu: "Custom Sub Menu Content",
 };
 
 export const mockMenuItemWithParentAsItem: NestedMenuItem = {
-  name: "Parent As Item",
+  label: "Parent As Item",
   value: "parent-as-item",
   parentAsItem: true,
   subMenu: {
     items: [
       {
-        name: "Child With Parent Header",
+        label: "Child With Parent Header",
         value: "child-with-parent",
       },
     ],
@@ -81,7 +81,7 @@ export const mockMenuItemWithParentAsItem: NestedMenuItem = {
 
 export const mockSelectedItems: NestedMenuItem[] = [
   {
-    name: "Menu Item 1",
+    label: "Menu Item 1",
     value: "menu-1",
   },
 ];
@@ -101,7 +101,7 @@ export const mockNestedMenuPropsBase: Omit<NestedMenuProps, "anchorEl"> = {
   selectedItems: [],
   onMenuItemSelect: mockOnMenuItemSelect,
   keepMounted: true,
-  minMenuWidth: 200,
+  menuWidth: 200,
   subMenuPosition: "right",
   parentPath: [],
 };

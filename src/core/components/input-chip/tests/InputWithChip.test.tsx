@@ -48,8 +48,8 @@ vi.mock("@/utils/clsx", () => ({
 
 describe("CInputWithChip", () => {
   const mockSelectedItems: NestedMenuItem[] = [
-    { name: "Item 1", value: "item1" },
-    { name: "Item 2", value: "item2" },
+    { label: "Item 1", value: "item1" },
+    { label: "Item 2", value: "item2" },
   ];
 
   const defaultProps: InputWithChipProps = {
@@ -60,7 +60,6 @@ describe("CInputWithChip", () => {
     isSelectIconShown: true,
     placeholder: "Search",
     anchorEl: null,
-    onMenuOpen: vi.fn(),
     width: 300,
     inputPlacement: "end",
     isInputVisible: true,
@@ -111,7 +110,7 @@ describe("CInputWithChip", () => {
 
     // Chip is rendered
     expect(
-      screen.getByText((text) => text.includes("item1"))
+      screen.getByText((text) => text.includes("Item 1"))
     ).toBeInTheDocument();
   });
 
@@ -122,8 +121,8 @@ describe("CInputWithChip", () => {
         selectedItems={mockSelectedItems}
       />
     );
-    expect(screen.getByText("item1")).toBeInTheDocument();
-    expect(screen.getByText("item2")).toBeInTheDocument();
+    expect(screen.getByText("Item 1")).toBeInTheDocument();
+    expect(screen.getByText("Item 2")).toBeInTheDocument();
   });
 
   it("should call onChange when input value changes", () => {
@@ -152,21 +151,21 @@ describe("CInputWithChip", () => {
     expect(input.value).toBe("test search");
   });
 
-  it("should call onMenuOpen when container is clicked", () => {
-    const onMenuOpenMock = vi.fn();
+  it("should call onClick when container is clicked", () => {
+    const onClickMock = vi.fn();
     render(
       <CInputWithChip
         {...defaultProps}
-        onMenuOpen={onMenuOpenMock}
+        onClick={onClickMock}
       />
     );
 
     const container = screen
       .getByPlaceholderText("Search")
-      .closest(".input-with-chip");
+      .closest(".input-with-chip__input");
     fireEvent.click(container!);
 
-    expect(onMenuOpenMock).toHaveBeenCalled();
+    expect(onClickMock).toHaveBeenCalled();
   });
 
   it("should show ChevronDown icon when menu is closed", () => {
@@ -174,6 +173,7 @@ describe("CInputWithChip", () => {
       <CInputWithChip
         {...defaultProps}
         anchorEl={null}
+        hideEndIcon={false}
       />
     );
     const icons = screen.getAllByTestId("svg-icon");
@@ -189,6 +189,8 @@ describe("CInputWithChip", () => {
       <CInputWithChip
         {...defaultProps}
         anchorEl={mockAnchorEl}
+        isFocused={true}
+        hideEndIcon={false}
       />
     );
     const icons = screen.getAllByTestId("svg-icon");
@@ -196,15 +198,14 @@ describe("CInputWithChip", () => {
     expect(chevronIcon).toBeInTheDocument();
   });
 
-  it("should apply focus class when anchorEl is present", () => {
-    const mockAnchorEl = document.createElement("div");
+  it("should apply focus class when isFocused is true", () => {
     const { container } = render(
       <CInputWithChip
         {...defaultProps}
-        anchorEl={mockAnchorEl}
+        isFocused={true}
       />
     );
-    const inputChip = container.querySelector(".input-with-chip--focus");
+    const inputChip = container.querySelector(".input-with-chip__input--focus");
     expect(inputChip).toBeInTheDocument();
   });
 
@@ -215,7 +216,7 @@ describe("CInputWithChip", () => {
         width={500}
       />
     );
-    const inputChip = container.querySelector(".input-with-chip");
+    const inputChip = container.querySelector(".input-with-chip__input");
     expect(inputChip).toHaveStyle({ width: "500px" });
   });
 
@@ -242,8 +243,8 @@ describe("CInputWithChip", () => {
 
   it("should render chips with correct keys", () => {
     const itemsWithPath: NestedMenuItem[] = [
-      { name: "Path 1", value: "val1", path: "Path 1" },
-      { name: "Path 2", value: "val2", path: "Path 2" },
+      { label: "Path 1", value: "val1", filterPath: "Path 1" },
+      { label: "Path 2", value: "val2", filterPath: "Path 2" },
     ];
     render(
       <CInputWithChip
@@ -262,8 +263,8 @@ describe("CInputWithChip", () => {
         inputPlacement="start"
       />
     );
-    const content = container.querySelector(".input-with-chip__content");
-    expect(content).not.toHaveClass("input-with-chip__content--end");
+    const content = container.querySelector(".input-with-chip__input-content");
+    expect(content).not.toHaveClass("input-with-chip__input-content--end");
   });
 
   it("should handle input placement at end", () => {
@@ -273,7 +274,9 @@ describe("CInputWithChip", () => {
         inputPlacement="end"
       />
     );
-    const content = container.querySelector(".input-with-chip__content--end");
+    const content = container.querySelector(
+      ".input-with-chip__input-content--end"
+    );
     expect(content).toBeInTheDocument();
   });
 
@@ -304,8 +307,8 @@ describe("CInputWithChip", () => {
 
       await waitFor(() => {
         const inputField = container.querySelector(
-          ".input-with-chip__content-input-field"
-        ) as HTMLDivElement;
+          ".input-with-chip__input-content-input-field input"
+        ) as HTMLInputElement;
         expect(inputField?.style.width).toBe("100%");
       });
     });
@@ -321,8 +324,8 @@ describe("CInputWithChip", () => {
 
       await waitFor(() => {
         const inputField = container.querySelector(
-          ".input-with-chip__content-input-field"
-        ) as HTMLDivElement;
+          ".input-with-chip__input-content-input-field input"
+        ) as HTMLInputElement;
         expect(inputField?.style.width).toBe("2px");
       });
     });
@@ -346,8 +349,8 @@ describe("CInputWithChip", () => {
 
       await waitFor(() => {
         const inputField = container.querySelector(
-          ".input-with-chip__content-input-field"
-        ) as HTMLDivElement;
+          ".input-with-chip__input-content-input-field input"
+        ) as HTMLInputElement;
         // Width should be set to the measured width (40px for "test")
         expect(inputField?.style.width).toBe("40px");
       });
@@ -365,8 +368,8 @@ describe("CInputWithChip", () => {
       // Initially should be 100%
       await waitFor(() => {
         const inputField = container.querySelector(
-          ".input-with-chip__content-input-field"
-        ) as HTMLDivElement;
+          ".input-with-chip__input-content-input-field input"
+        ) as HTMLInputElement;
         expect(inputField?.style.width).toBe("100%");
       });
 
@@ -421,8 +424,13 @@ describe("CInputWithChip", () => {
       );
 
       const scrollContainer = container.querySelector(
-        ".input-with-chip__scroll-container"
+        ".input-with-chip__input-scroll-container"
       ) as HTMLDivElement;
+
+      // Check if element exists before accessing properties
+      if (!scrollContainer) {
+        throw new Error("Scroll container not found");
+      }
 
       // Mock scrollWidth to trigger scroll behavior
       Object.defineProperty(scrollContainer, "scrollWidth", {
@@ -450,8 +458,13 @@ describe("CInputWithChip", () => {
       );
 
       const scrollContainer = container.querySelector(
-        ".input-with-chip__scroll-container"
+        ".input-with-chip__input-scroll-container"
       ) as HTMLDivElement;
+
+      // Check if element exists before accessing properties
+      if (!scrollContainer) {
+        throw new Error("Scroll container not found");
+      }
 
       // Mock scrollWidth to trigger scroll behavior
       Object.defineProperty(scrollContainer, "scrollWidth", {
@@ -474,8 +487,11 @@ describe("CInputWithChip", () => {
       );
 
       const scrollContainer = container.querySelector(
-        ".input-with-chip__scroll-container"
+        ".input-with-chip__input-scroll-container"
       ) as HTMLDivElement;
+
+      // Ensure element exists
+      expect(scrollContainer).toBeInTheDocument();
 
       // scrollLeft should remain 0 (not scrolled)
       expect(scrollContainer.scrollLeft).toBe(0);
@@ -544,7 +560,7 @@ describe("CInputWithChip", () => {
     it("should pass item data correctly for items with path", () => {
       const onDeleteMock = vi.fn();
       const itemsWithPath: NestedMenuItem[] = [
-        { name: "Item 1", value: "val1", path: "root > item1" },
+        { label: "Item 1", value: "val1", filterPath: "root > item1" },
       ];
 
       const { container } = render(
@@ -552,6 +568,7 @@ describe("CInputWithChip", () => {
           {...defaultProps}
           selectedItems={itemsWithPath}
           onDelete={onDeleteMock}
+          renderInputChipLabel={(item) => item.filterPath || item.label}
         />
       );
 
@@ -566,9 +583,9 @@ describe("CInputWithChip", () => {
     it("should render multiple chips with delete functionality", () => {
       const onDeleteMock = vi.fn();
       const multipleItems: NestedMenuItem[] = [
-        { name: "Item 1", value: "item1" },
-        { name: "Item 2", value: "item2" },
-        { name: "Item 3", value: "item3" },
+        { label: "Item 1", value: "item1" },
+        { label: "Item 2", value: "item2" },
+        { label: "Item 3", value: "item3" },
       ];
 
       const { container } = render(
@@ -586,7 +603,7 @@ describe("CInputWithChip", () => {
       const labels = Array.from(chips).map(
         (chip) => chip.querySelector(".MuiChip-label")?.textContent
       );
-      expect(labels).toEqual(["item1", "item2", "item3"]);
+      expect(labels).toEqual(["Item 1", "Item 2", "Item 3"]);
     });
   });
 
@@ -625,7 +642,7 @@ describe("CInputWithChip", () => {
       );
 
       // Component should render without errors
-      expect(screen.getByText("item1")).toBeInTheDocument();
+      expect(screen.getByText("Item 1")).toBeInTheDocument();
 
       // Rerender to trigger useEffect again
       rerender(
@@ -634,13 +651,13 @@ describe("CInputWithChip", () => {
           searchText=""
           selectedItems={[
             ...mockSelectedItems,
-            { name: "Item 3", value: "item3" },
+            { label: "Item 3", value: "item3" },
           ]}
           inputPlacement="start"
         />
       );
 
-      expect(screen.getByText("item3")).toBeInTheDocument();
+      expect(screen.getByText("Item 3")).toBeInTheDocument();
     });
   });
 });
