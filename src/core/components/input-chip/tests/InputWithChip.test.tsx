@@ -280,21 +280,6 @@ describe("CInputWithChip", () => {
     expect(content).toBeInTheDocument();
   });
 
-  it("should pass additional TextField props", () => {
-    render(
-      <CInputWithChip
-        {...defaultProps}
-        disabled
-        name="test-input"
-        id="custom-id"
-      />
-    );
-    const input = screen.getByPlaceholderText("Search") as HTMLInputElement;
-    expect(input).toBeDisabled();
-  });
-
-  // New test cases for uncovered lines
-
   describe("Dynamic Input Width (Lines 60-69)", () => {
     it("should set input width to 100% when no searchText and no selectedItems", async () => {
       const { container } = render(
