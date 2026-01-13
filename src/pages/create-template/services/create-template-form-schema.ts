@@ -1,8 +1,8 @@
 import { z as zod } from "zod";
 
-export const basicDataSchema = zod.object({});
-
-export const questionsSchema = zod.discriminatedUnion("type", [
+/* Schema for Steps */
+export const basicInfoStepSchema = zod.object({});
+export const questionStepSchema = zod.discriminatedUnion("type", [
   zod.object({
     qId: zod.string(),
     type: zod.literal("radio"),
@@ -41,16 +41,46 @@ export const questionsSchema = zod.discriminatedUnion("type", [
     questions: zod.array(zod.lazy(() => questionsSchema)),
   }),
 ]);
-
 export const advancedOptionsSchema = zod.object({});
+export const notificationStepSchema = zod.object({});
+export const followUpTaskStepSchema = zod.array(zod.object({}));
 
-export const notificationsSchema = zod.object({});
-export const followUpTaskSchema = zod.array(zod.object({}));
+export const gridColumnSchema = zod.object({
+  columnId: zod.string(),
+  title: zod.string(),
+}); // TODO: Define the schema properly
 
-export const createTemplateFormSchema = zod.object({
-  basicData: basicDataSchema,
-  questions: zod.array(questionsSchema),
+export const checklistTypeFormSchema = zod.object({
+  templateType: zod.literal("checklist"),
+  basicData: basicInfoStepSchema,
+  questions: zod.array(questionStepSchema),
   advancedOptions: advancedOptionsSchema,
-  notifications: zod.array(notificationsSchema),
-  followUpTask: followUpTaskSchema,
+  notifications: zod.array(notificationStepSchema),
+  followUpTask: followUpTaskStepSchema,
 });
+
+export const gridTypeFormSchema = zod.object({
+  templateType: zod.literal("grid"),
+  basicData: basicInfoStepSchema,
+  column: gridColumnSchema,
+  row: zod.array(questionStepSchema),
+  advancedOptions: advancedOptionsSchema,
+  notifications: zod.array(notificationStepSchema),
+  followUpTask: followUpTaskStepSchema,
+});
+
+export const spreadsheetTypeFormSchema = zod.object({
+  templateType: zod.literal("spreadsheet"),
+  basicData: basicInfoStepSchema,
+  advancedOptions: advancedOptionsSchema,
+  notifications: zod.array(notificationStepSchema),
+  followUpTask: followUpTaskStepSchema,
+});
+
+export const createTemplateFormSchema = zod.discriminatedUnion("templateType", [
+  checklistTypeFormSchema,
+  gridTypeFormSchema,
+  spreadsheetTypeFormSchema,
+]);
+
+export type CreateTemplateFormData = zod.infer<typeof createTemplateFormSchema>;
