@@ -12,32 +12,32 @@ import { AUTOCOMPLETE_CONSTANTS } from "@/core/constants/autocomplete";
 
 import "./AutoComplete.scss";
 
-const flattenOptions = (
-  options: AutoCompleteOptionProps[]
-): AutoCompleteOptionProps[] => {
-  const result: AutoCompleteOptionProps[] = [];
-  options.forEach((opt) => {
-    if (opt.options) {
-      result.push(
-        ...opt.options.map((child) => ({ ...child, groupLabel: opt.label }))
-      );
-    } else {
-      result.push(opt);
-    }
-  });
-  return result;
-};
-
-export default function CAutocomplete({
+export const CAutocomplete = ({
   label = AUTOCOMPLETE_CONSTANTS.label,
   options,
   defaultValue = [],
   value,
   placeholder = AUTOCOMPLETE_CONSTANTS.placeholder,
   handleChange,
-}: AutocompleteProps) {
+}: AutocompleteProps) => {
   const [selectedValues, setSelectedValues] =
     useState<AutoCompleteOptionProps[]>(defaultValue);
+
+  const flattenOptions = (
+    options: AutoCompleteOptionProps[]
+  ): AutoCompleteOptionProps[] => {
+    const result: AutoCompleteOptionProps[] = [];
+    options.forEach((opt) => {
+      if (opt.options) {
+        result.push(
+          ...opt.options.map((child) => ({ ...child, groupLabel: opt.label }))
+        );
+      } else {
+        result.push(opt);
+      }
+    });
+    return result;
+  };
 
   const flatOptions = flattenOptions(options);
 
@@ -68,7 +68,7 @@ export default function CAutocomplete({
   });
 
   /**
-   * @method flattenOptions
+   * @method groupedByParent
    * @description Groups flat options by their groupLabel key.
    *
    * Options that have the same `groupLabel` value are placed together.
@@ -204,4 +204,4 @@ export default function CAutocomplete({
       )}
     </div>
   );
-}
+};

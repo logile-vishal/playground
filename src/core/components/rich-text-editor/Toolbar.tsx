@@ -19,7 +19,7 @@ import { CButton } from "@/core/components/button/button";
 
 import "./RichTextEditor.scss";
 
-interface ToolbarProps {
+export interface ToolbarProps {
   quillRef: React.RefObject<ReactQuill>;
   attachments?: File[];
   onUpdateAttachments?: (files: File[]) => void;

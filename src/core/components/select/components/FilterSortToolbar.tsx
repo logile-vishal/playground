@@ -9,27 +9,6 @@ import type { SortType } from "@/core/types/sort.type";
 import type { OptionType } from "../types";
 import { SELECT } from "../constants";
 
-const sortOptions = (
-  list: OptionType[],
-  optionLabelKey: string,
-  sortDirection: SortType
-): OptionType[] => {
-  return list.sort((firstOption, secondOption) => {
-    const firstValue =
-      typeof firstOption === "string"
-        ? firstOption
-        : firstOption[optionLabelKey] || JSON.stringify(firstOption);
-    const secondValue =
-      typeof secondOption === "string"
-        ? secondOption
-        : secondOption[optionLabelKey] || JSON.stringify(secondOption);
-    if (sortDirection === SORT_DIRECTION.ASCENDING) {
-      return firstValue.localeCompare(secondValue);
-    }
-    return secondValue.localeCompare(firstValue);
-  });
-};
-
 const CFilterSortToolbar: React.FC<{
   allowFilter?: boolean;
   allowSort?: boolean;
@@ -40,6 +19,27 @@ const CFilterSortToolbar: React.FC<{
   const { allowFilter, allowSort, setOptions, options, optionFilterLabelKey } =
     props;
   const [sort, setSort] = useState<SortType | null>(null);
+
+  const sortOptions = (
+    list: OptionType[],
+    optionLabelKey: string,
+    sortDirection: SortType
+  ): OptionType[] => {
+    return [...list].sort((firstOption, secondOption) => {
+      const firstValue =
+        typeof firstOption === "string"
+          ? firstOption
+          : firstOption[optionLabelKey] || JSON.stringify(firstOption);
+      const secondValue =
+        typeof secondOption === "string"
+          ? secondOption
+          : secondOption[optionLabelKey] || JSON.stringify(secondOption);
+      if (sortDirection === SORT_DIRECTION.ASCENDING) {
+        return firstValue.localeCompare(secondValue);
+      }
+      return secondValue.localeCompare(firstValue);
+    });
+  };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();

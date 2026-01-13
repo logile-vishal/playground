@@ -12,7 +12,7 @@ import CPagination from "@/core/components/pagination/Pagination";
 
 import "./DataTable.scss";
 
-type TableProps = {
+export type TableProps = {
   tableProps;
   isRowSelected?: (rowData: TemplateType) => boolean;
   muiTableStyleProps?: SxProps<Theme>;

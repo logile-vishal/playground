@@ -4,7 +4,7 @@ import clsx from "@/utils/clsx";
 
 import "./Tabs.scss";
 
-type CTabsProps = TabsProps & {
+export type CTabsProps = TabsProps & {
   variant?: "standard" | "scrollable";
 };
 

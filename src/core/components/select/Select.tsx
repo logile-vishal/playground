@@ -11,7 +11,7 @@ import StyledMenuItem from "./components/StyledMenuItem";
 import type { OptionType } from "./types";
 import "./Select.scss";
 
-type SelectProps = MuiSelectProps & {
+export type SelectProps = MuiSelectProps & {
   options: OptionType[];
   optionLabelKey?: string;
   optionValueKey?: string;

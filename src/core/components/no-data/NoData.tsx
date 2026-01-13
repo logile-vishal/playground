@@ -38,7 +38,7 @@ const CNoData: React.FC<NoDataProps> = ({
           component={imageSrcName}
           size={imageWidth}
         />
-        {title && (
+        {title && title !== "" && (
           <Box className="no-data__list-container-heading">
             {title || NO_DATA.TITLE}
           </Box>
