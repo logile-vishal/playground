@@ -14,7 +14,7 @@ import type {
 } from "../types";
 import CNestedMenu from "../NestedMenu";
 
-type NestedMenuItemProps = {
+export type NestedMenuItemProps = {
   menuItemData: NestedMenuItem;
   level?: number;
   searchTerm: string;

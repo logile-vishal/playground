@@ -9,7 +9,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { TextField, Typography } from "@mui/material";
 
 import { CButton } from "@/core/components/button/button";
-import CAutocomplete from "@/core/components/auto-complete/AutoComplete";
+import { CAutocomplete } from "@/core/components/auto-complete/AutoComplete";
 import CNoData from "@/core/components/no-data/NoData";
 import type { PaginatedResponse } from "@/core/types/pagination.type";
 import type { AutoCompleteOptionProps } from "@/core/types/autocomplete.type";

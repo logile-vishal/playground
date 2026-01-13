@@ -16,7 +16,7 @@ import type { ToastVariantType } from "./toast.type";
 import { ToastVariant } from "./toast.type";
 import "./ToastStyle.scss";
 
-type ToastProps = {
+export type ToastProps = {
   open: boolean;
   onClose: () => void;
   title: string;

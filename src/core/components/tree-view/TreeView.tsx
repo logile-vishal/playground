@@ -8,7 +8,7 @@ import type { DirectoryType } from "@/core/types/tree-view.type";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 import { ArrowDownFill, ArrowRightFill } from "@/core/constants/icons";
 
-type TreeViewProps = {
+export type TreeViewProps = {
   data: DirectoryType[];
   setSelectedData?: React.Dispatch<React.SetStateAction<number | null>>;
   handleClick?: (
