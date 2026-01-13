@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import CAutocomplete from "../AutoComplete";
-import { flattenOptions } from "../utils/flattenOptions";
+import { CAutocomplete } from "../AutoComplete";
 import {
   mockFlatOptions,
   mockGroupedOptions,
@@ -18,6 +17,23 @@ import type {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from "@mui/material";
+
+// Helper function to flatten options (mirrors internal implementation)
+const flattenOptions = (
+  options: AutoCompleteOptionProps[]
+): AutoCompleteOptionProps[] => {
+  const result: AutoCompleteOptionProps[] = [];
+  options.forEach((opt) => {
+    if (opt.options) {
+      result.push(
+        ...opt.options.map((child) => ({ ...child, groupLabel: opt.label }))
+      );
+    } else {
+      result.push(opt);
+    }
+  });
+  return result;
+};
 
 // Mock MUI components
 vi.mock("@mui/material/useAutocomplete", () => ({
