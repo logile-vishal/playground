@@ -3,10 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { CreateTemplateFormContext } from "../services/create-template-form.service";
 import { createTemplateFormSchema } from "../services/create-template-form-schema";
-import type {
-  CreateTemplateFormValuesType,
-  CreateTemplateFormContextType,
-} from "../types/create-template-form-schema.type";
+import type { CreateTemplateFormContextType } from "../types/create-template-form-schema.type";
+import type { CreateTemplateFormType } from "../services/create-template-form-schema";
 
 /**
  *@description CreateTemplateFormProvider is a provider component that provides the form context to its children.
@@ -20,7 +18,8 @@ interface CreateTemplateFormProviderProps {
 const CreateTemplateFormProvider = ({
   children,
 }: CreateTemplateFormProviderProps) => {
-  const defaultFormValues: CreateTemplateFormValuesType = {
+  const defaultFormValues: CreateTemplateFormType = {
+    templateType: "checklist",
     basicData: {},
     questions: [],
     advancedOptions: {},
@@ -35,7 +34,7 @@ const CreateTemplateFormProvider = ({
     setValue,
     getValues,
     trigger,
-  } = useForm<CreateTemplateFormValuesType>({
+  } = useForm<CreateTemplateFormType>({
     resolver: zodResolver(createTemplateFormSchema),
     defaultValues: defaultFormValues,
   });

@@ -2,10 +2,10 @@ import { z as zod } from "zod";
 
 /* Schema for Steps */
 export const basicInfoStepSchema = zod.object({});
-export const questionStepSchema = zod.discriminatedUnion("type", [
+export const questionStepSchema = zod.discriminatedUnion("questionType", [
   zod.object({
     qId: zod.string(),
-    type: zod.literal("radio"),
+    questionType: zod.literal("radio"),
     basicData: zod.object({
       title: zod
         .string()
@@ -38,7 +38,7 @@ export const questionStepSchema = zod.discriminatedUnion("type", [
   zod.object({
     type: zod.literal("section"),
     sectionName: zod.string(),
-    questions: zod.array(zod.lazy(() => questionsSchema)),
+    questions: zod.array(zod.lazy(() => questionStepSchema)),
   }),
 ]);
 export const advancedOptionsSchema = zod.object({});
@@ -83,4 +83,5 @@ export const createTemplateFormSchema = zod.discriminatedUnion("templateType", [
   spreadsheetTypeFormSchema,
 ]);
 
-export type CreateTemplateFormData = zod.infer<typeof createTemplateFormSchema>;
+export type CreateTemplateFormType = zod.infer<typeof createTemplateFormSchema>;
+export type QuestionStepType = zod.infer<typeof questionStepSchema>;
