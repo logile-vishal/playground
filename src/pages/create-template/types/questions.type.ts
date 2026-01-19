@@ -18,7 +18,7 @@ export type QuestionProps = {
   isPreviousBadgeVisible?: boolean;
   isNumberBadgeVisible?: boolean;
   isTemperatureBadgeVisible?: boolean;
-  onLabelChange?: (newLabel: string) => void;
+  onLabelChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   hasError?: boolean;
 };
 

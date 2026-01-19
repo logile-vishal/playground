@@ -11,17 +11,6 @@ export const CREATE_TEMPLATE = {
   FORM_VALIDATION_ERROR: "This field is required",
 };
 
-// export const CREATE_TEMPLATE_FORM_FIELDS: {
-//   [key: string]: keyof z.infer<typeof createTemplateFormSchema>;
-// } = {
-//   templateType: "templateType",
-//   basicData: "basicData",
-//   questions: "questions",
-//   advancedOptions: "advancedOptions",
-//   notifications: "notifications",
-//   followUpTask: "followUpTask",
-// };
-
 export const CREATE_TEMPLATE_TABS = {
   basicInfo: "Basic Info",
   questions: "Questions",

@@ -11,21 +11,22 @@ import {
   EditorUnderline,
 } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
-import AttachmentModal from "@/core/components/rich-text-editor/components/attachment-modal/AttachmentModal";
-import LinkModal from "@/core/components/rich-text-editor/components/link-modal/LinkModal";
+
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 import { CButton } from "@/core/components/button/button";
 
 import "./RichTextEditor.scss";
+import AttachmentModal from "./components/attachment-modal/AttachmentModal";
+import LinkModal from "./components/link-modal/LinkModal";
 
-export interface ToolbarProps {
+export type ToolbarProps = {
   quillRef: React.RefObject<ReactQuill>;
   attachments?: File[];
   onUpdateAttachments?: (files: File[]) => void;
   onVariableButtonClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   walkMeIdPrefix?: string[];
-}
+};
 
 /**
  * @component Toolbar

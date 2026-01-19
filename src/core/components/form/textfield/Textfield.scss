@@ -1,8 +1,11 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .textfield {
-  display: flex;
-  flex-direction: column;
+  --helpertext-height: 26px;
+
+  @include flex-box(column);
+  width: 100%;
+
   .MuiOutlinedInput-root {
     min-height: var(--height-input);
     border-radius: var(--radius-s);
@@ -17,23 +20,41 @@
     width: var(--size-input-svg);
   }
   .MuiFormHelperText-root {
-    margin: var(--space-xs) var(--space-m);
-    font-size: var(--logile-size-caption-large);
-    font-weight: var(--logile-weight-400);
-    line-height: var(--line-height-caption-large);
+    margin: 0;
+    @include helper-text;
   }
   &__label {
     @include form-label;
     color: var(--logile-text-secondary);
-    &--row {
-      flex-direction: row;
-      align-items: center;
+  }
+
+  &--inline-label {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xs);
+    &.textfield-with-helper-text {
+      .textfield__label {
+        margin-bottom: var(--helpertext-height);
+      }
     }
-    &--error {
+    &.textfield--required {
+      gap: var(--space-m);
+    }
+  }
+  &--required {
+    & .textfield__label {
+      @include form-label($required: true);
+    }
+  }
+  &--error {
+    & .textfield__label {
       @include form-label($error: true);
     }
-    &--required {
-      @include form-label($required: true);
+    & .MuiFormHelperText-root.Mui-error {
+      @include helper-text($error: true);
+    }
+    .MuiFormHelperText-root {
+      @include helper-text;
     }
   }
 }

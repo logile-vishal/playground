@@ -1,0 +1,183 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.editor {
+  --helpertext-height: 26px;
+  width: -webkit-fill-available;
+  @include flex-box(column);
+  &__label {
+    @include form-label;
+  }
+  &__body {
+    @include flex-box(column);
+    &-content {
+      flex: 1;
+      overflow: hidden;
+
+      &-label {
+        @include form-label;
+      }
+      &-outlined {
+        --editor-min-height: 40px;
+        width: 100%;
+        border: none;
+        border-radius: var(--radius-m);
+        border: 1px solid var(--logile-border-secondary);
+        background: var(--logile-bg-container-1);
+        .quill {
+          height: 100%;
+        }
+        #toolbar {
+          @include flex-center(flex-end, center, var(--space-none));
+          border: none;
+          border-radius: var(--radius-m);
+          padding: 0 var(--space-m) var(--space-m);
+          right: 0;
+          bottom: 0;
+          background: var(--logile-bg-container-1);
+        }
+        .ql-container {
+          border: none;
+        }
+        .toolbar {
+          @include flex-center(flex-start, center, var(--space-xs));
+        }
+
+        .ql-variable-btn {
+          padding: var(--space-xs) var(--space-s);
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          font-size: var(--logile-size-body);
+        }
+
+        .ql-variable-btn:hover {
+          background-color: var(--logile-gray-light-50);
+          border-radius: var(--radius-xs);
+        }
+
+        .ql-variable {
+          padding: var(--space-xxs) var(--space-m);
+          margin: var(--space-none) var(--space-xxs);
+          border-radius: var(--radius-xs);
+          background: var(--logile-bg-primary-x-subtle);
+          color: var(--logile-text-primary);
+          font-size: var(--logile-size-body);
+          line-height: var(--logile-line-height-body);
+        }
+
+        .ql-editor > p {
+          @include flex-center(flex-start, center, var(--space-none));
+          flex-wrap: wrap;
+        }
+
+        .ql-editor :is(strong, em, u) {
+          @include flex-center(flex-start, center, var(--space-none));
+        }
+
+        .ql-wildcard > span {
+          margin: var(--space-none) var(--space-xxs);
+          border-radius: var(--radius-xs);
+          line-height: var(--logile-line-height-body);
+          display: inline-flex;
+          align-items: center;
+          margin-top: var(--space-s);
+          background: var(--logile-bg-primary-x-subtle);
+          line-height: var(--logile-line-height-body);
+          color: var(--logile-text-primary);
+          font-size: var(--logile-size-body);
+          padding: var(--space-xxs) var(--space-m);
+          .label {
+            margin-left: var(--space-m);
+            white-space: nowrap;
+          }
+        }
+
+        .ql-editor {
+          color: var(--logile-text-primary);
+          font-family: var(--logile-family-body-family);
+          font-size: var(--logile-size-body);
+          font-weight: var(--logile-weight-400);
+          min-height: var(--editor-min-height);
+          padding: var(--space-m);
+        }
+
+        .ql-editor.ql-blank::before {
+          color: var(--logile-text-tertiary);
+          font-family: var(--logile-family-body-family);
+          font-size: var(--logile-size-body);
+          font-weight: var(--logile-weight-400);
+        }
+
+        .toolbar-custom-icons {
+          color: var(--logile-icon-secondary);
+        }
+      }
+      &-helper-text {
+        @include helper-text;
+      }
+    }
+  }
+  &__footer {
+    @include flex-box(row);
+    margin: var(--space-m) 0;
+    gap: var(--space-m);
+    flex-wrap: wrap;
+
+    &-selected-file {
+      @include flex-center(space-between, center, var(--space-l));
+      padding: var(--space-m) var(--space-xl);
+      border: 1px solid var(--logile-border-secondary);
+      border-radius: var(--radius-full);
+
+      &--label {
+        @include flex-center(center, center, var(--space-m));
+        font-size: var(--logile-size-secondary-text);
+        color: var(--logile-text-primary);
+      }
+
+      &--icon {
+        @include flex-center(center, center);
+        cursor: pointer;
+      }
+    }
+  }
+
+  &--inline-label {
+    .editor__body {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-xs);
+      &.editor__body-label {
+        margin-right: var(--space-m);
+      }
+    }
+    &.editor-with-helper-text {
+      & .editor__body .editor__body-label {
+        margin-bottom: var(--helpertext-height);
+      }
+    }
+    &.editor--required {
+      gap: var(--space-m);
+    }
+  }
+  &--required {
+    .editor__body {
+      gap: var(--space-m);
+    }
+    .editor__body-label {
+      @include form-label($required: true);
+    }
+  }
+
+  &--error {
+    .editor__body .editor__body-label {
+      @include form-label($error: true);
+    }
+    .editor__body-content-helper-text {
+      @include helper-text($error: true);
+    }
+    .editor__body-content-outlined {
+      border-color: var(--logile-border-state-violation);
+    }
+  }
+}

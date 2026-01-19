@@ -277,7 +277,6 @@ const TemplateLibrary: React.FC = () => {
                 <Box className="template-library__searchbar">
                   <CTextfield
                     placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
-                    autoComplete="off"
                     value={searchTemplateText}
                     className="template-library__searchbar-field"
                     onClick={openSearchDrawer}

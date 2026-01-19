@@ -272,7 +272,6 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
         >
           <CTextfield
             placeholder={NESTED_MENU_TRANSLATIONS.filterPlaceholder}
-            variant="outlined"
             fullWidth
             value={searchTerm}
             onChange={handlefilterChange}

@@ -33,7 +33,7 @@
     font-weight: var(--logile-weight-400);
     line-height: var(--logile-line-height-secondary-text);
     flex-shrink: 0;
-    color: var(--logile-text-primary);
+    color: var(--logile-text-secondary);
 
     @if $isClickable == true {
       cursor: pointer;
@@ -45,4 +45,24 @@
       color: var(--logile-text-state-violation);
     }
   }
+}
+
+@mixin helper-text($error: false) {
+  display: block;
+  padding: var(--space-xs) var(--space-m);
+  font-size: var(--logile-size-caption-large);
+  font-weight: var(--logile-weight-400);
+  line-height: var(--logile-line-height-helper-text);
+  color: var(--logile-text-secondary);
+
+  @if $error == true {
+    color: var(--logile-text-state-violation);
+  }
+}
+@mixin input-placeholder {
+  font-size: var(--logile-size-body);
+  font-weight: var(--logile-weight-400);
+  line-height: var(--logile-line-height-body);
+  color: var(--logile-text-tertiary);
+  opacity: 1;
 }

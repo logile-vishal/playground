@@ -6,11 +6,8 @@ import { isNonEmptyValue } from "@/utils";
 import { textareaPalette } from "./textarea.palette";
 import "./Textarea.scss";
 import type { TextareaProps, TextareaStatus } from "../types/textarea.type";
-import {
-  TEXTAREA_STATUS,
-  TEXTAREA_LABEL_PLACEMENT,
-  TEXTAREA_ERROR,
-} from "../constants/textarea";
+import { TEXTAREA_STATUS } from "../constants/textarea";
+import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 
 const getStyle = (state) => {
   return {
@@ -142,24 +139,42 @@ const CTextarea = ({
   fullWidth = true,
   className = "",
   minRows = 3,
-  errorText = TEXTAREA_ERROR.REQUIRED_FIELD,
-  labelPlacement = TEXTAREA_LABEL_PLACEMENT.COLUMN,
-  sx,
-  ...props
+  maxRows,
+  isInlineLabel = false,
+  id,
+  helperText,
+  onChange,
+  walkMeIdPrefix = [],
+  value,
+  onClick = () => {},
+  name,
 }: TextareaProps) => {
+  const { generateId } = useWalkmeId();
   const status: TextareaStatus = error
     ? TEXTAREA_STATUS.ERROR
     : TEXTAREA_STATUS.DEFAULT;
   const state = textareaPalette[status];
-  const textareaId =
-    props.id ?? `textarea-${Math.random().toString(36).slice(2)}`;
+  const textareaId = `textarea-${Math.random().toString(36).slice(2)} ${id || ""}`;
+
+  const handleOnChange = (e) => {
+    const syntheticEvent = {
+      ...e,
+      target: {
+        name,
+        value: e.target.value,
+      },
+    };
+    onChange(syntheticEvent);
+  };
 
   return (
     <div
       className={clsx({
         textarea: true,
-        ["textarea__label--row"]:
-          labelPlacement === TEXTAREA_LABEL_PLACEMENT.ROW,
+        "textarea--inline-label": isInlineLabel,
+        "textarea--error": error && !disabled,
+        "textarea--required": required,
+        "textarea-with-helper-text": isNonEmptyValue(helperText),
         [className]: true,
       })}
     >
@@ -167,8 +182,6 @@ const CTextarea = ({
         <label
           className={clsx({
             textarea__label: true,
-            "textarea__label--error": error && !disabled,
-            "textarea__label--required": required,
           })}
           htmlFor={textareaId}
         >
@@ -176,13 +189,18 @@ const CTextarea = ({
         </label>
       )}
       <TextField
-        {...props}
+        name={name}
+        onClick={onClick}
+        value={value}
+        data-walkme-id={generateId(walkMeIdPrefix)}
+        onChange={handleOnChange}
         id={textareaId}
         disabled={disabled}
         fullWidth={fullWidth}
         minRows={minRows}
+        maxRows={maxRows}
         multiline={true}
-        helperText={error ? errorText : undefined}
+        helperText={helperText}
         required={required}
         error={error}
         slotProps={{
@@ -198,7 +216,6 @@ const CTextarea = ({
         }}
         sx={{
           ...getStyle(state),
-          ...sx,
         }}
       />
     </div>

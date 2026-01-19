@@ -22,7 +22,7 @@ const AdvancedOptions: React.FC = () => {
             label={ADVANCED_OPTIONS.compilanceThreshold}
             type="number"
             endIcon={<CSvgIcon component={Percentage} />}
-            sx={{ width: "var(--size-40)" }}
+            width="var(--size-40)"
             placeholder={ADVANCED_OPTIONS.compilanceThresholdPlaceholder}
           />
         </Box>
@@ -31,7 +31,7 @@ const AdvancedOptions: React.FC = () => {
             <CTextfield
               label={ADVANCED_OPTIONS.labourHours}
               type="number"
-              sx={{ width: "var(--size-18)" }}
+              width="var(--size-18)"
             />
             <CSelect
               options={LABOUR_HOUR_OPTIONS}

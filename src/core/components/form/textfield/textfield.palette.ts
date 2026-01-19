@@ -33,7 +33,11 @@ export const textfieldPalette = {
       icon: {},
     },
     active: {
-      root: { border: "1px solid var(--logile-border-brand-primary-subtle)" },
+      root: {
+        border: "1px solid var(--logile-border-brand-primary-subtle)",
+        boxShadow: "none",
+        outline: "red",
+      },
       input: {},
       fieldset: {},
       icon: {},

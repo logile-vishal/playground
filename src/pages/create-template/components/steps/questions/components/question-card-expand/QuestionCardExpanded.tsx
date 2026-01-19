@@ -16,7 +16,7 @@ import type { QuestionCardProps } from "@/pages/create-template/types/questions.
 import CTabs from "@/core/components/tabs/Tabs";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import CDivider from "@/core/components/divider/Divider";
-import CRichTextEditor from "@/core/components/rich-text-editor/RichTextEditor";
+import CRichTextEditor from "@/core/components/form/rich-text-editor/RichTextEditor";
 
 import { QuestionBadge } from "../question-card-collapsed/QuestionBadges";
 import QuestionCardOptionsComponent from "../question-card-options/QuestionCardOptions";

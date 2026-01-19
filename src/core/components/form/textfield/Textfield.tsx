@@ -6,11 +6,7 @@ import { isNonEmptyValue } from "@/utils";
 import { textfieldPalette } from "./textfield.palette";
 import "./Textfield.scss";
 import type { TextfieldProps, TextfieldStatus } from "../types/textfield.type";
-import {
-  TEXTFIELD_STATUS,
-  TEXTFIELD_LABEL_PLACEMENT,
-  TEXTFIELD_ERROR,
-} from "../constants/textfield";
+import { TEXTFIELD_STATUS } from "../constants/textfield";
 
 const getStyle = (state) => {
   return {
@@ -141,24 +137,34 @@ const CTextfield = ({
   disabled,
   fullWidth = true,
   className = "",
-  errorText = TEXTFIELD_ERROR.REQUIRED_FIELD,
-  labelPlacement = TEXTFIELD_LABEL_PLACEMENT.COLUMN,
-  sx,
-  ...props
+  helperText,
+  onChange,
+  name,
+  value,
+  id,
+  placeholder,
+  type,
+  width,
+  onKeyDown,
+  onClick = () => {},
+  ref,
+  acceptFileFormats,
+  isInlineLabel,
 }: TextfieldProps) => {
   const status: TextfieldStatus = error
     ? TEXTFIELD_STATUS.ERROR
     : TEXTFIELD_STATUS.DEFAULT;
   const state = textfieldPalette[status];
-  const textfieldId =
-    props.id ?? `textfield-${Math.random().toString(36).slice(2)}`;
+  const textfieldId = id ?? `textfield-${Math.random().toString(36).slice(2)}`;
 
   return (
     <div
       className={clsx({
         textfield: true,
-        ["textfield__label--row"]:
-          labelPlacement === TEXTFIELD_LABEL_PLACEMENT.ROW,
+        "textfield--inline-label": isInlineLabel,
+        "textfield--error": error && !disabled,
+        "textfield--required": required,
+        "textfield-with-helper-text": Boolean(helperText),
         [className]: true,
       })}
     >
@@ -166,8 +172,6 @@ const CTextfield = ({
         <label
           className={clsx({
             textfield__label: true,
-            "textfield__label--error": error && !disabled,
-            "textfield__label--required": required,
           })}
           htmlFor={textfieldId}
         >
@@ -175,14 +179,26 @@ const CTextfield = ({
         </label>
       )}
       <TextField
-        {...props}
+        onKeyDown={onKeyDown}
+        type={type}
+        onClick={onClick}
+        name={name}
+        value={value}
+        onChange={onChange}
         id={textfieldId}
         disabled={disabled}
         fullWidth={fullWidth}
-        helperText={error ? errorText : undefined}
+        helperText={helperText}
         required={required}
         error={error}
+        placeholder={placeholder}
+        inputRef={ref}
         slotProps={{
+          htmlInput: {
+            ...(type === "file" && acceptFileFormats
+              ? { accept: acceptFileFormats }
+              : {}),
+          },
           input: {
             startAdornment: startIcon ? (
               <InputAdornment position="start">{startIcon}</InputAdornment>
@@ -195,7 +211,7 @@ const CTextfield = ({
         }}
         sx={{
           ...getStyle(state),
-          ...sx,
+          width: width,
         }}
       />
     </div>

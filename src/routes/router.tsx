@@ -11,6 +11,7 @@ import TestPage from "@/dev-playground/TestPage";
 import { ProtectedRoute } from "@/layouts/protected-routes/ProtectedRoutes";
 import LoginPage from "@/pages/login/LoginPage";
 import NestedMenuDev from "@/dev-playground/NestedMenuDev";
+import FormElementIntegration from "@/dev-playground/FormElementIntegration";
 
 const getDevRoutes = () => {
   if (import.meta.env.DEV) {
@@ -33,6 +34,10 @@ const getDevRoutes = () => {
         {
           path: "nested-menu-dev",
           element: <NestedMenuDev />,
+        },
+        {
+          path: "form-integration",
+          element: <FormElementIntegration />,
         },
       ],
     };

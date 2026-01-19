@@ -1,7 +1,7 @@
 import type {
   RichTextEditorProps,
   WildcardVariable,
-} from "@/core/types/rich-text-editor.type";
+} from "@/core/components/form/types/rich-text-editor.type";
 import { vi } from "vitest";
 
 /**

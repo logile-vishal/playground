@@ -1,8 +1,9 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .textarea {
-  display: flex;
-  flex-direction: column;
+  --helpertext-height: 26px;
+
+  @include flex-box(column);
 
   .MuiOutlinedInput-root {
     min-height: var(--height-input);
@@ -18,22 +19,35 @@
     width: var(--size-input-svg);
   }
   .MuiFormHelperText-root {
-    margin: var(--space-xs) var(--space-m);
-    font-size: var(--logile-size-caption-large);
-    font-weight: var(--logile-weight-400);
-    line-height: var(--line-height-caption-large);
+    margin: 0;
+    @include helper-text;
   }
-
   &__label {
     @include form-label;
-    &--row {
-      flex-direction: row;
-      align-items: center;
-    }
-    &--error {
+  }
+  &--error {
+    .textarea__label {
       @include form-label($required: false, $error: true);
     }
-    &--required {
+    .MuiFormHelperText-root.Mui-error {
+      @include helper-text($error: true);
+    }
+  }
+  &--inline-label {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xs);
+    &.textarea-with-helper-text {
+      .textarea__label {
+        margin-bottom: var(--helpertext-height);
+      }
+    }
+    &.textarea--required {
+      gap: var(--space-m);
+    }
+  }
+  &--required {
+    .textarea__label {
       @include form-label($required: true);
     }
   }

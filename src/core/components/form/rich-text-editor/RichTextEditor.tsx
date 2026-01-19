@@ -5,9 +5,7 @@ import { Box } from "@mui/material";
 
 import CSvgIcon from "@/core/components/icon/Icon";
 import { Delete, Eye, Preview } from "@/core/constants/icons";
-import AttachmentPreviewModal from "@/core/components/rich-text-editor/components/attachment-preview-modal/AttachmentPreviewModal";
-import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
-import type { RichTextEditorProps } from "@/core/types/rich-text-editor.type";
+import type { RichTextEditorProps } from "@/core/components/form/types/rich-text-editor.type";
 import { WILDCARD_LIST } from "@/core/constants/wildcard-list";
 import clsx from "@/utils/clsx";
 
@@ -15,6 +13,7 @@ import useWildcardVariableManager from "./WildcardVariableManager";
 import { WILD_CARD_MAP } from "./wildcardLabel";
 import Toolbar from "./Toolbar";
 import "./RichTextEditor.scss";
+import AttachmentPreviewModal from "./components/attachment-preview-modal/AttachmentPreviewModal";
 
 const CRichTextEditor: FC<RichTextEditorProps> = ({
   value = "",
@@ -24,12 +23,15 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
   variables: customVariables,
   onVariableInserted,
   error,
+  name,
   helperText,
   attachments = [],
   onUpdateAttachments = () => {},
   walkMeIdPrefix = [],
+  label,
+  required,
+  isInlineLabel,
 }) => {
-  const { EDITOR_ERROR } = useCommonTranslation();
   const [attachmentPreviewModal, setAttachmentPreviewModal] = useState({
     show: false,
     file: null as File | null,
@@ -147,7 +149,13 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
 
     // Call user's onChange callback
     if (typeof onChange === "function") {
-      onChange(contentWithWildCardValue);
+      const syntheticEvent = {
+        target: {
+          name,
+          value: contentWithWildCardValue,
+        },
+      };
+      onChange(syntheticEvent as React.ChangeEvent<HTMLTextAreaElement>);
     }
   };
 
@@ -226,47 +234,61 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
   };
 
   return (
-    <Box className="editor">
+    <>
       <Box
         className={clsx({
-          editor__wrapper: true,
-          "editor__wrapper--error": Boolean(error),
+          editor: true,
+          "editor--error": Boolean(error),
+          "editor--inline-label": Boolean(isInlineLabel),
+          "editor--required": Boolean(required),
+          "editor-with-helper-text": Boolean(helperText),
         })}
       >
-        {/* Quill Editor */}
-        <ReactQuill
-          ref={quillRef}
-          defaultValue={value}
-          onChange={(content) => {
-            handleEditorChange(content);
-          }}
-          modules={getEditorModules()}
-          theme="snow"
-          placeholder={placeholder}
-          value={value}
-        />
-        <Toolbar
-          quillRef={quillRef}
-          onVariableButtonClick={handleVariableButtonClick}
-          attachments={attachments}
-          onUpdateAttachments={onUpdateAttachments}
-          walkMeIdPrefix={walkMeIdPrefix}
-        />
+        <Box className="editor__body">
+          {label && <Box className="editor__body-label">{label}</Box>}
+          <div className="editor__body-content">
+            <Box
+              className={clsx({
+                "editor__body-content-outlined": true,
+              })}
+            >
+              {/* Quill Editor */}
+              <ReactQuill
+                ref={quillRef}
+                defaultValue={value}
+                onChange={(content) => {
+                  handleEditorChange(content);
+                }}
+                modules={getEditorModules()}
+                theme="snow"
+                placeholder={placeholder}
+                value={value}
+              />
+              <Toolbar
+                quillRef={quillRef}
+                onVariableButtonClick={handleVariableButtonClick}
+                attachments={attachments}
+                onUpdateAttachments={onUpdateAttachments}
+                walkMeIdPrefix={walkMeIdPrefix}
+              />
 
-        {/* Variables Dropdown */}
-        {renderVariableDropdown()}
-      </Box>
-      {error && (
-        <Box className="editor__error-text">
-          {helperText || EDITOR_ERROR.REQUIRED_FIELD}
+              {/* Variables Dropdown */}
+              {renderVariableDropdown()}
+            </Box>
+            {
+              <Box className="editor__body-content-helper-text">
+                {helperText}
+              </Box>
+            }
+          </div>
         </Box>
-      )}
-      <Box className="editor__footer">{renderAttachments()}</Box>
+        <Box className="editor__footer">{renderAttachments()}</Box>
+      </Box>
       <AttachmentPreviewModal
         attachmentPreviewModal={attachmentPreviewModal}
         onClose={closePreviewModal}
       />
-    </Box>
+    </>
   );
 };
 

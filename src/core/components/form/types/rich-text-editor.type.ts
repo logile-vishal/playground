@@ -1,8 +1,8 @@
 import type ReactQuill from "react-quill-new";
 
 import type { NestedMenuProps } from "@/core/components/nested-menu/NestedMenu";
-import type { MandatoryFormElementProps } from "../components/form/types/form-element.type";
-import type { IdentifierProps } from "./IdentifierProps.type";
+import type { MandatoryFormElementProps } from "./form-element.type";
+import type { IdentifierProps } from "@/core/types/IdentifierProps.type";
 
 export type RichTextEditorProps = MandatoryFormElementProps &
   IdentifierProps & {
@@ -15,6 +15,7 @@ export type RichTextEditorProps = MandatoryFormElementProps &
     onUpdateAttachments?: (files: File[]) => void;
     onVariableInserted?: (variable: string) => void;
     helperText?: string;
+    isInlineLabel?: boolean;
   };
 
 export type WildcardVariable = {

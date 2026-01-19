@@ -82,11 +82,7 @@ const AttachmentModal: React.FC<AttachmentModalProps> = ({
           className="ql-attachment-modal-hidden-input"
           onChange={handleFileSelect}
           id="attachment-input"
-          slotProps={{
-            htmlInput: {
-              accept: "image/*,.pdf,.doc,.docx,.xls,.xlsx",
-            },
-          }}
+          acceptFileFormats="image/*,.pdf,.doc,.docx,.xls,.xlsx"
         />
       </>
     );

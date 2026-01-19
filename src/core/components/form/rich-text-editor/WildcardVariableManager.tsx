@@ -3,7 +3,7 @@ import { useState, useRef, useCallback, type ReactNode } from "react";
 import type {
   WildcardVariable,
   WildcardVariableManagerProps,
-} from "@/core/types/rich-text-editor.type";
+} from "@/core/components/form/types/rich-text-editor.type";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 
 import { WILD_CARD_MAP } from "./wildcardLabel";
