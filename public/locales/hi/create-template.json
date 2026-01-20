@@ -10,7 +10,9 @@
     "tagsPlaceholder": "टैग चुनें",
     "directory": "निर्देशिका",
     "directoryPlaceholder": "निर्देशिका चुनें",
-    "subDirectoryPlaceholder": "उप-निर्देशिका चुनें"
+    "subDirectoryPlaceholder": "उप-निर्देशिका चुनें",
+    "attachment": "संलग्नक",
+    "addFile": "जोड़ें"
   },
   "CREATE_TEMPLATE_STEPS": {
     "basicInfoLabel": "मूल जानकारी",

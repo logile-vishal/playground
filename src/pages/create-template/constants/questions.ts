@@ -136,3 +136,6 @@ export const QUESTION_ARRAY = [
     ],
   },
 ];
+
+export const FORM_FILE_TYPES = ".pdf,.doc,.docx";
+export const SPREADSHEET_FILE_TYPES = ".xls,.xlsx,.csv,.xlsv";

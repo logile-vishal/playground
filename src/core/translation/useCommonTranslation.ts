@@ -10,6 +10,7 @@ export const useCommonTranslation = () => {
     addButtonLabel: t("GENERAL.addButtonLabel"),
     closeButtonLabel: t("GENERAL.closeButtonLabel"),
     confirmButtonLabel: t("GENERAL.confirmButtonLabel"),
+    submitButtonLabel: t("GENERAL.submitButtonLabel"),
     seeMoreButtonLabel: t("GENERAL.seeMoreButtonLabel"),
     seeLessButtonLabel: t("GENERAL.seeLessButtonLabel"),
   };

@@ -15,9 +15,9 @@ import CSvgIcon from "@/core/components/icon/Icon";
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 import { CButton } from "@/core/components/button/button";
+import CAttachmentModal from "@/core/components/attachment-modal/AttachmentModal";
 
 import "./RichTextEditor.scss";
-import AttachmentModal from "./components/attachment-modal/AttachmentModal";
 import LinkModal from "./components/link-modal/LinkModal";
 
 export type ToolbarProps = {
@@ -328,7 +328,7 @@ const Toolbar: FC<ToolbarProps> = ({
           />
         </CButton>
       </div>
-      <AttachmentModal
+      <CAttachmentModal
         selectedFiles={selectedFiles}
         setSelectedFiles={setSelectedFiles}
         showAttachmentModal={showAttachmentModal}

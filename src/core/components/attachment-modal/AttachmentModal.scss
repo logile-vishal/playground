@@ -5,6 +5,7 @@
   @include flex-center(center, center);
   --attachment-modal-height: 200px;
   --picture-wrapper-width: 210px;
+  --pdf-item-width: 200px;
   margin: var(--space-xl);
   border-radius: var(--radius-m);
   height: var(--attachment-modal-height);
@@ -31,7 +32,6 @@
     font-size: var(--logile-size-body);
   }
   &-gallery-wrapper {
-    height: fit-content;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -56,11 +56,35 @@
     }
   }
 
+  &-pdf-wrapper {
+    @include flex-center(flex-start, center, var(--space-m));
+    max-width: var(--pdf-item-width);
+    border-radius: var(--radius-m);
+    border: 1px solid var(--logile-border-primary);
+    background: var(--logile-bg-container-1);
+    padding: var(--space-m) var(--space-l);
+    cursor: default;
+    &-file {
+      @include flex-box(column);
+      width: 100%;
+      gap: var(--space-s);
+      &-text {
+        color: var(--logile-text-primary);
+        font-size: var(--logile-size-secondary-text);
+        font-weight: var(--logile-weight-500);
+        word-break: break-word;
+      }
+      &-size {
+        @include flex-center(space-between, center, var(--space-m));
+        color: var(--logile-text-secondary);
+        font-size: var(--logile-size-secondary-text);
+      }
+    }
+  }
+
   &-action-wrapper {
+    @include flex-center(flex-end, center, var(--space-none));
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
     padding: 0 var(--space-m) var(--space-m) var(--space-m);
     width: 100%;
     background: linear-gradient(

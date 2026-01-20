@@ -19,7 +19,6 @@ export { default as ChevronExpanded } from "@/assets/icons/arrow/chevron-expande
 export { default as ChevronCollapse } from "@/assets/icons/arrow/chevron-collapse.svg?react";
 export { default as ClipboardToDo } from "@/assets/icons/common-icons/clipboard-to-do.svg?react";
 export { default as Close } from "@/assets/icons/common-icons/close.svg?react";
-export { default as CSV } from "@/assets/icons/common-icons/csv.svg?react";
 export { default as Comment } from "@/assets/icons/common-icons/comment.svg?react";
 export { default as Communication } from "@/assets/icons/common-icons/communication.svg?react";
 export { default as Copy } from "@/assets/icons/common-icons/copy.svg?react";
@@ -65,9 +64,6 @@ export { default as Users } from "@/assets/icons/common-icons/users.svg?react";
 export { default as UserMinus } from "@/assets/icons/common-icons/user-minus.svg?react";
 export { default as UserSetting } from "@/assets/icons/common-icons/user-setting.svg?react";
 export { default as UserStar } from "@/assets/icons/common-icons/user-star.svg?react";
-export { default as Doc } from "@/assets/icons/common-icons/doc.svg?react";
-export { default as Excel } from "@/assets/icons/common-icons/excel.svg?react";
-export { default as Pdf } from "@/assets/icons/common-icons/pdf.svg?react";
 export { default as Printer } from "@/assets/icons/common-icons/printer.svg?react";
 
 export { default as Attachment } from "@/assets/icons/common-icons/attachment.svg?react";
@@ -77,12 +73,10 @@ export { default as Camera } from "@/assets/icons/common-icons/camera.svg?react"
 export { default as CameraRequired } from "@/assets/icons/common-icons/camera-req.svg?react";
 export { default as ChevronDownUp } from "@/assets/icons/arrow/chevron-down-up.svg?react";
 export { default as Desktop } from "@/assets/icons/common-icons/desktop.svg?react";
-export { default as Form } from "@/assets/icons/common-icons/form.svg?react";
 export { default as GridFilled } from "@/assets/icons/common-icons/grid-filled.svg?react";
 export { default as Phone } from "@/assets/icons/common-icons/phone.svg?react";
 export { default as Scan } from "@/assets/icons/common-icons/scan.svg?react";
 export { default as Scenary } from "@/assets/icons/common-icons/scenary.svg?react";
-export { default as Spreadsheet } from "@/assets/icons/common-icons/spreadsheet.svg?react";
 export { default as Temperature } from "@/assets/icons/common-icons/temperature.svg?react";
 // alert
 export { default as Exclamation } from "@/assets/icons/alert/exclamation.svg?react";
@@ -131,6 +125,15 @@ export { default as ChevronUpLarge } from "@/assets/icons/common-icons/chevron-u
 export { default as AttachmentLink } from "@/assets/icons/common-icons/attachment-link.svg?react";
 export { default as Eye } from "@/assets/icons/common-icons/eye.svg?react";
 export { default as Preview } from "@/assets/icons/common-icons/preview.svg?react";
+// File type icons
+export { default as CSV } from "@/assets/icons/file-type/csv.svg?react";
+export { default as Doc } from "@/assets/icons/file-type/doc.svg?react";
+export { default as Excel } from "@/assets/icons/file-type/excel.svg?react";
+export { default as Form } from "@/assets/icons/file-type/form.svg?react";
+export { default as Pdf } from "@/assets/icons/file-type/pdf.svg?react";
+export { default as PlainTextFile } from "@/assets/icons/file-type/plain-file.svg?react";
+export { default as Spreadsheet } from "@/assets/icons/file-type/spreadsheet.svg?react";
+export { default as Word } from "@/assets/icons/file-type/word.svg?react";
 
 export type IconName =
   | "AddIcon"
@@ -263,4 +266,6 @@ export type IconName =
   | "ChevronUpLarge"
   | "AttachmentLink"
   | "Eye"
-  | "Preview";
+  | "Preview"
+  | "Word"
+  | "PlainTextFile";

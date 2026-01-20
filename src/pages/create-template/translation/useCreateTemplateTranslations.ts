@@ -35,6 +35,8 @@ export const useCreateTemplateTranslations = () => {
     directory: t("BASIC_INFO.directory"),
     directoryPlaceholder: t("BASIC_INFO.directoryPlaceholder"),
     subDirectoryPlaceholder: t("BASIC_INFO.subDirectoryPlaceholder"),
+    attachment: t("BASIC_INFO.attachment"),
+    addFile: t("BASIC_INFO.addFile"),
   };
 
   const CREATE_TEMPLATE_STEPS = {

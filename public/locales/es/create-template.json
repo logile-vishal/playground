@@ -10,7 +10,9 @@
     "tagsPlaceholder": "Seleccione etiquetas",
     "directory": "Directorio",
     "directoryPlaceholder": "Seleccione directorio",
-    "subDirectoryPlaceholder": "Seleccione subdirectorio"
+    "subDirectoryPlaceholder": "Seleccione subdirectorio",
+    "attachment": "Adjunto",
+    "addFile": "Agregar"
   },
   "CREATE_TEMPLATE_STEPS": {
     "basicInfoLabel": "Información básica",

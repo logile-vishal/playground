@@ -149,6 +149,7 @@ const CTextfield = ({
   onClick = () => {},
   ref,
   acceptFileFormats,
+  allowMultipleFileUpload,
   isInlineLabel,
 }: TextfieldProps) => {
   const status: TextfieldStatus = error
@@ -197,6 +198,9 @@ const CTextfield = ({
           htmlInput: {
             ...(type === "file" && acceptFileFormats
               ? { accept: acceptFileFormats }
+              : {}),
+            ...(type === "file" && allowMultipleFileUpload
+              ? { multiple: true }
               : {}),
           },
           input: {

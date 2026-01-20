@@ -22,6 +22,7 @@ export type TextfieldProps = MandatoryFormElementProps &
     placeholder?: string;
     type?: HTMLInputTypeAttribute;
     width?: string;
+    allowMultipleFileUpload?: boolean;
     onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     onClick?: (
       e: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLInputElement>

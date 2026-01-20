@@ -10,7 +10,9 @@
     "tagsPlaceholder": "选择标签",
     "directory": "目录",
     "directoryPlaceholder": "选择目录",
-    "subDirectoryPlaceholder": "选择子目录"
+    "subDirectoryPlaceholder": "选择子目录",
+    "attachment": "附件",
+    "addFile": "添加"
   },
   "CREATE_TEMPLATE_STEPS": {
     "basicInfoLabel": "基本信息",

@@ -39,6 +39,7 @@ export type ButtonProps = Omit<
   severity?: ButtonSeverity;
   variant?: ButtonVariant;
   size?: ButtonSize;
+  walkMeIdPrefix?: string[];
 };
 
 export type ButtonSeverity = keyof ButtonSeverityProps;

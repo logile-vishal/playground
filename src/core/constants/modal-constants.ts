@@ -8,3 +8,10 @@ export const MODAL_SIZE = {
   MEDIUM: "medium",
   LARGE: "large",
 } as const;
+
+export const FILE_TYPES = "image/*,.pdf,.doc,.docx,.xls,.xlsx,.csv,.xlsv";
+
+export const FILE_CATEGORY = {
+  IMAGE: "image",
+  DOCUMENT: "document",
+} as const;

@@ -81,4 +81,32 @@
     content: " *";
     color: var(--logile-text-state-violation);
   }
+
+  &__attachment {
+    @include flex-center(start, center, var(--space-l));
+    flex-wrap: wrap;
+    margin-bottom: var(--space-l);
+    color: var(--logile-text-primary);
+    font-size: var(--logile-size-secondary-text);
+
+    &-item {
+      @include flex-center(start, center, var(--space-l));
+      padding-left: var(--space-l);
+      border-radius: var(--radius-m);
+      border: 1px solid var(--logile-border-primary);
+      height: var(--size-9);
+
+      &-delete {
+        @include flex-center(start, center, var(--space-s));
+        cursor: pointer;
+        padding: var(--space-m);
+        border-left: 1px solid var(--logile-border-primary);
+      }
+    }
+  }
+
+  &__action-btn {
+    @include flex-center(center, center, var(--space-xs));
+    width: fit-content;
+  }
 }

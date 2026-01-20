@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box } from "@mui/material";
 
 import CTextfield from "@/core/components/form/textfield/Textfield";
-import { ChevronRight } from "@/core/constants/icons";
+import { AddIcon, ChevronRight, Delete } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
 import CSelect from "@/core/components/select/Select";
 import CMultiSelectWithChip from "@/core/components/multi-select-chip/MultiSelectWithChip";
@@ -11,8 +11,54 @@ import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import { basicTagsSampleData } from "@/pages/create-template/constants/sampleData";
+import { CButton } from "@/core/components/button/button";
+import CAttachmentModal from "@/core/components/attachment-modal/AttachmentModal";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
+import type { ProcessedFile } from "@/core/hooks/useFileProcessor";
+import { useFileIcon } from "@/core/hooks/useFileIcon";
+import {
+  FORM_FILE_TYPES,
+  SPREADSHEET_FILE_TYPES,
+} from "@/pages/create-template/constants/questions";
 
 import "./BasicInfo.scss";
+
+type AttachmentItemProps = {
+  item: ProcessedFile | File;
+  index: number;
+  onDelete: (index: number) => void;
+};
+
+const AttachmentItem: React.FC<AttachmentItemProps> = ({
+  item,
+  index,
+  onDelete,
+}) => {
+  const category = "category" in item ? item.category : undefined;
+  const { icon: fileIcon, color: fileIconColor } = useFileIcon(category);
+  const fileName = "file" in item ? item.file.name : item.name;
+
+  return (
+    <Box className="ct-basic-info__attachment-item">
+      <CSvgIcon
+        size={20}
+        color={fileIconColor}
+        component={fileIcon}
+      />
+      {fileName}
+      <Box
+        className="ct-basic-info__attachment-item-delete"
+        onClick={() => onDelete(index)}
+      >
+        <CSvgIcon
+          size={20}
+          color="violation"
+          component={Delete}
+        />
+      </Box>
+    </Box>
+  );
+};
 
 //TODO: To be removed static data when dropdown api response
 const typeDropdownOptions = [
@@ -26,7 +72,13 @@ const directoryDropdownOptions = [
 
 const BasicInfo: React.FC = () => {
   const { BASIC_INFO } = useCreateTemplateTranslations();
+  const { GENERAL } = useCommonTranslation();
   const [selectedTags, setSelectedTags] = useState([]);
+  const [showAttachmentModal, setShowAttachmentModal] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
+  const [attachmentFiles, setAttachmentFiles] = useState<
+    ProcessedFile[] | File[] | null
+  >(null);
   const isDesktop = useIsDesktopViewport();
 
   const handleTagsDelete = (_: React.MouseEvent, data: NestedMenuItem) => {
@@ -34,6 +86,56 @@ const BasicInfo: React.FC = () => {
       (item) => item?.value !== data?.value
     );
     setSelectedTags(updatedItems);
+  };
+
+  /**
+   * @method handleAttachment
+   * @description Opens file attachment modal
+   * @return {void}
+   */
+  const handleAttachment = () => {
+    setShowAttachmentModal(true);
+  };
+
+  /**
+   * @method handleAttachmentClose
+   * @description Closes attachment modal and clears selected file
+   * @return {void}
+   */
+  const handleAttachmentClose = () => {
+    setShowAttachmentModal(false);
+    setSelectedFiles(null);
+  };
+
+  /**
+   * @method handleAttachmentSubmit
+   * @description Handles attachment submission from modal and closes it
+   * @return {void}
+   */
+  const handleAttachmentSubmit = (processedFiles: ProcessedFile[] | File[]) => {
+    if (selectedFiles) {
+      setAttachmentFiles((prevFiles) =>
+        prevFiles
+          ? ([...prevFiles, ...processedFiles] as ProcessedFile[] | File[])
+          : processedFiles
+      );
+      setSelectedFiles(null);
+      setShowAttachmentModal(false);
+    }
+  };
+
+  /**
+   * @method handleDeleteAttachment
+   * @description Removes an attachment file from the attachmentFiles array by index.
+   * @param {number} index - The index of the file to delete from attachmentFiles array
+   * @return {void}
+   */
+  const handleDeleteAttachment = (index: number): void => {
+    if (!attachmentFiles) return;
+    const updatedFiles = attachmentFiles.filter((_, i) => i !== index) as
+      | ProcessedFile[]
+      | File[];
+    setAttachmentFiles(updatedFiles.length > 0 ? updatedFiles : null);
   };
 
   return (
@@ -156,6 +258,66 @@ const BasicInfo: React.FC = () => {
               sx={{ width: "200px" }}
             />
           </Box>
+        </Box>
+      </Box>
+
+      {/* TODO: Add base template type condition for rendering attachment view */}
+      <Box className="ct-basic-info__row">
+        <Box className="ct-basic-info__row-item">
+          <Box
+            className={clsx({
+              "ct-basic-info__label": true,
+              "required-icon": true,
+            })}
+          >
+            {BASIC_INFO.attachment}
+          </Box>
+          {attachmentFiles && attachmentFiles.length > 0 && (
+            <Box className="ct-basic-info__attachment">
+              {attachmentFiles.map((item, index) => {
+                return (
+                  <AttachmentItem
+                    key={index}
+                    item={item}
+                    index={index}
+                    onDelete={handleDeleteAttachment}
+                  />
+                );
+              })}
+            </Box>
+          )}
+
+          <CButton
+            className="ct-basic-info__action-btn"
+            variant="outline"
+            severity="primary"
+            size="small"
+            onClick={handleAttachment}
+            walkMeIdPrefix={["basic info step", "add attachment"]}
+          >
+            <CSvgIcon
+              size={15}
+              component={AddIcon}
+            />
+            {BASIC_INFO.addFile}
+          </CButton>
+          <CAttachmentModal
+            size="large"
+            selectedFiles={selectedFiles}
+            setSelectedFiles={setSelectedFiles}
+            title={BASIC_INFO.attachment}
+            confirmBtnText={GENERAL.submitButtonLabel}
+            acceptFileFormats={
+              // TODO: Implement dynamic file format selection based on baseTemplateType
+              // - Form: accept FORM_FILE_TYPES
+              // - Spreadsheet: accept SPREADSHEET_FILE_TYPES
+              FORM_FILE_TYPES || SPREADSHEET_FILE_TYPES
+            }
+            showAttachmentModal={showAttachmentModal}
+            handleAttachmentClose={handleAttachmentClose}
+            handleAttachmentSubmit={handleAttachmentSubmit}
+            walkMeIdPrefix={["basic info step", "submit attachment"]}
+          />
         </Box>
       </Box>
     </Box>
