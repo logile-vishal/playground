@@ -1,0 +1,147 @@
+.button-wrapper {
+  --active-box-shadow: 1px -1px 2px 0 var(--logile-utility-gray-6a) inset;
+  .button {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+
+    /* Color variants - sets CSS custom properties */
+    &--primary {
+      --btn-bg: var(--logile-bg-primary);
+      --btn-bg-hover: var(--logile-bg-primary-bold);
+      --btn-bg-subtle: var(--logile-bg-primary-x-subtle);
+      --btn-text: var(--logile-text-white);
+      --btn-text-color: var(--logile-text-brand-primary);
+      --btn-border: var(--logile-border-brand-primary);
+      --btn-focus-ring: var(--logile-focus-ring-default);
+    }
+
+    &--secondary {
+      --btn-bg: var(--logile-bg-surface-bold);
+      --btn-bg-hover: var(--logile-bg-surface-x-bold);
+      --btn-bg-subtle: var(--logile-utility-gray-50);
+      --btn-text: var(--logile-text-white-dark-mode);
+      --btn-text-color: var(--logile-text-primary);
+      --btn-border: var(--logile-border-secondary);
+      --btn-focus-ring: var(--logile-focus-ring-default);
+    }
+
+    &--destructive {
+      --btn-bg: var(--logile-bg-state-violation);
+      --btn-bg-hover: var(--logile-bg-state-violation-bold);
+      --btn-bg-subtle: var(--logile-bg-state-violation-alpha);
+      --btn-text: var(--logile-text-white);
+      --btn-text-color: var(--logile-text-state-violation);
+      --btn-border: var(--logile-border-state-violation);
+      --btn-border-hover: var(--logile-border-state-violation-bold);
+      --btn-focus-ring: var(--logile-focus-ring-error);
+    }
+
+    /* Style variants - uses CSS custom properties from color variants */
+    &--solid {
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border-radius: var(--radius-m);
+      border: none;
+
+      &:hover:not(:disabled) {
+        background: var(--btn-bg-hover);
+      }
+
+      &:active:not(:disabled) {
+        background: var(--btn-bg);
+        box-shadow: var(--active-box-shadow);
+      }
+
+      &:focus-visible:not(:disabled) {
+        background: var(--btn-bg);
+        box-shadow:
+          0 0 0 2px var(--logile-bg-base),
+          0 0 0 4px var(--btn-focus-ring);
+      }
+
+      &:disabled {
+        background: var(--logile-bg-state-disabled);
+        color: var(--logile-text-state-disabled);
+      }
+    }
+
+    &--outline {
+      border-radius: var(--radius-m);
+      border: 1px solid var(--btn-border);
+      background: var(--logile-bg-container-1);
+      color: var(--btn-text-color);
+
+      &:hover:not(:disabled) {
+        background: var(--btn-bg-subtle);
+        border-color: var(--btn-border-hover, var(--btn-border));
+      }
+
+      &:active:not(:disabled) {
+        box-shadow: var(--active-box-shadow);
+      }
+
+      &:focus-visible:not(:disabled) {
+        box-shadow:
+          0 0 0 2px var(--logile-bg-base),
+          0 0 0 4px var(--btn-focus-ring);
+      }
+
+      &:disabled {
+        border: 1px solid var(--logile-border-state-disabled);
+        color: var(--logile-text-state-disabled);
+      }
+    }
+
+    &--text {
+      color: var(--btn-text-color);
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-m);
+
+      &:hover:not(:disabled) {
+        text-decoration: underline;
+      }
+
+      &:active:not(:disabled) {
+        box-shadow: none;
+      }
+
+      &:focus-visible:not(:disabled) {
+        background: var(--logile-bg-container-1);
+        box-shadow:
+          0 0 0 2px var(--logile-bg-base),
+          0 0 0 4px var(--btn-focus-ring);
+      }
+
+      &:disabled {
+        color: var(--logile-text-state-disabled);
+      }
+    }
+
+    /* Size modifiers */
+    &--small {
+      font-size: var(--logile-size-body);
+      font-weight: var(--logile-weight-400);
+      padding: var(--space-xs) var(--space-xl);
+      border-radius: var(--radius-s);
+      height: var(--size-8);
+    }
+
+    &--medium {
+      font-size: var(--logile-size-body);
+      font-weight: var(--logile-weight-400);
+      padding: var(--space-s) var(--space-xl);
+      border-radius: var(--radius-s);
+      height: var(--size-9);
+    }
+
+    &--large {
+      font-size: var(--logile-size-body);
+      font-weight: var(--logile-weight-400);
+      padding: var(--space-m) var(--space-xl);
+      border-radius: var(--radius-m);
+      height: var(--size-10);
+    }
+  }
+}

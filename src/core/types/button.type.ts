@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { ButtonProps as MUIButtonProps } from "@mui/material";
+import type { IdentifierProps } from "./IdentifierProps.type";
 
 export type ButtonStatesProps = {
   pressed: CSSProperties;
@@ -32,15 +33,13 @@ export type ButtonSizesProps = {
   large: string;
 };
 
-export type ButtonProps = Omit<
-  MUIButtonProps,
-  "variant" | "severity" | "size"
-> & {
-  severity?: ButtonSeverity;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  walkMeIdPrefix?: string[];
-};
+export type ButtonProps = IdentifierProps &
+  Omit<MUIButtonProps, "variant" | "severity" | "size"> & {
+    severity?: ButtonSeverity;
+    variant?: ButtonVariant;
+    size?: ButtonSize;
+    walkMeId?: string[];
+  };
 
 export type ButtonSeverity = keyof ButtonSeverityProps;
 export type ButtonVariant = keyof ButtonVariantsProps;
