@@ -11,7 +11,7 @@ import CSelect from "@/core/components/select/Select";
 import { AddIcon, Copy, Delete, ChevronUpLarge } from "@/core/constants/icons";
 import CIconButton from "@/core/components/button/IconButton";
 import CTextfield from "@/core/components/form/textfield/Textfield";
-import CSwitch from "@/core/components/switch/Switch";
+import CSwitch from "@/core/components/form/switch/Switch";
 import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
 import CTabs from "@/core/components/tabs/Tabs";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
@@ -131,7 +131,6 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
                 size="medium"
                 checked={question?.isRequired}
                 defaultChecked
-                disableRipple
                 className="ct-question-card-expanded__required-switch-control"
               />
             }

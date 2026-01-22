@@ -2,7 +2,7 @@ import type React from "react";
 import { Box } from "@mui/material";
 
 import CTextfield from "@/core/components/form/textfield/Textfield";
-import CSwitch from "@/core/components/switch/Switch";
+import CSwitch from "@/core/components/form/switch/Switch";
 import CSelect from "@/core/components/select/Select";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { Percentage } from "@/core/constants/icons";

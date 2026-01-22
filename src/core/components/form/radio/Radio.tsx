@@ -7,20 +7,21 @@ import {
 } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { isNonEmptyValue } from "@/utils";
-
+import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 import type {
   LabelPlacement,
   RadioSize,
   RadioCheckedStatus,
   RadioState,
   RadioProp,
-} from "../types/radio.type";
+} from "@/core/components/form/types/radio.type";
 import {
   RADIO_CHECKED_STATUS,
   RADIO_VARIANT,
   RADIO_SIZE,
   LABEL_PLACEMENT,
-} from "../constants/radio";
+} from "@/core/components/form/constants/radio";
+
 import { radioPalette } from "./radio.palette";
 import "./Radio.scss";
 
@@ -67,6 +68,7 @@ const getRadioStyle = (
 
 const CRadio = ({
   checked,
+  value,
   error = false,
   required = false,
   size = RADIO_SIZE.LARGE as RadioSize,
@@ -74,8 +76,12 @@ const CRadio = ({
   labelPlacement = LABEL_PLACEMENT.END as LabelPlacement,
   label,
   disabled,
-  ...props
+  id,
+  walkMeIdPrefix = [],
+  onChange,
+  name,
 }: RadioProp) => {
+  const { generateId } = useWalkmeId();
   const RadioCheckedStatus = (
     checked ? RADIO_CHECKED_STATUS.CHECKED : RADIO_CHECKED_STATUS.UNCHECKED
   ) as RadioCheckedStatus;
@@ -83,9 +89,10 @@ const CRadio = ({
     error ? RADIO_VARIANT.ERROR : RADIO_VARIANT.DEFAULT
   ) as RadioState;
   const radioId =
-    (props.id as string | undefined) ??
+    (id as string | undefined) ??
     `radio-${Math.random().toString(36).slice(2)}`;
   const styles = getRadioStyle(RadioCheckedStatus, RadioState);
+
   return (
     <div
       className={clsx({
@@ -96,11 +103,14 @@ const CRadio = ({
       })}
     >
       <Radio
-        {...props}
+        onChange={onChange}
+        name={name}
         id={radioId}
         checked={checked}
         disabled={disabled}
         required={required}
+        data-walkme-id={generateId(walkMeIdPrefix)}
+        value={value}
         icon={<CSvgIcon component={GenericRadioUnchecked} />}
         checkedIcon={<CSvgIcon component={GenericRadioChecked} />}
         sx={{

@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
+import type { CSwitchProps } from "@/core/components/form/types/switch.type";
+
 import CSwitch from "../Switch";
-import type { CSwitchProps } from "../Switch";
 import {
   mockOnChange,
   defaultSwitchProps,

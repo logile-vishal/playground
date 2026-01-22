@@ -148,6 +148,7 @@ const CTextarea = ({
   value,
   onClick = () => {},
   name,
+  placeholder,
 }: TextareaProps) => {
   const { generateId } = useWalkmeId();
   const status: TextareaStatus = error
@@ -203,6 +204,7 @@ const CTextarea = ({
         helperText={helperText}
         required={required}
         error={error}
+        placeholder={placeholder}
         slotProps={{
           input: {
             startAdornment: startIcon ? (

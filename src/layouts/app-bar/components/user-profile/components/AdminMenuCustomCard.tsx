@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 
-import CSwitch from "@/core/components/switch/Switch";
+import CSwitch from "@/core/components/form/switch/Switch";
 import { useAdminModeList } from "../constants";
 
 /**

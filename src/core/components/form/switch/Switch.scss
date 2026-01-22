@@ -1,21 +1,29 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
 // Common styles
-.switch-wrapper {
+.switch {
+  // Color variables
+  --switch-color-checked: var(--logile-bg-container-1);
+  --switch-bg-checked: var(--logile-bg-primary);
+  --switch-bg-unchecked: var(--logile-bg-surface-subtle);
+  --switch-opacity-disabled: 0.5;
+
+  // Default size variables (medium)
+  --switch-width: var(--space-5xl);
+  --switch-height: var(--space-2xl);
+  --switch-margin: 3px;
+  --switch-transform: var(--space-2xl);
+  --switch-thumb-size: 14px;
+  --switch-track-radius: var(--radius-l);
+
   display: inline-flex;
-  .switch {
-    // Color variables
-    --switch-color-checked: var(--logile-bg-container-1);
-    --switch-bg-checked: var(--logile-bg-primary);
-    --switch-bg-unchecked: var(--logile-bg-surface-subtle);
-    --switch-opacity-disabled: 0.5;
+  gap: var(--space-xs);
 
-    // Default size variables (medium)
-    --switch-width: var(--space-5xl);
-    --switch-height: var(--space-2xl);
-    --switch-margin: 3px;
-    --switch-transform: var(--space-2xl);
-    --switch-thumb-size: 14px;
-    --switch-track-radius: var(--radius-l);
+  .switch__label {
+    @include form-label;
+  }
 
+  .switch__input {
     // Large variant
     &--large {
       --switch-width: var(--space-7xl);
@@ -40,6 +48,7 @@
     width: var(--switch-width);
     height: var(--switch-height);
 
+    & 
     // Switch base styles
     .MuiSwitch-switchBase {
       padding: 0;
@@ -90,6 +99,17 @@
       border-radius: var(--switch-track-radius);
       background-color: var(--switch-bg-unchecked);
       opacity: 1;
+    }
+  }
+  &--error {
+    .switch__input .MuiSwitch-track {
+      background-color: var(--logile-border-state-violation-bold-subtle);
+    }
+  }
+  &--required {
+    gap: var(--space-m);
+    .switch__label {
+      @include form-label($required: true);
     }
   }
 }

@@ -1,4 +1,5 @@
 import { Checkbox } from "@mui/material";
+import { useId } from "react";
 
 import {
   GenericCheckboxBlank,
@@ -13,14 +14,15 @@ import {
   CHECKBOX_STATE,
 } from "@/core/components/form/constants/checkbox";
 import CSvgIcon from "@/core/components/icon/Icon";
-
-import { checkboxPalette } from "./checkbox.palette";
-import "./Checkbox.scss";
+import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 import type {
   CheckboxProps,
   CheckboxSize,
   LabelPlacement,
-} from "../types/checkbox.type";
+} from "@/core/components/form/types/checkbox.type";
+
+import { checkboxPalette } from "./checkbox.palette";
+import "./Checkbox.scss";
 
 const getCheckboxStyle = (checkboxState, disabled) => {
   const baseIconStyles = {
@@ -66,16 +68,21 @@ const CCheckbox = ({
   label,
   required = false,
   labelPlacement = CHECKBOX_LABEL_PLACEMENT.END as LabelPlacement,
-  className = "",
+  className,
   error = false,
   disabled = false,
   size = CHECKBOX_SIZE.LARGE as CheckboxSize,
-  sx,
-  ...props
+  onChange,
+  name,
+  id,
+  value,
+  walkMeIdPrefix = [],
+  checked = false,
 }: CheckboxProps) => {
+  const checkBoxGeneratedId = useId();
   const checkboxState = error ? CHECKBOX_STATE.ERROR : CHECKBOX_STATE.NORMAL;
-  const checkboxId =
-    props.id ?? `checkbox-${Math.random().toString(36).slice(2)}`;
+  const checkboxId = id ?? `checkbox-${checkBoxGeneratedId}`;
+  const { generateId } = useWalkmeId();
 
   // default state
   const baseRootStyles = {
@@ -97,7 +104,12 @@ const CCheckbox = ({
       })}
     >
       <Checkbox
+        data-walkme-id={generateId(walkMeIdPrefix)}
+        value={value}
+        checked={Boolean(value) || checked}
         id={checkboxId}
+        onChange={onChange}
+        name={name}
         disableRipple
         disabled={disabled}
         icon={<CSvgIcon component={GenericCheckboxBlank} />}
@@ -107,20 +119,20 @@ const CCheckbox = ({
         size={size}
         sx={{
           ...baseRootStyles,
-          ...sx,
           ...getCheckboxStyle(checkboxState, disabled),
         }}
-        {...props}
       />
-      <label
-        htmlFor={checkboxId}
-        className={clsx({
-          checkbox__label: true,
-          "checkbox__label--required": required,
-        })}
-      >
-        {label}
-      </label>
+      {isNonEmptyValue(label) && (
+        <label
+          htmlFor={checkboxId}
+          className={clsx({
+            checkbox__label: true,
+            "checkbox__label--required": required,
+          })}
+        >
+          {label}
+        </label>
+      )}
     </div>
   );
 };

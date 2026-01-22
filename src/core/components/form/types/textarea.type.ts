@@ -25,5 +25,6 @@ export type TextareaProps = MandatoryFormElementProps &
     helperText?: string;
     isInlineLabel?: boolean;
     maxRows?: number;
+    placeholder?: string;
     onClick?: React.MouseEventHandler<HTMLDivElement>;
   };

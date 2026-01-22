@@ -1,5 +1,8 @@
 import { vi } from "vitest";
-import type { CSwitchProps, CSwitchSize } from "../../Switch";
+import type {
+  CSwitchProps,
+  CSwitchSize,
+} from "@/core/components/form/types/switch.type";
 
 export const mockOnChange = vi.fn();
 
