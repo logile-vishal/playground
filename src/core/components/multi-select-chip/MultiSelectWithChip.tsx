@@ -6,6 +6,8 @@ import CInputWithChip from "@/core/components/input-chip/InputWithChip";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 import clsx from "@/utils/clsx";
 
+import "./MultiSelectWithChip.scss";
+
 export type MultiSelectWithChipProps = {
   isSelectIconShown?: boolean;
   options: NestedMenuItem[];
@@ -31,7 +33,7 @@ export type MultiSelectWithChipProps = {
   transformOrigin?: PopoverProps["transformOrigin"];
   menuWidth?: number | string;
   inputWidth?: number | string;
-  inLineLabel?: boolean;
+  isInLineLabel?: boolean;
   label?: string;
   hideInputEndIcon?: boolean;
   renderInputChipLabel?: (item: NestedMenuItem) => React.ReactNode | string;
@@ -55,7 +57,7 @@ const CMultiSelectWithChip = ({
   onInputChange,
   menuWidth,
   inputWidth,
-  inLineLabel,
+  isInLineLabel,
   label,
   hideInputEndIcon = false,
   renderInputChipLabel,
@@ -162,7 +164,6 @@ const CMultiSelectWithChip = ({
    */
   const handleMenuClose = () => {
     setSearchBarAnchorRef(null);
-    setInputValue("");
   };
 
   const handleRenderInputChipLabel = (item: NestedMenuItem) => {
@@ -185,7 +186,7 @@ const CMultiSelectWithChip = ({
     >
       <CInputWithChip
         label={label}
-        inLineLabel={inLineLabel}
+        isInLineLabel={isInLineLabel}
         searchText={inputValue}
         selectedItems={selectedBadges}
         onDelete={handleOnDelete}

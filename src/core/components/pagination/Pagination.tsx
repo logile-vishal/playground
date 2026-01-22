@@ -14,7 +14,7 @@ import clsx from "@/utils/clsx";
 import { isNonEmptyValue } from "@/utils";
 import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 import { ChevronLeft, ChevronRight } from "@/core/constants/icons";
-import CSelect from "@/core/components/select/Select";
+import CSelect from "@/core/components/form/select/Select";
 import CSvgIcon from "@/core/components/icon/Icon";
 import CIconButton from "@/core/components/button/IconButton";
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
@@ -200,8 +200,7 @@ const CPagination: React.FC<PaginationProps> = ({
           <CSelect
             className="pagination__current-page-select"
             options={currentPageOption}
-            value={pagination?.currentPage}
-            defaultValue={1}
+            value={String(pagination?.currentPage)}
             optionLabelKey="label"
             onChange={(e) => handleChange(PAGINATION_EVENT_TYPE.currentPage, e)}
           />
@@ -241,13 +240,16 @@ const CPagination: React.FC<PaginationProps> = ({
               : pageSizeOptions
           }
           optionLabelKey="label"
-          defaultValue={1}
           onChange={(e) => handleChange(PAGINATION_EVENT_TYPE.pageSize, e)}
-          renderValue={() => (
-            <div>
-              {pagination?.pageSize} / {PAGINATION.pageLabel}
-            </div>
-          )}
+          templates={{
+            inputValueTemplate: () => {
+              return (
+                <div>
+                  {pagination?.pageSize} / {PAGINATION.pageLabel}
+                </div>
+              );
+            },
+          }}
         />
       </Box>
     </Box>

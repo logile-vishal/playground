@@ -48,5 +48,11 @@
   },
   "NO_DATA": {
     "TITLE": "अभी तक यहाँ कुछ नहीं है"
+  },
+  "SELECT": {
+    "TOOLBAR": {
+      "filterFeaturePlaceholder": "खोजें...",
+      "selectAllFeatureLabel": "सभी का चयन करें"
+    }
   }
 }

@@ -2,8 +2,8 @@ import type React from "react";
 import { Box } from "@mui/material";
 
 import CTextfield from "@/core/components/form/textfield/Textfield";
+import CSelect from "@/core/components/form/select/Select";
 import CSwitch from "@/core/components/form/switch/Switch";
-import CSelect from "@/core/components/select/Select";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { Percentage } from "@/core/constants/icons";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
@@ -52,7 +52,7 @@ const AdvancedOptions: React.FC = () => {
             optionValueKey="value"
             optionLabelKey="label"
             placeholder={ADVANCED_OPTIONS.templateAccessPlaceholder}
-            sx={{ width: "90%" }}
+            width="90%"
           />
         </Box>
         <Box className="ct-advanced-options__row-item-signature">

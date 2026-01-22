@@ -12,7 +12,6 @@ import {
 import clsx from "@/utils/clsx";
 import CTextField from "@/core/components/form/textfield/Textfield";
 import CSvgIcon from "@/core/components/icon/Icon";
-import CSelect from "@/core/components/select/Select";
 import { CButton } from "@/core/components/button/button";
 import CIconButton from "@/core/components/button/IconButton";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
@@ -29,9 +28,10 @@ import type {
   QuestionCardOptionsProps,
   TriggerCardMenuProps,
 } from "@/pages/create-template/types/questions.type";
+import type { NestedMenuItem } from "@/core/components/nested-menu/types";
+import CSelect from "@/core/components/form/select";
 
 import "./QuestionCardOptions.scss";
-import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 
 /**
  * @method QuestionCardOption
@@ -140,7 +140,6 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           options={CompliantOptions ?? []}
           optionLabelKey={"label"}
           optionValueKey={"value"}
-          fullWidth
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setIsCompliant(e.target.value);
           }}
@@ -165,7 +164,6 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
       <Box className="ques-card-options__dropdown">
         <CSelect
           options={AdditionalOptions ?? []}
-          fullWidth
           optionLabelKey={"label"}
           optionValueKey={"value"}
           allowFilter={false}

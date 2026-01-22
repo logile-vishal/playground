@@ -20,10 +20,10 @@ import {
   EmptyState,
   History,
 } from "@/core/constants/icons";
-import CMultiSelect from "@/core/components/multi-select/MultiSelect";
 import CSvgIcon from "@/core/components/icon/Icon";
-import CSelect from "@/core/components/select/Select";
 import CDivider from "@/core/components/divider/Divider";
+import { isNonEmptyValue } from "@/utils";
+import CSelect from "@/core/components/form/select";
 
 import {
   useFilterTemplates,
@@ -44,7 +44,6 @@ import {
 import type { TemplateType } from "../../types/template-preview.type";
 import "./SearchDrawer.scss";
 import { SEARCH_DRAWER } from "./constants";
-import { isNonEmptyValue } from "@/utils";
 import { useTemplateLibraryTranslations } from "../../translation/useTemplateLibraryTranslations";
 
 interface TabPanelProps {
@@ -147,10 +146,7 @@ function TaskTypeDropDown({ label = "", options, className, ...props }) {
         options={options ?? []}
         label={label}
         allowFilter
-        fullWidth
-        renderValue={(option: { label: string; value: number }) =>
-          option?.label
-        }
+        optionLabelKey="label"
         {...props}
         IconComponent={() => (
           <Box className="template-library-search-drawer__rotate-icon">
@@ -168,11 +164,11 @@ function TaskTypeDropDown({ label = "", options, className, ...props }) {
 function StatusDropDown({ label = "", options, className, ...props }) {
   return (
     <Box className={className}>
-      <CMultiSelect
+      <CSelect
         className="template-library-search-drawer__dropdown-select"
         label={label}
         options={options ?? []}
-        fullWidth
+        allowMultiSelect
         {...props}
         IconComponent={() => (
           <Box className="template-library-search-drawer__rotate-icon">
@@ -183,7 +179,7 @@ function StatusDropDown({ label = "", options, className, ...props }) {
             />
           </Box>
         )}
-      ></CMultiSelect>
+      ></CSelect>
     </Box>
   );
 }

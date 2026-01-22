@@ -5,10 +5,13 @@ import { ChevronDown, ChevronUp, Close } from "@/core/constants/icons";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import clsx from "@/utils/clsx";
 import CSvgIcon from "@/core/components/icon/Icon";
+import { useMeasureTextWidth } from "@/core/hooks/useMeasureTextWidth";
 
 import "./InputWithChip.scss";
+import { INPUT_WITH_CHIP } from "./constants";
+import type { IdentifierProps } from "@/core/types/IdentifierProps.type";
 
-export type InputWithChipProps = {
+export type InputWithChipProps = IdentifierProps & {
   label?: string;
   name?: string;
   searchText?: string;
@@ -23,7 +26,7 @@ export type InputWithChipProps = {
   isInputVisible?: boolean;
   endIcon?: React.ReactNode;
   startIcon?: React.ReactNode;
-  inLineLabel?: boolean;
+  isInLineLabel?: boolean;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   renderInputChipLabel?: (item: NestedMenuItem) => React.ReactNode;
   isFocused?: boolean;
@@ -45,7 +48,7 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
   renderInputChipLabel,
   endIcon,
   startIcon,
-  inLineLabel,
+  isInLineLabel,
   label,
   name,
   isFocused,
@@ -55,8 +58,9 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
   onClick,
   className,
 }) => {
+  const measureTextWidth = useMeasureTextWidth();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const measureRef = useRef<HTMLSpanElement>(null);
+  const inputWrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   /**
    * @method getInputChipLabel
@@ -87,28 +91,31 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
     }, 0);
   };
 
-  // Set dynamic input width
+  // // Set dynamic input width
   useEffect(() => {
-    if (!measureRef.current || !inputRef.current) return;
+    if (!inputWrapperRef.current) return;
 
     // Use requestAnimationFrame for smoother, non-blocking width updates
     const inputWidthRaf = requestAnimationFrame(() => {
       if (searchText?.length > 0) {
-        // When user types, measure text width and apply it to the input
-        const measureWidth = measureRef.current.offsetWidth;
+        // When user types, measure text width and apply it to the input and its wrapper
+        const measureWidth = measureTextWidth(searchText, inputRef.current);
         inputRef.current.style.width = `${measureWidth}px`;
+        inputWrapperRef.current.style.width = `${measureWidth}px`;
       } else if (!searchText?.length && !selectedItems?.length) {
-        // When nothing typed & no items selected, input should stretch fully
-        inputRef.current.style.width = "100%";
+        // When nothing typed & no items selected, input and wrapper should stretch fully
+        inputRef.current.style.width = INPUT_WITH_CHIP.inputFullWidth;
+        inputWrapperRef.current.style.width = INPUT_WITH_CHIP.inputFullWidth;
       } else {
         // Fallback minimal width for input cursor when nothing typed
-        inputRef.current.style.width = "2px";
+        // inputRef.current.style.width = "2px";
+        inputWrapperRef.current.style.width = INPUT_WITH_CHIP.inputMinWidth;
       }
     });
 
     // Cleanup animation frame to avoid memory leaks and invalid updates
     return () => cancelAnimationFrame(inputWidthRaf);
-  }, [searchText, selectedItems]);
+  }, [searchText, selectedItems, measureTextWidth]);
 
   // Auto scroll to right
   useEffect(() => {
@@ -138,7 +145,7 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
       className={clsx({
         "input-with-chip": true,
         [className || ""]: Boolean(className),
-        "input-with-chip--inline-label": inLineLabel,
+        "input-with-chip--inline-label": isInLineLabel,
         "input-with-chip--error": Boolean(error),
       })}
     >
@@ -161,19 +168,13 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
           <div
             className={clsx({
               "input-with-chip__input-content": true,
-              "input-with-chip__input-content--end": inputPlacement === "end",
             })}
           >
             {isInputVisible ? (
-              <>
-                {/* Hidden element : 
-              This hidden element measures the text width so the input can automatically grow to fit its content.*/}
-                <span
-                  className="input-with-chip__input-content-hidden-field"
-                  ref={measureRef}
-                >
-                  {searchText}
-                </span>
+              <div
+                ref={inputWrapperRef}
+                className="input-with-chip__input-content-input-wrapper"
+              >
                 {/* Growing input */}
                 <TextField
                   inputRef={inputRef}
@@ -182,8 +183,9 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
                   value={searchText}
                   onChange={onChange}
                   name={name}
+                  autoFocus={false}
                 />
-              </>
+              </div>
             ) : (
               <Box className="input-with-chip__input-content-placeholder">
                 {selectedItems?.length == 0 ? placeholder : ""}

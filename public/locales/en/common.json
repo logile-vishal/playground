@@ -48,5 +48,11 @@
   },
   "NO_DATA": {
     "TITLE": "Nothing here yet"
+  },
+  "SELECT": {
+    "FEATURE_TOOLBAR": {
+      "filterFeaturePlaceholder": "Search...",
+      "selectAllFeatureLabel": "Select All"
+    }
   }
 }

@@ -58,6 +58,12 @@ export const useCommonTranslation = () => {
     filterPlaceholder: t("GENERAL.filterPlaceholder"),
   };
 
+  const SELECT = {
+    TOOLBAR: {
+      filterFeaturePlaceholder: t("SELECT.TOOLBAR.filterFeaturePlaceholder"),
+      selectAllFeatureLabel: t("SELECT.TOOLBAR.selectAllFeatureLabel"),
+    },
+  };
   return {
     GENERAL,
     PAGINATION,
@@ -67,5 +73,6 @@ export const useCommonTranslation = () => {
     EDITOR_ERROR,
     NO_DATA,
     NESTED_MENU,
+    SELECT,
   };
 };

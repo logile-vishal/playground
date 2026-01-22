@@ -1,0 +1,244 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.select {
+  --helpertext-height: 26px;
+  --label-icon-size: 16px;
+
+  @include flex-box(column);
+
+  &__label {
+    @include form-label;
+  }
+  &__helper-text {
+    margin: var(--space-xs);
+    @include helper-text;
+  }
+  &__input-layout {
+    flex: 1;
+    border: 0;
+    gap: var(--space-xs);
+  }
+  &__input {
+    background-color: var(--logile-bg-container-1);
+    border: var(--border-s) solid var(--logile-border-primary);
+    &:hover {
+      border: var(--border-s) solid var(--logile-border-bold-subtle);
+    }
+    &:active {
+      border: var(--border-s) solid var(--logile-border-brand-primary-subtle);
+    }
+    &::placeholder {
+      @include input-placeholder;
+    }
+    &-rendered-value {
+      @include flex-center(start);
+      gap: var(--space-xs);
+    }
+    .MuiOutlinedInput-input {
+      color: var(--logile-text-primary);
+      font-size: inherit;
+      padding: 0;
+    }
+    svg {
+      height: var(--size-input-svg);
+      width: var(--size-input-svg);
+    }
+    &.MuiOutlinedInput-root {
+      min-height: var(--height-input);
+      border-radius: var(--radius-s);
+      padding: 0 var(--space-m);
+    }
+
+    &.MuiInputBase-root.MuiOutlinedInput-root.MuiSelect-root.Mui-focused
+      .MuiOutlinedInput-notchedOutline {
+      border: none;
+    }
+    &.MuiInputBase-root.MuiOutlinedInput-root.MuiSelect-root.Mui-focused
+      .MuiOutlinedInput-notchedOutline {
+      border: none;
+    }
+    &.MuiInputBase-root.MuiOutlinedInput-root.MuiSelect-root
+      > .MuiOutlinedInput-notchedOutline {
+      border: none;
+    }
+  }
+  & .select__menu-item-content {
+    @include flex-center(start);
+    gap: var(--space-xs);
+    cursor: pointer;
+    & .select__menu-item-content-label-icon {
+      display: inline-flex;
+      cursor: inherit;
+      width: var(--label-icon-size);
+      height: var(--label-icon-size);
+      & svg {
+        width: var(--label-icon-size);
+        height: var(--label-icon-size);
+      }
+    }
+  }
+  &__placeholder-text {
+    @include input-placeholder;
+  }
+
+  &--inline-label {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xs);
+    &.select-with-helper-text {
+      .select__label {
+        margin-bottom: var(--helpertext-height);
+      }
+    }
+    &.select--required {
+      gap: var(--space-m);
+    }
+  }
+  &--error {
+    & .select__input {
+      border: var(--border-s) solid var(--logile-border-state-violation);
+      &:focus {
+        border: var(--border-s) solid var(--logile-border-state-violation);
+        box-shadow: 0 0 0 4px var(--logile-shadow-focus);
+      }
+      &:hover {
+        border: var(--border-s) solid var(--logile-border-state-violation);
+        box-shadow: 0 0 0 4px var(--logile-shadow-focus);
+      }
+    }
+    & .select__label {
+      @include form-label($error: true);
+    }
+    & .select__helper-text {
+      @include helper-text($error: true);
+    }
+  }
+  &--required {
+    & .select__label {
+      @include form-label($required: true);
+    }
+  }
+}
+
+.select__menu {
+  --label-icon-size: 16px;
+
+  &.MuiPaper-root {
+    box-shadow: none;
+    border: var(--border-s) solid var(--logile-border-secondary);
+    padding: var(--space-m) 0;
+  }
+  &-item-content {
+    @include flex-center(start);
+    gap: var(--space-m);
+  }
+  & .MuiMenu-list {
+    padding: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .select__menu-item {
+    padding: var(--space-m) var(--space-xl) var(--space-m) var(--space-m);
+    margin: var(--space-none) var(--space-xs);
+    @include flex-center(start);
+    gap: var(--space-m);
+    border-radius: var(--space-m);
+    cursor: pointer;
+    margin: 0 var(--space-xs) 0 var(--space-xs);
+    font-size: var(--logile-size-body);
+    color: var(--logile-text-primary);
+    font-weight: var(--logile-weight-400);
+
+    &-label {
+      cursor: inherit;
+    }
+    &:hover {
+      background-color: var(--logile-bg-primary-x-subtle);
+    }
+    &.Mui-selected {
+      background-color: transparent;
+    }
+    &.Mui-disabled {
+      opacity: 1;
+      color: var(--logile-text-disabled);
+      & .select__menu-item-label {
+        color: var(--logile-text-state-disabled);
+        line-height: var(--logile-line-height-body);
+      }
+      cursor: not-allowed;
+    }
+    &--selected {
+      .select__menu-item-label {
+        font-weight: var(--logile-weight-500);
+        color: var(--logile-text-brand-primary-dark-mode-alt);
+      }
+    }
+
+    &-checkbox {
+      cursor: inherit;
+    }
+
+    &-label-wrapper {
+      flex: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    &-label {
+      display: block;
+      font-size: var(--logile-size-body-text);
+      color: var(--logile-text-primary);
+      line-height: var(--logile-line-height-body-text);
+
+      &.select__menu-item--selected {
+        color: var(--logile-text-primary);
+      }
+    }
+  }
+  .select__menu-item-content {
+    @include flex-center(start);
+    gap: var(--space-m);
+    cursor: pointer;
+    & .select__menu-item-content-label-icon {
+      display: inline-flex;
+      cursor: inherit;
+      width: var(--label-icon-size);
+      height: var(--label-icon-size);
+      & svg {
+        width: var(--label-icon-size);
+        height: var(--label-icon-size);
+      }
+    }
+  }
+  .select-toolbar {
+    z-index: calc(var(--zindex-dropdown) + 2);
+    position: sticky;
+    top: 0;
+    background-color: var(--logile-bg-container-1);
+
+    margin-bottom: var(--space-xs);
+    &__select-all {
+      flex: 1;
+      & .select__menu-item.select__menu-item--selected {
+        font-weight: var(--logile-weight-500);
+        color: var(--logile-text-brand-primary-dark-mode-alt);
+      }
+    }
+    &__filter {
+      @include flex-box(row);
+      .select-toolbar__filter-field {
+        flex: 1;
+      }
+      .select-toolbar__filter-sort-icon {
+        width: var(--size-9);
+        height: var(--size-9);
+        @include flex-center;
+        margin-left: var(--space-xs);
+      }
+      padding: var(--space-m);
+    }
+  }
+}

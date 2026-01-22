@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { Box } from "@mui/material";
 
 import CTextfield from "@/core/components/form/textfield/Textfield";
+import CSelect from "@/core/components/form/select";
 import { AddIcon, ChevronRight, Delete } from "@/core/constants/icons";
-import CSvgIcon from "@/core/components/icon/Icon";
-import CSelect from "@/core/components/select/Select";
 import CMultiSelectWithChip from "@/core/components/multi-select-chip/MultiSelectWithChip";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import { basicTagsSampleData } from "@/pages/create-template/constants/sampleData";
+import CSvgIcon from "@/core/components/icon/Icon";
 import { CButton } from "@/core/components/button/button";
 import CAttachmentModal from "@/core/components/attachment-modal/AttachmentModal";
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
@@ -80,7 +80,7 @@ const BasicInfo: React.FC = () => {
     ProcessedFile[] | File[] | null
   >(null);
   const isDesktop = useIsDesktopViewport();
-
+  const [selectedType, setSelectedType] = useState([]);
   const handleTagsDelete = (_: React.MouseEvent, data: NestedMenuItem) => {
     const updatedItems = selectedTags.filter(
       (item) => item?.value !== data?.value
@@ -186,7 +186,10 @@ const BasicInfo: React.FC = () => {
             optionLabelKey="label"
             placeholder={BASIC_INFO.typePlaceholder}
             options={typeDropdownOptions}
-            sx={{ width: "200px" }}
+            value={selectedType}
+            onChange={(e) => {
+              setSelectedType(e.target.value);
+            }}
           />
         </Box>
         <Box
@@ -195,14 +198,14 @@ const BasicInfo: React.FC = () => {
             "ct-basic-info__row-item-tags--desktop": isDesktop,
           })}
         >
-          <Box className="ct-basic-info__row-item-label">{BASIC_INFO.tags}</Box>
           <CMultiSelectWithChip
+            label={BASIC_INFO.tags}
             name="tags"
             options={basicTagsSampleData}
             placeholder={BASIC_INFO.tagsPlaceholder}
             onDelete={handleTagsDelete}
             onChange={() => {}}
-            isInputVisible={false}
+            isInputVisible={true}
             className={clsx({
               "ct-basic-info__row-item-tags-dropdown": true,
               "ct-basic-info__row-item-tags-dropdown--desktop": isDesktop,
@@ -229,7 +232,7 @@ const BasicInfo: React.FC = () => {
             <CSelect
               options={directoryDropdownOptions}
               placeholder={BASIC_INFO.directoryPlaceholder}
-              sx={{ width: "200px" }}
+              onChange={() => {}}
               optionValueKey="value"
               optionLabelKey="label"
             />
@@ -241,7 +244,7 @@ const BasicInfo: React.FC = () => {
             <CSelect
               options={directoryDropdownOptions}
               placeholder={BASIC_INFO.subDirectoryPlaceholder}
-              sx={{ width: "200px" }}
+              width="200px"
               optionValueKey="value"
               optionLabelKey="label"
             />
@@ -255,7 +258,7 @@ const BasicInfo: React.FC = () => {
               placeholder={BASIC_INFO.subDirectoryPlaceholder}
               optionValueKey="value"
               optionLabelKey="label"
-              sx={{ width: "200px" }}
+              width="200px"
             />
           </Box>
         </Box>

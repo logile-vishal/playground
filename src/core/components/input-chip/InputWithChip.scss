@@ -7,10 +7,6 @@
   width: var(--input-with-chip-width);
   @include flex-box(column);
 
-  &.input-with-chip--inline-label {
-    @include flex-center(flex-start, center);
-    gap: var(--space-xs);
-  }
   & .input-with-chip__label {
     color: var(--logile-text-secondary);
     font-size: var(--logile-size-secondary-text);
@@ -67,6 +63,11 @@
       align-items: center;
       flex-shrink: 0;
       gap: var(--space-s);
+
+      overflow-x: auto;
+      &::-webkit-scrollbar {
+        display: none;
+      }
       &--end {
         flex-direction: row-reverse;
       }
@@ -77,17 +78,18 @@
       flex-direction: row;
       align-items: center;
       gap: var(--space-s);
+      flex: 1;
     }
 
     &-content-hidden-field {
-      position: absolute;
-      visibility: hidden;
       white-space: pre;
       font-size: var(--logile-size-secondary-text);
       pointer-events: none;
       border: none;
     }
-
+    &-content-input-wrapper {
+      @include flex-center(flex-start, center);
+    }
     &-content-input-field {
       border: none;
       outline: none;
@@ -96,18 +98,20 @@
       white-space: nowrap;
       flex-shrink: 0;
       padding: 0;
+      min-width: max-content;
       .MuiOutlinedInput-root,
       .MuiOutlinedInput-notchedOutline,
       .MuiOutlinedInput-input {
         border: none;
         padding: 0;
+        &::placeholder {
+          @include input-placeholder;
+        }
       }
     }
 
     &-content-placeholder {
-      color: var(--logile-text-tertiary);
-      font-size: var(--logile-size-body);
-      line-height: var(--logile-line-height-body);
+      @include input-placeholder;
     }
 
     .MuiChip-root {
@@ -134,7 +138,11 @@
       color: var(--logile-text-primary);
     }
   }
-
+  &--inline-label {
+    @include flex-center(flex-start, center);
+    flex-direction: row;
+    gap: var(--space-xs);
+  }
   &--error {
     & .input-with-chip__label {
       color: var(--logile-text-state-violation);

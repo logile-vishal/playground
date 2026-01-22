@@ -1,19 +1,24 @@
-import { IconButton, TextField } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { useState } from "react";
 
-import { ArrowDown, ArrowUp } from "@/core/constants/icons";
+import { ArrowDown, ArrowUp, Search } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { SORT_DIRECTION } from "@/core/constants/sort";
 import type { SortType } from "@/core/types/sort.type";
-
-import type { OptionType } from "../types";
-import { MULTISELECT } from "../constants";
+import CCheckbox from "@/core/components/form/checkbox/Checkbox";
+import CTextfield from "@/core/components/form/textfield/Textfield";
+import clsx from "@/utils/clsx";
+import type {
+  CFilterSortToolbarProps,
+  SelectOption,
+} from "@/core/components/form/types/select.type";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 
 const sortOptions = (
-  list: OptionType[],
+  list: SelectOption[],
   optionLabelKey: string,
   sortDirection: SortType
-): OptionType[] => {
+): SelectOption[] => {
   return list.sort((firstOption, secondOption) => {
     const firstValue =
       typeof firstOption === "string"
@@ -30,15 +35,18 @@ const sortOptions = (
   });
 };
 
-const CFilterSortToolbar: React.FC<{
-  allowFilter?: boolean;
-  allowSort?: boolean;
-  setOptions?: React.Dispatch<React.SetStateAction<OptionType[]>>;
-  options: OptionType[];
-  optionFilterLabelKey: string | null;
-}> = (props) => {
-  const { allowFilter, allowSort, setOptions, options, optionFilterLabelKey } =
-    props;
+const CFilterSortToolbar: React.FC<CFilterSortToolbarProps> = (props) => {
+  const { SELECT } = useCommonTranslation();
+  const {
+    allowFilter,
+    allowSort,
+    setOptions,
+    options,
+    optionFilterLabelKey,
+    allowSelectAll,
+    handleSelectAll,
+    isAllOptionsSelected,
+  } = props;
   const [sort, setSort] = useState<SortType | null>(null);
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,9 +60,9 @@ const CFilterSortToolbar: React.FC<{
     }
     setOptions(() => {
       if (Array.isArray(options)) {
-        return options.filter((option) => {
+        return options.filter((option: SelectOption) => {
           if (typeof option === "string") {
-            return option.toLowerCase().includes(filterValue);
+            return (option as string).toLowerCase().includes(filterValue);
           } else if (typeof option === "object" && option !== null) {
             return Object.values(option).some((value) =>
               String(value).toLowerCase().includes(filterValue)
@@ -136,20 +144,50 @@ const CFilterSortToolbar: React.FC<{
   };
 
   return (
-    <div className="select-menuitem__toolbar">
-      {allowFilter && (
-        <TextField
-          className="select-menuitem__toolbar-filter-input"
-          onKeyDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
-          size="small"
-          placeholder={MULTISELECT.SELECT_ALL_FEATURE_LABEL}
-          variant="outlined"
-          onChange={handleFilterChange}
-          fullWidth
-        />
+    <div className="select-toolbar">
+      {/* Select all feature option - only for multi-select */}
+      {allowSelectAll && (
+        <div className="select-toolbar__select-all">
+          <div
+            key="all-options-selected"
+            className={clsx({
+              "select__menu-item--selected": isAllOptionsSelected,
+              "select__menu-item": true,
+            })}
+            onClick={handleSelectAll}
+          >
+            <CCheckbox
+              id="all-options-selected"
+              className="select__menu-item-checkbox"
+              checked={isAllOptionsSelected}
+            />
+            <label htmlFor="all-options-selected">
+              {SELECT.TOOLBAR.selectAllFeatureLabel}
+            </label>
+          </div>
+        </div>
       )}
-      {allowSort && getSortIcon(sort, handleSortOptions)}
+      {allowFilter && (
+        <div className="select-toolbar__filter">
+          <div className="select-toolbar__filter-field">
+            <CTextfield
+              className="select-menuitem__toolbar-filter-input"
+              onKeyDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
+              placeholder={SELECT.TOOLBAR.filterFeaturePlaceholder}
+              onChange={handleFilterChange}
+              fullWidth
+              startIcon={<CSvgIcon component={Search} />}
+            />
+          </div>
+
+          {allowSort && (
+            <div className="select-toolbar__filter-sort-icon">
+              {getSortIcon(sort, handleSortOptions)}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

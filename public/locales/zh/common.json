@@ -48,5 +48,11 @@
   },
   "NO_DATA": {
     "TITLE": "这里还什么都没有"
+  },
+  "SELECT": {
+    "TOOLBAR": {
+      "filterFeaturePlaceholder": "搜索...",
+      "selectAllFeatureLabel": "选择全部"
+    }
   }
 }

@@ -7,7 +7,6 @@ import {
 } from "@/pages/create-template/constants/questions";
 import { DraggableDots } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
-import CSelect from "@/core/components/select/Select";
 import { AddIcon, Copy, Delete, ChevronUpLarge } from "@/core/constants/icons";
 import CIconButton from "@/core/components/button/IconButton";
 import CTextfield from "@/core/components/form/textfield/Textfield";
@@ -17,6 +16,7 @@ import CTabs from "@/core/components/tabs/Tabs";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import CDivider from "@/core/components/divider/Divider";
 import CRichTextEditor from "@/core/components/form/rich-text-editor/RichTextEditor";
+import CSelect from "@/core/components/form/select";
 
 import { QuestionBadge } from "../question-card-collapsed/QuestionBadges";
 import QuestionCardOptionsComponent from "../question-card-options/QuestionCardOptions";
