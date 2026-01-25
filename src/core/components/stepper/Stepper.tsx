@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Step, StepLabel, Stepper } from "@mui/material";
 
-import type { StepperProps } from "@/core/types/stepper.type";
+import type { StepOption, StepperProps } from "@/core/types/stepper.type";
 import { ChevronRightIconFilled } from "@/core/constants/icons";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
@@ -15,11 +15,13 @@ import "./Stepper.scss";
  * @param {Function} [validateFn] - Optional validation function to execute
  * @returns {boolean} Validation result, defaults to true if no function provided
  */
-const runStepValidator = (validateFn?: () => boolean): boolean => {
+const runStepValidator = async (
+  validateFn?: () => boolean | Promise<boolean>
+): Promise<boolean> => {
   if (typeof validateFn === "function") {
-    const isStepValid = validateFn();
+    const isStepValid = await validateFn();
     if (isStepValid != undefined && typeof isStepValid === "boolean")
-      return validateFn();
+      return isStepValid;
   }
   return true;
 };
@@ -49,7 +51,10 @@ const CStepper = ({
    * @param {number} target - Target step index to navigate to
    * @returns {boolean} True if navigation is allowed, false otherwise
    */
-  const isNavigateAllowed = (current: number, target: number): boolean => {
+  const isNavigateAllowed = async (
+    current: number,
+    target: number
+  ): Promise<boolean> => {
     if (target === current) return false;
 
     // Always allow backward navigation
@@ -57,7 +62,7 @@ const CStepper = ({
 
     // Forward navigation - validate in between step
     for (let i = current; i < target; i++) {
-      const isStepValid = runStepValidator(options[i]?.checkValidity);
+      const isStepValid = await runStepValidator(options[i]?.checkValidity);
       if (!isStepValid) {
         return false;
       }
@@ -72,16 +77,12 @@ const CStepper = ({
    * @param {number} targetIndex - Index of the step that was clicked
    * @returns {void}
    */
-  const handleStepClick = (targetIndex: number) => {
-    if (!isNavigateAllowed(activeStep, targetIndex)) return;
+  const handleStepClick = async (targetIndex: number, item: StepOption) => {
+    if (!(await isNavigateAllowed(activeStep, targetIndex))) return;
 
     setActiveStep(targetIndex);
     setLargestSelectedStep((prev) => Math.max(prev, targetIndex));
-
-    onChange?.({
-      activeStep: targetIndex,
-      data: options[targetIndex],
-    });
+    onChange?.({ activeStep: targetIndex, data: item });
   };
 
   useEffect(() => {
@@ -107,7 +108,6 @@ const CStepper = ({
           "shared-stepper__steps": true,
           "shared-stepper__steps--top-border": !isDesktop,
         })}
-        shared-stepper__steps
         connector={<></>}
         activeStep={activeStep}
       >
@@ -121,7 +121,7 @@ const CStepper = ({
           return (
             <Step
               key={item.label}
-              onClick={() => handleStepClick(index)}
+              onClick={() => handleStepClick(index, item)}
               className={clsx({
                 "shared-stepper__steps-item": true,
                 "shared-stepper__first-step": isFirstStep,

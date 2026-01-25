@@ -467,7 +467,7 @@ const SearchDrawer = ({
                   placeholder={SEARCH_DRAWER.TASK_TYPE_PLACEHOLDER}
                   onChange={(event) => handleChange("taskType", event)}
                   value={advanceFilterData?.taskType}
-                  optionLabelKey="label"
+                  optionlabelkey="label"
                 />
                 <StatusDropDown
                   label={SEARCH_DRAWER.STATUS_DROPDOWN_LABEL}
@@ -476,7 +476,7 @@ const SearchDrawer = ({
                   placeholder={SEARCH_DRAWER.STATUS_DROPDOWN_PLACEHOLDER}
                   onChange={(event) => handleChange("statusList", event)}
                   value={advanceFilterData?.statusList}
-                  optionLabelKey="label"
+                  optionlabelkey="label"
                 />
               </Box>
               <Box className="template-library-search-drawer__advance-search-group">

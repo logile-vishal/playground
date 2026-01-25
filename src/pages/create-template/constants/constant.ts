@@ -27,3 +27,10 @@ export const TRIGGER_TYPE = {
   notification: "notification",
   followup: "followup",
 };
+
+export const BASE_TEMPLATE_TYPE = {
+  checklist: "checklist",
+  grid: "grid",
+  spreadsheet: "spreadsheet",
+  form: "form",
+};

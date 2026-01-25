@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
+import { Controller, useWatch } from "react-hook-form";
 
 import CTextfield from "@/core/components/form/textfield/Textfield";
 import CSelect from "@/core/components/form/select";
@@ -8,6 +9,7 @@ import CMultiSelectWithChip from "@/core/components/multi-select-chip/MultiSelec
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
+import { isNonEmptyValue } from "@/utils";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import { basicTagsSampleData } from "@/pages/create-template/constants/sampleData";
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -20,23 +22,21 @@ import {
   FORM_FILE_TYPES,
   SPREADSHEET_FILE_TYPES,
 } from "@/pages/create-template/constants/questions";
+import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
+import { useGetTaskTypesOptions } from "@/pages/template-library/services/template-library-api-hooks";
+import type { TaskTypeOptions } from "@/pages/template-library/types/template-library.type";
+import type { AttachmentItemProps } from "@/pages/create-template/types/questions.type";
+import { BASE_TEMPLATE_TYPE } from "@/pages/create-template/constants/constant";
 
 import "./BasicInfo.scss";
-
-type AttachmentItemProps = {
-  item: ProcessedFile | File;
-  index: number;
-  onDelete: (index: number) => void;
-};
 
 const AttachmentItem: React.FC<AttachmentItemProps> = ({
   item,
   index,
   onDelete,
 }) => {
-  const category = "category" in item ? item.category : undefined;
-  const { icon: fileIcon, color: fileIconColor } = useFileIcon(category);
-  const fileName = "file" in item ? item.file.name : item.name;
+  const fileName = item?.fileName;
+  const { icon: fileIcon, color: fileIconColor } = useFileIcon(fileName);
 
   return (
     <Box className="ct-basic-info__attachment-item">
@@ -61,26 +61,114 @@ const AttachmentItem: React.FC<AttachmentItemProps> = ({
 };
 
 //TODO: To be removed static data when dropdown api response
-const typeDropdownOptions = [
-  { value: "Type 1", label: "Type 1" },
-  { value: "Type 2", label: "Type 2" },
-];
 const directoryDropdownOptions = [
-  { value: "Directory 1", label: "Directory 1" },
-  { value: "Directory 2", label: "Directory 2" },
+  { value: 1, label: "Directory 1" },
+  { value: 2, label: "Directory 2" },
 ];
 
 const BasicInfo: React.FC = () => {
+  const {
+    control,
+    formErrors,
+    getFormValues,
+    resetForm,
+    setFormValue,
+    triggerValidation,
+  } = useCreateTemplateForm();
+
   const { BASIC_INFO } = useCreateTemplateTranslations();
   const { GENERAL } = useCommonTranslation();
   const [selectedTags, setSelectedTags] = useState([]);
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
   const [attachmentFiles, setAttachmentFiles] = useState<
-    ProcessedFile[] | File[] | null
-  >(null);
+    { fileName: string; fileUrl: string }[]
+  >([]);
   const isDesktop = useIsDesktopViewport();
-  const [selectedType, setSelectedType] = useState([]);
+  const { data: taskTypeOptions } = useGetTaskTypesOptions();
+  const [templateTypeOptions, setTemplateTypeOptions] = useState([]);
+  const watchedAttachments = useWatch({
+    control,
+    name: "basicData.attachment",
+  });
+
+  const handleTemplateTypeChange = (value: string): void => {
+    const currentType = getFormValues("templateType");
+    if (currentType === value) {
+      return;
+    }
+
+    const templateTypeValue = value as keyof typeof BASE_TEMPLATE_TYPE;
+    const currentBasicData = getFormValues("basicData");
+    const advancedOptions = getFormValues("advancedOptions");
+    const notifications = getFormValues("notifications");
+    const followUpTask = getFormValues("followUpTask");
+
+    switch (templateTypeValue) {
+      case BASE_TEMPLATE_TYPE.checklist:
+        resetForm({
+          templateType: templateTypeValue,
+          basicData: {
+            ...currentBasicData,
+            baseTemplateType: templateTypeValue,
+          },
+          advancedOptions,
+          notifications,
+          followUpTask,
+          questions: getFormValues("questions") || [],
+        });
+        break;
+      case BASE_TEMPLATE_TYPE.grid:
+        resetForm({
+          templateType: templateTypeValue,
+          basicData: {
+            ...currentBasicData,
+            baseTemplateType: templateTypeValue,
+          },
+          advancedOptions,
+          notifications,
+          followUpTask,
+          column: getFormValues("column") || { columnId: "", title: "" },
+          row: getFormValues("row") || [],
+        });
+        break;
+      case BASE_TEMPLATE_TYPE.form:
+        resetForm({
+          templateType: templateTypeValue,
+          basicData: {
+            ...currentBasicData,
+            baseTemplateType: templateTypeValue,
+            attachment: [],
+          },
+          advancedOptions,
+          notifications,
+          followUpTask,
+        });
+        break;
+      case BASE_TEMPLATE_TYPE.spreadsheet:
+        resetForm({
+          templateType: templateTypeValue,
+          basicData: {
+            ...currentBasicData,
+            baseTemplateType: templateTypeValue,
+            attachment: [],
+          },
+          advancedOptions,
+          notifications,
+          followUpTask,
+        });
+        break;
+    }
+  };
+
+  useEffect(() => {
+    const data = taskTypeOptions?.data?.map((item: TaskTypeOptions) => ({
+      label: item?.typeName,
+      value: item?.typeName?.toLowerCase(),
+    }));
+    setTemplateTypeOptions(data);
+  }, [taskTypeOptions]);
+
   const handleTagsDelete = (_: React.MouseEvent, data: NestedMenuItem) => {
     const updatedItems = selectedTags.filter(
       (item) => item?.value !== data?.value
@@ -114,11 +202,19 @@ const BasicInfo: React.FC = () => {
    */
   const handleAttachmentSubmit = (processedFiles: ProcessedFile[] | File[]) => {
     if (selectedFiles) {
-      setAttachmentFiles((prevFiles) =>
-        prevFiles
-          ? ([...prevFiles, ...processedFiles] as ProcessedFile[] | File[])
-          : processedFiles
-      );
+      const attachmentData = getFormValues("basicData.attachment");
+      const fileList = attachmentData || [];
+      processedFiles.forEach((files) => {
+        const { file } = files;
+        const fileName = "file" in files ? file.name : files.name;
+        const fileUrl = "url" in file ? file.url : "";
+        fileList.push({
+          fileName: fileName,
+          fileUrl: fileUrl,
+        });
+      });
+      setFormValue("basicData.attachment", fileList);
+      triggerValidation("basicData");
       setSelectedFiles(null);
       setShowAttachmentModal(false);
     }
@@ -131,12 +227,21 @@ const BasicInfo: React.FC = () => {
    * @return {void}
    */
   const handleDeleteAttachment = (index: number): void => {
-    if (!attachmentFiles) return;
-    const updatedFiles = attachmentFiles.filter((_, i) => i !== index) as
-      | ProcessedFile[]
-      | File[];
-    setAttachmentFiles(updatedFiles.length > 0 ? updatedFiles : null);
+    const attachmentData = getFormValues("basicData.attachment");
+    if (!isNonEmptyValue(attachmentData)) return;
+
+    attachmentData.splice(index, 1);
+    setFormValue("basicData.attachment", attachmentData);
+    triggerValidation("basicData");
   };
+
+  useEffect(() => {
+    const validAttachments = (watchedAttachments || []).filter(
+      (item): item is { fileName: string; fileUrl: string } =>
+        typeof item?.fileName === "string" && typeof item?.fileUrl === "string"
+    );
+    setAttachmentFiles(validAttachments);
+  }, [watchedAttachments]);
 
   return (
     <Box className="ct-basic-info">
@@ -153,10 +258,21 @@ const BasicInfo: React.FC = () => {
             "ct-basic-info__row-first-item--desktop": isDesktop,
           })}
         >
-          <CTextfield
-            label={BASIC_INFO.templateName}
-            required={true}
-            placeholder={BASIC_INFO.templateNamePlaceholder}
+          <Controller
+            name="basicData.templateName"
+            control={control}
+            render={({ field }) => (
+              <CTextfield
+                {...field}
+                error={!!formErrors.basicData?.templateName}
+                helperText={
+                  formErrors.basicData?.templateName?.message as string
+                }
+                label={BASIC_INFO.templateName}
+                required={true}
+                placeholder={BASIC_INFO.templateNamePlaceholder}
+              />
+            )}
           />
         </Box>
         <Box
@@ -165,9 +281,20 @@ const BasicInfo: React.FC = () => {
             "ct-basic-info__row-first-item--desktop": isDesktop,
           })}
         >
-          <CTextfield
-            label={BASIC_INFO.description}
-            placeholder={BASIC_INFO.descriptionPlaceholder}
+          <Controller
+            name="basicData.description"
+            control={control}
+            render={({ field }) => (
+              <CTextfield
+                {...field}
+                error={!!formErrors.basicData?.description}
+                helperText={
+                  formErrors.basicData?.description?.message as string
+                }
+                label={BASIC_INFO.description}
+                placeholder={BASIC_INFO.descriptionPlaceholder}
+              />
+            )}
           />
         </Box>
       </Box>
@@ -179,17 +306,30 @@ const BasicInfo: React.FC = () => {
         })}
       >
         <Box className="ct-basic-info__row-item ct-basic-info__row-first-item">
-          <CSelect
-            label={BASIC_INFO.type}
-            required={true}
-            optionValueKey="value"
-            optionLabelKey="label"
-            placeholder={BASIC_INFO.typePlaceholder}
-            options={typeDropdownOptions}
-            value={selectedType}
-            onChange={(e) => {
-              setSelectedType(e.target.value);
-            }}
+          <Controller
+            name="basicData.templateType"
+            control={control}
+            render={({ field }) => (
+              <CSelect
+                {...field}
+                onChange={(e) => {
+                  field.onChange(e);
+                  handleTemplateTypeChange(
+                    (e.target.value as string).toLowerCase()
+                  );
+                }}
+                error={!!formErrors.basicData?.templateType}
+                helperText={
+                  formErrors.basicData?.templateType?.message as string
+                }
+                label={BASIC_INFO.type}
+                required={true}
+                optionValueKey="value"
+                optionLabelKey="label"
+                placeholder={BASIC_INFO.typePlaceholder}
+                options={templateTypeOptions}
+              />
+            )}
           />
         </Box>
         <Box
@@ -229,12 +369,26 @@ const BasicInfo: React.FC = () => {
             {BASIC_INFO.directory}
           </Box>
           <Box className="ct-basic-info__dropdown-row">
-            <CSelect
-              options={directoryDropdownOptions}
-              placeholder={BASIC_INFO.directoryPlaceholder}
-              onChange={() => {}}
-              optionValueKey="value"
-              optionLabelKey="label"
+            <Controller
+              name="basicData.libraryId"
+              control={control}
+              render={({ field }) => (
+                <CSelect
+                  {...field}
+                  value={field.value?.toString()}
+                  error={!!formErrors.basicData?.libraryId}
+                  helperText={
+                    formErrors.basicData?.libraryId?.message as string
+                  }
+                  options={directoryDropdownOptions}
+                  placeholder={BASIC_INFO.directoryPlaceholder}
+                  onChange={(e) => {
+                    field.onChange(Number(e.target.value));
+                  }}
+                  optionValueKey="value"
+                  optionLabelKey="label"
+                />
+              )}
             />
             <CSvgIcon
               component={ChevronRight}
@@ -264,65 +418,95 @@ const BasicInfo: React.FC = () => {
         </Box>
       </Box>
 
-      {/* TODO: Add base template type condition for rendering attachment view */}
-      <Box className="ct-basic-info__row">
-        <Box className="ct-basic-info__row-item">
-          <Box
-            className={clsx({
-              "ct-basic-info__label": true,
-              "required-icon": true,
-            })}
-          >
-            {BASIC_INFO.attachment}
-          </Box>
-          {attachmentFiles && attachmentFiles.length > 0 && (
-            <Box className="ct-basic-info__attachment">
-              {attachmentFiles.map((item, index) => {
-                return (
-                  <AttachmentItem
-                    key={index}
-                    item={item}
-                    index={index}
-                    onDelete={handleDeleteAttachment}
+      <Controller
+        name="basicData.templateType"
+        control={control}
+        render={({ field }) =>
+          (field.value === BASE_TEMPLATE_TYPE.spreadsheet ||
+            field?.value === BASE_TEMPLATE_TYPE.form) && (
+            <Box className="ct-basic-info__row">
+              <Box className="ct-basic-info__row-item">
+                <Box
+                  className={clsx({
+                    "ct-basic-info__label": true,
+                    "required-icon": true,
+                    "ct-basic-info__label--error":
+                      formErrors.basicData &&
+                      "attachment" in formErrors.basicData &&
+                      !!formErrors.basicData.attachment,
+                  })}
+                >
+                  {BASIC_INFO.attachment}
+                </Box>
+                {attachmentFiles && attachmentFiles.length > 0 && (
+                  <Box className="ct-basic-info__attachment">
+                    {attachmentFiles.map((item, index) => {
+                      return (
+                        <AttachmentItem
+                          key={index}
+                          item={item}
+                          index={index}
+                          onDelete={handleDeleteAttachment}
+                        />
+                      );
+                    })}
+                  </Box>
+                )}
+
+                <CButton
+                  className="ct-basic-info__action-btn"
+                  variant="outline"
+                  severity={
+                    formErrors.basicData &&
+                    "attachment" in formErrors.basicData &&
+                    formErrors.basicData.attachment
+                      ? "destructive"
+                      : "primary"
+                  }
+                  size="small"
+                  onClick={handleAttachment}
+                  walkMeIdPrefix={["basic info step", "add attachment"]}
+                >
+                  <CSvgIcon
+                    size={15}
+                    component={AddIcon}
                   />
-                );
-              })}
+                  {BASIC_INFO.addFile}
+                </CButton>
+                {formErrors.basicData &&
+                  "attachment" in formErrors.basicData &&
+                  formErrors.basicData.attachment && (
+                    <Box className="ct-basic-info__error-text">
+                      {
+                        (
+                          formErrors.basicData.attachment as {
+                            message?: string;
+                          }
+                        )?.message
+                      }
+                    </Box>
+                  )}
+                <CAttachmentModal
+                  size="large"
+                  selectedFiles={selectedFiles}
+                  setSelectedFiles={setSelectedFiles}
+                  title={BASIC_INFO.attachment}
+                  confirmBtnText={GENERAL.submitButtonLabel}
+                  acceptFileFormats={
+                    field.value === BASE_TEMPLATE_TYPE.form
+                      ? FORM_FILE_TYPES
+                      : SPREADSHEET_FILE_TYPES
+                  }
+                  showAttachmentModal={showAttachmentModal}
+                  handleAttachmentClose={handleAttachmentClose}
+                  handleAttachmentSubmit={handleAttachmentSubmit}
+                  walkMeIdPrefix={["basic info step", "submit attachment"]}
+                />
+              </Box>
             </Box>
-          )}
-
-          <CButton
-            className="ct-basic-info__action-btn"
-            variant="outline"
-            severity="primary"
-            size="small"
-            onClick={handleAttachment}
-            walkMeIdPrefix={["basic info step", "add attachment"]}
-          >
-            <CSvgIcon
-              size={15}
-              component={AddIcon}
-            />
-            {BASIC_INFO.addFile}
-          </CButton>
-          <CAttachmentModal
-            size="large"
-            selectedFiles={selectedFiles}
-            setSelectedFiles={setSelectedFiles}
-            title={BASIC_INFO.attachment}
-            confirmBtnText={GENERAL.submitButtonLabel}
-            acceptFileFormats={
-              // TODO: Implement dynamic file format selection based on baseTemplateType
-              // - Form: accept FORM_FILE_TYPES
-              // - Spreadsheet: accept SPREADSHEET_FILE_TYPES
-              FORM_FILE_TYPES || SPREADSHEET_FILE_TYPES
-            }
-            showAttachmentModal={showAttachmentModal}
-            handleAttachmentClose={handleAttachmentClose}
-            handleAttachmentSubmit={handleAttachmentSubmit}
-            walkMeIdPrefix={["basic info step", "submit attachment"]}
-          />
-        </Box>
-      </Box>
+          )
+        }
+      />
     </Box>
   );
 };

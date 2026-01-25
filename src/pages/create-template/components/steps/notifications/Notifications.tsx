@@ -8,22 +8,22 @@ import { AddIcon, ChevronDown, ChevronRight } from "@/core/constants/icons";
 import CNoData from "@/core/components/no-data/NoData";
 
 import "./Notifications.scss";
-import {
-  notificationSampleData,
-  notificationTriggerByAnswersSampleData,
-} from "../../../constants/sampleData";
+import { notificationTriggerByAnswersSampleData } from "../../../constants/sampleData";
 import TriggerCard from "../../trigger-card/TriggerCard";
 import { useCreateTemplateTranslations } from "../../../translation/useCreateTemplateTranslations";
 import { TRIGGER_TYPE } from "../../../constants/constant";
+import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 
 const Notifications: React.FC = () => {
   const { NOTIFICATIONS } = useCreateTemplateTranslations();
+  const { getFormValues } = useCreateTemplateForm();
+  const notificationStepData = getFormValues().notifications;
   const [isGroupedNotificationOpen, setIsGroupedNotificationOpen] =
     useState<boolean>(true);
 
   return (
     <Box className="ct-notifications">
-      {notificationSampleData?.length === 0 ? (
+      {notificationStepData?.length === 0 ? (
         <CNoData
           title={NOTIFICATIONS.NO_DATA}
           variant="box"
@@ -31,10 +31,18 @@ const Notifications: React.FC = () => {
       ) : (
         <Box className="ct-notifications__list">
           {/* TODO: Remove sample data after api integration */}
-          {notificationSampleData?.map((item) => (
+          {notificationStepData?.map((item, index) => (
             <TriggerCard
-              key={item.id}
-              item={item}
+              key={index}
+              item={{
+                ...item,
+                id: index,
+                messageTemplates: {
+                  id: item.messageTemplates?.id,
+                  subject: item.messageTemplates?.subject,
+                  body: item.messageTemplates?.body,
+                },
+              }}
               type={TRIGGER_TYPE.notification}
             />
           ))}
@@ -63,7 +71,15 @@ const Notifications: React.FC = () => {
               notificationTriggerByAnswersSampleData?.map((item) => (
                 <TriggerCard
                   key={item.id}
-                  item={item}
+                  item={{
+                    ...item,
+                    triggerTaskName: item.conditionQuestion,
+                    messageTemplates: {
+                      id: item.messageTemplate.id,
+                      subject: item.messageTemplate.subject,
+                      body: "",
+                    },
+                  }}
                   triggeredByAnswers={true}
                   type={TRIGGER_TYPE.notification}
                 />

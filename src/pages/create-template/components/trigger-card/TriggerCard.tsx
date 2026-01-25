@@ -13,7 +13,7 @@ import {
 import type {
   FollowUpCardProps,
   NotificationCardProps,
-} from "@/pages/create-template/types/notification.type";
+} from "@/pages/create-template/types/triggers.type";
 import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
 import {
   TRIGGER_TYPE,
@@ -22,6 +22,7 @@ import {
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import { TruncateTextWithSeeMore } from "@/utils/truncate-label";
 import clsx from "@/utils/clsx";
+import { convertToTitleCase } from "@/utils/convert-to-title-case";
 
 import "./TriggerCard.scss";
 
@@ -99,7 +100,7 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
           <>
             {renderListColumn({
               title: dataConstant.CARD_COLUMN_HEADINGS.condition,
-              value: item.condition,
+              value: convertToTitleCase(item.condition),
               className: "trigger-card__content-condition",
             })}
           </>
@@ -113,8 +114,9 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
             <WildcardLabel
               label={
                 type === TRIGGER_TYPE.notification
-                  ? item.messageSubject
-                  : item.taskName
+                  ? ((item as NotificationCardProps["item"])?.messageTemplates
+                      ?.subject ?? "")
+                  : (item as FollowUpCardProps["item"]).triggerTaskName
               }
               truncate={false}
             />

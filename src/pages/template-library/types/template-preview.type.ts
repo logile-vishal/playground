@@ -67,10 +67,10 @@ export type RenderAttachmentProps = {
   isDesktopPreview?: boolean;
   type?: string;
   templateBaseType?: string;
-  QUESTION_TYPES?: Record<string, { label: string; value: string }>;
-  DATE_INPUT_TYPE?: Record<string, { label: string; value: string }>;
-  QUESTION_ATTACHMENT?: Record<string, { label: string; value: string }>;
+  QUESTION_TYPES?: Record<string, string>;
+  QUESTION_ATTACHMENT?: Record<string, string>;
   ATTACHMENT_BUTTON_CONFIG?: Record<string, string>;
+  DATE_INPUT_TYPE?: Record<string, string>;
 };
 
 type fieldProps = {

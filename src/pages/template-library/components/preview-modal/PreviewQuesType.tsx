@@ -38,10 +38,6 @@ import type {
   RenderTextFieldProps,
 } from "../../types/template-preview.type";
 import {
-  getQuestionAttachment,
-  getQuestionTypes,
-  getPreviewButtonConfig,
-  getUserInputTypes,
   TEMPLATE_TYPE,
   QUESTION_ATTACHMENT_TYPE,
 } from "../../constants/constant";
@@ -50,6 +46,12 @@ import type {
   AttachmentType,
 } from "../../types/template-questions.type";
 import { useTemplateLibraryTranslations } from "../../translation/useTemplateLibraryTranslations";
+import {
+  getPreviewButtonConfig,
+  getQuestionAttachment,
+  getQuestionTypes,
+  getUserInputTypes,
+} from "../template-libarary-config/TemplatePreviewConfig";
 
 /**
  * @description Renders a read-only Material UI TextField used for preview mode.
@@ -230,6 +232,8 @@ const RenderPicUpload: React.FC<RenderAttachmentProps> = ({
  * @param {object} props.question - Question containing attachment list.
  * @param {boolean} props.isDesktopPreview - Layout control for responsiveness.
  * @param {string} props.type - Question type used to determine photo upload behavior.
+ * @param {Record<string, string>} props.QUESTION_TYPES - Translation object for question types.
+ * @param {Record<string, string>} props.ATTACHMENT_BUTTON_CONFIG - Translation object for button configs.
  * @returns {ReactNode} return list of read-only attachment buttons.
  */
 const RenderAttachement: React.FC<RenderAttachmentProps> = ({
@@ -239,27 +243,29 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({
   QUESTION_TYPES,
   ATTACHMENT_BUTTON_CONFIG,
 }) => {
-  // to avoid unused styling if attachments are not present
-  if (!question?.attachments || question?.attachments?.length == 0)
-    return <></>;
+  if (!question?.attachments || question?.attachments?.length === 0)
+    return null;
+
+  const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
+  const previewButtonConfig = getPreviewButtonConfig(ATTACHMENT_BUTTON_CONFIG);
 
   return (
     <Box
       className={clsx({ "template-preview-modal__attachment-wrapper": true })}
     >
       {question?.attachments?.map((item) => {
-        const itemLabel = getPreviewButtonConfig(ATTACHMENT_BUTTON_CONFIG)[
-          item?.attachmentType
-        ]?.label;
-        const itemIcon: SvgIconComponent = getPreviewButtonConfig(
-          ATTACHMENT_BUTTON_CONFIG
-        )[item?.attachmentType]?.icon;
+        const itemLabel = previewButtonConfig[item?.attachmentType]?.label;
+        const itemIcon: SvgIconComponent =
+          previewButtonConfig[item?.attachmentType]?.icon;
         const showPicUpload =
           item.attachmentType === QUESTION_ATTACHMENT_TYPE.photo &&
-          type === getQuestionTypes(QUESTION_TYPES).RADIO_BUTTON.value;
+          type === questionTypesConfig.RADIO_BUTTON.value;
         if (itemLabel && itemIcon)
           return (
-            <Box width={showPicUpload ? "100%" : "fit-content"}>
+            <Box
+              key={item?.attachmentType}
+              width={showPicUpload ? "100%" : "fit-content"}
+            >
               {showPicUpload ? (
                 <RenderPicUpload
                   question={question}
@@ -273,6 +279,7 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({
               )}
             </Box>
           );
+        return null;
       })}
     </Box>
   );
@@ -282,24 +289,29 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({
  * @method isIconRequired
  * @description Determines whether an icon should be required based on question attachments,
  * the selected option, and attachment type rules.
- * Rules:
- *  - If the attachment's requiredType is "Always", return true.
- *  - If requiredType is "In compliance only", return true only when option.isCompliant is true.
- *  - Otherwise return false.
  * @param {Object} question - The question object which may contain attachments.
  * @param {Object} option - The option selected for the question.
  * @param {boolean} option.isCompliant - Indicates whether the option is compliant.
  * @param {string} type - The attachment type to evaluate from the question.
  * @returns {boolean} - True if icon should be required, otherwise false.
  */
-const isIconRequired = (question, option, type) => {
-  const RequiredType = question?.attachments?.filter(
-    (item) => item?.attachmentType == type
-  )?.[0]?.requiredType;
+const isIconRequired = (
+  question: unknown,
+  option: { isCompliant?: boolean },
+  type: string
+): boolean => {
+  const attachments = (
+    question as {
+      attachments?: Array<{ attachmentType?: string; requiredType?: string }>;
+    }
+  )?.attachments;
+  const RequiredType = attachments?.find(
+    (item) => item?.attachmentType === type
+  )?.requiredType;
   const isCompaliantType = RequiredType === "In compliance only";
   if (RequiredType === "Always") return true;
-  else if (option?.isCompliant === isCompaliantType) return true;
-  else return false;
+  if (option?.isCompliant && isCompaliantType) return true;
+  return false;
 };
 
 /**
@@ -319,6 +331,9 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
   QUESTION_ATTACHMENT,
   ATTACHMENT_BUTTON_CONFIG,
 }) => {
+  const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
+  const questionAttachmentConfig = getQuestionAttachment(QUESTION_ATTACHMENT);
+
   const showCameraIcon =
     question?.attachments?.length > 0
       ? question?.attachments?.filter(
@@ -342,7 +357,7 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
       <RenderAttachement
         question={question}
         isDesktopPreview={isDesktopPreview}
-        type={getQuestionTypes(QUESTION_TYPES).DROPDOWN.value}
+        type={questionTypesConfig.DROPDOWN.value}
         QUESTION_TYPES={QUESTION_TYPES}
         ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
       />
@@ -351,7 +366,7 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
           const cameraIcon = isIconRequired(
             question,
             option,
-            getQuestionAttachment(QUESTION_ATTACHMENT).PHOTO.value
+            questionAttachmentConfig.PHOTO.value
           )
             ? CameraRequired
             : Camera;
@@ -363,13 +378,12 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
             >
               <Box className="template-preview-modal__dropdown-menu-item">
                 {question?.questionType ===
-                  getQuestionTypes(QUESTION_TYPES).CHECKBOX.value && (
+                  questionTypesConfig.CHECKBOX.value && (
                   <RenderCheckbox label={option?.value} />
                 )}
                 <Box>{option?.value}</Box>
               </Box>
               <Box className="template-preview-modal__dropdown-menu-item">
-                {/* TODO: To removed static additional info */}
                 {option?.additionalInfo?.required && (
                   <Tooltip
                     title={
@@ -394,7 +408,7 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
                         isIconRequired(
                           question,
                           option,
-                          getQuestionAttachment(QUESTION_ATTACHMENT).PHOTO.value
+                          questionAttachmentConfig.PHOTO.value
                         )
                           ? 19
                           : 16
@@ -426,12 +440,14 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
   QUESTION_ATTACHMENT,
   ATTACHMENT_BUTTON_CONFIG,
 }) => {
+  const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
+  const questionAttachmentConfig = getQuestionAttachment(QUESTION_ATTACHMENT);
+
   const showCameraIcon =
     question?.attachments?.length > 0
       ? question?.attachments?.filter(
           (item: AttachmentType) =>
-            item?.attachmentType ===
-            getQuestionAttachment(QUESTION_ATTACHMENT).PHOTO.value
+            item?.attachmentType === questionAttachmentConfig.PHOTO.value
         )?.length > 0
       : false;
   return (
@@ -444,7 +460,7 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
       <RenderAttachement
         question={question}
         isDesktopPreview={isDesktopPreview}
-        type={getQuestionTypes(QUESTION_TYPES).DROPDOWN.value}
+        type={questionTypesConfig.DROPDOWN.value}
         QUESTION_TYPES={QUESTION_TYPES}
         ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
       />
@@ -503,6 +519,9 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
   QUESTION_ATTACHMENT,
   ATTACHMENT_BUTTON_CONFIG,
 }) => {
+  const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
+  const questionAttachmentConfig = getQuestionAttachment(QUESTION_ATTACHMENT);
+
   const showAttachmentIcon =
     question?.attachments?.length > 0
       ? question?.attachments?.filter(
@@ -517,17 +536,19 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
           const attachmentIcon = isIconRequired(
             question,
             option,
-            getQuestionAttachment(QUESTION_ATTACHMENT).ATTACHMENT.value
+            questionAttachmentConfig.ATTACHMENT.value
           )
             ? AttachmentRequired
             : Attachment;
           return (
-            <Box className="template-preview-modal__radio-item">
+            <Box
+              key={option?.value}
+              className="template-preview-modal__radio-item"
+            >
               <RenderRadio
                 label={option?.value}
                 value={option?.value}
               />
-              {/* TODO: Attachment require or not required condition missing */}
               {showAttachmentIcon && (
                 <Box height={20}>
                   <CSvgIcon
@@ -549,7 +570,7 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
         <RenderAttachement
           question={question}
           isDesktopPreview={isDesktopPreview}
-          type={getQuestionTypes(QUESTION_TYPES).RADIO_BUTTON.value}
+          type={questionTypesConfig.RADIO_BUTTON.value}
           QUESTION_TYPES={QUESTION_TYPES}
           ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
         />
@@ -575,9 +596,11 @@ export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
   ATTACHMENT_BUTTON_CONFIG,
   DATE_INPUT_TYPE,
 }) => {
+  const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
+  const userInputTypesConfig = getUserInputTypes(DATE_INPUT_TYPE);
+
   const isMultiLine =
-    question?.questionType ===
-    getQuestionTypes(QUESTION_TYPES).LONG_USER_INPUT.value;
+    question?.questionType === questionTypesConfig.LONG_USER_INPUT.value;
   return (
     <Box
       className={clsx({
@@ -594,26 +617,24 @@ export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
       <RenderAttachement
         question={question}
         isDesktopPreview={isDesktopPreview}
-        type={getQuestionTypes(QUESTION_TYPES).USER_INPUT.value}
+        type={questionTypesConfig.USER_INPUT.value}
         QUESTION_TYPES={QUESTION_TYPES}
         ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
       />
       <Box width="100%">
-        {question?.inputType ===
-        getUserInputTypes(DATE_INPUT_TYPE).DATE_AND_TIME.value ? (
+        {question?.inputType === userInputTypesConfig.DATE_AND_TIME.value ? (
           <RenderDatePicker
             type="datetime"
             isDesktopPreview={isDesktopPreview}
           />
-        ) : question?.inputType ===
-          getUserInputTypes(DATE_INPUT_TYPE).DATE.value ? (
+        ) : question?.inputType === userInputTypesConfig.DATE.value ? (
           <RenderDatePicker
             type="date"
             isDesktopPreview={isDesktopPreview}
           />
         ) : (
           <RenderTextField
-            multiline={isMultiLine ? true : false}
+            multiline={isMultiLine}
             rows={isMultiLine ? 3 : 1}
             width={isMultiLine || !isDesktopPreview ? "100%" : ""}
           />

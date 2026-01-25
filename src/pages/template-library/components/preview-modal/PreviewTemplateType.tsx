@@ -14,7 +14,8 @@ import CSvgIcon from "@/core/components/icon/Icon";
 import { CurlyBracket, Download, Excel, Pdf } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
-import { getQuestionTypes, TEMPLATE_TYPE } from "../../constants/constant";
+import { TEMPLATE_TYPE } from "../../constants/constant";
+import { getQuestionTypes } from "../template-libarary-config/TemplatePreviewConfig";
 import {
   RenderDropdownQues,
   RenderRadioQues,

@@ -6,24 +6,24 @@ import CSvgIcon from "@/core/components/icon/Icon";
 import { AddIcon, ChevronDown, ChevronRight } from "@/core/constants/icons";
 import { CButton } from "@/core/components/button/button";
 import CNoData from "@/core/components/no-data/NoData";
+import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 
 import "./FollowUp.scss";
-import {
-  followupSampleData,
-  followupTriggerByAnswersSampleData,
-} from "../../../constants/sampleData";
+import { followupTriggerByAnswersSampleData } from "../../../constants/sampleData";
 import { useCreateTemplateTranslations } from "../../../translation/useCreateTemplateTranslations";
 import TriggerCard from "../../trigger-card/TriggerCard";
 import { TRIGGER_TYPE } from "../../../constants/constant";
 
 const FollowUp: React.FC = () => {
   const { FOLLOWUP_TASKS } = useCreateTemplateTranslations();
+  const { getFormValues } = useCreateTemplateForm();
+  const followUpStepData = getFormValues().followUpTask;
   const [isGroupedFollowupOpen, setIsGroupedFollowupOpen] =
     useState<boolean>(true);
 
   return (
     <Box className="ct-follow-up">
-      {followupSampleData?.length === 0 ? (
+      {followUpStepData?.length === 0 ? (
         <CNoData
           title={FOLLOWUP_TASKS.NO_DATA}
           variant="box"
@@ -31,10 +31,14 @@ const FollowUp: React.FC = () => {
       ) : (
         <Box className="ct-follow-up__list">
           {/* TODO: Remove sample data after api integration */}
-          {followupSampleData?.map((item) => (
+          {followUpStepData?.map((item, index) => (
             <TriggerCard
-              key={item.id}
-              item={item}
+              key={index}
+              item={{
+                ...item,
+                id: index,
+                triggerTaskName: item.triggerTaskName || "",
+              }}
               type={TRIGGER_TYPE.followup}
             />
           ))}
@@ -59,7 +63,7 @@ const FollowUp: React.FC = () => {
               followupTriggerByAnswersSampleData?.map((item) => (
                 <TriggerCard
                   key={item.id}
-                  item={item}
+                  item={{ ...item, triggerTaskName: item.triggertaskName }}
                   triggeredByAnswers={true}
                   type={TRIGGER_TYPE.followup}
                 />

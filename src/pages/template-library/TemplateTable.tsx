@@ -28,10 +28,7 @@ import {
   Send,
 } from "@/core/constants/icons";
 import {
-  formatDate,
-  REPORT_SORTING,
   TABLE_PAGINATION_OPTIONS,
-  TEMPLATE_SORTING,
   TEMPLATE_TABLE_COLUMNS,
   TEMPLATE_TABLE_DATA,
 } from "@/pages/template-library/constants/constant";
@@ -60,6 +57,11 @@ import {
   useGetPreviewByTemplateId,
 } from "./services/template-library-api-hooks";
 import { useTemplateLibraryTranslations } from "./translation/useTemplateLibraryTranslations";
+import { formatDate } from "./components/template-libarary-config/TemplatePreviewConfig";
+import {
+  REPORT_SORTING,
+  TEMPLATE_SORTING,
+} from "./components/template-libarary-config/TemplateSortingConfig";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu

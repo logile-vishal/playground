@@ -11,21 +11,23 @@ import CStepper from "@/core/components/stepper/Stepper";
 import type { StepOption } from "@/core/types/stepper.type";
 import PageTemplate from "@/layouts/page-template/PageTemplate";
 import { useWalkmeId } from "@/core/hooks/useWalkmeId";
+import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 
 import BasicInfo from "./components/steps/basic-info/BasicInfo";
 import Questions from "./components/steps/questions/Questions";
 import Notifications from "./components/steps/notifications/Notifications";
 import FollowUp from "./components/steps/follow-up/FollowUp";
 import AdvancedOptions from "./components/steps/advanced-options/AdvancedOptions";
-import CreateTemplateFormProvider from "./providers/CreateTemplateFormProvider";
+import { CreateTemplateFormProvider } from "./providers/CreateTemplateFormProvider";
 import { useCreateTemplateTranslations } from "./translation/useCreateTemplateTranslations";
 import "./CreateTemplate.scss";
 import { useGetPreviewByTemplateId } from "../template-library/services/template-library-api-hooks";
 import PreviewModal from "../template-library/components/preview-modal/PreviewModal";
 import type { TemplatePreviewModalProps } from "../template-library/types/template-library.type";
 
-const CreateTemplate: React.FC = () => {
+const CreateTemplateContent: React.FC = () => {
   const navigate = useNavigate();
+  const { triggerValidation, formErrors } = useCreateTemplateForm();
   const { generateId } = useWalkmeId();
   const {
     CREATE_TEMPLATE_STEPS,
@@ -38,7 +40,6 @@ const CreateTemplate: React.FC = () => {
     activeStep: 0,
     data: CREATE_TEMPLATE_STEPS.basicInfo,
   });
-  /** TODO Demo start */
   const [previewModal, setPreviewModal] = useState<TemplatePreviewModalProps>({
     status: false,
     data: null,
@@ -51,9 +52,7 @@ const CreateTemplate: React.FC = () => {
     error: hasTemplatePreviewError,
   } = useGetPreviewByTemplateId();
 
-  /** TODO Demo end */
-
-  const handleNavigateBack = () => {
+  const handleNavigateBack = (): void => {
     navigate("/templates");
   };
 
@@ -61,39 +60,78 @@ const CreateTemplate: React.FC = () => {
     {
       label: basicInfo.label,
       value: basicInfo.value,
+      error: !!formErrors.basicData,
       component: <BasicInfo />,
-      checkValidity: useCallback(() => true, []),
+      checkValidity: useCallback(
+        async () => await triggerValidation("basicData"),
+        [triggerValidation]
+      ),
     },
     {
       label: questions.label,
       value: questions.value,
+      error: !!(formErrors as { questions?: unknown }).questions,
       component: <Questions />,
-      checkValidity: useCallback(() => true, []),
+      checkValidity: useCallback(
+        async () => await triggerValidation("questions"),
+        [triggerValidation]
+      ),
     },
     {
       label: advancedOption.label,
       value: advancedOption.value,
+      error: !!formErrors.advancedOptions,
       component: <AdvancedOptions />,
+      checkValidity: useCallback(
+        async () => await triggerValidation("advancedOptions"),
+        [triggerValidation]
+      ),
     },
     {
       label: notification.label,
       value: notification.value,
+      error: !!formErrors.notifications,
       component: <Notifications />,
+      checkValidity: useCallback(
+        async () => await triggerValidation("notifications"),
+        [triggerValidation]
+      ),
     },
-    { label: followUp.label, value: followUp.value, component: <FollowUp /> },
+    {
+      label: followUp.label,
+      value: followUp.value,
+      component: <FollowUp />,
+      checkValidity: useCallback(
+        async () => await triggerValidation("followUpTask"),
+        [triggerValidation]
+      ),
+    },
   ];
 
   /**
-   * @method handleStepChange
-   * @description Handles step change event in the stepper component
-   * @param {Object} event - Step change event object
-   * @param {number} event.activeStep - Index of the newly active step
-   * @param {StepOption} event.data - Data of the newly active step
-   * @returns {void}
+   * @method handleValidation
+   * @description Validates the current step's form fields
+   * @param {number} stepIndex - Index of the step to validate
+   * @returns {Promise<boolean>} True if validation passes, false otherwise
    */
+  const handleValidation = async (stepIndex: number): Promise<boolean> => {
+    let isValid = true;
+    if (stepIndex === 0) {
+      isValid = await triggerValidation("basicData");
+    } else if (stepIndex === 1) {
+      isValid = await triggerValidation("questions");
+    } else if (stepIndex === 2) {
+      isValid = await triggerValidation("advancedOptions");
+    } else if (stepIndex === 3) {
+      isValid = await triggerValidation("notifications");
+    } else if (stepIndex === 4) {
+      isValid = await triggerValidation("followUpTask");
+    }
+    return isValid;
+  };
+
   const handleStepChange = useCallback(
-    (event: { activeStep: number; data: StepOption }) => {
-      /* TODO: Conditions to be added later */
+    (event: { activeStep: number; data: StepOption }): void => {
       setCurrentStep((prev) => ({
         ...prev,
         activeStep: event.activeStep,
@@ -103,8 +141,9 @@ const CreateTemplate: React.FC = () => {
     []
   );
 
-  const handleNextStep = () => {
-    if (currentStep.activeStep < stepperOptions.length - 1) {
+  const handleNextStep = async (): Promise<void> => {
+    const isValid = await handleValidation(currentStep.activeStep);
+    if (isValid && currentStep.activeStep < stepperOptions.length - 1) {
       setCurrentStep((prev) => ({
         ...prev,
         activeStep: prev.activeStep + 1,
@@ -113,8 +152,14 @@ const CreateTemplate: React.FC = () => {
     }
   };
 
-  /** TODO Demo start */
-  const handlePreviewModalOpen = () => {
+  const handleSaveStep = async (): Promise<void> => {
+    const isValid = await handleValidation(currentStep.activeStep);
+    if (isValid) {
+      // TODO: Implement save logic here
+    }
+  };
+
+  const handlePreviewModalOpen = (): void => {
     getPreviewByTemplateId(1829);
     setPreviewModal((prev) => ({ ...prev, status: true }));
   };
@@ -124,101 +169,104 @@ const CreateTemplate: React.FC = () => {
       setPreviewModal((prev) => ({ ...prev, data: templatePreviewData?.data }));
     }
   }, [templatePreviewData]);
-  /** TODO Demo end */
 
+  return (
+    <>
+      <PageTemplate.Header>
+        <Stack
+          direction={"row"}
+          className="create-template-page-header"
+        >
+          <Box className="create-template-page-header__section">
+            <CIconButton
+              variant="outline"
+              disableHover={true}
+              disableTouchRipple
+              onClick={handleNavigateBack}
+              className="create-template-page-header__back-icon"
+            >
+              <CSvgIcon
+                component={ChevronLeft}
+                fill="var(--logile-icon-secondary)"
+                size={18}
+              />
+            </CIconButton>
+            <Typography
+              color="var(--logile-text-primary)"
+              variant="h2"
+            >
+              {CREATE_TEMPLATE_HEADING.createTaskTemplate}
+            </Typography>
+          </Box>
+          {/* TODO: This code will be refactor according to question type */}
+          <Box className="create-template-page-header__section">
+            {currentStep.activeStep >= 2 && (
+              <CButton
+                severity="secondary"
+                variant="outline"
+                onClick={handlePreviewModalOpen}
+                data-walkme-id={generateId([
+                  "header actions",
+                  "preview button",
+                ])}
+              >
+                {CREATE_TEMPLATE_HEADER_ACTIONS.preview}
+              </CButton>
+            )}
+            {currentStep.activeStep < stepperOptions.length - 1 && (
+              <CButton
+                severity="secondary"
+                onClick={handleNextStep}
+                data-walkme-id={generateId(["header actions", "next button"])}
+                disabled={Object.keys(formErrors).length > 0}
+              >
+                {CREATE_TEMPLATE_HEADER_ACTIONS.next}
+              </CButton>
+            )}
+
+            {currentStep.activeStep < 2 && (
+              <CButton
+                severity="primary"
+                onClick={handleSaveStep}
+                data-walkme-id={generateId(["header actions", "save button"])}
+                disabled={Object.keys(formErrors).length > 0}
+              >
+                {CREATE_TEMPLATE_HEADER_ACTIONS.save}
+              </CButton>
+            )}
+            {currentStep.activeStep >= 2 && (
+              <CButton
+                severity="primary"
+                data-walkme-id={generateId(["header actions", "submit button"])}
+              >
+                {CREATE_TEMPLATE_HEADER_ACTIONS.submit}
+              </CButton>
+            )}
+          </Box>
+        </Stack>
+      </PageTemplate.Header>
+      <PageTemplate.Content>
+        <CStepper
+          currentStep={currentStep.activeStep}
+          onChange={handleStepChange}
+          options={stepperOptions}
+        />
+      </PageTemplate.Content>
+      <PreviewModal
+        previewModal={previewModal}
+        onClose={() => setPreviewModal({ status: false, data: null })}
+        isPreviewLoading={isPreviewLoading}
+        hasTemplatePreviewError={hasTemplatePreviewError}
+      />
+    </>
+  );
+};
+
+export const CreateTemplate: React.FC = () => {
   return (
     <CreateTemplateFormProvider>
       <PageTemplate>
-        <PageTemplate.Header>
-          <Stack
-            direction={"row"}
-            className="create-template-page-header"
-          >
-            <Box className="create-template-page-header__section">
-              <CIconButton
-                variant="outline"
-                disableHover={true}
-                disableTouchRipple
-                onClick={handleNavigateBack}
-                className="create-template-page-header__back-icon"
-              >
-                <CSvgIcon
-                  component={ChevronLeft}
-                  fill="var(--logile-icon-secondary)"
-                  size={18}
-                />
-              </CIconButton>
-              <Typography
-                color="var(--logile-text-primary)"
-                variant="h2"
-              >
-                {CREATE_TEMPLATE_HEADING.createTaskTemplate}
-              </Typography>
-
-              {/* TODO: to be done later when create template demo video available */}
-              {/* <Box className={clsx({ "create-template-page-header__cursor-pointer": true })}>
-                        <CSvgIcon component={QuestionCircle} fill='var(--logile-icon-secondary)' size={16} />
-                    </Box> */}
-            </Box>
-            <Box className="create-template-page-header__section">
-              {currentStep.activeStep >= 2 && (
-                <CButton
-                  severity="secondary"
-                  variant="outline"
-                  onClick={handlePreviewModalOpen}
-                  data-walkme-id={generateId([
-                    "header actions",
-                    "preview button",
-                  ])}
-                >
-                  {CREATE_TEMPLATE_HEADER_ACTIONS.preview}
-                </CButton>
-              )}
-              {currentStep.activeStep < stepperOptions.length - 1 && (
-                <CButton
-                  severity="secondary"
-                  onClick={handleNextStep}
-                  data-walkme-id={generateId(["header actions", "next button"])}
-                >
-                  {CREATE_TEMPLATE_HEADER_ACTIONS.next}
-                </CButton>
-              )}
-
-              {currentStep.activeStep < 2 && (
-                <CButton
-                  severity="primary"
-                  data-walkme-id={generateId(["header actions", "save button"])}
-                >
-                  {CREATE_TEMPLATE_HEADER_ACTIONS.save}
-                </CButton>
-              )}
-              {currentStep.activeStep >= 2 && (
-                <CButton
-                  severity="primary"
-                  data-walkme-id={generateId([
-                    "header actions",
-                    "submit button",
-                  ])}
-                >
-                  {CREATE_TEMPLATE_HEADER_ACTIONS.submit}
-                </CButton>
-              )}
-            </Box>
-          </Stack>
-        </PageTemplate.Header>
-        <PageTemplate.Content>
-          <CStepper
-            currentStep={currentStep.activeStep}
-            onChange={handleStepChange}
-            options={stepperOptions}
-          />
-        </PageTemplate.Content>
-        <PreviewModal
-          previewModal={previewModal}
-          onClose={() => setPreviewModal({ status: false, data: null })}
-          isPreviewLoading={isPreviewLoading}
-          hasTemplatePreviewError={hasTemplatePreviewError}
-        />
+        <CreateTemplateContent />
       </PageTemplate>
     </CreateTemplateFormProvider>
   );

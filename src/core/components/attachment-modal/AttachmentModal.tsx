@@ -61,11 +61,12 @@ const AttachmentGalleryItem: React.FC<RenderAttachmentGalleryProps> = ({
  * @return {React.ReactNode} Document gallery item
  */
 const DocumentGalleryItem: React.FC<RenderPdfGalleryProps> = ({
-  file,
+  files,
   index,
   onDelete,
 }): React.ReactNode => {
-  const { icon: fileIcon, color: fileIconColor } = useFileIcon(file.category);
+  const { file } = files;
+  const { icon: fileIcon, color: fileIconColor } = useFileIcon(file.name);
 
   return (
     <Box
@@ -79,10 +80,10 @@ const DocumentGalleryItem: React.FC<RenderPdfGalleryProps> = ({
       />
       <Box className="ql-attachment-modal-pdf-wrapper-file">
         <Box className="ql-attachment-modal-pdf-wrapper-file-text">
-          {file?.file?.name}
+          {file?.name}
         </Box>
         <Box className="ql-attachment-modal-pdf-wrapper-file-size">
-          <Box>{(file?.file?.size / (1024 * 1024)).toFixed(2)} MB</Box>
+          <Box>{(file?.size / (1024 * 1024)).toFixed(2)} MB</Box>
           <CIconButton onClick={() => onDelete(index)}>
             <CSvgIcon
               size={18}
@@ -214,7 +215,7 @@ export const CAttachmentModal: React.FC<AttachmentModalProps> = ({
                 ) : (
                   <DocumentGalleryItem
                     key={`doc-${index}`}
-                    file={file}
+                    files={file}
                     index={index}
                     onDelete={handleFileDelete}
                   />

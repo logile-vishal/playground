@@ -1,18 +1,9 @@
 import CTextarea from "@/core/components/form/textarea/Textarea";
 import CTextfield from "@/core/components/form/textfield/Textfield";
 import CRichTextEditor from "@/core/components/form/rich-text-editor/RichTextEditor";
-import CreateTemplateFormProvider from "@/pages/create-template/providers/CreateTemplateFormProvider";
-// import { useCreateTemplateForm } from "@/pages/create-template/services/create-template-form.service";
+import { CreateTemplateFormProvider } from "@/pages/create-template/providers/CreateTemplateFormProvider";
 
 const TestForm = () => {
-  // const { getFormValues } = useCreateTemplateForm();
-
-  // const onSubmit = async (data) => {
-  //   await new Promise((r) => setTimeout(r, 700));
-  //   console.log("Submitted data:", data);
-  //   alert("Submitted! Check console for form data.");
-  // };
-
   return (
     <form
       style={{

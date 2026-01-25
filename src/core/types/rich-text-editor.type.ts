@@ -51,7 +51,7 @@ export type RenderAttachmentGalleryProps = {
 };
 
 export type RenderPdfGalleryProps = {
-  file: ProcessedFile;
+  files: ProcessedFile;
   index: number;
   onDelete: (index: number) => void;
 };

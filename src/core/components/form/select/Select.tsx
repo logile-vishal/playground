@@ -188,7 +188,7 @@ const CSelect = ({
    * @returns boolean
    */
   const isAllOptionsSelected = useMemo(() => {
-    return options.every((option) =>
+    return options?.every((option) =>
       selectedOptions.has(getOptionValue(option))
     );
   }, [selectedOptions, options, getOptionValue]);

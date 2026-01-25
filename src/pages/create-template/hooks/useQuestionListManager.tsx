@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { CREATE_TEMPLATE } from "../constants/constant";
 import useCreateTemplateForm from "./useCreateTemplateForm";
-import type { QuestionStepType } from "../services/create-template-form-schema";
+import type { QuestionStepType } from "../form-schema/create-template-form-schema";
 
 const newQuestionDefaultObject: QuestionStepType = {
   qId: "",

@@ -49,7 +49,7 @@
 
 @mixin helper-text($error: false) {
   display: block;
-  padding: var(--space-xs) var(--space-m);
+  padding: var(--space-xs) var(--space-m) 0;
   font-size: var(--logile-size-caption-large);
   font-weight: var(--logile-weight-400);
   line-height: var(--logile-line-height-helper-text);

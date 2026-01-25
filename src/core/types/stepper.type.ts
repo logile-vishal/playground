@@ -3,7 +3,7 @@ export type StepOption = {
   value: string;
   error?: boolean;
   disabled?: boolean;
-  checkValidity?: () => boolean | undefined;
+  checkValidity?: () => Promise<boolean> | boolean | undefined;
   component?: React.ReactNode;
 };
 

@@ -93,3 +93,12 @@ export type TriggerModalProps = {
   data: TriggerItem[];
   walkMeIdPrefix: string[];
 };
+
+export type AttachmentItemProps = {
+  item: {
+    fileName?: string;
+    fileUrl?: string;
+  };
+  index: number;
+  onDelete: (index: number) => void;
+};

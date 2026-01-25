@@ -5,8 +5,12 @@ export type TriggerCardProps = {
     condition?: string;
     conditionQuestion?: string;
     conditionAnswer?: string;
-    messageSubject?: string;
-    taskName?: string;
+    messageTemplates?: {
+      id: number;
+      subject: string;
+      body: string;
+    };
+    triggerTaskName?: string;
     recipients?: string[];
     recipientsIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
   };
@@ -16,12 +20,16 @@ export type TriggerCardProps = {
 
 export type NotificationCardProps = TriggerCardProps & {
   item: TriggerCardProps["item"] & {
-    messageSubject: string;
+    messageTemplates: {
+      id: number;
+      subject: string;
+      body: string;
+    };
   };
 };
 
 export type FollowUpCardProps = TriggerCardProps & {
   item: TriggerCardProps["item"] & {
-    taskName: string;
+    triggerTaskName: string;
   };
 };
