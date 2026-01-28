@@ -2,7 +2,7 @@
 export type AnswerType = {
   value: string;
   score: string;
-  isCompliant: boolean;
+  isCompliant: boolean | null;
   additionalInfo?: {
     required: boolean;
     requiredType: string;

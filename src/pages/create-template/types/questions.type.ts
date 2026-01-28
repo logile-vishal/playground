@@ -1,14 +1,95 @@
-import type { QUESTION_OPTION_LABELS } from "../constants/questions";
+import { type QUESTION_OPTION_LABELS } from "../constants/questions";
 
 export type QuestionOptionType =
   (typeof QUESTION_OPTION_LABELS)[keyof typeof QUESTION_OPTION_LABELS];
-// TODO: update question section data type after API integration
-export type QuestionProps = {
-  id: number | string;
-  orderIndex: string;
-  isRequired: boolean;
-  label: string;
-  optiontypeLabel: QuestionOptionType;
+
+export type QuestionTypeKey =
+  | "radio"
+  | "input"
+  | "dropdown"
+  | "checkbox"
+  | "sort_input"
+  | "long_input"
+  | "label"
+  | "dynamic_dropdown"
+  | "barcode_scan"
+  | "response_template"
+  | "title";
+
+type BasicDataProps = {
+  questionType: QuestionTypeKey | null;
+  title: string;
+  response?:
+    | {
+        title: string;
+        isCompliant?: boolean | null;
+        additionalInfo?: {
+          required: boolean;
+          requiredType: string | null;
+        };
+        isDefault?: boolean;
+        score?: number | null;
+        formula?: string | null;
+      }[]
+    | null;
+};
+
+type AdvanceSettingsProps = {
+  visibilityRule?: {
+    storeClusters?: {
+      isEnabled: boolean;
+      clustersList?:
+        | {
+            clusterId: string;
+            clusterName: string | null;
+            clusterValueId: string;
+            clusterValueName: string | null;
+          }[]
+        | []
+        | null;
+    };
+    basedOnPreviousAnswers?: {
+      isEnabled: boolean;
+    };
+    isRandom?: boolean;
+    previousExecutionStatus?: {
+      isEnabled: boolean;
+      status: string;
+    };
+  } | null;
+  tags?:
+    | {
+        tagId?: number | null;
+        tagName?: string;
+        attributeId?: number | null;
+        attributeName?: string;
+      }[]
+    | null;
+  fileAttachments: {
+    isEnabled: boolean;
+    attachments: {
+      attachmentType:
+        | "Photo"
+        | "Barcode"
+        | "Temperature Probe"
+        | "Numeric"
+        | "Attachment"
+        | null;
+      required: boolean;
+      requiredType:
+        | "Always"
+        | "In compliance only"
+        | "Out of compliance only"
+        | null;
+    } | null;
+  };
+  numericValue: {
+    isEnabled: boolean;
+    type: string | null;
+  } | null;
+};
+
+type tagType = {
   isTagBadgeVisible?: boolean;
   isPhotoBadgeVisible?: boolean;
   isFileBadgeVisible?: boolean;
@@ -18,21 +99,38 @@ export type QuestionProps = {
   isPreviousBadgeVisible?: boolean;
   isNumberBadgeVisible?: boolean;
   isTemperatureBadgeVisible?: boolean;
-  onLabelChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   hasError?: boolean;
 };
 
+export type QuestionProps = tagType & {
+  qId: string;
+  index: string;
+  questionId: number | null;
+  questionTypeId: number | null;
+  parentTemplateId: number | null;
+  isRequired: boolean;
+  questionBasicData: BasicDataProps;
+  questionAdvancedSettings: AdvanceSettingsProps;
+  subQuestions: QuestionProps[] | null;
+};
+
 export type QuestionSectionProps = {
+  index: number | string;
+  sectionId?: string;
   title: string;
-  orderindex: string;
   hasError?: boolean;
   data: QuestionProps[];
+  questionFormPath?: string;
   expandedList: Record<string, boolean>;
   toggleExpand: (id: string) => void;
 };
 
 export type QuestionCardProps = {
+  index: number | string;
+  parentIndex?: number | string;
+  sectionId?: string;
   question: QuestionProps;
+  questionFormPath?: string;
   toggleExpand: (id: number | string) => void;
   expandedList?: Record<string | number, boolean>;
 };
@@ -66,10 +164,15 @@ export type ButtonConfigProps = {
 
 export type QuestionCardOptionsProps = {
   isVisible?: boolean;
+  questionFormPath?: string;
+  question?: QuestionProps;
 };
 
 export type QuestionCardOptionProps = {
   linkCount?: number;
+  idx: number;
+  questionFormPath?: string;
+  question?: QuestionProps;
 };
 
 export type TriggerCardMenuProps = {
@@ -101,4 +204,9 @@ export type AttachmentItemProps = {
   };
   index: number;
   onDelete: (index: number) => void;
+};
+
+export type SectionTypeProps = {
+  label: string;
+  value: QuestionTypeKey;
 };

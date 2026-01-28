@@ -1,183 +1,433 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { CREATE_TEMPLATE } from "../constants/constant";
-import useCreateTemplateForm from "./useCreateTemplateForm";
-import type { QuestionStepType } from "../form-schema/create-template-form-schema";
+import { isNonEmptyValue } from "@/utils";
 
-const newQuestionDefaultObject: QuestionStepType = {
-  qId: "",
-  type: CREATE_TEMPLATE.DEFAULT_QUESTION_TYPE as "radio",
-  basicData: {
+import useCreateTemplateForm from "./useCreateTemplateForm";
+import { QUESTION_TYPE } from "../constants/questions";
+import {
+  ADVANCE_SETTINGS_DEFAULT,
+  BARCODE_SCAN_TYPE_DEFAULT,
+  CHECKBOX_TYPE_DEFAULT,
+  DROPDOWN_TYPE_DEFAULT,
+  DYNAMIC_DROPDOWN_TYPE_DEFAULT,
+  LABEL_TYPE_DEFAULT,
+  LONG_INPUT_TYPE_DEFAULT,
+  OPTIONS_DEFAULT,
+  RADIO_TYPE_DEFAULT,
+  RESPONSE_TEMPLATE_TYPE_DEFAULT,
+  SECTION_TYPE_DEFAULT,
+  SORT_INPUT_TYPE_DEFAULT,
+} from "../constants/question-type-default";
+import type { QuestionProps, QuestionTypeKey } from "../types/questions.type";
+
+export const newQuestionDefaultObject: () => QuestionProps = () => ({
+  qId: uuidv4(),
+  index: "",
+  questionId: null,
+  questionTypeId: null,
+  parentTemplateId: null,
+  isRequired: false,
+  questionBasicData: {
+    questionType: null,
     title: "",
-    response: [],
+    response: null,
   },
-  advancedSettings: {
-    isRequired: false,
-    notification: {
-      title: "",
-      description: "",
-    },
-  },
-};
+  questionAdvancedSettings: ADVANCE_SETTINGS_DEFAULT,
+  subQuestions: [],
+});
+
 const newOptionDefaultData = {
-  title: "",
+  ...OPTIONS_DEFAULT,
 };
-const newSectionDefaultData: QuestionStepType = {
-  type: "section",
-  sectionName: "",
-  questions: [],
+
+/**
+ * @method getNewQuestionDefaultObjectByType
+ * @param {string} type - The question type to get default object for
+ * @description Returns a new question object with default values based on the provided type
+ * @returns {QuestionProps | undefined} - Default question object or undefined if type is not supported
+ */
+export const getNewQuestionDefaultObjectByType = (
+  type: string
+): QuestionProps | undefined => {
+  switch (type) {
+    case QUESTION_TYPE.RADIO:
+      return {
+        ...newQuestionDefaultObject(),
+        questionBasicData: RADIO_TYPE_DEFAULT,
+      };
+    case QUESTION_TYPE.DROPDOWN:
+      return {
+        ...newQuestionDefaultObject(),
+        questionBasicData: DROPDOWN_TYPE_DEFAULT,
+      };
+    case QUESTION_TYPE.CHECKBOX:
+      return {
+        ...newQuestionDefaultObject(),
+        questionBasicData: CHECKBOX_TYPE_DEFAULT,
+      };
+    case QUESTION_TYPE.DYNAMIC_DROPDOWN:
+      return {
+        ...newQuestionDefaultObject(),
+        questionBasicData: DYNAMIC_DROPDOWN_TYPE_DEFAULT,
+      };
+    case QUESTION_TYPE.SORT_INPUT:
+      return {
+        ...newQuestionDefaultObject(),
+        questionBasicData: SORT_INPUT_TYPE_DEFAULT,
+      };
+    case QUESTION_TYPE.LONG_INPUT:
+      return {
+        ...newQuestionDefaultObject(),
+        questionBasicData: LONG_INPUT_TYPE_DEFAULT,
+      };
+    case QUESTION_TYPE.LABEL:
+      return {
+        ...newQuestionDefaultObject(),
+        questionBasicData: LABEL_TYPE_DEFAULT,
+      };
+    case QUESTION_TYPE.BARCODE_SCAN:
+      return {
+        ...newQuestionDefaultObject(),
+        questionBasicData: BARCODE_SCAN_TYPE_DEFAULT,
+      };
+    case QUESTION_TYPE.RESPONSE_TEMPLATE:
+      return {
+        ...newQuestionDefaultObject(),
+        questionBasicData: RESPONSE_TEMPLATE_TYPE_DEFAULT,
+      };
+  }
+};
+
+/**
+ * @method deepCopyQuestions
+ * @param {QuestionProps[]} questions - questions to deep copy
+ * @description Creates a deep copy of questions array using structured clone
+ * @returns {QuestionProps[]} - deep copied questions
+ */
+const deepCopyQuestions = (questions: QuestionProps[]): QuestionProps[] => {
+  return JSON.parse(JSON.stringify(questions || []));
 };
 
 /**
  * @method addQuestion
- * @param {Array<QuestionStepType>} data - data of the questions list to be updated
+ * @param {QuestionProps[]} data - data of the questions list to be updated
+ * @param {string} type - type of the question to be added
+ * @param {string} [afterQuestionId] - id of the question after which to insert the new question
  * @description Add a new question object to the data
  * -Uses the newQuestionDefaultObject default data to create a new question object
  * -Adds a unique id to the question object at qId
- * -Adds the new question object to the data array
- * @returns {Array<QuestionStepType>} - updated data
+ * -Recursively finds the afterQuestionId in root level or within subQuestions
+ * -Inserts the new question right after the specified question at the same nesting level
+ * -If afterQuestionId not found, appends at the end
+ * @returns {{ data: QuestionProps[], qId: string }} - updated data and qId of new question
  */
-export const addQuestion = (data: Array<QuestionStepType>) => {
-  return [...data, { ...newQuestionDefaultObject, qId: uuidv4() }];
+export const addQuestion = (
+  data: QuestionProps[] = [],
+  type: string,
+  afterQuestionId?: string
+) => {
+  const newQuestion = getNewQuestionDefaultObjectByType(type);
+  const qId = uuidv4();
+  const newQuestionObj = {
+    ...newQuestionDefaultObject(),
+    ...newQuestion,
+    qId,
+  };
+
+  // Deep copy the data to avoid mutations
+  const dataCopy = deepCopyQuestions(data);
+
+  // If no afterQuestionId specified, append to end
+  if (!isNonEmptyValue(afterQuestionId)) {
+    dataCopy.push(newQuestionObj);
+    return { data: dataCopy, qId };
+  }
+
+  // Helper function to recursively find and insert after the question
+  const insertAfterQuestion = (items: QuestionProps[]): boolean => {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].qId === afterQuestionId) {
+        // Found the question, insert after it
+        items.splice(i + 1, 0, newQuestionObj);
+        return true;
+      }
+
+      // Recursively check in subQuestions
+      if (items[i]?.subQuestions?.length > 0) {
+        if (insertAfterQuestion(items[i].subQuestions)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  // Try to find and insert after the question
+  const found = insertAfterQuestion(dataCopy);
+
+  // If not found anywhere, append to end
+  if (!found) {
+    dataCopy.push(newQuestionObj);
+  }
+  return { data: dataCopy, qId };
+};
+
+/**
+ * @method isOptionRequired
+ * @param {string} type - The question type to check
+ * @description Checks if the provided question type requires options
+ * @returns {boolean} - True if options are required for the question type
+ */
+const isOptionRequired = (type: string) => {
+  return (
+    type === QUESTION_TYPE.RADIO ||
+    type === QUESTION_TYPE.CHECKBOX ||
+    type === QUESTION_TYPE.DROPDOWN ||
+    type === QUESTION_TYPE.DYNAMIC_DROPDOWN
+  );
 };
 
 /**
  * @method removeQuestion
- * @param {Array<QuestionStepType>} data - data of the questions list to be updated
+ * @param {QuestionProps[]} data - data of the questions list to be updated
  * @param {string} questionId - id of the question to be removed
  * @description Remove a question object from the data using recursion
- * -Removes the question object from the data array at root level and within a section
- * @returns {Array<QuestionStepType>} - updated data
+ * Removes the question object from the data array at root level and within a section.
+ * Also recursively processes subQuestions to remove nested questions.
+ * If a section becomes empty after removing a question, the section itself is removed.
+ * @returns {QuestionProps[]} - updated data with the specified question removed
  */
 export const removeQuestion = (
-  data: Array<QuestionStepType>,
+  data: QuestionProps[],
   questionId: string
-) => {
-  const filteredList = [];
-  data.forEach((item) => {
-    if (item.type === "section") {
-      filteredList.push({
-        ...item,
-        questions: removeQuestion(item.questions, questionId),
-      });
-    } else if (item.qId !== questionId) {
-      filteredList.push(item);
-    }
-  });
-  return filteredList;
+): QuestionProps[] => {
+  if (!data) return [];
+
+  // First, remove the target question from current level and recursively process subQuestions
+  const updated = data
+    .filter((question) => question.qId !== questionId)
+    .map((question) => {
+      // If this question has subQuestions, recursively remove from them
+      if (question.subQuestions && question.subQuestions.length > 0) {
+        return {
+          ...question,
+          subQuestions: removeQuestion(question.subQuestions, questionId),
+        };
+      }
+      return question;
+    })
+    // Filter out empty sections at this level
+    .filter((question) => {
+      if (question.questionBasicData?.questionType === "title") {
+        // Remove section if it has no subQuestions after removal
+        return question.subQuestions && question.subQuestions.length > 0;
+      }
+      return true;
+    });
+
+  return updated;
 };
 
 /**
  * @method addSection
- * @param {Array<QuestionStepType>} data - data of the questions list to be updated
+ * @param {QuestionProps[]} data - data of the questions list to be updated
  * @param {string} sectionName - name of the section to be added
  * @description Add a new section to the questions list
  * -uses newSectionDefaultData constant to create a new section object
  * -Adds sectionName to the new section object
  * -Adds the new section object to the data array
- * @returns {Array<QuestionStepType>} - updated data
+ * @returns {QuestionProps[]} - updated data
  */
-export const addSection = (
-  data: Array<QuestionStepType>,
-  sectionName: string
-) => {
-  const newSection = { ...newSectionDefaultData, sectionName };
-  return [...data, newSection];
+export const addSection = (data: QuestionProps[], sectionName: string) => {
+  const newSection = newQuestionDefaultObject();
+  newSection.questionBasicData = SECTION_TYPE_DEFAULT;
+  newSection.questionBasicData.title = sectionName;
+  const subQuestion = getNewQuestionDefaultObjectByType(QUESTION_TYPE.RADIO);
+  newSection.subQuestions = [subQuestion];
+  return { qId: subQuestion?.qId, data: [...data, newSection] };
 };
 
 /**
  * @method removeSection
- * @param {Array<QuestionStepType>} data - data of the questions list to be updated
- * @param {string} sectionName - name of the section to be removed
+ * @param {QuestionProps[]} data - data of the questions list to be updated
+ * @param {string} qId - id of the section to be removed
  * @description Remove a section from the data provided
  * -Removes the section from the data provided
- * @returns {Array<QuestionStepType>} - updated data
+ * @returns {QuestionProps[]} - updated data
  */
 
-export const removeSection = (
-  data: Array<QuestionStepType>,
-  sectionName: string
-) => {
+export const removeSection = (data: QuestionProps[], qId: string) => {
   return data.filter(
-    (question) =>
-      question.type !== "section" || question.sectionName !== sectionName
+    (question: QuestionProps) =>
+      question.questionBasicData?.questionType !== "title" ||
+      question.qId !== qId
   );
 };
 
 /**
  * @method addOption
- * @param {Array<QuestionStepType>} data - data of the questions list to be updated
+ * @param {QuestionProps[]} data - data of the questions list to be updated
  * @param {string} questionId - id of the question to which the option belongs
  * @description Add a new option to the provided question
  * -uses newOptionDefaultData constant to create a new option object
  * -Adds a unique id to the option object at id
  * -Adds the new option object to the question at root level or within a section
- * @returns {Array<QuestionStepType>} - updated data
+ * @returns {QuestionProps[]} - updated data
  */
-export const addOption = (
-  data: Array<QuestionStepType>,
-  questionId: string
-) => {
-  const newOption = { ...newOptionDefaultData, optionId: uuidv4() };
-  const questions: Array<QuestionStepType> = [...data];
-  for (const q of questions) {
-    if (q.type === "section") {
-      q.questions.forEach((question) => {
-        if (question.qId === questionId) {
-          question.basicData?.response?.push(newOption);
-        }
-      });
-    } else {
-      if (q.qId === questionId) {
-        q.basicData?.response?.push(newOption);
-      }
+export const addOption = (data: QuestionProps[], questionId: string) => {
+  const newOption = { ...newOptionDefaultData };
+  return data.map((question) => {
+    if (question.qId === questionId) {
+      // Found the question at root level, add option
+      const copyQuestion = JSON.parse(JSON.stringify(question));
+      copyQuestion.questionBasicData.response.push(newOption);
+      return copyQuestion;
     }
-  }
-  return questions;
+
+    // Recursively check subQuestions if they exist
+    if (question.subQuestions && question.subQuestions.length > 0) {
+      return {
+        ...question,
+        subQuestions: addOption(question.subQuestions, questionId),
+      };
+    }
+
+    return question;
+  });
 };
 
 /**
  * @method removeOption
- * @param {Array<QuestionStepType>} data - data of the questions list to be updated
- * @param {string} optionId - id of the option to be removed
+ * @param {QuestionProps[]} data - data of the questions list to be updated
  * @param {string} questionId - id of the question to which the option belongs
- * @description Remove an option from the provided question
- * -Removes the option from the question at root level or question present within a section
- * @returns {Array<QuestionStepType>} - updated data
+ * @param {number} index - index of the option to be removed
+ * @description Remove an option from the provided question's response array
+ * Recursively searches for the question by questionId and removes the option at the given index.
+ * Works for questions at root level or nested within sections (subQuestions).
+ * @returns {QuestionProps[]} - updated data with the specified option removed
  */
 export const removeOption = (
-  data: Array<QuestionStepType>,
-  optionId: string,
-  questionId: string
-) => {
-  const questions: Array<QuestionStepType> = JSON.parse(
-    JSON.stringify([...data])
-  );
+  data: QuestionProps[],
+  questionId: string,
+  index: number
+): QuestionProps[] => {
+  return data.map((question) => {
+    if (question.qId === questionId) {
+      // Found the question, remove the option at the specified index
+      const copyQuestion = JSON.parse(JSON.stringify(question));
+      copyQuestion.questionBasicData.response.splice(index, 1);
+      return copyQuestion;
+    }
 
-  for (const qItem of questions) {
-    if (qItem.type === "section") {
-      qItem.questions.forEach((question) => {
-        if (question.qId === questionId) {
-          question.basicData.response = question.basicData?.response?.filter(
-            (option) => option.optionId !== optionId
-          );
+    // Recursively process subQuestions if they exist
+    if (question.subQuestions && question.subQuestions.length > 0) {
+      return {
+        ...question,
+        subQuestions: removeOption(question.subQuestions, questionId, index),
+      };
+    }
+
+    return question;
+  });
+};
+
+/**
+ * @method cloneQuestion
+ * @param {QuestionProps[]} data - data of the questions list to be updated
+ * @param {string} questionId - id of the question to be cloned
+ * @description Clone a question and insert it right after the original question
+ * Creates a deep copy of the question with a new unique qId and inserts it immediately
+ * after the original question at the same nesting level using recursive helper function.
+ * @returns {{ data: QuestionProps[], qId: string }} - object containing updated data with the cloned question and the qId of the cloned question
+ */
+export const cloneQuestion = (
+  data: QuestionProps[],
+  questionId: string
+): { data: QuestionProps[]; qId: string } => {
+  const clonedQId: string = uuidv4();
+  const copyData = deepCopyQuestions(data);
+
+  // Helper function to recursively find and clone the question
+  const cloneInTree = (items: QuestionProps[]): boolean => {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].qId === questionId) {
+        // Found the question to clone, create a deep copy with new qId
+        const clonedQuestion: QuestionProps = deepCopyQuestions([items[i]])[0];
+        const newQuestion: QuestionProps = {
+          ...clonedQuestion,
+          qId: clonedQId,
+        };
+        // Insert cloned question right after the original
+        items.splice(i + 1, 0, newQuestion);
+        return true;
+      }
+
+      // Recursively check in subQuestions
+      if (items[i].subQuestions?.length > 0) {
+        if (cloneInTree(items[i].subQuestions)) {
+          return true;
         }
-      });
-    } else {
-      if (qItem.qId === questionId) {
-        qItem.basicData.response = qItem.basicData?.response?.filter(
-          (option) => option.optionId !== optionId
-        );
       }
     }
-  }
+    return false;
+  };
 
-  return questions;
+  cloneInTree(copyData);
+  return { data: copyData, qId: clonedQId };
 };
 
 const useQuestionListManager = () => {
   const { setFormValue, getFormValues, triggerValidation } =
     useCreateTemplateForm();
+
+  /**
+   * @method modifyQuestionType
+   * @param {string} prevType - The previous question type
+   * @param {string} newType - The new question type to change to
+   * @param {string} questionId - The ID of the question to modify
+   * @description Modifies the type of a question and updates the form accordingly
+   * Recursively searches for the question at any nesting level (root or within subQuestions).
+   * If both types require options, only updates questionBasicData to preserve object reference.
+   * If option requirement changes, replaces the entire question with a new one.
+   * @returns {string | null} - The ID of the new question or null if question was updated in place
+   */
+  const modifyQuestionType = (
+    prevType: QuestionTypeKey,
+    newType: QuestionTypeKey,
+    questionId: string
+  ) => {
+    const questionsList = getFormValues("questions") as QuestionProps[];
+    let newQuestionId: string | null = null;
+
+    // Helper function to recursively find and modify the question
+    const modifyQuestion = (items: QuestionProps[]): void => {
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].qId === questionId) {
+          if (isOptionRequired(prevType) && isOptionRequired(newType)) {
+            // Both require options, just update the type while preserving object reference
+            items[i].questionBasicData.questionType = newType;
+          } else {
+            // Option requirement changed, replace the entire question
+            const newQuestion = getNewQuestionDefaultObjectByType(newType);
+            newQuestionId = newQuestion?.qId || null;
+            if (newQuestion) {
+              items[i] = newQuestion;
+            }
+          }
+          return;
+        }
+
+        // Recursively check in subQuestions
+        if (items[i].subQuestions?.length > 0) {
+          modifyQuestion(items[i].subQuestions);
+        }
+      }
+    };
+
+    modifyQuestion(questionsList);
+    setFormValue("questions", questionsList);
+    return newQuestionId;
+  };
 
   /**
    * @method deleteQuestion
@@ -189,7 +439,7 @@ const useQuestionListManager = () => {
    * @returns {void}
    */
   const deleteQuestion = (questionId: string) => {
-    const questionsList = getFormValues("questions") as Array<QuestionStepType>;
+    const questionsList = getFormValues("questions") as QuestionProps[];
     const updatedQuestionsList = removeQuestion(questionsList, questionId);
     setFormValue("questions", updatedQuestionsList);
   };
@@ -204,45 +454,63 @@ const useQuestionListManager = () => {
    * @returns {void}
    */
   const deleteSection = (sectionName: string) => {
-    const questionsList = getFormValues("questions") as Array<QuestionStepType>;
+    const questionsList = getFormValues("questions") as QuestionProps[];
     const updatedQuestionsList = removeSection(questionsList, sectionName);
     setFormValue("questions", updatedQuestionsList);
   };
 
   /**
    * @method deleteOption
-   * @param {string} optionId - id of the option to be deleted
    * @param {string} questionId - id of the question to which the option belongs
+   * @param {number} index - index of the option to be deleted
    * @description Deletes option from the questions list by option id and question id
    * -Method gets the questions list from the form
-   * -uses @method removeOption to remove the option with the given optionid and questionid
+   * -uses @method removeOption to remove the option with the given index and questionid
    * -Sets the updated questions list back to the form
    * @returns {void}
    */
-  const deleteOption = (optionId: string, questionId: string) => {
-    const questionsList = getFormValues("questions") as Array<QuestionStepType>;
-    const updatedQuestionsList = removeOption(
-      questionsList,
-      optionId,
-      questionId
-    );
+  const deleteOption = (questionId: string, index: number) => {
+    const questionsList = getFormValues("questions") as QuestionProps[];
+    const updatedQuestionsList = removeOption(questionsList, questionId, index);
     setFormValue("questions", updatedQuestionsList);
   };
 
   /**
+   * @method cloneExistingQuestion
+   * @param {string} questionId - id of the question to be cloned
+   * @description Clones an existing question and inserts it right after the original
+   * -Method gets the questions list from the form
+   * -uses @method cloneQuestion to clone the question with the given questionId
+   * -Inserts the cloned question immediately after the original
+   * -Sets the updated questions list back to the form
+   * @returns {string} - the qId of the cloned question
+   */
+  const cloneExistingQuestion = (questionId: string): string => {
+    const questionsList = getFormValues("questions") as QuestionProps[];
+    const { data, qId } = cloneQuestion(questionsList, questionId);
+    setFormValue("questions", data);
+    return qId;
+  };
+
+  /**
    * @method addNewQuestion
+   * @param {string} [afterQuestionId] - id of the question after which to insert the new question
    * @description Adds new question to the questions list
    * -Method gets the questions list from the form
    * -uses @method addQuestion to add a new question to the fetched list
+   * -Recursively finds afterQuestionId at any nesting level and inserts adjacent to it
    * -Sets the updated questions list back to the form
-   * -Triggers validation for the questions list
-   * @returns {void}
+   * @returns {string} - the qId of the newly added question
    */
-  const addNewQuestion = () => {
-    const questionsList = getFormValues("questions") as Array<QuestionStepType>;
-    const updatedQuestionsList = addQuestion(questionsList);
-    setFormValue("questions", updatedQuestionsList);
-    triggerValidation("questions");
+  const addNewQuestion = (afterQuestionId?: string) => {
+    const questionsList = getFormValues("questions") as QuestionProps[];
+    const { data, qId } = addQuestion(
+      questionsList,
+      QUESTION_TYPE.RADIO,
+      afterQuestionId
+    );
+    setFormValue("questions", data);
+    return qId;
   };
 
   /**
@@ -255,17 +523,15 @@ const useQuestionListManager = () => {
    * @returns {void}
    */
   const addNewSection = (sectionName: string) => {
-    const questionsList = getFormValues("questions") as Array<QuestionStepType>;
-    const updatedQuestionsList: Array<QuestionStepType> = addSection(
-      questionsList,
-      sectionName
-    );
-    setFormValue("questions", updatedQuestionsList);
+    const questionsList = getFormValues("questions") as QuestionProps[];
+    const { qId, data } = addSection(questionsList, sectionName);
+    setFormValue("questions", data);
+    return qId;
   };
 
   /**
    * @method addNewOption
-   * @param {string} questionId - id of the question to which the option belongs
+   * @param {string | number} questionId - id of the question to which the option belongs
    * @description adds new option to the provided questionId
    * -Method gets the questions list from the form
    * -uses @method addOption to add a new option to the fetched list
@@ -274,9 +540,8 @@ const useQuestionListManager = () => {
    * @returns {void}
    */
   const addNewOption = (questionId: string) => {
-    triggerValidation("questions");
-    const questionsList = getFormValues("questions") as Array<QuestionStepType>;
-    const updatedQuestionsList: Array<QuestionStepType> = addOption(
+    const questionsList = getFormValues("questions") as QuestionProps[];
+    const updatedQuestionsList: QuestionProps[] = addOption(
       questionsList,
       questionId
     );
@@ -296,9 +561,11 @@ const useQuestionListManager = () => {
     deleteQuestion,
     deleteSection,
     deleteOption,
+    cloneExistingQuestion,
     addNewQuestion,
     addNewSection,
     addNewOption,
+    modifyQuestionType,
     triggerQuestionValidation,
   };
 };

@@ -1,5 +1,5 @@
 import type React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 
 import CIconButton from "@/core/components/button/IconButton";
@@ -9,26 +9,60 @@ import {
   ChevronCollapse,
   ChevronExpanded,
 } from "@/core/constants/icons";
-import { CButton } from "@/core/components/button/button";
-import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
-import CNoData from "@/core/components/no-data/NoData";
 import clsx from "@/utils/clsx";
+import { CButton } from "@/core/components/button/button";
+import CNoData from "@/core/components/no-data/NoData";
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
+import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
+import type { QuestionProps } from "@/pages/create-template/types/questions.type";
 
 import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "./components/question-card/QuestionCard";
-import "./Questions.scss";
-import "./Questions.scss";
 import QuestionSection from "./components/section/Section";
-import { QUESTION_ARRAY } from "@/pages/create-template/constants/questions";
+import "./Questions.scss";
+
+export const RenderQuestion: React.FC<{
+  index: number;
+  question: QuestionProps;
+  expandedList: Record<string, boolean>;
+  toggleExpand: (id: string) => void;
+  questionFormPath: string;
+}> = ({ index, question, expandedList, toggleExpand, questionFormPath }) => {
+  if (question?.subQuestions && question?.subQuestions.length > 0) {
+    return (
+      <QuestionSection
+        index={`${index + 1}`}
+        sectionId={question.qId}
+        title={question.questionBasicData.title}
+        data={question.subQuestions}
+        expandedList={expandedList}
+        toggleExpand={toggleExpand}
+        questionFormPath={questionFormPath}
+      />
+    );
+  }
+  return (
+    <QuestionCard
+      index={`${index + 1}`}
+      question={question}
+      expandedList={expandedList}
+      toggleExpand={toggleExpand}
+      questionFormPath={questionFormPath}
+    />
+  );
+};
 
 const Questions: React.FC = () => {
   const { QUESTIONS } = useCreateTemplateTranslations();
-  const [questionList, setQuestionList] = useState([]);
   const [addSectionModal, setAddSectionModal] = useState({
     status: false,
     data: null,
   });
-  const [expandedList, setExpandedList] = useState({});
+  const [expandedList, setExpandedList] = useState<Record<string, boolean>>({});
+  const { watch } = useCreateTemplateForm();
+  const { addNewQuestion } = useQuestionListManager();
+  const watchQuestionList = watch("questions") as QuestionProps[];
 
   const openAddSectionModal = (data) => {
     setAddSectionModal({
@@ -48,14 +82,24 @@ const Questions: React.FC = () => {
     setExpandedList((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleExpandAll = () => {
-    const newExpandedList = {};
-    QUESTION_ARRAY.forEach((question) => {
-      newExpandedList[question.id] = true;
-      question?.subQuestions?.forEach((subQ) => {
-        newExpandedList[subQ.id] = true;
-      });
+  const handleExpandList = (
+    watchQuestionList: QuestionProps[] = [],
+    newExpandedList: Record<string, boolean> = {}
+  ) => {
+    watchQuestionList?.forEach((question) => {
+      newExpandedList[question?.qId] = true;
+      if (!question?.subQuestions || question?.subQuestions.length === 0)
+        return;
+      handleExpandList(question?.subQuestions, newExpandedList);
     });
+    return newExpandedList;
+  };
+
+  const handleExpandAll = () => {
+    let newExpandedList = {};
+    if (watchQuestionList && watchQuestionList?.length > 0) {
+      newExpandedList = handleExpandList(watchQuestionList, newExpandedList);
+    }
     setExpandedList(newExpandedList);
   };
 
@@ -64,12 +108,9 @@ const Questions: React.FC = () => {
   };
 
   const handleQuestionAdd = () => {
-    setQuestionList(QUESTION_ARRAY);
+    const qId = addNewQuestion();
+    setExpandedList((prev) => ({ ...prev, [qId]: true }));
   };
-
-  useEffect(() => {
-    setQuestionList(QUESTION_ARRAY); //TODO: Fetch question list from API and set it here
-  }, []);
 
   /**
    * @method renderQuestionHeader
@@ -82,7 +123,7 @@ const Questions: React.FC = () => {
         <Typography className="ct-questions__header">
           {QUESTIONS.header}
         </Typography>
-        {questionList?.length > 0 && (
+        {watchQuestionList?.length > 0 && (
           <Box className="ct-questions__all-ques-expand-container">
             <CIconButton
               className={clsx({
@@ -132,7 +173,7 @@ const Questions: React.FC = () => {
           <CSvgIcon
             size={15}
             component={AddIcon}
-          />{" "}
+          />
           {QUESTIONS.addQuestionButtonLabel}
         </CButton>
         <CButton
@@ -145,7 +186,7 @@ const Questions: React.FC = () => {
           <CSvgIcon
             size={15}
             component={AddIcon}
-          />{" "}
+          />
           {QUESTIONS.addSectionButtonLabel}
         </CButton>
       </Box>
@@ -155,33 +196,26 @@ const Questions: React.FC = () => {
     <Box className="ct-questions">
       {renderQuestionHeader()}
       <Box className="ct-questions-cards-wrapper">
-        {questionList?.length === 0 ? (
+        {watchQuestionList?.length === 0 ? (
           <CNoData
             title={QUESTIONS.noQuestionPlaceholder}
             variant="box"
           />
         ) : (
           <Box className="ct-questions-cards-wrapper__content">
-            {questionList?.map((question) => {
-              if (question?.subQuestions && question?.subQuestions.length > 0) {
+            {watchQuestionList &&
+              watchQuestionList.map((question, index) => {
                 return (
-                  <QuestionSection
-                    title={question.label}
-                    orderindex={question.orderIndex}
-                    data={question.subQuestions}
+                  <RenderQuestion
+                    index={index}
+                    key={question.qId}
+                    question={question}
                     expandedList={expandedList}
                     toggleExpand={toggleExpand}
+                    questionFormPath={`questions.${index}`}
                   />
                 );
-              }
-              return (
-                <QuestionCard
-                  question={question}
-                  expandedList={expandedList}
-                  toggleExpand={toggleExpand}
-                />
-              );
-            })}
+              })}
           </Box>
         )}
         {renderQuestionAction()}
@@ -190,6 +224,7 @@ const Questions: React.FC = () => {
         open={addSectionModal.status}
         onClose={closeAddSectionModal}
         type={QUESTIONS.SECTION_ADD_EDIT_MODAL.ADD_SECTION}
+        toggleExpand={toggleExpand}
       />
     </Box>
   );

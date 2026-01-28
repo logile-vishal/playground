@@ -86,12 +86,17 @@
       "dropdownLabel": "ड्रॉपडाउन",
       "longInputLabel": "लंबा इनपुट",
       "label": "लेबल",
-      "dynamicDropdownLabel": "डायनामिक ड्रॉपडाउन"
+      "dynamicDropdownLabel": "डायनामिक ड्रॉपडाउन",
+      "checkboxLabel": "चेकबॉक्स",
+      "sortInputLabel": "सॉर्ट इनपुट",
+      "barcodeScanLabel": "बारकोड स्कैन",
+      "responseTemplateLabel": "प्रतिक्रिया टेम्पलेट"
     }
   },
   "QUESTION_OPTION": {
     "addOptionButtonLabel": "विकल्प",
     "optionInputPlaceholder": "विकल्प",
+    "errorTextNoOptions": "कम से कम एक विकल्प आवश्यक है।",
     "COMPLIANT_DROPDOWN_OPTIONS": {
       "compliantLabel": "अनुपालक",
       "nonCompliantLabel": "अनुपालक नहीं",

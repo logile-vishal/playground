@@ -18,10 +18,7 @@ import type {
   UseFormWatch,
 } from "react-hook-form";
 
-import type {
-  QuestionStepType,
-  CreateTemplateFormType,
-} from "../form-schema/create-template-form-schema";
+import type { CreateTemplateFormType } from "../form-schema/create-template-form-schema";
 import type { CREATE_TEMPLATE_TABS } from "../constants/constant";
 
 export type CreateTemplateFormContextType = {
@@ -44,9 +41,6 @@ export type CreateTemplateFormContextType = {
   watch: UseFormWatch<CreateTemplateFormType>;
 };
 export type QuestionsListManager = {
-  DEFAULT_QUESTION_TYPE: Extract<
-    QuestionStepType,
-    { questionType: string }
-  >["questionType"];
+  DEFAULT_QUESTION_TYPE: "radio";
 };
 export type CreateTemplateTabsType = keyof typeof CREATE_TEMPLATE_TABS;

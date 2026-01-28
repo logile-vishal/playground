@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 
 import clsx from "@/utils/clsx";
+import { isNonEmptyValue } from "@/utils";
 import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
 
 import QuestionCardCollapsed from "../question-card-collapsed/QuestionCardCollapsed";
@@ -17,9 +18,13 @@ import "./QuestionCard.scss";
  * @return {React.ReactNode} Question card container with collapsed or expanded view
  */
 const QuestionCard: React.FC<QuestionCardProps> = ({
+  index,
+  parentIndex,
+  sectionId,
   question,
   expandedList,
   toggleExpand,
+  questionFormPath,
 }) => {
   return (
     <Box
@@ -27,17 +32,23 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         "ct-question-container": true,
       })}
     >
-      {!expandedList ||
-      !(question?.id in expandedList) ||
-      !expandedList[question?.id] ? (
+      {!isNonEmptyValue(expandedList) || !expandedList[question?.qId] ? (
         <QuestionCardCollapsed
+          index={index}
           question={question}
+          expandedList={expandedList}
           toggleExpand={toggleExpand}
+          questionFormPath={questionFormPath}
         />
       ) : (
         <QuestionCardExpanded
+          index={index}
+          parentIndex={parentIndex}
+          sectionId={sectionId}
           question={question}
+          expandedList={expandedList}
           toggleExpand={toggleExpand}
+          questionFormPath={questionFormPath}
         />
       )}
     </Box>

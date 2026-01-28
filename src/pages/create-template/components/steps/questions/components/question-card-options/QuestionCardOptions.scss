@@ -4,14 +4,17 @@
   --select-icon-rotation: 180deg;
   --select-icon-top-offset: var(--space-xl);
   --select-icon-vertical-center: 50%;
+  --dnd-height: 36px;
   --ques-card-dropdown-width: 180px;
   display: flex;
   flex: 1;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-l);
   width: 100%;
   &__dnd {
-    margin-right: var(-space-s);
+    height: var(--dnd-height);
+    display: flex;
+    align-items: center;
     cursor: grab;
   }
   &__dropdown {
@@ -38,6 +41,9 @@
     top: calc(
       var(--select-icon-vertical-center) - var(--select-icon-top-offset)
     );
+  }
+  &--error {
+    @include form-label(false, true);
   }
 }
 

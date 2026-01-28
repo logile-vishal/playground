@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import {
   OPTION_TRIGGER_MENU_KEY,
-  QUESTION_OPTION_LABELS,
+  QUESTION_TYPE,
   SECTION_SETTINGS_MENU_KEY,
 } from "../constants/questions";
 import {
@@ -18,6 +18,7 @@ import {
   Temperature,
 } from "@/core/constants/icons";
 import type { IconColorType } from "@/core/types/icon.type";
+import type { QuestionTypeKey } from "../types/questions.type";
 
 export const useCreateTemplateTranslations = () => {
   const { t } = useTranslation("create-template");
@@ -121,6 +122,7 @@ export const useCreateTemplateTranslations = () => {
     noQuestionPlaceholder: t("QUESTIONS.noQuestionPlaceholder"),
     addQuestionButtonLabel: t("QUESTIONS.addQuestionButtonLabel"),
     addSectionButtonLabel: t("QUESTIONS.addSectionButtonLabel"),
+    oneQuestionRequiredError: t("QUESTIONS.oneQuestionRequiredError"),
     SECTION_SETTINGS_MENU_OPTIONS: [
       {
         label: commonT("GENERAL.renameButtonLabel"),
@@ -184,29 +186,53 @@ export const useCreateTemplateTranslations = () => {
     QUESTION_OPTION_TYPES_DROPDOWN: [
       {
         label: t("QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN_LABELS.radioLabel"),
-        value: QUESTION_OPTION_LABELS.RADIO,
+        value: QUESTION_TYPE.RADIO as QuestionTypeKey,
       },
       {
         label: t(
           "QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN_LABELS.dropdownLabel"
         ),
-        value: QUESTION_OPTION_LABELS.DROPDOWN,
+        value: QUESTION_TYPE.DROPDOWN as QuestionTypeKey,
       },
       {
         label: t(
           "QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN_LABELS.longInputLabel"
         ),
-        value: QUESTION_OPTION_LABELS.LONG_INPUT,
+        value: QUESTION_TYPE.LONG_INPUT as QuestionTypeKey,
       },
       {
         label: t("QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN_LABELS.label"),
-        value: QUESTION_OPTION_LABELS.LABEL,
+        value: QUESTION_TYPE.LABEL as QuestionTypeKey,
       },
       {
         label: t(
           "QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN_LABELS.dynamicDropdownLabel"
         ),
-        value: QUESTION_OPTION_LABELS.DYNAMIC_DROPDOWN,
+        value: QUESTION_TYPE.DYNAMIC_DROPDOWN as QuestionTypeKey,
+      },
+      {
+        label: t(
+          "QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN_LABELS.checkboxLabel"
+        ),
+        value: QUESTION_TYPE.CHECKBOX as QuestionTypeKey,
+      },
+      {
+        label: t(
+          "QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN_LABELS.sortInputLabel"
+        ),
+        value: QUESTION_TYPE.SORT_INPUT as QuestionTypeKey,
+      },
+      {
+        label: t(
+          "QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN_LABELS.barcodeScanLabel"
+        ),
+        value: QUESTION_TYPE.BARCODE_SCAN as QuestionTypeKey,
+      },
+      {
+        label: t(
+          "QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN_LABELS.responseTemplateLabel"
+        ),
+        value: QUESTION_TYPE.RESPONSE_TEMPLATE as QuestionTypeKey,
       },
     ],
     QUESTION_CARD: {
@@ -226,20 +252,21 @@ export const useCreateTemplateTranslations = () => {
   const QUESTION_OPTION = {
     addOptionButtonLabel: t("QUESTION_OPTION.addOptionButtonLabel"),
     optionInputPlaceholder: t("QUESTION_OPTION.optionInputPlaceholder"),
+    errorTextNoOptions: t("QUESTION_OPTION.errorTextNoOptions"),
     COMPLIANT_DROPDOWN_OPTIONS: {
       COMPLIANT: {
         label: t("QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.compliantLabel"),
-        value: "Compliant",
+        value: true,
       },
       NON_COMPLIANT: {
         label: t(
           "QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.nonCompliantLabel"
         ),
-        value: "Non-Compliant",
+        value: false,
       },
       NA: {
         label: t("QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.naLabel"),
-        value: "NA",
+        value: null,
       },
     },
     ADDITIONAL_INFO_DROPDOWN: {

@@ -30,6 +30,9 @@
     "save": "保存",
     "submit": "提交"
   },
+  "CREATE_TEMPLATE_ERRORS": {
+    "oneQuestionRequiredError": "至少需要一个问题"
+  },
   "ADVANCED_OPTIONS": {
     "compilanceThreshold": "合规阈值",
     "compilanceThresholdPlaceholder": "输入值",
@@ -55,6 +58,7 @@
     "noQuestionPlaceholder": "尚未添加任何问题。点击“添加问题”开始。",
     "addQuestionButtonLabel": "问题",
     "addSectionButtonLabel": "分区",
+    "oneQuestionRequiredError": "至少需要一个问题",
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {
         "title": "添加分区"
@@ -86,12 +90,17 @@
       "dropdownLabel": "下拉菜单",
       "longInputLabel": "长文本输入",
       "label": "标签",
-      "dynamicDropdownLabel": "动态下拉菜单"
+      "dynamicDropdownLabel": "动态下拉菜单",
+      "checkboxLabel": "复选框",
+      "sortInputLabel": "排序输入",
+      "barcodeScanLabel": "条形码扫描",
+      "responseTemplateLabel": "响应模板"
     }
   },
   "QUESTION_OPTION": {
     "addOptionButtonLabel": "选项",
     "optionInputPlaceholder": "选项",
+    "errorTextNoOptions": "至少需要一个选项。",
     "COMPLIANT_DROPDOWN_OPTIONS": {
       "compliantLabel": "合规",
       "nonCompliantLabel": "不合规",

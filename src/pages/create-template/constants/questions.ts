@@ -87,55 +87,55 @@ export const QUESTION_TYPES_OPTIONS = [
   },
 ];
 
-/* TODO Demo: TO be removed  */
-export const QUESTION_ARRAY = [
-  {
-    id: "1",
-    label:
-      "Is the floor clean %template_name% and organised? Is the floor clean %template_name% and organised?",
-    isRequired: true,
-    orderIndex: "1",
-    optiontypeLabel: QUESTION_OPTION_LABELS.RADIO,
-    isPhotoBadgeVisible: true,
-    isTagBadgeVisible: true,
-    isFileBadgeVisible: true,
-    isRandomBadgeVisible: true,
-    isClusterBadgeVisible: true,
-    hasError: false,
-  },
-  {
-    id: "2",
-    label: "Is the shared display case in use in the department?",
-    isRequired: true,
-    orderIndex: "2",
-    optiontypeLabel: QUESTION_OPTION_LABELS.LONG_INPUT,
-    isFileBadgeVisible: true,
-    isNumberBadgeVisible: true,
-    isPhotoBadgeVisible: true,
-    hasError: false,
-  },
-  {
-    id: "3",
-    label: "Bakery",
-    orderindex: "3",
-    subQuestions: [
-      {
-        id: "4",
-        label: "Is the bakery area clean and organized?",
-        isRequired: true,
-        orderIndex: "3.1",
-        optiontypeLabel: QUESTION_OPTION_LABELS.RADIO,
-      },
-      {
-        id: "5",
-        label: "Describe any issues found during inspection.",
-        isRequired: true,
-        orderIndex: "3.2",
-        optiontypeLabel: QUESTION_OPTION_LABELS.RADIO,
-      },
-    ],
-  },
-];
-
 export const FORM_FILE_TYPES = ".pdf,.doc,.docx";
+
 export const SPREADSHEET_FILE_TYPES = ".xls,.xlsx,.csv,.xlsv";
+
+export const QUESTION_TYPE = {
+  RADIO: "radio",
+  DROPDOWN: "dropdown",
+  CHECKBOX: "checkbox",
+  SORT_INPUT: "sort_input",
+  LONG_INPUT: "long_input",
+  LABEL: "label",
+  DYNAMIC_DROPDOWN: "dynamic_dropdown",
+  BARCODE_SCAN: "barcode_scan",
+  RESPONSE_TEMPLATE: "response_template",
+  SECTION: "title",
+};
+
+export const INPUT_TYPE = {
+  ANY_CHARACTERS: "any_characters",
+  TEXT_ONLY: "text_only",
+  NUMBER_ONLY: "number_only",
+  DATE_TIME: "date_time",
+};
+
+/* TODO: Replace this later */
+export const OPTION_ATTCHMENT_REQUIRED_TYPE_ENUMS = [
+  "Always",
+  "In compliance only",
+  "Out of compliance only",
+] as const;
+
+export const ATTACHMENTS_ENUM = [
+  "Photo",
+  "Barcode",
+  "Temperature Probe",
+  "Numeric",
+  "Attachment",
+] as const;
+
+export const DATE_TIME_ENUMS = [
+  "Date Only",
+  "Time Only",
+  "Date & Time",
+] as const;
+
+export const RESPONSE_TEMPLATE_ENUMS = [
+  "Mark when Complete",
+  "Rank (1-5)",
+  "Temp > 135",
+  "Yes/No",
+  "Manual Temp > 135",
+] as const;

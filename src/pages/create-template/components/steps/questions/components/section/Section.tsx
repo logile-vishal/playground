@@ -14,11 +14,13 @@ import clsx from "@/utils/clsx";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 import IconButton from "@/core/components/button/IconButton";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 
 import DeleteSectionModal from "../delete-section-modal/DeleteSectionModal";
 import AddEditSectionModal from "../add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "../question-card/QuestionCard";
 import "./Section.scss";
+import { Controller, type Control, type FieldValues } from "react-hook-form";
 
 type SectionSettingProps = {
   anchor: HTMLElement | null;
@@ -26,6 +28,7 @@ type SectionSettingProps = {
 };
 const QuestionSection = (props: QuestionSectionProps) => {
   const { QUESTIONS } = useCreateTemplateTranslations();
+  const { control } = useCreateTemplateForm();
   const [isSectionCollapsed, setIsSectionCollapsed] = useState(false);
   const [sectionSetting, setSectionSetting] = useState<SectionSettingProps>({
     anchor: null,
@@ -116,7 +119,15 @@ const QuestionSection = (props: QuestionSectionProps) => {
             })}
           >
             <Box className="question-section__collapsed-content-label">
-              2 Questions
+              <Controller
+                name={`${props.questionFormPath}`}
+                control={control as unknown as Control<FieldValues>}
+                render={({ field }) => {
+                  return (
+                    <>{field.value?.subQuestions?.length || 0} Questions</>
+                  );
+                }}
+              />
             </Box>
             <Box
               className="question-section__collapsed-content-icon"
@@ -187,31 +198,22 @@ const QuestionSection = (props: QuestionSectionProps) => {
           </IconButton>
         </Box>
         <Box className="question-section__questions-wrapper">
-          {/* TODO: Replace question data after API data */}
-          {/* {props.data.map((question) => (
-            <Box
-              className="question-section__questions-item"
-              key={question.id}
-            >
-              <QuestionCardCollapsed
-                label={question.label}
-                isRequired={question.isRequired}
-                orderIndex={question.orderIndex}
-                optiontypeLabel={QUESTION_TYPES.RADIO_BUTTON.label} 
-                />
-            </Box>
-          ))} */}
-          {/* TODO: Replace hardcoded data with mapped questions fetched from the API */}
           {props.data && props.data?.length > 0
-            ? props.data?.map((question) => (
+            ? props.data?.map((question, index) => (
                 <Box
                   className="question-section__questions-item"
-                  key={question.id}
+                  key={question.qId}
                 >
                   <QuestionCard
+                    index={`${props?.index}.${index + 1}`}
+                    parentIndex={props.index}
+                    sectionId={props.sectionId}
                     question={question}
                     expandedList={props?.expandedList}
                     toggleExpand={props?.toggleExpand}
+                    questionFormPath={
+                      props?.questionFormPath + `.subQuestions[${index}]`
+                    }
                   />
                 </Box>
               ))
@@ -226,6 +228,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
           open={renameModal.status}
           onClose={closeRenameModal}
           type={QUESTIONS.SECTION_ADD_EDIT_MODAL.RENAME_SECTION}
+          toggleExpand={props?.toggleExpand}
         />
       </>
     );

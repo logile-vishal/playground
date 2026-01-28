@@ -30,6 +30,9 @@
     "save": "Save",
     "submit": "Submit"
   },
+  "CREATE_TEMPLATE_ERRORS": {
+    "oneQuestionRequiredError": "At least one question is required"
+  },
   "ADVANCED_OPTIONS": {
     "compilanceThreshold": "Compilance Threshold",
     "compilanceThresholdPlaceholder": "Enter value",
@@ -55,6 +58,7 @@
     "noQuestionPlaceholder": "No questions added yet. Click \"Add Question\" to get started.",
     "addQuestionButtonLabel": "Questions",
     "addSectionButtonLabel": "Sections",
+    "oneQuestionRequiredError": "At least one question is required",
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {
         "title": "Add Section"
@@ -86,12 +90,17 @@
       "dropdownLabel": "Dropdown",
       "longInputLabel": "Long Input",
       "label": "Label",
-      "dynamicDropdownLabel": "Dynamic Dropdown"
+      "dynamicDropdownLabel": "Dynamic Dropdown",
+      "checkboxLabel": "Checkbox",
+      "sortInputLabel": "Sort Input",
+      "barcodeScanLabel": "Barcode Scan",
+      "responseTemplateLabel": "Response Template"
     }
   },
   "QUESTION_OPTION": {
     "addOptionButtonLabel": "Option",
     "optionInputPlaceholder": "Option",
+    "errorTextNoOptions": "At least one option is required.",
     "COMPLIANT_DROPDOWN_OPTIONS": {
       "compliantLabel": "Compliant",
       "nonCompliantLabel": "Non-Compliant",

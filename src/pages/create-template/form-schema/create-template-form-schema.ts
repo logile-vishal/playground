@@ -13,7 +13,9 @@ export const gridColumnSchema = zod.object({
 export const checklistTypeFormSchema = zod.object({
   templateType: zod.literal("checklist"),
   basicData: basicInfoStepSchema,
-  questions: zod.array(questionStepSchema),
+  questions: zod
+    .array(questionStepSchema)
+    .min(1, "At least one question is required"),
   advancedOptions: advancedOptionsSchema,
   notifications: zod.array(notificationStepSchema),
   followUpTask: zod.array(followUpTaskStepSchema),
@@ -53,4 +55,4 @@ export const createTemplateFormSchema = zod.discriminatedUnion("templateType", [
 ]);
 
 export type CreateTemplateFormType = zod.infer<typeof createTemplateFormSchema>;
-export type QuestionStepType = zod.infer<typeof questionStepSchema>;
+export type QuestionType = zod.infer<typeof questionStepSchema>;

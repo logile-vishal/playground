@@ -54,6 +54,7 @@
     "noQuestionPlaceholder": "Aún no se han agregado preguntas. Haga clic en \"Agregar pregunta\" para comenzar.",
     "addQuestionButtonLabel": "Preguntas",
     "addSectionButtonLabel": "Secciones",
+    "oneQuestionRequiredError": "Se requiere al menos una pregunta",
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {
         "title": "Agregar sección"
@@ -85,12 +86,17 @@
       "dropdownLabel": "Lista desplegable",
       "longInputLabel": "Entrada larga",
       "label": "Etiqueta",
-      "dynamicDropdownLabel": "Lista desplegable dinámica"
+      "dynamicDropdownLabel": "Lista desplegable dinámica",
+      "checkboxLabel": "Casilla de verificación",
+      "sortInputLabel": "Entrada de ordenación",
+      "barcodeScanLabel": "Escaneo de código de barras",
+      "responseTemplateLabel": "Plantilla de respuesta"
     }
   },
   "QUESTION_OPTION": {
     "addOptionButtonLabel": "Opción",
     "optionInputPlaceholder": "Opción",
+    "errorTextNoOptions": "Se requiere al menos una opción.",
     "COMPLIANT_DROPDOWN_OPTIONS": {
       "compliantLabel": "Conforme",
       "nonCompliantLabel": "No conforme",

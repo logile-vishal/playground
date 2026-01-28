@@ -11,7 +11,9 @@ import CStepper from "@/core/components/stepper/Stepper";
 import type { StepOption } from "@/core/types/stepper.type";
 import PageTemplate from "@/layouts/page-template/PageTemplate";
 import { useWalkmeId } from "@/core/hooks/useWalkmeId";
+import { useNotification } from "@/core/services/notification.service";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
+import { Severity } from "@/core/types/severity.type";
 
 import BasicInfo from "./components/steps/basic-info/BasicInfo";
 import Questions from "./components/steps/questions/Questions";
@@ -24,16 +26,20 @@ import "./CreateTemplate.scss";
 import { useGetPreviewByTemplateId } from "../template-library/services/template-library-api-hooks";
 import PreviewModal from "../template-library/components/preview-modal/PreviewModal";
 import type { TemplatePreviewModalProps } from "../template-library/types/template-library.type";
+import type { QuestionProps } from "./types/questions.type";
 
 const CreateTemplateContent: React.FC = () => {
   const navigate = useNavigate();
-  const { triggerValidation, formErrors } = useCreateTemplateForm();
+  const { triggerValidation, formErrors, watch } = useCreateTemplateForm();
+  const watchQuestionList = watch("questions") as QuestionProps[];
   const { generateId } = useWalkmeId();
   const {
     CREATE_TEMPLATE_STEPS,
     CREATE_TEMPLATE_HEADING,
     CREATE_TEMPLATE_HEADER_ACTIONS,
+    QUESTIONS,
   } = useCreateTemplateTranslations();
+  const { notify } = useNotification();
   const { basicInfo, questions, advancedOption, notification, followUp } =
     CREATE_TEMPLATE_STEPS;
   const [currentStep, setCurrentStep] = useState({
@@ -72,10 +78,17 @@ const CreateTemplateContent: React.FC = () => {
       value: questions.value,
       error: !!(formErrors as { questions?: unknown }).questions,
       component: <Questions />,
-      checkValidity: useCallback(
-        async () => await triggerValidation("questions"),
-        [triggerValidation]
-      ),
+      checkValidity: useCallback(async () => {
+        if (watchQuestionList.length < 1)
+          notify({
+            title: QUESTIONS.oneQuestionRequiredError,
+            config: {
+              severity: Severity.ERROR,
+            },
+          });
+        return await triggerValidation("questions");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [triggerValidation, notify, watchQuestionList]),
     },
     {
       label: advancedOption.label,

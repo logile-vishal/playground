@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Badge, Box } from "@mui/material";
+import { Controller } from "react-hook-form";
+import type { FieldValues, Control } from "react-hook-form";
 
 import {
   AddIcon,
@@ -9,6 +11,7 @@ import {
   DraggableDots,
   Setting,
 } from "@/core/constants/icons";
+import { isNonEmptyValue } from "@/utils/index";
 import clsx from "@/utils/clsx";
 import CTextField from "@/core/components/form/textfield/Textfield";
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -23,12 +26,15 @@ import {
 } from "@/pages/create-template/constants/sampleData";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 import { OPTION_TRIGGER_MENU_KEY } from "@/pages/create-template/constants/questions";
+import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
+import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
+import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import type {
   QuestionCardOptionProps,
   QuestionCardOptionsProps,
+  QuestionProps,
   TriggerCardMenuProps,
 } from "@/pages/create-template/types/questions.type";
-import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import CSelect from "@/core/components/form/select";
 
 import "./QuestionCardOptions.scss";
@@ -42,12 +48,12 @@ import "./QuestionCardOptions.scss";
  */
 const QuestionCardOption = (props: QuestionCardOptionProps) => {
   const { QUESTION_OPTION, QUESTIONS } = useCreateTemplateTranslations();
-  const [isCompliant, setIsCompliant] = useState(
-    QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.COMPLIANT.value
-  );
+  const { deleteOption } = useQuestionListManager();
+  const { control, setFormValue, getFormValues } = useCreateTemplateForm();
+
   const CompliantOptions = Object.values(
     QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS
-  );
+  ) as { label: string; value: boolean | null }[];
   const AdditionalOptions = [
     QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.NO_ADDITIONAL_INFO,
     QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.OPTIONAL_INFO,
@@ -62,6 +68,10 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     data: null,
     type: null,
   });
+
+  const handleDeleteOption = (index: number) => {
+    deleteOption(props.question.qId, index);
+  };
 
   const openTriggerCardMenu = (event: React.MouseEvent<HTMLElement>) => {
     setTriggerCardMenu({
@@ -119,6 +129,53 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     );
   };
 
+  const getIsCompliantValue = (isCompliant) => {
+    if (isCompliant === undefined || isCompliant === null) {
+      return QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.NA.label;
+    } else if (isCompliant) {
+      return QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.COMPLIANT.label;
+    }
+    return QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.NON_COMPLIANT.label;
+  };
+
+  const handleCompliantChange = (selectedOption: {
+    label: string;
+    value: boolean | null;
+  }) => {
+    const questionList = getFormValues("questions") as QuestionProps[];
+    questionList.forEach((question) => {
+      if (question.qId === props.question.qId) {
+        question.questionBasicData.response[props.idx].isCompliant =
+          selectedOption?.value;
+      }
+    });
+    setFormValue("questions", questionList);
+  };
+
+  const getAdditionalInfoValue = (requiredType: string) => {
+    switch (requiredType) {
+      case QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.NO_ADDITIONAL_INFO.value:
+        return QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.NO_ADDITIONAL_INFO
+          .label;
+      case QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.REQUIRED_INFO.value:
+        return QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.REQUIRED_INFO.label;
+      default:
+        return QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.NO_ADDITIONAL_INFO
+          .label;
+    }
+  };
+
+  const handleAdditionalInfoChange = (selectedOption: string) => {
+    const questionList = getFormValues("questions") as QuestionProps[];
+    questionList.forEach((question) => {
+      if (question.qId === props.question.qId) {
+        question.questionBasicData.response[
+          props.idx
+        ].additionalInfo.requiredType = selectedOption;
+      }
+    });
+    setFormValue("questions", questionList);
+  };
   return (
     <Box className="ques-card-options">
       <Box className="ques-card-options__dnd">
@@ -129,60 +186,101 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
       </Box>
 
       <Box className="ques-card-options__textbox">
-        <CTextField
-          required={false}
-          placeholder={`${QUESTION_OPTION.optionInputPlaceholder}`}
-        />
+        {control && (
+          <Controller
+            name={`${props?.questionFormPath}.${props?.idx}.title`}
+            control={control as unknown as Control<FieldValues>}
+            render={({ field, fieldState: { error } }) => {
+              return (
+                <CTextField
+                  required={false}
+                  placeholder={`${QUESTION_OPTION.optionInputPlaceholder}`}
+                  error={!!error}
+                  helperText={error ? error.message : ""}
+                  {...field}
+                />
+              );
+            }}
+          />
+        )}
       </Box>
 
       <Box className="ques-card-options__dropdown">
-        <CSelect
-          options={CompliantOptions ?? []}
-          optionLabelKey={"label"}
-          optionValueKey={"value"}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setIsCompliant(e.target.value);
+        <Controller
+          name={`${props?.questionFormPath}.${props?.idx}.isCompliant`}
+          control={control as unknown as Control<FieldValues>}
+          render={({ field }) => {
+            return (
+              <CSelect
+                options={(CompliantOptions as []) ?? []}
+                optionLabelKey={"label"}
+                {...field}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  handleCompliantChange(
+                    e.target.value as unknown as {
+                      label: string;
+                      value: boolean | null;
+                    }
+                  );
+                }}
+                templates={{
+                  inputValueTemplate: () => getIsCompliantValue(field?.value),
+                }}
+                allowFilter={false}
+                IconComponent={(sel) => (
+                  <Box
+                    className={clsx({
+                      [sel?.className]: !!sel.className,
+                    })}
+                  >
+                    <CSvgIcon
+                      component={ChevronDown}
+                      size={18}
+                      color="secondary"
+                    />
+                  </Box>
+                )}
+              />
+            );
           }}
-          allowFilter={false}
-          value={isCompliant}
-          IconComponent={(sel) => (
-            <Box
-              className={clsx({
-                [sel?.className]: !!sel.className,
-              })}
-            >
-              <CSvgIcon
-                component={ChevronDown}
-                size={18}
-                color="secondary"
-              />
-            </Box>
-          )}
         />
       </Box>
 
       <Box className="ques-card-options__dropdown">
-        <CSelect
-          options={AdditionalOptions ?? []}
-          optionLabelKey={"label"}
-          optionValueKey={"value"}
-          allowFilter={false}
-          value={
-            QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.NO_ADDITIONAL_INFO.value
-          }
-          IconComponent={(sel) => (
-            <Box
-              className={clsx({
-                [sel?.className]: !!sel.className,
-              })}
-            >
-              <CSvgIcon
-                component={ChevronDown}
-                size={18}
-                color="secondary"
+        <Controller
+          name={`${props?.questionFormPath}.${props?.idx}.additionalInfo.requiredType`}
+          control={control as unknown as Control<FieldValues>}
+          render={({ field }) => {
+            return (
+              <CSelect
+                options={AdditionalOptions ?? []}
+                optionLabelKey={"label"}
+                optionValueKey={"value"}
+                allowFilter={false}
+                {...field}
+                templates={{
+                  inputValueTemplate: () =>
+                    getAdditionalInfoValue(field?.value),
+                }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  handleAdditionalInfoChange(e.target.value as string);
+                }}
+                IconComponent={(sel) => (
+                  <Box
+                    className={clsx({
+                      [sel?.className]: !!sel.className,
+                    })}
+                  >
+                    <CSvgIcon
+                      component={ChevronDown}
+                      size={18}
+                      color="secondary"
+                    />
+                  </Box>
+                )}
               />
-            </Box>
-          )}
+            );
+          }}
         />
       </Box>
       <CIconButton onClick={openTriggerCardMenu}>
@@ -210,13 +308,15 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           component={Setting}
         />
       </CIconButton>
-      <CIconButton>
-        <CSvgIcon
-          className="ques-card-options__delete-icon"
-          component={Delete}
-          size={22}
-        />
-      </CIconButton>
+      {props?.question?.questionBasicData?.response?.length > 1 && (
+        <CIconButton onClick={() => handleDeleteOption(props?.idx)}>
+          <CSvgIcon
+            className="ques-card-options__delete-icon"
+            component={Delete}
+            size={22}
+          />
+        </CIconButton>
+      )}
 
       {renderTriggerCardMenu()}
 
@@ -249,6 +349,11 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
  */
 const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
   const { QUESTION_OPTION } = useCreateTemplateTranslations();
+  const { addNewOption } = useQuestionListManager();
+
+  const handleAddOption = () => {
+    addNewOption(props.question?.qId);
+  };
   return (
     <Box
       className={clsx({
@@ -256,15 +361,31 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
         "ques-card-options-component__option-collapsed": !props.isVisible,
       })}
     >
-      <QuestionCardOption linkCount={1} />
-      <QuestionCardOption />
-      <QuestionCardOption />
+      {props?.question?.questionBasicData?.response?.length === 0 && (
+        <Box className="ques-card-options--error">
+          {QUESTION_OPTION.errorTextNoOptions}
+        </Box>
+      )}
+      {isNonEmptyValue(props?.question?.questionBasicData?.response)
+        ? props?.question?.questionBasicData?.response?.map((_, idx) => (
+            <QuestionCardOption
+              key={props?.question.qId + "_option_" + idx}
+              idx={idx}
+              questionFormPath={props.questionFormPath}
+              question={props.question}
+              linkCount={0}
+            />
+          ))
+        : ""}
+
+      {/* <QuestionCardOption /> */}
       <Box className="ct-questions-cards-wrapper__action">
         <CButton
           className="ct-questions-cards-wrapper__action-item"
           variant="outline"
           severity="primary"
           size="small"
+          onClick={handleAddOption}
         >
           <CSvgIcon
             size={15}
