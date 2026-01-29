@@ -59,7 +59,7 @@
     @include flex-center($gap: var(--space-l));
   }
   &__actions-icons {
-    @include flex-center($gap: var(--space-xl));
+    @include flex-center($gap: var(--space-l));
     & svg {
       cursor: pointer;
     }

@@ -106,6 +106,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
       // TODO: Need to add badge on menu items for count of triggers
       <CNestedMenu
         anchorEl={anchorEl}
+        menuWidth={200}
         menuItems={QUESTIONS.OPTION_TRIGGER_MENU_OPTIONS as NestedMenuItem[]}
         onClose={closeTriggerCardMenu}
         showSearch={false}
@@ -283,7 +284,16 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           }}
         />
       </Box>
-      <CIconButton onClick={openTriggerCardMenu}>
+      <CIconButton
+        onClick={openTriggerCardMenu}
+        size="medium"
+        walkMeId={[
+          "create-template",
+          "questions",
+          "options-list",
+          "attachment-link",
+        ]}
+      >
         <Badge
           className="attachment-badge"
           badgeContent={props.linkCount}
@@ -298,27 +308,40 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
                 !props.linkCount || props.linkCount === 0,
             })}
             component={AttachmentLink}
-            size={22}
           />
         </Badge>
       </CIconButton>
-      <CIconButton>
-        <CSvgIcon
-          size={22}
-          component={Setting}
-        />
+      <CIconButton
+        size="medium"
+        walkMeId={[
+          "create-template",
+          "questions",
+          "options-list",
+          "option-settings",
+        ]}
+      >
+        <CSvgIcon component={Setting} />
       </CIconButton>
       {props?.question?.questionBasicData?.response?.length > 1 && (
-        <CIconButton onClick={() => handleDeleteOption(props?.idx)}>
+        <CIconButton
+          onClick={() => handleDeleteOption(props?.idx)}
+          size="medium"
+          severity="destructive"
+          walkMeId={[
+            "create-template",
+            "questions",
+            "options-list",
+            "option-delete",
+          ]}
+        >
           <CSvgIcon
             className="ques-card-options__delete-icon"
             component={Delete}
-            size={22}
           />
         </CIconButton>
       )}
 
-      {renderTriggerCardMenu()}
+      {triggerCardMenu?.anchor && renderTriggerCardMenu()}
 
       {/* TODO: Remove sample data after api integration */}
       <TriggerModal

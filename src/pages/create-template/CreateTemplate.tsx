@@ -193,16 +193,12 @@ const CreateTemplateContent: React.FC = () => {
           <Box className="create-template-page-header__section">
             <CIconButton
               variant="outline"
-              disableHover={true}
               disableTouchRipple
               onClick={handleNavigateBack}
               className="create-template-page-header__back-icon"
+              walkMeId={["create-template", "navigate-back"]}
             >
-              <CSvgIcon
-                component={ChevronLeft}
-                fill="var(--logile-icon-secondary)"
-                size={18}
-              />
+              <CSvgIcon component={ChevronLeft} />
             </CIconButton>
             <Typography
               color="var(--logile-text-primary)"

@@ -12,9 +12,9 @@ import CSvgIcon from "@/core/components/icon/Icon";
 import type { QuestionSectionProps } from "@/pages/create-template/types/questions.type";
 import clsx from "@/utils/clsx";
 import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
-import IconButton from "@/core/components/button/IconButton";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
+import CIconButton from "@/core/components/button/IconButton";
 
 import DeleteSectionModal from "../delete-section-modal/DeleteSectionModal";
 import AddEditSectionModal from "../add-edit-section-modal/AddEditSectionModal";
@@ -172,30 +172,33 @@ const QuestionSection = (props: QuestionSectionProps) => {
             <Box className="question-section__header-title-text">
               {props.title}
             </Box>
-            <Box
+            <CIconButton
+              size="small"
+              variant="outline"
               onClick={openSectionSettingsMenu}
               className={clsx({
                 "question-section__header-title-icon": true,
                 "question-section__header-title-icon--active":
                   sectionSetting.status,
               })}
+              walkMeId={["create-template", "questions", "section", "settings"]}
             >
-              <CSvgIcon
-                size={18}
-                component={Setting}
-              />
-            </Box>
+              <CSvgIcon component={Setting} />
+            </CIconButton>
           </Box>
-          <IconButton
+          <CIconButton
+            size="medium"
             className="question-section__header-icon"
             onClick={toggleSectionCollapse}
+            walkMeId={[
+              "create-template",
+              "questions",
+              "section",
+              "collapse-section",
+            ]}
           >
-            <CSvgIcon
-              size={16}
-              component={ChevronCollapse}
-              color="secondary"
-            />
-          </IconButton>
+            <CSvgIcon component={ChevronCollapse} />
+          </CIconButton>
         </Box>
         <Box className="question-section__questions-wrapper">
           {props.data && props.data?.length > 0

@@ -13,8 +13,7 @@ import {
 import CSvgIcon from "@/core/components/icon/Icon";
 
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
-import { useWalkmeId } from "@/core/hooks/useWalkmeId";
-import { CButton } from "@/core/components/button/button";
+import CIconButton from "@/core/components/button/IconButton";
 import CAttachmentModal from "@/core/components/attachment-modal/AttachmentModal";
 
 import "./RichTextEditor.scss";
@@ -42,7 +41,6 @@ const Toolbar: FC<ToolbarProps> = ({
   walkMeIdPrefix = [],
 }) => {
   const { EDITOR_TOOLBAR } = useCommonTranslation();
-  const { generateId } = useWalkmeId();
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
   const [showLinkModal, setShowLinkModal] = useState({
     status: false,
@@ -222,111 +220,70 @@ const Toolbar: FC<ToolbarProps> = ({
         id="toolbar"
         className="ql-toolbar ql-snow"
       >
-        <CButton
+        <CIconButton
+          size="small"
           onClick={handleBold}
           title={EDITOR_TOOLBAR.bold}
-          data-walkme-id={generateId([
-            ...walkMeIdPrefix,
-            "rich text editor",
-            "bold button",
-          ])}
+          walkMeId={[...walkMeIdPrefix, "rich text editor", "bold button"]}
         >
-          <CSvgIcon
-            component={EditorBold}
-            color="secondary"
-            size={24}
-          />
-        </CButton>
-        <CButton
+          <CSvgIcon component={EditorBold} />
+        </CIconButton>
+        <CIconButton
+          size="small"
           onClick={handleItalic}
           title={EDITOR_TOOLBAR.italic}
-          data-walkme-id={generateId([
-            ...walkMeIdPrefix,
-            "rich text editor",
-            "italic button",
-          ])}
+          walkMeId={[...walkMeIdPrefix, "rich text editor", "italic button"]}
         >
-          <CSvgIcon
-            component={EditorItalic}
-            color="secondary"
-            size={24}
-          />
-        </CButton>
-        <CButton
+          <CSvgIcon component={EditorItalic} />
+        </CIconButton>
+        <CIconButton
+          size="small"
           onClick={handleUnderline}
           title={EDITOR_TOOLBAR.underline}
-          data-walkme-id={generateId([
-            ...walkMeIdPrefix,
-            "rich text editor",
-            "underline button",
-          ])}
+          walkMeId={[...walkMeIdPrefix, "rich text editor", "underline button"]}
         >
-          <CSvgIcon
-            component={EditorUnderline}
-            color="secondary"
-            size={24}
-          />
-        </CButton>
-        <CButton
+          <CSvgIcon component={EditorUnderline} />
+        </CIconButton>
+        <CIconButton
+          size="small"
           onClick={handleLink}
           title={EDITOR_TOOLBAR.link}
-          data-walkme-id={generateId([
-            ...walkMeIdPrefix,
-            "rich text editor",
-            "link button",
-          ])}
+          walkMeId={[...walkMeIdPrefix, "rich text editor", "link button"]}
         >
-          <CSvgIcon
-            component={EditorLink}
-            color="secondary"
-            size={24}
-          />
-        </CButton>
-        <CButton
+          <CSvgIcon component={EditorLink} />
+        </CIconButton>
+        <CIconButton
+          size="small"
           onClick={handleAttachment}
           title={EDITOR_TOOLBAR.attachment}
-          data-walkme-id={generateId([
+          walkMeId={[
             ...walkMeIdPrefix,
             "rich text editor",
             "attachment button",
-          ])}
+          ]}
         >
-          <CSvgIcon
-            component={Attachment}
-            color="secondary"
-            size={24}
-          />
-        </CButton>
-        <CButton
+          <CSvgIcon component={Attachment} />
+        </CIconButton>
+        <CIconButton
+          size="small"
           onClick={handleClearFormat}
           title={EDITOR_TOOLBAR.clearFormat}
-          data-walkme-id={generateId([
+          walkMeId={[
             ...walkMeIdPrefix,
             "rich text editor",
             "clear format button",
-          ])}
+          ]}
         >
-          <CSvgIcon
-            component={EditorClearFormat}
-            color="secondary"
-            size={24}
-          />
-        </CButton>
-        <CButton
+          <CSvgIcon component={EditorClearFormat} />
+        </CIconButton>
+        <CIconButton
+          size="small"
           onClick={onVariableButtonClick}
           title={EDITOR_TOOLBAR.wildcard}
-          data-walkme-id={generateId([
-            ...walkMeIdPrefix,
-            "rich text editor",
-            "wildcard button",
-          ])}
+          walkMeId={[...walkMeIdPrefix, "rich text editor", "wildcard button"]}
         >
-          <CSvgIcon
-            component={CurlyBracket}
-            color="secondary"
-            size={24}
-          />
-        </CButton>
+          <CSvgIcon component={CurlyBracket} />
+        </CIconButton>
       </div>
       <CAttachmentModal
         selectedFiles={selectedFiles}

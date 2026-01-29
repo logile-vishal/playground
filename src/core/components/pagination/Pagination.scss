@@ -25,14 +25,14 @@
     height: var(--pagination-height);
     width: var(--pagination-height);
   }
-  &__prev-button.MuiButtonBase-root {
+  button.pagination__prev-button.MuiButtonBase-root {
     border: 1px solid var(--logile-border-primary);
     border-right: none;
     border-radius: var(--radius-m) 0px 0px var(--radius-m);
     padding: var(--space-none);
   }
 
-  &__next-button.MuiButtonBase-root {
+  button.pagination__next-button.MuiButtonBase-root {
     border: 1px solid var(--logile-border-primary);
     border-left: none;
     border-radius: 0 var(--radius-m) var(--radius-m) 0px;
@@ -57,7 +57,7 @@
       0 0 0 var(--space-xs) var(--logile-focus-ring-default);
   }
 
-  &__current-page-select.MuiSelect-root {
+  &__current-page-select .MuiSelect-root {
     border-radius: 0;
     padding: var(--space-none) var(--space-l);
     height: auto;

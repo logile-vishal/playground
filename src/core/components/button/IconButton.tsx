@@ -1,70 +1,44 @@
 import React from "react";
-import styled from "@emotion/styled";
-import { alpha } from "@mui/material";
-import ButtonBase, { type ButtonBaseProps } from "@mui/material/ButtonBase";
-import type { Theme } from "@mui/material/styles";
+import { Box } from "@mui/material";
 
-type Variant = "primary" | "secondary" | "outline";
+import clsx from "@/utils/clsx";
+import { CButton } from "@/core/components/button/button";
+import type { IconButtonProps } from "@/core/types/button.type";
 
-export type IconButtonProps = ButtonBaseProps & {
-  variant?: Variant;
-  disableHover?: boolean;
-  disabled?: boolean;
-};
-
-const IconButtonStyled = styled(ButtonBase, {
-  shouldForwardProp: (prop) => prop !== "variant" && prop !== "disableHover",
-})(({
-  theme,
-  variant = "primary",
-  disableHover,
-  disabled,
-}: { theme?: Theme } & IconButtonProps) => {
-  const baseStyles = {
-    borderRadius: theme?.shape.borderRadius,
-    border: "1px solid transparent",
-    padding: "var(--space-s)",
-    transition: "all 0.2s ease-in-out",
-    color: disabled
-      ? "var(--logile-bg-state-disabled)"
-      : "var(--logile-icon-secondary)",
-  };
-
-  const hoverStyles: Record<Variant, object> = {
-    primary: {
-      color: theme?.palette.primary.main,
-      backgroundColor: alpha(theme?.palette.primary.main ?? "", 0.1),
-    },
-    secondary: {
-      color: theme?.palette.secondary.main,
-      backgroundColor: alpha(theme?.palette.secondary.main ?? "", 0.1),
-    },
-    outline: {
-      border: `1px solid var(--logile-border-secondary)`,
-      ...(disableHover
-        ? {}
-        : {
-            border: `1px solid var(--logile-border-brand-primary-subtle)`,
-            backgroundColor: alpha(theme?.palette.primary.main ?? "", 0.1),
-            color: theme?.palette.primary.main,
-          }),
-    },
-  };
-
-  return {
-    ...baseStyles,
-    ...(variant === "outline" && {
-      border: `1px solid var(--logile-border-primary)`,
-    }),
-    "&:hover": {
-      cursor: "pointer",
-      ...(!disableHover ? hoverStyles[variant] : {}),
-    },
-  };
-});
-
-const CIconButton: React.FC<IconButtonProps> = ({ children, ...props }) => {
-  return <IconButtonStyled {...props}>{children}</IconButtonStyled>;
+const CIconButton: React.FC<IconButtonProps> = ({
+  severity = "secondary",
+  variant = "ghost",
+  size = "large",
+  disabled = false,
+  className,
+  children,
+  title,
+  id,
+  walkMeId,
+  onClick,
+}) => {
+  return (
+    <Box className="icon-button-wrapper">
+      <CButton
+        disabled={disabled}
+        severity={severity}
+        variant={variant}
+        size={size}
+        className={clsx({
+          "icon-button": true,
+          [`icon-button--${size}`]: !!size,
+          [`icon-button--${variant}`]: variant === "ghost",
+          [className]: !!className,
+        })}
+        id={id}
+        title={title}
+        walkMeId={walkMeId}
+        onClick={onClick}
+      >
+        {children}
+      </CButton>
+    </Box>
+  );
 };
 
 export default CIconButton;

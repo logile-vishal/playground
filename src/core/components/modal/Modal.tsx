@@ -154,14 +154,12 @@ const CModal: React.FC<ModalProps> = ({
           <Box className={clsx({ "common-modal__content-header": true })}>
             <Box className="common-modal__content-header-title">{title}</Box>
             <CIconButton
-              disableHover={true}
+              size="medium"
               onClick={onClose}
-              data-walkme-id={generateId([...walkMeIdPrefix, "close button"])}
+              walkMeId={[...walkMeIdPrefix, "close button"]}
             >
               <CSvgIcon
                 component={Close}
-                size={32}
-                color="secondary"
                 data-walkme-id={generateId([
                   ...walkMeIdPrefix,
                   "close button",

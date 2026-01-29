@@ -14,6 +14,7 @@ export type ButtonVariantsProps = {
   solid: ButtonStatesProps;
   outline: ButtonStatesProps;
   text: ButtonStatesProps;
+  ghost: ButtonStatesProps;
 };
 
 export type ButtonSeverityProps = {
@@ -31,6 +32,7 @@ export type ButtonSizesProps = {
   small: string;
   medium: string;
   large: string;
+  compact: string;
 };
 
 export type ButtonProps = IdentifierProps &
@@ -40,6 +42,8 @@ export type ButtonProps = IdentifierProps &
     size?: ButtonSize;
     walkMeId?: string[];
   };
+
+export type IconButtonProps = ButtonProps;
 
 export type ButtonSeverity = keyof ButtonSeverityProps;
 export type ButtonVariant = keyof ButtonVariantsProps;

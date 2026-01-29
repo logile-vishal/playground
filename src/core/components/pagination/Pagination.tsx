@@ -12,7 +12,6 @@ import {
 } from "@/core/constants/pagination";
 import clsx from "@/utils/clsx";
 import { isNonEmptyValue } from "@/utils";
-import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 import { ChevronLeft, ChevronRight } from "@/core/constants/icons";
 import CSelect from "@/core/components/form/select/Select";
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -38,7 +37,6 @@ const CPagination: React.FC<PaginationProps> = ({
   showPagination = true,
 }) => {
   const { PAGINATION } = useCommonTranslation();
-  const { generateId } = useWalkmeId();
 
   /**
    * @method handlePageClick
@@ -176,6 +174,7 @@ const CPagination: React.FC<PaginationProps> = ({
         <Box className="pagination__navigation-controls">
           {/* Previous button */}
           <CIconButton
+            size="large"
             onClick={() => handleChange(PAGINATION_EVENT_TYPE.prev)}
             disabled={pagination?.currentPage === 1}
             className={clsx({
@@ -184,17 +183,9 @@ const CPagination: React.FC<PaginationProps> = ({
               "pagination__prev-button--disabled":
                 pagination?.currentPage === 1,
             })}
-            data-walkme-id={generateId([
-              ...walkMeIdPrefix,
-              "paginator",
-              "prev button",
-            ])}
+            walkMeId={[...walkMeIdPrefix, "paginator", "prev button"]}
           >
-            <CSvgIcon
-              size={20}
-              color="secondary"
-              component={ChevronLeft}
-            />
+            <CSvgIcon component={ChevronLeft} />
           </CIconButton>
           {/* Current Page dropdown */}
           <CSelect
@@ -206,6 +197,7 @@ const CPagination: React.FC<PaginationProps> = ({
           />
           {/* Next button */}
           <CIconButton
+            size="large"
             onClick={() => handleChange(PAGINATION_EVENT_TYPE.next)}
             disabled={pagination?.currentPage === pagination?.totalPages}
             className={clsx({
@@ -214,17 +206,9 @@ const CPagination: React.FC<PaginationProps> = ({
               "pagination__next-button--disabled":
                 pagination?.currentPage === pagination?.totalPages,
             })}
-            data-walkme-id={generateId([
-              ...walkMeIdPrefix,
-              "paginator",
-              "next button",
-            ])}
+            walkMeId={[...walkMeIdPrefix, "paginator", "next button"]}
           >
-            <CSvgIcon
-              size={20}
-              color="secondary"
-              component={ChevronRight}
-            />
+            <CSvgIcon component={ChevronRight} />
           </CIconButton>
         </Box>
         <Box>

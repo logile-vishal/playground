@@ -87,52 +87,28 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
         {/* Icons Section */}
         <Stack className="action-icons-box">
           <CIconButton
-            variant="primary"
-            style={{
-              padding: "1rem",
-            }}
+            size="large"
+            walkMeId={["app-bar", "calendar"]}
           >
-            <CSvgIcon
-              component={CalendarBlank}
-              color="secondary"
-              size={20}
-            />
+            <CSvgIcon component={CalendarBlank} />
           </CIconButton>
           <CIconButton
-            variant="primary"
-            style={{
-              padding: "1rem",
-            }}
+            size="large"
+            walkMeId={["app-bar", "tasks"]}
           >
-            <CSvgIcon
-              component={ClipboardToDo}
-              color="secondary"
-              size={20}
-            />
+            <CSvgIcon component={ClipboardToDo} />
           </CIconButton>
           <CIconButton
-            variant="primary"
-            style={{
-              padding: "1rem",
-            }}
+            size="large"
+            walkMeId={["app-bar", "envelope"]}
           >
-            <CSvgIcon
-              component={Envelope}
-              color="secondary"
-              size={20}
-            />
+            <CSvgIcon component={Envelope} />
           </CIconButton>
           <CIconButton
-            variant="primary"
-            style={{
-              padding: "1rem",
-            }}
+            size="large"
+            walkMeId={["app-bar", "comment"]}
           >
-            <CSvgIcon
-              component={Comment}
-              color="secondary"
-              size={20}
-            />
+            <CSvgIcon component={Comment} />
           </CIconButton>
 
           <Badge
@@ -142,16 +118,10 @@ const AppBar: React.FC<AppBarProps> = ({ handleToggleMenu }) => {
             overlap="rectangular"
           >
             <CIconButton
-              variant="primary"
-              style={{
-                padding: "1rem",
-              }}
+              size="large"
+              walkMeId={["app-bar", "notification"]}
             >
-              <CSvgIcon
-                component={Notification}
-                color="secondary"
-                size={20}
-              />
+              <CSvgIcon component={Notification} />
             </CIconButton>
           </Badge>
         </Stack>

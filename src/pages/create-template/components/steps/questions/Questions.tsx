@@ -130,24 +130,29 @@ const Questions: React.FC = () => {
                 "ct-questions__expanded-btn": true,
                 "ct-questions__expanded-btn--active": true,
               })}
-              variant="primary"
+              variant="outline"
+              size="medium"
+              walkMeId={[
+                "create-template",
+                "questions",
+                "collapse-all-questions",
+              ]}
               onClick={handleCollapseAll}
             >
-              <CSvgIcon
-                size={16}
-                component={ChevronCollapse}
-                color="secondary"
-              />
+              <CSvgIcon component={ChevronCollapse} />
             </CIconButton>
             <CIconButton
               onClick={handleExpandAll}
               className="ct-questions__expanded-btn"
+              variant="outline"
+              size="medium"
+              walkMeId={[
+                "create-template",
+                "questions",
+                "expand-all-questions",
+              ]}
             >
-              <CSvgIcon
-                color="secondary"
-                size={16}
-                component={ChevronExpanded}
-              />
+              <CSvgIcon component={ChevronExpanded} />
             </CIconButton>
           </Box>
         )}

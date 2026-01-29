@@ -240,12 +240,11 @@ export const renderFormContainer = (question, type) => {
       </Box>
       <CIconButton
         variant="outline"
+        size="small"
+        walkMeId={["template-library", "template-table", "preview", "download"]}
         className="template-preview-modal__download-icon"
       >
-        <CSvgIcon
-          component={Download}
-          size={18}
-        />
+        <CSvgIcon component={Download} />
       </CIconButton>
     </Box>
   );

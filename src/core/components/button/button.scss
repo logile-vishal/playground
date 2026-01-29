@@ -1,12 +1,31 @@
+/**
+ * Button Component Styles
+ * 
+ * Structure:
+ * - Color variants: Define CSS custom properties for theming (primary, secondary, destructive)
+ * - Style variants: Apply visual styles using the color properties (solid, outline, text, ghost)
+ * - Size modifiers: Control button dimensions and typography (small, medium, large, compact)
+ */
 .button-wrapper {
+  // Active state box shadow - used across multiple button styles
   --active-box-shadow: 1px -1px 2px 0 var(--logile-utility-gray-6a) inset;
+
   .button {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
     min-width: auto;
 
-    /* Color variants - sets CSS custom properties */
+    /* ========================================
+     * COLOR VARIANTS
+     * Sets CSS custom properties for theming.
+     * These properties are consumed by style variants below.
+     * ======================================== */
+
+    /**
+     * Primary color variant
+     * Used for primary actions and CTAs
+     */
     &--primary {
       --btn-bg: var(--logile-bg-primary);
       --btn-bg-hover: var(--logile-bg-primary-bold);
@@ -15,8 +34,15 @@
       --btn-text-color: var(--logile-text-brand-primary);
       --btn-border: var(--logile-border-brand-primary);
       --btn-focus-ring: var(--logile-focus-ring-default);
+      --btn-icon-color: var(--logile-icon-white);
+      --btn-ghost-icon-color: var(--logile-bg-primary);
+      --btn-icon-disabled-color: var(--logile-icon-state-disabled);
     }
 
+    /**
+     * Secondary color variant
+     * Used for secondary actions with less visual emphasis
+     */
     &--secondary {
       --btn-bg: var(--logile-bg-surface-bold);
       --btn-bg-hover: var(--logile-bg-surface-x-bold);
@@ -25,8 +51,15 @@
       --btn-text-color: var(--logile-text-primary);
       --btn-border: var(--logile-border-secondary);
       --btn-focus-ring: var(--logile-focus-ring-default);
+      --btn-icon-color: var(--logile-icon-white);
+      --btn-ghost-icon-color: var(--logile-icon-secondary);
+      --btn-icon-disabled-color: var(--logile-icon-state-disabled);
     }
 
+    /**
+     * Destructive color variant
+     * Used for dangerous actions like delete, remove, etc.
+     */
     &--destructive {
       --btn-bg: var(--logile-bg-state-violation);
       --btn-bg-hover: var(--logile-bg-state-violation-bold);
@@ -36,24 +69,44 @@
       --btn-border: var(--logile-border-state-violation);
       --btn-border-hover: var(--logile-border-state-violation-bold);
       --btn-focus-ring: var(--logile-focus-ring-error);
+      --btn-icon-color: var(--logile-icon-white);
+      --btn-ghost-icon-color: var(--logile-bg-state-violation);
+      --btn-icon-disabled-color: var(--logile-icon-state-disabled);
     }
 
-    /* Style variants - uses CSS custom properties from color variants */
+    /* ========================================
+     * STYLE VARIANTS
+     * Apply visual styles using CSS custom properties
+     * defined by color variants above.
+     * ======================================== */
+
+    /**
+     * Solid style variant
+     * Filled background with contrasting text
+     * Highest visual prominence
+     */
     &--solid {
       background: var(--btn-bg);
       color: var(--btn-text);
       border-radius: var(--radius-m);
       border: none;
 
+      svg {
+        fill: var(--btn-icon-color);
+      }
+
+      // Hover state - darker background
       &:hover:not(:disabled) {
         background: var(--btn-bg-hover);
       }
 
+      // Active/pressed state - inset shadow effect
       &:active:not(:disabled) {
         background: var(--btn-bg);
         box-shadow: var(--active-box-shadow);
       }
 
+      // Focus visible state - accessibility focus ring
       &:focus-visible:not(:disabled) {
         background: var(--btn-bg);
         box-shadow:
@@ -61,53 +114,83 @@
           0 0 0 4px var(--btn-focus-ring);
       }
 
+      // Disabled state - muted appearance
       &:disabled {
         background: var(--logile-bg-state-disabled);
         color: var(--logile-text-state-disabled);
+
+        svg {
+          fill: var(--btn-icon-disabled-color);
+        }
       }
     }
 
+    /**
+     * Outline style variant
+     * Transparent background with colored border
+     * Medium visual prominence
+     */
     &--outline {
       border-radius: var(--radius-m);
       border: 1px solid var(--btn-border);
       background: var(--logile-bg-container-1);
       color: var(--btn-text-color);
 
+      svg {
+        fill: var(--btn-bg);
+      }
+
+      // Hover state - subtle background fill
       &:hover:not(:disabled) {
         background: var(--btn-bg-subtle);
         border-color: var(--btn-border-hover, var(--btn-border));
       }
 
+      // Active/pressed state - inset shadow effect
       &:active:not(:disabled) {
         box-shadow: var(--active-box-shadow);
       }
 
+      // Focus visible state - accessibility focus ring
       &:focus-visible:not(:disabled) {
         box-shadow:
           0 0 0 2px var(--logile-bg-base),
           0 0 0 4px var(--btn-focus-ring);
       }
 
+      // Disabled state - muted border and text
       &:disabled {
         border: 1px solid var(--logile-border-state-disabled);
         color: var(--logile-text-state-disabled);
+
+        svg {
+          fill: var(--btn-icon-disabled-color);
+        }
       }
     }
 
+    /**
+     * Text style variant
+     * No background or border, text only
+     * Lowest visual prominence, used for tertiary actions
+     */
     &--text {
       color: var(--btn-text-color);
       background: transparent;
       border: none;
       border-radius: var(--radius-m);
 
+      // Hover state - underline text
       &:hover:not(:disabled) {
         text-decoration: underline;
       }
 
+      // Active/pressed state - no shadow for text buttons
       &:active:not(:disabled) {
         box-shadow: none;
       }
 
+      // Focus visible state - subtle background with focus ring
       &:focus-visible:not(:disabled) {
         background: var(--logile-bg-container-1);
         box-shadow:
@@ -115,34 +198,143 @@
           0 0 0 4px var(--btn-focus-ring);
       }
 
+      // Disabled state - muted text
       &:disabled {
         color: var(--logile-text-state-disabled);
       }
     }
 
-    /* Size modifiers */
+    /**
+     * Disabled modifier
+     * Applied when button is in disabled state
+     */
+    &--disabled {
+      color: var(--logile-text-state-disabled);
+    }
+
+    /**
+     * Icon button modifier
+     * Square button containing only an icon
+     */
+    &.icon-button {
+      border-radius: var(--radius-m);
+      padding: 0;
+      min-width: fit-content;
+      display: flex;
+      align-items: center;
+    }
+
+    /**
+     * Ghost style variant
+     * Transparent by default, subtle background on hover
+     * Used for icon buttons and minimal UI elements
+     */
+    &--ghost {
+      svg {
+        fill: var(--btn-ghost-icon-color);
+      }
+
+      // Hover state - subtle primary background
+      &:hover {
+        background-color: var(--logile-bg-primary-x-subtle);
+      }
+
+      // Disabled state - muted icon
+      &:disabled {
+        svg {
+          fill: var(--btn-icon-disabled-color);
+        }
+      }
+    }
+
+    /* ========================================
+     * SIZE MODIFIERS
+     * Control button dimensions, padding,
+     * typography, and icon sizes.
+     * ======================================== */
+
+    /**
+     * Small size modifier
+     * Compact button for tight spaces
+     * Height: 32px (var(--size-8))
+     */
     &--small {
       font-size: var(--logile-size-body);
       font-weight: var(--logile-weight-400);
       padding: var(--space-xs) var(--space-xl);
       border-radius: var(--radius-s);
       height: var(--size-8);
+
+      svg {
+        height: calc(var(--size-4) + var(--size-0-2));
+      }
+
+      &.icon-button {
+        width: var(--size-8);
+      }
     }
 
+    /**
+     * Medium size modifier
+     * Default button size for most use cases
+     * Height: 36px (var(--size-9))
+     */
     &--medium {
       font-size: var(--logile-size-body);
       font-weight: var(--logile-weight-400);
       padding: var(--space-s) var(--space-xl);
       border-radius: var(--radius-s);
       height: var(--size-9);
+
+      svg {
+        height: calc(var(--size-5) + var(--size-0-2));
+      }
+
+      &.icon-button {
+        width: var(--size-9);
+      }
     }
 
+    /**
+     * Large size modifier
+     * Prominent button for primary actions
+     * Height: 40px (var(--size-10))
+     */
     &--large {
       font-size: var(--logile-size-body);
       font-weight: var(--logile-weight-400);
       padding: var(--space-m) var(--space-xl);
       border-radius: var(--radius-m);
       height: var(--size-10);
+
+      svg {
+        height: var(--size-6);
+      }
+
+      &.icon-button {
+        width: var(--size-10);
+      }
+    }
+
+    /**
+     * Compact size modifier
+     * Extra small button for inline actions
+     * Height: 24px (var(--size-6))
+     */
+    &--compact {
+      font-size: var(--logile-size-body);
+      font-weight: var(--logile-weight-400);
+      padding: var(--space-m) var(--space-xl);
+      border-radius: var(--radius-m);
+      height: var(--size-6);
+
+      svg {
+        height: var(--size-5);
+      }
+
+      &.icon-button {
+        width: var(--size-6);
+      }
     }
   }
 }

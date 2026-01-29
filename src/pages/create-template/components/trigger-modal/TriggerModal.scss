@@ -38,7 +38,7 @@
       }
     }
     &-actions {
-      @include flex-center(center, center, var(--space-l));
+      @include flex-center(center, center, var(--space-m));
     }
   }
   &__action-btn {

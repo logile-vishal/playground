@@ -27,6 +27,7 @@ export const CButton: React.FC<ButtonProps> = ({
           [`button--${severity}`]: true,
           [`button--${variant}`]: true,
           [`button--${size}`]: true,
+          [`button--disabled`]: disabled,
           [className]: !!className,
         })}
         id={id}

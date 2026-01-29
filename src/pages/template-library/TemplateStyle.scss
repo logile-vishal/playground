@@ -293,6 +293,10 @@
         z-index: var(--zindex-negative);
       }
     }
+    & .icon-container {
+      display: flex;
+      align-items: center;
+    }
   }
 }
 

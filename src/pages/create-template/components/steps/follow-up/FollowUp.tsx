@@ -63,7 +63,7 @@ const FollowUp: React.FC = () => {
               followupTriggerByAnswersSampleData?.map((item) => (
                 <TriggerCard
                   key={item.id}
-                  item={{ ...item, triggerTaskName: item.triggertaskName }}
+                  item={{ ...item, triggerTaskName: item.triggerTaskName }}
                   triggeredByAnswers={true}
                   type={TRIGGER_TYPE.followup}
                 />

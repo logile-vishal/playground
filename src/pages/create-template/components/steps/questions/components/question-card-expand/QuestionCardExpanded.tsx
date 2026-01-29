@@ -229,45 +229,54 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
           <Box className="ct-question-card-expanded__actions-icons">
             <CIconButton
               onClick={handleAddQuestion}
-              disableHover={true}
+              size="medium"
+              walkMeId={[
+                "create-template",
+                "questions",
+                "card-expanded",
+                "add",
+              ]}
             >
-              <CSvgIcon
-                size={22}
-                component={AddIcon}
-                color="secondary"
-              />
+              <CSvgIcon component={AddIcon} />
             </CIconButton>
             <CIconButton
               onClick={handleCloneQuestion}
-              disableHover={true}
+              size="medium"
+              walkMeId={[
+                "create-template",
+                "questions",
+                "card-expanded",
+                "clone",
+              ]}
             >
-              <CSvgIcon
-                size={22}
-                component={Copy}
-                color="secondary"
-              />
+              <CSvgIcon component={Copy} />
             </CIconButton>
             {watchQuestionList.length > 1 && (
               <CIconButton
                 onClick={handleDeleteQuestion}
-                disableHover={true}
+                severity="destructive"
+                size="medium"
+                walkMeId={[
+                  "create-template",
+                  "questions",
+                  "card-expanded",
+                  "delete",
+                ]}
               >
-                <CSvgIcon
-                  size={22}
-                  component={Delete}
-                  color="violation"
-                />
+                <CSvgIcon component={Delete} />
               </CIconButton>
             )}
             <CIconButton
               onClick={() => toggleExpand(question?.qId)}
-              disableHover={true}
+              size="medium"
+              walkMeId={[
+                "create-template",
+                "questions",
+                "card-expanded",
+                "collapse",
+              ]}
             >
-              <CSvgIcon
-                size={22}
-                component={ChevronUpLarge}
-                color="secondary"
-              />
+              <CSvgIcon component={ChevronUpLarge} />
             </CIconButton>
           </Box>
         </Box>

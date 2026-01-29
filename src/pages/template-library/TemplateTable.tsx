@@ -573,14 +573,12 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
               onClick={() => handleRowSelection(true, cell.row.original)}
               className="cursor-pointer icon-container"
             >
-              <CIconButton>
-                <CSvgIcon
-                  component={templateIcon}
-                  size={18}
-                  fill={templateColor}
-                  style={{ pointerEvents: "none" }}
-                />
-              </CIconButton>
+              <CSvgIcon
+                component={templateIcon}
+                size={18}
+                fill={templateColor}
+                style={{ pointerEvents: "none" }}
+              />
             </Box>
             <FormControlLabel
               label=""
@@ -867,53 +865,37 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         alignItems="center"
       >
         <CIconButton
+          size="medium"
           disabled={disabledActions || status === "Incomplete" ? true : false}
-          disableHover
+          walkMeId={["template-library", "template-table", "assignee-task"]}
         >
-          <CSvgIcon
-            component={Send}
-            size={20}
-            color={disabledActions ? "disabled" : "secondary"}
-          />
+          <CSvgIcon component={Send} />
         </CIconButton>
         {!isReportType && (
           <>
             <CIconButton
+              size="medium"
               disabled={disabledActions}
-              disableHover
+              walkMeId={["template-library", "template-table", "copy-task"]}
             >
-              <CSvgIcon
-                component={Copy}
-                size={20}
-                color={disabledActions ? "disabled" : "secondary"}
-              />
+              <CSvgIcon component={Copy} />
             </CIconButton>
             <CIconButton
+              size="medium"
               disabled={disabledActions}
-              disableHover
+              walkMeId={["template-library", "template-table", "edit-task"]}
             >
-              <CSvgIcon
-                component={Edit}
-                size={20}
-                color={disabledActions ? "disabled" : "secondary"}
-              />
+              <CSvgIcon component={Edit} />
             </CIconButton>
           </>
         )}
         <CIconButton
-          disabled={disabledActions}
-          disableHover
+          size="medium"
+          disabled={disabledActions || isDeleteTemplateLoading}
           onClick={() => handleDeleteModalOpen(cell?.row?.original)}
+          walkMeId={["template-library", "template-table", "delete-task"]}
         >
-          <CSvgIcon
-            component={Delete}
-            size={20}
-            color={
-              disabledActions || isDeleteTemplateLoading
-                ? "disabled"
-                : "violation"
-            }
-          />
+          <CSvgIcon component={Delete} />
         </CIconButton>
       </Box>
     );

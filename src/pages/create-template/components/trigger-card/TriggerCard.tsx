@@ -143,26 +143,24 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
       </Box>
       <Box className="trigger-card__actions">
         {/* TODO: Add action handler for below buttons */}
-        <CIconButton disableHover>
-          <CSvgIcon
-            component={Copy}
-            size={20}
-            color={"secondary"}
-          />
+        <CIconButton
+          size="medium"
+          walkMeId={["create-template", "trigger-card", "copy-button"]}
+        >
+          <CSvgIcon component={Copy} />
         </CIconButton>
-        <CIconButton disableHover>
-          <CSvgIcon
-            component={Edit}
-            size={20}
-            color={"secondary"}
-          />
+        <CIconButton
+          size="medium"
+          walkMeId={["create-template", "trigger-card", "edit-button"]}
+        >
+          <CSvgIcon component={Edit} />
         </CIconButton>
-        <CIconButton disableHover>
-          <CSvgIcon
-            component={Delete}
-            size={20}
-            color={"violation"}
-          />
+        <CIconButton
+          size="medium"
+          severity="destructive"
+          walkMeId={["create-template", "trigger-card", "delete-button"]}
+        >
+          <CSvgIcon component={Delete} />
         </CIconButton>
       </Box>
     </Box>

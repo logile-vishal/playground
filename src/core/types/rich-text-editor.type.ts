@@ -48,10 +48,12 @@ export type RenderAttachmentGalleryProps = {
   file: ProcessedFile;
   index: number;
   onDelete: (index: number) => void;
+  walkMeIdPrefix?: string[];
 };
 
 export type RenderPdfGalleryProps = {
   files: ProcessedFile;
   index: number;
   onDelete: (index: number) => void;
+  walkMeIdPrefix?: string[];
 };

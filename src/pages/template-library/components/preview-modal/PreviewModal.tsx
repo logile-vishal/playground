@@ -158,16 +158,19 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
               <CIconButton
                 onClick={switchPopupLayout}
                 variant="outline"
+                size="medium"
+                walkMeId={[
+                  "template-library",
+                  "template-table",
+                  "preview",
+                  "mobile-view",
+                ]}
                 className={clsx({
                   "template-preview-modal__outline-icon--mobile":
                     !isDesktopPreview,
                 })}
               >
-                <CSvgIcon
-                  component={Phone}
-                  color={"secondary"}
-                  size={22}
-                />
+                <CSvgIcon component={Phone} />
               </CIconButton>
             ) : isQuestionView ? (
               <Box
@@ -190,6 +193,13 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
             {isDesktopPreview && isQuestionView && (
               <CIconButton
                 variant="outline"
+                size="medium"
+                walkMeId={[
+                  "template-library",
+                  "template-table",
+                  "preview",
+                  "more-options",
+                ]}
                 onClick={(event) => handleExportMenuOpen(event)}
               >
                 <CSvgIcon
@@ -198,27 +208,27 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                       !isDesktopPreview,
                   })}
                   component={MoreOption}
-                  size={22}
                 />
               </CIconButton>
             )}
             {/* close icon */}
             <CIconButton
               onClick={onClose}
+              size="medium"
               className={clsx({
                 "template-preview-modal__outline-icon--mobile":
                   !isDesktopPreview,
               })}
+              severity={!isDesktopPreview ? "primary" : "secondary"}
+              variant={!isDesktopPreview ? "solid" : "text"}
+              walkMeId={[
+                "template-library",
+                "template-table",
+                "preview",
+                "close",
+              ]}
             >
-              <CSvgIcon
-                component={Close}
-                fill={
-                  !isDesktopPreview
-                    ? "var(--logile-base-white)"
-                    : "var(--logile-icon-secondary)"
-                }
-                size={30}
-              />
+              <CSvgIcon component={Close} />
             </CIconButton>
           </div>
         </div>

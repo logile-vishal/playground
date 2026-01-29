@@ -185,8 +185,11 @@ export type TriggerCardMenuProps = {
 export type TriggerItem = {
   id: number;
   recipients: string[];
-  messageSubject?: string;
-  taskName?: string;
+  messageTemplate?: {
+    id: number;
+    subject: string;
+  };
+  triggerTaskName?: string;
 };
 
 export type TriggerModalProps = {

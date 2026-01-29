@@ -62,13 +62,13 @@ export const followupSampleData = [
   {
     id: 1,
     condition: "Task Completed",
-    triggertaskName: "Clean the floor in %assignee_store%",
+    triggerTaskName: "Clean the floor in %assignee_store%",
     recipients: ["Assignee", "Ad Hoc"],
   },
   {
     id: 2,
     condition: "Task Expired",
-    triggertaskName: "Low Compliance %task_name%",
+    triggerTaskName: "Low Compliance %task_name%",
     recipients: ["Supervisor"],
   },
 ];
@@ -79,7 +79,7 @@ export const followupTriggerByAnswersSampleData = [
     index: "1",
     conditionQuestion: "Is the department clean and organized?",
     conditionAnswer: "No",
-    triggertaskName: "Clean the floor",
+    triggerTaskName: "Clean the floor",
     recipients: ["Assignee"],
   },
   {
@@ -88,7 +88,7 @@ export const followupTriggerByAnswersSampleData = [
     conditionQuestion:
       "Were you able to clean the floors according to expectations and maintain proper hygiene standards throughout the entire facility as required by management and company policies?",
     conditionAnswer: "Yes",
-    triggertaskName: "Cleaning supplies needed %assignee_store%",
+    triggerTaskName: "Cleaning supplies needed %assignee_store%",
     recipients: ["Assignee", "Ad Hoc", "Execution Manager"],
   },
   {
@@ -97,7 +97,7 @@ export const followupTriggerByAnswersSampleData = [
     conditionQuestion:
       "Did you successfully clean the floors in compliance with company hygiene policies and maintain proper sanitation standards throughout the entire facility?",
     conditionAnswer: "No",
-    triggertaskName:
+    triggerTaskName:
       "Store cleaning in %assignee_store% with proper time frame",
     recipients: ["Assignee", "Ad Hoc", "Execution Manager"],
   },

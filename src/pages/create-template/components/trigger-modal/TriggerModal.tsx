@@ -154,8 +154,8 @@ const TriggerModal: React.FC<TriggerModalProps> = ({
                         <WildcardLabel
                           label={
                             type === TRIGGER_TYPE.notification
-                              ? item.messageSubject
-                              : item.taskName
+                              ? item?.messageTemplate?.subject
+                              : item?.triggerTaskName
                           }
                           truncate={false}
                         />
@@ -166,43 +166,23 @@ const TriggerModal: React.FC<TriggerModalProps> = ({
                   <Box className="trigger-modal__list-actions">
                     {/* TODO: Add action handler for below buttons */}
                     <CIconButton
-                      disableHover
-                      data-walkme-id={generateId([
-                        ...walkMeIdPrefix,
-                        "trigger clone button",
-                      ])}
+                      size="medium"
+                      walkMeId={[...walkMeIdPrefix, "trigger clone button"]}
                     >
-                      <CSvgIcon
-                        component={Copy}
-                        size={20}
-                        color={"secondary"}
-                      />
+                      <CSvgIcon component={Copy} />
                     </CIconButton>
                     <CIconButton
-                      disableHover
-                      data-walkme-id={generateId([
-                        ...walkMeIdPrefix,
-                        "trigger edit button",
-                      ])}
+                      size="medium"
+                      walkMeId={[...walkMeIdPrefix, "trigger edit button"]}
                     >
-                      <CSvgIcon
-                        component={Edit}
-                        size={20}
-                        color={"secondary"}
-                      />
+                      <CSvgIcon component={Edit} />
                     </CIconButton>
                     <CIconButton
-                      disableHover
-                      data-walkme-id={generateId([
-                        ...walkMeIdPrefix,
-                        "trigger delete button",
-                      ])}
+                      size="medium"
+                      severity="destructive"
+                      walkMeId={[...walkMeIdPrefix, "trigger delete button"]}
                     >
-                      <CSvgIcon
-                        component={Delete}
-                        size={20}
-                        color={"violation"}
-                      />
+                      <CSvgIcon component={Delete} />
                     </CIconButton>
                   </Box>
                 </Box>

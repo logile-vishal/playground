@@ -64,6 +64,7 @@ const DocumentGalleryItem: React.FC<RenderPdfGalleryProps> = ({
   files,
   index,
   onDelete,
+  walkMeIdPrefix = [],
 }): React.ReactNode => {
   const { file } = files;
   const { icon: fileIcon, color: fileIconColor } = useFileIcon(file.name);
@@ -84,12 +85,18 @@ const DocumentGalleryItem: React.FC<RenderPdfGalleryProps> = ({
         </Box>
         <Box className="ql-attachment-modal-pdf-wrapper-file-size">
           <Box>{(file?.size / (1024 * 1024)).toFixed(2)} MB</Box>
-          <CIconButton onClick={() => onDelete(index)}>
-            <CSvgIcon
-              size={18}
-              color="violation"
-              component={Delete}
-            />
+          <CIconButton
+            onClick={() => onDelete(index)}
+            size="small"
+            severity="destructive"
+            walkMeId={[
+              ...walkMeIdPrefix,
+              "attachment modal",
+              "file",
+              "delete button",
+            ]}
+          >
+            <CSvgIcon component={Delete} />
           </CIconButton>
         </Box>
       </Box>

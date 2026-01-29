@@ -191,24 +191,23 @@ const TemplateLibrary: React.FC = () => {
     <PageTemplate>
       <PageTemplate.Header>
         <Stack
-          direction={"row"}
-          alignItems={"center"}
+          direction="row"
+          alignItems="center"
+          gap="var(--space-m)"
         >
           <CIconButton
             variant="outline"
-            disableHover={true}
             disableTouchRipple
+            size="medium"
+            severity="secondary"
+            walkMeId={["template-library", "navigate-back"]}
             sx={{
               marginRight: "var(--space-l)",
               backgroundColor: "var(--logile-bg-container-1)",
               padding: ".8rem",
             }}
           >
-            <CSvgIcon
-              component={ChevronLeft}
-              color="secondary"
-              size={18}
-            />
+            <CSvgIcon component={ChevronLeft} />
           </CIconButton>
           <Typography
             color="var(--logile-text-primary)"
@@ -234,18 +233,17 @@ const TemplateLibrary: React.FC = () => {
                 <Box className="template-library__label-wrapper">
                   <Box className="template-library__icon">
                     <CIconButton
-                      variant="primary"
-                      disableHover
-                      disableRipple
-                      disableTouchRipple
+                      size="medium"
+                      severity="secondary"
                       className="template-library__icon-button"
                       onClick={() => setSelectedTemplate([])}
+                      walkMeId={[
+                        "template-library",
+                        "selected-template",
+                        "navigate-back",
+                      ]}
                     >
-                      <CSvgIcon
-                        component={ArrowUp}
-                        size={24}
-                        color="primary"
-                      />
+                      <CSvgIcon component={ArrowUp} />
                     </CIconButton>
                   </Box>
                   <Box className="template-library__sub-text">
@@ -253,19 +251,28 @@ const TemplateLibrary: React.FC = () => {
                   </Box>
                 </Box>
                 <Box className="flex-box gap-12">
-                  <CIconButton variant="outline">
-                    <CSvgIcon
-                      component={FolderInput}
-                      size={22}
-                      color="brand-primary"
-                    />
+                  <CIconButton
+                    variant="outline"
+                    size="medium"
+                    walkMeId={[
+                      "template-library",
+                      "selected-template",
+                      "folder-input",
+                    ]}
+                  >
+                    <CSvgIcon component={FolderInput} />
                   </CIconButton>
-                  <CIconButton variant="outline">
-                    <CSvgIcon
-                      component={Delete}
-                      size={22}
-                      color="violation"
-                    />
+                  <CIconButton
+                    variant="outline"
+                    size="medium"
+                    severity="destructive"
+                    walkMeId={[
+                      "template-library",
+                      "selected-template",
+                      "delete-button",
+                    ]}
+                  >
+                    <CSvgIcon component={Delete} />
                   </CIconButton>
                 </Box>
               </Box>
@@ -306,20 +313,20 @@ const TemplateLibrary: React.FC = () => {
                   <CIconButton
                     onClick={handleImportPopupOpen}
                     variant="outline"
+                    severity="secondary"
+                    size="medium"
+                    walkMeId={["template-library", "import-templates"]}
                   >
-                    <CSvgIcon
-                      component={Upload}
-                      size={20}
-                    />
+                    <CSvgIcon component={Upload} />
                   </CIconButton>
                   <CIconButton
                     onClick={(event) => handleExportMenuOpen(event)}
                     variant="outline"
+                    severity="secondary"
+                    size="medium"
+                    walkMeId={["template-library", "export-templates"]}
                   >
-                    <CSvgIcon
-                      component={MoreOption}
-                      size={20}
-                    />
+                    <CSvgIcon component={MoreOption} />
                   </CIconButton>
                 </Stack>
               </Box>
