@@ -35,8 +35,8 @@ const CSelect = ({
   walkMeIdPrefix,
   IconComponent,
   required,
-  optionValueKey,
-  optionLabelKey,
+  optionValueKey = "value",
+  optionLabelKey = "label",
 }: SelectProps) => {
   const [filteredOptions, setFilteredOptions] = useState<SelectOption[]>([]);
   const [selectedOptions, setSelectedOptions] = useState<
@@ -99,7 +99,6 @@ const CSelect = ({
    */
   const renderValue = (selected: selectValueType) => {
     // Custom rendering logic
-
     if (templates?.inputValueTemplate) {
       return templates.inputValueTemplate({
         selectedItems: selected,
@@ -123,8 +122,13 @@ const CSelect = ({
       }
     }
     if (!allowMultiSelect) {
-      if (typeof selected === "object" && optionValueKey) {
-        return `${selected[optionValueKey]}`;
+      if (typeof options[0] === "object" && optionValueKey) {
+        selected = options.filter((option) => {
+          return getOptionValue(option) === selected;
+        })[0];
+      }
+      if (typeof selected === "object" && optionLabelKey) {
+        return `${selected[optionLabelKey]}`;
       }
       return `${selected}`;
     }
@@ -174,12 +178,15 @@ const CSelect = ({
    * @param option The option to get the label from
    * @returns The label of the option
    */
-  const getOptionLabel = (option: SelectOption) => {
-    if (typeof option == "object" && optionLabelKey) {
-      return option[optionLabelKey];
-    }
-    return option;
-  };
+  const getOptionLabel = useCallback(
+    (option: SelectOption): string => {
+      if (typeof option === "object" && optionLabelKey) {
+        return String(option[optionLabelKey]);
+      }
+      return String(option);
+    },
+    [optionLabelKey]
+  );
 
   /**
    * @method isAllOptionsSelected
