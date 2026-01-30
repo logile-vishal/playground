@@ -51,6 +51,16 @@ const CreateTemplateContent: React.FC = () => {
     data: null,
   });
 
+  const handleQuestionError = () => {
+    if (watchQuestionList.length < 1)
+      notify({
+        title: QUESTIONS.oneQuestionRequiredError,
+        config: {
+          severity: Severity.ERROR,
+        },
+      });
+  };
+
   const {
     data: templatePreviewData,
     isPending: isPreviewLoading,
@@ -79,13 +89,7 @@ const CreateTemplateContent: React.FC = () => {
       error: !!(formErrors as { questions?: unknown }).questions,
       component: <Questions />,
       checkValidity: useCallback(async () => {
-        if (watchQuestionList.length < 1)
-          notify({
-            title: QUESTIONS.oneQuestionRequiredError,
-            config: {
-              severity: Severity.ERROR,
-            },
-          });
+        handleQuestionError();
         return await triggerValidation("questions");
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [triggerValidation, notify, watchQuestionList]),
@@ -156,6 +160,7 @@ const CreateTemplateContent: React.FC = () => {
 
   const handleNextStep = async (): Promise<void> => {
     const isValid = await handleValidation(currentStep.activeStep);
+    handleQuestionError();
     if (isValid && currentStep.activeStep < stepperOptions.length - 1) {
       setCurrentStep((prev) => ({
         ...prev,

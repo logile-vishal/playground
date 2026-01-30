@@ -217,6 +217,8 @@ const QuestionSection = (props: QuestionSectionProps) => {
                     questionFormPath={
                       props?.questionFormPath + `.subQuestions[${index}]`
                     }
+                    handleQuestionAdd={props?.handleQuestionAdd}
+                    isAddQuestionAllowed={props?.isAddQuestionAllowed}
                   />
                 </Box>
               ))

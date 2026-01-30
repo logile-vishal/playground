@@ -36,6 +36,7 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
     show: false,
     file: null as File | null,
   });
+  const [isUserInput, setIsUserInput] = useState(false);
   /**
    * @method CRichTextEditor
    * @description Rich text editor with custom toolbar, formatting tools, and wildcard variable support
@@ -134,7 +135,16 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
    * @param {string} content - The editor content
    * @return {void}
    */
-  const handleEditorChange = (content: string) => {
+  const handleEditorChange = (
+    content: string,
+    _delta: unknown,
+    source: string
+  ) => {
+    // Only call onChange if the change is from user
+    if (source === "user") {
+      setIsUserInput(true);
+    }
+    if (!isUserInput && source !== "user") return;
     // Process wildcard patterns
     handleWildcardTextChange();
 
@@ -256,9 +266,7 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
               <ReactQuill
                 ref={quillRef}
                 defaultValue={value}
-                onChange={(content) => {
-                  handleEditorChange(content);
-                }}
+                onChange={handleEditorChange}
                 modules={getEditorModules()}
                 theme="snow"
                 placeholder={placeholder}

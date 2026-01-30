@@ -1,4 +1,4 @@
-.shared-stepper {
+.stepper {
   height: 100%;
   --stepper-steps-height: 50px;
 
@@ -33,14 +33,14 @@
     color: var(--logile-text-secondary);
   }
 
-  .shared-stepper__content {
+  .stepper__content {
     overflow-y: auto;
     height: calc(100% - var(--stepper-steps-height));
   }
 }
 
 /* Stepper Label */
-.shared-stepper__label {
+.stepper__label {
   font-size: var(--logile-size-body);
   font-weight: var(--logile-weight-400);
   color: var(--logile-text-secondary);

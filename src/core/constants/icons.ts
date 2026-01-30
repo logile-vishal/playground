@@ -134,6 +134,7 @@ export { default as Pdf } from "@/assets/icons/file-type/pdf.svg?react";
 export { default as PlainTextFile } from "@/assets/icons/file-type/plain-file.svg?react";
 export { default as Spreadsheet } from "@/assets/icons/file-type/spreadsheet.svg?react";
 export { default as Word } from "@/assets/icons/file-type/word.svg?react";
+export { default as InputType } from "@/assets/icons/common-icons/input-type.svg?react";
 
 export type IconName =
   | "AddIcon"
@@ -268,4 +269,5 @@ export type IconName =
   | "Eye"
   | "Preview"
   | "Word"
-  | "PlainTextFile";
+  | "PlainTextFile"
+  | "InputType";

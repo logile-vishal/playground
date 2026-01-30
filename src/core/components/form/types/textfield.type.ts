@@ -30,4 +30,6 @@ export type TextfieldProps = MandatoryFormElementProps &
     acceptFileFormats?: string;
     ref?: React.Ref<HTMLInputElement>;
     isInlineLabel?: boolean;
+    max?: number;
+    min?: number;
   };

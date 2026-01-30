@@ -25,6 +25,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   expandedList,
   toggleExpand,
   questionFormPath,
+  handleQuestionAdd,
+  isAddQuestionAllowed,
 }) => {
   return (
     <Box
@@ -39,6 +41,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           expandedList={expandedList}
           toggleExpand={toggleExpand}
           questionFormPath={questionFormPath}
+          handleQuestionAdd={handleQuestionAdd}
+          isAddQuestionAllowed={isAddQuestionAllowed}
         />
       ) : (
         <QuestionCardExpanded
@@ -49,6 +53,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           expandedList={expandedList}
           toggleExpand={toggleExpand}
           questionFormPath={questionFormPath}
+          handleQuestionAdd={handleQuestionAdd}
+          isAddQuestionAllowed={isAddQuestionAllowed}
         />
       )}
     </Box>

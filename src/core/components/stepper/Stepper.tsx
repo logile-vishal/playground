@@ -99,14 +99,14 @@ const CStepper = ({
   return (
     <div
       className={clsx({
-        "shared-stepper": true,
+        stepper: true,
         [componentClassName]: !!componentClassName,
       })}
     >
       <Stepper
         className={clsx({
-          "shared-stepper__steps": true,
-          "shared-stepper__steps--top-border": !isDesktop,
+          stepper__steps: true,
+          "stepper__steps--top-border": !isDesktop,
         })}
         connector={<></>}
         activeStep={activeStep}
@@ -123,17 +123,17 @@ const CStepper = ({
               key={item.label}
               onClick={() => handleStepClick(index, item)}
               className={clsx({
-                "shared-stepper__steps-item": true,
-                "shared-stepper__first-step": isFirstStep,
+                "stepper__steps-item": true,
+                "stepper__first-step": isFirstStep,
               })}
               disabled={isDisabled}
             >
               <StepLabel
                 className={clsx({
-                  "shared-stepper__label": true,
-                  "shared-stepper__label--completed": isCompleted,
-                  "shared-stepper__label--error": isError,
-                  "shared-stepper__label--active": isActive,
+                  stepper__label: true,
+                  "stepper__label--completed": isCompleted,
+                  "stepper__label--error": isError,
+                  "stepper__label--active": isActive,
                 })}
                 icon={
                   !isLastStep ? (
@@ -152,7 +152,7 @@ const CStepper = ({
           );
         })}
       </Stepper>
-      <Box className="shared-stepper__content">{renderComponent()}</Box>
+      <Box className="stepper__content">{renderComponent()}</Box>
     </div>
   );
 };

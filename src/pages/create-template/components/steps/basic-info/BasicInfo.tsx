@@ -385,6 +385,11 @@ const BasicInfo: React.FC = () => {
                   onChange={(e) => {
                     field.onChange(Number(e.target.value));
                   }}
+                  templates={{
+                    inputValueTemplate: () => (
+                      <>{directoryDropdownOptions[0].label}</>
+                    ),
+                  }}
                   optionValueKey="value"
                   optionLabelKey="label"
                 />
@@ -401,6 +406,11 @@ const BasicInfo: React.FC = () => {
               width="200px"
               optionValueKey="value"
               optionLabelKey="label"
+              templates={{
+                inputValueTemplate: () => (
+                  <>{directoryDropdownOptions[0].label}</>
+                ),
+              }}
             />
             <CSvgIcon
               component={ChevronRight}

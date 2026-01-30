@@ -3,6 +3,8 @@
 .ct-question-card-expanded {
   --selection-min-width: 180px;
   --textfield-width: 70px;
+  --dynamic-dropdown-button-width: 220px;
+  --response-template-width: 220px;
   @include flex-box(column);
   gap: var(--space-s);
   border-radius: var(--radius-m);
@@ -71,7 +73,6 @@
 
   &__basic-tab-content {
     @include flex-box(column);
-    gap: var(--space-l);
     padding: var(--space-2xl) var(--space-xl);
   }
   &__question-header {
@@ -107,6 +108,31 @@
     }
     .MuiTextField-root {
       width: var(--textfield-width);
+    }
+  }
+  &__sort-input-field {
+    &-button-content {
+      display: flex;
+      align-items: center;
+      gap: var(--space-m);
+    }
+    &-button.ct-question-card-expanded__sort-input-field-button {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+    }
+  }
+  &__dynamic-dropdown-field-button.ct-question-card-expanded__dynamic-dropdown-field-button {
+    width: var(--dynamic-dropdown-button-width);
+  }
+  &__dynamic-dropdown-field-button-content {
+    display: flex;
+    gap: var(--space-xs);
+  }
+  &__response-template {
+    &-select {
+      width: var(--response-template-width);
     }
   }
 }

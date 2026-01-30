@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 
 import CIconButton from "@/core/components/button/IconButton";
@@ -28,7 +28,17 @@ export const RenderQuestion: React.FC<{
   expandedList: Record<string, boolean>;
   toggleExpand: (id: string) => void;
   questionFormPath: string;
-}> = ({ index, question, expandedList, toggleExpand, questionFormPath }) => {
+  handleQuestionAdd: () => Promise<boolean>;
+  isAddQuestionAllowed: boolean;
+}> = ({
+  index,
+  question,
+  expandedList,
+  toggleExpand,
+  questionFormPath,
+  handleQuestionAdd,
+  isAddQuestionAllowed,
+}) => {
   if (question?.subQuestions && question?.subQuestions.length > 0) {
     return (
       <QuestionSection
@@ -39,6 +49,8 @@ export const RenderQuestion: React.FC<{
         expandedList={expandedList}
         toggleExpand={toggleExpand}
         questionFormPath={questionFormPath}
+        handleQuestionAdd={handleQuestionAdd}
+        isAddQuestionAllowed={isAddQuestionAllowed}
       />
     );
   }
@@ -49,6 +61,8 @@ export const RenderQuestion: React.FC<{
       expandedList={expandedList}
       toggleExpand={toggleExpand}
       questionFormPath={questionFormPath}
+      handleQuestionAdd={handleQuestionAdd}
+      isAddQuestionAllowed={isAddQuestionAllowed}
     />
   );
 };
@@ -60,8 +74,9 @@ const Questions: React.FC = () => {
     data: null,
   });
   const [expandedList, setExpandedList] = useState<Record<string, boolean>>({});
-  const { watch } = useCreateTemplateForm();
+  const { watch, triggerValidation, formErrors } = useCreateTemplateForm();
   const { addNewQuestion } = useQuestionListManager();
+  const [isAddQuestionAllowed, setIsAddQuestionAllowed] = useState(true);
   const watchQuestionList = watch("questions") as QuestionProps[];
 
   const openAddSectionModal = (data) => {
@@ -109,8 +124,34 @@ const Questions: React.FC = () => {
 
   const handleQuestionAdd = () => {
     const qId = addNewQuestion();
-    setExpandedList((prev) => ({ ...prev, [qId]: true }));
+    toggleExpand(qId);
   };
+
+  const handleQuestionClick = async () => {
+    const isValid =
+      watchQuestionList?.length === 0 || (await triggerValidation("questions"));
+    setIsAddQuestionAllowed(isValid);
+    if (isValid) {
+      handleQuestionAdd();
+    }
+    return isValid;
+  };
+
+  useEffect(() => {
+    if (
+      (formErrors as { questions: QuestionProps[] })?.questions &&
+      watchQuestionList?.length !== 0
+    ) {
+      setIsAddQuestionAllowed(false);
+    } else {
+      setIsAddQuestionAllowed(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    (formErrors as { questions: QuestionProps[] })?.questions,
+    watchQuestionList,
+  ]);
 
   /**
    * @method renderQuestionHeader
@@ -173,7 +214,8 @@ const Questions: React.FC = () => {
           variant="outline"
           severity="primary"
           size="small"
-          onClick={handleQuestionAdd}
+          disabled={!isAddQuestionAllowed}
+          onClick={handleQuestionClick}
         >
           <CSvgIcon
             size={15}
@@ -186,6 +228,7 @@ const Questions: React.FC = () => {
           variant="outline"
           severity="primary"
           size="small"
+          disabled={!isAddQuestionAllowed}
           onClick={openAddSectionModal}
         >
           <CSvgIcon
@@ -218,6 +261,8 @@ const Questions: React.FC = () => {
                     expandedList={expandedList}
                     toggleExpand={toggleExpand}
                     questionFormPath={`questions.${index}`}
+                    handleQuestionAdd={handleQuestionClick}
+                    isAddQuestionAllowed={isAddQuestionAllowed}
                   />
                 );
               })}

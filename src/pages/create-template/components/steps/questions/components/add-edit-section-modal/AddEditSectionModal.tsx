@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { isNonEmptyValue } from "@/utils/index";
 import CModal, { ModalBody } from "@/core/components/modal/Modal";
 import CTextfield from "@/core/components/form/textfield/Textfield";
 import { MODAL_SIZE } from "@/core/constants/modal-constants";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 /**
  * Modal component for adding and editing sections in the template
  *
@@ -31,9 +33,11 @@ const AddEditSectionModal: React.FC<SectionModalProps> = ({
   type = {} as TypeProps,
   toggleExpand,
 }) => {
-  const [sectionName, setSectionName] = useState("");
+  const [sectionName, setSectionName] = useState<string | null>(null);
   const { QUESTIONS } = useCreateTemplateTranslations();
+  const { EDITOR_ERROR } = useCommonTranslation();
   const { addNewSection } = useQuestionListManager();
+  const isError = sectionName === null ? false : !isNonEmptyValue(sectionName);
   const { TITLE, PRIMARY_ACTION } = type;
 
   const handleSectionName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,10 +45,18 @@ const AddEditSectionModal: React.FC<SectionModalProps> = ({
   };
 
   const handleAddSection = () => {
+    if (!isNonEmptyValue(sectionName)) return;
     const qId = addNewSection(sectionName);
     onClose();
     toggleExpand(qId);
   };
+
+  useEffect(() => {
+    if (!open) {
+      setSectionName(null);
+    }
+  }, [open]);
+
   return (
     <div>
       <CModal
@@ -60,6 +72,9 @@ const AddEditSectionModal: React.FC<SectionModalProps> = ({
             label={QUESTIONS.SECTION_ADD_EDIT_MODAL.FIELDS.sectionName}
             required
             onChange={handleSectionName}
+            value={sectionName || ""}
+            error={isError}
+            helperText={isError ? EDITOR_ERROR.REQUIRED_FIELD : ""}
           />
         </ModalBody>
       </CModal>

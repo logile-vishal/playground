@@ -1,7 +1,10 @@
 import { useTranslation } from "react-i18next";
 import {
+  DATE_TIME_INPUT_TYPE,
+  INPUT_TYPE,
   OPTION_TRIGGER_MENU_KEY,
   QUESTION_TYPE,
+  RESPONSE_TEMPLATE_TYPE,
   SECTION_SETTINGS_MENU_KEY,
 } from "../constants/questions";
 import {
@@ -172,6 +175,12 @@ export const useCreateTemplateTranslations = () => {
       questionTextPlaceholder: t(
         "QUESTIONS.EXPANDED_QUESTION_CARD.questionTextPlaceholder"
       ),
+      setInputTypePlaceholder: t(
+        "QUESTIONS.EXPANDED_QUESTION_CARD.setInputTypePlaceholder"
+      ),
+      dynamicDropdownAnswersFromTags: t(
+        "QUESTIONS.EXPANDED_QUESTION_CARD.dynamicDropdownAnswersFromTags"
+      ),
     },
     EXPANDED_QUESTION_CARD_TAB_LABELS: {
       BASIC: {
@@ -235,6 +244,79 @@ export const useCreateTemplateTranslations = () => {
         value: QUESTION_TYPE.RESPONSE_TEMPLATE as QuestionTypeKey,
       },
     ],
+    INPUT_TYPE_OPTIONS: [
+      {
+        label: t("QUESTIONS.INPUT_TYPE_OPTIONS.anyCharactersLabel"),
+        value: INPUT_TYPE.ANY_CHARACTERS,
+      },
+      {
+        label: t("QUESTIONS.INPUT_TYPE_OPTIONS.textOnlyLabel"),
+        value: INPUT_TYPE.TEXT_ONLY,
+      },
+      {
+        label: t("QUESTIONS.INPUT_TYPE_OPTIONS.numberOnlyLabel"),
+        value: INPUT_TYPE.NUMBER_ONLY,
+      },
+      {
+        label: t("QUESTIONS.INPUT_TYPE_OPTIONS.dateTimeLabel"),
+        value: INPUT_TYPE.DATE_TIME,
+      },
+    ],
+    DATE_VIEW_OPTIONS: [
+      {
+        label: t("QUESTIONS.DATE_VIEW_OPTIONS.dateOnlyLabel"),
+        value: DATE_TIME_INPUT_TYPE.DATE_ONLY,
+      },
+      {
+        label: t("QUESTIONS.DATE_VIEW_OPTIONS.timeOnlyLabel"),
+        value: DATE_TIME_INPUT_TYPE.TIME_ONLY,
+      },
+      {
+        label: t("QUESTIONS.DATE_VIEW_OPTIONS.dateAndTimeLabel"),
+        value: DATE_TIME_INPUT_TYPE.DATE_AND_TIME,
+      },
+    ],
+    RESPONSE_TEMPLATE_OPTIONS: [
+      {
+        label: t("QUESTIONS.RESPONSE_TEMPLATE_OPTIONS.markWhenCompleteLabel"),
+        value: RESPONSE_TEMPLATE_TYPE.MARK_WHEN_COMPLETE,
+      },
+      {
+        label: t("QUESTIONS.RESPONSE_TEMPLATE_OPTIONS.rankLabel"),
+        value: RESPONSE_TEMPLATE_TYPE.RANK,
+      },
+      {
+        label: t("QUESTIONS.RESPONSE_TEMPLATE_OPTIONS.tempLabel"),
+        value: RESPONSE_TEMPLATE_TYPE.TEMP,
+      },
+      {
+        label: t("QUESTIONS.RESPONSE_TEMPLATE_OPTIONS.yesNoLabel"),
+        value: RESPONSE_TEMPLATE_TYPE.YES_NO,
+      },
+      {
+        label: t("QUESTIONS.RESPONSE_TEMPLATE_OPTIONS.manualTempLabel"),
+        value: RESPONSE_TEMPLATE_TYPE.MANUAL_TEMP,
+      },
+    ],
+    QUESTION_TYPE_LABELS: {
+      minLengthPlaceholder: t(
+        "QUESTIONS.QUESTION_TYPE_LABELS.minLengthPlaceholder"
+      ),
+      maxLengthPlaceholder: t(
+        "QUESTIONS.QUESTION_TYPE_LABELS.maxLengthPlaceholder"
+      ),
+      minValuePlaceholder: t(
+        "QUESTIONS.QUESTION_TYPE_LABELS.minValuePlaceholder"
+      ),
+      maxValuePlaceholder: t(
+        "QUESTIONS.QUESTION_TYPE_LABELS.maxValuePlaceholder"
+      ),
+      optionsLabel: t("QUESTIONS.QUESTION_TYPE_LABELS.optionsLabel"),
+      setInputTypeLabel: t("QUESTIONS.QUESTION_TYPE_LABELS.setInputTypeLabel"),
+      submitButton: t("QUESTIONS.QUESTION_TYPE_LABELS.submitButton"),
+      cancelButton: t("QUESTIONS.QUESTION_TYPE_LABELS.cancelButton"),
+      inputTypeLabel: t("QUESTIONS.QUESTION_TYPE_LABELS.inputTypeLabel"),
+    },
     QUESTION_CARD: {
       QUESTION_TITLE_PLACEHOLDER: "Question Text",
     },

@@ -112,6 +112,20 @@ export const INPUT_TYPE = {
 };
 
 /* TODO: Replace this later */
+export const DATE_TIME_INPUT_TYPE = {
+  DATE_ONLY: "date-only",
+  TIME_ONLY: "time-only",
+  DATE_AND_TIME: "date-and-time",
+};
+
+export const RESPONSE_TEMPLATE_TYPE = {
+  MARK_WHEN_COMPLETE: "mark_when_complete",
+  RANK: "rank",
+  TEMP: "temp",
+  YES_NO: "yes_no",
+  MANUAL_TEMP: "manual_temp",
+};
+
 export const OPTION_ATTCHMENT_REQUIRED_TYPE_ENUMS = [
   "Always",
   "In compliance only",
@@ -124,18 +138,4 @@ export const ATTACHMENTS_ENUM = [
   "Temperature Probe",
   "Numeric",
   "Attachment",
-] as const;
-
-export const DATE_TIME_ENUMS = [
-  "Date Only",
-  "Time Only",
-  "Date & Time",
-] as const;
-
-export const RESPONSE_TEMPLATE_ENUMS = [
-  "Mark when Complete",
-  "Rank (1-5)",
-  "Temp > 135",
-  "Yes/No",
-  "Manual Temp > 135",
 ] as const;

@@ -79,11 +79,13 @@ export const LABEL_TYPE_DEFAULT = {
 export const BARCODE_SCAN_TYPE_DEFAULT = {
   questionType: "barcode_scan" as const,
   title: "",
+  response: [],
 };
 
 export const RESPONSE_TEMPLATE_TYPE_DEFAULT = {
   questionType: "response_template" as const,
   title: "",
+  value: "",
 };
 
 export const SECTION_TYPE_DEFAULT = {

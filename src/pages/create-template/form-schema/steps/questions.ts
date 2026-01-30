@@ -1,11 +1,9 @@
 import { z as zod } from "zod";
 import {
   ATTACHMENTS_ENUM,
-  DATE_TIME_ENUMS,
   INPUT_TYPE,
   OPTION_ATTCHMENT_REQUIRED_TYPE_ENUMS,
   QUESTION_TYPE,
-  RESPONSE_TEMPLATE_ENUMS,
 } from "../../constants/questions";
 
 const optionSchema = zod.object({
@@ -36,8 +34,32 @@ const richTextValidationSchema = zod.string().refine(
 );
 
 /* Question Type: Radio, Dropdown, Checkbox, Dynamic Dropdown, Barcode scan    */
-const defaultBasicSettingsSchema = zod.object({
+const radioBasicSettingsSchema = zod.object({
   questionType: zod.literal(QUESTION_TYPE.RADIO),
+  title: richTextValidationSchema,
+  response: zod.array(optionSchema).min(1, "This field is required"), //TODO: Check for error message and replace once confirmed
+});
+
+const dropdownBasicSettingsSchema = zod.object({
+  questionType: zod.literal(QUESTION_TYPE.DROPDOWN),
+  title: richTextValidationSchema,
+  response: zod.array(optionSchema).min(1, "This field is required"), //TODO: Check for error message and replace once confirmed
+});
+
+const checkboxBasicSettingsSchema = zod.object({
+  questionType: zod.literal(QUESTION_TYPE.CHECKBOX),
+  title: richTextValidationSchema,
+  response: zod.array(optionSchema).min(1, "This field is required"), //TODO: Check for error message and replace once confirmed
+});
+
+const dynamicDropdownBasicSettingsSchema = zod.object({
+  questionType: zod.literal(QUESTION_TYPE.DYNAMIC_DROPDOWN),
+  title: richTextValidationSchema,
+  response: zod.array(optionSchema).min(1, "This field is required"), //TODO: Check for error message and replace once confirmed
+});
+
+const barcodeScanBasicSettingsSchema = zod.object({
+  questionType: zod.literal(QUESTION_TYPE.BARCODE_SCAN),
   title: richTextValidationSchema,
   response: zod.array(optionSchema).min(1, "This field is required"), //TODO: Check for error message and replace once confirmed
 });
@@ -72,7 +94,7 @@ const sortInputDateTimeSchema = zod.object({
   questionType: zod.literal(QUESTION_TYPE.SORT_INPUT),
   inputType: zod.literal(INPUT_TYPE.DATE_TIME),
   title: richTextValidationSchema,
-  value: zod.enum(DATE_TIME_ENUMS),
+  value: zod.string(),
 });
 
 const sortInputSchema = [
@@ -95,7 +117,7 @@ const longInputBasicSettingsSchema = zod.object({
 const responseTemplateBasicSettingsSchema = zod.object({
   questionType: zod.literal(QUESTION_TYPE.RESPONSE_TEMPLATE),
   title: richTextValidationSchema,
-  value: zod.enum(RESPONSE_TEMPLATE_ENUMS),
+  value: zod.string(),
 });
 
 /* Section Type */
@@ -106,7 +128,11 @@ export const sectionSchema = zod.object({
 });
 
 const basicTabSchema = zod.union([
-  defaultBasicSettingsSchema,
+  radioBasicSettingsSchema,
+  dropdownBasicSettingsSchema,
+  checkboxBasicSettingsSchema,
+  dynamicDropdownBasicSettingsSchema,
+  barcodeScanBasicSettingsSchema,
   labelBasicSettingsSchema,
   zod.discriminatedUnion("inputType", sortInputSchema),
   longInputBasicSettingsSchema,

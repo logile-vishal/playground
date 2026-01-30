@@ -377,7 +377,7 @@ export const cloneQuestion = (
 };
 
 const useQuestionListManager = () => {
-  const { setFormValue, getFormValues, triggerValidation } =
+  const { setFormValue, getFormValues, triggerValidation, resetForm } =
     useCreateTemplateForm();
 
   /**
@@ -441,7 +441,10 @@ const useQuestionListManager = () => {
   const deleteQuestion = (questionId: string) => {
     const questionsList = getFormValues("questions") as QuestionProps[];
     const updatedQuestionsList = removeQuestion(questionsList, questionId);
-    setFormValue("questions", updatedQuestionsList);
+    resetForm({
+      ...getFormValues(),
+      questions: updatedQuestionsList,
+    } as { questions: QuestionProps[] });
   };
 
   /**
@@ -456,7 +459,10 @@ const useQuestionListManager = () => {
   const deleteSection = (sectionName: string) => {
     const questionsList = getFormValues("questions") as QuestionProps[];
     const updatedQuestionsList = removeSection(questionsList, sectionName);
-    setFormValue("questions", updatedQuestionsList);
+    resetForm({
+      ...getFormValues(),
+      questions: updatedQuestionsList,
+    } as { questions: QuestionProps[] });
   };
 
   /**

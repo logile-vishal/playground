@@ -19,6 +19,8 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
   questionFormPath,
   expandedList,
   toggleExpand,
+  handleQuestionAdd,
+  isAddQuestionAllowed,
 }) => {
   const { QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
 
@@ -122,6 +124,8 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
                 expandedList={expandedList}
                 toggleExpand={toggleExpand}
                 questionFormPath={`${questionFormPath}.subQuestions[${index}]`}
+                handleQuestionAdd={handleQuestionAdd}
+                isAddQuestionAllowed={isAddQuestionAllowed}
               />
             );
           })

@@ -3,8 +3,9 @@ import { Box, FormControlLabel, Tab, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 import type { FieldValues, Control } from "react-hook-form";
 
+import { isNonEmptyValue } from "@/utils";
 import { QUESTION_TYPE } from "@/pages/create-template/constants/questions";
-import { DraggableDots } from "@/core/constants/icons";
+import { DraggableDots, InputType } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { AddIcon, Copy, Delete, ChevronUpLarge } from "@/core/constants/icons";
 import CIconButton from "@/core/components/button/IconButton";
@@ -13,21 +14,23 @@ import CSwitch from "@/core/components/form/switch/Switch";
 import type {
   QuestionCardProps,
   QuestionProps,
+  QuestionTypeKey,
   SectionTypeProps,
 } from "@/pages/create-template/types/questions.type";
 import CTabs from "@/core/components/tabs/Tabs";
+import { CButton } from "@/core/components/button/button";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import CDivider from "@/core/components/divider/Divider";
 import CRichTextEditor from "@/core/components/form/rich-text-editor/RichTextEditor";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
-import { isNonEmptyValue } from "@/utils";
 import CSelect from "@/core/components/form/select";
 
+import { RenderQuestion } from "../../Questions";
+import InputTypeModal from "../input-type-modal/InputTypeModal";
 import { QuestionBadge } from "../question-card-collapsed/QuestionBadges";
 import QuestionCardOptionsComponent from "../question-card-options/QuestionCardOptions";
 import "./QuestionCardExpanded.scss";
-import { RenderQuestion } from "../../Questions";
 
 function TabPanel(props) {
   const { children, value } = props;
@@ -40,23 +43,25 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   expandedList,
   toggleExpand,
   questionFormPath,
+  handleQuestionAdd,
+  isAddQuestionAllowed,
 }) => {
   const { QUESTIONS, QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
   const [currentTab, setCurrentTab] = useState(
     QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.BASIC.value
   );
-  const [questionType, setQuestionType] = useState<SectionTypeProps>(
-    QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN[0]
+  const [questionType, setQuestionType] = useState<QuestionTypeKey>(
+    QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN[0].value
   );
   const [attachments, setAttachments] = useState<File[]>([]);
   const { control, watch } = useCreateTemplateForm();
-  const {
-    addNewQuestion,
-    modifyQuestionType,
-    cloneExistingQuestion,
-    deleteQuestion,
-  } = useQuestionListManager();
+  const { modifyQuestionType, cloneExistingQuestion, deleteQuestion } =
+    useQuestionListManager();
   const watchQuestionList = watch("questions") as QuestionProps[];
+  const [inputTypeModal, setInputTypeModal] = useState({
+    status: false,
+    data: null,
+  });
 
   /**
    * @method onUpdateAttachments
@@ -78,16 +83,56 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     setCurrentTab(newValue);
   };
 
+  /**
+   * @method handleQuestionTypeChange
+   * @description Handles question type change event and updates the form state
+   * @param {unknown} event - The Select component change event
+   * @return {void}
+   */
   const handleQuestionTypeChange = (event: unknown) => {
-    const target = (event as { target: { value: unknown } }).target;
-    const newType = target.value as SectionTypeProps;
+    const target = (event as { target: { value: unknown } })
+      .target as SectionTypeProps;
+    const newType = target.value;
     const newQuestionId = modifyQuestionType(
-      questionType?.value,
-      newType.value,
+      questionType,
+      newType,
       question.qId
     );
     setQuestionType(newType);
     if (newQuestionId) toggleExpand(newQuestionId);
+  };
+
+  /**
+   * @method handleInputTypeModalOpen
+   * @description Opens the input type modal dialog
+   * @return {void}
+   */
+  const handleInputTypeModalOpen = () => {
+    setInputTypeModal({ status: true, data: null });
+  };
+
+  /**
+   * @method handleInputTypeModalClose
+   * @description Closes the input type modal dialog
+   * @return {void}
+   */
+  const handleInputTypeModalClose = () => {
+    setInputTypeModal({ status: false, data: null });
+  };
+
+  /**
+   * @method getSelectedResponseTemplate
+   * @description Retrieves the label of the selected response template option
+   * @param {string} value - The value of the selected response template
+   * @return {string} The label of the selected response template option
+   */
+  const getSelectedResponseTemplate = (value: string) => {
+    const selectedOption = QUESTIONS.RESPONSE_TEMPLATE_OPTIONS.find(
+      (option) => option.label === value
+    );
+    return selectedOption
+      ? selectedOption.label
+      : QUESTIONS.RESPONSE_TEMPLATE_OPTIONS[0].label;
   };
 
   /**
@@ -96,11 +141,12 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
    * @return {React.ReactNode|undefined} Options component or undefined
    */
   const renderOptionsBasedOnType = () => {
-    switch (questionType.value) {
+    switch (questionType) {
       case QUESTION_TYPE.RADIO:
-      case QUESTION_TYPE.DROPDOWN:
       case QUESTION_TYPE.CHECKBOX:
       case QUESTION_TYPE.DYNAMIC_DROPDOWN:
+      case QUESTION_TYPE.DROPDOWN:
+      case QUESTION_TYPE.BARCODE_SCAN:
         return (
           <QuestionCardOptionsComponent
             key={question.qId}
@@ -113,42 +159,144 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   };
 
   /**
+   * @method renderLongInputType
+   * @description Renders input fields for long input question type
+   * @return {React.ReactNode} Long input fields JSX element
+   */
+  const renderLongInputType = () => {
+    return (
+      <Box className="ct-question-card-expanded__long-input-fields">
+        <CTextfield
+          type="number"
+          label={QUESTIONS.EXPANDED_QUESTION_CARD.minLengthPlaceholder}
+          className="ct-question-card-expanded__long-input"
+          min={0}
+        />
+        <CTextfield
+          type="number"
+          label={QUESTIONS.EXPANDED_QUESTION_CARD.maxLengthPlaceholder}
+          className="ct-question-card-expanded__long-input"
+          min={0}
+        />
+      </Box>
+    );
+  };
+
+  /**
+   * @method renderSortInputType
+   * @description Renders button to open input type modal for sort input question
+   * @return {React.ReactNode} Sort input button JSX element
+   */
+  const renderSortInputType = () => {
+    return (
+      <Box className="ct-question-card-expanded__sort-input-field">
+        <CButton
+          severity="secondary"
+          variant="outline"
+          className="ct-question-card-expanded__sort-input-field-button"
+          onClick={handleInputTypeModalOpen}
+        >
+          <Box className="ct-question-card-expanded__sort-input-field-button-content">
+            <CSvgIcon component={InputType} />
+            <Box>
+              {QUESTIONS.EXPANDED_QUESTION_CARD.setInputTypePlaceholder}
+            </Box>
+          </Box>
+        </CButton>
+      </Box>
+    );
+  };
+
+  /**
+   * @method renderDynamicDropdownType
+   * @description Renders button showing count of extra answers from tags for dynamic dropdown
+   * @return {React.ReactNode} Dynamic dropdown button JSX element
+   */
+  const renderDynamicDropdownType = () => {
+    return (
+      <Box className="ct-question-card-expanded__dynamic-dropdown-field">
+        <Controller
+          name={`${questionFormPath}.advancedSettings.tags`}
+          control={control as unknown as Control<FieldValues>}
+          render={({ field }) => (
+            <CButton
+              severity="primary"
+              variant="outline"
+              className="ct-question-card-expanded__dynamic-dropdown-field-button"
+            >
+              <Box className="ct-question-card-expanded__dynamic-dropdown-field-button-content">
+                <Box>{field?.value?.length || 0}</Box>
+                <Box>
+                  {
+                    QUESTIONS.EXPANDED_QUESTION_CARD
+                      .dynamicDropdownAnswersFromTags
+                  }
+                </Box>
+              </Box>
+            </CButton>
+          )}
+        />
+      </Box>
+    );
+  };
+
+  /**
+   * @method renderResponseTemplateType
+   * @description Renders select dropdown for response template options
+   * @return {React.ReactNode} Response template select JSX element
+   */
+  const renderResponseTemplateType = () => {
+    return (
+      <Box className="ct-question-card-expanded__response-template">
+        <Controller
+          name={`${questionFormPath}.questionBasicData.value`}
+          control={control as unknown as Control<FieldValues>}
+          render={({ field }) => (
+            <CSelect
+              options={QUESTIONS.RESPONSE_TEMPLATE_OPTIONS}
+              optionLabelKey="label"
+              optionValueKey="label"
+              className="ct-question-card-expanded__response-template-select"
+              templates={{
+                inputValueTemplate: () =>
+                  getSelectedResponseTemplate(field?.value),
+              }}
+              {...field}
+            />
+          )}
+        />
+      </Box>
+    );
+  };
+
+  /**
    * @method renderConditionsBasedOnType
    * @description Renders conditional fields based on selected question type
    * @return {React.ReactNode|null} Conditional fields or null
    */
   const renderConditionsBasedOnType = () => {
-    switch (questionType?.value) {
+    switch (questionType) {
       case QUESTION_TYPE.LONG_INPUT:
-        return (
-          <Box className="ct-question-card-expanded__long-input-fields">
-            <CTextfield
-              type="number"
-              label={QUESTIONS.EXPANDED_QUESTION_CARD.minLengthPlaceholder}
-              className="ct-question-card-expanded__long-input"
-            />
-            <CTextfield
-              type="number"
-              label={QUESTIONS.EXPANDED_QUESTION_CARD.maxLengthPlaceholder}
-              className="ct-question-card-expanded__long-input"
-            />
-          </Box>
-        );
+        return renderLongInputType();
+      case QUESTION_TYPE.SORT_INPUT:
+        return renderSortInputType();
+      case QUESTION_TYPE.DYNAMIC_DROPDOWN:
+        return renderDynamicDropdownType();
+      case QUESTION_TYPE.RESPONSE_TEMPLATE:
+        return renderResponseTemplateType();
       default:
         return null;
     }
-  };
-
-  const handleAddQuestion = () => {
-    const qId = addNewQuestion(question.qId);
-    toggleExpand(qId);
   };
 
   const handleDeleteQuestion = () => {
     deleteQuestion(question.qId);
   };
 
-  const handleCloneQuestion = () => {
+  const handleCloneQuestion = async () => {
+    const isValid = await handleQuestionAdd();
+
+    if (!isValid) return;
     const qId = cloneExistingQuestion(question.qId);
     toggleExpand(qId);
   };
@@ -163,7 +311,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
       if (!questionTypeData?.value) {
         questionTypeData = QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN[0];
       }
-      setQuestionType(questionTypeData);
+      setQuestionType(questionTypeData.value);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
@@ -228,7 +376,8 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
           <CDivider orientation="vertical" />
           <Box className="ct-question-card-expanded__actions-icons">
             <CIconButton
-              onClick={handleAddQuestion}
+              disabled={!isAddQuestionAllowed}
+              onClick={handleQuestionAdd}
               size="medium"
               walkMeId={[
                 "create-template",
@@ -241,6 +390,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             </CIconButton>
             <CIconButton
               onClick={handleCloneQuestion}
+              disabled={!isAddQuestionAllowed}
               size="medium"
               walkMeId={[
                 "create-template",
@@ -314,8 +464,9 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             <CSelect
               options={QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN}
               optionLabelKey="label"
+              optionValueKey="value"
               className="ct-question-card-expanded__question-type-selection"
-              value={questionType?.label}
+              value={questionType}
               onChange={handleQuestionTypeChange}
             />
 
@@ -383,6 +534,11 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
         {renderHeader()}
         {renderBody()}
       </Box>
+      <InputTypeModal
+        questionFormPath={questionFormPath}
+        inputTypeModal={inputTypeModal}
+        onClose={handleInputTypeModalClose}
+      />
       {question.subQuestions && question.subQuestions.length > 0
         ? question.subQuestions?.map((question, index) => {
             return (
@@ -393,6 +549,8 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
                 expandedList={expandedList}
                 toggleExpand={toggleExpand}
                 questionFormPath={`${questionFormPath}.subQuestions[${index}]`}
+                handleQuestionAdd={handleQuestionAdd}
+                isAddQuestionAllowed={isAddQuestionAllowed}
               />
             );
           })

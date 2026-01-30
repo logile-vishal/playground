@@ -75,7 +75,9 @@
       "minLengthPlaceholder": "Longitud mínima",
       "maxLengthPlaceholder": "Longitud máxima",
       "requiredPlaceholder": "Obligatorio",
-      "questionTextPlaceholder": "Texto de la pregunta"
+      "questionTextPlaceholder": "Texto de la pregunta",
+      "setInputTypePlaceholder": "Establecer tipo de entrada",
+      "dynamicDropdownAnswersFromTags": "respuestas adicionales de etiquetas"
     },
     "EXPANDED_QUESTION_CARD_TAB_LABELS": {
       "basicLabel": "ásico",
@@ -91,6 +93,35 @@
       "sortInputLabel": "Entrada de ordenación",
       "barcodeScanLabel": "Escaneo de código de barras",
       "responseTemplateLabel": "Plantilla de respuesta"
+    },
+    "INPUT_TYPE_OPTIONS": {
+      "anyCharactersLabel": "Cualquier carácter",
+      "textOnlyLabel": "Solo texto",
+      "numberOnlyLabel": "Solo números",
+      "dateTimeLabel": "Fecha y hora"
+    },
+    "DATE_VIEW_OPTIONS": {
+      "dateOnlyLabel": "Solo fecha",
+      "timeOnlyLabel": "Solo hora",
+      "dateAndTimeLabel": "Fecha y hora"
+    },
+    "RESPONSE_TEMPLATE_OPTIONS": {
+      "markWhenCompleteLabel": "Marcar cuando esté completo",
+      "rankLabel": "Clasificación (1-5)",
+      "tempLabel": "Temp > 135",
+      "yesNoLabel": "Sí/No",
+      "manualTempLabel": "Temp manual > 135"
+    },
+    "QUESTION_TYPE_LABELS": {
+      "minLengthPlaceholder": "Longitud mínima",
+      "maxLengthPlaceholder": "Longitud máxima",
+      "minValuePlaceholder": "Valor mínimo",
+      "maxValuePlaceholder": "Valor máximo",
+      "optionsLabel": "Opciones",
+      "setInputTypeLabel": "Establecer tipo de entrada",
+      "submitButton": "Enviar",
+      "cancelButton": "Cancelar",
+      "inputTypeLabel": "Tipo de entrada"
     }
   },
   "QUESTION_OPTION": {

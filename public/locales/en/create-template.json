@@ -79,7 +79,9 @@
       "minLengthPlaceholder": "Min Length",
       "maxLengthPlaceholder": "Max Length",
       "requiredPlaceholder": "Required",
-      "questionTextPlaceholder": "Question Text"
+      "questionTextPlaceholder": "Question Text",
+      "setInputTypePlaceholder": "Set Input Type",
+      "dynamicDropdownAnswersFromTags": "extra answers from tags"
     },
     "EXPANDED_QUESTION_CARD_TAB_LABELS": {
       "basicLabel": "Basic",
@@ -95,6 +97,35 @@
       "sortInputLabel": "Sort Input",
       "barcodeScanLabel": "Barcode Scan",
       "responseTemplateLabel": "Response Template"
+    },
+    "INPUT_TYPE_OPTIONS": {
+      "anyCharactersLabel": "Any Characters",
+      "textOnlyLabel": "Text Only",
+      "numberOnlyLabel": "Number Only",
+      "dateTimeLabel": "Date & Time"
+    },
+    "DATE_VIEW_OPTIONS": {
+      "dateOnlyLabel": "Date Only",
+      "timeOnlyLabel": "Time Only",
+      "dateAndTimeLabel": "Date & Time"
+    },
+    "RESPONSE_TEMPLATE_OPTIONS": {
+      "markWhenCompleteLabel": "Mark When Complete",
+      "rankLabel": "Rank (1-5)",
+      "tempLabel": "Temp > 135",
+      "yesNoLabel": "Yes/No",
+      "manualTempLabel": "Manual Temp > 135"
+    },
+    "QUESTION_TYPE_LABELS": {
+      "minLengthPlaceholder": "Min Length",
+      "maxLengthPlaceholder": "Max Length",
+      "minValuePlaceholder": "Min Value",
+      "maxValuePlaceholder": "Max Value",
+      "optionsLabel": "Options",
+      "setInputTypeLabel": "Set Input Type",
+      "submitButton": "Submit",
+      "cancelButton": "Cancel",
+      "inputTypeLabel": "Input Type"
     }
   },
   "QUESTION_OPTION": {

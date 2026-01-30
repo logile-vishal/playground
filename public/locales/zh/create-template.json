@@ -79,7 +79,9 @@
       "minLengthPlaceholder": "最小长度",
       "maxLengthPlaceholder": "最大长度",
       "requiredPlaceholder": "必填",
-      "questionTextPlaceholder": "问题文本"
+      "questionTextPlaceholder": "问题文本",
+      "setInputTypePlaceholder": "设置输入类型",
+      "dynamicDropdownAnswersFromTags": "来自标签的额外答案"
     },
     "EXPANDED_QUESTION_CARD_TAB_LABELS": {
       "basicLabel": "基础",
@@ -95,6 +97,35 @@
       "sortInputLabel": "排序输入",
       "barcodeScanLabel": "条形码扫描",
       "responseTemplateLabel": "响应模板"
+    },
+    "INPUT_TYPE_OPTIONS": {
+      "anyCharactersLabel": "任意字符",
+      "textOnlyLabel": "仅文本",
+      "numberOnlyLabel": "仅数字",
+      "dateTimeLabel": "日期和时间"
+    },
+    "DATE_VIEW_OPTIONS": {
+      "dateOnlyLabel": "仅日期",
+      "timeOnlyLabel": "仅时间",
+      "dateAndTimeLabel": "日期和时间"
+    },
+    "RESPONSE_TEMPLATE_OPTIONS": {
+      "markWhenCompleteLabel": "完成时标记",
+      "rankLabel": "排名 (1-5)",
+      "tempLabel": "温度 > 135",
+      "yesNoLabel": "是/否",
+      "manualTempLabel": "手动温度 > 135"
+    },
+    "QUESTION_TYPE_LABELS": {
+      "minLengthPlaceholder": "最小长度",
+      "maxLengthPlaceholder": "最大长度",
+      "minValuePlaceholder": "最小值",
+      "maxValuePlaceholder": "最大值",
+      "optionsLabel": "选项",
+      "setInputTypeLabel": "设置输入类型",
+      "submitButton": "提交",
+      "cancelButton": "取消",
+      "inputTypeLabel": "输入类型"
     }
   },
   "QUESTION_OPTION": {

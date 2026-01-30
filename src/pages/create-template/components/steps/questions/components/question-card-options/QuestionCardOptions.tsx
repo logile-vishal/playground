@@ -36,6 +36,9 @@ import type {
   TriggerCardMenuProps,
 } from "@/pages/create-template/types/questions.type";
 import CSelect from "@/core/components/form/select";
+import { useNotification } from "@/core/services/notification.service";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
+import { Severity } from "@/core/types/severity.type";
 
 import "./QuestionCardOptions.scss";
 
@@ -43,13 +46,13 @@ import "./QuestionCardOptions.scss";
  * @method QuestionCardOption
  * @description Renders a single question option with input field, dropdowns, and action buttons
  * @param {QuestionCardOptionProps} props - Component props
- * @param {number} [props.linkCount] - Number of attachments linked to this option
  * @return {React.ReactNode} Option row JSX element
  */
 const QuestionCardOption = (props: QuestionCardOptionProps) => {
   const { QUESTION_OPTION, QUESTIONS } = useCreateTemplateTranslations();
   const { deleteOption } = useQuestionListManager();
-  const { control, setFormValue, getFormValues } = useCreateTemplateForm();
+  const { control, setFormValue, getFormValues, watch } =
+    useCreateTemplateForm();
 
   const CompliantOptions = Object.values(
     QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS
@@ -68,6 +71,9 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     data: null,
     type: null,
   });
+
+  const watchNotificationForm = watch("notifications");
+  const watchFollowUpTaskForm = watch("followUpTask");
 
   const handleDeleteOption = (index: number) => {
     deleteOption(props.question.qId, index);
@@ -95,6 +101,25 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     });
   };
 
+  const renderMenuItem = (item: NestedMenuItem, type: string) => {
+    return (
+      <div className="ques-card-options-menu-item">
+        {item?.label}
+
+        <Badge
+          className="attachment-badge"
+          badgeContent={
+            type === "notifications"
+              ? watchNotificationForm?.length || 0
+              : watchFollowUpTaskForm?.length || 0
+          }
+          color="info"
+          overlap="rectangular"
+        ></Badge>
+      </div>
+    );
+  };
+
   /**
    * @method renderTriggerCardMenu
    * @description Renders the trigger card menu with nested options
@@ -111,6 +136,16 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
         onClose={closeTriggerCardMenu}
         showSearch={false}
         className="question-section__settings-menu"
+        templates={{
+          itemTemplate: ({ item }) => {
+            if (item.value === OPTION_TRIGGER_MENU_KEY.Notification) {
+              return renderMenuItem(item, "notifications");
+            }
+            if (item.value === OPTION_TRIGGER_MENU_KEY.FollowUp) {
+              return renderMenuItem(item, "followUpTask");
+            }
+          },
+        }}
         onSelect={(item) => {
           if (item?.value === OPTION_TRIGGER_MENU_KEY.Notification) {
             setTriggerCardModal({
@@ -296,7 +331,10 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
       >
         <Badge
           className="attachment-badge"
-          badgeContent={props.linkCount}
+          badgeContent={
+            (watchNotificationForm?.length || 0) +
+              (watchFollowUpTaskForm?.length || 0) || 0
+          }
           color="info"
           overlap="rectangular"
         >
@@ -372,10 +410,24 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
  */
 const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
   const { QUESTION_OPTION } = useCreateTemplateTranslations();
+  const { EDITOR_ERROR } = useCommonTranslation();
+  const { triggerValidation } = useCreateTemplateForm();
   const { addNewOption } = useQuestionListManager();
+  const { notify } = useNotification();
 
-  const handleAddOption = () => {
-    addNewOption(props.question?.qId);
+  const handleAddOption = async () => {
+    const isValid = await triggerValidation("questions");
+    if (!isValid) {
+      notify({
+        title: EDITOR_ERROR.REQUIRED_FIELD,
+        config: {
+          severity: Severity.ERROR,
+        },
+      });
+      return;
+    }
+    if (props.question?.questionBasicData?.response)
+      addNewOption(props.question?.qId);
   };
   return (
     <Box

@@ -151,6 +151,8 @@ const CTextfield = ({
   acceptFileFormats,
   allowMultipleFileUpload,
   isInlineLabel,
+  min,
+  max,
 }: TextfieldProps) => {
   const status: TextfieldStatus = error
     ? TEXTFIELD_STATUS.ERROR
@@ -202,6 +204,8 @@ const CTextfield = ({
             ...(type === "file" && allowMultipleFileUpload
               ? { multiple: true }
               : {}),
+            ...(type === "number" && min !== undefined ? { min: min } : {}),
+            ...(type === "number" && max !== undefined ? { max: max } : {}),
           },
           input: {
             startAdornment: startIcon ? (

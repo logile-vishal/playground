@@ -75,7 +75,9 @@
       "minLengthPlaceholder": "न्यूनतम लंबाई",
       "maxLengthPlaceholder": "अधिकतम लंबाई",
       "requiredPlaceholder": "आवश्यक",
-      "questionTextPlaceholder": "प्रश्न पाठ"
+      "questionTextPlaceholder": "प्रश्न पाठ",
+      "setInputTypePlaceholder": "इनपुट प्रकार सेट करें",
+      "dynamicDropdownAnswersFromTags": "टैग से अतिरिक्त उत्तर"
     },
     "EXPANDED_QUESTION_CARD_TAB_LABELS": {
       "basicLabel": "मूल",
@@ -91,6 +93,35 @@
       "sortInputLabel": "सॉर्ट इनपुट",
       "barcodeScanLabel": "बारकोड स्कैन",
       "responseTemplateLabel": "प्रतिक्रिया टेम्पलेट"
+    },
+    "INPUT_TYPE_OPTIONS": {
+      "anyCharactersLabel": "कोई भी वर्ण",
+      "textOnlyLabel": "केवल पाठ",
+      "numberOnlyLabel": "केवल संख्या",
+      "dateTimeLabel": "तिथि और समय"
+    },
+    "DATE_VIEW_OPTIONS": {
+      "dateOnlyLabel": "केवल तिथि",
+      "timeOnlyLabel": "केवल समय",
+      "dateAndTimeLabel": "तिथि और समय"
+    },
+    "RESPONSE_TEMPLATE_OPTIONS": {
+      "markWhenCompleteLabel": "पूर्ण होने पर चिह्नित करें",
+      "rankLabel": "रैंक (1-5)",
+      "tempLabel": "तापमान > 135",
+      "yesNoLabel": "हीं/नहीं",
+      "manualTempLabel": "संजीकरण तापमान > 135"
+    },
+    "QUESTION_TYPE_LABELS": {
+      "minLengthPlaceholder": "न्यूनतम लंबाई",
+      "maxLengthPlaceholder": "अधिकतम लंबाई",
+      "minValuePlaceholder": "न्यूनतम मूल्य",
+      "maxValuePlaceholder": "अधिकतम मूल्य",
+      "optionsLabel": "विकल्प",
+      "setInputTypeLabel": "इनपुट प्रकार सेट करें",
+      "submitButton": "जमा करें",
+      "cancelButton": "रद्द करें",
+      "inputTypeLabel": "इनपुट प्रकार"
     }
   },
   "QUESTION_OPTION": {
