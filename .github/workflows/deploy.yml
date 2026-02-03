@@ -13,6 +13,9 @@ on:
           - QA2
           - QA3
           - QA4
+          - QA5
+          - QA6
+          - QA7
       branch:
         description: "Branch to deploy"
         required: true
