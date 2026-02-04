@@ -27,6 +27,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   questionFormPath,
   handleQuestionAdd,
   isAddQuestionAllowed,
+  walkMeIdPrefix,
 }) => {
   return (
     <Box
@@ -55,6 +56,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           questionFormPath={questionFormPath}
           handleQuestionAdd={handleQuestionAdd}
           isAddQuestionAllowed={isAddQuestionAllowed}
+          walkMeIdPrefix={walkMeIdPrefix}
         />
       )}
     </Box>

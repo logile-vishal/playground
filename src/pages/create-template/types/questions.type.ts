@@ -125,6 +125,7 @@ export type QuestionSectionProps = {
   toggleExpand: (id: string) => void;
   handleQuestionAdd: () => Promise<boolean>;
   isAddQuestionAllowed: boolean;
+  walkMeIdPrefix?: string[];
 };
 
 export type QuestionCardProps = {
@@ -135,8 +136,9 @@ export type QuestionCardProps = {
   questionFormPath?: string;
   toggleExpand: (id: number | string) => void;
   expandedList?: Record<string | number, boolean>;
-  handleQuestionAdd: () => Promise<boolean>;
+  handleQuestionAdd: (afterQuestionId?: string) => Promise<boolean>;
   isAddQuestionAllowed: boolean;
+  walkMeIdPrefix?: string[];
 };
 
 export type QuestionBadgeVariant =

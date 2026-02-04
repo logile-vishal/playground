@@ -64,6 +64,14 @@ export const useCreateTemplateTranslations = () => {
       label: t("CREATE_TEMPLATE_STEPS.followUpLabel"),
       value: "follow-up",
     },
+    columns: {
+      label: t("CREATE_TEMPLATE_STEPS.columnsLabel"),
+      value: "columns",
+    },
+    rows: {
+      label: t("CREATE_TEMPLATE_STEPS.rowsLabel"),
+      value: "rows",
+    },
   };
 
   const CREATE_TEMPLATE_HEADING = {
@@ -458,6 +466,19 @@ export const useCreateTemplateTranslations = () => {
       // TODO: label handled dynamically
     },
   };
+  const COLUMNS = {
+    header: t("COLUMNS.header"),
+    noColumnPlaceholder: t("COLUMNS.noColumnPlaceholder"),
+    addColumnButtonLabel: t("COLUMNS.addColumnButtonLabel"),
+    oneColumnRequiredError: t("COLUMNS.oneColumnRequiredError"),
+  };
+
+  const ROWS = {
+    header: t("ROWS.header"),
+    noRowPlaceholder: t("ROWS.noRowPlaceholder"),
+    addRowButtonLabel: t("ROWS.addRowButtonLabel"),
+    oneRowRequiredError: t("ROWS.oneRowRequiredError"),
+  };
 
   return {
     BASIC_INFO,
@@ -472,5 +493,7 @@ export const useCreateTemplateTranslations = () => {
     FOLLOWUP_TASKS,
     QUESTION_BADGE_CONFIG,
     QUESTION_OPTION,
+    COLUMNS,
+    ROWS,
   };
 };

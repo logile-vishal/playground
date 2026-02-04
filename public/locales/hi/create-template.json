@@ -19,7 +19,9 @@
     "questionsLabel": "प्रश्न",
     "advancedOptionLabel": "उन्नत विकल्प",
     "notificationLabel": "सूचनाएं",
-    "followUpLabel": "अनुवर्ती कार्य"
+    "followUpLabel": "अनुवर्ती कार्य",
+    "columnsLabel": "कॉलम",
+    "rowsLabel": "पंक्तियाँ"
   },
   "CREATE_TEMPLATE_HEADING": {
     "createTaskTemplate": "कार्य टेम्पलेट बनाएं"
@@ -185,5 +187,17 @@
     "numberLabel": "संख्या",
     "temperatureLabel": "तापमान",
     "tagLabel": "टैग"
+  },
+  "COLUMNS": {
+    "header": "कॉलम",
+    "noColumnPlaceholder": "कोई कॉलम अभी तक नहीं जोड़ा गया है। शुरू करने के लिए \"+ कॉलम\" पर क्लिक करें।",
+    "addColumnButtonLabel": "कॉलम",
+    "oneColumnRequiredError": "कम से कम एक कॉलम आवश्यक है।"
+  },
+  "ROWS": {
+    "header": "पंक्तियाँ",
+    "noRowPlaceholder": "कोई पंक्ति अभी तक नहीं जोड़ी गई है। शुरू करने के लिए \"+ पंक्ति\" पर क्लिक करें।",
+    "addRowButtonLabel": "पंक्ति",
+    "oneRowRequiredError": "कम से कम एक पंक्ति आवश्यक है।"
   }
 }

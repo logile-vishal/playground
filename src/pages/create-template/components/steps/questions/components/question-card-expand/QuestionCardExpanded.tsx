@@ -45,6 +45,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   questionFormPath,
   handleQuestionAdd,
   isAddQuestionAllowed,
+  walkMeIdPrefix,
 }) => {
   const { QUESTIONS, QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
   const [currentTab, setCurrentTab] = useState(
@@ -54,7 +55,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN[0].value
   );
   const [attachments, setAttachments] = useState<File[]>([]);
-  const { control, watch } = useCreateTemplateForm();
+  const { control, watch, formErrors } = useCreateTemplateForm();
   const { modifyQuestionType, cloneExistingQuestion, deleteQuestion } =
     useQuestionListManager();
   const watchQuestionList = watch("questions") as QuestionProps[];
@@ -294,9 +295,6 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   };
 
   const handleCloneQuestion = async () => {
-    const isValid = await handleQuestionAdd();
-
-    if (!isValid) return;
     const qId = cloneExistingQuestion(question.qId);
     toggleExpand(qId);
   };
@@ -377,14 +375,9 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
           <Box className="ct-question-card-expanded__actions-icons">
             <CIconButton
               disabled={!isAddQuestionAllowed}
-              onClick={handleQuestionAdd}
+              onClick={() => handleQuestionAdd(question.qId)}
               size="medium"
-              walkMeId={[
-                "create-template",
-                "questions",
-                "card-expanded",
-                "add",
-              ]}
+              walkMeId={[...walkMeIdPrefix, "card-expanded", "add"]}
             >
               <CSvgIcon component={AddIcon} />
             </CIconButton>
@@ -392,12 +385,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
               onClick={handleCloneQuestion}
               disabled={!isAddQuestionAllowed}
               size="medium"
-              walkMeId={[
-                "create-template",
-                "questions",
-                "card-expanded",
-                "clone",
-              ]}
+              walkMeId={[...walkMeIdPrefix, "card-expanded", "clone"]}
             >
               <CSvgIcon component={Copy} />
             </CIconButton>
@@ -405,13 +393,14 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
               <CIconButton
                 onClick={handleDeleteQuestion}
                 severity="destructive"
+                disabled={
+                  (formErrors as { questions?: unknown }).questions &&
+                  !(formErrors as { questions?: unknown }).questions?.[
+                    Number(index) - 1
+                  ]
+                }
                 size="medium"
-                walkMeId={[
-                  "create-template",
-                  "questions",
-                  "card-expanded",
-                  "delete",
-                ]}
+                walkMeId={[...walkMeIdPrefix, "card-expanded", "delete"]}
               >
                 <CSvgIcon component={Delete} />
               </CIconButton>
@@ -419,12 +408,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             <CIconButton
               onClick={() => toggleExpand(question?.qId)}
               size="medium"
-              walkMeId={[
-                "create-template",
-                "questions",
-                "card-expanded",
-                "collapse",
-              ]}
+              walkMeId={[...walkMeIdPrefix, "card-expanded", "collapse"]}
             >
               <CSvgIcon component={ChevronUpLarge} />
             </CIconButton>
@@ -455,7 +439,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
                   error={!!error}
                   attachments={attachments}
                   onUpdateAttachments={onUpdateAttachments}
-                  walkMeIdPrefix={["create template", "question card expanded"]}
+                  walkMeIdPrefix={[...walkMeIdPrefix, "question-title"]}
                 />
               );
             }}
@@ -551,6 +535,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
                 questionFormPath={`${questionFormPath}.subQuestions[${index}]`}
                 handleQuestionAdd={handleQuestionAdd}
                 isAddQuestionAllowed={isAddQuestionAllowed}
+                walkMeIdPrefix={[...walkMeIdPrefix, "sub-question"]}
               />
             );
           })

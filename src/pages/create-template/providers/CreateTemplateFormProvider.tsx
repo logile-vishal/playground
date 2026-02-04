@@ -5,15 +5,7 @@ import { CreateTemplateFormContext } from "../services/create-template-form.serv
 import { createTemplateFormSchema } from "../form-schema/create-template-form-schema";
 import type { CreateTemplateFormContextType } from "../types/create-template-form-schema.type";
 import type { CreateTemplateFormType } from "../form-schema/create-template-form-schema";
-
-/**
- *@description CreateTemplateFormProvider is a provider component that provides the form context to its children.
- *@param children - The children of the provider.
- */
-
-interface CreateTemplateFormProviderProps {
-  children: React.ReactNode;
-}
+import type { CreateTemplateFormProviderProps } from "../types/createTemplateFormProvider.type";
 
 // TODO: Add default values according to different template types and remove static values
 export const CreateTemplateFormProvider: React.FC<
@@ -58,7 +50,7 @@ export const CreateTemplateFormProvider: React.FC<
         recipients: ["Assignee"],
       },
     ],
-    followUpTask: [
+    followUpTasks: [
       {
         triggerType: "TASK",
         condition: "TASK_COMPLETED",
@@ -81,6 +73,7 @@ export const CreateTemplateFormProvider: React.FC<
       },
     ],
   };
+
   const {
     register,
     handleSubmit,

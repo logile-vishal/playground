@@ -1,0 +1,42 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.ct-column-card-expanded {
+  --selection-min-width: 180px;
+  --textfield-width: 70px;
+  @include flex-box(column);
+  gap: var(--space-s);
+  border-radius: var(--radius-m);
+  border: 1px solid var(--logile-border-primary);
+  background: var(--logile-bg-container-1);
+  box-shadow: var(--shadow-l-2-x) var(--shadow-l-2-y) var(--shadow-l-2-blur)
+    var(--shadow-l-2-spread) var(--logile-utility-gray-1a);
+  padding: var(--space-l);
+
+  &__header {
+    @include flex-center(space-between);
+  }
+  &__header-left-content {
+    @include flex-center($gap: var(--space-m));
+  }
+  &__order-index {
+    @include flex-center(center, center, var(--space-none));
+    & p {
+      color: var(--logile-text-primary);
+      font-family: var(--logile-family-body-family);
+      font-size: var(--logile-size-secondary-heading);
+      font-style: normal;
+      font-weight: var(--logile-weight-500);
+      line-height: var(--logile-line-height-body);
+    }
+  }
+  &__dnd {
+    cursor: grab;
+    @include flex-center($gap: 0);
+  }
+  &__header-right-content {
+    @include flex-center($gap: var(--space-l));
+  }
+  &__actions-icons {
+    @include flex-center($gap: var(--space-xl));
+  }
+}

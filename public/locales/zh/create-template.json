@@ -19,7 +19,9 @@
     "questionsLabel": "问题",
     "advancedOptionLabel": "高级选项",
     "notificationLabel": "通知",
-    "followUpLabel": "后续任务"
+    "followUpLabel": "后续任务",
+    "columnsLabel": "列",
+    "rowsLabel": "行"
   },
   "CREATE_TEMPLATE_HEADING": {
     "createTaskTemplate": "创建任务模板"
@@ -189,5 +191,17 @@
     "numberLabel": "数字",
     "temperatureLabel": "温度",
     "tagLabel": "标签"
+  },
+  "COLUMNS": {
+    "header": "列",
+    "noColumnPlaceholder": "尚未添加任何列。点击“+ 列”开始。",
+    "addColumnButtonLabel": "列",
+    "oneColumnRequiredError": "至少需要一列。"
+  },
+  "ROWS": {
+    "header": "行",
+    "noRowPlaceholder": "尚未添加任何行。点击“+ 行”开始。",
+    "addRowButtonLabel": "行",
+    "oneRowRequiredError": "至少需要一行。"
   }
 }

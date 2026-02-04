@@ -1,23 +1,24 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
-.ct-questions {
+.ct-rows {
   @include placeholder-page;
   --card-placeholder-height: 100px;
+
   padding: var(--space-m) var(--space-xl);
-  gap: var(--space-m);
+  gap: var(--space-l);
   &__header-wrapper {
     @include flex-center(space-between, center, var(--space-l));
   }
-  &__header.ct-questions__header {
+  &__header.ct-rows__header {
     color: var(--logile-text-primary);
     font-size: var(--logile-size-secondary-heading);
     font-weight: var(--logile-weight-500);
   }
-  &__all-ques-expand-container {
+  &__all-rows-expand-container {
     display: flex;
     gap: var(--space-xl);
   }
-  &__expanded-btn.ct-questions__expanded-btn {
+  &__expanded-btn.ct-rows__expanded-btn {
     padding: var(--space-l) var(--space-xl);
     border-radius: var(--radius-m);
     border: 1px solid var(--logile-border-secondary);
@@ -42,7 +43,7 @@
       align-items: center;
       justify-content: center;
     }
-    &__placeholder-text.ct-questions-cards-wrapper__placeholder-text {
+    &__placeholder-text.ct-rows-cards-wrapper__placeholder-text {
       color: var(--logile-text-tertiary);
       font-size: var(--logile-size-body);
       font-weight: var(--logile-weight-400);

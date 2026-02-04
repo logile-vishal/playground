@@ -181,7 +181,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
                 "question-section__header-title-icon--active":
                   sectionSetting.status,
               })}
-              walkMeId={["create-template", "questions", "section", "settings"]}
+              walkMeId={[...props.walkMeIdPrefix, "settings"]}
             >
               <CSvgIcon component={Setting} />
             </CIconButton>
@@ -190,12 +190,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
             size="medium"
             className="question-section__header-icon"
             onClick={toggleSectionCollapse}
-            walkMeId={[
-              "create-template",
-              "questions",
-              "section",
-              "collapse-section",
-            ]}
+            walkMeId={[...props.walkMeIdPrefix, "collapse-section"]}
           >
             <CSvgIcon component={ChevronCollapse} />
           </CIconButton>
@@ -219,6 +214,7 @@ const QuestionSection = (props: QuestionSectionProps) => {
                     }
                     handleQuestionAdd={props?.handleQuestionAdd}
                     isAddQuestionAllowed={props?.isAddQuestionAllowed}
+                    walkMeIdPrefix={props?.walkMeIdPrefix}
                   />
                 </Box>
               ))

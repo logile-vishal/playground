@@ -1,0 +1,65 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.col-card-collapsed {
+  --card-label-min-width: 20%;
+  --card-label-max-width: 50%;
+
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding: var(--space-l);
+  border-radius: var(--radius-m);
+  border: 1px solid var(--logile-border-primary);
+  background: var(--logile-bg-container-1);
+  box-shadow: var(--shadow-l-2-x) var(--shadow-l-2-y) var(--shadow-l-2-blur)
+    var(--shadow-l-2-spread) var(--logile-utility-gray-1a);
+  &--error {
+    border: 1px solid var(--logile-border-state-violation);
+  }
+  &__info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  &__label {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: var(--card-label-min-width);
+    max-width: var(--card-label-max-width);
+    margin-left: var(--space-m);
+    & p {
+      color: var(--logile-text-primary);
+      font-family: var(--logile-family-body-family);
+      font-size: var(--logile-size-body);
+      font-style: normal;
+      margin: 0;
+      font-weight: var(--logile-weight-400);
+      line-height: var(--logile-line-height-body);
+      width: 100%;
+    }
+  }
+  &__order-index {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & p {
+      color: var(--logile-text-primary);
+      font-family: var(--logile-family-body-family);
+      font-size: var(--logile-size-body);
+      font-style: normal;
+      font-weight: var(--logile-weight-500);
+      line-height: var(--logile-line-height-body);
+    }
+  }
+  &__dnd {
+    margin-right: var(--space-m);
+    display: flex;
+    align-items: center;
+    cursor: grab;
+  }
+  &__chevron-down {
+    @include flex-center(center, center);
+    cursor: pointer;
+  }
+}

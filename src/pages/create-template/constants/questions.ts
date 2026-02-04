@@ -1,3 +1,5 @@
+import { TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
+
 export const QUESTION_OPTION_LABELS = {
   RADIO: "Radio Button",
   DROPDOWN: "Dropdown",
@@ -139,3 +141,44 @@ export const ATTACHMENTS_ENUM = [
   "Numeric",
   "Attachment",
 ] as const;
+
+// Todo : need to be replaced later with API response
+export const DATE_TIME_ENUMS = [
+  "Date Only",
+  "Time Only",
+  "Date & Time",
+] as const;
+
+export const RESPONSE_TEMPLATE_ENUMS = [
+  "Mark when Complete",
+  "Rank (1-5)",
+  "Temp > 135",
+  "Yes/No",
+  "Manual Temp > 135",
+] as const;
+
+export const newColumnDefaultData = {
+  columnId: "",
+  title: "",
+};
+
+export const PREVIEW_BUTTON_THRESHOLD = {
+  [TEMPLATE_TYPE.GRID]: 3,
+  [TEMPLATE_TYPE.FORM]: 1,
+  [TEMPLATE_TYPE.SPREADSHEET]: 1,
+  [TEMPLATE_TYPE.CHECKLIST]: 2,
+};
+
+export const SAVE_BUTTON_THRESHOLD = {
+  [TEMPLATE_TYPE.GRID]: 2,
+  [TEMPLATE_TYPE.FORM]: 1,
+  [TEMPLATE_TYPE.SPREADSHEET]: 1,
+  [TEMPLATE_TYPE.CHECKLIST]: 1,
+};
+
+export const SUBMIT_BUTTON_THRESHOLD = {
+  [TEMPLATE_TYPE.GRID]: 3,
+  [TEMPLATE_TYPE.FORM]: 1,
+  [TEMPLATE_TYPE.SPREADSHEET]: 1,
+  [TEMPLATE_TYPE.CHECKLIST]: 2,
+};

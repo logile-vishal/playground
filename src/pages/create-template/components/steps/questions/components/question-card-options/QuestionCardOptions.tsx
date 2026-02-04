@@ -73,7 +73,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
   });
 
   const watchNotificationForm = watch("notifications");
-  const watchFollowUpTaskForm = watch("followUpTask");
+  const watchFollowUpTaskForm = watch("followUpTasks");
 
   const handleDeleteOption = (index: number) => {
     deleteOption(props.question.qId, index);

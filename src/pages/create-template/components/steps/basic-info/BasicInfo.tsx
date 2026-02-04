@@ -60,7 +60,6 @@ const AttachmentItem: React.FC<AttachmentItemProps> = ({
   );
 };
 
-//TODO: To be removed static data when dropdown api response
 const directoryDropdownOptions = [
   { value: 1, label: "Directory 1" },
   { value: 2, label: "Directory 2" },
@@ -102,7 +101,7 @@ const BasicInfo: React.FC = () => {
     const currentBasicData = getFormValues("basicData");
     const advancedOptions = getFormValues("advancedOptions");
     const notifications = getFormValues("notifications");
-    const followUpTask = getFormValues("followUpTask");
+    const followUpTasks = getFormValues("followUpTasks");
 
     switch (templateTypeValue) {
       case BASE_TEMPLATE_TYPE.checklist:
@@ -114,7 +113,7 @@ const BasicInfo: React.FC = () => {
           },
           advancedOptions,
           notifications,
-          followUpTask,
+          followUpTasks,
           questions: getFormValues("questions") || [],
         });
         break;
@@ -127,9 +126,9 @@ const BasicInfo: React.FC = () => {
           },
           advancedOptions,
           notifications,
-          followUpTask,
-          column: getFormValues("column") || { columnId: "", title: "" },
-          row: getFormValues("row") || [],
+          followUpTasks,
+          columns: getFormValues("columns") || [],
+          questions: getFormValues("questions") || [],
         });
         break;
       case BASE_TEMPLATE_TYPE.form:
@@ -142,7 +141,7 @@ const BasicInfo: React.FC = () => {
           },
           advancedOptions,
           notifications,
-          followUpTask,
+          followUpTasks,
         });
         break;
       case BASE_TEMPLATE_TYPE.spreadsheet:
@@ -155,7 +154,7 @@ const BasicInfo: React.FC = () => {
           },
           advancedOptions,
           notifications,
-          followUpTask,
+          followUpTasks,
         });
         break;
     }

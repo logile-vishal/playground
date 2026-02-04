@@ -9,7 +9,6 @@ import {
   ChevronCollapse,
   ChevronExpanded,
 } from "@/core/constants/icons";
-import clsx from "@/utils/clsx";
 import { CButton } from "@/core/components/button/button";
 import CNoData from "@/core/components/no-data/NoData";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
@@ -30,6 +29,7 @@ export const RenderQuestion: React.FC<{
   questionFormPath: string;
   handleQuestionAdd: () => Promise<boolean>;
   isAddQuestionAllowed: boolean;
+  walkMeIdPrefix?: string[];
 }> = ({
   index,
   question,
@@ -38,6 +38,7 @@ export const RenderQuestion: React.FC<{
   questionFormPath,
   handleQuestionAdd,
   isAddQuestionAllowed,
+  walkMeIdPrefix,
 }) => {
   if (question?.subQuestions && question?.subQuestions.length > 0) {
     return (
@@ -51,6 +52,7 @@ export const RenderQuestion: React.FC<{
         questionFormPath={questionFormPath}
         handleQuestionAdd={handleQuestionAdd}
         isAddQuestionAllowed={isAddQuestionAllowed}
+        walkMeIdPrefix={[...walkMeIdPrefix, "section"]}
       />
     );
   }
@@ -63,11 +65,14 @@ export const RenderQuestion: React.FC<{
       questionFormPath={questionFormPath}
       handleQuestionAdd={handleQuestionAdd}
       isAddQuestionAllowed={isAddQuestionAllowed}
+      walkMeIdPrefix={walkMeIdPrefix}
     />
   );
 };
 
-const Questions: React.FC = () => {
+const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
+  walkMeIdPrefix,
+}) => {
   const { QUESTIONS } = useCreateTemplateTranslations();
   const [addSectionModal, setAddSectionModal] = useState({
     status: false,
@@ -122,17 +127,21 @@ const Questions: React.FC = () => {
     setExpandedList({});
   };
 
-  const handleQuestionAdd = () => {
-    const qId = addNewQuestion();
+  const handleQuestionAdd = (questionId?: string) => {
+    const qId = questionId ? addNewQuestion(questionId) : addNewQuestion();
     toggleExpand(qId);
   };
 
-  const handleQuestionClick = async () => {
+  const handleQuestionClick = async (questionId?: string) => {
     const isValid =
       watchQuestionList?.length === 0 || (await triggerValidation("questions"));
     setIsAddQuestionAllowed(isValid);
     if (isValid) {
-      handleQuestionAdd();
+      if (questionId) {
+        handleQuestionAdd(questionId);
+      } else {
+        handleQuestionAdd();
+      }
     }
     return isValid;
   };
@@ -167,31 +176,18 @@ const Questions: React.FC = () => {
         {watchQuestionList?.length > 0 && (
           <Box className="ct-questions__all-ques-expand-container">
             <CIconButton
-              className={clsx({
-                "ct-questions__expanded-btn": true,
-                "ct-questions__expanded-btn--active": true,
-              })}
               variant="outline"
               size="medium"
-              walkMeId={[
-                "create-template",
-                "questions",
-                "collapse-all-questions",
-              ]}
+              walkMeId={[...walkMeIdPrefix, "collapse-all-questions"]}
               onClick={handleCollapseAll}
             >
               <CSvgIcon component={ChevronCollapse} />
             </CIconButton>
             <CIconButton
               onClick={handleExpandAll}
-              className="ct-questions__expanded-btn"
               variant="outline"
               size="medium"
-              walkMeId={[
-                "create-template",
-                "questions",
-                "expand-all-questions",
-              ]}
+              walkMeId={[...walkMeIdPrefix, "expand-all-questions"]}
             >
               <CSvgIcon component={ChevronExpanded} />
             </CIconButton>
@@ -215,7 +211,8 @@ const Questions: React.FC = () => {
           severity="primary"
           size="small"
           disabled={!isAddQuestionAllowed}
-          onClick={handleQuestionClick}
+          onClick={() => handleQuestionClick()}
+          walkMeId={[...walkMeIdPrefix, "add-question"]}
         >
           <CSvgIcon
             size={15}
@@ -230,6 +227,7 @@ const Questions: React.FC = () => {
           size="small"
           disabled={!isAddQuestionAllowed}
           onClick={openAddSectionModal}
+          walkMeId={[...walkMeIdPrefix, "add-section"]}
         >
           <CSvgIcon
             size={15}
@@ -263,6 +261,7 @@ const Questions: React.FC = () => {
                     questionFormPath={`questions.${index}`}
                     handleQuestionAdd={handleQuestionClick}
                     isAddQuestionAllowed={isAddQuestionAllowed}
+                    walkMeIdPrefix={walkMeIdPrefix}
                   />
                 );
               })}

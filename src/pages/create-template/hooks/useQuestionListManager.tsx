@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from "uuid";
-
 import { isNonEmptyValue } from "@/utils";
 
 import useCreateTemplateForm from "./useCreateTemplateForm";
@@ -178,7 +177,7 @@ export const addQuestion = (
  * @description Checks if the provided question type requires options
  * @returns {boolean} - True if options are required for the question type
  */
-const isOptionRequired = (type: string) => {
+export const isOptionRequired = (type: string) => {
   return (
     type === QUESTION_TYPE.RADIO ||
     type === QUESTION_TYPE.CHECKBOX ||
@@ -338,19 +337,31 @@ export const removeOption = (
  * @description Clone a question and insert it right after the original question
  * Creates a deep copy of the question with a new unique qId and inserts it immediately
  * after the original question at the same nesting level using recursive helper function.
- * @returns {{ data: QuestionProps[], qId: string }} - object containing updated data with the cloned question and the qId of the cloned question
+ * Validates that the question has a title before cloning.
+ * @returns {{ data: QuestionProps[], qId: string, isValid: boolean }} - object containing updated data with the cloned question, the qId of the cloned question, and validation status
  */
 export const cloneQuestion = (
   data: QuestionProps[],
   questionId: string
-): { data: QuestionProps[]; qId: string } => {
+): { data: QuestionProps[]; qId: string; isValid: boolean } => {
   const clonedQId: string = uuidv4();
-  const copyData = deepCopyQuestions(data);
+  const copyData: QuestionProps[] = deepCopyQuestions(data);
+
+  let isQuestionValid = true;
 
   // Helper function to recursively find and clone the question
   const cloneInTree = (items: QuestionProps[]): boolean => {
     for (let i = 0; i < items.length; i++) {
       if (items[i].qId === questionId) {
+        // Validate that the column has a title before copying
+        if (
+          !items[i].questionBasicData.title ||
+          items[i].questionBasicData.title.trim() === ""
+        ) {
+          isQuestionValid = false;
+          return false;
+        }
+
         // Found the question to clone, create a deep copy with new qId
         const clonedQuestion: QuestionProps = deepCopyQuestions([items[i]])[0];
         const newQuestion: QuestionProps = {
@@ -373,7 +384,7 @@ export const cloneQuestion = (
   };
 
   cloneInTree(copyData);
-  return { data: copyData, qId: clonedQId };
+  return { data: copyData, qId: clonedQId, isValid: isQuestionValid };
 };
 
 const useQuestionListManager = () => {
@@ -487,13 +498,19 @@ const useQuestionListManager = () => {
    * @description Clones an existing question and inserts it right after the original
    * -Method gets the questions list from the form
    * -uses @method cloneQuestion to clone the question with the given questionId
+   * -Validates that the question has a title before cloning
    * -Inserts the cloned question immediately after the original
    * -Sets the updated questions list back to the form
-   * @returns {string} - the qId of the cloned question
+   * @returns {string} - the qId of the cloned question, or empty string if validation fails
    */
   const cloneExistingQuestion = (questionId: string): string => {
     const questionsList = getFormValues("questions") as QuestionProps[];
-    const { data, qId } = cloneQuestion(questionsList, questionId);
+    const { data, qId, isValid } = cloneQuestion(questionsList, questionId);
+
+    if (!isValid) {
+      triggerValidation("questions");
+      return "";
+    }
     setFormValue("questions", data);
     return qId;
   };

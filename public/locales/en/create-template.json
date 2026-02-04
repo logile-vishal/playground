@@ -19,7 +19,9 @@
     "questionsLabel": "Questions",
     "advancedOptionLabel": "Advanced Options",
     "notificationLabel": "Notifications",
-    "followUpLabel": "Follow-up Tasks"
+    "followUpLabel": "Follow-up Tasks",
+    "columnsLabel": "Columns",
+    "rowsLabel": "Rows"
   },
   "CREATE_TEMPLATE_HEADING": {
     "createTaskTemplate": "Create Task Template"
@@ -189,5 +191,17 @@
     "numberLabel": "Number",
     "temperatureLabel": "Temperature",
     "tagLabel": "Tag"
+  },
+  "COLUMNS": {
+    "header": "Columns",
+    "noColumnPlaceholder": "No columns added yet. Click \"+ Column\" to get started.",
+    "addColumnButtonLabel": "Column",
+    "oneColumnRequiredError": "At least one column is required."
+  },
+  "ROWS": {
+    "header": "Rows",
+    "noRowPlaceholder": "No rows added yet. Click \"+ Row\" to get started.",
+    "addRowButtonLabel": "Row",
+    "oneRowRequiredError": "At least one row is required."
   }
 }

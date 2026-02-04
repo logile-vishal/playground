@@ -7,7 +7,7 @@ import { followUpTaskStepSchema } from "./steps/followup-tasks";
 
 export const gridColumnSchema = zod.object({
   columnId: zod.string(),
-  title: zod.string(),
+  title: zod.string().min(1, "Column title is required"),
 });
 
 export const checklistTypeFormSchema = zod.object({
@@ -18,17 +18,21 @@ export const checklistTypeFormSchema = zod.object({
     .min(1, "At least one question is required"),
   advancedOptions: advancedOptionsSchema,
   notifications: zod.array(notificationStepSchema),
-  followUpTask: zod.array(followUpTaskStepSchema),
+  followUpTasks: zod.array(followUpTaskStepSchema),
 });
 
 export const gridTypeFormSchema = zod.object({
   templateType: zod.literal("grid"),
   basicData: basicInfoStepSchema,
-  column: gridColumnSchema,
-  row: zod.array(questionStepSchema),
+  columns: zod
+    .array(gridColumnSchema)
+    .min(1, "At least one column is required"),
+  questions: zod
+    .array(questionStepSchema)
+    .min(1, "At least one row is required"),
   advancedOptions: advancedOptionsSchema,
   notifications: zod.array(notificationStepSchema),
-  followUpTask: zod.array(followUpTaskStepSchema),
+  followUpTasks: zod.array(followUpTaskStepSchema),
 });
 
 export const spreadsheetTypeFormSchema = zod.object({
@@ -36,7 +40,7 @@ export const spreadsheetTypeFormSchema = zod.object({
   basicData: basicInfoStepSchema,
   advancedOptions: advancedOptionsSchema,
   notifications: zod.array(notificationStepSchema),
-  followUpTask: zod.array(followUpTaskStepSchema),
+  followUpTasks: zod.array(followUpTaskStepSchema),
 });
 
 export const formTypeFormSchema = zod.object({
@@ -44,7 +48,7 @@ export const formTypeFormSchema = zod.object({
   basicData: basicInfoStepSchema,
   advancedOptions: advancedOptionsSchema,
   notifications: zod.array(notificationStepSchema),
-  followUpTask: zod.array(followUpTaskStepSchema),
+  followUpTasks: zod.array(followUpTaskStepSchema),
 });
 
 export const createTemplateFormSchema = zod.discriminatedUnion("templateType", [

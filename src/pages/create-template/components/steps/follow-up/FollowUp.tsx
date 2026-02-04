@@ -17,7 +17,7 @@ import { TRIGGER_TYPE } from "../../../constants/constant";
 const FollowUp: React.FC = () => {
   const { FOLLOWUP_TASKS } = useCreateTemplateTranslations();
   const { getFormValues } = useCreateTemplateForm();
-  const followUpStepData = getFormValues().followUpTask;
+  const followUpStepData = getFormValues().followUpTasks;
   const [isGroupedFollowupOpen, setIsGroupedFollowupOpen] =
     useState<boolean>(true);
 
