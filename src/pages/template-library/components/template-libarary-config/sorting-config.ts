@@ -14,38 +14,38 @@ export const getTemplateSorting = (
   return {
     NAME: [
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameAsc,
-        key: "ASC",
-        name: "templateName",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameAsc,
+        value: "ASC",
+        fieldName: "templateName",
       },
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameDesc,
-        key: "DESC",
-        name: "templateName",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameDesc,
+        value: "DESC",
+        fieldName: "templateName",
       },
     ],
     CREATED: [
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortAsc,
-        key: "ASC",
-        name: "createdTime",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortAsc,
+        value: "ASC",
+        fieldName: "createdTime",
       },
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortDesc,
-        key: "DESC",
-        name: "createdTime",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortDesc,
+        value: "DESC",
+        fieldName: "createdTime",
       },
     ],
     MODIFIED: [
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortAsc,
-        key: "ASC",
-        name: "lastModifiedTime",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortAsc,
+        value: "ASC",
+        fieldName: "lastModifiedTime",
       },
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortDesc,
-        key: "DESC",
-        name: "lastModifiedTime",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortDesc,
+        value: "DESC",
+        fieldName: "lastModifiedTime",
       },
     ],
   };
@@ -63,26 +63,26 @@ export const getReportSorting = (
   return {
     NAME: [
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameAsc,
-        key: "ASC",
-        name: "name",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameAsc,
+        value: "ASC",
+        fieldName: "name",
       },
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameDesc,
-        key: "DESC",
-        name: "name",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.nameDesc,
+        value: "DESC",
+        fieldName: "name",
       },
     ],
     SAVED_DATE: [
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortAsc,
-        key: "ASC",
-        name: "savedDate",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortAsc,
+        value: "ASC",
+        fieldName: "savedDate",
       },
       {
-        getLabel: () => TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortDesc,
-        key: "DESC",
-        name: "savedDate",
+        label: TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS.sortDesc,
+        value: "DESC",
+        fieldName: "savedDate",
       },
     ],
   };

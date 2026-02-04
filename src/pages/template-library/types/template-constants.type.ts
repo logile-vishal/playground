@@ -1,7 +1,6 @@
-import type { ReactNode } from "react";
-
-export type SortOption = {
-  getLabel: () => ReactNode;
-  key: "ASC" | "DESC";
-  name?: string;
+import type { NestedMenuItem } from "@/core/components/nested-menu/types";
+export type SortOption = NestedMenuItem & {
+  fieldName: string;
+  value: "ASC" | "DESC";
+  label?: string;
 };

@@ -78,6 +78,7 @@ const CCheckbox = ({
   value,
   walkMeIdPrefix = [],
   checked = false,
+  indeterminate,
 }: CheckboxProps) => {
   const checkBoxGeneratedId = useId();
   const checkboxState = error ? CHECKBOX_STATE.ERROR : CHECKBOX_STATE.NORMAL;
@@ -117,6 +118,7 @@ const CCheckbox = ({
         indeterminateIcon={<CSvgIcon component={GenericCheckboxIntermediate} />}
         required={required}
         size={size}
+        indeterminate={indeterminate}
         sx={{
           ...baseRootStyles,
           ...getCheckboxStyle(checkboxState, disabled),

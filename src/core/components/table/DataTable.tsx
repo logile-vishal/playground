@@ -11,6 +11,7 @@ import type { Pagination } from "@/core/types/pagination.type";
 import CPagination from "@/core/components/pagination/Pagination";
 
 import "./DataTable.scss";
+import clsx from "@/utils/clsx";
 
 export type TableProps = {
   tableProps;
@@ -28,7 +29,6 @@ export type TableProps = {
 export const CDataTable = ({
   tableProps,
   isRowSelected,
-  muiTableStyleProps,
   pagination,
   walkMeIdPrefix,
   handlePaginationChange,
@@ -41,29 +41,7 @@ export const CDataTable = ({
   const table = useMaterialReactTable({
     ...tableProps,
     enableStickyHeader: true,
-    muiTableContainerProps: {
-      sx: {
-        "& .MuiTableHead-root": {
-          backgroundColor: "var(--logile-bg-table-header)",
-        },
-        "& tbody": {
-          bgcolor: "var(--logile-bg-table-row)",
-        },
-        "& th": {
-          backgroundColor: "var(--logile-bg-table-header)",
-        },
-        "& td": {
-          color: "var(--logile-text-primary)",
-        },
-        "& tr.MuiTableRow-root:hover": {
-          backgroundColor: "var(--logile-bg-primary-x-subtle)",
-        },
-        "& .MuiTableRow-root:hover td:after": {
-          backgroundColor: "transparent",
-        },
-        ...(muiTableStyleProps && muiTableStyleProps),
-      },
-    },
+
     muiTableBodyRowProps: ({ row }: { row: MRT_Row<MRT_RowData> }) => ({
       hover:
         isRowSelected && isRowSelected(row.original as TemplateType)
@@ -80,13 +58,18 @@ export const CDataTable = ({
   });
   return (
     <Box className="data-table">
-      <Box className="data-table__table-container">
+      <Box
+        className={clsx({
+          "data-table__table-container": true,
+          "data-table__table-container--with-pagination": showPagination,
+        })}
+      >
         <MaterialReactTable
           table={table}
           {...props}
         />
       </Box>
-      {!isLoading && (
+      {!isLoading && showPagination && (
         <Box className="data-table__pagination-container">
           <CPagination
             pagination={pagination}

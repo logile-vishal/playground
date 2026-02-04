@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-import { styled } from "@mui/material/styles";
-import Menu from "@mui/material/Menu";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import type { MenuProps } from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import type { MRT_Cell, MRT_Column } from "material-react-table";
 
+import CCheckbox from "@/core/components/form/checkbox/Checkbox";
 import { CDataTable } from "@/core/components/table/DataTable";
+import clsx from "@/utils/clsx";
 import CSvgIcon from "@/core/components/icon/Icon";
 import CIconButton from "@/core/components/button/IconButton";
 import CModal, { ModalBody } from "@/core/components/modal/Modal";
@@ -29,6 +25,8 @@ import {
 } from "@/core/constants/icons";
 import {
   TABLE_PAGINATION_OPTIONS,
+  TEMPLATE_STATUS_LABEL,
+  TEMPLATE_STATUS_OPTIONS,
   TEMPLATE_TABLE_COLUMNS,
   TEMPLATE_TABLE_DATA,
 } from "@/pages/template-library/constants/constant";
@@ -36,6 +34,7 @@ import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import { renderMacTruncate } from "@/utils/mac-truncate";
 import { isNonEmptyValue } from "@/utils";
 import { formatHexColor, getOldTemplateIcon } from "@/utils/icon-utils";
+import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 
 import type { SortOption } from "./types/template-constants.type";
 import { templateSkelton } from "./components/skeleton/Skeleton";
@@ -50,6 +49,7 @@ import type {
 } from "./types/template-library.type";
 import PreviewModal from "./components/preview-modal/PreviewModal";
 import "./TemplateStyle.scss";
+import "./TemplateTable.scss";
 import {
   useDeleteReportById,
   useDeleteTemplateById,
@@ -63,50 +63,16 @@ import {
   TEMPLATE_SORTING,
 } from "./components/template-libarary-config/TemplateSortingConfig";
 
-const StyledMenu = styled((props: MenuProps) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "left",
-    }}
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "left",
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
-  "& .MuiPaper-root": {
-    borderRadius: 6,
-    minWidth: 180,
-    border: "1px solid #0A68DB",
-    color: "rgb(55, 65, 81)",
-    paddingTop: "6px",
-    paddingBottom: "6px",
-    boxShadow: "none",
-    "& .MuiMenuItem-root": {
-      fontSize: "15px",
-      fontWeight: "var(--logile-weight-400)",
-      color: "var(--logile-text-primary)",
-      padding: "4px 12px",
-      "& .MuiSvgIcon-root": {
-        fontSize: 18,
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
-        ...theme.applyStyles("dark", {
-          color: "inherit",
-        }),
-      },
-      "&:focus, &:hover, &:active": {
-        background: "transparent",
-      },
-    },
-    ...theme.applyStyles("dark", {
-      color: theme.palette.grey[300],
-    }),
+const templateStatusMap = TEMPLATE_STATUS_OPTIONS.reduce(
+  (acc, curr) => {
+    acc[curr.value] = curr.label;
+    return acc;
   },
-}));
+  {} as Record<string, string>
+);
+const getTemplateStatusLabel = (status: string) => {
+  return templateStatusMap[status] || status;
+};
 
 const LibraryTable: React.FC<LibraryTableProps> = ({
   showCheckbox,
@@ -275,17 +241,17 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     item: SortOption
   ) => {
     const newObj: typeof selectedSort = {};
-    Object.entries(selectedSort).map(([key, menuItem]) => {
-      if (key !== type) {
-        newObj[key] = null;
+    Object.entries(selectedSort).map(([value, menuItem]) => {
+      if (value !== type) {
+        newObj[value] = null;
       } else {
         if (
           menuItem === null ||
           menuItem === undefined ||
-          menuItem?.key !== item?.key
+          menuItem?.value !== item?.value
         )
-          newObj[key] = item;
-        else newObj[key] = null;
+          newObj[value] = item;
+        else newObj[value] = null;
       }
     });
     setSelectedSort({ ...newObj });
@@ -312,8 +278,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     if (selectedSort !== undefined && selectedSort !== null) {
       Object.entries(selectedSort).forEach(([, item]) => {
         if (item !== undefined && item !== null) {
-          sortType = item?.key;
-          sortBy = item?.name;
+          sortType = item?.value;
+          sortBy = item?.fieldName;
         }
       });
 
@@ -342,29 +308,23 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     menuItems: SortOption[]
   ) => {
     const selected = selectedSort[type];
-    const isAscending = selected?.key === "ASC";
+    const isAscending = selected?.value === "ASC";
     if (!menuItems || menuItems?.length == 0)
       return (
-        <Box
-          display="flex"
-          alignItems="center"
-          gap="4px"
-        >
+        <Box className="template-table__header-with-menu">
           <Box>{column.columnDef.header}</Box>
         </Box>
       );
     return (
-      <Box
-        display="flex"
-        alignItems="center"
-        gap="4px"
-      >
+      <Box className="template-table__header-with-menu">
         <Box>{column.columnDef.header}</Box>
 
         {selected ? (
           <Box
-            className="cursor-pointer"
-            height="20px"
+            className={clsx({
+              "template-table__header-sort-icon": true,
+              "cursor-pointer": true,
+            })}
           >
             {isAscending ? (
               <CSvgIcon
@@ -381,12 +341,14 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             )}
           </Box>
         ) : (
-          <Box></Box>
+          <Box className="template-table__header-sort-icon--empty"></Box>
         )}
 
         <Box
-          height="20px"
-          className="cursor-pointer"
+          className={clsx({
+            "template-table__header-menu-toggle": true,
+            "cursor-pointer": true,
+          })}
           onClick={(e) => handleMenuClick(e, type)}
         >
           {tableActionMenu[type].status ? (
@@ -404,59 +366,40 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           )}
         </Box>
 
-        <StyledMenu
+        <CNestedMenu
           key={`${type}-menu-${
             tableActionMenu[type].status ? "open" : "closed"
           }`}
+          className="template-table__menu"
           anchorEl={tableActionMenu[type].anchorEl}
-          open={tableActionMenu[type].status}
+          selectedItems={selectedSort[type] ? [selectedSort[type]] : []}
           onClose={() => handleMenuClose()}
-        >
-          {menuItems.map((item, index) => {
-            const isSelected = selected?.key === item?.key;
-            return (
-              <MenuItem
-                key={index}
-                disableRipple
-                selected={isSelected}
-                onClick={() => handleSortSelect(type, item)}
-                sx={{
-                  color: isSelected ? "#0A68DB" : "var(--logile-text-primary)",
-                  fontWeight: isSelected
-                    ? "var(--logile-weight-500)"
-                    : "var(--logile-weight-400)",
-                  "&:hover": { backgroundColor: "transparent" },
-                  "&.Mui-selected": {
-                    backgroundColor: "transparent",
-                    color: "#0A68DB",
-                  },
-                }}
+          menuItems={menuItems}
+          onSelect={(item) => handleSortSelect(type, item as SortOption)}
+          menuWidth={"max-content"}
+          templates={{
+            itemTemplate: (context) => (
+              <Box
+                className={clsx({
+                  "template-table__menu-item": true,
+                  "template-table__menu-item--selected": context.isSelected,
+                })}
               >
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  width="100%"
-                  color={isSelected ? "#0A68DB" : "var(--logile-text-primary)"}
-                  justifyContent="space-between"
-                >
-                  {item?.getLabel() || ""}
-                  {isSelected && (
-                    <CSvgIcon
-                      component={Check}
-                      size={20}
-                      color="brand-primary"
-                      style={{ marginLeft: "auto" }}
-                    />
-                  )}
-                </Box>
-              </MenuItem>
-            );
-          })}
-        </StyledMenu>
+                {context.item.label}
+                {context.isSelected && (
+                  <CSvgIcon
+                    component={Check}
+                    size={16}
+                    className="template-table__menu-item-icon"
+                  />
+                )}
+              </Box>
+            ),
+          }}
+        />
       </Box>
     );
   };
-
   const renderTemplateNameHeader = ({
     column,
   }: {
@@ -490,69 +433,46 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
 
   const renderTemplateIconHeader = () => {
     return (
-      <Box className="tableheader__checkbox-container">
-        {selectedTemplate.length > 0 ? (
-          <FormControlLabel
-            className="tableheader__checkbox cursor-pointer"
-            sx={{ padding: 0, margin: 0 }}
-            control={
-              <Checkbox
-                onChange={handleSelectAllRows}
-                size="small"
-                sx={{
-                  "& .MuiSvgIcon-root": { fontSize: 20 },
-                  color: "var(--logile-icon-secondary)",
-                  "&.Mui-checked, &.MuiCheckbox-indeterminate": {
-                    color: "var(--logile-bg-primary)",
-                  },
-                  "&.MuiFormControlLabel-root": {
-                    padding: "0px 10px",
-                  },
-                }}
-                checked={selectedTemplate.length == templatesList?.data?.length}
-                indeterminate={
-                  selectedTemplate.length > 0 &&
-                  showCheckbox &&
-                  selectedTemplate.length !== templatesList?.data?.length
-                    ? true
-                    : false
-                }
-              />
-            }
-            label=""
-          />
-        ) : (
-          <Box height="20px"></Box>
-        )}
+      <Box className="template-table__header-checkbox-container">
+        <CCheckbox
+          label=""
+          onChange={handleSelectAllRows}
+          className={clsx({
+            "template-table__header-checkbox": true,
+            "template-table__header-checkbox--hidden":
+              selectedTemplate.length == 0,
+          })}
+          checked={selectedTemplate.length == templatesList?.data?.length}
+          indeterminate={
+            selectedTemplate.length > 0 &&
+            showCheckbox &&
+            selectedTemplate.length !== templatesList?.data?.length
+              ? true
+              : false
+          }
+        />
       </Box>
     );
   };
 
   const renderTemplateHeader = ({ column }) => {
     return (
-      <Box
-        height="20px"
-        display="flex"
-        alignItems="center"
-      >
-        {column.columnDef.header}
-      </Box>
+      <Box className="template-table__header">{column.columnDef.header}</Box>
     );
   };
 
   const renderTemplateActionHeader = ({ column }) => {
     return (
       <Box
-        height="20px"
-        display="flex"
-        ml="8px"
-        alignItems="center"
+        className={clsx({
+          "template-table__header": true,
+          "template-table__header--actions": true,
+        })}
       >
         {column.columnDef.header}
       </Box>
     );
   };
-
   const renderTemplateIconCell = ({
     cell,
   }: {
@@ -563,77 +483,60 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     const templateIcon = getOldTemplateIcon(data?.iconName);
     const templateColor = formatHexColor(data?.iconColour);
     return (
-      <>
+      <div
+        className={clsx({
+          "template-table__body-icon-cell": true,
+          "template-table__body-icon-cell--selected": isTableSelectable,
+        })}
+      >
         {!isTableSelectable && (
-          <Box
-            className="template-checkbox-container tablebody-col__checkbox--toggle"
-            display="flex"
-          >
+          <>
             <Box
               onClick={() => handleRowSelection(true, cell.row.original)}
-              className="cursor-pointer icon-container"
+              className={clsx({
+                "cursor-pointer": true,
+                "icon-container": true,
+              })}
             >
               <CSvgIcon
                 component={templateIcon}
-                size={18}
                 fill={templateColor}
-                style={{ pointerEvents: "none" }}
+                size={18}
+                className="pointer-events-none"
               />
             </Box>
-            <FormControlLabel
-              label=""
-              className="form-control-label checkbox-wrapper"
-              onChange={(event) =>
-                handleRowSelection(
-                  (event.target as HTMLInputElement).checked,
-                  cell.row.original
-                )
-              }
-              control={
-                <Checkbox
-                  size="small"
-                  aria-label="select template"
-                  checked={isRowSelected(cell.row.original)}
-                  sx={{
-                    "& .MuiSvgIcon-root": { fontSize: 20 },
-                    color: "var(--logile-icon-secondary)",
-                    "&.Mui-checked": {
-                      color: "var(--logile-bg-primary)",
-                    },
-                  }}
-                />
-              }
-            />
-          </Box>
+            <div className="checkbox-container">
+              <CCheckbox
+                label=""
+                aria-label="select template"
+                checked={isRowSelected(cell.row.original)}
+                className="template-table__body-checkbox-small"
+                onChange={(event) =>
+                  handleRowSelection(
+                    (event.target as HTMLInputElement).checked,
+                    cell.row.original
+                  )
+                }
+              />
+            </div>
+          </>
         )}
         {isTableSelectable && (
           <Box className="checkbox-container cursor-pointer">
-            <FormControlLabel
-              className="form-control-label"
+            <CCheckbox
+              label=""
+              checked={isRowSelected(cell.row.original)}
+              className="template-table__body-checkbox-small"
               onChange={(event) =>
                 handleRowSelection(
                   (event.target as HTMLInputElement).checked,
                   cell.row.original
                 )
               }
-              control={
-                <Checkbox
-                  size="small"
-                  checked={isRowSelected(cell.row.original)}
-                  sx={{
-                    "& .MuiSvgIcon-root": { fontSize: 20 },
-                    color: "var(--logile-icon-secondary)",
-                    "&.Mui-checked": {
-                      color: "var(--logile-bg-primary)",
-                    },
-                  }}
-                />
-              }
-              label=""
             />
           </Box>
         )}
-      </>
+      </div>
     );
   };
 
@@ -647,78 +550,54 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       : data?.tagType || "-";
     return (
       <Box
-        minWidth="300px"
-        display="flex"
-        alignItems="center"
-        gap="10px"
+        className={clsx({
+          "template-table__body-template-name-cell": true,
+          "template-table__body-template-name-cell--mobile": !isDesktop,
+        })}
       >
-        <Box
-          width="100%"
-          display="flex"
-          flexDirection="column"
-          gap="6px"
-        >
-          <Box
-            width="100%"
-            className="template-body-text cursor-pointer"
-            onClick={() => handlePreviewModalOpen(data)}
-          >
-            {renderMacTruncate(data?.templateName || data?.name || "")}
-          </Box>
-          {!isDesktop ? (
-            <Box
-              display="flex"
-              gap="24px"
-            >
-              <Box
-                display="flex"
-                gap="4px"
-                className="template-body-text template-status"
-              >
-                <span className="template-title-text">
-                  {TEMPLATE_TABLE_COLUMN_HEADINGS.type}:
-                </span>
-                {type}
-              </Box>
-              <Box
-                display="flex"
-                gap="4px"
-                className="template-body-text template-status"
-              >
-                <span className="template-title-text">
-                  {TEMPLATE_TABLE_COLUMN_HEADINGS.status}:
-                </span>
-                {status === "Incomplete" ? (
-                  <Box
-                    display="flex"
-                    gap="2px"
-                    alignItems="center"
-                    justifyContent="center"
-                    color="#F44336"
-                  >
-                    <Box>{data?.status}</Box>
-                    <>
-                      <CSvgIcon
-                        component={ExclamationTriangle}
-                        size={16}
-                        color="violation"
-                      />
-                    </>
-                  </Box>
-                ) : (
-                  <Box
-                    display="flex"
-                    gap="2px"
-                  >
-                    {status}
-                  </Box>
-                )}
-              </Box>
-            </Box>
-          ) : (
-            ""
-          )}
+        <Box onClick={() => handlePreviewModalOpen(data)}>
+          {renderMacTruncate(data?.templateName || data?.name || "")}
         </Box>
+        {!isDesktop && (
+          <Box className="template-name-cell-additional-details">
+            <Box
+              className={clsx({
+                "template-name-cell-additional-details__type": true,
+              })}
+            >
+              <span className="template-title-text">
+                {TEMPLATE_TABLE_COLUMN_HEADINGS.type}:
+              </span>
+              <span>{type}</span>
+            </Box>
+            <Box className="template-name-cell-additional-details__status">
+              <span className="template-title-text">
+                {TEMPLATE_TABLE_COLUMN_HEADINGS.status}:
+              </span>
+
+              {status === TEMPLATE_STATUS_LABEL.incomplete ? (
+                <span
+                  className={clsx({
+                    "template-name-cell-additional-details__status-incomplete": true,
+                  })}
+                >
+                  <span>{data?.status}</span>
+                  <span>
+                    <CSvgIcon
+                      component={ExclamationTriangle}
+                      size={16}
+                      color="violation"
+                    />
+                  </span>
+                </span>
+              ) : (
+                <span className="template-name-cell-additional-details__status-value">
+                  {getTemplateStatusLabel(status)}
+                </span>
+              )}
+            </Box>
+          </Box>
+        )}
       </Box>
     );
   };
@@ -734,16 +613,13 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       : data?.status || "-";
     return (
       <Box>
-        {data?.status === "Incomplete" ? (
+        {data?.status === TEMPLATE_STATUS_LABEL.incomplete ? (
           <Box
-            display="flex"
-            gap="2px"
-            alignItems="center"
-            justifyContent="center"
-            color="#F44336"
+            className={clsx({
+              "template-table__body-status-cell": true,
+              "template-table__body-status-cell--incomplete": true,
+            })}
           >
-            {" "}
-            //TODO: REMOVE INLINE STYLES
             <Box>{data?.status}</Box>
             <>
               <CSvgIcon
@@ -754,11 +630,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             </>
           </Box>
         ) : (
-          <Box
-            display="flex"
-            gap="2px"
-          >
-            {status}
+          <Box className="template-table__body-status-cell--complete">
+            {getTemplateStatusLabel(status)}
           </Box>
         )}
       </Box>
@@ -774,14 +647,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     const type = isReportType
       ? TEMPLATE_TABLE_DATA.reportTask
       : data?.tagType || "-";
-    return (
-      <Box
-        display="flex"
-        gap="2px"
-      >
-        {type}
-      </Box>
-    );
+    return <Box className="template-table__body-type-cell">{type}</Box>;
   };
 
   const renderTemplateCreatedCell = ({
@@ -796,11 +662,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     )
       return <Box>-</Box>;
     return (
-      <Box
-        display="flex"
-        gap="4px"
-        alignItems="center"
-      >
+      <Box className="template-table__body-created-cell">
         <Box>{formatDate(templateData?.createdTime)}</Box>
         <Tooltip
           key={templateData.templateId}
@@ -808,10 +670,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           arrow
           slotProps={{
             tooltip: {
-              sx: {
-                fontSize: "12px",
-                padding: "4px 8px",
-              },
+              className: "template-table__body-created-cell-tooltip",
             },
           }}
           open={tooltipId === templateData.templateId}
@@ -846,11 +705,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       : templateData?.lastModifiedTime;
     if (lastModified == undefined && lastModified == null) return <Box>-</Box>;
     return (
-      <Box
-        display="flex"
-        gap="4px"
-        alignItems="center"
-      >
+      <Box className="template-table__body-modified-cell">
         <Box>{formatDate(lastModified)}</Box>
       </Box>
     );
@@ -860,14 +715,18 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     const status = cell.row.original?.status;
     const disabledActions = selectedTemplate?.length > 1;
     return (
-      <Box
-        display="flex"
-        alignItems="center"
-      >
+      <Box className="template-table__body-actions-cell">
         <CIconButton
           size="medium"
-          disabled={disabledActions || status === "Incomplete" ? true : false}
+          disabled={
+            disabledActions || status === TEMPLATE_STATUS_LABEL.incomplete
+              ? true
+              : false
+          }
           walkMeId={["template-library", "template-table", "assignee-task"]}
+          className={clsx({
+            "template-table__body-action-button": true,
+          })}
         >
           <CSvgIcon component={Send} />
         </CIconButton>
@@ -877,6 +736,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
               size="medium"
               disabled={disabledActions}
               walkMeId={["template-library", "template-table", "copy-task"]}
+              className="template-table__action-button"
             >
               <CSvgIcon component={Copy} />
             </CIconButton>
@@ -884,6 +744,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
               size="medium"
               disabled={disabledActions}
               walkMeId={["template-library", "template-table", "edit-task"]}
+              className="template-table__action-button"
             >
               <CSvgIcon component={Edit} />
             </CIconButton>
@@ -891,9 +752,11 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         )}
         <CIconButton
           size="medium"
+          severity="destructive"
           disabled={disabledActions || isDeleteTemplateLoading}
           onClick={() => handleDeleteModalOpen(cell?.row?.original)}
           walkMeId={["template-library", "template-table", "delete-task"]}
+          className="template-table__action-button"
         >
           <CSvgIcon component={Delete} />
         </CIconButton>
@@ -907,17 +770,10 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       accessorKey: ICON_NAME,
       header: "",
       hide: false,
-      size: 1,
+      size: 4,
+      align: "right",
       Header: renderTemplateIconHeader,
       Cell: isDataLoading ? renderTemplateIconSkelton : renderTemplateIconCell,
-      muiTableHeadCellProps: () => ({
-        className: "tableheader-checkbox__container",
-        style: { width: "50px", padding: "0.8rem 0.6rem 0.8rem 1.6rem" },
-      }),
-      muiTableBodyCellProps: () => ({
-        className: "template-body-text",
-        style: { padding: "0.8rem 0.6rem 0.8rem 1.6rem" },
-      }),
     },
     {
       order: 1,
@@ -925,20 +781,13 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       header: TEMPLATE_TABLE_COLUMN_HEADINGS.name,
       hide: false,
       size: 1,
+
       Header: renderTemplateNameHeader,
       Cell: isDataLoading
         ? isDesktop
           ? renderTemplateNameSkeltonDesktop
           : renderTemplateNameSkelton
         : renderTemplateNameCell,
-      muiTableHeadCellProps: () => ({
-        className: "template-head-text",
-        style: { width: "200px", padding: "0.8rem 0.8rem 0.8rem 0.6rem" },
-      }),
-      muiTableBodyCellProps: () => ({
-        className: "template-body-text",
-        style: { padding: "0.8rem 0.8rem 0.8rem 0.6rem" },
-      }),
     },
     {
       order: 2,
@@ -946,13 +795,12 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       accessorKey: TAG_TYPE,
       header: TEMPLATE_TABLE_COLUMN_HEADINGS.type,
       Header: renderTemplateHeader,
-      size: 1,
+      size: 4,
       Cell: isDataLoading ? renderTemplateRowSkelton : renderTemplateTypeCell,
       muiTableHeadCellProps: () => ({
         className: "template-head-text",
         style: { width: "200px", padding: "1rem 0.8rem" },
       }),
-      muiTableBodyCellProps: () => ({ className: "template-body-text" }),
     },
     {
       order: 3,
@@ -966,7 +814,6 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         className: "template-head-text",
         style: { width: "200px", padding: "1rem 0.8rem" },
       }),
-      muiTableBodyCellProps: () => ({ className: "template-body-text" }),
     },
     {
       order: 4,
@@ -982,7 +829,6 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         className: "template-head-text",
         style: { width: "200px", padding: "1rem 0.8rem" },
       }),
-      muiTableBodyCellProps: () => ({ className: "template-body-text" }),
     },
     {
       order: 5,
@@ -998,7 +844,6 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         className: "template-head-text",
         style: { width: "200px", padding: "1rem 0.8rem" },
       }),
-      muiTableBodyCellProps: () => ({ className: "template-body-text" }),
     },
     {
       order: 6,
@@ -1080,7 +925,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   };
 
   return (
-    <div className="template-library-table-container">
+    <div className="template-library-table-container template-table">
       <CDataTable
         tableProps={templateTableProps}
         isRowSelected={isRowSelected}
@@ -1093,6 +938,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         handlePaginationChange={handlePaginationChange}
         walkMeIdPrefix={["template table", "pagination"]}
         pageSizeOptions={TABLE_PAGINATION_OPTIONS}
+        showPagination={paginationData.totalPages > 1}
       />
       <PreviewModal
         previewModal={previewModal}

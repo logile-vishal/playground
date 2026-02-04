@@ -1,0 +1,287 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.template-table {
+  --table-header-height: 20px;
+  --table-select-col-checkbox-size: 20px;
+  --table-col-sort-icon-size: 20px;
+  --table-menu-min-width: 180px;
+  --table-name-cell-min-width: 300px;
+  --table-checkbox-container-size: 40px;
+  --table-menu-icon-size: 18px;
+  --icon-cell-container-size: 40px;
+  height: 100%;
+  // Header container styles
+  &__header {
+    @include flex-center(start, center);
+
+    &--actions {
+      margin-left: var(--space-m);
+    }
+    &-checkbox-container {
+      @include flex-center(center, center);
+      width: inherit;
+      .template-table__header-checkbox {
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+        &--hidden {
+          display: none;
+        }
+      }
+
+      &--empty {
+        height: var(--table-select-col-checkbox-size);
+      }
+    }
+    &-with-menu {
+      @include flex-center(start, center);
+      gap: var(--space-xs);
+    }
+    &-sort-icon {
+      height: var(--table-col-sort-icon-size);
+      @include flex-center(center, center);
+
+      &--empty {
+        height: var(--table-col-sort-icon-size);
+        width: var(--table-col-sort-icon-size); // Reserve space for sort icon
+      }
+    }
+    &-menu-toggle {
+      @include flex-center(center, center);
+    }
+  }
+
+  // Header dropdown menu styles
+  &__menu {
+    padding: var(--space-xs);
+    min-width: var(--table-menu-min-width);
+    border-radius: var(--radius-m);
+    border: var(--border-s) solid
+      var(--logile-border-brand-primary-alt-dark-mode);
+    background: var(--logile-bg-container-1);
+    box-shadow: var(--shadow-m-2-x) var(--shadow-m-2-y) var(--shadow-m-2-blur)
+      var(--shadow-m-2-spread) var(--logile-utility-gray-1a);
+
+    .template-table__menu-item {
+      font-size: var(--logile-size-body);
+      border-radius: var(--radius-m);
+      color: var(--logile-text-primary);
+      @include flex-center(space-between, center);
+      gap: var(--space-3xl);
+      .MuiSvgIcon-root {
+        font-size: var(--space-2xl);
+        color: var(--logile-text-secondary);
+      }
+      &:focus,
+      &:hover,
+      &:active {
+        background: transparent;
+      }
+      &--selected {
+        color: var(--logile-text-brand-primary);
+        font-weight: var(--logile-weight-500);
+        font-size: var(--logile-size-body);
+      }
+    }
+    & .nested-menu__item-content-wrapper {
+      padding: var(--space-s) var(--space-m);
+    }
+
+    .nested-menu__item-content-wrapper.nested-menu__item-content-wrapper--selected {
+      background-color: transparent;
+    }
+  }
+
+  &__body {
+    // Icon cell styles (first column with checkboxes and icons)
+    &-icon-cell {
+      @include flex-center(center, center);
+      &:hover {
+        .checkbox-container {
+          z-index: var(--zindex-base);
+        }
+        .icon-container {
+          display: none;
+        }
+      }
+
+      .checkbox-container {
+        @include flex-center(center, center);
+        z-index: var(--zindex-negative);
+        cursor: pointer;
+        border-radius: var(--radius-full);
+        border: var(--border-s) solid var(--logile-border-tertiary);
+        background: var(--logile-bg-container-2);
+        width: var(--icon-cell-container-size);
+        height: var(--icon-cell-container-size);
+        justify-content: center;
+        align-items: center;
+        display: flex;
+      }
+      .icon-container {
+        position: absolute;
+        cursor: pointer;
+        border-radius: var(--radius-full);
+        border: var(--border-s) solid var(--logile-border-tertiary);
+        background: var(--logile-bg-container-2);
+        width: var(--icon-cell-container-size);
+        height: var(--icon-cell-container-size);
+        justify-content: center;
+        align-items: center;
+        display: flex;
+      }
+      &--selected {
+        .checkbox-container {
+          background: transparent;
+
+          border: unset;
+        }
+      }
+    }
+
+    // Template name cell styles
+    &-template-name-cell {
+      min-width: var(--table-name-cell-min-width);
+      @include flex-box;
+      @include flex-center(start, center);
+      width: 100%;
+      gap: var(--space-s);
+      &--mobile {
+        @include flex-box(column);
+        @include flex-center(center, start);
+        gap: var(--space-s);
+        .template-name-cell-additional-details {
+          @include flex-center(start, center);
+          gap: var(--space-3xl);
+          width: 100%;
+          overflow: hidden;
+          &__type {
+            @include flex-center(start, center);
+            gap: var(--space-xs);
+            span {
+              display: inline-block;
+              margin: 0;
+              width: max-content;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+          }
+          &__status {
+            @include flex-center(start, center);
+            gap: var(--space-xs);
+            ₹ &-value {
+              width: max-content;
+              word-break: normal;
+              span {
+                display: inline-block;
+                width: max-content;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Status cell styles
+    &-status-cell {
+      @include flex-center(start, center);
+      gap: var(--space-xxs);
+
+      &--incomplete {
+        @include flex-center(center, center);
+        color: var(--logile-text-state-violation);
+      }
+
+      &--complete {
+        @include flex-center(start, center);
+      }
+    }
+
+    // Type cell styles
+    &-type-cell {
+      @include flex-center(start, center);
+      gap: var(--space-xxs);
+    }
+
+    // Created date cell styles
+    &-created-cell {
+      @include flex-center(start, center);
+      gap: var(--space-xxs);
+    }
+
+    // Modified date cell styles
+    &-modified-cell {
+      @include flex-center(start, center);
+      gap: var(--space-xxs);
+    }
+
+    // Actions cell styles
+    &-actions-cell {
+      @include flex-center(start, center);
+      gap: var(--space-m);
+
+      .template-table__body-action-button {
+        cursor: pointer;
+        padding: var(--space-none);
+        margin: var(--space-none);
+
+        &:disabled {
+          pointer-events: none;
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+
+  // Tooltip content styles
+  &__tooltip-content {
+    @include flex-box(column);
+    gap: var(--space-xs);
+
+    .template-table__tooltip-title {
+      font-weight: var(--logile-weight-500);
+    }
+
+    .template-table__tooltip-description {
+      font-weight: var(--logile-weight-400);
+    }
+  }
+  &__action-menu {
+    .MuiMenuItem-root {
+      padding: var(--space-m) var(--space-xl);
+
+      &:hover {
+        background-color: var(--logile-bg-tertiary);
+      }
+
+      .MuiSvgIcon-root {
+        font-size: var(--table-menu-icon-size);
+      }
+    }
+  }
+}
+
+.template-table__body-created-cell-tooltip.MuiTooltip-tooltip {
+  font-size: var(--logile-size-caption);
+  padding: var(--space-xs) var(--space-m);
+}
+.template-body-text {
+  font-size: var(--logile-size-body);
+  min-width: fit-content;
+}
+
+.template-title-text {
+  font-size: var(--logile-size-secondary-text);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}

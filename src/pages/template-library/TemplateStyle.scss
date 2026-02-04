@@ -1,11 +1,17 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
 .template-library {
-  --directory-tree-width: 30rem;
+  --directory-tree-width: 300px;
+  --template-library-header-height: 52px;
+  --template-library-container-height: calc(
+    100% - var(--template-library-header-height) + 1px //1px to compensate for divider
+  );
+
   &--desktop {
-    --directory-tree-width: 34rem;
+    --directory-tree-width: 340px;
   }
 
-  display: flex;
-  flex-direction: column;
+  @include flex-box(column);
   height: 100%;
   border: 1px solid var(--logile-border-secondary);
   border-radius: var(--radius-m);
@@ -13,8 +19,7 @@
   border-bottom-right-radius: var(--space-none);
 
   & .template-library__header {
-    display: flex;
-    align-items: center;
+    @include flex-center(start);
     padding: var(--space-m) var(--space-xl);
     color: var(--logile-text-primary);
 
@@ -34,26 +39,21 @@
     .template-library__header-selected-count {
       width: 80%;
       height: 36px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      @include flex-center(space-between, center);
       font-size: var(--logile-size-secondary-heading);
       font-weight: var(--logile-weight-500);
     }
 
     .template-library__label-wrapper {
-      display: flex;
-      align-items: center;
+      @include flex-center(start);
       gap: var(--space-m);
     }
 
     .template-library__inner-header {
       flex: 1;
       height: 36px;
-      display: flex;
-      align-items: center;
+      @include flex-center(space-between);
       gap: var(--space-l);
-      justify-content: space-between;
       flex-grow: 1;
     }
 
@@ -76,7 +76,7 @@
     }
 
     .template-library__searchbar {
-      max-width: 50.5rem;
+      max-width: 505px;
       flex-grow: 1;
     }
     .template-library__searchbar-field {
@@ -92,9 +92,9 @@
 
   .template-library__container {
     flex: 1;
-    display: flex;
-    overflow: auto;
-    flex-direction: var(--template-library-directoryTreePosition);
+    @include flex-box(var(--template-library-directoryTreePosition));
+    overflow: hidden;
+    height: var(--template-library-container-height);
   }
 
   .template-library__table-wrapper {
@@ -104,8 +104,7 @@
   }
 
   .flex-box {
-    display: flex;
-    align-items: center;
+    @include flex-center(start);
   }
 
   .gap-12 {
@@ -114,10 +113,6 @@
 
   .ws-nowrap {
     white-space: nowrap;
-  }
-
-  .MuiOutlinedInput-root {
-    height: 36px;
   }
 
   .MuiButton-startIcon {
@@ -149,155 +144,6 @@
 
 .template-library-table-container {
   height: 100%;
-
-  .MuiPaper-root {
-    box-shadow: none;
-    border-radius: 0px;
-    height: 100%;
-    background-color: var(--logile-bg-container-1);
-  }
-
-  .MuiTableCell-root {
-    border-bottom: 1px solid var(--logile-border-tertiary);
-    padding: var(--space-m);
-    width: auto;
-  }
-
-  .MuiTableHeadCell-root {
-    border-bottom: none;
-    padding: 0.5rem 10rem;
-  }
-
-  .MuiTableRow-root {
-    box-shadow: none;
-  }
-
-  .template-head-text {
-    font-size: var(--logile-size-body);
-    font-weight: var(--logile-weight-500);
-    color: var(--logile-text-primary);
-    & > div {
-      min-width: fit-content;
-      margin-top: 1rem;
-    }
-  }
-
-  .tableheader-checkbox__container {
-    min-width: fit-content;
-
-    .tableheader__checkbox {
-      position: absolute;
-      .MuiCheckbox-root {
-        padding: 0;
-      }
-
-      .MuiFormControlLabel-label {
-        margin: 0;
-        margin-left: "6px";
-      }
-    }
-  }
-
-  .template-body-text {
-    font-size: var(--logile-size-body);
-    font-weight: var(--logile-weight-400);
-
-    min-width: fit-content;
-  }
-
-  .template-title-text {
-    font-size: 13px;
-    font-weight: var(--logile-weight-400);
-  }
-
-  .cursor-pointer {
-    cursor: pointer;
-  }
-  .tableheader__checkbox-container {
-    background-color: var(--logile-bg-table-header);
-    height: 4rem;
-    width: 4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    user-select: none;
-    border-radius: 50%;
-  }
-  .template-checkbox-container {
-    height: 4rem;
-    width: 4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    user-select: none;
-    background-color: var(--logile-bg-base);
-    border-radius: 50%;
-
-    .form-control-label {
-      z-index: var(--zindex-negative);
-      position: absolute;
-      border-radius: 50%;
-      & .MuiSvgIcon-root {
-        font-size: 2rem;
-        color: var(--logile-icon-secondary);
-      }
-
-      .MuiCheckbox-root {
-        padding: 0;
-      }
-
-      .MuiFormControlLabel-label {
-        margin: 0;
-        margin-left: "6px";
-      }
-    }
-
-    .MuiFormControlLabel-root {
-      margin: 0;
-      padding: 10px 10px;
-    }
-  }
-
-  .checkbox-container {
-    height: 4rem;
-    width: 4rem;
-    position: relative;
-    user-select: none;
-
-    .form-control-label {
-      .MuiCheckbox-root {
-        padding: 0;
-      }
-    }
-
-    .MuiFormControlLabel-root {
-      margin: 0;
-      padding: 10px 10px;
-    }
-  }
-
-  .tablebody-col__checkbox--toggle {
-    .form-control-label {
-      opacity: 0;
-    }
-    &:hover {
-      & .form-control-label {
-        opacity: 1;
-        z-index: var(--zindex-base);
-      }
-
-      & .icon-container {
-        opacity: 0;
-        z-index: var(--zindex-negative);
-      }
-    }
-    & .icon-container {
-      display: flex;
-      align-items: center;
-    }
-  }
 }
 
 .template-delete__modal-body {
@@ -310,10 +156,8 @@
   border: 1px dashed var(--logile-border-secondary);
   font-size: var(--logile-size-body);
   color: var(--logile-text-primary);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
+  @include flex-box(column);
   padding: var(--space-xl);
   min-height: 180px;
   gap: var(--space-xl);

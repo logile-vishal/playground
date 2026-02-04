@@ -16,11 +16,36 @@ export const TEMPLATE_TASK_TYPE_OPTIONS = [
   { label: "Checklist", value: "Checklist" },
   { label: "Radio", value: "Radio" },
 ];
+export const TEMPLATE_STATUS_LABEL = {
+  assigned: "Assigned",
+  notInUse: "Not In Use",
+  incomplete: "Incomplete",
+  notAssigned: "Not Assigned",
+};
+export const TEMPLATE_STATUS_VALUE = {
+  assigned: "Assigned",
+  notInUse: "Not_In_Use",
+  incomplete: "Not_Completed",
+  notAssigned: "Not_Assigned",
+};
 
 export const TEMPLATE_STATUS_OPTIONS = [
-  { label: "Assigned", value: "Assigned" },
-  { label: "Not In Use", value: "Not_In_Use" },
-  { label: "Incomplete", value: "Not_Completed" },
+  {
+    label: TEMPLATE_STATUS_LABEL.assigned,
+    value: TEMPLATE_STATUS_VALUE.assigned,
+  },
+  {
+    label: TEMPLATE_STATUS_LABEL.notInUse,
+    value: TEMPLATE_STATUS_VALUE.notInUse,
+  },
+  {
+    label: TEMPLATE_STATUS_LABEL.incomplete,
+    value: TEMPLATE_STATUS_VALUE.incomplete,
+  },
+  {
+    label: TEMPLATE_STATUS_LABEL.notAssigned,
+    value: TEMPLATE_STATUS_VALUE.notAssigned,
+  },
 ];
 
 export const TEMPLATE_TABLE_COLUMNS = {

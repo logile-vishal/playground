@@ -1,11 +1,82 @@
 .data-table {
+  @mixin font-styles {
+    color: var(--logile-text-primary);
+    font-size: var(--logile-size-body);
+    line-height: var(--logile-line-height-body);
+  }
+
   --pagination-height: var(--size-10);
+  --table-header-height: 44px;
+  --table-header-content-height: calc(
+    var(--table-header-height) - (var(--space-m) * 2)
+  );
   height: 100%;
   width: 100%;
   display: inline-block;
   position: relative;
+
   &__table-container {
-    overflow-y: auto;
+    height: 100%;
+    .MuiTableContainer-root {
+      height: 100%;
+    }
+    .MuiTableCell-root {
+      border-bottom: 1px solid var(--logile-border-tertiary);
+      padding: var(--space-m);
+      width: auto;
+    }
+    .MuiPaper-root {
+      box-shadow: none;
+      border-radius: 0px;
+      height: 100%;
+      background-color: var(--logile-bg-container-1);
+    }
+
+    table.MuiTable-root {
+      & .MuiTableHead-root {
+        border-bottom: 1px solid var(--logile-border-secondary);
+        background: var(--logile-bg-table-header);
+      }
+
+      & tbody {
+        background-color: var(--logile-bg-table-row);
+        & td {
+          @include font-styles;
+        }
+      }
+      & thead {
+        tr {
+          height: var(--table-header-height);
+          background: var(--logile-bg-table-row);
+        }
+        th {
+          background-color: var(--logile-bg-table-header);
+          & .Mui-TableHeadCell-Content {
+            height: var(--table-header-content-height);
+            .Mui-TableHeadCell-Content-Labels {
+              color: var(--logile-text-primary);
+              font-size: var(--logile-size-body);
+              font-weight: var(--logile-weight-500);
+              line-height: var(--logile-line-height-body);
+              flex: 1;
+              .Mui-TableHeadCell-Content-Wrapper {
+                flex: 1;
+              }
+            }
+          }
+        }
+      }
+
+      & tr.MuiTableRow-root:hover {
+        background-color: var(--logile-bg-primary-x-subtle);
+      }
+      & .MuiTableRow-root:hover td:after {
+        background-color: transparent;
+      }
+    }
+    &--with-pagination {
+      height: calc(100% - var(--pagination-height) - (var(--space-m) * 2));
+    }
   }
   &__pagination-container {
     width: 100%;
@@ -13,8 +84,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: sticky;
-    bottom: var(--space-none);
     padding: var(--space-m);
     border-top: 1px solid var(--logile-border-primary);
   }

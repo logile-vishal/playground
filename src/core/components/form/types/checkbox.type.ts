@@ -14,4 +14,5 @@ export type CheckboxProps = MandatoryFormElementProps &
     error?: boolean;
     disabled?: boolean;
     checked?: boolean;
+    indeterminate?: boolean;
   };
