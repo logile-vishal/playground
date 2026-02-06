@@ -66,7 +66,8 @@ const CSwitch: React.FC<CSwitchProps> = ({
         onChange={handleOnChange}
         data-walkme-id={generateId(walkMeIdPrefix)}
         className={clsx({
-          [`switch__input switch--${size}`]: true,
+          [`switch__input`]: true,
+          [`switch--${size}`]: true,
           [className || ""]: !!className,
         })}
         id={id}

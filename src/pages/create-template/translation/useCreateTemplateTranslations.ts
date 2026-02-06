@@ -375,6 +375,59 @@ export const useCreateTemplateTranslations = () => {
         value: "Required Info",
       },
     },
+    ANSWER_OPTION_SETTING_MODAL: {
+      title: t("QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.title"),
+      answerOptionsHeading: t(
+        "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.answerOptionsHeading"
+      ),
+      addButtonLabel: t(
+        "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.addButtonLabel"
+      ),
+      settingAnswerValueLabel: t(
+        "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.settingAnswerValueLabel"
+      ),
+      settingsForLabel: t(
+        "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.settingsForLabel"
+      ),
+      deleteButtonLabel: t(
+        "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.deleteButtonLabel"
+      ),
+      labels: {
+        value: t("QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.labels.value"),
+        default: t(
+          "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.labels.default"
+        ),
+        compliance: t(
+          "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.labels.compliance"
+        ),
+        score: t("QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.labels.score"),
+        additionalInfo: t(
+          "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.labels.additionalInfo"
+        ),
+        formula: t(
+          "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.labels.formula"
+        ),
+      },
+      placeholder: {
+        scoreInput: t(
+          "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.placeholder.scoreInput"
+        ),
+        formulaInput: t(
+          "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.placeholder.formulaInput"
+        ),
+      },
+      UNSAVED_CHANGES_MODAL: {
+        title: t(
+          "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.UNSAVED_CHANGES_MODAL.title"
+        ),
+        confirmText: t(
+          "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.UNSAVED_CHANGES_MODAL.confirmText"
+        ),
+        bodyText: t(
+          "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.UNSAVED_CHANGES_MODAL.bodyText"
+        ),
+      },
+    },
   };
   const NOTIFICATIONS = {
     heading: t("NOTIFICATIONS.heading"),

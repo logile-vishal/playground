@@ -139,6 +139,29 @@
       "noAdditionalInfoLabel": "Sin información adicional",
       "optionalInfoLabel": "Información opcional",
       "requiredInfoLabel": "Información requerida"
+    },
+    "ANSWER_OPTION_SETTING_MODAL": {
+      "title": "Configuración de opciones de respuesta",
+      "answerOptionsHeading": "Opciones de respuesta",
+      "settingAnswerValueLabel": "Valor de respuesta",
+      "settingsForLabel": "Configuración para",
+      "labels": {
+        "value": "Valor",
+        "default": "Predeterminado",
+        "compliance": "Cumplimiento",
+        "score": "Puntuación",
+        "additionalInfo": "Información adicional",
+        "formula": "Fórmula"
+      },
+      "placeholder": {
+        "scoreInput": "Ingresar",
+        "formulaInput": "ej. >50 O <=32"
+      },
+      "UNSAVED_CHANGES_MODAL": {
+        "title": "¡Espera! Tienes cambios sin guardar",
+        "confirmText": "Guardar y Continuar",
+        "bodyText": "Parece que tienes cambios sin guardar. ¿Deseas guardarlos antes de ir a Notificaciones?"
+      }
     }
   },
   "NOTIFICATIONS": {

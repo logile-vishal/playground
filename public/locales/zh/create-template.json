@@ -143,6 +143,29 @@
       "noAdditionalInfoLabel": "无附加信息",
       "optionalInfoLabel": "可选信息",
       "requiredInfoLabel": "必填信息"
+    },
+    "ANSWER_OPTION_SETTING_MODAL": {
+      "title": "答案选项设置",
+      "answerOptionsHeading": "答案选项",
+      "settingAnswerValueLabel": "答案值",
+      "settingsForLabel": "设置为",
+      "labels": {
+        "value": "值",
+        "default": "默认",
+        "compliance": "合规性",
+        "score": "得分",
+        "additionalInfo": "附加信息",
+        "formula": "公式"
+      },
+      "placeholder": {
+        "scoreInput": "输入",
+        "formulaInput": "例如 >50 或 <=32"
+      },
+      "UNSAVED_CHANGES_MODAL": {
+        "title": "稍等！您有未保存的更改",
+        "confirmText": "保存并继续",
+        "bodyText": "看起来您有未保存的更改。在转到通知之前，是否要保存这些更改？"
+      }
     }
   },
   "NOTIFICATIONS": {

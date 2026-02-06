@@ -24,11 +24,8 @@ import {
   followupSampleData,
   notificationSampleData,
 } from "@/pages/create-template/constants/sampleData";
-import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
-import { OPTION_TRIGGER_MENU_KEY } from "@/pages/create-template/constants/questions";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
-import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import type {
   QuestionCardOptionProps,
   QuestionCardOptionsProps,
@@ -41,6 +38,7 @@ import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import { Severity } from "@/core/types/severity.type";
 
 import "./QuestionCardOptions.scss";
+import TriggerMenu from "../trigger-menu/TriggerMenu";
 
 /**
  * @method QuestionCardOption
@@ -49,7 +47,7 @@ import "./QuestionCardOptions.scss";
  * @return {React.ReactNode} Option row JSX element
  */
 const QuestionCardOption = (props: QuestionCardOptionProps) => {
-  const { QUESTION_OPTION, QUESTIONS } = useCreateTemplateTranslations();
+  const { QUESTION_OPTION } = useCreateTemplateTranslations();
   const { deleteOption } = useQuestionListManager();
   const { control, setFormValue, getFormValues, watch } =
     useCreateTemplateForm();
@@ -101,25 +99,6 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     });
   };
 
-  const renderMenuItem = (item: NestedMenuItem, type: string) => {
-    return (
-      <div className="ques-card-options-menu-item">
-        {item?.label}
-
-        <Badge
-          className="attachment-badge"
-          badgeContent={
-            type === "notifications"
-              ? watchNotificationForm?.length || 0
-              : watchFollowUpTaskForm?.length || 0
-          }
-          color="info"
-          overlap="rectangular"
-        ></Badge>
-      </div>
-    );
-  };
-
   /**
    * @method renderTriggerCardMenu
    * @description Renders the trigger card menu with nested options
@@ -128,39 +107,12 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
   const renderTriggerCardMenu = () => {
     const { anchor: anchorEl } = triggerCardMenu;
     return (
-      // TODO: Need to add badge on menu items for count of triggers
-      <CNestedMenu
+      <TriggerMenu
         anchorEl={anchorEl}
-        menuWidth={200}
-        menuItems={QUESTIONS.OPTION_TRIGGER_MENU_OPTIONS as NestedMenuItem[]}
-        onClose={closeTriggerCardMenu}
-        showSearch={false}
-        className="question-section__settings-menu"
-        templates={{
-          itemTemplate: ({ item }) => {
-            if (item.value === OPTION_TRIGGER_MENU_KEY.Notification) {
-              return renderMenuItem(item, "notifications");
-            }
-            if (item.value === OPTION_TRIGGER_MENU_KEY.FollowUp) {
-              return renderMenuItem(item, "followUpTask");
-            }
-          },
-        }}
-        onSelect={(item) => {
-          if (item?.value === OPTION_TRIGGER_MENU_KEY.Notification) {
-            setTriggerCardModal({
-              status: true,
-              data: null,
-              type: TRIGGER_TYPE.notification,
-            });
-          } else if (item?.value === OPTION_TRIGGER_MENU_KEY.FollowUp) {
-            setTriggerCardModal({
-              status: true,
-              data: null,
-              type: TRIGGER_TYPE.followup,
-            });
-          }
-        }}
+        closeTriggerCardMenu={closeTriggerCardMenu}
+        setTriggerCardModal={setTriggerCardModal}
+        notificationCount={watchNotificationForm?.length}
+        followUpCount={watchFollowUpTaskForm?.length}
       />
     );
   };
@@ -174,15 +126,13 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     return QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS.NON_COMPLIANT.label;
   };
 
-  const handleCompliantChange = (selectedOption: {
-    label: string;
-    value: boolean | null;
-  }) => {
+  const handleCompliantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedOption = e.target.value;
     const questionList = getFormValues("questions") as QuestionProps[];
     questionList.forEach((question) => {
       if (question.qId === props.question.qId) {
         question.questionBasicData.response[props.idx].isCompliant =
-          selectedOption?.value;
+          selectedOption !== null ? Boolean(selectedOption) : null;
       }
     });
     setFormValue("questions", questionList);
@@ -190,9 +140,8 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
 
   const getAdditionalInfoValue = (requiredType: string) => {
     switch (requiredType) {
-      case QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.NO_ADDITIONAL_INFO.value:
-        return QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.NO_ADDITIONAL_INFO
-          .label;
+      case QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.OPTIONAL_INFO.value:
+        return QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.OPTIONAL_INFO.label;
       case QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.REQUIRED_INFO.value:
         return QUESTION_OPTION.ADDITIONAL_INFO_DROPDOWN.REQUIRED_INFO.label;
       default:
@@ -218,6 +167,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
         <CSvgIcon
           size={24}
           component={DraggableDots}
+          color="secondary"
         />
       </Box>
 
@@ -251,14 +201,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
                 options={(CompliantOptions as []) ?? []}
                 optionLabelKey={"label"}
                 {...field}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  handleCompliantChange(
-                    e.target.value as unknown as {
-                      label: string;
-                      value: boolean | null;
-                    }
-                  );
-                }}
+                onChange={handleCompliantChange}
                 templates={{
                   inputValueTemplate: () => getIsCompliantValue(field?.value),
                 }}
@@ -357,6 +300,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           "options-list",
           "option-settings",
         ]}
+        onClick={() => props?.onAnswerOptionSettingsOpen(props?.idx)}
       >
         <CSvgIcon component={Setting} />
       </CIconButton>
@@ -449,6 +393,7 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
               questionFormPath={props.questionFormPath}
               question={props.question}
               linkCount={0}
+              onAnswerOptionSettingsOpen={props.onAnswerOptionSettingsOpen}
             />
           ))
         : ""}

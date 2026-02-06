@@ -6,14 +6,38 @@ import {
   QUESTION_TYPE,
 } from "../../constants/questions";
 
+const additionalInfoAnyCharactersSchema = zod.object({
+  required: zod.boolean(),
+  requiredType: zod.string().nullish(),
+  inputType: zod.literal(INPUT_TYPE.ANY_CHARACTERS),
+  minLength: zod.string().optional().nullable(),
+  maxLength: zod.string().optional().nullable(),
+});
+
+const additionalInfoNumberSchema = zod.object({
+  required: zod.boolean(),
+  requiredType: zod.string().nullish(),
+  inputType: zod.literal(INPUT_TYPE.NUMBER_ONLY),
+  minValue: zod.string().optional().nullable(),
+  maxValue: zod.string().optional().nullable(),
+});
+
+const additionalInfoDateTimeSchema = zod.object({
+  required: zod.boolean(),
+  requiredType: zod.string().nullish(),
+  inputType: zod.literal(INPUT_TYPE.DATE_TIME),
+  value: zod.string().optional().nullable(),
+});
+
 const optionSchema = zod.object({
   title: zod.string().min(1, "This field is required"), //TODO: Check for error message and replace once confirmed
   isCompliant: zod.boolean().nullish(),
   additionalInfo: zod
-    .object({
-      required: zod.boolean(),
-      requiredType: zod.string().nullish(),
-    })
+    .discriminatedUnion("inputType", [
+      additionalInfoAnyCharactersSchema,
+      additionalInfoNumberSchema,
+      additionalInfoDateTimeSchema,
+    ])
     .optional(),
   isDefault: zod.boolean().optional(),
   score: zod.number().optional(),

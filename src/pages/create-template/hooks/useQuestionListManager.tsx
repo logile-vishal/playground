@@ -571,6 +571,18 @@ const useQuestionListManager = () => {
     setFormValue("questions", updatedQuestionsList);
   };
 
+  const modifyOptions = (questionId: string, options) => {
+    const questionsList = getFormValues("questions") as QuestionProps[];
+    const updatedQuestionList = questionsList.map((question) => {
+      if (question.qId === questionId) {
+        question.questionBasicData.response = options;
+      }
+      return question;
+    });
+
+    setFormValue("questions", updatedQuestionList);
+  };
+
   /**
    * @method triggerQuestionValidation
    * @description Trigger validation for the entire questions list
@@ -589,6 +601,7 @@ const useQuestionListManager = () => {
     addNewSection,
     addNewOption,
     modifyQuestionType,
+    modifyOptions,
     triggerQuestionValidation,
   };
 };

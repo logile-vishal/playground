@@ -24,33 +24,12 @@
   }
 
   .switch__input {
-    // Large variant
-    &--large {
-      --switch-width: var(--space-7xl);
-      --switch-height: 30px;
-      --switch-margin: var(--space-xs);
-      --switch-transform: 34px;
-      --switch-thumb-size: 22px;
-      --switch-track-radius: 15px;
-    }
-
-    // Small variant
-    &--small {
-      --switch-width: 26px;
-      --switch-height: 14px;
-      --switch-margin: var(--space-xxs);
-      --switch-transform: var(--space-l);
-      --switch-thumb-size: 10px;
-      --switch-track-radius: 7px;
-    }
-
     padding: 0;
     width: var(--switch-width);
     height: var(--switch-height);
 
-    & 
     // Switch base styles
-    .MuiSwitch-switchBase {
+    & .MuiSwitch-switchBase {
       padding: 0;
       margin: var(--switch-margin);
       transition-duration: 300ms;
@@ -111,5 +90,25 @@
     .switch__label {
       @include form-label($required: true);
     }
+  }
+
+  // Large variant
+  &--large {
+    --switch-width: var(--space-7xl);
+    --switch-height: 30px;
+    --switch-margin: var(--space-xs);
+    --switch-transform: 34px;
+    --switch-thumb-size: 22px;
+    --switch-track-radius: 15px;
+  }
+
+  // Small variant
+  &--small {
+    --switch-width: 26px;
+    --switch-height: 14px;
+    --switch-margin: var(--space-xxs);
+    --switch-transform: var(--space-l);
+    --switch-thumb-size: 10px;
+    --switch-track-radius: 7px;
   }
 }

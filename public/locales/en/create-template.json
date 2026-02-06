@@ -143,6 +143,29 @@
       "noAdditionalInfoLabel": "No Additional Info",
       "optionalInfoLabel": "Optional Info",
       "requiredInfoLabel": "Required Info"
+    },
+    "ANSWER_OPTION_SETTING_MODAL": {
+      "title": "Answers Options Settings",
+      "answerOptionsHeading": "Answer Options",
+      "settingAnswerValueLabel": "Answer Value",
+      "settingsForLabel": "Settings for",
+      "labels": {
+        "value": "Value",
+        "default": "Default",
+        "compliance": "Compliance",
+        "score": "Score",
+        "additionalInfo": "Additional Info",
+        "formula": "Formula"
+      },
+      "placeholder": {
+        "scoreInput": "Enter",
+        "formulaInput": "eg. >50 OR <=32"
+      },
+      "UNSAVED_CHANGES_MODAL": {
+        "title": "Hold On! You have unsaved changes",
+        "confirmText": "Save and Proceed",
+        "bodyText": "It looks like you have unsaved changes. Do you want to save them before you go to Notifications?"
+      }
     }
   },
   "NOTIFICATIONS": {

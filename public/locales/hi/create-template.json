@@ -139,6 +139,29 @@
       "noAdditionalInfoLabel": "कोई अतिरिक्त जानकारी नहीं",
       "optionalInfoLabel": "वैकल्पिक जानकारी",
       "requiredInfoLabel": "आवश्यक जानकारी"
+    },
+    "ANSWER_OPTION_SETTING_MODAL": {
+      "title": "उत्तर विकल्प सेटिंग्स",
+      "answerOptionsHeading": "उत्तर विकल्प",
+      "settingAnswerValueLabel": "उत्तर मूल्य",
+      "settingsForLabel": "के लिए सेटिंग्स",
+      "labels": {
+        "value": "मूल्य",
+        "default": "डिफ़ॉल्ट",
+        "compliance": "अनुपालन",
+        "score": "स्कोर",
+        "additionalInfo": "अतिरिक्त जानकारी",
+        "formula": "सूत्र"
+      },
+      "placeholder": {
+        "scoreInput": "दर्ज करें",
+        "formulaInput": "उदा. >50 या <=32"
+      },
+      "UNSAVED_CHANGES_MODAL": {
+        "title": "रुकिए! आपके पास असहेजे परिवर्तन हैं",
+        "confirmText": "सहेजें और आगे बढ़ें",
+        "bodyText": "ऐसा लगता है कि आपके पास असहेजे परिवर्तन हैं। क्या आप सूचना पर जाने से पहले उन्हें सहेजना चाहते हैं?"
+      }
     }
   },
   "NOTIFICATIONS": {

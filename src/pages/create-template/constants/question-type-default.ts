@@ -6,6 +6,9 @@ export const OPTIONS_DEFAULT = {
   additionalInfo: {
     required: false,
     requiredType: "No Additional Info",
+    inputType: INPUT_TYPE.ANY_CHARACTERS,
+    minLength: null,
+    maxLength: null,
   },
   isDefault: false,
   score: 0,

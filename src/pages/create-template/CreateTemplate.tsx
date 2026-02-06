@@ -208,7 +208,7 @@ const CreateTemplateContent: React.FC = () => {
         async () =>
           watchColumnList.length > 0 &&
           (await triggerValidation("advancedOptions")),
-        [triggerValidation]
+        [triggerValidation, watchColumnList]
       ),
     },
     {

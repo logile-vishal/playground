@@ -6,7 +6,7 @@ import type { SvgIconComponent } from "@/core/components/icon/Icon";
 import type { MandatoryFormElementProps } from "./form-element.type";
 
 export type SelectOption = {
-  value: string | number;
+  value: string | number | null;
   label: string;
   labelStartIcon?: React.ReactNode;
   labelEndIcon?: React.ReactNode;

@@ -1,3 +1,5 @@
+import type { Control, FieldValues } from "react-hook-form";
+
 import { type QUESTION_OPTION_LABELS } from "../constants/questions";
 
 export type QuestionOptionType =
@@ -173,6 +175,7 @@ export type QuestionCardOptionsProps = {
   isVisible?: boolean;
   questionFormPath?: string;
   question?: QuestionProps;
+  onAnswerOptionSettingsOpen?: (index: number) => void;
 };
 
 export type QuestionCardOptionProps = {
@@ -180,6 +183,7 @@ export type QuestionCardOptionProps = {
   idx: number;
   questionFormPath?: string;
   question?: QuestionProps;
+  onAnswerOptionSettingsOpen?: (index: number) => void;
 };
 
 export type TriggerCardMenuProps = {
@@ -219,4 +223,42 @@ export type AttachmentItemProps = {
 export type SectionTypeProps = {
   label: string;
   value: QuestionTypeKey;
+};
+
+export type AnswerOptionSettingProps = {
+  status: boolean;
+  data: QuestionProps | null;
+  activeIndex: number | null;
+};
+
+export type AnswerOptionSettingModalProps = {
+  answerOptionSettingModal?: AnswerOptionSettingProps;
+  onClose: () => void;
+  onSubmit: (option) => void;
+  shouldProceedAllowed: boolean;
+  setShouldProceedAllowed: React.Dispatch<React.SetStateAction<boolean>>;
+  triggerCardModal: {
+    status: boolean;
+    data: TriggerItem[] | null;
+    type: string | null;
+  };
+  setTriggerCardModal: (modalState: {
+    status: boolean;
+    data: unknown;
+    type: unknown;
+  }) => void;
+};
+
+export type InputTypeContentProps = {
+  questionFormPath?: string;
+  control: Control<FieldValues>;
+};
+
+export type InputTypeModalProps = {
+  questionFormPath?: string;
+  inputTypeModal: {
+    status: boolean;
+    data: null;
+  };
+  onClose: () => void;
 };

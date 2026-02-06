@@ -12,6 +12,7 @@ import CIconButton from "@/core/components/button/IconButton";
 import CTextfield from "@/core/components/form/textfield/Textfield";
 import CSwitch from "@/core/components/form/switch/Switch";
 import type {
+  AnswerOptionSettingProps,
   QuestionCardProps,
   QuestionProps,
   QuestionTypeKey,
@@ -25,11 +26,18 @@ import CRichTextEditor from "@/core/components/form/rich-text-editor/RichTextEdi
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
 import CSelect from "@/core/components/form/select";
+import TriggerModal from "@/pages/create-template/components/trigger-modal/TriggerModal";
+import { TRIGGER_TYPE } from "@/pages/create-template/constants/constant";
+import {
+  followupSampleData,
+  notificationSampleData,
+} from "@/pages/create-template/constants/sampleData";
 
 import { RenderQuestion } from "../../Questions";
 import InputTypeModal from "../input-type-modal/InputTypeModal";
 import { QuestionBadge } from "../question-card-collapsed/QuestionBadges";
 import QuestionCardOptionsComponent from "../question-card-options/QuestionCardOptions";
+import AnswerOptionSettingModal from "../answer-options-setting-modal/AnswerOptionSettingModal";
 import "./QuestionCardExpanded.scss";
 
 function TabPanel(props) {
@@ -51,18 +59,70 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   const [currentTab, setCurrentTab] = useState(
     QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.BASIC.value
   );
+  const [answerOptionSettingModal, setAnswerOptionSettingModal] =
+    useState<AnswerOptionSettingProps>({
+      status: false,
+      data: null,
+      activeIndex: null,
+    });
   const [questionType, setQuestionType] = useState<QuestionTypeKey>(
     QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN[0].value
   );
   const [attachments, setAttachments] = useState<File[]>([]);
   const { control, watch, formErrors } = useCreateTemplateForm();
-  const { modifyQuestionType, cloneExistingQuestion, deleteQuestion } =
-    useQuestionListManager();
+  const {
+    modifyQuestionType,
+    cloneExistingQuestion,
+    deleteQuestion,
+    modifyOptions,
+  } = useQuestionListManager();
   const watchQuestionList = watch("questions") as QuestionProps[];
   const [inputTypeModal, setInputTypeModal] = useState({
     status: false,
     data: null,
   });
+  const [triggerCardModal, setTriggerCardModal] = useState({
+    status: false,
+    data: null,
+    type: null,
+  });
+  const [shouldProceedAllowed, setShouldProceedAllowed] = useState(false);
+
+  const onAnswerOptionSettingsOpen = (activeIndex: number) => {
+    setAnswerOptionSettingModal({ status: true, data: question, activeIndex });
+  };
+
+  const closeAnswerOptionSettingModal = () => {
+    setAnswerOptionSettingModal({
+      status: false,
+      data: null,
+      activeIndex: null,
+    });
+  };
+
+  /**
+   * @method closeTriggerCardModal
+   * @description Closes the trigger card modal
+   */
+  const closeTriggerCardModal = () => {
+    setTriggerCardModal({
+      status: false,
+      data: null,
+      type: null,
+    });
+    setShouldProceedAllowed(false);
+  };
+
+  /**
+   * @method handleOptionsSubmit
+   * @description Handles submission of answer options from the settings modal and updates the question options
+   * @param {unknown} options - The updated options for the question
+   * @return {void}
+   */
+  const handleOptionsSubmit = (options) => {
+    modifyOptions(question.qId, options);
+    closeAnswerOptionSettingModal();
+  };
 
   /**
    * @method onUpdateAttachments
@@ -154,6 +214,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             question={question}
             questionFormPath={`${questionFormPath}.questionBasicData.response`}
             isVisible={true}
+            onAnswerOptionSettingsOpen={onAnswerOptionSettingsOpen}
           />
         );
     }
@@ -522,6 +583,30 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
         questionFormPath={questionFormPath}
         inputTypeModal={inputTypeModal}
         onClose={handleInputTypeModalClose}
+      />
+      <AnswerOptionSettingModal
+        answerOptionSettingModal={answerOptionSettingModal}
+        onClose={closeAnswerOptionSettingModal}
+        onSubmit={handleOptionsSubmit}
+        triggerCardModal={triggerCardModal}
+        setTriggerCardModal={setTriggerCardModal}
+        shouldProceedAllowed={shouldProceedAllowed}
+        setShouldProceedAllowed={setShouldProceedAllowed}
+      />
+      <TriggerModal
+        type={triggerCardModal.type}
+        data={
+          triggerCardModal.type === TRIGGER_TYPE.followup
+            ? followupSampleData
+            : notificationSampleData
+        }
+        showModal={triggerCardModal.status}
+        handleCloseModal={closeTriggerCardModal}
+        walkMeIdPrefix={[
+          "create template",
+          "question options",
+          "trigger modal",
+        ]}
       />
       {question.subQuestions && question.subQuestions.length > 0
         ? question.subQuestions?.map((question, index) => {

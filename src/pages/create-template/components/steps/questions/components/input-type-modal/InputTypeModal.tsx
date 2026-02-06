@@ -10,31 +10,31 @@ import { INPUT_TYPE } from "@/pages/create-template/constants/questions";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 
 import "./InputTypeModal.scss";
+import type {
+  InputTypeContentProps,
+  InputTypeModalProps,
+} from "@/pages/create-template/types/questions.type";
 
-type InputTypeModalProps = {
-  questionFormPath?: string;
-  inputTypeModal: {
-    status: boolean;
-    data: null;
-  };
-  onClose: () => void;
-};
-
-const InputTypeModal: React.FC<InputTypeModalProps> = ({
+/**
+ * @method InputTypeContent
+ * @description Renders input type configuration form with conditional fields based on input type
+ * @params {InputTypeContentProps} props - Component props
+ * @params {string} props.questionFormPath - Base path to question form field
+ * @params {Control<FieldValues>} props.control - React Hook Form control instance
+ * @returns {JSX.Element} - Input type configuration form
+ */
+export const InputTypeContent: React.FC<InputTypeContentProps> = ({
   questionFormPath,
-  inputTypeModal,
-  onClose,
+  control,
 }) => {
   const { QUESTIONS } = useCreateTemplateTranslations();
-  const { control } = useCreateTemplateForm();
 
   /**
    * @method getSelectedInputType
-   * @description Retrieves the label of the selected input type based on its value
-   * @param {string} value - The value of the selected input type
-   * @return {string} The label corresponding to the selected input type
+   * @description Retrieves the label of the selected input type
+   * @params {string} value - The value of the selected input type
+   * @returns {string} - Label corresponding to the input type
    */
-
   const getSelectedInputType = (value: string) => {
     const selectedOption = QUESTIONS.INPUT_TYPE_OPTIONS.find(
       (option) => option.value === value
@@ -46,9 +46,9 @@ const InputTypeModal: React.FC<InputTypeModalProps> = ({
 
   /**
    * @method getSelectedDateView
-   * @description Retrieves the label of the selected date view option based on its value
-   * @param {string} value - The value of the selected date view option
-   * @return {string} The label corresponding to the selected date view option
+   * @description Retrieves the label of the selected date view option
+   * @params {string} value - The value of the selected date view option
+   * @returns {string} - Label corresponding to the date view option
    */
   const getSelectedDateView = (value: string) => {
     const selectedOption = QUESTIONS.DATE_VIEW_OPTIONS.find(
@@ -61,14 +61,14 @@ const InputTypeModal: React.FC<InputTypeModalProps> = ({
 
   /**
    * @method renderAnyCharacter
-   * @description Renders input fields for minimum and maximum length constraints
-   * @return {React.ReactNode} Min and max length input fields JSX element
+   * @description Renders min and max length input fields
+   * @returns {JSX.Element} - Min and max length inputs
    */
   const renderAnyCharacter = () => {
     return (
       <>
         <Controller
-          name={`${questionFormPath}.questionBasicData.minLength`}
+          name={`${questionFormPath}.minLength`}
           control={control as unknown as Control<FieldValues>}
           render={({ field }) => (
             <CTextfield
@@ -81,7 +81,7 @@ const InputTypeModal: React.FC<InputTypeModalProps> = ({
           )}
         />
         <Controller
-          name={`${questionFormPath}.questionBasicData.maxLength`}
+          name={`${questionFormPath}.maxLength`}
           control={control as unknown as Control<FieldValues>}
           render={({ field }) => (
             <CTextfield
@@ -99,14 +99,14 @@ const InputTypeModal: React.FC<InputTypeModalProps> = ({
 
   /**
    * @method renderNumber
-   * @description Renders input fields for minimum and maximum value constraints
-   * @return {React.ReactNode} Min and max value input fields JSX element
+   * @description Renders min and max value input fields
+   * @returns {JSX.Element} - Min and max value inputs
    */
   const renderNumber = () => {
     return (
       <>
         <Controller
-          name={`${questionFormPath}.questionBasicData.minValue`}
+          name={`${questionFormPath}.minValue`}
           control={control as unknown as Control<FieldValues>}
           render={({ field }) => (
             <CTextfield
@@ -119,7 +119,7 @@ const InputTypeModal: React.FC<InputTypeModalProps> = ({
           )}
         />
         <Controller
-          name={`${questionFormPath}.questionBasicData.maxValue`}
+          name={`${questionFormPath}.maxValue`}
           control={control as unknown as Control<FieldValues>}
           render={({ field }) => (
             <CTextfield
@@ -134,16 +134,17 @@ const InputTypeModal: React.FC<InputTypeModalProps> = ({
       </>
     );
   };
+
   /**
    * @method renderDate
-   * @description Renders select dropdown for date view options
-   * @return {React.ReactNode} Date view options select JSX element
+   * @description Renders date view options select field
+   * @returns {JSX.Element} - Date view select field
    */
   const renderDate = () => {
     return (
       <>
         <Controller
-          name={`${questionFormPath}.questionBasicData.value`}
+          name={`${questionFormPath}.dateValue`}
           control={control as unknown as Control<FieldValues>}
           render={({ field }) => {
             return (
@@ -166,6 +167,58 @@ const InputTypeModal: React.FC<InputTypeModalProps> = ({
   };
 
   return (
+    <>
+      <Controller
+        name={`${questionFormPath}.inputType`}
+        control={control as unknown as Control<FieldValues>}
+        render={({ field }) => {
+          return (
+            <>
+              <CSelect
+                label={QUESTIONS.QUESTION_TYPE_LABELS.inputTypeLabel}
+                options={QUESTIONS.INPUT_TYPE_OPTIONS}
+                className="ct-input-type-modal__input-type-select-field"
+                optionLabelKey="label"
+                optionValueKey="value"
+                templates={{
+                  inputValueTemplate: () => getSelectedInputType(field?.value),
+                }}
+                {...field}
+              />
+              <Box className="ct-input-type-modal__length-fields">
+                {field?.value === INPUT_TYPE.NUMBER_ONLY
+                  ? renderNumber()
+                  : field?.value === INPUT_TYPE.DATE_TIME
+                    ? renderDate()
+                    : renderAnyCharacter()}
+              </Box>
+            </>
+          );
+        }}
+      />
+    </>
+  );
+};
+
+/**
+ * @method InputTypeModal
+ * @description Modal wrapper for input type configuration with form content
+ * @params {InputTypeModalProps} props - Component props
+ * @params {string} props.questionFormPath - Path to question form field
+ * @params {Object} props.inputTypeModal - Modal state object
+ * @params {boolean} props.inputTypeModal.status - Whether modal is open
+ * @params {Function} props.onClose - Callback when modal closes
+ * @returns {JSX.Element} - Modal with input type form
+ */
+const InputTypeModal: React.FC<InputTypeModalProps> = ({
+  questionFormPath,
+  inputTypeModal,
+  onClose,
+}) => {
+  const { QUESTIONS } = useCreateTemplateTranslations();
+  const { control } = useCreateTemplateForm();
+
+  return (
     <CModal
       title={QUESTIONS.QUESTION_TYPE_LABELS.setInputTypeLabel}
       open={inputTypeModal.status}
@@ -175,34 +228,9 @@ const InputTypeModal: React.FC<InputTypeModalProps> = ({
       className="ct-input-type-modal"
     >
       <ModalBody containerClassName="ct-input-type-modal__body">
-        <Controller
-          name={`${questionFormPath}.questionBasicData.inputType`}
-          control={control as unknown as Control<FieldValues>}
-          render={({ field }) => {
-            return (
-              <>
-                <CSelect
-                  label={QUESTIONS.QUESTION_TYPE_LABELS.inputTypeLabel}
-                  options={QUESTIONS.INPUT_TYPE_OPTIONS}
-                  className="ct-input-type-modal__input-type-select-field"
-                  optionLabelKey="label"
-                  optionValueKey="value"
-                  templates={{
-                    inputValueTemplate: () =>
-                      getSelectedInputType(field?.value),
-                  }}
-                  {...field}
-                />
-                <Box className="ct-input-type-modal__length-fields">
-                  {field?.value === INPUT_TYPE.NUMBER_ONLY
-                    ? renderNumber()
-                    : field?.value === INPUT_TYPE.DATE_TIME
-                      ? renderDate()
-                      : renderAnyCharacter()}
-                </Box>
-              </>
-            );
-          }}
+        <InputTypeContent
+          questionFormPath={`${questionFormPath}.questionBasicData`}
+          control={control}
         />
       </ModalBody>
       <ModalFooter footerClassName="ct-input-type-modal__footer">

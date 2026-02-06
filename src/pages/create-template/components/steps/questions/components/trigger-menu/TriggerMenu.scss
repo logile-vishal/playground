@@ -1,0 +1,6 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.trigger-menu-options-menu-item {
+  @include flex-center($justify: space-between, $align: center);
+  color: var(--logile-text-primary);
+}
