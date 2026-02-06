@@ -13,7 +13,11 @@
     "addButtonLabel": "जोड़ें",
     "seeMoreButtonLabel": "और देखें",
     "seeLessButtonLabel": "कम देखें",
-    "filterPlaceholder": "खोजें..."
+    "filterPlaceholder": "खोजें...",
+    "clearAllButtonLabel": "साफ़ करें",
+    "searchButtonLabel": "खोजें",
+    "loadingText": "लोड हो रहा है...",
+    "closeButtonLabel": "बंद करें"
   },
   "PAGINATION": {
     "pageLabel": "पृष्ठ",

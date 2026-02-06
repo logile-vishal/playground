@@ -92,5 +92,52 @@
       "selectTime": "समय चुनें",
       "selectDateTime": "तारीख और समय चुनें"
     }
+  },
+  "TEMPLATE_SEARCH_BAR": {
+    "placeholder": "टेम्पलेट खोजें",
+    "FILTER_LABELS": {
+      "templateName": "टेम्पलेट नाम",
+      "taskType": "कार्य प्रकार",
+      "statusList": "स्थिति",
+      "taskTagsList": "कार्य टैग",
+      "questionTagsList": "प्रश्न टैग",
+      "modifiedInLast": "हाल ही में संशोधित किए गए कार्य दिखाएँ:",
+      "questionText": "प्रश्न पाठ"
+    },
+    "FILTER_PLACEHOLDERS": {
+      "templateName": "टेम्पलेट नाम से खोजें",
+      "taskType": "कार्य प्रकार चुनें",
+      "statusList": "स्थिति चुनें",
+      "taskTagsList": "कार्य टैग चुनें",
+      "questionTagsList": "प्रश्न टैग चुनें",
+      "modifiedInLast": "उदाहरण के लिए, 8",
+      "questionText": "जैसे, नालियों की एक तस्वीर संलग्न करें और स्टेशन को मानचित्रित करें"
+    },
+    "ADVANCED_FILTER": {
+      "modifiedInLastDaysAdditionalLabel": "दिन"
+    },
+    "SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT": {
+      "showAll": "सभी दिखाएँ",
+      "inThisFolder": "इस फ़ोल्डर में",
+      "templates": "टेम्पलेट्स"
+    },
+    "FILTER_CHIPS_PREFIX": {
+      "taskTagsList": "T.टैग",
+      "questionTagsList": "P.टैग",
+      "taskType": "T.प्रकार",
+      "statusList": "स्थिति",
+      "modifiedInLastDays": "पिछले दिनों में संशोधित",
+      "questionText": "P.पाठ"
+    },
+    "FILTER_FIELD_DROPDOWN": {
+      "TASK_STATUS": {
+        "assigned": "असाइन किया गया",
+        "notInUse": "उपयोग में नहीं",
+        "incomplete": "अपूर्ण",
+        "notAssigned": "असाइन नहीं किया गया"
+      }
+    },
+    "searchAllResults": "सभी खोज परिणाम",
+    "lastModifiedLabel": "अंतिम संशोधित"
   }
 }

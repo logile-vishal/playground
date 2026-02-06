@@ -12,6 +12,9 @@ export const useCommonTranslation = () => {
     submitButtonLabel: t("GENERAL.submitButtonLabel"),
     seeMoreButtonLabel: t("GENERAL.seeMoreButtonLabel"),
     seeLessButtonLabel: t("GENERAL.seeLessButtonLabel"),
+    clearAllButtonLabel: t("GENERAL.clearAllButtonLabel"),
+    searchButtonLabel: t("GENERAL.searchButtonLabel"),
+    loadingText: t("GENERAL.loadingText"),
   };
 
   const PAGINATION = {
@@ -63,6 +66,7 @@ export const useCommonTranslation = () => {
       selectAllFeatureLabel: t("SELECT.TOOLBAR.selectAllFeatureLabel"),
     },
   };
+
   return {
     GENERAL,
     PAGINATION,

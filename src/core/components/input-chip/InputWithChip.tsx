@@ -10,6 +10,7 @@ import { useMeasureTextWidth } from "@/core/hooks/useMeasureTextWidth";
 import "./InputWithChip.scss";
 import { INPUT_WITH_CHIP } from "./constants";
 import type { IdentifierProps } from "@/core/types/IdentifierProps.type";
+import { isNonEmptyValue } from "@/utils";
 
 export type InputWithChipProps = IdentifierProps & {
   label?: string;
@@ -34,6 +35,8 @@ export type InputWithChipProps = IdentifierProps & {
   helperText?: string;
   hideEndIcon?: boolean;
   className?: string;
+  disableInputFocus?: boolean;
+  disableScrollToFocus?: boolean;
 };
 
 const CInputWithChip: React.FC<InputWithChipProps> = ({
@@ -57,6 +60,8 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
   hideEndIcon = true,
   onClick,
   className,
+  disableInputFocus,
+  disableScrollToFocus,
 }) => {
   const measureTextWidth = useMeasureTextWidth();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -117,8 +122,12 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
     return () => cancelAnimationFrame(inputWidthRaf);
   }, [searchText, selectedItems, measureTextWidth]);
 
+  /**
+   * DISABLE PROPS HAVE BEEN ADDED FOR TESTING PURPOSE, CAN BE REMOVED IN FUTURE
+   */
   // Auto scroll to right
   useEffect(() => {
+    if (disableScrollToFocus) return;
     if (!scrollRef.current || searchText?.length > 0) return;
     const container = scrollRef.current;
 
@@ -128,8 +137,10 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
         // If input is placed at the start, scroll to the beginning
         container.scrollLeft = container.scrollWidth;
         setTimeout(() => {
-          container.scrollLeft = 0;
-          inputRef.current?.focus();
+          if (!disableInputFocus) {
+            container.scrollLeft = 0;
+            inputRef.current?.focus();
+          }
         }, 500); // Slight delay to ensure scroll happens after render
       } else {
         // If input is placed at the end, scroll to the end
@@ -138,7 +149,13 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
       }
     });
     return () => cancelAnimationFrame(containerRef);
-  }, [searchText, selectedItems, inputPlacement]);
+  }, [
+    searchText,
+    selectedItems,
+    inputPlacement,
+    disableInputFocus,
+    disableScrollToFocus,
+  ]);
 
   return (
     <div
@@ -149,7 +166,9 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
         "input-with-chip--error": Boolean(error),
       })}
     >
-      <label className="input-with-chip__label">{label}</label>
+      {isNonEmptyValue(label) && (
+        <label className="input-with-chip__label">{label}</label>
+      )}
       <Box
         className={clsx({
           "input-with-chip__input": true,
@@ -225,7 +244,9 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
         )}
       </Box>
 
-      <div className="input-with-chip__helper-text">{helperText}</div>
+      {isNonEmptyValue(helperText) && (
+        <div className="input-with-chip__helper-text">{helperText}</div>
+      )}
     </div>
   );
 };

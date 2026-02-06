@@ -3,14 +3,14 @@
 .input-with-chip {
   --input-with-chip-height: 36px;
   --input-with-chip-width: 100%;
-
-  width: var(--input-with-chip-width);
+  flex: 1;
   @include flex-box(column);
 
   & .input-with-chip__label {
     color: var(--logile-text-secondary);
     font-size: var(--logile-size-secondary-text);
     line-height: var(--logile-line-height-secondary-text);
+    white-space: nowrap;
   }
   & .input-with-chip__helper-text {
     color: var(--logile-text-secondary);
@@ -20,8 +20,8 @@
     margin-left: var(--space-m);
   }
   .input-with-chip__input {
+    overflow: auto;
     height: var(--input-with-chip-height);
-    width: var(--input-with-chip-width);
     @include flex-center(flex-start, center);
     gap: var(--space-s);
     cursor: pointer;
@@ -29,7 +29,6 @@
     border-radius: var(--radius-m);
     padding: 0 var(--space-m);
     background: var(--logile-bg-container-1);
-
     &:hover {
       border: 1px solid var(--logile-border-bold-subtle);
     }
@@ -142,6 +141,9 @@
     @include flex-center(flex-start, center);
     flex-direction: row;
     gap: var(--space-xs);
+    .input-with-chip__input {
+      flex: 1;
+    }
   }
   &--error {
     & .input-with-chip__label {

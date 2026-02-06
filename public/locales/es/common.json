@@ -13,7 +13,11 @@
     "addButtonLabel": "Agregar",
     "seeMoreButtonLabel": "Ver más",
     "seeLessButtonLabel": "Ver menos",
-    "filterPlaceholder": "Buscar..."
+    "filterPlaceholder": "Buscar...",
+    "clearAllButtonLabel": "Borrar todo",
+    "searchButtonLabel": "Buscar",
+    "loadingText": "Cargando...",
+    "closeButtonLabel": "Cerrar"
   },
   "PAGINATION": {
     "pageLabel": "Página",

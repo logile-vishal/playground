@@ -60,6 +60,7 @@ export type SelectProps = MandatoryFormElementProps &
     templates?: SelectMenuItemTemplates;
     optionValueKey?: string;
     optionLabelKey?: string;
+    disabled?: boolean;
   };
 export type SelectMenuItemContentProps = {
   option: SelectOption;

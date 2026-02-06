@@ -218,6 +218,7 @@ const CPagination: React.FC<PaginationProps> = ({
       {/* Page size */}
       <Box>
         <CSelect
+          value={String(pagination?.pageSize)}
           options={
             !isNonEmptyValue(pageSizeOptions)
               ? DEFAULT_PAGINATION_SIZE_OPTIONS
@@ -226,7 +227,7 @@ const CPagination: React.FC<PaginationProps> = ({
           optionLabelKey="label"
           onChange={(e) => handleChange(PAGINATION_EVENT_TYPE.pageSize, e)}
           templates={{
-            inputValueTemplate: () => {
+            inputValueTemplate() {
               return (
                 <div>
                   {pagination?.pageSize} / {PAGINATION.pageLabel}

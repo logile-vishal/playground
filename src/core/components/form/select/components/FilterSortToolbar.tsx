@@ -172,8 +172,6 @@ const CFilterSortToolbar: React.FC<CFilterSortToolbarProps> = (props) => {
           <div className="select-toolbar__filter-field">
             <CTextfield
               className="select-menuitem__toolbar-filter-input"
-              onKeyDown={(e) => e.stopPropagation()}
-              onClick={(e) => e.stopPropagation()}
               placeholder={SELECT.TOOLBAR.filterFeaturePlaceholder}
               onChange={handleFilterChange}
               fullWidth

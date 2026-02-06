@@ -35,8 +35,9 @@ const CSelect = ({
   walkMeIdPrefix,
   IconComponent,
   required,
-  optionValueKey = "value",
-  optionLabelKey = "label",
+  optionValueKey,
+  optionLabelKey,
+  disabled,
 }: SelectProps) => {
   const [filteredOptions, setFilteredOptions] = useState<SelectOption[]>([]);
   const [selectedOptions, setSelectedOptions] = useState<
@@ -57,7 +58,6 @@ const CSelect = ({
    * @returns void
    */
   const toggleSelectAllOptions = (e: React.MouseEvent) => {
-    e.stopPropagation();
     e.preventDefault();
     let syntheticEvent = null;
     if (!allowMultiSelect) return;
@@ -99,6 +99,14 @@ const CSelect = ({
    */
   const renderValue = (selected: selectValueType) => {
     // Custom rendering logic
+
+    // Render placeholder if no value is selected
+    if (
+      !isNonEmptyValue(value) ||
+      (Array.isArray(value) && value.length === 0)
+    ) {
+      return <span className="select__placeholder-text">{placeholder}</span>;
+    }
     if (templates?.inputValueTemplate) {
       return templates.inputValueTemplate({
         selectedItems: selected,
@@ -106,10 +114,6 @@ const CSelect = ({
         isAllSelected: isAllOptionsSelected,
         hasMultiSelect: allowMultiSelect,
       });
-    }
-    // Render placeholder if no value is selected
-    if (!selected || (Array.isArray(selected) && selected.length === 0)) {
-      return <span className="select__placeholder-text">{placeholder}</span>;
     }
 
     if (allowMultiSelect) {
@@ -136,7 +140,6 @@ const CSelect = ({
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
-    e.stopPropagation();
   };
 
   const getSelectValues = (value: selectValueType) => {
@@ -206,6 +209,10 @@ const CSelect = ({
    * - If single-select is enabled, it sets the selected option directly
    */
   useEffect(() => {
+    if (!isNonEmptyValue(value)) {
+      setSelectedOptions(new Map());
+      return;
+    }
     //handle multiselect
     if (allowMultiSelect && Array.isArray(value)) {
       const valuesMap = new Map(
@@ -241,6 +248,7 @@ const CSelect = ({
           label=""
           multiple={allowMultiSelect}
           displayEmpty
+          disabled={disabled}
           className="select__input"
           renderValue={renderValue}
           onKeyDown={handleOnKeyDown}
@@ -258,7 +266,6 @@ const CSelect = ({
           MenuProps={{
             PaperProps: {
               className: "select__menu",
-
               elevation: 0,
             },
             anchorOrigin: {

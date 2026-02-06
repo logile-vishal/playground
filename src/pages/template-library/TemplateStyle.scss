@@ -6,7 +6,7 @@
   --template-library-container-height: calc(
     100% - var(--template-library-header-height) + 1px //1px to compensate for divider
   );
-
+  --max-template-searchbar-width: 800px;
   &--desktop {
     --directory-tree-width: 340px;
   }
@@ -27,6 +27,7 @@
       width: calc(var(--directory-tree-width) - var(--space-xl));
       font-size: var(--logile-size-secondary-heading);
       font-weight: var(--logile-weight-500);
+      flex-shrink: 0;
     }
 
     .template-library__sub-text {
@@ -50,11 +51,15 @@
     }
 
     .template-library__inner-header {
+      display: grid;
+      grid-template-columns: max-content 1fr max-content;
+      align-items: center;
       flex: 1;
-      height: 36px;
-      @include flex-center(space-between);
-      gap: var(--space-l);
-      flex-grow: 1;
+
+      .template-search {
+        width: 100%;
+        max-width: 800px;
+      }
     }
 
     .template-library__inner-header-text {
@@ -78,6 +83,7 @@
     .template-library__searchbar {
       max-width: 505px;
       flex-grow: 1;
+      min-width: 0;
     }
     .template-library__searchbar-field {
       .MuiOutlinedInput-root {
@@ -90,17 +96,23 @@
     }
   }
 
-  .template-library__container {
+  &__container {
     flex: 1;
     @include flex-box(var(--template-library-directoryTreePosition));
     overflow: hidden;
     height: var(--template-library-container-height);
   }
 
-  .template-library__table-wrapper {
+  &__table-wrapper {
     width: 100%;
     flex: 1;
     border-left: 1px solid var(--logile-border-secondary);
+  }
+  &__search-bar-container {
+    padding: 0 var(--space-xl);
+    min-width: 0;
+    overflow: hidden;
+    @include flex-center;
   }
 
   .flex-box {

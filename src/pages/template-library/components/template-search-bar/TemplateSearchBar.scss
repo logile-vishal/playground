@@ -1,0 +1,16 @@
+.template-search {
+  --search-bar-max-width: 800px;
+  max-width: min(var(--search-bar-max-width));
+  width: 100%;
+  &__icon-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+}
+.template-search-layout {
+  &--mobile {
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+}

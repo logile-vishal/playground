@@ -92,5 +92,52 @@
       "selectTime": "Select time",
       "selectDateTime": "Select date & time"
     }
+  },
+  "TEMPLATE_SEARCH_BAR": {
+    "placeholder": "Search Templates",
+    "FILTER_LABELS": {
+      "templateName": "Template Name",
+      "taskType": "Task Type",
+      "statusList": "Status",
+      "taskTagsList": "Task Tags",
+      "questionTagsList": "Question Tags",
+      "modifiedInLast": "Show tasks modified in last:",
+      "questionText": "Question Text"
+    },
+    "FILTER_PLACEHOLDERS": {
+      "templateName": "Search by template name",
+      "taskType": "Select Task Type",
+      "statusList": "Select Status",
+      "taskTagsList": "Select Task Tags",
+      "questionTagsList": "Select Question Tags",
+      "modifiedInLast": "eg., 8",
+      "questionText": "eg., Attach a picture of the drains and map station"
+    },
+    "ADVANCED_FILTER": {
+      "modifiedInLastDaysAdditionalLabel": "days"
+    },
+    "SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT": {
+      "showAll": "Show all",
+      "templates": "templates",
+      "inThisFolder": "in this folder"
+    },
+    "FILTER_CHIPS_PREFIX": {
+      "taskTagsList": "T.Tags",
+      "questionTagsList": "Q.Tags",
+      "taskType": "T.Type",
+      "statusList": "Status",
+      "modifiedInLastDays": "Modified In Last Days",
+      "questionText": "Q.Text"
+    },
+    "FILTER_FIELD_DROPDOWN": {
+      "TASK_STATUS": {
+        "assigned": "Assigned",
+        "notInUse": "Not In Use",
+        "incomplete": "Incomplete",
+        "notAssigned": "Not Assigned"
+      }
+    },
+    "searchAllResults": "All search results for",
+    "lastModifiedLabel": "Last Modified"
   }
 }

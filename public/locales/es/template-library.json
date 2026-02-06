@@ -92,5 +92,52 @@
       "selectTime": "Seleccionar hora",
       "selectDateTime": "Seleccionar fecha y hora"
     }
+  },
+  "TEMPLATE_SEARCH_BAR": {
+    "placeholder": "Buscar plantillas",
+    "FILTER_LABELS": {
+      "templateName": "Nombre de la plantilla",
+      "taskType": "Tipo de tarea",
+      "statusList": "Estado",
+      "taskTagsList": "Etiquetas de tarea",
+      "questionTagsList": "Etiquetas de pregunta",
+      "modifiedInLast": "Mostrar las tareas modificadas recientemente:",
+      "questionText": "Texto de la pregunta"
+    },
+    "FILTER_PLACEHOLDERS": {
+      "templateName": "Buscar por nombre de plantilla",
+      "taskType": "Seleccionar tipo de tarea",
+      "statusList": "Seleccionar estado",
+      "taskTagsList": "Seleccionar etiquetas de tarea",
+      "questionTagsList": "Seleccionar etiquetas de pregunta",
+      "modifiedInLast": "p. ej., 8",
+      "questionText": "p. ej., Adjuntar una imagen de los desagües y mapear la estación"
+    },
+    "ADVANCED_FILTER": {
+      "modifiedInLastDaysAdditionalLabel": "días"
+    },
+    "SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT": {
+      "showAll": "Mostrar todo",
+      "inThisFolder": "en esta carpeta",
+      "templates": "plantillas"
+    },
+    "FILTER_CHIPS_PREFIX": {
+      "taskTagsList": "T.Etiquetas",
+      "questionTagsList": "P.Etiquetas",
+      "taskType": "T.Tipo",
+      "statusList": "Estado",
+      "modifiedInLastDays": "Modificado en los últimos días",
+      "questionText": "P.Texto"
+    },
+    "FILTER_FIELD_DROPDOWN": {
+      "TASK_STATUS": {
+        "assigned": "Asignado",
+        "notInUse": "No en uso",
+        "incomplete": "Incompleto",
+        "notAssigned": "No asignado"
+      }
+    },
+    "searchAllResults": "Todos los resultados de búsqueda para",
+    "lastModifiedLabel": "Última modificación"
   }
 }

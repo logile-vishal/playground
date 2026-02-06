@@ -6,7 +6,10 @@ import type {
 } from "@/core/types/pagination.type";
 
 import type { TemplatePreviewType } from "./template-questions.type";
-import type { TEMPLATE_TABLE_COLUMNS } from "../constants/constant";
+import type {
+  TEMPLATE_SEARCH_BAR,
+  TEMPLATE_TABLE_COLUMNS,
+} from "../constants/constant";
 
 export type TemplateType = {
   name?: string;
@@ -74,6 +77,8 @@ export type LibraryTableProps = {
   fetchData: (value: DirectoryType, params?: Record<string, unknown>) => void;
   handleExportMenuClose: () => void;
   handleExportMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
+  isGoToFolderVisible: boolean;
+  onGoToFolderClick: (rowData: TemplateType | ReportType) => void;
 };
 
 export type TemplatePaginationData = {
@@ -144,3 +149,14 @@ export type DeleteTemplateProps = {
 
 export type TableColumn =
   (typeof TEMPLATE_TABLE_COLUMNS)[keyof typeof TEMPLATE_TABLE_COLUMNS];
+export type TemplateFilter = {
+  templateName: string;
+  questionText: string;
+  taskType: { value: number; label: string } | null;
+  modifiedInLastDays: string;
+  taskTagsList: { value: string; label: string }[];
+  questionTagsList: { value: string; label: string }[];
+  statusList: { value: string; label: string }[];
+};
+export type TemplateLibraryFilterModes =
+  (typeof TEMPLATE_SEARCH_BAR.FILTER_MODES)[keyof typeof TEMPLATE_SEARCH_BAR.FILTER_MODES];

@@ -124,7 +124,89 @@ export const useTemplateLibraryTranslations = () => {
       ),
     },
   };
-
+  const TEMPLATE_SEARCH_BAR = {
+    placeholder: t("TEMPLATE_SEARCH_BAR.placeholder"),
+    FILTER_LABELS: {
+      templateName: t("TEMPLATE_SEARCH_BAR.FILTER_LABELS.templateName"),
+      taskType: t("TEMPLATE_SEARCH_BAR.FILTER_LABELS.taskType"),
+      statusList: t("TEMPLATE_SEARCH_BAR.FILTER_LABELS.statusList"),
+      taskTagsList: t("TEMPLATE_SEARCH_BAR.FILTER_LABELS.taskTagsList"),
+      questionTagsList: t("TEMPLATE_SEARCH_BAR.FILTER_LABELS.questionTagsList"),
+      modifiedInLast: t("TEMPLATE_SEARCH_BAR.FILTER_LABELS.modifiedInLast"),
+      questionText: t("TEMPLATE_SEARCH_BAR.FILTER_LABELS.questionText"),
+    },
+    FILTER_PLACEHOLDERS: {
+      templateName: t("TEMPLATE_SEARCH_BAR.FILTER_PLACEHOLDERS.templateName"),
+      taskType: t("TEMPLATE_SEARCH_BAR.FILTER_PLACEHOLDERS.taskType"),
+      statusList: t("TEMPLATE_SEARCH_BAR.FILTER_PLACEHOLDERS.statusList"),
+      taskTagsList: t("TEMPLATE_SEARCH_BAR.FILTER_PLACEHOLDERS.taskTagsList"),
+      questionTagsList: t(
+        "TEMPLATE_SEARCH_BAR.FILTER_PLACEHOLDERS.questionTagsList"
+      ),
+      modifiedInLast: t(
+        "TEMPLATE_SEARCH_BAR.FILTER_PLACEHOLDERS.modifiedInLast"
+      ),
+      questionText: t("TEMPLATE_SEARCH_BAR.FILTER_PLACEHOLDERS.questionText"),
+    },
+    ADVANCED_FILTER: {
+      modifiedInLastDaysAdditionalLabel: t(
+        "TEMPLATE_SEARCH_BAR.ADVANCED_FILTER.modifiedInLastDaysAdditionalLabel"
+      ),
+    },
+    searchAllResults: t("TEMPLATE_SEARCH_BAR.searchAllResults"),
+    lastModifiedLabel: t("TEMPLATE_SEARCH_BAR.lastModifiedLabel"),
+    SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT: {
+      showAll: t(
+        "TEMPLATE_SEARCH_BAR.SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT.showAll"
+      ),
+      templates: t(
+        "TEMPLATE_SEARCH_BAR.SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT.templates"
+      ),
+      inThisFolder: t(
+        "TEMPLATE_SEARCH_BAR.SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT.inThisFolder"
+      ),
+    },
+    FILTER_CHIPS_PREFIX: {
+      taskTagsList: t("TEMPLATE_SEARCH_BAR.FILTER_CHIPS_PREFIX.taskTagsList"),
+      questionTagsList: t(
+        "TEMPLATE_SEARCH_BAR.FILTER_CHIPS_PREFIX.questionTagsList"
+      ),
+      taskType: t("TEMPLATE_SEARCH_BAR.FILTER_CHIPS_PREFIX.taskType"),
+      statusList: t("TEMPLATE_SEARCH_BAR.FILTER_CHIPS_PREFIX.statusList"),
+      modifiedInLastDays: t(
+        "TEMPLATE_SEARCH_BAR.FILTER_CHIPS_PREFIX.modifiedInLastDays"
+      ),
+      questionText: t("TEMPLATE_SEARCH_BAR.FILTER_CHIPS_PREFIX.questionText"),
+    },
+    FILTER_DROPDOWNS: {
+      TASK_STATUS: [
+        {
+          label: t(
+            "TEMPLATE_SEARCH_BAR.FILTER_FIELD_DROPDOWN.TASK_STATUS.assigned"
+          ),
+          value: "Assigned",
+        },
+        {
+          label: t(
+            "TEMPLATE_SEARCH_BAR.FILTER_FIELD_DROPDOWN.TASK_STATUS.notInUse"
+          ),
+          value: "Not_In_Use",
+        },
+        {
+          label: t(
+            "TEMPLATE_SEARCH_BAR.FILTER_FIELD_DROPDOWN.TASK_STATUS.incomplete"
+          ),
+          value: "Not_Completed",
+        },
+        {
+          label: t(
+            "TEMPLATE_SEARCH_BAR.FILTER_FIELD_DROPDOWN.TASK_STATUS.notAssigned"
+          ),
+          value: "Not_Assigned",
+        },
+      ],
+    },
+  };
   const {
     QUESTION_TYPES,
     DATE_INPUT_TYPE,
@@ -149,5 +231,6 @@ export const useTemplateLibraryTranslations = () => {
     QUESTION_ATTACHMENT,
     ATTACHMENT_BUTTON_CONFIG,
     PLACEHOLDER_TEXT,
+    TEMPLATE_SEARCH_BAR,
   };
 };

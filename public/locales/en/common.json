@@ -13,7 +13,11 @@
     "addButtonLabel": "Add",
     "seeMoreButtonLabel": "see more",
     "seeLessButtonLabel": "see less",
-    "filterPlaceholder": "Search..."
+    "filterPlaceholder": "Search...",
+    "clearAllButtonLabel": "Clear All",
+    "searchButtonLabel": "Search",
+    "loadingText": "Loading...",
+    "closeButtonLabel": "Close"
   },
   "PAGINATION": {
     "pageLabel": "Page",
@@ -50,7 +54,7 @@
     "TITLE": "Nothing here yet"
   },
   "SELECT": {
-    "FEATURE_TOOLBAR": {
+    "TOOLBAR": {
       "filterFeaturePlaceholder": "Search...",
       "selectAllFeatureLabel": "Select All"
     }

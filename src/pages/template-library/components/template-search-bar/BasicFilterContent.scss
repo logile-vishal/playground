@@ -1,0 +1,28 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.basic-filter-content {
+  @include flex-box(column);
+  width: 100%;
+  padding: var(--space-m);
+  &__search-all {
+    @include flex-center(start, center);
+    width: 100%;
+    padding: var(--space-l) var(--space-xl);
+    align-self: stretch;
+    gap: var(--space-l);
+    border-top: 1px solid var(--logile-border-secondary);
+    border-radius: 0 0 var(--radius-m) var(--radius-m);
+    background: var(--logile-bg-container-1);
+    cursor: pointer;
+    & > p {
+      color: var(--logile-text-primary);
+      font-size: var(--logile-size-body);
+      line-height: var(--logile-line-height-body);
+    }
+  }
+  &__search-all-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

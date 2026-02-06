@@ -20,13 +20,13 @@ import {
   Delete,
   Edit,
   ExclamationTriangle,
+  GoToFolder,
   InfoCircle,
   Send,
 } from "@/core/constants/icons";
 import {
   TABLE_PAGINATION_OPTIONS,
   TEMPLATE_STATUS_LABEL,
-  TEMPLATE_STATUS_OPTIONS,
   TEMPLATE_TABLE_COLUMNS,
   TEMPLATE_TABLE_DATA,
 } from "@/pages/template-library/constants/constant";
@@ -62,17 +62,7 @@ import {
   REPORT_SORTING,
   TEMPLATE_SORTING,
 } from "./components/template-libarary-config/TemplateSortingConfig";
-
-const templateStatusMap = TEMPLATE_STATUS_OPTIONS.reduce(
-  (acc, curr) => {
-    acc[curr.value] = curr.label;
-    return acc;
-  },
-  {} as Record<string, string>
-);
-const getTemplateStatusLabel = (status: string) => {
-  return templateStatusMap[status] || status;
-};
+import { getTemplateStatusLabel } from "./utils/getTemplateStatusLabel";
 
 const LibraryTable: React.FC<LibraryTableProps> = ({
   showCheckbox,
@@ -88,6 +78,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   fetchData,
   paginationData,
   handlePaginationChange,
+  isGoToFolderVisible,
+  onGoToFolderClick,
 }) => {
   const { TEMPLATE_TABLE_COLUMN_HEADINGS, DELETE_MODAL } =
     useTemplateLibraryTranslations();
@@ -620,7 +612,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
               "template-table__body-status-cell--incomplete": true,
             })}
           >
-            <Box>{data?.status}</Box>
+            <Box>{getTemplateStatusLabel(data?.status)}</Box>
             <>
               <CSvgIcon
                 component={ExclamationTriangle}
@@ -630,8 +622,11 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
             </>
           </Box>
         ) : (
-          <Box className="template-table__body-status-cell--complete">
-            {getTemplateStatusLabel(status)}
+          <Box
+            display="flex"
+            gap="2px"
+          >
+            {status}
           </Box>
         )}
       </Box>
@@ -715,7 +710,22 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     const status = cell.row.original?.status;
     const disabledActions = selectedTemplate?.length > 1;
     return (
-      <Box className="template-table__body-actions-cell">
+      <Box
+        display="flex"
+        alignItems="center"
+      >
+        {isGoToFolderVisible && (
+          <CIconButton
+            disabled={disabledActions || status === "Incomplete" ? true : false}
+            onClick={() => onGoToFolderClick(cell.row.original)}
+            color="secondary"
+          >
+            <CSvgIcon
+              component={GoToFolder}
+              size={20}
+            />
+          </CIconButton>
+        )}
         <CIconButton
           size="medium"
           disabled={

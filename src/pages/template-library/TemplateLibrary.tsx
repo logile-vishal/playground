@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -8,7 +8,6 @@ import CModal, { ModalBody } from "@/core/components/modal/Modal";
 import CTreeView from "@/core/components/tree-view/TreeView";
 import CIconButton from "@/core/components/button/IconButton";
 import PageTemplate from "@/layouts/page-template/PageTemplate";
-import SearchDrawer from "@/pages/template-library/components/search-drawer/SearchDrawer";
 import {
   ArrowUp,
   ChevronLeft,
@@ -16,7 +15,6 @@ import {
   Excel,
   FolderInput,
   MoreOption,
-  Search,
   Upload,
 } from "@/core/constants/icons";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
@@ -27,23 +25,33 @@ import type {
 import type { DirectoryType } from "@/core/types/tree-view.type";
 import { CButton } from "@/core/components/button/button";
 import CNoData from "@/core/components/no-data/NoData";
-import CTextfield from "@/core/components/form/textfield/Textfield";
 import { isNonEmptyValue } from "@/utils";
 import clsx from "@/utils/clsx";
 import CDivider from "@/core/components/divider/Divider";
 
-import type { ReportType, TemplateType } from "./types/template-library.type";
+import type {
+  ReportType,
+  TemplateFilter,
+  TemplatePaginationData,
+  TemplateType,
+} from "./types/template-library.type";
 import {
+  useFilterTemplates,
   useGetAllDirectories,
   useGetReportsByReportType,
   useGetTemplatesByLibraryId,
 } from "./services/template-library-api-hooks";
 import RenderExportMenu from "./components/export-menubar/ExportMenu";
-import { TEMPLATE_LIST_PAGE_SIZE } from "./constants/constant";
+import {
+  TEMPLATE_LIST_PAGE_SIZE,
+  TEMPLATE_SEARCH_DEFAULT_FILTER,
+} from "./constants/constant";
 import { templateSkelton } from "./components/skeleton/Skeleton";
 import LibraryTable from "./TemplateTable";
 import { useTemplateLibraryTranslations } from "./translation/useTemplateLibraryTranslations";
 import "./TemplateStyle.scss";
+import { TemplateSearchBar } from "./components/template-search-bar";
+import ShowAllTemplatesInFolder from "./components/template-search-bar/ShowAllTemplatesInFolder";
 
 const defaultPagination: Pagination = {
   currentPage: 1,
@@ -52,11 +60,81 @@ const defaultPagination: Pagination = {
   totalItems: 0,
 };
 
+const getTargetDirectoryIdTrail = (
+  directoryList: DirectoryType[],
+  directoryId: number
+): number[] => {
+  const expandedIds: number[] = [];
+  directoryList.forEach((dir) => {
+    if (dir.libraryId === directoryId) {
+      expandedIds.push(dir.libraryId);
+    }
+    if (dir.subLibrary) {
+      const ids = getTargetDirectoryIdTrail(dir.subLibrary, directoryId);
+      if (ids.length > 0) {
+        expandedIds.push(...ids);
+        expandedIds.push(dir.libraryId);
+      }
+    }
+  });
+  return expandedIds;
+};
+const findDirectoryById = (
+  directoryList: DirectoryType[],
+  directoryId: number
+): DirectoryType | null => {
+  for (const dir of directoryList) {
+    if (dir.libraryId === directoryId) {
+      return dir;
+    }
+    if (dir.subLibrary) {
+      const foundDir = findDirectoryById(dir.subLibrary, directoryId);
+      if (foundDir) {
+        return foundDir;
+      }
+    }
+  }
+  return null;
+};
+/**
+ * @method createFilterPayload
+ * @description structure and get all the required payloads
+ * @returns {void}
+ */
+const createFilterPayload = (
+  filter: TemplateFilter,
+  paginationData: TemplatePaginationData
+) => {
+  const questionTagsList = filter?.questionTagsList?.map((tag) => tag?.value);
+  const taskTagsList = filter?.taskTagsList?.map((tag) => tag?.value);
+  const taskType = filter?.taskType?.value ?? "";
+  const statusList = filter?.statusList?.map((tag) => tag?.value);
+
+  const payload = {
+    ...filter,
+    ...paginationData,
+    questionTagsList,
+    taskTagsList: taskTagsList,
+    templateName: filter?.templateName?.trim(),
+    taskType,
+    statusList: statusList,
+  };
+
+  const filteredPayload = {};
+  if (isNonEmptyValue(payload)) {
+    Object.entries(payload).forEach(([key, value]) => {
+      if (isNonEmptyValue(value)) {
+        filteredPayload[key] = value;
+      }
+    });
+  }
+  return filteredPayload;
+};
+
 const TemplateLibrary: React.FC = () => {
   const { TEMPLATE_LIBRARY_HEADING, TEMPLATE_LIBRARY_NO_DATA, IMPORT_MODAL } =
     useTemplateLibraryTranslations();
 
-  const [searchDrawer, setSearchDrawer] = useState({ status: false, text: "" });
   const [selectedDirectory, setSelectedDirectory] =
     useState<DirectoryType | null>(null);
   const [showCheckbox, setShowCheckbox] = useState(false);
@@ -66,7 +144,6 @@ const TemplateLibrary: React.FC = () => {
 
   const [paginationData, setPaginationData] =
     useState<Pagination>(defaultPagination);
-  const [searchTemplateText, setSearchTemplateText] = useState("");
   const [exportMenu, setExportMenu] = useState<{
     anchorEl: null | HTMLElement;
     status: boolean;
@@ -75,6 +152,23 @@ const TemplateLibrary: React.FC = () => {
     status: false,
   });
   const [importPopup, setImportPopup] = useState<boolean>(false);
+
+  const [templateFilter, setTemplateFilter] = useState<TemplateFilter>(
+    TEMPLATE_SEARCH_DEFAULT_FILTER
+  );
+  const [isGoToFolderVisible, setIsGoToFolderVisible] =
+    useState<boolean>(false);
+  const [expandedDirectories, setExpandedDirectories] = useState<number[]>([]);
+  const {
+    data: basicFilterSuggestionClickData,
+    mutateAsync: getBasicFilterSuggestionClickData,
+    reset: resetBasicFilterSuggestionClickData,
+  } = useGetTemplatesByLibraryId();
+  const {
+    data: filteredTemplateList,
+    mutateAsync: filterTemplate,
+    isPending: isFilteredTemplateListLoading,
+  } = useFilterTemplates();
   const isDesktop = useIsDesktopViewport();
   const navigate = useNavigate();
 
@@ -95,13 +189,6 @@ const TemplateLibrary: React.FC = () => {
   const [tableData, setTableData] =
     useState<PaginatedResponse<TemplateType | ReportType>>();
   const [isTableDataLoading, setIsTableDataLoading] = useState(false);
-
-  const openSearchDrawer = () => {
-    setSearchDrawer((prev) => ({ ...prev, status: true }));
-  };
-  const closeSearchDrawer = () => {
-    setSearchDrawer((prev) => ({ ...prev, status: false, text: "" }));
-  };
 
   const fetchData = (
     directory: DirectoryType,
@@ -126,6 +213,8 @@ const TemplateLibrary: React.FC = () => {
   ) => {
     event?.preventDefault();
     event?.stopPropagation();
+    resetBasicFilterSuggestionClickData();
+    setIsGoToFolderVisible(false);
     const paginationPayload = defaultPagination;
     setPaginationData(paginationPayload);
     fetchData(directory, paginationPayload);
@@ -160,6 +249,183 @@ const TemplateLibrary: React.FC = () => {
     setPaginationData(newPagination);
   };
 
+  //<------------------->
+  /**
+   * @method handleFilterSubmit
+   * @description Submits the current filter criteria and executes template search
+   * Workflow:
+   * - Hides the "Go to Folder" visibility indicator
+   * - Hides the "Show templates in folder"
+   * - Creates filter payload from current filter state and pagination
+   * - Executes filtered template search via API
+   * - Updates table data with filtered results
+   *
+   * @returns {Promise<void>} Promise that resolves when filter submission is complete
+   */
+  const handleFilterSubmit = async (filter: TemplateFilter) => {
+    setIsGoToFolderVisible(false);
+    resetBasicFilterSuggestionClickData();
+    const payload = createFilterPayload(filter, paginationData);
+    await filterTemplate(payload);
+    setTableData(filteredTemplateList);
+  };
+
+  /**
+   * @method handleBasicFilterSuggestionClick
+   * @description Handles click events on template suggestions from basic filter search
+   * Workflow:
+   * - Hides the "Go to Folder" visibility indicator
+   * - Fetches template count for the specific tag/library
+   * - Sets table data to show only the selected template
+   * - Expands directory tree to show template's location
+   * - Selects the directory containing the template
+   *
+   * @param {TemplateType} template - The selected template object from suggestions
+   * @returns {Promise<void>} Promise that resolves when suggestion click handling is complete
+   */
+  const handleBasicFilterSuggestionClick = async (template: TemplateType) => {
+    setIsGoToFolderVisible(false);
+    await getBasicFilterSuggestionClickData({
+      libraryId: template.tagId,
+      pageSize: 1,
+      currentPage: 1,
+    });
+    setTableData({
+      data: [template],
+      pagination: {
+        currentPage: 1,
+        pageSize: 1,
+        totalItems: 1,
+        totalPages: 1,
+      },
+    });
+    setExpandedDirectories(
+      getTargetDirectoryIdTrail(directoriesList.data, template.tagId)
+    );
+    setSelectedDirectory(
+      findDirectoryById(directoriesList.data, template.tagId)
+    );
+  };
+
+  /**
+   * @method handleBasicFilterShowAllResults
+   * @description Handles the "Show All Search Results for" action from search interface
+   * State changes:
+   * - Clears selected directory
+   * - Resets expanded directories
+   * - Shows "Go to Folder" visibility indicator
+   * - Hides the "Show templates in folder"
+   * @returns {void}
+   */
+  const handleBasicFilterShowAllResults = () => {
+    setSelectedDirectory(null);
+    setExpandedDirectories([]);
+    setIsGoToFolderVisible(true);
+    resetBasicFilterSuggestionClickData();
+  };
+
+  /**
+   * @method handleShowAllTemplates
+   * @description Shows all templates within the currently selected directory when user clicks, is feature is extended from template search basic filter when user click on template suggestions
+   * - Hides "Go to Folder" visibility indicator
+   * - Hides the "Show templates in folder"
+   * - Re-triggers specific directory to reload all templates
+   * - Clears all applied filters
+   * @returns {void}
+   */
+  const handleShowAllTemplates = () => {
+    if (selectedDirectory) {
+      setIsGoToFolderVisible(false);
+      resetBasicFilterSuggestionClickData();
+      handleDirectoryClick(null, selectedDirectory);
+      handleFilterClearAll();
+    }
+  };
+
+  /**
+   * @method handleFilterChipDelete
+   * @description Removes a specific filter chip and resets its value to default
+   * Filter reset process:
+   * - Identifies the filter field to remove
+   * - Resets only that field to its default value
+   * - Preserves all other active filter settings
+   * - Updates filter state immutably
+   *
+   * @param {string} keyToRemove - The filter field key to reset to default value
+   * @returns {void}
+   */
+  const handleFilterChipDelete = (keyToRemove: string) => {
+    setTemplateFilter((prev) => {
+      return {
+        ...prev,
+        [keyToRemove]: TEMPLATE_SEARCH_DEFAULT_FILTER[keyToRemove],
+      };
+    });
+  };
+
+  /**
+   * @method handleFilterChange
+   * @description Updates a specific filter field with a new value
+   *
+   * workflow:
+   * - Receives field name and new value
+   * - Updates only the specified field
+   * - Preserves all other filter values
+   * - Maintains immutable state updates
+   *
+   * @param {string} field - The filter field name to update
+   * @param {unknown} value - The new value to set for the specified field
+   * @returns {void}
+   */
+  const handleFilterChange = (field: string, value: unknown) => {
+    setTemplateFilter((prev) => {
+      return {
+        ...prev,
+        [field]: value,
+      };
+    });
+  };
+
+  /**
+   * @method handleFilterClearAll
+   * @description Resets all filter fields to their default values
+   * workflow:
+   * - Clears all filter fields simultaneously
+   * - Resets to predefined default filter values
+   * - Enables fresh search experience
+   *
+   * @returns {void}
+   */
+  const handleFilterClearAll = () => {
+    //destructure and set default data
+    //fixes issue of value cached in template searchbar
+    //TODO: Do an RCA on the issue
+    setTemplateFilter({ ...TEMPLATE_SEARCH_DEFAULT_FILTER });
+  };
+
+  /**
+   * @method handleGoToFolderClick
+   * @description Navigates to the folder containing a specific template
+   * Workflow:
+   * - Finds the directory containing the template using tagId
+   * - Triggers directory click to load folder contents
+   * - Hides "Go to Folder" visibility indicator
+   * - Expands directory tree to show template location
+   *
+   * @param {TemplateType} template - The template object whose folder to navigate to
+   * @returns {void}
+   */
+  const handleGoToFolderClick = (template: TemplateType) => {
+    handleDirectoryClick(
+      null,
+      findDirectoryById(directoriesList.data, template.tagId)
+    );
+    setIsGoToFolderVisible(false);
+    setExpandedDirectories(
+      getTargetDirectoryIdTrail(directoriesList.data, template.tagId)
+    );
+  };
+
   useEffect(() => {
     let data = null;
     if (selectedDirectory?.reportLibraryId !== undefined) {
@@ -168,7 +434,12 @@ const TemplateLibrary: React.FC = () => {
       data = templatesList;
     }
     setTableData(data);
-  }, [reportsList, templatesList, selectedDirectory]);
+  }, [
+    reportsList,
+    templatesList,
+    selectedDirectory?.reportLibraryId,
+    selectedDirectory?.libraryId,
+  ]);
 
   useEffect(() => {
     if (isNonEmptyValue(tableData?.pagination)) {
@@ -187,6 +458,10 @@ const TemplateLibrary: React.FC = () => {
     setIsTableDataLoading(isReportsLoading);
   }, [isReportsLoading]);
 
+  const isBasicFilterShowAllTemplatesVisible = useMemo(
+    () => basicFilterSuggestionClickData?.pagination?.totalItems > 1,
+    [basicFilterSuggestionClickData]
+  );
   return (
     <PageTemplate>
       <PageTemplate.Header>
@@ -281,20 +556,24 @@ const TemplateLibrary: React.FC = () => {
                 <Box className="template-library__inner-header-text">
                   {TEMPLATE_LIBRARY_HEADING.templateLibrary}
                 </Box>
-                <Box className="template-library__searchbar">
-                  <CTextfield
+                <div className="template-library__search-bar-container">
+                  <TemplateSearchBar
                     placeholder={TEMPLATE_LIBRARY_HEADING.searchTemplates}
-                    value={searchTemplateText}
-                    className="template-library__searchbar-field"
-                    onClick={openSearchDrawer}
-                    endIcon={
-                      <CSvgIcon
-                        component={Search}
-                        size={20}
-                      />
+                    onShowAllSearchResults={handleBasicFilterShowAllResults}
+                    onTemplateSuggClick={handleBasicFilterSuggestionClick}
+                    setTableData={setTableData}
+                    setIsTableDataLoading={setIsTableDataLoading}
+                    directoriesList={directoriesList?.data}
+                    onSearch={handleFilterSubmit}
+                    filter={templateFilter}
+                    isFilterDataLoading={
+                      isFilteredTemplateListLoading || isTemplatesLoading
                     }
+                    onClearFilter={handleFilterClearAll}
+                    onFilterChipDelete={handleFilterChipDelete}
+                    onFilterChange={handleFilterChange}
                   />
-                </Box>
+                </div>
                 <Stack
                   direction={"row"}
                   alignItems="center"
@@ -341,6 +620,11 @@ const TemplateLibrary: React.FC = () => {
                 <CTreeView
                   data={directoriesList?.data || []}
                   handleClick={handleDirectoryClick}
+                  expandedItems={expandedDirectories}
+                  onExpandedItemsChange={setExpandedDirectories}
+                  selectedItems={
+                    selectedDirectory ? [selectedDirectory.libraryId] : []
+                  }
                 />
               )}
             </div>
@@ -354,21 +638,32 @@ const TemplateLibrary: React.FC = () => {
                   imageWidth={90}
                 />
               ) : (
-                <LibraryTable
-                  showCheckbox={showCheckbox}
-                  setShowCheckbox={setShowCheckbox}
-                  selectedDirectory={selectedDirectory}
-                  setSelectedTemplate={setSelectedTemplate}
-                  selectedTemplate={selectedTemplate}
-                  templatesList={tableData}
-                  isDataLoading={isTableDataLoading}
-                  exportMenu={exportMenu}
-                  handleExportMenuClose={handleExportMenuClose}
-                  handleExportMenuOpen={handleExportMenuOpen}
-                  fetchData={fetchData}
-                  paginationData={paginationData}
-                  handlePaginationChange={handlePaginationChange}
-                />
+                <>
+                  <LibraryTable
+                    showCheckbox={showCheckbox}
+                    setShowCheckbox={setShowCheckbox}
+                    selectedDirectory={selectedDirectory}
+                    setSelectedTemplate={setSelectedTemplate}
+                    selectedTemplate={selectedTemplate}
+                    templatesList={tableData}
+                    isDataLoading={isTableDataLoading}
+                    exportMenu={exportMenu}
+                    handleExportMenuClose={handleExportMenuClose}
+                    handleExportMenuOpen={handleExportMenuOpen}
+                    fetchData={fetchData}
+                    paginationData={paginationData}
+                    handlePaginationChange={handlePaginationChange}
+                    isGoToFolderVisible={isGoToFolderVisible}
+                    onGoToFolderClick={handleGoToFolderClick}
+                  />
+                  <ShowAllTemplatesInFolder
+                    isVisible={isBasicFilterShowAllTemplatesVisible}
+                    totalTemplates={
+                      basicFilterSuggestionClickData?.pagination?.totalItems
+                    }
+                    onGoToFolder={handleShowAllTemplates}
+                  />
+                </>
               )}
             </Box>
           </Box>
@@ -377,21 +672,6 @@ const TemplateLibrary: React.FC = () => {
             exportMenu={exportMenu}
             handleExportMenuClose={handleExportMenuClose}
           />
-
-          <SearchDrawer
-            open={searchDrawer.status}
-            onClose={closeSearchDrawer}
-            paginationData={paginationData}
-            setTableData={
-              setTableData as (
-                value: PaginatedResponse<TemplateType | ReportType>
-              ) => void
-            }
-            setIsTableDataLoading={setIsTableDataLoading}
-            searchText={searchTemplateText}
-            setSearchText={setSearchTemplateText}
-          />
-
           {/* Import Popup */}
           <CModal
             open={importPopup}

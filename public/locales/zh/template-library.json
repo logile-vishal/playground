@@ -92,5 +92,52 @@
       "selectTime": "选择时间",
       "selectDateTime": "选择日期和时间"
     }
+  },
+  "TEMPLATE_SEARCH_BAR": {
+    "placeholder": "搜索模板",
+    "FILTER_LABELS": {
+      "templateName": "模板名称",
+      "taskType": "任务类型",
+      "statusList": "状态",
+      "taskTagsList": "任务标签",
+      "questionTagsList": "问题标签",
+      "modifiedInLast": "显示最近修改的任务:",
+      "questionText": "问题文本"
+    },
+    "FILTER_PLACEHOLDERS": {
+      "templateName": "按模板名称搜索",
+      "taskType": "选择任务类型",
+      "statusList": "选择状态",
+      "taskTagsList": "选择任务标签",
+      "questionTagsList": "选择问题标签",
+      "modifiedInLast": "例如，8",
+      "questionText": "例如，附上排水沟的图片并映射站点"
+    },
+    "ADVANCED_FILTER": {
+      "modifiedInLastDaysAdditionalLabel": "天"
+    },
+    "SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT": {
+      "showAll": "显示所有",
+      "inThisFolder": "在此文件夹中",
+      "templates": "模板"
+    },
+    "FILTER_CHIPS_PREFIX": {
+      "taskTagsList": "T.标签",
+      "questionTagsList": "Q.标签",
+      "taskType": "T.类型",
+      "statusList": "状态",
+      "modifiedInLastDays": "最近几天修改",
+      "questionText": "Q.文本"
+    },
+    "FILTER_FIELD_DROPDOWN": {
+      "TASK_STATUS": {
+        "assigned": "已分配",
+        "notInUse": "未使用",
+        "incomplete": "未完成",
+        "notAssigned": "未分配"
+      }
+    },
+    "searchAllResults": "所有搜索结果",
+    "lastModifiedLabel": "最后修改时间"
   }
 }

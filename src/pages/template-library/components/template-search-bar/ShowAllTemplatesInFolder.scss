@@ -1,0 +1,12 @@
+.template-library__btn-show-more-templates {
+  padding: var(--space-l) var(--space-xl);
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--logile-size-body);
+  line-height: var(--logile-line-height-body);
+  color: var(--logile-text-primary);
+  & span {
+    color: var(--logile-text-link);
+  }
+}

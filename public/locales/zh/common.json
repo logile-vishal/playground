@@ -13,7 +13,11 @@
     "addButtonLabel": "添加",
     "seeMoreButtonLabel": "查看更多",
     "seeLessButtonLabel": "收起",
-    "filterPlaceholder": "搜索..."
+    "filterPlaceholder": "搜索...",
+    "clearAllButtonLabel": "清除所有",
+    "searchButtonLabel": "搜索",
+    "loadingText": "加载中...",
+    "closeButtonLabel": "关闭"
   },
   "PAGINATION": {
     "pageLabel": "页面",

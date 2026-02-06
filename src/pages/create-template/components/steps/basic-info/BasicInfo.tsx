@@ -344,7 +344,6 @@ const BasicInfo: React.FC = () => {
             placeholder={BASIC_INFO.tagsPlaceholder}
             onDelete={handleTagsDelete}
             onChange={() => {}}
-            isInputVisible={true}
             className={clsx({
               "ct-basic-info__row-item-tags-dropdown": true,
               "ct-basic-info__row-item-tags-dropdown--desktop": isDesktop,

@@ -135,6 +135,8 @@ export { default as PlainTextFile } from "@/assets/icons/file-type/plain-file.sv
 export { default as Spreadsheet } from "@/assets/icons/file-type/spreadsheet.svg?react";
 export { default as Word } from "@/assets/icons/file-type/word.svg?react";
 export { default as InputType } from "@/assets/icons/common-icons/input-type.svg?react";
+export { default as GoToFolder } from "@/assets/icons/common-icons/go-to-folder.svg?react";
+export { default as Filter } from "@/assets/icons/common-icons/filter.svg?react";
 
 export type IconName =
   | "AddIcon"
@@ -270,4 +272,7 @@ export type IconName =
   | "Preview"
   | "Word"
   | "PlainTextFile"
+  | "InputType"
+  | "GoToFolder"
+  | "Filter"
   | "InputType";

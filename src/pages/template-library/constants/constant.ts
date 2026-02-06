@@ -1,3 +1,5 @@
+import type { TemplateFilter } from "../types/template-library.type";
+
 export const TEMPLATE_LIST_PAGE_SIZE = 50;
 
 export const TEMPLATE_SEARCH_TABS = {
@@ -47,7 +49,6 @@ export const TEMPLATE_STATUS_OPTIONS = [
     value: TEMPLATE_STATUS_VALUE.notAssigned,
   },
 ];
-
 export const TEMPLATE_TABLE_COLUMNS = {
   ICON_NAME: "iconName",
   TEMPLATE_NAME: "templateName",
@@ -88,3 +89,35 @@ export const TABLE_PAGINATION_OPTIONS = [
   { label: "50", value: 50 },
   { label: "100", value: 100 },
 ];
+export const TEMPLATE_SEARCH_BAR = {
+  FILTER_NAMES: {
+    templateName: "templateName",
+    taskType: "taskType",
+    statusList: "statusList",
+    taskTagsList: "taskTagsList",
+    questionTagsList: "questionTagsList",
+    modifiedInLastDays: "modifiedInLastDays",
+    questionText: "questionText",
+  },
+  FILTER_MODES: {
+    basic: "BASIC",
+    advanced: "ADVANCED",
+  },
+};
+export const TEMPLATE_STATUS_MAP = TEMPLATE_STATUS_OPTIONS.reduce(
+  (acc, curr) => {
+    acc[curr.value] = curr.label;
+    return acc;
+  },
+  {} as Record<string, string>
+);
+
+export const TEMPLATE_SEARCH_DEFAULT_FILTER: TemplateFilter = {
+  templateName: "",
+  questionText: "",
+  taskType: null,
+  modifiedInLastDays: "",
+  taskTagsList: [],
+  questionTagsList: [],
+  statusList: [],
+};

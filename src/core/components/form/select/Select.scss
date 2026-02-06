@@ -4,8 +4,8 @@
   --helpertext-height: 26px;
   --label-icon-size: 16px;
 
+  width: 100%;
   @include flex-box(column);
-
   &__label {
     @include form-label;
   }
