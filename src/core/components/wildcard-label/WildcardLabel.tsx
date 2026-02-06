@@ -1,7 +1,3 @@
-import { useMemo } from "react";
-import { CurlyBracket } from "@/core/constants/icons";
-
-import CSvgIcon from "@/core/components/icon/Icon";
 import { WILDCARD_MAP } from "@/core/constants/wildcard-list";
 import clsx from "@/utils/clsx";
 
@@ -12,41 +8,47 @@ export type WildCardLabelProps = {
   truncate?: boolean;
 };
 
-const generateLabel = (label: WildCardLabelProps["label"]) => {
-  const splitLabel = label?.split(" ");
-  return splitLabel?.map((word, index) => {
-    if (WILDCARD_MAP.has(word)) {
-      return (
-        <span
-          className="wildcard-label__chip"
-          key={word}
-        >
-          <CSvgIcon
-            component={CurlyBracket}
-            color="secondary"
-            size={16}
-          />
-          <p>{WILDCARD_MAP.get(word)}</p>
-        </span>
-      );
-    }
-    return word + (index == splitLabel.length - 1 ? "" : " ");
-  });
+const WILDCARD_SVG = `<svg height="19" width="19" fill="var(--logile-icon-secondary)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.6659 20C14.4362 19.9911 14.2188 19.8936 14.0594 19.7279C13.9001 19.5622 13.811 19.3412 13.811 19.1113C13.811 18.8814 13.9001 18.6605 14.0594 18.4948C14.2188 18.3291 14.4362 18.2316 14.6659 18.2227H16.4433C16.6791 18.2227 16.9053 18.129 17.0721 17.9622C17.2389 17.7954 17.3326 17.5692 17.3326 17.3333V14.6667C17.3316 14.1624 17.438 13.6637 17.645 13.2039C17.8519 12.7441 18.1545 12.3336 18.5326 12C18.1545 11.6664 17.8519 11.2559 17.645 10.7961C17.438 10.3363 17.3316 9.83758 17.3326 9.33333V6.66667C17.3326 6.4308 17.2389 6.2046 17.0721 6.03781C16.9053 5.87103 16.6791 5.77733 16.4433 5.77733H14.6659C14.4362 5.76843 14.2188 5.67091 14.0594 5.50523C13.9001 5.33954 13.811 5.11857 13.811 4.88867C13.811 4.65876 13.9001 4.43779 14.0594 4.27211C14.2188 4.10642 14.4362 4.0089 14.6659 4H16.4433C17.1505 4 17.8288 4.28095 18.3289 4.78105C18.829 5.28115 19.1099 5.95942 19.1099 6.66667V9.33333C19.1106 9.80473 19.2983 10.2566 19.6317 10.5898C19.9652 10.923 20.4172 11.1103 20.8886 11.1107C21.0082 11.106 21.1275 11.1256 21.2394 11.1682C21.3512 11.2107 21.4533 11.2754 21.5396 11.3584C21.6258 11.4414 21.6945 11.5409 21.7413 11.6511C21.7882 11.7612 21.8124 11.8796 21.8124 11.9993C21.8124 12.119 21.7882 12.2375 21.7413 12.3476C21.6945 12.4577 21.6258 12.5573 21.5396 12.6402C21.4533 12.7232 21.3512 12.7879 21.2394 12.8305C21.1275 12.8731 21.0082 12.8926 20.8886 12.888C20.4172 12.8887 19.9653 13.0764 19.6321 13.4098C19.2989 13.7433 19.1116 14.1953 19.1113 14.6667V17.3333C19.1113 18.0406 18.8303 18.7189 18.3302 19.219C17.8301 19.719 17.1518 20 16.4446 20H14.6659ZM7.55526 20C6.84802 20 6.16974 19.719 5.66964 19.219C5.16955 18.7189 4.8886 18.0406 4.8886 17.3333V14.6667C4.88789 14.1955 4.70041 13.7438 4.36725 13.4107C4.03409 13.0775 3.58242 12.89 3.11126 12.8893C2.99166 12.894 2.87236 12.8744 2.7605 12.8318C2.64864 12.7893 2.54653 12.7246 2.46027 12.6416C2.37402 12.5586 2.3054 12.4591 2.25853 12.3489C2.21166 12.2388 2.1875 12.1204 2.1875 12.0007C2.1875 11.881 2.21166 11.7625 2.25853 11.6524C2.3054 11.5423 2.37402 11.4427 2.46027 11.3598C2.54653 11.2768 2.64864 11.2121 2.7605 11.1695C2.87236 11.1269 2.99166 11.1074 3.11126 11.112C3.58265 11.1113 4.03452 10.9236 4.36772 10.5902C4.70092 10.2567 4.88824 9.80473 4.8886 9.33333V6.66667C4.8886 5.95942 5.16955 5.28115 5.66964 4.78105C6.16974 4.28095 6.84802 4 7.55526 4H9.3326C9.56233 4.0089 9.77969 4.10642 9.93908 4.27211C10.0985 4.43779 10.1875 4.65876 10.1875 4.88867C10.1875 5.11857 10.0985 5.33954 9.93908 5.50523C9.77969 5.67091 9.56233 5.76843 9.3326 5.77733H7.55526C7.3194 5.77733 7.09319 5.87103 6.92641 6.03781C6.75963 6.2046 6.66593 6.4308 6.66593 6.66667V9.33333C6.66697 9.83758 6.56048 10.3363 6.35355 10.7961C6.14662 11.2559 5.84402 11.6664 5.46593 12C5.84402 12.3336 6.14662 12.7441 6.35355 13.2039C6.56048 13.6637 6.66697 14.1624 6.66593 14.6667V17.3333C6.66593 17.5692 6.75963 17.7954 6.92641 17.9622C7.09319 18.129 7.3194 18.2227 7.55526 18.2227H9.3326C9.56233 18.2316 9.77969 18.3291 9.93908 18.4948C10.0985 18.6605 10.1875 18.8814 10.1875 19.1113C10.1875 19.3412 10.0985 19.5622 9.93908 19.7279C9.77969 19.8936 9.56233 19.9911 9.3326 20H7.55526ZM9.30726 11.9813C9.307 11.4726 9.45762 10.9752 9.74007 10.552C10.0225 10.1289 10.4241 9.79904 10.8941 9.60417C11.364 9.40929 11.8812 9.35817 12.3802 9.45726C12.8792 9.55635 13.3376 9.8012 13.6975 10.1609C14.0573 10.5205 14.3024 10.9788 14.4017 11.4777C14.5011 11.9767 14.4502 12.4939 14.2556 12.964C14.061 13.434 13.7313 13.8358 13.3083 14.1184C12.8853 14.4011 12.388 14.552 11.8793 14.552C11.1974 14.552 10.5434 14.2812 10.0611 13.7992C9.57875 13.3171 9.30762 12.6632 9.30726 11.9813Z"></path></svg>`;
+
+const createWildcardSpan = (label: string): string => {
+  return `<span class="ql-wildcard"><span contenteditable="false">${WILDCARD_SVG}<span class="label">${label}</span></span></span>`;
 };
 
-const WildcardLabel = ({ label, truncate = true }: WildCardLabelProps) => {
-  const labelWithWildcard = useMemo(() => {
-    return generateLabel(label);
-  }, [label]);
+const replaceWildCardWithRegex = (html: string): string => {
+  let updatedHtml = html;
+
+  // 1st pass: Replace entire <span class="ql-wildcard" ...>...</span> blocks
+  // This regex captures the wildcard value from data-wildcard attribute
+  const spanRegex =
+    /<span[^>]*class="[^"]*ql-wildcard[^"]*"[^>]*data-wildcard="([^"]+)"[^>]*>[\s\S]*?<\/span>/g;
+  updatedHtml = updatedHtml.replace(spanRegex, (_match, wildcardValue) => {
+    const label = WILDCARD_MAP.get(wildcardValue) ?? wildcardValue;
+    return createWildcardSpan(label);
+  });
+
+  // 2nd pass: Replace raw wildcards (%%...%% or %...%) not inside span
+  WILDCARD_MAP.forEach((label, wildcardValue) => {
+    const escapedWildcard = wildcardValue.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+    const rawRegex = new RegExp(escapedWildcard, "g");
+    updatedHtml = updatedHtml.replace(rawRegex, createWildcardSpan(label));
+  });
+
+  return updatedHtml;
+};
+
+const WildcardLabel = ({ label, truncate }: WildCardLabelProps) => {
+  const parseHtml = replaceWildCardWithRegex(label);
   return (
-    <p
+    <div
       className={clsx({
         "wildcard-label": true,
         "wildcard-label--truncate": truncate,
       })}
-    >
-      {labelWithWildcard}
-    </p>
+      dangerouslySetInnerHTML={{ __html: parseHtml }}
+    />
   );
 };
 

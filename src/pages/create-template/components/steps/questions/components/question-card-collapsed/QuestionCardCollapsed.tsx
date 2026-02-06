@@ -21,6 +21,7 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
   toggleExpand,
   handleQuestionAdd,
   isAddQuestionAllowed,
+  hasError,
 }) => {
   const { QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
 
@@ -49,7 +50,7 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
       <Box
         className={clsx({
           "ques-card-collapsed": true,
-          "ques-card-collapsed--error": question?.hasError,
+          "ques-card-collapsed--error": hasError,
         })}
       >
         <Box className="ques-card-collapsed__dnd">

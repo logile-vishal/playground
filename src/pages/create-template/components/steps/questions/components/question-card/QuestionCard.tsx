@@ -44,6 +44,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           questionFormPath={questionFormPath}
           handleQuestionAdd={handleQuestionAdd}
           isAddQuestionAllowed={isAddQuestionAllowed}
+          hasError={question.hasError}
         />
       ) : (
         <QuestionCardExpanded

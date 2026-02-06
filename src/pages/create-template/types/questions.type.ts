@@ -139,6 +139,7 @@ export type QuestionCardProps = {
   handleQuestionAdd: (afterQuestionId?: string) => Promise<boolean>;
   isAddQuestionAllowed: boolean;
   walkMeIdPrefix?: string[];
+  hasError?: boolean;
 };
 
 export type QuestionBadgeVariant =

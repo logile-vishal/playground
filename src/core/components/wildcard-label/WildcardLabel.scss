@@ -1,3 +1,5 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
 .wildcard-label {
   --wildcard-chip-height: 24px;
   display: inline-block;
@@ -8,7 +10,14 @@
   max-width: 100%;
   margin: 0;
   vertical-align: middle;
-
+  @include flex-center(start, center);
+  gap: var(--space-none);
+  font-size: var(--logile-size-body);
+  & * {
+    @include flex-center(start, center);
+    gap: var(--space-none);
+    font-size: var(--logile-size-body);
+  }
   &__chip {
     display: inline-flex;
     align-items: center;
@@ -36,5 +45,21 @@
     text-overflow: ellipsis;
     display: inline-block;
     white-space: nowrap;
+  }
+  .ql-wildcard > span {
+    margin: var(--space-none) var(--space-xs);
+    border-radius: var(--radius-xs);
+    line-height: var(--logile-line-height-body);
+    display: inline-flex;
+    align-items: center;
+    background: var(--logile-bg-primary-x-subtle);
+    line-height: var(--logile-line-height-body);
+    color: var(--logile-text-primary);
+    font-size: var(--logile-size-body);
+    padding: var(--space-xxs) var(--space-m);
+    .label {
+      margin-left: var(--space-m);
+      white-space: nowrap;
+    }
   }
 }
