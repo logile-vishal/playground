@@ -2,7 +2,7 @@ import { z as zod } from "zod";
 
 import { baseTriggerTaskSchema } from "./trigger-task";
 
-export const followUpTaskStepSchema = baseTriggerTaskSchema.extend({
+export const followUpTaskSchema = baseTriggerTaskSchema.extend({
   taskSharing: zod.string().optional(),
   primaryOrgLevelPos: zod.string().optional(),
   triggerTaskName: zod.string().min(1, "Task name is required"),
@@ -21,4 +21,9 @@ export const followUpTaskStepSchema = baseTriggerTaskSchema.extend({
     .optional(),
 });
 
+export const followUpTaskStepSchema = zod.object({
+  followUp: followUpTaskSchema,
+});
+
 export type FollowUpTaskStep = zod.infer<typeof followUpTaskStepSchema>;
+export type FollowUpTaskSchema = zod.infer<typeof followUpTaskSchema>;

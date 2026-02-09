@@ -1,13 +1,5 @@
 import { useTranslation } from "react-i18next";
 import {
-  DATE_TIME_INPUT_TYPE,
-  INPUT_TYPE,
-  OPTION_TRIGGER_MENU_KEY,
-  QUESTION_TYPE,
-  RESPONSE_TEMPLATE_TYPE,
-  SECTION_SETTINGS_MENU_KEY,
-} from "../constants/questions";
-import {
   ArrowLeft,
   CalculatorQuestionBadge,
   Cluster,
@@ -21,6 +13,16 @@ import {
   Temperature,
 } from "@/core/constants/icons";
 import type { IconColorType } from "@/core/types/icon.type";
+
+import {
+  DATE_TIME_INPUT_TYPE,
+  INPUT_TYPE,
+  OPTION_TRIGGER_MENU_KEY,
+  QUESTION_TYPE,
+  RESPONSE_TEMPLATE_TYPE,
+  SECTION_SETTINGS_MENU_KEY,
+} from "../constants/questions";
+import { TRIGGER_CONDITIONS } from "../constants/notifications";
 import type { QuestionTypeKey } from "../types/questions.type";
 
 export const useCreateTemplateTranslations = () => {
@@ -450,6 +452,111 @@ export const useCreateTemplateTranslations = () => {
       ),
     },
     NO_DATA: t("NOTIFICATIONS.NO_DATA"),
+    ADD_NOTIFICATION_MODAL: {
+      addNotification: t(
+        "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.addNotification"
+      ),
+      editNotification: t(
+        "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.editNotification"
+      ),
+      cloneNotification: t(
+        "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.cloneNotification"
+      ),
+      noRecipientsSelected: t(
+        "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.noRecipientsSelected"
+      ),
+      fields: {
+        condition: t("NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.condition"),
+        conditionPlaceholder: t(
+          "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.conditionPlaceholder"
+        ),
+        conditionQuestion: t(
+          "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.conditionQuestion"
+        ),
+        conditionQuestionPlaceholder: t(
+          "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.conditionQuestionPlaceholder"
+        ),
+        conditionTooltip: t(
+          "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.conditionTooltip"
+        ),
+        conditionAnswer: t(
+          "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.conditionAnswer"
+        ),
+        conditionAnswerPlaceholder: t(
+          "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.conditionAnswerPlaceholder"
+        ),
+        recipients: t("NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.recipients"),
+        messageSubject: t(
+          "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.messageSubject"
+        ),
+        messageBody: t(
+          "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.messageBody"
+        ),
+      },
+      labels: {
+        to: t("NOTIFICATIONS.ADD_NOTIFICATION_MODAL.labels.to"),
+        customRecipient: t(
+          "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.labels.customRecipient"
+        ),
+        subject: t("NOTIFICATIONS.ADD_NOTIFICATION_MODAL.labels.subject"),
+        message: t("NOTIFICATIONS.ADD_NOTIFICATION_MODAL.labels.message"),
+      },
+    },
+    CUSTOM_RECIPIENT_MODAL: {
+      title: t("NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.title"),
+      orgLevel: t("NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.orgLevel"),
+      orgLevelPlaceholder: t(
+        "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.orgLevelPlaceholder"
+      ),
+      positionsPlaceholder: t(
+        "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.positionsPlaceholder"
+      ),
+      orgPlaceholder: t("NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.orgPlaceholder"),
+      orgTypePlaceholder: t(
+        "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.orgTypePlaceholder"
+      ),
+      positions: t("NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.positions"),
+      org: t("NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.org"),
+      orgType: t("NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.orgType"),
+      relative: t("NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.relative"),
+      CONDITION_OPTIONS: [
+        {
+          label: t(
+            "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.CONDITION_OPTIONS.taskCompleted"
+          ),
+          value: TRIGGER_CONDITIONS.TASK_COMPLETED,
+        },
+        {
+          label: t(
+            "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.CONDITION_OPTIONS.taskExpired"
+          ),
+          value: TRIGGER_CONDITIONS.TASK_EXPIRED,
+        },
+        {
+          label: t(
+            "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.CONDITION_OPTIONS.taskOutOfCompliance"
+          ),
+          value: TRIGGER_CONDITIONS.TASK_COMPLIANCE,
+        },
+        {
+          label: t(
+            "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.CONDITION_OPTIONS.answer"
+          ),
+          value: TRIGGER_CONDITIONS.ANSWER,
+        },
+      ],
+      RECIPIENT_OPTIONS: {
+        assignee: t(
+          "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.RECIPIENT_OPTIONS.assignee"
+        ),
+        supervisor: t(
+          "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.RECIPIENT_OPTIONS.supervisor"
+        ),
+        executionManager: t(
+          "NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.RECIPIENT_OPTIONS.executionManager"
+        ),
+      },
+    },
   };
   const FOLLOWUP_TASKS = {
     heading: t("FOLLOWUP_TASKS.heading"),

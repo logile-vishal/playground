@@ -185,7 +185,50 @@
       "followUp": "由答案触发的后续任务",
       "assigneeRecipient": "负责人"
     },
-    "NO_DATA": "尚未添加任何通知。点击“+ 通知”开始。"
+    "NO_DATA": "尚未添加任何通知。点击“+ 通知”开始。",
+    "ADD_NOTIFICATION_MODAL": {
+      "addNotification": "添加通知",
+      "editNotification": "编辑通知",
+      "cloneNotification": "克隆通知",
+      "noRecipientsSelected": "未选择任何接收人",
+      "fields": {
+        "condition": "条件",
+        "conditionQuestion": "条件问题",
+        "conditionAnswer": "条件答案",
+        "recipients": "收件人",
+        "messageSubject": "主题",
+        "messageBody": "消息"
+      },
+      "labels": {
+        "to": "至",
+        "customRecipient": "自定义收件人",
+        "subject": "主题",
+        "message": "消息"
+      }
+    },
+    "CUSTOM_RECIPIENT_MODAL": {
+      "title": "自定义收件人",
+      "orgLevel": "组织级别",
+      "orgLevelPlaceholder": "选择组织级别",
+      "positions": "职位",
+      "positionsPlaceholder": "选择职位",
+      "org": "组织",
+      "orgPlaceholder": "选择组织",
+      "orgType": "组织类型",
+      "orgTypePlaceholder": "选择组织类型",
+      "relative": "相对",
+      "CONDITION_OPTIONS": {
+        "taskCompleted": "任务完成",
+        "taskExpired": "任务过期",
+        "taskOutOfCompliance": "任务不符合规定",
+        "answer": "回答"
+      },
+      "RECIPIENT_OPTIONS": {
+        "assignee": "受托人",
+        "supervisor": "主管",
+        "executionManager": "执行经理"
+      }
+    }
   },
   "FOLLOWUP_TASKS": {
     "heading": "后续任务",
@@ -194,8 +237,12 @@
     "CARD_COLUMN_HEADINGS": {
       "followUp": "后续任务",
       "condition": "条件",
+      "conditionPlaceholder": "选择条件",
+      "conditionTooltip": "如果任务的合规百分比低于此任务的合规阈值（当前为100%），则会生成通知",
       "conditionQuestion": "条件问题",
+      "conditionQuestionPlaceholder": "选择问题",
       "conditionAnswer": "条件答案",
+      "conditionAnswerPlaceholder": "选择答案",
       "taskName": "任务名称",
       "recipients": "接收人"
     },

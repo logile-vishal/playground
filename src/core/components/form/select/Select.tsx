@@ -29,6 +29,7 @@ const CSelect = ({
   label,
   placeholder,
   className,
+  menuWidth,
   isInlineLabel,
   error,
   helperText,
@@ -267,6 +268,9 @@ const CSelect = ({
             PaperProps: {
               className: "select__menu",
               elevation: 0,
+              sx: {
+                maxWidth: menuWidth,
+              },
             },
             anchorOrigin: {
               vertical: "bottom",

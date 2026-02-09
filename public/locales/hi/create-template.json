@@ -181,7 +181,54 @@
       "followUp": "उत्तर द्वारा ट्रिगर किए गए फ़ॉलो-अप कार्य",
       "assigneeRecipient": "असाइनी"
     },
-    "NO_DATA": "कोई सूचनाएं अभी तक नहीं जोड़ी गई हैं। शुरू करने के लिए \"+ सूचना\" पर क्लिक करें।"
+    "NO_DATA": "कोई सूचनाएं अभी तक नहीं जोड़ी गई हैं। शुरू करने के लिए \"+ सूचना\" पर क्लिक करें।",
+    "ADD_NOTIFICATION_MODAL": {
+      "addNotification": "सूचना जोड़ें",
+      "editNotification": "सूचना संपादित करें",
+      "cloneNotification": "सूचना क्लोन करें",
+      "noRecipientsSelected": "कोई प्राप्तकर्ता चयनित नहीं",
+      "fields": {
+        "condition": "शर्त",
+        "conditionPlaceholder": "शर्त चुनें",
+        "conditionTooltip": "यदि कार्य का अनुपालन प्रतिशत इस कार्य की अनुपालन सीमा से कम है तो सूचना उत्पन्न की जाएगी (वर्तमान में 100%)",
+        "conditionQuestion": "शर्त प्रश्न",
+        "conditionQuestionPlaceholder": "प्रश्न चुनें",
+        "conditionAnswer": "शर्त उत्तर",
+        "conditionAnswerPlaceholder": "उत्तर चुनें",
+        "recipients": "प्राप्तकर्ता",
+        "messageSubject": "विषय",
+        "messageBody": "संदेश"
+      },
+      "labels": {
+        "to": "प्राप्तकर्ता",
+        "customRecipient": "कस्टम प्राप्तकर्ता",
+        "subject": "विषय",
+        "message": "संदेश"
+      }
+    },
+    "CUSTOM_RECIPIENT_MODAL": {
+      "title": "कस्टम प्राप्तकर्ता",
+      "orgLevel": "संगठन स्तर",
+      "orgLevelPlaceholder": "संगठन स्तर चुनें",
+      "positions": "पद",
+      "positionsPlaceholder": "पद चुनें",
+      "org": "संगठन",
+      "orgPlaceholder": "संगठन चुनें",
+      "orgType": "संगठन प्रकार",
+      "orgTypePlaceholder": "संगठन प्रकार चुनें",
+      "relative": "संबंधित",
+      "CONDITION_OPTIONS": {
+        "taskCompleted": "कार्य पूरा हुआ",
+        "taskExpired": "कार्य समाप्त हो गया",
+        "taskOutOfCompliance": "कार्य अनुपालन से बाहर",
+        "answer": "उत्तर"
+      },
+      "RECIPIENT_OPTIONS": {
+        "assignee": "असाइन किया गया",
+        "supervisor": "सुपरवाइजर",
+        "executionManager": "निष्पादन प्रबंधक"
+      }
+    }
   },
   "FOLLOWUP_TASKS": {
     "heading": "फ़ॉलो-अप कार्य",

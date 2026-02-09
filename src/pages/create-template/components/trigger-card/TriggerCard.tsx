@@ -25,11 +25,19 @@ import clsx from "@/utils/clsx";
 import { convertToTitleCase } from "@/utils/convert-to-title-case";
 
 import "./TriggerCard.scss";
+import { CUSTOM_RECIPIENT_LABEL } from "../../constants/notifications";
 
 const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
   item,
   triggeredByAnswers,
   type,
+  handleEdit,
+  handleDelete,
+  handleClone,
+  index,
+  getQuestionLabelById,
+  getAnswerLabelById,
+  walkMeIdPrefix,
 }) => {
   const { NOTIFICATIONS, FOLLOWUP_TASKS } = useCreateTemplateTranslations();
   const dataConstant =
@@ -51,10 +59,12 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
     className,
     iconVisible,
     icon,
+    index,
   }: {
     title: string;
     value: React.ReactNode;
     className: string;
+    index?: number;
     iconVisible?: boolean;
     icon?: React.FC<React.SVGProps<SVGSVGElement>>;
   }): React.ReactNode => {
@@ -74,6 +84,7 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
           <TruncateTextWithSeeMore
             text={value}
             lines={2}
+            index={index}
           />
         </Box>
       </Box>
@@ -87,12 +98,13 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
           <>
             {renderListColumn({
               title: dataConstant.CARD_COLUMN_HEADINGS.conditionQuestion,
-              value: `${item.index}. ${item.conditionQuestion}`,
+              value: `${getQuestionLabelById(item.questionId)}`,
+              index,
               className: "trigger-card__content-question",
             })}
             {renderListColumn({
               title: dataConstant.CARD_COLUMN_HEADINGS.conditionAnswer,
-              value: item.conditionAnswer,
+              value: getAnswerLabelById(item.questionId, item.answerIndex),
               className: "trigger-card__content-answer",
             })}
           </>
@@ -125,18 +137,27 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
         })}
         {renderListColumn({
           title: dataConstant.CARD_COLUMN_HEADINGS.recipients,
-          value: (
-            <WildcardLabel
-              label={item.recipients.join(", ")}
-              truncate={false}
-            />
-          ),
+          value: (() => {
+            const recipientsList = convertToTitleCase(
+              item.recipients.join(", ")
+            );
+            const hasCustomRecipients =
+              item.recipientOrgs?.length > 0 &&
+              item.recipientOrgTypes?.length > 0 &&
+              item.recipientPositions?.length > 0;
+
+            // Add "Ad Hoc" label if there are custom recipients along with regular recipients
+            return hasCustomRecipients
+              ? `${recipientsList}${recipientsList ? ", " : ""}${CUSTOM_RECIPIENT_LABEL}`
+              : recipientsList;
+          })(),
           className: "trigger-card__content-recipients",
           iconVisible: item.recipients.length > 0,
           icon:
             item.recipients.length > 1
               ? TeamLine
-              : item.recipients[0] === TRIGGER_ANSWER.assigneeRecipient
+              : item.recipients[0]?.toUpperCase() ===
+                  TRIGGER_ANSWER.assigneeRecipient.toUpperCase()
                 ? QuickShift
                 : null,
         })}
@@ -145,20 +166,23 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
         {/* TODO: Add action handler for below buttons */}
         <CIconButton
           size="medium"
-          walkMeId={["create-template", "trigger-card", "copy-button"]}
+          walkMeId={[...walkMeIdPrefix, "copy-button"]}
+          onClick={handleClone}
         >
           <CSvgIcon component={Copy} />
         </CIconButton>
         <CIconButton
           size="medium"
-          walkMeId={["create-template", "trigger-card", "edit-button"]}
+          walkMeId={[...walkMeIdPrefix, "edit-button"]}
+          onClick={handleEdit}
         >
           <CSvgIcon component={Edit} />
         </CIconButton>
         <CIconButton
           size="medium"
           severity="destructive"
-          walkMeId={["create-template", "trigger-card", "delete-button"]}
+          walkMeId={[...walkMeIdPrefix, "delete-button"]}
+          onClick={handleDelete}
         >
           <CSvgIcon component={Delete} />
         </CIconButton>

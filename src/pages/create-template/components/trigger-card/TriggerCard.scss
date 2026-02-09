@@ -20,7 +20,7 @@
   }
   &__content {
     @include flex-center(space-between, flex-start, var(--space-2xl));
-    width: 100%;
+    width: 85%;
     color: var(--logile-text-primary);
     font-size: var(--logile-size-body);
     line-height: var(--logile-line-height-body);

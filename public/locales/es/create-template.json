@@ -181,7 +181,54 @@
       "followUp": "Tareas de seguimiento activadas por respuestas",
       "assigneeRecipient": "Asignado a"
     },
-    "NO_DATA": "No se han agregado notificaciones aún. Haga clic en \"+ Notificación\" para comenzar."
+    "NO_DATA": "No se han agregado notificaciones aún. Haga clic en \"+ Notificación\" para comenzar.",
+    "ADD_NOTIFICATION_MODAL": {
+      "addNotification": "Agregar notificación",
+      "editNotification": "Editar notificación",
+      "cloneNotification": "Clonar notificación",
+      "noRecipientsSelected": "No se han seleccionado destinatarios",
+      "fields": {
+        "condition": "Condición",
+        "conditionPlaceholder": "Seleccione condición",
+        "conditionTooltip": "La notificación se generará si el porcentaje de cumplimiento de la tarea es menor que el umbral de cumplimiento de esta tarea (actualmente 100%)",
+        "conditionQuestion": "Pregunta de condición",
+        "conditionQuestionPlaceholder": "Seleccione una pregunta",
+        "conditionAnswer": "Respuesta de condición",
+        "conditionAnswerPlaceholder": "Seleccione una respuesta",
+        "recipients": "Destinatarios",
+        "messageSubject": "Asunto del mensaje",
+        "messageBody": "Cuerpo del mensaje"
+      },
+      "labels": {
+        "to": "A",
+        "customRecipient": "Destinatario personalizado",
+        "subject": "Asunto",
+        "message": "Mensaje"
+      }
+    },
+    "CUSTOM_RECIPIENT_MODAL": {
+      "title": "Destinatario personalizado",
+      "orgLevel": "Nivel de organización",
+      "orgLevelPlaceholder": "Seleccione nivel de organización",
+      "positions": "Posiciones",
+      "positionsPlaceholder": "Seleccione posición",
+      "org": "Organización",
+      "orgPlaceholder": "Seleccione organización",
+      "orgType": "Tipo de organización",
+      "orgTypePlaceholder": "Seleccione tipo de organización",
+      "relative": "Relativo",
+      "CONDITION_OPTIONS": {
+        "taskCompleted": "Tarea completada",
+        "taskExpired": "Tarea expirada",
+        "taskOutOfCompliance": "Tarea fuera de cumplimiento",
+        "answer": "Respuesta"
+      },
+      "RECIPIENT_OPTIONS": {
+        "assignee": "Asignado",
+        "supervisor": "Supervisor",
+        "executionManager": "Gerente de ejecución"
+      }
+    }
   },
   "FOLLOWUP_TASKS": {
     "heading": "Tareas de seguimiento",

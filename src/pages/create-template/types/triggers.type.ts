@@ -3,8 +3,8 @@ export type TriggerCardProps = {
     id: number;
     index?: string;
     condition?: string;
-    conditionQuestion?: string;
-    conditionAnswer?: string;
+    questionId?: string;
+    answerIndex?: string;
     messageTemplates?: {
       id: number;
       subject: string;
@@ -13,9 +13,20 @@ export type TriggerCardProps = {
     triggerTaskName?: string;
     recipients?: string[];
     recipientsIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
+    recipientOrgs?: [];
+    recipientOrgTypes?: [];
+    recipientPositions?: [];
+    recipientOrgTypePositions?: [];
   };
+  index?: number;
+  getQuestionLabelById?: (questionId: string) => string;
+  getAnswerLabelById?: (questionId: string, answerId: string) => string;
+  handleDelete?: () => void;
+  handleEdit?: () => void;
+  handleClone?: () => void;
   triggeredByAnswers?: boolean;
   type: string;
+  walkMeIdPrefix?: string[];
 };
 
 export type NotificationCardProps = TriggerCardProps & {

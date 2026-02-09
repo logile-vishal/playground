@@ -37,7 +37,7 @@ const FollowUp: React.FC = () => {
               item={{
                 ...item,
                 id: index,
-                triggerTaskName: item.triggerTaskName || "",
+                triggerTaskName: item.followUp?.triggerTaskName || "",
               }}
               type={TRIGGER_TYPE.followup}
             />

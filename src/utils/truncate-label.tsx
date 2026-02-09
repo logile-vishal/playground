@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, styled } from "@mui/material";
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
+import { isNonEmptyValue } from "@/utils";
 
 const StyledTextWrapper = styled(Box)(() => ({
   position: "relative",
@@ -8,6 +9,29 @@ const StyledTextWrapper = styled(Box)(() => ({
   "& .text": {
     overflow: "hidden",
     wordBreak: "break-word",
+  },
+
+  "& .text-with-index": {
+    display: "flex",
+    gap: "var(--space-xs)",
+    alignItems: "flex-start",
+    width: "100%",
+  },
+
+  "& .text-index": {
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+    lineHeight: "inherit",
+  },
+
+  "& .text-content": {
+    flex: 1,
+    minWidth: 0,
+
+    "& p": {
+      margin: 0,
+      padding: 0,
+    },
   },
 
   "& .fade": {
@@ -32,9 +56,10 @@ const StyledTextWrapper = styled(Box)(() => ({
 type Props = {
   text: string | React.ReactNode;
   lines?: number;
+  index?: number;
 };
 
-export const TruncateTextWithSeeMore = ({ text, lines = 2 }: Props) => {
+export const TruncateTextWithSeeMore = ({ text, lines = 2, index }: Props) => {
   const { GENERAL } = useCommonTranslation();
   const ref = useRef<HTMLDivElement | null>(null);
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -79,12 +104,15 @@ export const TruncateTextWithSeeMore = ({ text, lines = 2 }: Props) => {
 
   return (
     <StyledTextWrapper>
-      <Box
+      <div
         ref={ref}
         className="text"
-      >
-        {text}
-      </Box>
+        dangerouslySetInnerHTML={{
+          __html: isNonEmptyValue(index)
+            ? `<div class="text-with-index"><span class="text-index">${index + 1}.</span><div class="text-content">${text}</div></div>`
+            : text,
+        }}
+      ></div>
 
       {!expanded && clamped && (
         <span

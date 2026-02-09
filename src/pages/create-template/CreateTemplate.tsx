@@ -145,7 +145,11 @@ const CreateTemplateContent: React.FC = () => {
     {
       label: notification.label,
       value: notification.value,
-      component: <Notifications />,
+      component: (
+        <Notifications
+          walkMeIdPrefix={["create-template", "notification-step"]}
+        />
+      ),
     },
     {
       label: followUp.label,
@@ -214,7 +218,11 @@ const CreateTemplateContent: React.FC = () => {
     {
       label: notification.label,
       value: notification.value,
-      component: <Notifications />,
+      component: (
+        <Notifications
+          walkMeIdPrefix={["create-template", "notification-step"]}
+        />
+      ),
     },
     {
       label: followUp.label,
@@ -247,7 +255,12 @@ const CreateTemplateContent: React.FC = () => {
     {
       label: notification.label,
       value: notification.value,
-      component: <Notifications />,
+      error: !!formErrors.notifications,
+      component: <Notifications walkMeIdPrefix={["create-template"]} />,
+      checkValidity: useCallback(
+        async () => await triggerValidation("notifications"),
+        [triggerValidation]
+      ),
     },
     {
       label: followUp.label,

@@ -185,7 +185,54 @@
       "followUp": "Follow-up tasks triggered by answers",
       "assigneeRecipient": "Assignee"
     },
-    "NO_DATA": "No notifications added yet. Click \"+ Notification\" to get started."
+    "NO_DATA": "No notifications added yet. Click \"+ Notification\" to get started.",
+    "ADD_NOTIFICATION_MODAL": {
+      "addNotification": "Add Notification",
+      "editNotification": "Edit Notification",
+      "cloneNotification": "Clone Notification",
+      "noRecipientsSelected": "No recipients selected",
+      "fields": {
+        "condition": "Condition",
+        "conditionPlaceholder": "Select Condition",
+        "conditionTooltip": "Notification will be generated if the task's compliance percentage is less than this task's compliance threshold (currently 100%)",
+        "conditionQuestion": "Condition Question",
+        "conditionQuestionPlaceholder": "Select Question",
+        "conditionAnswer": "Condition Answer",
+        "conditionAnswerPlaceholder": "Select Answer",
+        "recipients": "To",
+        "messageSubject": "Subject",
+        "messageBody": "Message"
+      },
+      "labels": {
+        "to": "To",
+        "customRecipient": "Custom Recipient",
+        "subject": "Subject",
+        "message": "Message"
+      }
+    },
+    "CUSTOM_RECIPIENT_MODAL": {
+      "title": "Custom Recipient",
+      "orgLevel": "Org Level",
+      "orgLevelPlaceholder": "Select Org Level",
+      "positions": "Positions",
+      "positionsPlaceholder": "Select Position",
+      "org": "Org",
+      "orgPlaceholder": "Select Org",
+      "orgType": "Org Type",
+      "orgTypePlaceholder": "Select Org Type",
+      "relative": "Relative",
+      "CONDITION_OPTIONS": {
+        "taskCompleted": "Task Completed",
+        "taskExpired": "Task Expired",
+        "taskOutOfCompliance": "Task Out of Compliance",
+        "answer": "Answer"
+      },
+      "RECIPIENT_OPTIONS": {
+        "assignee": "Assignee",
+        "supervisor": "Supervisor",
+        "executionManager": "Execution Manager"
+      }
+    }
   },
   "FOLLOWUP_TASKS": {
     "heading": "Follow-up Tasks",

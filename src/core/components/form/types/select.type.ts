@@ -33,7 +33,7 @@ export type SelectMenuItemTemplates = {
   menuItemTemplate?: (context: MenuItemTemplateContext) => ReactNode;
   inputValueTemplate?: (context: inputValueTemplateContext) => ReactNode;
 };
-export type selectValueType = string | SelectOption | SelectOption[];
+export type selectValueType = string | number | SelectOption | SelectOption[];
 
 export type SelectProps = MandatoryFormElementProps &
   IdentifierProps & {

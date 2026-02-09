@@ -2,8 +2,14 @@ import { z as zod } from "zod";
 import { basicInfoStepSchema } from "./steps/basic-info";
 import { questionStepSchema } from "./steps/questions";
 import { advancedOptionsSchema } from "./steps/advanced-options";
-import { notificationStepSchema } from "./steps/notifications";
-import { followUpTaskStepSchema } from "./steps/followup-tasks";
+import {
+  notificationStepSchema,
+  type NotificationSchema,
+} from "./steps/notifications";
+import {
+  followUpTaskSchema,
+  type FollowUpTaskStep,
+} from "./steps/followup-tasks";
 
 export const gridColumnSchema = zod.object({
   columnId: zod.string(),
@@ -17,8 +23,12 @@ export const checklistTypeFormSchema = zod.object({
     .array(questionStepSchema)
     .min(1, "At least one question is required"),
   advancedOptions: advancedOptionsSchema,
-  notifications: zod.array(notificationStepSchema),
-  followUpTasks: zod.array(followUpTaskStepSchema),
+  notifications: zod.array(notificationStepSchema) as zod.ZodType<
+    NotificationSchema[]
+  >,
+  followUpTasks: zod.array(followUpTaskSchema) as zod.ZodType<
+    FollowUpTaskStep[]
+  >,
 });
 
 export const gridTypeFormSchema = zod.object({
@@ -31,24 +41,36 @@ export const gridTypeFormSchema = zod.object({
     .array(questionStepSchema)
     .min(1, "At least one row is required"),
   advancedOptions: advancedOptionsSchema,
-  notifications: zod.array(notificationStepSchema),
-  followUpTasks: zod.array(followUpTaskStepSchema),
+  notifications: zod.array(notificationStepSchema) as zod.ZodType<
+    NotificationSchema[]
+  >,
+  followUpTasks: zod.array(followUpTaskSchema) as zod.ZodType<
+    FollowUpTaskStep[]
+  >,
 });
 
 export const spreadsheetTypeFormSchema = zod.object({
   templateType: zod.literal("spreadsheet"),
   basicData: basicInfoStepSchema,
   advancedOptions: advancedOptionsSchema,
-  notifications: zod.array(notificationStepSchema),
-  followUpTasks: zod.array(followUpTaskStepSchema),
+  notifications: zod.array(notificationStepSchema) as zod.ZodType<
+    NotificationSchema[]
+  >,
+  followUpTasks: zod.array(followUpTaskSchema) as zod.ZodType<
+    FollowUpTaskStep[]
+  >,
 });
 
 export const formTypeFormSchema = zod.object({
   templateType: zod.literal("form"),
   basicData: basicInfoStepSchema,
   advancedOptions: advancedOptionsSchema,
-  notifications: zod.array(notificationStepSchema),
-  followUpTasks: zod.array(followUpTaskStepSchema),
+  notifications: zod.array(notificationStepSchema) as zod.ZodType<
+    NotificationSchema[]
+  >,
+  followUpTasks: zod.array(followUpTaskSchema) as zod.ZodType<
+    FollowUpTaskStep[]
+  >,
 });
 
 export const createTemplateFormSchema = zod.discriminatedUnion("templateType", [

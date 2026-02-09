@@ -26,52 +26,8 @@ export const CreateTemplateFormProvider: React.FC<
     },
     questions: [],
     advancedOptions: {},
-    notifications: [
-      {
-        triggerType: "MESSAGE",
-        condition: "TASK_COMPLETED",
-        orgLevelId: 1,
-        messageTemplates: {
-          id: 1,
-          subject: "Floors in %assignee_store% need to be clean",
-          body: "Please ensure that the floors are cleaned by the end of the day.",
-        },
-        recipients: ["Assignee", "Ad Hoc"],
-      },
-      {
-        triggerType: "MESSAGE",
-        condition: "TASK_EXPIRED",
-        orgLevelId: 2,
-        messageTemplates: {
-          id: 2,
-          subject: "Low Compliance expired in %assignee_store%",
-          body: "Please address the low compliance issues as soon as possible.",
-        },
-        recipients: ["Assignee"],
-      },
-    ],
-    followUpTasks: [
-      {
-        triggerType: "TASK",
-        condition: "TASK_COMPLETED",
-        triggerTaskName: "Floors in %assignee_store% need to be clean",
-        recipients: ["Assignee"],
-        orgLevelId: 1,
-        templateId: 2010,
-        durationValue: 15,
-        durationType: "MINUTE",
-      },
-      {
-        triggerType: "TASK",
-        condition: "TASK_EXPIRED",
-        triggerTaskName: "Low Compliance expired in %assignee_store%",
-        recipients: ["Assignee", "Supervisor"],
-        orgLevelId: 2,
-        templateId: 2002,
-        durationValue: 2,
-        durationType: "HOUR",
-      },
-    ],
+    notifications: [],
+    followUpTasks: [],
   };
 
   const {

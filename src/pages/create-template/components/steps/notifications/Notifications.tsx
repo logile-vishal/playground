@@ -1,25 +1,126 @@
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 import CSvgIcon from "@/core/components/icon/Icon";
 import { CButton } from "@/core/components/button/button";
 import { AddIcon, ChevronDown, ChevronRight } from "@/core/constants/icons";
 import CNoData from "@/core/components/no-data/NoData";
+import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
+import type { QuestionProps } from "@/pages/create-template/types/questions.type";
+import type { NotificationSchema } from "@/pages/create-template/form-schema/steps/notifications";
+import {
+  NOTIFICATIONS_ACTION_TYPE,
+  NOTIFICATIONS_CONDITION,
+} from "@/pages/create-template/constants/notifications";
+import { flattenQuestions } from "@/utils/flatten-questions";
 
 import "./Notifications.scss";
-import { notificationTriggerByAnswersSampleData } from "../../../constants/sampleData";
 import TriggerCard from "../../trigger-card/TriggerCard";
 import { useCreateTemplateTranslations } from "../../../translation/useCreateTemplateTranslations";
 import { TRIGGER_TYPE } from "../../../constants/constant";
-import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
+import AddEditNotificationModal from "./AddEditNotificationModal/AddEditNotificationModal";
 
-const Notifications: React.FC = () => {
+export const Notifications: React.FC<{ walkMeIdPrefix: string[] }> = ({
+  walkMeIdPrefix,
+}) => {
   const { NOTIFICATIONS } = useCreateTemplateTranslations();
-  const { getFormValues } = useCreateTemplateForm();
-  const notificationStepData = getFormValues().notifications;
+  const { getFormValues, setFormValue, watch } = useCreateTemplateForm();
+  const [notificationsList, setNotificationsList] = useState({
+    default: [],
+    groupedByAnswer: [],
+  });
+  const notificationStepData = watch("notifications") as NotificationSchema[];
+  const watchQuestionList = watch("questions") as QuestionProps[];
+  const [questionList, setQuestionList] = useState<QuestionProps[]>([]);
   const [isGroupedNotificationOpen, setIsGroupedNotificationOpen] =
     useState<boolean>(true);
+  const [showNotificationModal, setShowNotificationModal] = useState({
+    status: false,
+    type: NOTIFICATIONS_ACTION_TYPE.ADD,
+    data: null,
+  });
+
+  const handleAddNotification = () => {
+    setShowNotificationModal({
+      status: true,
+      type: NOTIFICATIONS_ACTION_TYPE.ADD,
+      data: null,
+    });
+  };
+
+  const handleEditNotification = (data) => {
+    setShowNotificationModal({
+      status: true,
+      type: NOTIFICATIONS_ACTION_TYPE.EDIT,
+      data,
+    });
+  };
+
+  const handleDeleteNotification = (data) => {
+    const notificationsList = getFormValues("notifications");
+    const triggerId = data.triggerId;
+    const updatedNotifications = notificationsList.filter(
+      (notification) => notification.triggerId !== triggerId
+    );
+    setFormValue("notifications", updatedNotifications);
+  };
+
+  const handleCloneNotification = (data) => {
+    setShowNotificationModal({
+      status: true,
+      type: NOTIFICATIONS_ACTION_TYPE.CLONE,
+      data,
+    });
+  };
+
+  const handleCloseNotificationModal = () => {
+    setShowNotificationModal({
+      status: false,
+      type: NOTIFICATIONS_ACTION_TYPE.ADD,
+      data: null,
+    });
+  };
+
+  const getQuestionLabelById = (questionId: string) => {
+    const question = questionList?.find(
+      (question: QuestionProps) => question.qId === questionId
+    );
+    return question ? question.questionBasicData.title : "";
+  };
+
+  const getAnswerLabelById = (questionId: string, answerIndex: string) => {
+    const question = questionList?.find(
+      (question: QuestionProps) => question.qId === questionId
+    );
+    if (question) {
+      const answer = question.questionBasicData.response[parseInt(answerIndex)];
+      return answer ? answer.title : "";
+    }
+    return "";
+  };
+
+  useEffect(() => {
+    const allQuestions = flattenQuestions(watchQuestionList || []);
+    setQuestionList(allQuestions);
+  }, [watchQuestionList]);
+
+  useEffect(() => {
+    const notifications = getFormValues("notifications") || [];
+    const defaultNotifications = [];
+    const groupedByAnswerNotifications = [];
+    notifications.forEach((notification) => {
+      if (notification.condition === NOTIFICATIONS_CONDITION.ANSWER) {
+        groupedByAnswerNotifications.push(notification);
+      } else {
+        defaultNotifications.push(notification);
+      }
+    });
+    setNotificationsList({
+      default: defaultNotifications,
+      groupedByAnswer: groupedByAnswerNotifications,
+    });
+  }, [notificationStepData, getFormValues]);
 
   return (
     <Box className="ct-notifications">
@@ -31,60 +132,78 @@ const Notifications: React.FC = () => {
       ) : (
         <Box className="ct-notifications__list">
           {/* TODO: Remove sample data after api integration */}
-          {notificationStepData?.map((item, index) => (
+          {notificationsList?.default?.map((item, index) => (
             <TriggerCard
               key={index}
               item={{
                 ...item,
-                id: index,
+                id: item.triggerId,
                 messageTemplates: {
                   id: item.messageTemplates?.id,
                   subject: item.messageTemplates?.subject,
                   body: item.messageTemplates?.body,
                 },
               }}
+              index={index}
+              handleEdit={() => handleEditNotification(item)}
+              handleDelete={() => handleDeleteNotification(item)}
+              handleClone={() => handleCloneNotification(item)}
+              getQuestionLabelById={getQuestionLabelById}
+              getAnswerLabelById={getAnswerLabelById}
               type={TRIGGER_TYPE.notification}
+              walkMeIdPrefix={[...walkMeIdPrefix, "trigger-card"]}
             />
           ))}
-          <Box className="ct-notifications__answer-trigger-group">
-            <Box
-              className="ct-notifications__answer-trigger-group-header"
-              onClick={() =>
-                setIsGroupedNotificationOpen(!isGroupedNotificationOpen)
-              }
-            >
-              <Box className="ct-notifications__answer-trigger-group-header-icon">
-                <CSvgIcon
-                  component={
-                    isGroupedNotificationOpen ? ChevronDown : ChevronRight
-                  }
-                  size={20}
-                  color={"secondary"}
-                />
+          {notificationsList?.groupedByAnswer?.length > 0 && (
+            <Box className="ct-notifications__answer-trigger-group">
+              <Box
+                className="ct-notifications__answer-trigger-group-header"
+                onClick={() =>
+                  setIsGroupedNotificationOpen(!isGroupedNotificationOpen)
+                }
+              >
+                <Box className="ct-notifications__answer-trigger-group-header-icon">
+                  <CSvgIcon
+                    component={
+                      isGroupedNotificationOpen ? ChevronDown : ChevronRight
+                    }
+                    size={20}
+                    color={"secondary"}
+                  />
+                </Box>
+                <Box className="ct-notifications__answer-trigger-group-header-title">
+                  {NOTIFICATIONS.TRIGGER_BY_ANSWER_GROUP.notification}
+                </Box>
               </Box>
-              <Box className="ct-notifications__answer-trigger-group-header-title">
-                {NOTIFICATIONS.TRIGGER_BY_ANSWER_GROUP.notification}
-              </Box>
+              {isGroupedNotificationOpen &&
+                notificationsList.groupedByAnswer &&
+                notificationsList.groupedByAnswer?.map((item, index) => (
+                  <TriggerCard
+                    key={item.triggerId}
+                    item={{
+                      ...item,
+                      triggerTaskName: getQuestionLabelById(
+                        item.questionId || ""
+                      ),
+                      messageTemplates: {
+                        id: item?.messageTemplates?.id,
+                        subject: item?.messageTemplates?.subject,
+                        body: "",
+                      },
+                    }}
+                    index={index}
+                    triggeredByAnswers={true}
+                    type={TRIGGER_TYPE.notification}
+                    handleEdit={() => handleEditNotification(item)}
+                    handleDelete={() => handleDeleteNotification(item)}
+                    handleClone={() => handleCloneNotification(item)}
+                    getQuestionLabelById={getQuestionLabelById}
+                    getAnswerLabelById={getAnswerLabelById}
+                    walkMeIdPrefix={[...walkMeIdPrefix, "trigger-card"]}
+                  />
+                ))}
             </Box>
-            {/* TODO: Remove sample data after api integration */}
-            {isGroupedNotificationOpen &&
-              notificationTriggerByAnswersSampleData?.map((item) => (
-                <TriggerCard
-                  key={item.id}
-                  item={{
-                    ...item,
-                    triggerTaskName: item.conditionQuestion,
-                    messageTemplates: {
-                      id: item.messageTemplate.id,
-                      subject: item.messageTemplate.subject,
-                      body: "",
-                    },
-                  }}
-                  triggeredByAnswers={true}
-                  type={TRIGGER_TYPE.notification}
-                />
-              ))}
-          </Box>
+          )}
         </Box>
       )}
       <CButton
@@ -92,6 +211,8 @@ const Notifications: React.FC = () => {
         variant="outline"
         severity="primary"
         size="small"
+        onClick={handleAddNotification}
+        walkMeId={["notifications", "add notification button"]}
       >
         <CSvgIcon
           size={15}
@@ -99,6 +220,19 @@ const Notifications: React.FC = () => {
         />
         {NOTIFICATIONS.addNotificationButtonLabel}
       </CButton>
+
+      <AddEditNotificationModal
+        showNotificationModal={showNotificationModal}
+        handleCloseNotificationModal={handleCloseNotificationModal}
+        walkMeIdPrefix={[
+          ...walkMeIdPrefix,
+          "notifications",
+          "add notification modal",
+        ]}
+        watchQuestionList={questionList}
+        getQuestionLabel={getQuestionLabelById}
+        getAnswerLabel={getAnswerLabelById}
+      />
     </Box>
   );
 };

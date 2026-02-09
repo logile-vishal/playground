@@ -176,6 +176,11 @@
         color: var(--logile-text-brand-primary-dark-mode-alt);
       }
     }
+    .select__menu-item-label-html {
+      p {
+        margin: var(--space-none);
+      }
+    }
 
     &-checkbox {
       cursor: inherit;
@@ -212,6 +217,7 @@
         height: var(--label-icon-size);
       }
     }
+    width: 100%;
   }
   .select-toolbar {
     z-index: calc(var(--zindex-dropdown) + 2);

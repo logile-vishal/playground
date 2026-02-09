@@ -163,3 +163,71 @@ export const basicTagsSampleData = [
     customSubMenu: [],
   },
 ];
+
+export const orgLevelDropdownOptions = [
+  {
+    label: "Org Level - 1",
+    value: 3101,
+  },
+  {
+    label: "Org Level - 2",
+    value: 3102,
+  },
+  {
+    label: "Org Level - 3",
+    value: 3103,
+  },
+];
+
+export const orgDropdownOptions = [
+  {
+    label: "Org - 1",
+    value: 101,
+  },
+  {
+    label: "Org - 2",
+    value: 102,
+  },
+  {
+    label: "Org - 3",
+    value: 101,
+  },
+  {
+    label: "Org - 4",
+    value: 102,
+  },
+];
+
+export const orgTypeDropdownOptions = [
+  {
+    label: "Org Type - 1",
+    value: 111,
+  },
+  {
+    label: "Org Type - 2",
+    value: 112,
+  },
+  {
+    label: "Org Type - 3",
+    value: 113,
+  },
+];
+
+export const positionsOptions = [
+  {
+    label: "Position - 1",
+    value: 2101,
+  },
+  {
+    label: "Position - 2",
+    value: 2102,
+  },
+  {
+    label: "Position - 3",
+    value: 2103,
+  },
+  {
+    label: "Position - 4",
+    value: 2104,
+  },
+];
