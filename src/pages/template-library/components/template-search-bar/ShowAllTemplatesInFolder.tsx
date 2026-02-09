@@ -12,10 +12,10 @@ const ShowAllTemplatesInFolder = (props: ShowAllTemplatesInFolderProps) => {
         onClick={props.onGoToFolder}
       >
         <span>
-          {`${TEMPLATE_SEARCH_BAR_TRANSLATIONS.SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT.showAll} ${props.totalTemplates} ${TEMPLATE_SEARCH_BAR_TRANSLATIONS.SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT.templates} `}
+          {`${TEMPLATE_SEARCH_BAR_TRANSLATIONS.SHOW_ALL_TEMPLATE_IN_FOLDER.showAll} ${props.totalTemplates} ${TEMPLATE_SEARCH_BAR_TRANSLATIONS.SHOW_ALL_TEMPLATE_IN_FOLDER.templates} `}
         </span>
         {
-          TEMPLATE_SEARCH_BAR_TRANSLATIONS.SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT
+          TEMPLATE_SEARCH_BAR_TRANSLATIONS.SHOW_ALL_TEMPLATE_IN_FOLDER
             .inThisFolder
         }
       </div>

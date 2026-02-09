@@ -116,7 +116,7 @@
     "ADVANCED_FILTER": {
       "modifiedInLastDaysAdditionalLabel": "天"
     },
-    "SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT": {
+    "SHOW_ALL_TEMPLATE_IN_FOLDER": {
       "showAll": "显示所有",
       "inThisFolder": "在此文件夹中",
       "templates": "模板"

@@ -116,7 +116,7 @@
     "ADVANCED_FILTER": {
       "modifiedInLastDaysAdditionalLabel": "दिन"
     },
-    "SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT": {
+    "SHOW_ALL_TEMPLATE_IN_FOLDER": {
       "showAll": "सभी दिखाएँ",
       "inThisFolder": "इस फ़ोल्डर में",
       "templates": "टेम्पलेट्स"

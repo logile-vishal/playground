@@ -6,6 +6,7 @@ import type {
 } from "@/core/types/pagination.type";
 
 import type { TemplatePreviewType } from "./template-questions.type";
+import type { SortOption } from "./template-constants.type";
 import type {
   TEMPLATE_SEARCH_BAR,
   TEMPLATE_TABLE_COLUMNS,
@@ -79,6 +80,9 @@ export type LibraryTableProps = {
   handleExportMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
   isGoToFolderVisible: boolean;
   onGoToFolderClick: (rowData: TemplateType | ReportType) => void;
+  filteredTemplateList?: PaginatedResponse<TemplateType>;
+  templateFilter?: TemplateFilter;
+  setTemplateFilter?: (filter: TemplateFilter) => void;
 };
 
 export type TemplatePaginationData = {
@@ -147,6 +151,12 @@ export type DeleteTemplateProps = {
   statusDesc?: string;
 };
 
+export type SelectedSortProps = {
+  name: SortOption | null;
+  created: SortOption | null;
+  modified: SortOption | null;
+};
+
 export type TableColumn =
   (typeof TEMPLATE_TABLE_COLUMNS)[keyof typeof TEMPLATE_TABLE_COLUMNS];
 export type TemplateFilter = {
@@ -157,6 +167,7 @@ export type TemplateFilter = {
   taskTagsList: { value: string; label: string }[];
   questionTagsList: { value: string; label: string }[];
   statusList: { value: string; label: string }[];
+  selectedSort: SelectedSortProps;
 };
 export type TemplateLibraryFilterModes =
   (typeof TEMPLATE_SEARCH_BAR.FILTER_MODES)[keyof typeof TEMPLATE_SEARCH_BAR.FILTER_MODES];

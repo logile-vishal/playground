@@ -1,6 +1,6 @@
 import type { TemplateFilter } from "../types/template-library.type";
 
-export const TEMPLATE_LIST_PAGE_SIZE = 50;
+export const TEMPLATE_LIST_PAGE_SIZE = 20;
 
 export const TEMPLATE_SEARCH_TABS = {
   RECENT: {
@@ -98,6 +98,7 @@ export const TEMPLATE_SEARCH_BAR = {
     questionTagsList: "questionTagsList",
     modifiedInLastDays: "modifiedInLastDays",
     questionText: "questionText",
+    selectedSort: "selectedSort",
   },
   FILTER_MODES: {
     basic: "BASIC",
@@ -112,6 +113,8 @@ export const TEMPLATE_STATUS_MAP = TEMPLATE_STATUS_OPTIONS.reduce(
   {} as Record<string, string>
 );
 
+export const SKIP_FILTER = ["selectedSort"];
+
 export const TEMPLATE_SEARCH_DEFAULT_FILTER: TemplateFilter = {
   templateName: "",
   questionText: "",
@@ -120,4 +123,9 @@ export const TEMPLATE_SEARCH_DEFAULT_FILTER: TemplateFilter = {
   taskTagsList: [],
   questionTagsList: [],
   statusList: [],
+  selectedSort: {
+    name: null,
+    created: null,
+    modified: null,
+  },
 };

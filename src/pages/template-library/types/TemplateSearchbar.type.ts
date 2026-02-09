@@ -35,7 +35,7 @@ export type ShowAllTemplatesInFolderProps = {
 export type TemplateSearchBarProps = {
   placeholder: string;
   onChange?: (value: string) => void;
-  onShowAllSearchResults: () => void;
+  onShowAllSearchResults: (templateName: string) => void;
   onSearch?: (filter: TemplateFilter) => void;
   directoriesList?: DirectoryType[];
   setTableData: React.Dispatch<

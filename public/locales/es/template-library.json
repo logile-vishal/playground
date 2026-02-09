@@ -116,7 +116,7 @@
     "ADVANCED_FILTER": {
       "modifiedInLastDaysAdditionalLabel": "días"
     },
-    "SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT": {
+    "SHOW_ALL_TEMPLATE_IN_FOLDER": {
       "showAll": "Mostrar todo",
       "inThisFolder": "en esta carpeta",
       "templates": "plantillas"

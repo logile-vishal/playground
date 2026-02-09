@@ -54,25 +54,6 @@
   &__action-btns {
     @include flex-center;
     gap: var(--space-l);
-    &-clearall.MuiButtonBase-root {
-      color: var(--logile-text-state-disabled);
-      text-align: center;
-      font-size: var(--logile-size-body);
-      line-height: var(--logile-line-height-body);
-      &:hover {
-        text-decoration: none;
-      }
-    }
-    &-clearall--focus.MuiButtonBase-root {
-      color: var(--logile-text-link);
-    }
-    &-apply.MuiButtonBase-root {
-      overflow: hidden;
-      color: var(--logile-text-white);
-      text-align: center;
-      font-size: var(--logile-size-body);
-      line-height: var(--logile-line-height-body);
-    }
   }
   &--mobile {
     .advance-filter-content__fields-layout {

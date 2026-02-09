@@ -7,6 +7,7 @@ import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
 import CMultiSelectWithChip from "@/core/components/multi-select-chip/MultiSelectWithChip";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 
 import {
   useGetQuestionTagsOptions,
@@ -17,9 +18,11 @@ import type {
   TagOptionsType,
   TaskTypeOptions,
 } from "../../types/template-library.type";
-import { TEMPLATE_SEARCH_BAR as TEMPLATE_SEARCH_BAR_CONSTANTS } from "../../constants/constant";
+import {
+  SKIP_FILTER,
+  TEMPLATE_SEARCH_BAR as TEMPLATE_SEARCH_BAR_CONSTANTS,
+} from "../../constants/constant";
 import "./AdvanceFilterContent.scss";
-import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import { useTemplateLibraryTranslations } from "../../translation/useTemplateLibraryTranslations";
 import type { AdvanceFilterContentProps } from "../../types/TemplateSearchbar.type";
 import { checkObjectHaveValues } from "../../utils/checkObjectHaveValues";
@@ -197,25 +200,22 @@ const AdvanceFilterContent = (props: AdvanceFilterContentProps) => {
       </div>
       <div className="advance-filter-content__action-btns">
         <CButton
-          className={clsx({
-            "advance-filter-content__action-btns-clearall": true,
-            "advance-filter-content__action-btns-clearall--focus":
-              checkObjectHaveValues(filter),
-          })}
           severity="primary"
           variant="text"
           size="large"
+          disabled={!checkObjectHaveValues(filter, SKIP_FILTER)}
           onClick={onClearFilter}
+          walkMeId={["template library", "search bar", "clear button"]}
         >
           {GENERAL.clearAllButtonLabel}
         </CButton>
         <CButton
-          className="advance-filter-content__action-btns-apply"
           severity="primary"
           variant="solid"
           size="large"
           onClick={onFilterSubmit}
-          disabled={!checkObjectHaveValues(filter)}
+          disabled={!checkObjectHaveValues(filter, SKIP_FILTER)}
+          walkMeId={["template library", "search bar", "search button"]}
         >
           {isFilterDataLoading
             ? GENERAL.loadingText

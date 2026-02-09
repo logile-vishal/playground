@@ -171,15 +171,8 @@ export function useFilterTemplates(payload: FilterTemplatesPayload = {}) {
           severity: Severity.ERROR,
         },
       });
-    } else if (query.isSuccess) {
-      notify({
-        title: "Templates fetched successfully",
-        config: {
-          severity: Severity.SUCCESS,
-        },
-      });
     }
-  }, [query.isError, query.error, query.isSuccess, notify]);
+  }, [query.isError, query.error, notify]);
 
   return query;
 }

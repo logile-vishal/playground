@@ -24,6 +24,19 @@ const renderTemplateNameSkeltonDesktop = () => {
   );
 };
 
+export const renderSearchBarSkelton = () => {
+  return (
+    <Box className="basic-filter-content__skeleton">
+      {Array.from({ length: 3 }).map(() => (
+        <Skeleton
+          variant="rectangular"
+          classes={{ root: "basic-filter-content__skeleton-item" }}
+        />
+      ))}
+    </Box>
+  );
+};
+
 const renderTemplateNameSkelton = () => {
   return (
     <Box className="template-library-name">

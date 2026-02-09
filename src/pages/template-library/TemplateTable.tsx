@@ -46,6 +46,7 @@ import type {
   ReportType,
   TemplatePreviewModalProps,
   TableColumn,
+  TemplateFilter,
 } from "./types/template-library.type";
 import PreviewModal from "./components/preview-modal/PreviewModal";
 import "./TemplateStyle.scss";
@@ -80,6 +81,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   handlePaginationChange,
   isGoToFolderVisible,
   onGoToFolderClick,
+  templateFilter,
+  setTemplateFilter,
 }) => {
   const { TEMPLATE_TABLE_COLUMN_HEADINGS, DELETE_MODAL } =
     useTemplateLibraryTranslations();
@@ -95,13 +98,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     data: null,
   });
   const [tooltipId, setTooltipId] = useState<number | null>(null);
-  const [selectedSort, setSelectedSort] = useState<{
-    [key in keyof typeof tableActionMenu]?: SortOption | null;
-  }>({
-    name: null,
-    created: null,
-    modified: null,
-  });
+
   const {
     renderTemplateActionSkelton,
     renderTemplateCreatedSkelton,
@@ -228,25 +225,27 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     });
   };
 
+  /**
+   * @method handleSortSelect
+   * @description Updates the templateFilter state with the selected sorting option and closes the menu. It creates a new object for selectedSort to ensure state immutability.
+   * @param type - The type of sorting (name, created, modified)
+   * @param item - The selected sorting option containing fieldName and value (ASC/DESC)
+   * @returns void
+   */
   const handleSortSelect = (
     type: keyof typeof tableActionMenu,
     item: SortOption
   ) => {
-    const newObj: typeof selectedSort = {};
-    Object.entries(selectedSort).map(([value, menuItem]) => {
-      if (value !== type) {
-        newObj[value] = null;
-      } else {
-        if (
-          menuItem === null ||
-          menuItem === undefined ||
-          menuItem?.value !== item?.value
-        )
-          newObj[value] = item;
-        else newObj[value] = null;
-      }
-    });
-    setSelectedSort({ ...newObj });
+    const copyFilter: TemplateFilter = { ...templateFilter };
+    const newObj = {
+      name: null,
+      created: null,
+      modified: null,
+      ...(copyFilter.selectedSort ? { ...copyFilter.selectedSort } : null),
+    };
+    newObj[type] = item;
+    copyFilter.selectedSort = newObj;
+    setTemplateFilter(copyFilter);
   };
 
   const handlePreviewModalOpen = (cellData: TemplateType) => {
@@ -265,28 +264,6 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   }, [isDeleteTemplateSuccessful, isDeleteReportSuccessful]);
 
   useEffect(() => {
-    let sortType = "";
-    let sortBy = "";
-    if (selectedSort !== undefined && selectedSort !== null) {
-      Object.entries(selectedSort).forEach(([, item]) => {
-        if (item !== undefined && item !== null) {
-          sortType = item?.value;
-          sortBy = item?.fieldName;
-        }
-      });
-
-      if (sortType?.length > 0 && sortBy?.length > 0) {
-        const payload = {
-          sortFieldName: sortBy,
-          sortType: sortType,
-        };
-        fetchData(selectedDirectory, payload);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedSort]);
-
-  useEffect(() => {
     if (templatePreviewData?.data) {
       setPreviewModal((prev) => ({ ...prev, data: templatePreviewData?.data }));
     } else if (reportPreviewData?.data) {
@@ -299,7 +276,7 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     type: keyof typeof tableActionMenu,
     menuItems: SortOption[]
   ) => {
-    const selected = selectedSort[type];
+    const selected = templateFilter?.selectedSort?.[type];
     const isAscending = selected?.value === "ASC";
     if (!menuItems || menuItems?.length == 0)
       return (
@@ -364,29 +341,36 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
           }`}
           className="template-table__menu"
           anchorEl={tableActionMenu[type].anchorEl}
-          selectedItems={selectedSort[type] ? [selectedSort[type]] : []}
+          selectedItems={
+            templateFilter?.selectedSort?.[type]
+              ? [templateFilter.selectedSort?.[type]]
+              : []
+          }
           onClose={() => handleMenuClose()}
           menuItems={menuItems}
           onSelect={(item) => handleSortSelect(type, item as SortOption)}
           menuWidth={"max-content"}
           templates={{
-            itemTemplate: (context) => (
-              <Box
-                className={clsx({
-                  "template-table__menu-item": true,
-                  "template-table__menu-item--selected": context.isSelected,
-                })}
-              >
-                {context.item.label}
-                {context.isSelected && (
-                  <CSvgIcon
-                    component={Check}
-                    size={16}
-                    className="template-table__menu-item-icon"
-                  />
-                )}
-              </Box>
-            ),
+            itemTemplate: (context) => {
+              return (
+                <Box
+                  className={clsx({
+                    "template-table__menu-item": true,
+                    "template-table__menu-item--selected": context.isSelected,
+                  })}
+                >
+                  {context.item.label}
+                  {context.item.value ===
+                    templateFilter.selectedSort?.[type]?.value && (
+                    <CSvgIcon
+                      component={Check}
+                      size={16}
+                      className="template-table__menu-item-icon"
+                    />
+                  )}
+                </Box>
+              );
+            },
           }}
         />
       </Box>
@@ -935,7 +919,13 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   };
 
   return (
-    <div className="template-library-table-container template-table">
+    <div
+      className={clsx({
+        "template-library-table-container": true,
+        "template-table": true,
+        "template-table-pagination-hidden": paginationData.totalPages <= 1,
+      })}
+    >
       <CDataTable
         tableProps={templateTableProps}
         isRowSelected={isRowSelected}

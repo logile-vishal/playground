@@ -1,9 +1,20 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .basic-filter-content {
+  --skelton-height: 20px;
   @include flex-box(column);
   width: 100%;
   padding: var(--space-m);
+  &__skeleton {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-xs);
+    .MuiSkeleton-root {
+      height: var(--skelton-height);
+      border-radius: var(--space-xs);
+    }
+  }
   &__search-all {
     @include flex-center(start, center);
     width: 100%;

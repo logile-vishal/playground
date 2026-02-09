@@ -7,6 +7,7 @@ import CSvgIcon from "@/core/components/icon/Icon";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 
 import {
+  SKIP_FILTER,
   TEMPLATE_SEARCH_BAR,
   TEMPLATE_SEARCH_DEFAULT_FILTER,
 } from "../../constants/constant";
@@ -35,13 +36,14 @@ const generateFilterChips = (
   prefixMap: Record<string, string>
 ): NestedMenuItem[] => {
   const chips: NestedMenuItem[] = [];
-
+  const skipFilterKeys = ["selectedSort"];
   Object.entries(filter).forEach(([key, value]) => {
     if (
       !value ||
       (Array.isArray(value) && value.length === 0) ||
       (typeof value === "string" && value.trim() === "") ||
-      prefixMap[key] === undefined
+      prefixMap[key] === undefined ||
+      skipFilterKeys.includes(key)
     ) {
       return;
     }
@@ -50,12 +52,16 @@ const generateFilterChips = (
       const label = value.map((item) => item.label).join(", ");
       chips.push({ label: `${prefixMap[key]}: (${label})`, value: key });
     } else if (typeof value === "object" && value !== null) {
-      chips.push({ label: `${prefixMap[key]}: (${value.label})`, value: key });
+      if ("label" in value && typeof value.label === "string") {
+        chips.push({
+          label: `${prefixMap[key]}: (${value.label})`,
+          value: key,
+        });
+      }
     } else {
       chips.push({ label: `${prefixMap[key]}: (${value})`, value: key });
     }
   });
-
   return chips;
 };
 
@@ -84,6 +90,7 @@ const TemplateSearchBar: React.FC<TemplateSearchBarProps> = ({
   );
   const [localFilter, setLocalFilter] = useState<TemplateFilter>(filter);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isClearButtonVisible, setIsClearButtonVisible] = useState(false);
 
   const searchBarAnchorRef = useRef<HTMLDivElement>(null);
   const modalAnchorRef = useRef<HTMLDivElement>(null);
@@ -114,7 +121,7 @@ const TemplateSearchBar: React.FC<TemplateSearchBarProps> = ({
         : TEMPLATE_SEARCH_BAR.FILTER_MODES.basic
     );
     setIsSearchModalOpen(true);
-    setLocalFilter(filter);
+    setLocalFilter({ ...filter, templateName: localFilter.templateName });
   };
 
   const handleOpenSearchModal = (): void => {
@@ -147,7 +154,7 @@ const TemplateSearchBar: React.FC<TemplateSearchBarProps> = ({
       TEMPLATE_SEARCH_BAR.FILTER_NAMES.templateName,
       localFilter.templateName
     );
-    onShowAllSearchResults();
+    onShowAllSearchResults(localFilter.templateName);
   };
 
   /**
@@ -180,8 +187,9 @@ const TemplateSearchBar: React.FC<TemplateSearchBarProps> = ({
     const keyToRemove = item.value as string;
     setLocalFilter((prev) => ({
       ...prev,
-      [keyToRemove]:
-        TEMPLATE_SEARCH_DEFAULT_FILTER[keyToRemove as keyof TemplateFilter],
+      [keyToRemove]: JSON.parse(JSON.stringify(TEMPLATE_SEARCH_DEFAULT_FILTER))[
+        keyToRemove as keyof TemplateFilter
+      ],
     }));
     onFilterChipDelete(keyToRemove);
   };
@@ -204,7 +212,7 @@ const TemplateSearchBar: React.FC<TemplateSearchBarProps> = ({
    */
   const handleClearAllFilters = (): void => {
     onClearFilter();
-    setLocalFilter({ ...TEMPLATE_SEARCH_DEFAULT_FILTER });
+    setLocalFilter(JSON.parse(JSON.stringify(TEMPLATE_SEARCH_DEFAULT_FILTER)));
   };
 
   /**
@@ -221,10 +229,9 @@ const TemplateSearchBar: React.FC<TemplateSearchBarProps> = ({
     onTemplateSuggClick(template);
   };
 
-  const isClearButtonVisible = useMemo(
-    () => checkObjectHaveValues(filter),
-    [filter]
-  );
+  useEffect(() => {
+    setIsClearButtonVisible(checkObjectHaveValues(localFilter, SKIP_FILTER));
+  }, [localFilter]);
 
   useEffect(() => {
     setLocalFilter(filter);

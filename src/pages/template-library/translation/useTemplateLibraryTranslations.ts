@@ -155,15 +155,11 @@ export const useTemplateLibraryTranslations = () => {
     },
     searchAllResults: t("TEMPLATE_SEARCH_BAR.searchAllResults"),
     lastModifiedLabel: t("TEMPLATE_SEARCH_BAR.lastModifiedLabel"),
-    SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT: {
-      showAll: t(
-        "TEMPLATE_SEARCH_BAR.SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT.showAll"
-      ),
-      templates: t(
-        "TEMPLATE_SEARCH_BAR.SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT.templates"
-      ),
+    SHOW_ALL_TEMPLATE_IN_FOLDER: {
+      showAll: t("TEMPLATE_SEARCH_BAR.SHOW_ALL_TEMPLATE_IN_FOLDER.showAll"),
+      templates: t("TEMPLATE_SEARCH_BAR.SHOW_ALL_TEMPLATE_IN_FOLDER.templates"),
       inThisFolder: t(
-        "TEMPLATE_SEARCH_BAR.SHOW_ALL_TEMPLATE_IN_FOLDER_FEAT.inThisFolder"
+        "TEMPLATE_SEARCH_BAR.SHOW_ALL_TEMPLATE_IN_FOLDER.inThisFolder"
       ),
     },
     FILTER_CHIPS_PREFIX: {

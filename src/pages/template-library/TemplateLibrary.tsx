@@ -105,19 +105,38 @@ const createFilterPayload = (
   filter: TemplateFilter,
   paginationData: TemplatePaginationData
 ) => {
-  const questionTagsList = filter?.questionTagsList?.map((tag) => tag?.value);
-  const taskTagsList = filter?.taskTagsList?.map((tag) => tag?.value);
-  const taskType = filter?.taskType?.value ?? "";
-  const statusList = filter?.statusList?.map((tag) => tag?.value);
+  const copyFilter: TemplateFilter = { ...filter };
+  const questionTagsList = copyFilter?.questionTagsList?.map((tag) =>
+    parseInt(tag?.value)
+  );
+  const taskTagsList = copyFilter?.taskTagsList?.map((tag) =>
+    parseInt(tag?.value)
+  );
+  const taskType = copyFilter?.taskType?.value ?? "";
+  const statusList = copyFilter?.statusList?.map((tag) => tag?.value);
+  let sortType = null;
+  let sortBy = null;
+  if (isNonEmptyValue(copyFilter?.selectedSort)) {
+    Object.entries(copyFilter?.selectedSort).forEach(([, item]) => {
+      if (item !== undefined && item !== null) {
+        sortType = item?.value;
+        sortBy = item?.fieldName;
+      }
+    });
+  }
+
+  delete copyFilter?.selectedSort;
 
   const payload = {
-    ...filter,
+    ...copyFilter,
     ...paginationData,
     questionTagsList,
     taskTagsList: taskTagsList,
-    templateName: filter?.templateName?.trim(),
+    templateName: copyFilter?.templateName?.trim(),
     taskType,
     statusList: statusList,
+    sortFieldName: sortBy,
+    sortType: sortType,
   };
 
   const filteredPayload = {};
@@ -154,7 +173,7 @@ const TemplateLibrary: React.FC = () => {
   const [importPopup, setImportPopup] = useState<boolean>(false);
 
   const [templateFilter, setTemplateFilter] = useState<TemplateFilter>(
-    TEMPLATE_SEARCH_DEFAULT_FILTER
+    JSON.parse(JSON.stringify(TEMPLATE_SEARCH_DEFAULT_FILTER))
   );
   const [isGoToFolderVisible, setIsGoToFolderVisible] =
     useState<boolean>(false);
@@ -168,6 +187,7 @@ const TemplateLibrary: React.FC = () => {
     data: filteredTemplateList,
     mutateAsync: filterTemplate,
     isPending: isFilteredTemplateListLoading,
+    reset: resetFilteredTemplateList,
   } = useFilterTemplates();
   const isDesktop = useIsDesktopViewport();
   const navigate = useNavigate();
@@ -176,21 +196,17 @@ const TemplateLibrary: React.FC = () => {
   const { data: directoriesList, isLoading: isDirectoriesLoading } =
     useGetAllDirectories();
   const {
-    data: templatesList,
     isPending: isTemplatesLoading,
     mutateAsync: getTemplatesByLibraryId,
   } = useGetTemplatesByLibraryId();
-  const {
-    data: reportsList,
-    isPending: isReportsLoading,
-    mutateAsync: getReportsByReportTypeId,
-  } = useGetReportsByReportType();
+  const { isPending: isReportsLoading, mutateAsync: getReportsByReportTypeId } =
+    useGetReportsByReportType();
   const { renderDirectorySkelton } = templateSkelton;
   const [tableData, setTableData] =
     useState<PaginatedResponse<TemplateType | ReportType>>();
   const [isTableDataLoading, setIsTableDataLoading] = useState(false);
 
-  const fetchData = (
+  const fetchData = async (
     directory: DirectoryType,
     paramsPayload: Record<string, unknown> = {}
   ) => {
@@ -198,13 +214,15 @@ const TemplateLibrary: React.FC = () => {
       ...paginationData,
       ...paramsPayload,
     };
+    let data = null;
     if (directory?.reportLibraryId) {
       payload = { ...payload, reportTypeId: directory?.reportLibraryId };
-      getReportsByReportTypeId(payload);
+      data = await getReportsByReportTypeId(payload);
     } else {
       payload = { ...payload, libraryId: directory?.libraryId };
-      getTemplatesByLibraryId(payload);
+      data = await getTemplatesByLibraryId(payload);
     }
+    setTableData(data);
   };
 
   const handleDirectoryClick = (
@@ -214,6 +232,7 @@ const TemplateLibrary: React.FC = () => {
     event?.preventDefault();
     event?.stopPropagation();
     resetBasicFilterSuggestionClickData();
+    resetFilteredTemplateList();
     setIsGoToFolderVisible(false);
     const paginationPayload = defaultPagination;
     setPaginationData(paginationPayload);
@@ -267,7 +286,6 @@ const TemplateLibrary: React.FC = () => {
     resetBasicFilterSuggestionClickData();
     const payload = createFilterPayload(filter, paginationData);
     await filterTemplate(payload);
-    setTableData(filteredTemplateList);
   };
 
   /**
@@ -317,11 +335,17 @@ const TemplateLibrary: React.FC = () => {
    * - Hides the "Show templates in folder"
    * @returns {void}
    */
-  const handleBasicFilterShowAllResults = () => {
+  const handleBasicFilterShowAllResults = (templateName) => {
     setSelectedDirectory(null);
     setExpandedDirectories([]);
     setIsGoToFolderVisible(true);
     resetBasicFilterSuggestionClickData();
+    const payload = {
+      templateName: templateName,
+      currentPage: 1,
+      pageSize: TEMPLATE_LIST_PAGE_SIZE,
+    };
+    filterTemplate(payload);
   };
 
   /**
@@ -337,6 +361,7 @@ const TemplateLibrary: React.FC = () => {
     if (selectedDirectory) {
       setIsGoToFolderVisible(false);
       resetBasicFilterSuggestionClickData();
+      resetFilteredTemplateList();
       handleDirectoryClick(null, selectedDirectory);
       handleFilterClearAll();
     }
@@ -358,7 +383,9 @@ const TemplateLibrary: React.FC = () => {
     setTemplateFilter((prev) => {
       return {
         ...prev,
-        [keyToRemove]: TEMPLATE_SEARCH_DEFAULT_FILTER[keyToRemove],
+        [keyToRemove]: JSON.parse(
+          JSON.stringify(TEMPLATE_SEARCH_DEFAULT_FILTER)
+        )[keyToRemove],
       };
     });
   };
@@ -397,10 +424,13 @@ const TemplateLibrary: React.FC = () => {
    * @returns {void}
    */
   const handleFilterClearAll = () => {
-    //destructure and set default data
-    //fixes issue of value cached in template searchbar
-    //TODO: Do an RCA on the issue
-    setTemplateFilter({ ...TEMPLATE_SEARCH_DEFAULT_FILTER });
+    setTemplateFilter(
+      JSON.parse(JSON.stringify(TEMPLATE_SEARCH_DEFAULT_FILTER))
+    );
+    setSelectedDirectory(null);
+    setExpandedDirectories([]);
+    setIsGoToFolderVisible(true);
+    setTableData({ data: [], pagination: defaultPagination });
   };
 
   /**
@@ -427,19 +457,9 @@ const TemplateLibrary: React.FC = () => {
   };
 
   useEffect(() => {
-    let data = null;
-    if (selectedDirectory?.reportLibraryId !== undefined) {
-      data = reportsList;
-    } else if (selectedDirectory?.libraryId !== undefined) {
-      data = templatesList;
-    }
-    setTableData(data);
-  }, [
-    reportsList,
-    templatesList,
-    selectedDirectory?.reportLibraryId,
-    selectedDirectory?.libraryId,
-  ]);
+    if (isNonEmptyValue(filteredTemplateList))
+      setTableData(filteredTemplateList);
+  }, [filteredTemplateList]);
 
   useEffect(() => {
     if (isNonEmptyValue(tableData?.pagination)) {
@@ -449,6 +469,16 @@ const TemplateLibrary: React.FC = () => {
       }));
     }
   }, [tableData]);
+
+  useEffect(() => {
+    if (!isNonEmptyValue(templateFilter?.selectedSort)) return;
+    const isSortSelected = Object.values(templateFilter?.selectedSort).some(
+      (item) => isNonEmptyValue(item?.fieldName) && isNonEmptyValue(item?.value)
+    );
+    if (!isSortSelected) return;
+    handleFilterSubmit(templateFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateFilter?.selectedSort, selectedDirectory]);
 
   useEffect(() => {
     setIsTableDataLoading(isTemplatesLoading);
@@ -655,6 +685,9 @@ const TemplateLibrary: React.FC = () => {
                     handlePaginationChange={handlePaginationChange}
                     isGoToFolderVisible={isGoToFolderVisible}
                     onGoToFolderClick={handleGoToFolderClick}
+                    filteredTemplateList={filteredTemplateList}
+                    templateFilter={templateFilter}
+                    setTemplateFilter={setTemplateFilter}
                   />
                   <ShowAllTemplatesInFolder
                     isVisible={isBasicFilterShowAllTemplatesVisible}
