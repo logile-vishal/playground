@@ -1,31 +1,21 @@
 import { useState, type FC } from "react";
-import ReactQuill from "react-quill-new";
 
 import {
   Attachment,
   CurlyBracket,
-  EditorBold,
   EditorClearFormat,
-  EditorItalic,
   EditorLink,
-  EditorUnderline,
 } from "@/core/constants/icons";
 import CSvgIcon from "@/core/components/icon/Icon";
-
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import CIconButton from "@/core/components/button/IconButton";
 import CAttachmentModal from "@/core/components/attachment-modal/AttachmentModal";
+import type { ToolbarProps } from "@/core/components/form/types/rich-text-editor.type";
+import "@/core/components/button/button.scss";
+import clsx from "@/utils/clsx";
 
 import "./RichTextEditor.scss";
 import LinkModal from "./components/link-modal/LinkModal";
-
-export type ToolbarProps = {
-  quillRef: React.RefObject<ReactQuill>;
-  attachments?: File[];
-  onUpdateAttachments?: (files: File[]) => void;
-  onVariableButtonClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  walkMeIdPrefix?: string[];
-};
 
 /**
  * @component Toolbar
@@ -39,6 +29,8 @@ const Toolbar: FC<ToolbarProps> = ({
   onUpdateAttachments = () => {},
   onVariableButtonClick,
   walkMeIdPrefix = [],
+  showOnlyWildcard,
+  toolbarId,
 }) => {
   const { EDITOR_TOOLBAR } = useCommonTranslation();
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
@@ -49,42 +41,6 @@ const Toolbar: FC<ToolbarProps> = ({
     selection: null,
   });
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
-
-  /**
-   * @method handleBold
-   * @description Applies bold formatting to selected text
-   * @return {void}
-   */
-  const handleBold = () => {
-    if (!quillRef.current) return;
-    const editor = quillRef.current.getEditor();
-    const format = editor.getFormat();
-    editor.format("bold", !format.bold);
-  };
-
-  /**
-   * @method handleItalic
-   * @description Applies italic formatting to selected text
-   * @return {void}
-   */
-  const handleItalic = () => {
-    if (!quillRef.current) return;
-    const editor = quillRef.current.getEditor();
-    const format = editor.getFormat();
-    editor.format("italic", !format.italic);
-  };
-
-  /**
-   * @method handleUnderline
-   * @description Applies underline formatting to selected text
-   * @return {void}
-   */
-  const handleUnderline = () => {
-    if (!quillRef.current) return;
-    const editor = quillRef.current.getEditor();
-    const format = editor.getFormat();
-    editor.format("underline", !format.underline);
-  };
 
   /**
    * @method handleLink
@@ -217,35 +173,54 @@ const Toolbar: FC<ToolbarProps> = ({
   return (
     <>
       <div
-        id="toolbar"
-        className="ql-toolbar ql-snow"
+        id={toolbarId}
+        className={clsx({
+          "ql-toolbar": true,
+          "ql-snow": true,
+          "button-wrapper": true,
+        })}
       >
+        <button
+          className={clsx({
+            "ql-bold button": true,
+            "button--secondary": true,
+            "button--ghost": true,
+            "button--compact": true,
+            "icon-button": true,
+            "icon-button--compact": true,
+            "icon-button--ghost": true,
+            "toolbar-hidden": showOnlyWildcard,
+          })}
+        ></button>
+        <button
+          className={clsx({
+            "ql-italic button": true,
+            "button--secondary": true,
+            "button--ghost": true,
+            "button--compact": true,
+            "icon-button": true,
+            "icon-button--compact": true,
+            "icon-button--ghost": true,
+            "toolbar-hidden": showOnlyWildcard,
+          })}
+        ></button>
+        <button
+          className={clsx({
+            "ql-underline button": true,
+            "button--secondary": true,
+            "button--ghost": true,
+            "button--compact": true,
+            "icon-button": true,
+            "icon-button--compact": true,
+            "icon-button--ghost": true,
+            "toolbar-hidden": showOnlyWildcard,
+          })}
+        ></button>
         <CIconButton
-          size="small"
-          onClick={handleBold}
-          title={EDITOR_TOOLBAR.bold}
-          walkMeId={[...walkMeIdPrefix, "rich text editor", "bold button"]}
-        >
-          <CSvgIcon component={EditorBold} />
-        </CIconButton>
-        <CIconButton
-          size="small"
-          onClick={handleItalic}
-          title={EDITOR_TOOLBAR.italic}
-          walkMeId={[...walkMeIdPrefix, "rich text editor", "italic button"]}
-        >
-          <CSvgIcon component={EditorItalic} />
-        </CIconButton>
-        <CIconButton
-          size="small"
-          onClick={handleUnderline}
-          title={EDITOR_TOOLBAR.underline}
-          walkMeId={[...walkMeIdPrefix, "rich text editor", "underline button"]}
-        >
-          <CSvgIcon component={EditorUnderline} />
-        </CIconButton>
-        <CIconButton
-          size="small"
+          size="compact"
+          className={clsx({
+            "toolbar-hidden": showOnlyWildcard,
+          })}
           onClick={handleLink}
           title={EDITOR_TOOLBAR.link}
           walkMeId={[...walkMeIdPrefix, "rich text editor", "link button"]}
@@ -253,7 +228,8 @@ const Toolbar: FC<ToolbarProps> = ({
           <CSvgIcon component={EditorLink} />
         </CIconButton>
         <CIconButton
-          size="small"
+          size="compact"
+          className={clsx({ "toolbar-hidden": showOnlyWildcard })}
           onClick={handleAttachment}
           title={EDITOR_TOOLBAR.attachment}
           walkMeId={[
@@ -265,7 +241,8 @@ const Toolbar: FC<ToolbarProps> = ({
           <CSvgIcon component={Attachment} />
         </CIconButton>
         <CIconButton
-          size="small"
+          size="compact"
+          className={clsx({ "toolbar-hidden": showOnlyWildcard })}
           onClick={handleClearFormat}
           title={EDITOR_TOOLBAR.clearFormat}
           walkMeId={[
@@ -277,7 +254,8 @@ const Toolbar: FC<ToolbarProps> = ({
           <CSvgIcon component={EditorClearFormat} />
         </CIconButton>
         <CIconButton
-          size="small"
+          size="compact"
+          className={clsx({ "toolbar-visible": showOnlyWildcard })}
           onClick={onVariableButtonClick}
           title={EDITOR_TOOLBAR.wildcard}
           walkMeId={[...walkMeIdPrefix, "rich text editor", "wildcard button"]}

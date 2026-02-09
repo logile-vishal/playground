@@ -16,6 +16,8 @@ export type RichTextEditorProps = MandatoryFormElementProps &
     onVariableInserted?: (variable: string) => void;
     helperText?: string;
     isInlineLabel?: boolean;
+    showOnlyWildcard?: boolean;
+    className?: string;
   };
 
 export type WildcardVariable = {
@@ -28,4 +30,14 @@ export type WildcardVariableManagerProps = {
   variables?: WildcardVariable[];
   nestedMenuProps?: NestedMenuProps;
   onVariableInserted?: (variable: string) => void;
+};
+
+export type ToolbarProps = {
+  quillRef: React.RefObject<ReactQuill>;
+  attachments?: File[];
+  onUpdateAttachments?: (files: File[]) => void;
+  onVariableButtonClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  walkMeIdPrefix?: string[];
+  showOnlyWildcard?: boolean;
+  toolbarId?: string;
 };

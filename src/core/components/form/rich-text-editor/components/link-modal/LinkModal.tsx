@@ -6,14 +6,9 @@ import CModal, { ModalBody, ModalFooter } from "@/core/components/modal/Modal";
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import CTextfield from "@/core/components/form/textfield/Textfield";
 import { useWalkmeId } from "@/core/hooks/useWalkmeId";
+import type { LinkModalProps } from "@/core/types/rich-text-editor.type";
 
-type LinkModalProps = {
-  data: { text: string; link: string };
-  showLinkModal: boolean;
-  handleLinkClose: () => void;
-  handleLinkSubmit: (text: string, link: string) => void;
-  walkMeIdPrefix?: string[];
-};
+import "./LinkModal.scss";
 
 /**
  * @component LinkModal

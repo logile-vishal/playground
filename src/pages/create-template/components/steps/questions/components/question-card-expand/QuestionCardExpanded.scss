@@ -73,6 +73,7 @@
 
   &__basic-tab-content {
     @include flex-box(column);
+    gap: var(--space-l);
     padding: var(--space-2xl) var(--space-xl);
   }
   &__question-header {

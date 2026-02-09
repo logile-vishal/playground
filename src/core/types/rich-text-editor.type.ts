@@ -57,3 +57,11 @@ export type RenderPdfGalleryProps = {
   onDelete: (index: number) => void;
   walkMeIdPrefix?: string[];
 };
+
+export type LinkModalProps = {
+  data: { text: string; link: string };
+  showLinkModal: boolean;
+  handleLinkClose: () => void;
+  handleLinkSubmit: (text: string, link: string) => void;
+  walkMeIdPrefix?: string[];
+};

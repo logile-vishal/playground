@@ -1,6 +1,7 @@
 import { vi } from "vitest";
-import type { ToolbarProps } from "../../Toolbar";
 import type ReactQuill from "react-quill-new";
+
+import type { ToolbarProps } from "@/core/components/form/types/rich-text-editor.type";
 
 /**
  * Mock File for Toolbar Component Tests

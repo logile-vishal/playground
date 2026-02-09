@@ -30,7 +30,9 @@ const createWildcardRegex = (): RegExp => {
  */
 const calculateContentLength = (contents: Record<string, unknown>): number => {
   const ops =
-    (contents.ops as Array<{ insert: string | Record<string, unknown> }>) || [];
+    (contents.ops as Array<{
+      insert: string | Record<string, unknown>;
+    }>) || [];
   let length = 0;
   for (const op of ops) {
     if (typeof op.insert === "string") {
@@ -66,6 +68,12 @@ const useWildcardVariableManager = ({
   const processingWildcardRef = useRef(false);
   const lastInsertedVariableRef = useRef<string | null>(null);
   const isWildcardClickRef = useRef(false);
+  const quillTextChangeRef = useRef(false);
+  const formatStateRef = useRef({
+    bold: false,
+    italic: false,
+    underline: false,
+  });
 
   /**
    * @method detectAndReplaceWildcards
@@ -79,6 +87,11 @@ const useWildcardVariableManager = ({
 
     try {
       const editor = quillRef.current.getEditor();
+      const text = editor.getText();
+
+      // Early return if no wildcard marker present
+      if (!text.includes("%")) return;
+
       const regex = createWildcardRegex();
 
       if (!regex.source || regex.source === "") return;
@@ -393,21 +406,76 @@ const useWildcardVariableManager = ({
    * @method getEditorModules
    * @description Returns the Quill editor modules configuration
    * Includes custom keyboard bindings for wildcard-aware backspace handling
+   * @param {string} toolbarId - Dynamic toolbar ID for this editor instance
    * @return {Object} Quill modules configuration
    */
-  const getEditorModules = useCallback(() => {
-    return {
-      toolbar: { container: "#toolbar" },
-      keyboard: {
-        bindings: {
-          backspaceWildcard: {
-            key: "Backspace",
-            handler: getWildcardAwareBackspaceHandler(),
+  const getEditorModules = useCallback(
+    (toolbarId: string) => {
+      return {
+        toolbar: {
+          container: `#${toolbarId}`,
+          handlers: {
+            bold: function () {
+              const selection = this.quill.getSelection();
+              if (!selection) return;
+              const format = this.quill.getFormat(selection);
+              const newValue = !format?.bold;
+              formatStateRef.current.bold = newValue;
+              this.quill.format("bold", newValue);
+            },
+            italic: function () {
+              const selection = this.quill.getSelection();
+              if (!selection) return;
+              const format = this.quill.getFormat(selection);
+              const newValue = !format?.italic;
+              formatStateRef.current.italic = newValue;
+              this.quill.format("italic", newValue);
+            },
+            underline: function () {
+              const selection = this.quill.getSelection();
+              if (!selection) return;
+              const format = this.quill.getFormat(selection);
+              const newValue = !format?.underline;
+              formatStateRef.current.underline = newValue;
+              this.quill.format("underline", newValue);
+            },
           },
         },
-      },
-    };
-  }, [getWildcardAwareBackspaceHandler]);
+        clipboard: {
+          matchVisual: false,
+        },
+        keyboard: {
+          bindings: {
+            backspaceWildcard: {
+              key: "Backspace",
+              handler: getWildcardAwareBackspaceHandler(),
+            },
+            customSpace: {
+              key: " ",
+              handler: function (range) {
+                const currentFormat = this.quill.getFormat(range);
+                if (
+                  !currentFormat.bold &&
+                  !currentFormat.italic &&
+                  !currentFormat.underline
+                ) {
+                  quillTextChangeRef.current = true;
+                  this.quill.insertText(range.index, " ", {});
+                  this.quill.setSelection(range.index + 1, 0);
+                  setTimeout(() => {
+                    quillTextChangeRef.current = false;
+                  }, 0);
+                  return false;
+                }
+                return true;
+              },
+            },
+          },
+        },
+      };
+    },
+    [getWildcardAwareBackspaceHandler]
+  );
 
   /**
    * @method renderVariableDropdown
@@ -448,6 +516,7 @@ const useWildcardVariableManager = ({
     variableAnchorEl,
     setVariableAnchorEl,
     getEditorModules,
+    quillTextChangeRef,
   };
 };
 

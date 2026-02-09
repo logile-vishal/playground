@@ -1,6 +1,7 @@
 import { useRef, useEffect, type FC, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { v4 as uuidv4 } from "uuid";
 import { Box } from "@mui/material";
 
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -31,23 +32,16 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
   label,
   required,
   isInlineLabel,
+  showOnlyWildcard = false,
+  className = "",
 }) => {
   const [attachmentPreviewModal, setAttachmentPreviewModal] = useState({
     show: false,
     file: null as File | null,
   });
   const [isUserInput, setIsUserInput] = useState(false);
-  /**
-   * @method CRichTextEditor
-   * @description Rich text editor with custom toolbar, formatting tools, and wildcard variable support
-   * @param {Object} props - Component props
-   * @param {string} [props.value] - Editor content value
-   * @param {Function} props.onChange - Callback when editor content changes
-   * @param {Array} [props.variables] - Custom wildcard variables to display in dropdown
-   * @param {Function} [props.onVariableInserted] - Callback when a variable is inserted
-   * @return {React.ReactNode} Editor container JSX element
-   */
   const quillRef = useRef<ReactQuill>(null);
+  const toolbarIdRef = useRef<string>(`toolbar-${uuidv4()}`);
 
   // Use custom variables if provided, otherwise use default
   const VARIABLES_OPTIONS = customVariables || WILDCARD_LIST;
@@ -61,6 +55,7 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
     setShowDropdown,
     setVariableAnchorEl,
     getEditorModules,
+    quillTextChangeRef,
   } = useWildcardVariableManager({
     quillRef,
     variables: VARIABLES_OPTIONS,
@@ -140,13 +135,19 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
     _delta: unknown,
     source: string
   ) => {
+    if (quillTextChangeRef.current) {
+      return;
+    }
+
     // Only call onChange if the change is from user
     if (source === "user") {
       setIsUserInput(true);
     }
     if (!isUserInput && source !== "user") return;
     // Process wildcard patterns
-    handleWildcardTextChange();
+    if (content.includes("%")) {
+      handleWildcardTextChange();
+    }
 
     // Replace label text with wildcard values for backend
     let contentWithWildCardValue = content;
@@ -252,6 +253,7 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
           "editor--inline-label": Boolean(isInlineLabel),
           "editor--required": Boolean(required),
           "editor-with-helper-text": Boolean(helperText),
+          [className]: !!className,
         })}
       >
         <Box className="editor__body">
@@ -260,6 +262,7 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
             <Box
               className={clsx({
                 "editor__body-content-outlined": true,
+                "editor__body-content-outlined-wildcard": showOnlyWildcard,
               })}
             >
               {/* Quill Editor */}
@@ -267,10 +270,9 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
                 ref={quillRef}
                 defaultValue={value}
                 onChange={handleEditorChange}
-                modules={getEditorModules()}
+                modules={getEditorModules(toolbarIdRef.current)}
                 theme="snow"
                 placeholder={placeholder}
-                value={value}
               />
               <Toolbar
                 quillRef={quillRef}
@@ -278,19 +280,21 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
                 attachments={attachments}
                 onUpdateAttachments={onUpdateAttachments}
                 walkMeIdPrefix={walkMeIdPrefix}
+                showOnlyWildcard={showOnlyWildcard}
+                toolbarId={toolbarIdRef.current}
               />
 
               {/* Variables Dropdown */}
               {renderVariableDropdown()}
             </Box>
-            {
-              <Box className="editor__body-content-helper-text">
-                {helperText}
-              </Box>
-            }
           </div>
+          {helperText && (
+            <Box className="editor__body-content-helper-text">{helperText}</Box>
+          )}
         </Box>
-        <Box className="editor__footer">{renderAttachments()}</Box>
+        {attachments && attachments?.length > 0 && (
+          <Box className="editor__footer">{renderAttachments()}</Box>
+        )}
       </Box>
       <AttachmentPreviewModal
         attachmentPreviewModal={attachmentPreviewModal}

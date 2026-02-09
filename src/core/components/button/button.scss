@@ -1,3 +1,5 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
 /**
  * Button Component Styles
  * 
@@ -217,11 +219,10 @@
      * Square button containing only an icon
      */
     &.icon-button {
+      @include flex-center(center, center, var(--space-none));
       border-radius: var(--radius-m);
       padding: 0;
       min-width: fit-content;
-      display: flex;
-      align-items: center;
     }
 
     /**
@@ -267,10 +268,12 @@
 
       svg {
         height: calc(var(--size-4) + var(--size-0-2));
+        width: calc(var(--size-4) + var(--size-0-2));
       }
 
       &.icon-button {
         width: var(--size-8);
+        height: var(--size-8);
       }
     }
 
@@ -288,10 +291,12 @@
 
       svg {
         height: calc(var(--size-5) + var(--size-0-2));
+        width: calc(var(--size-5) + var(--size-0-2));
       }
 
       &.icon-button {
         width: var(--size-9);
+        height: var(--size-9);
       }
     }
 
@@ -309,10 +314,12 @@
 
       svg {
         height: var(--size-6);
+        width: var(--size-6);
       }
 
       &.icon-button {
         width: var(--size-10);
+        height: var(--size-10);
       }
     }
 
@@ -330,10 +337,12 @@
 
       svg {
         height: var(--size-5);
+        width: var(--size-5);
       }
 
       &.icon-button {
         width: var(--size-6);
+        height: var(--size-6);
       }
     }
   }

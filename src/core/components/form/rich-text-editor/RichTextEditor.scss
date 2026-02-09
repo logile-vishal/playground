@@ -21,19 +21,31 @@
         width: 100%;
         border: none;
         border-radius: var(--radius-m);
-        border: 1px solid var(--logile-border-secondary);
+        border: 1px solid var(--logile-border-primary);
         background: var(--logile-bg-container-1);
+        &-wildcard {
+          display: flex;
+          .quill {
+            flex: 1;
+          }
+        }
         .quill {
           height: 100%;
         }
-        #toolbar {
-          @include flex-center(flex-end, center, var(--space-none));
+        .ql-toolbar {
+          @include flex-center(flex-end, center, var(--space-s));
           border: none;
           border-radius: var(--radius-m);
           padding: 0 var(--space-m) var(--space-m);
           right: 0;
           bottom: 0;
           background: var(--logile-bg-container-1);
+          .toolbar-hidden {
+            display: none;
+          }
+          .toolbar-visible {
+            margin-top: var(--space-m);
+          }
         }
         .ql-container {
           border: none;
@@ -63,6 +75,11 @@
           color: var(--logile-text-primary);
           font-size: var(--logile-size-body);
           line-height: var(--logile-line-height-body);
+        }
+
+        .ql-stroke {
+          stroke: var(--btn-ghost-icon-color);
+          stroke-width: 1.6;
         }
 
         .ql-editor > p {
@@ -106,6 +123,8 @@
           font-family: var(--logile-family-body-family);
           font-size: var(--logile-size-body);
           font-weight: var(--logile-weight-400);
+          left: var(--size-2);
+          font-style: normal;
         }
 
         .toolbar-custom-icons {
@@ -166,7 +185,32 @@
     }
     .editor__body-label {
       @include form-label($required: true);
+      position: relative;
     }
+  }
+
+  // Show cursor in empty editor
+  .ql-editor.ql-blank > p {
+    display: block;
+  }
+
+  // Show cursor on empty lines (when user presses Enter)
+  // Target p tags that only contain a br (empty line)
+  .ql-editor > p:has(> br:only-child) {
+    display: block;
+  }
+
+  .editor__body-content-outlined:hover {
+    border-color: var(--logile-border-bold-subtle);
+  }
+  .editor__body-content-outlined:disabled {
+    border: 1px solid var(--logile-text-state-disabled);
+  }
+  .editor__body-content:focus-within {
+    box-shadow:
+      0 0 0 var(--size-0-2) var(--logile-bg-container-1),
+      0 0 0 var(--size-1) var(--logile-focus-ring-default);
+    border-radius: var(--radius-m);
   }
 
   &--error {
@@ -175,9 +219,16 @@
     }
     .editor__body-content-helper-text {
       @include helper-text($error: true);
+      margin-top: calc(var(--space-m) * -1);
     }
     .editor__body-content-outlined {
       border-color: var(--logile-border-state-violation);
+    }
+    .editor__body-content:focus-within {
+      box-shadow:
+        0 0 0 var(--size-0-2) var(--logile-bg-container-1),
+        0 0 0 var(--size-1) var(--logile-focus-ring-error);
+      border-radius: var(--radius-m);
     }
   }
 }
