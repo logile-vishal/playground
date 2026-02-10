@@ -1,0 +1,85 @@
+.draggable-item {
+  --is-drag-over-bg-color: rgba(0, 123, 255, 0.02);
+  position: relative;
+
+  &.dragging {
+    z-index: var(--zindex-m);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  &.is-over {
+    background-color: var(--is-drag-over-bg-color);
+  }
+}
+
+// Drop Indicator Styles
+.drop-indicator {
+  --indicator-height: 5px;
+  --indicator-color: var(--logile-bg-primary);
+  --indicator-circle-end-size: 8px;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--indicator-height);
+  background-color: var(--indicator-color);
+  border-radius: var(--radius-xxs);
+  z-index: var(--zindex-s);
+  pointer-events: none;
+  animation: indicator-pulse 1s ease-in-out infinite;
+
+  // Circle indicators at the ends
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: var(--indicator-circle-end-size);
+    height: var(--indicator-circle-end-size);
+    background-color: var(--logile-bg-primary);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &::before {
+    left: -4px;
+  }
+
+  &::after {
+    right: -4px;
+  }
+
+  // Position above the element
+  &--above {
+    top: -0px;
+  }
+
+  // Position below the element
+  &--below {
+    bottom: -0px;
+  }
+}
+
+// Pulse animation for the indicator
+@keyframes indicator-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 8px 2px rgba(0, 123, 255, 0.2);
+  }
+}
+
+// Drag handle styles
+.drag-handle {
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}

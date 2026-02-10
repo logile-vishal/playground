@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Badge, Box } from "@mui/material";
 import { Controller } from "react-hook-form";
 import type { FieldValues, Control } from "react-hook-form";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 
 import {
   AddIcon,
@@ -36,9 +37,15 @@ import CSelect from "@/core/components/form/select";
 import { useNotification } from "@/core/services/notification.service";
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import { Severity } from "@/core/types/severity.type";
+import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
+import {
+  CDragAndDrop,
+  CSortableItem,
+  CSortableContainer,
+} from "@/core/components/drag-drop";
+import TriggerMenu from "../trigger-menu/TriggerMenu";
 
 import "./QuestionCardOptions.scss";
-import TriggerMenu from "../trigger-menu/TriggerMenu";
 
 /**
  * @method QuestionCardOption
@@ -162,186 +169,198 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     setFormValue("questions", questionList);
   };
   return (
-    <Box className="ques-card-options">
-      <Box className="ques-card-options__dnd">
-        <CSvgIcon
-          size={24}
-          component={DraggableDots}
-          color="secondary"
-        />
-      </Box>
+    <CSortableItem
+      id={String(props.idx)}
+      enableCustomDragHandle={true}
+    >
+      {(dragHandleContext: DragHandleProps) => (
+        <Box className="ques-card-options">
+          <Box
+            className="ques-card-options__dnd"
+            {...dragHandleContext.attributes}
+            {...dragHandleContext.listeners}
+          >
+            <CSvgIcon
+              size={24}
+              component={DraggableDots}
+              color="secondary"
+            />
+          </Box>
 
-      <Box className="ques-card-options__textbox">
-        {control && (
-          <Controller
-            name={`${props?.questionFormPath}.${props?.idx}.title`}
-            control={control as unknown as Control<FieldValues>}
-            render={({ field, fieldState: { error } }) => {
-              return (
-                <CTextField
-                  required={false}
-                  placeholder={`${QUESTION_OPTION.optionInputPlaceholder}`}
-                  error={!!error}
-                  helperText={error ? error.message : ""}
-                  {...field}
-                />
-              );
-            }}
-          />
-        )}
-      </Box>
-
-      <Box className="ques-card-options__dropdown">
-        <Controller
-          name={`${props?.questionFormPath}.${props?.idx}.isCompliant`}
-          control={control as unknown as Control<FieldValues>}
-          render={({ field }) => {
-            return (
-              <CSelect
-                options={(CompliantOptions as []) ?? []}
-                optionLabelKey={"label"}
-                {...field}
-                onChange={handleCompliantChange}
-                templates={{
-                  inputValueTemplate: () => getIsCompliantValue(field?.value),
-                }}
-                allowFilter={false}
-                IconComponent={(sel) => (
-                  <Box
-                    className={clsx({
-                      [sel?.className]: !!sel.className,
-                    })}
-                  >
-                    <CSvgIcon
-                      component={ChevronDown}
-                      size={18}
-                      color="secondary"
+          <Box className="ques-card-options__textbox">
+            {control && (
+              <Controller
+                name={`${props?.questionFormPath}.${props?.idx}.title`}
+                control={control as unknown as Control<FieldValues>}
+                render={({ field, fieldState: { error } }) => {
+                  return (
+                    <CTextField
+                      required={false}
+                      placeholder={`${QUESTION_OPTION.optionInputPlaceholder}`}
+                      error={!!error}
+                      helperText={error ? error.message : ""}
+                      {...field}
                     />
-                  </Box>
-                )}
+                  );
+                }}
               />
-            );
-          }}
-        />
-      </Box>
+            )}
+          </Box>
 
-      <Box className="ques-card-options__dropdown">
-        <Controller
-          name={`${props?.questionFormPath}.${props?.idx}.additionalInfo.requiredType`}
-          control={control as unknown as Control<FieldValues>}
-          render={({ field }) => {
-            return (
-              <CSelect
-                options={AdditionalOptions ?? []}
-                optionLabelKey={"label"}
-                optionValueKey={"value"}
-                allowFilter={false}
-                {...field}
-                templates={{
-                  inputValueTemplate: () =>
-                    getAdditionalInfoValue(field?.value),
-                }}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  handleAdditionalInfoChange(e.target.value as string);
-                }}
-                IconComponent={(sel) => (
-                  <Box
-                    className={clsx({
-                      [sel?.className]: !!sel.className,
-                    })}
-                  >
-                    <CSvgIcon
-                      component={ChevronDown}
-                      size={18}
-                      color="secondary"
-                    />
-                  </Box>
-                )}
+          <Box className="ques-card-options__dropdown">
+            <Controller
+              name={`${props?.questionFormPath}.${props?.idx}.isCompliant`}
+              control={control as unknown as Control<FieldValues>}
+              render={({ field }) => {
+                return (
+                  <CSelect
+                    options={(CompliantOptions as []) ?? []}
+                    optionLabelKey={"label"}
+                    {...field}
+                    onChange={handleCompliantChange}
+                    templates={{
+                      inputValueTemplate: () =>
+                        getIsCompliantValue(field?.value),
+                    }}
+                    allowFilter={false}
+                    IconComponent={(sel) => (
+                      <Box
+                        className={clsx({
+                          [sel?.className]: !!sel.className,
+                        })}
+                      >
+                        <CSvgIcon
+                          component={ChevronDown}
+                          size={18}
+                          color="secondary"
+                        />
+                      </Box>
+                    )}
+                  />
+                );
+              }}
+            />
+          </Box>
+
+          <Box className="ques-card-options__dropdown">
+            <Controller
+              name={`${props?.questionFormPath}.${props?.idx}.additionalInfo.requiredType`}
+              control={control as unknown as Control<FieldValues>}
+              render={({ field }) => {
+                return (
+                  <CSelect
+                    options={AdditionalOptions ?? []}
+                    optionLabelKey={"label"}
+                    optionValueKey={"value"}
+                    allowFilter={false}
+                    {...field}
+                    templates={{
+                      inputValueTemplate: () =>
+                        getAdditionalInfoValue(field?.value),
+                    }}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      handleAdditionalInfoChange(e.target.value as string);
+                    }}
+                    IconComponent={(sel) => (
+                      <Box
+                        className={clsx({
+                          [sel?.className]: !!sel.className,
+                        })}
+                      >
+                        <CSvgIcon
+                          component={ChevronDown}
+                          size={18}
+                          color="secondary"
+                        />
+                      </Box>
+                    )}
+                  />
+                );
+              }}
+            />
+          </Box>
+          <CIconButton
+            onClick={openTriggerCardMenu}
+            size="medium"
+            walkMeId={[
+              "create-template",
+              "questions",
+              "options-list",
+              "attachment-link",
+            ]}
+          >
+            <Badge
+              className="attachment-badge"
+              badgeContent={
+                (watchNotificationForm?.length || 0) +
+                  (watchFollowUpTaskForm?.length || 0) || 0
+              }
+              color="info"
+              overlap="rectangular"
+            >
+              <CSvgIcon
+                className={clsx({
+                  "ques-card-options__active-icon":
+                    props.linkCount && props.linkCount > 0,
+                  "ques-card-options__disabled-icon":
+                    !props.linkCount || props.linkCount === 0,
+                })}
+                component={AttachmentLink}
               />
-            );
-          }}
-        />
-      </Box>
-      <CIconButton
-        onClick={openTriggerCardMenu}
-        size="medium"
-        walkMeId={[
-          "create-template",
-          "questions",
-          "options-list",
-          "attachment-link",
-        ]}
-      >
-        <Badge
-          className="attachment-badge"
-          badgeContent={
-            (watchNotificationForm?.length || 0) +
-              (watchFollowUpTaskForm?.length || 0) || 0
-          }
-          color="info"
-          overlap="rectangular"
-        >
-          <CSvgIcon
-            className={clsx({
-              "ques-card-options__active-icon":
-                props.linkCount && props.linkCount > 0,
-              "ques-card-options__disabled-icon":
-                !props.linkCount || props.linkCount === 0,
-            })}
-            component={AttachmentLink}
+            </Badge>
+          </CIconButton>
+          <CIconButton
+            size="medium"
+            walkMeId={[
+              "create-template",
+              "questions",
+              "options-list",
+              "option-settings",
+            ]}
+            onClick={() => props?.onAnswerOptionSettingsOpen(props?.idx)}
+          >
+            <CSvgIcon component={Setting} />
+          </CIconButton>
+          {props?.question?.questionBasicData?.response?.length > 1 && (
+            <CIconButton
+              onClick={() => handleDeleteOption(props?.idx)}
+              size="medium"
+              severity="destructive"
+              walkMeId={[
+                "create-template",
+                "questions",
+                "options-list",
+                "option-delete",
+              ]}
+            >
+              <CSvgIcon
+                className="ques-card-options__delete-icon"
+                component={Delete}
+              />
+            </CIconButton>
+          )}
+
+          {triggerCardMenu?.anchor && renderTriggerCardMenu()}
+
+          {/* TODO: Remove sample data after api integration */}
+          <TriggerModal
+            type={triggerCardModal.type}
+            data={
+              triggerCardModal.type === TRIGGER_TYPE.followup
+                ? followupSampleData
+                : notificationSampleData
+            }
+            showModal={triggerCardModal.status}
+            handleCloseModal={closeTriggerCardModal}
+            walkMeIdPrefix={[
+              "create template",
+              "question options",
+              "trigger modal",
+            ]}
           />
-        </Badge>
-      </CIconButton>
-      <CIconButton
-        size="medium"
-        walkMeId={[
-          "create-template",
-          "questions",
-          "options-list",
-          "option-settings",
-        ]}
-        onClick={() => props?.onAnswerOptionSettingsOpen(props?.idx)}
-      >
-        <CSvgIcon component={Setting} />
-      </CIconButton>
-      {props?.question?.questionBasicData?.response?.length > 1 && (
-        <CIconButton
-          onClick={() => handleDeleteOption(props?.idx)}
-          size="medium"
-          severity="destructive"
-          walkMeId={[
-            "create-template",
-            "questions",
-            "options-list",
-            "option-delete",
-          ]}
-        >
-          <CSvgIcon
-            className="ques-card-options__delete-icon"
-            component={Delete}
-          />
-        </CIconButton>
+        </Box>
       )}
-
-      {triggerCardMenu?.anchor && renderTriggerCardMenu()}
-
-      {/* TODO: Remove sample data after api integration */}
-      <TriggerModal
-        type={triggerCardModal.type}
-        data={
-          triggerCardModal.type === TRIGGER_TYPE.followup
-            ? followupSampleData
-            : notificationSampleData
-        }
-        showModal={triggerCardModal.status}
-        handleCloseModal={closeTriggerCardModal}
-        walkMeIdPrefix={[
-          "create template",
-          "question options",
-          "trigger modal",
-        ]}
-      />
-    </Box>
+    </CSortableItem>
   );
 };
 
@@ -373,48 +392,89 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
     if (props.question?.questionBasicData?.response)
       addNewOption(props.question?.qId);
   };
-  return (
-    <Box
-      className={clsx({
-        "ques-card-options-component": true,
-        "ques-card-options-component__option-collapsed": !props.isVisible,
-      })}
-    >
-      {props?.question?.questionBasicData?.response?.length === 0 && (
-        <Box className="ques-card-options--error">
-          {QUESTION_OPTION.errorTextNoOptions}
-        </Box>
-      )}
-      {isNonEmptyValue(props?.question?.questionBasicData?.response)
-        ? props?.question?.questionBasicData?.response?.map((_, idx) => (
-            <QuestionCardOption
-              key={props?.question.qId + "_option_" + idx}
-              idx={idx}
-              questionFormPath={props.questionFormPath}
-              question={props.question}
-              linkCount={0}
-              onAnswerOptionSettingsOpen={props.onAnswerOptionSettingsOpen}
-            />
-          ))
-        : ""}
 
-      {/* <QuestionCardOption /> */}
-      <Box className="ct-questions-cards-wrapper__action">
-        <CButton
-          className="ct-questions-cards-wrapper__action-item"
-          variant="outline"
-          severity="primary"
-          size="small"
-          onClick={handleAddOption}
-        >
-          <CSvgIcon
-            size={15}
-            component={AddIcon}
+  const handleDragStart = (event: DragStartEvent) => {
+    console.log("Drag started:", event);
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    console.log("Drag ended:", event);
+  };
+  const findOptionById = (id: string) => {
+    return props.question?.questionBasicData?.response?.find(
+      (option) => option.title === id
+    );
+  };
+
+  const optionsData = props?.question?.questionBasicData?.response;
+
+  return (
+    <CDragAndDrop
+      callbacks={{
+        onDragStart: handleDragStart,
+        onDragEnd: handleDragEnd,
+      }}
+      renderDragOverlay={(activeId) => {
+        const foundOption = findOptionById(String(activeId)); //TODO: CHECK ONCE OPTION ID HAS BEEN SET
+        return foundOption ? (
+          <QuestionCardOption
+            key={props?.question.qId + "_option_" + 0}
+            idx={0}
+            questionFormPath={props.questionFormPath}
+            question={props.question}
+            linkCount={0}
           />
-          {QUESTION_OPTION.addOptionButtonLabel}
-        </CButton>
-      </Box>
-    </Box>
+        ) : null;
+      }}
+      restrictToVertical={true}
+    >
+      <CSortableContainer
+        sortableIds={optionsData?.map((q) => String(q.title))} //TODO: REPLACE WITH ID POST DISCUSSIONS
+        id="questions-root-container"
+      >
+        <Box
+          className={clsx({
+            "ques-card-options-component": true,
+            "ques-card-options-component__option-collapsed": !props.isVisible,
+          })}
+        >
+          {optionsData?.length === 0 && (
+            <Box className="ques-card-options--error">
+              {QUESTION_OPTION.errorTextNoOptions}
+            </Box>
+          )}
+          {isNonEmptyValue(optionsData)
+            ? props?.question?.questionBasicData?.response?.map((_, idx) => (
+                <QuestionCardOption
+                  key={props?.question.qId + "_option_" + idx}
+                  idx={idx}
+                  questionFormPath={props.questionFormPath}
+                  question={props.question}
+                  linkCount={0}
+                  onAnswerOptionSettingsOpen={props.onAnswerOptionSettingsOpen}
+                />
+              ))
+            : ""}
+
+          {/* <QuestionCardOption /> */}
+          <Box className="ct-questions-cards-wrapper__action">
+            <CButton
+              className="ct-questions-cards-wrapper__action-item"
+              variant="outline"
+              severity="primary"
+              size="small"
+              onClick={handleAddOption}
+            >
+              <CSvgIcon
+                size={15}
+                component={AddIcon}
+              />
+              {QUESTION_OPTION.addOptionButtonLabel}
+            </CButton>
+          </Box>
+        </Box>
+      </CSortableContainer>
+    </CDragAndDrop>
   );
 };
 

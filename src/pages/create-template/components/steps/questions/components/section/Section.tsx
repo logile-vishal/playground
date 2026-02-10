@@ -15,6 +15,7 @@ import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import CIconButton from "@/core/components/button/IconButton";
+import { CSortableContainer } from "@/core/components/drag-drop";
 
 import DeleteSectionModal from "../delete-section-modal/DeleteSectionModal";
 import AddEditSectionModal from "../add-edit-section-modal/AddEditSectionModal";
@@ -236,9 +237,14 @@ const QuestionSection = (props: QuestionSectionProps) => {
   };
 
   return (
-    <Box className="question-section">
-      {isSectionCollapsed ? sectionCollapsed() : sectionExpanded()}
-    </Box>
+    <div className="question-section">
+      <CSortableContainer
+        id={"question-section"} //replace with qid once gyan merges
+        sortableIds={props.data.map((q) => q.qId.toString())}
+      >
+        {isSectionCollapsed ? sectionCollapsed() : sectionExpanded()}
+      </CSortableContainer>
+    </div>
   );
 };
 export default QuestionSection;

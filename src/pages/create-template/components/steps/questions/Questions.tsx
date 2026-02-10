@@ -15,6 +15,7 @@ import { useCreateTemplateTranslations } from "@/pages/create-template/translati
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
 import type { QuestionProps } from "@/pages/create-template/types/questions.type";
+import { CDragAndDrop, CSortableContainer } from "@/core/components/drag-drop";
 
 import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "./components/question-card/QuestionCard";
@@ -163,6 +164,42 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
   ]);
 
   /**
+   * @method findQuestionById
+   * @description Finds a question by its ID in the question list or sub-questions.
+   * @param questionId - The ID of the question to find
+   * @returns The question object if found, null otherwise
+   */
+  const findQuestionById = (questionId: string | number) => {
+    const idToFind = String(questionId);
+
+    for (const [index, question] of watchQuestionList.entries()) {
+      // Check main question
+      if (String(question.qId) === idToFind) {
+        return {
+          ...question,
+          index: index + 1,
+        };
+      }
+
+      // Check sub-questions if they exist
+      if (question?.subQuestions && question.subQuestions.length > 0) {
+        const subQuestionIndex = `${index + 1}.${question.subQuestions.findIndex((subQ) => String(subQ.qId) === idToFind) + 1}`;
+        const subQuestion = question.subQuestions.find(
+          (subQ) => String(subQ.qId) === idToFind
+        );
+        if (subQuestion) {
+          return {
+            ...subQuestion,
+            index: subQuestionIndex,
+          };
+        }
+      }
+    }
+
+    return null;
+  };
+
+  /**
    * @method renderQuestionHeader
    * @description Renders the header section with title and expand/collapse controls.
    * @returns {JSX.Element} Box element with header title and toggle buttons
@@ -238,6 +275,9 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
       </Box>
     );
   };
+
+  const handleDragStart = () => {};
+  const handleDragEnd = () => {};
   return (
     <Box className="ct-questions">
       {renderQuestionHeader()}
@@ -248,24 +288,49 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
             variant="box"
           />
         ) : (
-          <Box className="ct-questions-cards-wrapper__content">
-            {watchQuestionList &&
-              watchQuestionList.map((question, index) => {
-                return (
-                  <RenderQuestion
-                    index={index}
-                    key={question.qId}
-                    question={question}
-                    expandedList={expandedList}
-                    toggleExpand={toggleExpand}
-                    questionFormPath={`questions.${index}`}
-                    handleQuestionAdd={handleQuestionClick}
-                    isAddQuestionAllowed={isAddQuestionAllowed}
-                    walkMeIdPrefix={walkMeIdPrefix}
-                  />
-                );
-              })}
-          </Box>
+          <CDragAndDrop
+            callbacks={{
+              onDragStart: handleDragStart,
+              onDragEnd: handleDragEnd,
+            }}
+            renderDragOverlay={(activeId) => {
+              const foundQuestion = findQuestionById(String(activeId));
+              return foundQuestion ? (
+                <QuestionCard
+                  index={foundQuestion.index}
+                  question={foundQuestion as QuestionProps}
+                  toggleExpand={() => {}}
+                  expandedList={{}}
+                  isAddQuestionAllowed={false}
+                />
+              ) : null;
+            }}
+            restrictToVertical={true}
+          >
+            <CSortableContainer
+              sortableIds={watchQuestionList?.map((q) => String(q.qId))}
+              id="questions-root-container"
+            >
+              <Box className="ct-questions-cards-wrapper__content">
+                {watchQuestionList &&
+                  watchQuestionList.map((question, index) => {
+                    return (
+                      <RenderQuestion
+                        index={index}
+                        key={question.qId}
+                        question={question}
+                        expandedList={expandedList}
+                        toggleExpand={toggleExpand}
+                        questionFormPath={`questions.${index}`}
+                        handleQuestionAdd={handleQuestionClick}
+                        isAddQuestionAllowed={isAddQuestionAllowed}
+                        walkMeIdPrefix={walkMeIdPrefix}
+                      />
+                    );
+                  })}
+              </Box>
+            </CSortableContainer>
+          </CDragAndDrop>
         )}
         {renderQuestionAction()}
       </Box>

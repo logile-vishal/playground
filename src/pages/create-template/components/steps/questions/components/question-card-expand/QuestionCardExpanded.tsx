@@ -32,6 +32,8 @@ import {
   followupSampleData,
   notificationSampleData,
 } from "@/pages/create-template/constants/sampleData";
+import { CSortableItem } from "@/core/components/drag-drop";
+import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
 
 import { RenderQuestion } from "../../Questions";
 import InputTypeModal from "../input-type-modal/InputTypeModal";
@@ -380,11 +382,15 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
    * @description Renders the expanded question card header with controls and badges
    * @return {React.ReactNode} Header JSX element
    */
-  const renderHeader = () => {
+  const renderHeader = (dragHandleContext: DragHandleProps) => {
     return (
       <Box className="ct-question-card-expanded__header">
         <Box className="ct-question-card-expanded__header-left-content">
-          <Box className="ct-question-card-expanded__dnd">
+          <Box
+            className="ct-question-card-expanded__dnd"
+            {...dragHandleContext.attributes}
+            {...dragHandleContext.listeners}
+          >
             <CSvgIcon
               size={24}
               component={DraggableDots}
@@ -574,58 +580,65 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     );
   };
   return (
-    <>
-      <Box className="ct-question-card-expanded">
-        {renderHeader()}
-        {renderBody()}
-      </Box>
-      <InputTypeModal
-        questionFormPath={questionFormPath}
-        inputTypeModal={inputTypeModal}
-        onClose={handleInputTypeModalClose}
-      />
-      <AnswerOptionSettingModal
-        answerOptionSettingModal={answerOptionSettingModal}
-        onClose={closeAnswerOptionSettingModal}
-        onSubmit={handleOptionsSubmit}
-        triggerCardModal={triggerCardModal}
-        setTriggerCardModal={setTriggerCardModal}
-        shouldProceedAllowed={shouldProceedAllowed}
-        setShouldProceedAllowed={setShouldProceedAllowed}
-      />
-      <TriggerModal
-        type={triggerCardModal.type}
-        data={
-          triggerCardModal.type === TRIGGER_TYPE.followup
-            ? followupSampleData
-            : notificationSampleData
-        }
-        showModal={triggerCardModal.status}
-        handleCloseModal={closeTriggerCardModal}
-        walkMeIdPrefix={[
-          "create template",
-          "question options",
-          "trigger modal",
-        ]}
-      />
-      {question.subQuestions && question.subQuestions.length > 0
-        ? question.subQuestions?.map((question, index) => {
-            return (
-              <RenderQuestion
-                key={question.qId + "_subQuestion_" + index}
-                index={index}
-                question={question}
-                expandedList={expandedList}
-                toggleExpand={toggleExpand}
-                questionFormPath={`${questionFormPath}.subQuestions[${index}]`}
-                handleQuestionAdd={handleQuestionAdd}
-                isAddQuestionAllowed={isAddQuestionAllowed}
-                walkMeIdPrefix={[...walkMeIdPrefix, "sub-question"]}
-              />
-            );
-          })
-        : ""}
-    </>
+    <CSortableItem
+      id={String(question?.qId)}
+      enableCustomDragHandle={true}
+    >
+      {(dragHandleContext: DragHandleProps) => (
+        <>
+          <Box className="ct-question-card-expanded">
+            {renderHeader(dragHandleContext)}
+            {renderBody()}
+          </Box>
+          <InputTypeModal
+            questionFormPath={questionFormPath}
+            inputTypeModal={inputTypeModal}
+            onClose={handleInputTypeModalClose}
+          />
+          <AnswerOptionSettingModal
+            answerOptionSettingModal={answerOptionSettingModal}
+            onClose={closeAnswerOptionSettingModal}
+            onSubmit={handleOptionsSubmit}
+            triggerCardModal={triggerCardModal}
+            setTriggerCardModal={setTriggerCardModal}
+            shouldProceedAllowed={shouldProceedAllowed}
+            setShouldProceedAllowed={setShouldProceedAllowed}
+          />
+          <TriggerModal
+            type={triggerCardModal.type}
+            data={
+              triggerCardModal.type === TRIGGER_TYPE.followup
+                ? followupSampleData
+                : notificationSampleData
+            }
+            showModal={triggerCardModal.status}
+            handleCloseModal={closeTriggerCardModal}
+            walkMeIdPrefix={[
+              "create template",
+              "question options",
+              "trigger modal",
+            ]}
+          />
+          {question.subQuestions && question.subQuestions.length > 0
+            ? question.subQuestions?.map((question, index) => {
+                return (
+                  <RenderQuestion
+                    key={question.qId + "_subQuestion_" + index}
+                    index={index}
+                    question={question}
+                    expandedList={expandedList}
+                    toggleExpand={toggleExpand}
+                    questionFormPath={`${questionFormPath}.subQuestions[${index}]`}
+                    handleQuestionAdd={handleQuestionAdd}
+                    isAddQuestionAllowed={isAddQuestionAllowed}
+                    walkMeIdPrefix={[...walkMeIdPrefix, "sub-question"]}
+                  />
+                );
+              })
+            : ""}
+        </>
+      )}
+    </CSortableItem>
   );
 };
 

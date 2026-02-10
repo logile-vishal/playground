@@ -138,7 +138,7 @@ export type QuestionCardProps = {
   questionFormPath?: string;
   toggleExpand: (id: number | string) => void;
   expandedList?: Record<string | number, boolean>;
-  handleQuestionAdd: (afterQuestionId?: string) => Promise<boolean>;
+  handleQuestionAdd?: (afterQuestionId?: string) => Promise<boolean>;
   isAddQuestionAllowed: boolean;
   walkMeIdPrefix?: string[];
   hasError?: boolean;

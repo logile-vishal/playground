@@ -1,8 +1,5 @@
-import { Box } from "@mui/material";
-
-import clsx from "@/utils/clsx";
-import { isNonEmptyValue } from "@/utils";
 import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
+import { isNonEmptyValue } from "@/utils";
 
 import QuestionCardCollapsed from "../question-card-collapsed/QuestionCardCollapsed";
 import QuestionCardExpanded from "../question-card-expand/QuestionCardExpanded";
@@ -30,11 +27,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   walkMeIdPrefix,
 }) => {
   return (
-    <Box
-      className={clsx({
-        "ct-question-container": true,
-      })}
-    >
+    <>
       {!isNonEmptyValue(expandedList) || !expandedList[question?.qId] ? (
         <QuestionCardCollapsed
           index={index}
@@ -60,7 +53,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           walkMeIdPrefix={walkMeIdPrefix}
         />
       )}
-    </Box>
+    </>
   );
 };
 

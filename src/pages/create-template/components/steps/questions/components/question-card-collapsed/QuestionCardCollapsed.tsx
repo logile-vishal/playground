@@ -8,6 +8,8 @@ import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
 import type { QuestionCardProps } from "@/pages/create-template/types/questions.type";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import CDivider from "@/core/components/divider/Divider";
+import { CSortableItem } from "@/core/components/drag-drop";
+import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
 
 import { QuestionBadge } from "./QuestionBadges";
 import { RenderQuestion } from "../../Questions";
@@ -46,92 +48,103 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
   };
 
   return (
-    <>
-      <Box
-        className={clsx({
-          "ques-card-collapsed": true,
-          "ques-card-collapsed--error": hasError,
-        })}
-      >
-        <Box className="ques-card-collapsed__dnd">
-          <CSvgIcon
-            size={24}
-            component={DraggableDots}
-          />
-        </Box>
-        <Box
-          className={`ques-card-collapsed__order-index ${
-            question?.isRequired ? "required" : ""
-          }`}
-        >
-          <Typography>{`${index}.`}</Typography>
-        </Box>
-
-        <Box className="ques-card-collapsed__label">
-          <WildcardLabel label={question?.questionBasicData?.title} />
-        </Box>
-
-        <Box className="ques-card-collapsed__badges">
-          {question?.isClusterBadgeVisible && (
-            <QuestionBadge type={QUESTION_BADGE_CONFIG.cluster.value} />
-          )}
-          {question?.isAnswerBadgeVisible && (
-            <QuestionBadge type={QUESTION_BADGE_CONFIG.answer.value} />
-          )}
-          {question?.isRandomBadgeVisible && (
-            <QuestionBadge type={QUESTION_BADGE_CONFIG.random.value} />
-          )}
-          {question?.isPreviousBadgeVisible && (
-            <QuestionBadge type={QUESTION_BADGE_CONFIG.previous.value} />
-          )}
-          {question?.isPhotoBadgeVisible && (
-            <QuestionBadge type={QUESTION_BADGE_CONFIG.photo.value} />
-          )}
-          {question?.isTagBadgeVisible && (
-            <QuestionBadge
-              type={QUESTION_BADGE_CONFIG.tag.value}
-              count={3} // TODO: replace with actual tag count when available
-            />
-          )}
-          {question?.isFileBadgeVisible && (
-            <QuestionBadge type={QUESTION_BADGE_CONFIG.file.value} />
-          )}
-          {question?.isNumberBadgeVisible && (
-            <QuestionBadge type={QUESTION_BADGE_CONFIG.number.value} />
-          )}
-          {question?.isTemperatureBadgeVisible && (
-            <QuestionBadge type={QUESTION_BADGE_CONFIG.temperature.value} />
-          )}
-        </Box>
-
-        {isDividerVisible() && <CDivider orientation="vertical" />}
-        <Box
-          onClick={() => toggleExpand(question?.qId)}
-          className="ques-card-collapsed__chevron-down"
-        >
-          <CSvgIcon
-            component={ChevronDown}
-            color="secondary"
-          />
-        </Box>
-      </Box>
-      {question.subQuestions && question.subQuestions.length > 0
-        ? question.subQuestions?.map((question, index) => {
-            return (
-              <RenderQuestion
-                key={question?.qId + "_subQuestion_" + index}
-                index={index}
-                question={question}
-                expandedList={expandedList}
-                toggleExpand={toggleExpand}
-                questionFormPath={`${questionFormPath}.subQuestions[${index}]`}
-                handleQuestionAdd={handleQuestionAdd}
-                isAddQuestionAllowed={isAddQuestionAllowed}
+    <CSortableItem
+      id={String(question?.qId)}
+      enableCustomDragHandle={true}
+    >
+      {(dragHandleContext: DragHandleProps) => (
+        <>
+          <Box
+            className={clsx({
+              "ques-card-collapsed": true,
+              "ques-card-collapsed--error": hasError,
+            })}
+          >
+            <Box
+              className="ques-card-collapsed__dnd"
+              {...dragHandleContext.attributes}
+              {...dragHandleContext.listeners}
+            >
+              <CSvgIcon
+                size={24}
+                component={DraggableDots}
               />
-            );
-          })
-        : ""}
-    </>
+            </Box>
+            <Box
+              className={`ques-card-collapsed__order-index ${
+                question?.isRequired ? "required" : ""
+              }`}
+            >
+              <Typography>{`${index}.`}</Typography>
+            </Box>
+
+            <Box className="ques-card-collapsed__label">
+              <WildcardLabel label={question?.questionBasicData?.title} />
+            </Box>
+
+            <Box className="ques-card-collapsed__badges">
+              {question?.isClusterBadgeVisible && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.cluster.value} />
+              )}
+              {question?.isAnswerBadgeVisible && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.answer.value} />
+              )}
+              {question?.isRandomBadgeVisible && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.random.value} />
+              )}
+              {question?.isPreviousBadgeVisible && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.previous.value} />
+              )}
+              {question?.isPhotoBadgeVisible && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.photo.value} />
+              )}
+              {question?.isTagBadgeVisible && (
+                <QuestionBadge
+                  type={QUESTION_BADGE_CONFIG.tag.value}
+                  count={3} // TODO: replace with actual tag count when available
+                />
+              )}
+              {question?.isFileBadgeVisible && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.file.value} />
+              )}
+              {question?.isNumberBadgeVisible && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.number.value} />
+              )}
+              {question?.isTemperatureBadgeVisible && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.temperature.value} />
+              )}
+            </Box>
+
+            {isDividerVisible() && <CDivider orientation="vertical" />}
+            <Box
+              onClick={() => toggleExpand(question?.qId)}
+              className="ques-card-collapsed__chevron-down"
+            >
+              <CSvgIcon
+                component={ChevronDown}
+                color="secondary"
+              />
+            </Box>
+          </Box>
+          {question.subQuestions && question.subQuestions.length > 0
+            ? question.subQuestions?.map((question, index) => {
+                return (
+                  <RenderQuestion
+                    key={question?.qId + "_subQuestion_" + index}
+                    index={index}
+                    question={question}
+                    expandedList={expandedList}
+                    toggleExpand={toggleExpand}
+                    questionFormPath={`${questionFormPath}.subQuestions[${index}]`}
+                    handleQuestionAdd={handleQuestionAdd}
+                    isAddQuestionAllowed={isAddQuestionAllowed}
+                  />
+                );
+              })
+            : ""}
+        </>
+      )}
+    </CSortableItem>
   );
 };
 export default QuestionCardCollapsed;
