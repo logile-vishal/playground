@@ -40,7 +40,7 @@ const TriggerMenu = ({
   closeTriggerCardMenu,
   setTriggerCardModal,
   shouldProceedAllowed = true,
-  openUnSavedChangesModal,
+  openUnSavedChangesModal = () => {},
 }: TriggerMenuProps) => {
   const { QUESTIONS } = useCreateTemplateTranslations();
 

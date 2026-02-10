@@ -386,17 +386,11 @@ export const useCreateTemplateTranslations = () => {
       answerOptionsHeading: t(
         "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.answerOptionsHeading"
       ),
-      addButtonLabel: t(
-        "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.addButtonLabel"
-      ),
       settingAnswerValueLabel: t(
         "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.settingAnswerValueLabel"
       ),
       settingsForLabel: t(
         "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.settingsForLabel"
-      ),
-      deleteButtonLabel: t(
-        "QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.deleteButtonLabel"
       ),
       labels: {
         value: t("QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.labels.value"),

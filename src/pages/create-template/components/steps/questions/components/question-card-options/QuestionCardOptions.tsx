@@ -224,6 +224,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
                       inputValueTemplate: () =>
                         getIsCompliantValue(field?.value),
                     }}
+                    value={getIsCompliantValue(field?.value)}
                     allowFilter={false}
                     IconComponent={(sel) => (
                       <Box
