@@ -136,6 +136,10 @@ export const useCreateTemplateTranslations = () => {
     addQuestionButtonLabel: t("QUESTIONS.addQuestionButtonLabel"),
     addSectionButtonLabel: t("QUESTIONS.addSectionButtonLabel"),
     oneQuestionRequiredError: t("QUESTIONS.oneQuestionRequiredError"),
+    DRAG_DELETE_SECTION_MODAL: {
+      title: t("QUESTIONS.DRAG_DELETE_SECTION_MODAL.title"),
+      description: t("QUESTIONS.DRAG_DELETE_SECTION_MODAL.description"),
+    },
     SECTION_SETTINGS_MENU_OPTIONS: [
       {
         label: commonT("GENERAL.renameButtonLabel"),

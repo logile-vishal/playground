@@ -9,7 +9,8 @@ import type {
 } from "./types/DragAndDrop.type";
 import { useDropPosition } from "./hooks/useDropPosition";
 import "./SortableItem.scss";
-import { DRAG_DROP } from "./constants";
+import { DRAG_DROP } from "./constants/dragAndDrop";
+import "./SortableItem.scss";
 
 export const CSortableItem: React.FC<DraggableItemProps> = ({
   id,

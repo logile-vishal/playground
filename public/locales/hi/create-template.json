@@ -57,6 +57,10 @@
     "noQuestionPlaceholder": "अभी तक कोई प्रश्न जोड़ा नहीं गया है। शुरू करने के लिए \"प्रश्न जोड़ें\" पर क्लिक करें।",
     "addQuestionButtonLabel": "प्रश्न",
     "addSectionButtonLabel": "अनुभाग",
+    "DRAG_DELETE_SECTION_MODAL": {
+      "title": "प्रश्न खींचने की पुष्टि करें",
+      "description": "एक अनुभाग से अंतिम शेष प्रश्न को खींचने से अनुभाग का हटना होगा। क्या आप जारी रखना चाहेंगे?"
+    },
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {
         "title": "अनुभाग जोड़ें"

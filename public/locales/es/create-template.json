@@ -57,6 +57,10 @@
     "addQuestionButtonLabel": "Preguntas",
     "addSectionButtonLabel": "Secciones",
     "oneQuestionRequiredError": "Se requiere al menos una pregunta",
+    "DRAG_DELETE_SECTION_MODAL": {
+      "title": "Confirmar arrastre de pregunta",
+      "description": "Arrastrar la última pregunta restante fuera de una sección llevaría a la eliminación de la sección. ¿Te gustaría continuar?"
+    },
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {
         "title": "Agregar sección"

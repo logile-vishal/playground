@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Badge, Box } from "@mui/material";
 import { Controller } from "react-hook-form";
 import type { FieldValues, Control } from "react-hook-form";
-import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
+import type { DragStartEvent } from "@dnd-kit/core";
 
 import {
   AddIcon,
@@ -37,15 +37,18 @@ import CSelect from "@/core/components/form/select";
 import { useNotification } from "@/core/services/notification.service";
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import { Severity } from "@/core/types/severity.type";
-import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
+import type {
+  DragHandleProps,
+  ExtendedDragEndEvent,
+} from "@/core/components/drag-drop/types/DragAndDrop.type";
 import {
   CDragAndDrop,
   CSortableItem,
   CSortableContainer,
 } from "@/core/components/drag-drop";
-import TriggerMenu from "../trigger-menu/TriggerMenu";
 
 import "./QuestionCardOptions.scss";
+import TriggerMenu from "../trigger-menu/TriggerMenu";
 
 /**
  * @method QuestionCardOption
@@ -183,7 +186,6 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
             <CSvgIcon
               size={24}
               component={DraggableDots}
-              color="secondary"
             />
           </Box>
 
@@ -377,6 +379,7 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
   const { triggerValidation } = useCreateTemplateForm();
   const { addNewOption } = useQuestionListManager();
   const { notify } = useNotification();
+  const { onDragMoveOption } = useQuestionListManager();
 
   const handleAddOption = async () => {
     const isValid = await triggerValidation("questions");
@@ -397,13 +400,15 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
     console.log("Drag started:", event);
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    console.log("Drag ended:", event);
+  const handleDragEnd = (event: ExtendedDragEndEvent) => {
+    const questionId = props.question?.qId;
+    const activeId = event.active.id as number;
+    const overId = event.over.id as number;
+    const dropPosition = event.dropPosition;
+    onDragMoveOption(questionId, activeId, overId, dropPosition);
   };
-  const findOptionById = (id: string) => {
-    return props.question?.questionBasicData?.response?.find(
-      (option) => option.title === id
-    );
+  const findOptionByIdx = (idx: string) => {
+    return props.question?.questionBasicData?.response?.[Number(idx)];
   };
 
   const optionsData = props?.question?.questionBasicData?.response;
@@ -415,7 +420,7 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
         onDragEnd: handleDragEnd,
       }}
       renderDragOverlay={(activeId) => {
-        const foundOption = findOptionById(String(activeId)); //TODO: CHECK ONCE OPTION ID HAS BEEN SET
+        const foundOption = findOptionByIdx(String(activeId)); //TODO: CHECK ONCE OPTION ID HAS BEEN SET
         return foundOption ? (
           <QuestionCardOption
             key={props?.question.qId + "_option_" + 0}
@@ -429,8 +434,8 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
       restrictToVertical={true}
     >
       <CSortableContainer
-        sortableIds={optionsData?.map((q) => String(q.title))} //TODO: REPLACE WITH ID POST DISCUSSIONS
-        id="questions-root-container"
+        sortableIds={optionsData?.map((_q, idx) => String(idx))} //TODO: REPLACE WITH ID POST DISCUSSIONS
+        id={props.question.qId}
       >
         <Box
           className={clsx({

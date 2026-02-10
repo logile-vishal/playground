@@ -1,5 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { Box, Typography } from "@mui/material";
 
 import CIconButton from "@/core/components/button/IconButton";
@@ -13,14 +14,22 @@ import { CButton } from "@/core/components/button/button";
 import CNoData from "@/core/components/no-data/NoData";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
-import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
+import useQuestionListManager, {
+  checkIfParentQuestionToBeDeleted,
+} from "@/pages/create-template/hooks/useQuestionListManager";
 import type { QuestionProps } from "@/pages/create-template/types/questions.type";
-import { CDragAndDrop, CSortableContainer } from "@/core/components/drag-drop";
+import {
+  CDragAndDrop,
+  CSortableContainer,
+  type ExtendedDragEndEvent,
+} from "@/core/components/drag-drop";
 
 import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "./components/question-card/QuestionCard";
 import QuestionSection from "./components/section/Section";
 import "./Questions.scss";
+import CModal, { ModalBody } from "@/core/components/modal/Modal";
+import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 
 export const RenderQuestion: React.FC<{
   index: number;
@@ -80,10 +89,15 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
     data: null,
   });
   const [expandedList, setExpandedList] = useState<Record<string, boolean>>({});
-  const { watch, triggerValidation, formErrors } = useCreateTemplateForm();
-  const { addNewQuestion } = useQuestionListManager();
+  const { watch, triggerValidation, formErrors, getFormValues } =
+    useCreateTemplateForm();
   const [isAddQuestionAllowed, setIsAddQuestionAllowed] = useState(true);
+  const { addNewQuestion, onDragMoveQuestion } = useQuestionListManager();
   const watchQuestionList = watch("questions") as QuestionProps[];
+
+  // Stores the pending drag move action for confirmation
+  const pendingDragActionRef = useRef<(() => void) | null>(null);
+  const [showDragConfirmModal, setShowDragConfirmModal] = useState(false);
 
   const openAddSectionModal = (data) => {
     setAddSectionModal({
@@ -277,10 +291,96 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
   };
 
   const handleDragStart = () => {};
-  const handleDragEnd = () => {};
+
+  /**
+   * @method executePendingDragAction
+   * @description Executes the stored pending drag action after user confirmation
+   */
+  const executePendingDragAction = () => {
+    if (pendingDragActionRef.current) {
+      pendingDragActionRef.current();
+      pendingDragActionRef.current = null;
+    }
+    setShowDragConfirmModal(false);
+  };
+  const clearPendingDragAction = () => {
+    pendingDragActionRef.current = null;
+    setShowDragConfirmModal(false);
+  };
+
+  const handleDragEnd = (e: ExtendedDragEndEvent) => {
+    const draggedId = e.active.id as string;
+    const targetId = e.over.id as string;
+    const dropPosition = e.dropPosition;
+    const questions = getFormValues("questions") as QuestionProps[];
+    // Closure that captures drag arguments for later execution
+    const performDragMove = () => {
+      onDragMoveQuestion(draggedId, targetId, dropPosition);
+    };
+
+    const [isLastQuestionInSection] = checkIfParentQuestionToBeDeleted(
+      questions.filter((q) => q), //TODO: REMOVE THIS PATCH ONCE ISSUE IS FIXED
+      draggedId
+    );
+
+    if (!isLastQuestionInSection) {
+      performDragMove();
+    } else {
+      pendingDragActionRef.current = performDragMove;
+      setShowDragConfirmModal(true);
+    }
+  };
+  const handleRenderOverlay = (activeId) => {
+    const foundQuestion = findQuestionById(String(activeId));
+
+    if (!foundQuestion) return <></>;
+    if (foundQuestion.subQuestions && foundQuestion.subQuestions.length > 0) {
+      return (
+        <QuestionSection
+          index={foundQuestion.index}
+          key={foundQuestion.qId}
+          sectionId={foundQuestion.qId}
+          title={foundQuestion.questionBasicData.title}
+          questionFormPath={`questions.${foundQuestion.index}`}
+          data={foundQuestion.subQuestions}
+          expandedList={expandedList}
+          toggleExpand={toggleExpand}
+          handleQuestionAdd={handleQuestionClick}
+          isAddQuestionAllowed={isAddQuestionAllowed}
+          walkMeIdPrefix={walkMeIdPrefix}
+          isExpanded={false}
+        />
+      );
+    }
+    return foundQuestion ? (
+      <QuestionCard
+        index={foundQuestion.index}
+        question={foundQuestion as QuestionProps}
+        toggleExpand={() => {}}
+        expandedList={{}}
+        isAddQuestionAllowed={false}
+      />
+    ) : null;
+  };
   return (
     <Box className="ct-questions">
       {renderQuestionHeader()}
+      <CModal
+        open={showDragConfirmModal}
+        onConfirm={executePendingDragAction}
+        onClose={clearPendingDragAction}
+        title={QUESTIONS.DRAG_DELETE_SECTION_MODAL.title}
+        showActions={true}
+        size="small"
+        severity={BUTTON_SEVERITY.destructive}
+      >
+        <ModalBody>
+          <Box className="template-delete__modal-body">
+            {QUESTIONS.DRAG_DELETE_SECTION_MODAL.description}
+          </Box>
+        </ModalBody>
+      </CModal>
+
       <Box className="ct-questions-cards-wrapper">
         {watchQuestionList?.length === 0 ? (
           <CNoData
@@ -293,18 +393,7 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
               onDragStart: handleDragStart,
               onDragEnd: handleDragEnd,
             }}
-            renderDragOverlay={(activeId) => {
-              const foundQuestion = findQuestionById(String(activeId));
-              return foundQuestion ? (
-                <QuestionCard
-                  index={foundQuestion.index}
-                  question={foundQuestion as QuestionProps}
-                  toggleExpand={() => {}}
-                  expandedList={{}}
-                  isAddQuestionAllowed={false}
-                />
-              ) : null;
-            }}
+            renderDragOverlay={handleRenderOverlay}
             restrictToVertical={true}
           >
             <CSortableContainer
@@ -317,7 +406,7 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
                     return (
                       <RenderQuestion
                         index={index}
-                        key={question.qId}
+                        key={question?.qId}
                         question={question}
                         expandedList={expandedList}
                         toggleExpand={toggleExpand}

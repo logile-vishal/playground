@@ -4,7 +4,8 @@ import type {
   DraggableAttributes,
 } from "@dnd-kit/core";
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
-import type { DRAG_DROP } from "../constants";
+
+import type { DRAG_DROP } from "../constants/dragAndDrop";
 
 /**
  * @description Extended drag end event that includes drop position information

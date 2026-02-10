@@ -61,6 +61,10 @@
     "addQuestionButtonLabel": "Questions",
     "addSectionButtonLabel": "Sections",
     "oneQuestionRequiredError": "At least one question is required",
+    "DRAG_DELETE_SECTION_MODAL": {
+      "title": "Confirm drag question",
+      "description": "Dragging last remaining question out of a section would lead to deletion of the section. Would you like to proceed?"
+    },
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {
         "title": "Add Section"

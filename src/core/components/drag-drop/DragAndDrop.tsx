@@ -19,7 +19,7 @@ import {
   DropPositionContext,
   useDropPositionProvider,
 } from "./hooks/useDropPosition";
-import { DRAG_DROP } from "./constants";
+import { DRAG_DROP } from "./constants/dragAndDrop";
 
 /**
  * @component CDragAndDrop

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
+import { Controller, type Control, type FieldValues } from "react-hook-form";
 
 import {
   ChevronCollapse,
@@ -15,13 +16,13 @@ import CNestedMenu from "@/core/components/nested-menu/NestedMenu";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import CIconButton from "@/core/components/button/IconButton";
-import { CSortableContainer } from "@/core/components/drag-drop";
+import { CSortableContainer, CSortableItem } from "@/core/components/drag-drop";
+import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
 
 import DeleteSectionModal from "../delete-section-modal/DeleteSectionModal";
 import AddEditSectionModal from "../add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "../question-card/QuestionCard";
 import "./Section.scss";
-import { Controller, type Control, type FieldValues } from "react-hook-form";
 
 type SectionSettingProps = {
   anchor: HTMLElement | null;
@@ -92,56 +93,68 @@ const QuestionSection = (props: QuestionSectionProps) => {
     });
   };
 
+  useEffect(() => {
+    if (props.isExpanded !== undefined) {
+      setIsSectionCollapsed(!props.isExpanded);
+    }
+  }, [props.isExpanded]);
+
   const sectionCollapsed = () => {
     return (
-      <>
-        <Box
-          className={clsx({
-            "question-section__collapsed": true,
-            "question-section__collapsed--error": props.hasError,
-          })}
-        >
-          <Box className="question-section__collapsed-content">
-            <Box className="question-section__collapsed-content-dnd">
-              <CSvgIcon
-                size={24}
-                component={DraggableDots}
-              />
-            </Box>
-            <Box className="question-section__collapsed-content-title">
-              {props.title}
-            </Box>
-          </Box>
-
+      <CSortableItem id={props.sectionId}>
+        {(dragHandleContext: DragHandleProps) => (
           <Box
             className={clsx({
-              "question-section__collapsed-content": true,
-              "question-section__collapsed-content--right": true,
+              "question-section__collapsed": true,
+              "question-section__collapsed--error": props.hasError,
             })}
           >
-            <Box className="question-section__collapsed-content-label">
-              <Controller
-                name={`${props.questionFormPath}`}
-                control={control as unknown as Control<FieldValues>}
-                render={({ field }) => {
-                  return (
-                    <>{field.value?.subQuestions?.length || 0} Questions</>
-                  );
-                }}
-              />
+            <Box className="question-section__collapsed-content">
+              <Box
+                className="question-section__collapsed-content-dnd"
+                {...dragHandleContext.listeners}
+                {...dragHandleContext.attributes}
+              >
+                <CSvgIcon
+                  size={24}
+                  component={DraggableDots}
+                />
+              </Box>
+              <Box className="question-section__collapsed-content-title">
+                {props.title}
+              </Box>
             </Box>
+
             <Box
-              className="question-section__collapsed-content-icon"
-              onClick={toggleSectionCollapse}
+              className={clsx({
+                "question-section__collapsed-content": true,
+                "question-section__collapsed-content--right": true,
+              })}
             >
-              <CSvgIcon
-                component={ChevronDown}
-                color="secondary"
-              />
+              <Box className="question-section__collapsed-content-label">
+                <Controller
+                  name={`${props.questionFormPath}`}
+                  control={control as unknown as Control<FieldValues>}
+                  render={({ field }) => {
+                    return (
+                      <>{field.value?.subQuestions?.length || 0} Questions</>
+                    );
+                  }}
+                />
+              </Box>
+              <Box
+                className="question-section__collapsed-content-icon"
+                onClick={toggleSectionCollapse}
+              >
+                <CSvgIcon
+                  component={ChevronDown}
+                  color="secondary"
+                />
+              </Box>
             </Box>
           </Box>
-        </Box>
-      </>
+        )}
+      </CSortableItem>
     );
   };
 
@@ -197,29 +210,34 @@ const QuestionSection = (props: QuestionSectionProps) => {
           </CIconButton>
         </Box>
         <Box className="question-section__questions-wrapper">
-          {props.data && props.data?.length > 0
-            ? props.data?.map((question, index) => (
-                <Box
-                  className="question-section__questions-item"
-                  key={question.qId}
-                >
-                  <QuestionCard
-                    index={`${props?.index}.${index + 1}`}
-                    parentIndex={props.index}
-                    sectionId={props.sectionId}
-                    question={question}
-                    expandedList={props?.expandedList}
-                    toggleExpand={props?.toggleExpand}
-                    questionFormPath={
-                      props?.questionFormPath + `.subQuestions[${index}]`
-                    }
-                    handleQuestionAdd={props?.handleQuestionAdd}
-                    isAddQuestionAllowed={props?.isAddQuestionAllowed}
-                    walkMeIdPrefix={props?.walkMeIdPrefix}
-                  />
-                </Box>
-              ))
-            : null}
+          <CSortableContainer
+            id={props.sectionId}
+            sortableIds={props.data.map((q) => q.qId.toString())}
+          >
+            {props.data && props.data?.length > 0
+              ? props.data?.map((question, index) => (
+                  <Box
+                    className="question-section__questions-item"
+                    key={question.qId}
+                  >
+                    <QuestionCard
+                      index={`${props?.index}.${index + 1}`}
+                      parentIndex={props.index}
+                      sectionId={props.sectionId}
+                      question={question}
+                      expandedList={props?.expandedList}
+                      toggleExpand={props?.toggleExpand}
+                      questionFormPath={
+                        props?.questionFormPath + `.subQuestions[${index}]`
+                      }
+                      handleQuestionAdd={props?.handleQuestionAdd}
+                      isAddQuestionAllowed={props?.isAddQuestionAllowed}
+                      walkMeIdPrefix={props?.walkMeIdPrefix}
+                    />
+                  </Box>
+                ))
+              : null}
+          </CSortableContainer>
         </Box>
         {sectionSettingsMenu()}
         <DeleteSectionModal

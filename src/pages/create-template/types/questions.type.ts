@@ -128,6 +128,7 @@ export type QuestionSectionProps = {
   handleQuestionAdd: () => Promise<boolean>;
   isAddQuestionAllowed: boolean;
   walkMeIdPrefix?: string[];
+  isExpanded?: boolean;
 };
 
 export type QuestionCardProps = {

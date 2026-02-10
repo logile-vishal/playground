@@ -1,5 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
+
+import type { DropPosition } from "@/core/components/drag-drop";
 import { isNonEmptyValue } from "@/utils";
+import { DRAG_DROP } from "@/core/components/drag-drop/constants/dragAndDrop";
 
 import useCreateTemplateForm from "./useCreateTemplateForm";
 import { QUESTION_TYPE } from "../constants/questions";
@@ -207,21 +210,13 @@ export const removeQuestion = (
     .filter((question) => question.qId !== questionId)
     .map((question) => {
       // If this question has subQuestions, recursively remove from them
-      if (question.subQuestions && question.subQuestions.length > 0) {
+      if (question.subQuestions && question.subQuestions?.length > 0) {
         return {
           ...question,
           subQuestions: removeQuestion(question.subQuestions, questionId),
         };
       }
       return question;
-    })
-    // Filter out empty sections at this level
-    .filter((question) => {
-      if (question.questionBasicData?.questionType === "title") {
-        // Remove section if it has no subQuestions after removal
-        return question.subQuestions && question.subQuestions.length > 0;
-      }
-      return true;
     });
 
   return updated;
@@ -385,6 +380,111 @@ export const cloneQuestion = (
 
   cloneInTree(copyData);
   return { data: copyData, qId: clonedQId, isValid: isQuestionValid };
+};
+
+/**
+ * @method dropQuestion
+ * @param {QuestionProps[]} data - data of the questions list to be updated
+ * @param {QuestionProps} draggedQuestion - deep copied question to be moved
+ * @param {string} targetId - id of the target question where the dragged item will be placed
+ * @param {DropPosition} dropPosition - position relative to target ("ABOVE" or "BELOW")
+ * @description Moves a question to a new position based on drop position
+ * Iterates to find the target item and places the dragged question
+ * above or below it based on dropPosition.
+ * @returns {QuestionProps[]} - updated questions list with the moved question
+ */
+export const dropQuestion = (
+  data: QuestionProps[],
+  draggedQuestion: QuestionProps,
+  targetId: string,
+  dropPosition: DropPosition
+): QuestionProps[] => {
+  const copyData = deepCopyQuestions(data);
+
+  // Helper to insert at target position
+  const insertAtTarget = (items: QuestionProps[]): boolean => {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].qId === targetId) {
+        const insertIndex = dropPosition === "ABOVE" ? i : i + 1;
+        items.splice(insertIndex, 0, draggedQuestion);
+        return true;
+      }
+
+      if (items[i].subQuestions?.length > 0) {
+        if (insertAtTarget(items[i].subQuestions)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  insertAtTarget(copyData);
+  return copyData;
+};
+
+export const getParentQuestion = (
+  data: QuestionProps[],
+  questionId: string
+): QuestionProps | null => {
+  for (const question of data) {
+    if (question.subQuestions && question.subQuestions.length > 0) {
+      if (question.subQuestions?.some((sub) => sub.qId === questionId)) {
+        return question;
+      }
+      const found = getParentQuestion(question.subQuestions, questionId);
+      if (found) {
+        return found;
+      }
+    }
+  }
+  return null;
+};
+
+const findQuestion = (
+  items: QuestionProps[],
+  targetId: string
+): QuestionProps | null => {
+  for (const item of items) {
+    if (item.qId === targetId) {
+      return deepCopyQuestions([item])[0];
+    }
+    if (item.subQuestions?.length > 0) {
+      const found = findQuestion(item.subQuestions, targetId);
+      if (found) return found;
+    }
+  }
+  return null;
+};
+
+export const checkIfParentQuestionToBeDeleted = (
+  items: QuestionProps[],
+  targetId: string
+): [boolean, QuestionProps | null] => {
+  const parentQuestion = getParentQuestion(items, targetId);
+  if (parentQuestion && parentQuestion?.subQuestions?.length < 2) {
+    return [true, parentQuestion];
+  }
+  return [false, null];
+};
+
+const moveOption = (
+  options,
+  draggedIdx: number,
+  targetIdx: number,
+  dropPosition: DropPosition
+) => {
+  const updatedList = [...options];
+  if (draggedIdx !== -1 && targetIdx !== -1) {
+    const [draggedItem] = updatedList.splice(draggedIdx, 1);
+    const placementIdx =
+      dropPosition === DRAG_DROP.DROP_POSITION.above
+        ? Number(targetIdx)
+        : Number(targetIdx) + 1;
+    updatedList.splice(placementIdx, 0, draggedItem);
+  }
+
+  return updatedList;
 };
 
 const useQuestionListManager = () => {
@@ -584,6 +684,51 @@ const useQuestionListManager = () => {
   };
 
   /**
+   * @method onDragMoveQuestion
+   * @param {string} draggedId - id of the question being dragged
+   * @param {string} targetId - id of the target question
+   * @param {DropPosition} dropPosition - position relative to target ("ABOVE" or "BELOW")
+   * @description Handles drag and drop reordering of questions
+   * Creates a deep copy of the dragged question, removes it from the list,
+   * then moves it to the appropriate position relative to target.
+   * @returns {void}
+   */
+  const onDragMoveQuestion = async (
+    draggedId: string,
+    targetId: string,
+    dropPosition: DropPosition
+  ) => {
+    if (draggedId === targetId) return;
+    let questionsList = getFormValues("questions") as QuestionProps[];
+    questionsList = questionsList.filter((q) => q); // Filter out any null/undefined questions to avoid issues during drag and drop
+    // Find and deep copy the dragged question, then remove it
+    const draggedQuestion: QuestionProps | null = JSON.parse(
+      JSON.stringify(findQuestion(questionsList, draggedId))
+    );
+    if (!draggedQuestion) return;
+    // Incase of last left question being dragged out of section, section needs to be deleted
+    const [isParentToBeRemoved, parentQuestion] =
+      checkIfParentQuestionToBeDeleted(questionsList, draggedId);
+
+    let listWithoutDragged = [];
+    if (isParentToBeRemoved) {
+      listWithoutDragged = removeQuestion(questionsList, parentQuestion?.qId);
+    } else {
+      listWithoutDragged = removeQuestion(questionsList, draggedId);
+    }
+
+    const updatedQuestionsList = dropQuestion(
+      listWithoutDragged,
+      draggedQuestion,
+      targetId,
+      dropPosition
+    );
+
+    await setFormValue("questions", updatedQuestionsList); //TODO: Ask with binay or this patch
+    await setFormValue("questions", updatedQuestionsList); //TODO: Ask with binay or this patch
+  };
+
+  /**
    * @method triggerQuestionValidation
    * @description Trigger validation for the entire questions list
    * @returns {void}
@@ -591,11 +736,50 @@ const useQuestionListManager = () => {
   const triggerQuestionValidation = () => {
     triggerValidation("questions");
   };
+  const onDragMoveOption = (
+    questionId: string,
+    draggedIdx: number,
+    targetIdx: number,
+    dropPosition: DropPosition
+  ) => {
+    if (draggedIdx === targetIdx) return;
+    const questionsList = getFormValues("questions") as QuestionProps[];
+
+    // Find and deep copy the dragged option, then remove it
+    const question: QuestionProps | null = findQuestion(
+      questionsList,
+      questionId
+    );
+    if (!question) return;
+    const response = question.questionBasicData.response;
+    const updatedOptionList = moveOption(
+      response,
+      draggedIdx,
+      targetIdx,
+      dropPosition
+    );
+
+    const updatedQuestionsList = questionsList.map((q) => {
+      if (q.qId === questionId) {
+        return {
+          ...q,
+          questionBasicData: {
+            ...q.questionBasicData,
+            response: updatedOptionList,
+          },
+        };
+      }
+      return q;
+    });
+
+    setFormValue("questions", updatedQuestionsList);
+  };
 
   return {
     deleteQuestion,
     deleteSection,
     deleteOption,
+    onDragMoveOption,
     cloneExistingQuestion,
     addNewQuestion,
     addNewSection,
@@ -603,6 +787,7 @@ const useQuestionListManager = () => {
     modifyQuestionType,
     modifyOptions,
     triggerQuestionValidation,
+    onDragMoveQuestion,
   };
 };
 

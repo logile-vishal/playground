@@ -12,8 +12,14 @@ import type { SortableContainerProps } from "./types/DragAndDrop.type";
 export const CSortableContainer: React.FC<SortableContainerProps> = ({
   children,
   sortableIds,
+  id,
 }) => {
   return (
-    <SortableContext items={sortableIds ?? []}>{children}</SortableContext>
+    <SortableContext
+      id={id ?? "sortable-container"}
+      items={sortableIds ?? []}
+    >
+      {children}
+    </SortableContext>
   );
 };
