@@ -194,6 +194,9 @@
       "addNotification": "Add Notification",
       "editNotification": "Edit Notification",
       "cloneNotification": "Clone Notification",
+      "deleteNotification": "Delete Notification?",
+      "deleteNotificationDescription": "Are you sure you want to delete this notification?",
+      "deleteNotificationSubDescription": "This action cannot be undone.",
       "noRecipientsSelected": "No recipients selected",
       "fields": {
         "condition": "Condition",

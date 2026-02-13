@@ -1,4 +1,5 @@
 import type React from "react";
+import { useState } from "react";
 import { Box } from "@mui/material";
 
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -15,6 +16,8 @@ import type {
   NotificationCardProps,
 } from "@/pages/create-template/types/triggers.type";
 import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
+import CModal, { ModalBody } from "@/core/components/modal/Modal";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import {
   TRIGGER_TYPE,
   TRIGGER_ANSWER,
@@ -40,6 +43,8 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
   walkMeIdPrefix,
 }) => {
   const { NOTIFICATIONS, FOLLOWUP_TASKS } = useCreateTemplateTranslations();
+  const { GENERAL } = useCommonTranslation();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dataConstant =
     type === TRIGGER_TYPE.notification ? NOTIFICATIONS : FOLLOWUP_TASKS;
 
@@ -182,11 +187,42 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
           size="medium"
           severity="destructive"
           walkMeId={[...walkMeIdPrefix, "delete-button"]}
-          onClick={handleDelete}
+          onClick={() => setShowDeleteModal(true)}
         >
           <CSvgIcon component={Delete} />
         </CIconButton>
       </Box>
+
+      {/* Delete confirmation modal */}
+      <CModal
+        open={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        title={
+          type === TRIGGER_TYPE.notification
+            ? NOTIFICATIONS.ADD_NOTIFICATION_MODAL.deleteNotification
+            : "" // TODO: Add title and description for follow-up task delete modal
+        }
+        size="small"
+        walkMeIdPrefix={[...walkMeIdPrefix, "trigger card", "delete modal"]}
+        onConfirm={handleDelete}
+        severity="destructive"
+        confirmText={GENERAL.deleteButtonLabel}
+      >
+        <ModalBody>
+          <Box>
+            {type === TRIGGER_TYPE.notification
+              ? NOTIFICATIONS.ADD_NOTIFICATION_MODAL
+                  .deleteNotificationDescription
+              : ""}
+          </Box>
+          <Box>
+            {type === TRIGGER_TYPE.notification
+              ? NOTIFICATIONS.ADD_NOTIFICATION_MODAL
+                  .deleteNotificationSubDescription
+              : ""}
+          </Box>
+        </ModalBody>
+      </CModal>
     </Box>
   );
 };

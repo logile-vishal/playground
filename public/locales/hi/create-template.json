@@ -190,6 +190,9 @@
       "addNotification": "सूचना जोड़ें",
       "editNotification": "सूचना संपादित करें",
       "cloneNotification": "सूचना क्लोन करें",
+      "deleteNotification": "सूचना हटाएं?",
+      "deleteNotificationDescription": "क्या आप वाकई इस सूचना को हटाना चाहते हैं?",
+      "deleteNotificationSubDescription": "इस क्रिया को पूर्ववत नहीं किया जा सकता।",
       "noRecipientsSelected": "कोई प्राप्तकर्ता चयनित नहीं",
       "fields": {
         "condition": "शर्त",

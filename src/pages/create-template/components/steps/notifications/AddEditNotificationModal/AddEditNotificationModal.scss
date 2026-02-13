@@ -22,7 +22,7 @@
     @include flex-center(space-between, center, var(--space-m));
   }
   &__custom-recipient-button {
-    width: var(--recipient-btn-width);
+    min-width: var(--recipient-btn-width);
   }
   &__custom-recipient-section {
     @include flex-box(column);

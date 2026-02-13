@@ -460,6 +460,15 @@ export const useCreateTemplateTranslations = () => {
       cloneNotification: t(
         "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.cloneNotification"
       ),
+      deleteNotification: t(
+        "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.deleteNotification"
+      ),
+      deleteNotificationDescription: t(
+        "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.deleteNotificationDescription"
+      ),
+      deleteNotificationSubDescription: t(
+        "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.deleteNotificationSubDescription"
+      ),
       noRecipientsSelected: t(
         "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.noRecipientsSelected"
       ),
