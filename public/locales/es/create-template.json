@@ -61,6 +61,10 @@
       "title": "Confirmar arrastre de pregunta",
       "description": "Arrastrar la última pregunta restante fuera de una sección llevaría a la eliminación de la sección. ¿Te gustaría continuar?"
     },
+    "DELETE_QUESTION_REORDERING_MODAL": {
+      "title": "Reordenar puede afectar la lógica condicional",
+      "description": "La pregunta que estás moviendo está vinculada a otra pregunta a través de la condición \"Basado en la respuesta anterior\". Reordenar las preguntas puede romper esa dependencia, y la lógica condicional se eliminará si la pregunta referenciada ya no está antes de la pregunta condicional."
+    },
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {
         "title": "Agregar sección"
@@ -263,7 +267,8 @@
     "fileLabel": "Archivo",
     "numberLabel": "Número",
     "temperatureLabel": "Temperatura",
-    "tagLabel": "Etiqueta"
+    "tagLabel": "Etiqueta",
+    "tagsLabel": "Etiquetas"
   },
   "COLUMNS": {
     "header": "Columnas",
@@ -276,5 +281,63 @@
     "noRowPlaceholder": "No se han agregado filas aún. Haga clic en \"+ Fila\" para comenzar.",
     "addRowButtonLabel": "Fila",
     "oneRowRequiredError": "Se requiere al menos una fila."
+  },
+  "PREVIOUS_EXECUTION_STATUS_OPTIONS": {
+    "completedLabel": "Completado",
+    "notCompletedLabel": "No completado"
+  },
+  "ADVANCED_TAB_OPTIONS": {
+    "VISIBILITY": {
+      "label": "Visibilidad",
+      "visibilityNoteHeading": "Lógica de visibilidad:",
+      "visibilityNoteContent": "Esta pregunta solo será visible cuando se cumplan TODAS las condiciones habilitadas a continuación.",
+      "storeClusterToggleLabel": "Grupos de tiendas",
+      "storeClusterLabel": "Mostrar pregunta solo para estos grupos",
+      "storeClusterPlaceholder": "Seleccionar grupos de tiendas",
+      "previousAnswerToggleLabel": "Basado en la respuesta anterior",
+      "previousAnswerPlaceholder": "Seleccionar pregunta",
+      "previousAnswerWarningOnPreviousAnswer": "La primera pregunta en una tarea no tiene preguntas anteriores y, por lo tanto, no se puede configurar para que aparezca en función de una respuesta anterior.",
+      "previousAnswerWarningOnVisibility": "La pregunta 1 tiene reglas de visibilidad activadas y, por lo tanto, puede que no aparezca. Si no aparece, entonces esta pregunta tampoco aparecerá.",
+      "randomAppearanceToggleLabel": "Apariencia aleatoria",
+      "randomAppearanceWarning": "Las preguntas con la opción \"Basado en la respuesta anterior\" habilitada no se pueden configurar para que aparezcan de forma aleatoria.",
+      "previousExecutionToggleLabel": "Estado de ejecución anterior",
+      "previousExecutionLabel": "Mostrar pregunta cuando la tarea anterior estaba",
+      "previousExecutionPlaceholder": "Seleccionar estado de tarea"
+    },
+    "TAGS": {
+      "label": "Etiquetas",
+      "tagsPlaceholder": "Seleccionar etiquetas",
+      "tagsLabel": "Agregar etiquetas para categorizar esta pregunta"
+    },
+    "FILE_ATTACHMENT": {
+      "label": "Adjunto de archivo",
+      "fileAttachmentToggleLabel": "Solicitar un archivo adjunto",
+      "fileAttachmentTypeLabel": "Tipo",
+      "fileAttachmentRequiredForLabel": "Requerido para",
+      "fileAttachmentAnswerLabel": "Seleccionar respuestas que requieren archivo adjunto",
+      "fileAttachmentAnswerPlaceholder": "Seleccionar respuestas"
+    },
+    "NUMERIC_VALUE": {
+      "label": "Valor numérico",
+      "numericValueToggleLabel": "Valor numérico",
+      "numericValueTypeLabel": "Tipo"
+    }
+  },
+  "ADVANCED_TAB_ATTACHMENT_OPTIONS": {
+    "FILE_TYPES": {
+      "photo": "Foto",
+      "file": "Archivo"
+    },
+    "REQUIRED_FOR_OPTIONS": {
+      "optionalForAllAnswers": "Opcional para todas las respuestas",
+      "requiredForAllAnswers": "Requerido para todas las respuestas",
+      "requiredForCompliantAnswers": "Requerido para respuestas conformes",
+      "requiredForNonCompliantAnswers": "Requerido para respuestas no conformes",
+      "requiredForSpecificAnswers": "Requerido para respuestas específicas"
+    }
+  },
+  "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
+    "temperatureReading": "Lectura de temperatura",
+    "manualInput": "Entrada manual"
   }
 }

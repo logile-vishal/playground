@@ -39,7 +39,7 @@ type BasicDataProps = {
 type AdvanceSettingsProps = {
   visibilityRule?: {
     storeClusters?: {
-      isEnabled: boolean;
+      isApplicable: boolean;
       clustersList?:
         | {
             clusterId: string;
@@ -51,11 +51,15 @@ type AdvanceSettingsProps = {
         | null;
     };
     basedOnPreviousAnswers?: {
-      isEnabled: boolean;
+      isApplicable: boolean;
+      previousAnswers?: {
+        questionTitle: string | null;
+      } | null;
+      answerOption?: string | null;
     };
     isRandom?: boolean;
     previousExecutionStatus?: {
-      isEnabled: boolean;
+      isApplicable: boolean;
       status: string;
     };
   } | null;
@@ -68,25 +72,23 @@ type AdvanceSettingsProps = {
       }[]
     | null;
   fileAttachments: {
-    isEnabled: boolean;
+    isApplicable: boolean;
     attachments: {
-      attachmentType:
-        | "Photo"
-        | "Barcode"
-        | "Temperature Probe"
-        | "Numeric"
-        | "Attachment"
-        | null;
-      required: boolean;
+      attachmentType: "Photo" | "File" | null;
       requiredType:
-        | "Always"
-        | "In compliance only"
-        | "Out of compliance only"
+        | "optional_for_all_answers"
+        | "required_for_all_answers"
+        | "required_for_compliant_answers"
+        | "required_for_non_compliant_answers"
+        | "required_for_specific_answers"
         | null;
+      selectedOption?: {
+        title: string | null;
+      } | null;
     } | null;
   };
   numericValue: {
-    isEnabled: boolean;
+    isApplicable: boolean;
     type: string | null;
   } | null;
 };
@@ -148,6 +150,7 @@ export type QuestionCardProps = {
 export type QuestionBadgeVariant =
   | "photo"
   | "tag"
+  | "tags"
   | "random"
   | "cluster"
   | "answer"
@@ -262,4 +265,52 @@ export type InputTypeModalProps = {
     data: null;
   };
   onClose: () => void;
+};
+
+export type AdvanceTabProps = {
+  questionFormPath: string;
+  question: QuestionProps;
+  questionIndex: string | number;
+};
+export type QuestionOption = {
+  label: string;
+  value: string;
+  optionId?: string;
+  title?: string;
+};
+
+export type ClusterValueItem = {
+  clusterId: string;
+  clusterName: string;
+  clusterValueId: string | null;
+  clusterValueName: string | null;
+};
+
+export type ClusterItem = {
+  clusterId: string;
+  clusterName: string;
+  clusterValues: ClusterValueItem[] | null;
+};
+
+export type VisibilityTabProps = {
+  questionFormPath: string;
+  control: Control<FieldValues>;
+  questionIndex: string | number;
+  question: QuestionProps;
+};
+
+export type TagsTabProps = {
+  questionFormPath: string;
+  control: Control<FieldValues>;
+};
+
+export type NumericTabProps = {
+  questionFormPath: string;
+  control: Control<FieldValues>;
+};
+
+export type AttachmentsTabProps = {
+  questionFormPath: string;
+  control: Control<FieldValues>;
+  question: QuestionProps;
 };

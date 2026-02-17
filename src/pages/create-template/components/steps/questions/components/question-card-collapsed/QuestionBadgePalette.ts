@@ -17,6 +17,11 @@ export const questionBadgePalette: Record<
     color: "var(--logile-utility-green-dark-600)",
     iconColor: "var(--logile-icon-state-success-bold-subtle)",
   },
+  tags: {
+    backgroundColor: "var(--logile-utility-green-1a)",
+    color: "var(--logile-utility-green-dark-600)",
+    iconColor: "var(--logile-icon-state-success-bold-subtle)",
+  },
   random: {
     backgroundColor: "var(--logile-utility-blue-1a)",
     color: "var(--logile-utility-blue-dark-600)",

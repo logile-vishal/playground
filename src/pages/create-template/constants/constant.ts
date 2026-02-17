@@ -66,3 +66,17 @@ export const TEMPLATE_TYPE_STEPS = {
     3: "followUpTasks",
   },
 };
+
+export const QUESTION_TYPES_WITH_OPTIONS = [
+  "radio",
+  "checkbox",
+  "dropdown",
+  "dynamic_dropdown",
+];
+
+export const QUESTIONS_ADVANCED_TABS = {
+  visibility: "visibility",
+  tags: "tags",
+  attachments: "attachments",
+  numeric: "numeric",
+};

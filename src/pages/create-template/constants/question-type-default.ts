@@ -111,9 +111,9 @@ export const TAGS_DEFAULT = {
 };
 
 export const ATTACHMENTS_DEFAULT = {
-  attachmentType: null,
-  required: false,
-  requiredType: null,
+  attachmentType: "Photo" as const,
+  requiredType: "optional_for_all_answers" as const,
+  selectedOption: null,
 };
 
 export const NUMERIC_VALUE_DEFAULT = {
@@ -124,25 +124,31 @@ export const NUMERIC_VALUE_DEFAULT = {
 export const ADVANCE_SETTINGS_DEFAULT = {
   visibilityRule: {
     storeClusters: {
-      isEnabled: false,
+      isApplicable: false,
       clustersList: [] as [],
     },
     basedOnPreviousAnswers: {
-      isEnabled: false,
+      isApplicable: false,
+      previousAnswers: null,
+      answerOption: null,
     },
     isRandom: false,
     previousExecutionStatus: {
-      isEnabled: false,
-      status: "",
+      isApplicable: false,
+      status: null,
     },
   },
   tags: [] as [],
   fileAttachments: {
-    isEnabled: false,
-    attachments: ATTACHMENTS_DEFAULT,
+    isApplicable: false,
+    attachments: {
+      attachmentType: null,
+      requiredType: null,
+      selectedOption: null,
+    },
   },
   numericValue: {
-    isEnabled: false,
+    isApplicable: false,
     type: null,
   },
 };

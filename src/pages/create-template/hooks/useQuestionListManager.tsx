@@ -21,6 +21,7 @@ import {
   SORT_INPUT_TYPE_DEFAULT,
 } from "../constants/question-type-default";
 import type { QuestionProps, QuestionTypeKey } from "../types/questions.type";
+import { useState } from "react";
 
 export const newQuestionDefaultObject: () => QuestionProps = () => ({
   qId: uuidv4(),
@@ -190,6 +191,54 @@ export const isOptionRequired = (type: string) => {
 };
 
 /**
+ * @method cleanupDeletedQuestionReferences
+ * @param {QuestionProps[]} questions - The questions list to clean
+ * @param {string} deletedQuestionId - The ID of the deleted question
+ * @description Recursively removes references to the deleted question from basedOnPreviousAnswers
+ * @returns {QuestionProps[]} - Cleaned questions list
+ */
+const cleanupDeletedQuestionReferences = (
+  questions: QuestionProps[],
+  deletedQuestionId: string
+): QuestionProps[] => {
+  return questions.map((question) => {
+    const cleanedQuestion = { ...question };
+
+    // Check if this question references the deleted question
+    const basedOnPreviousAnswers =
+      cleanedQuestion.questionAdvancedSettings?.visibilityRule
+        ?.basedOnPreviousAnswers;
+
+    if (
+      basedOnPreviousAnswers?.isApplicable &&
+      basedOnPreviousAnswers?.previousAnswers?.questionTitle ===
+        deletedQuestionId
+    ) {
+      // Reset basedOnPreviousAnswers to default state
+      cleanedQuestion.questionAdvancedSettings.visibilityRule.basedOnPreviousAnswers =
+        {
+          isApplicable: false,
+          previousAnswers: null,
+          answerOption: null,
+        };
+    }
+
+    // Recursively clean subQuestions
+    if (
+      cleanedQuestion.subQuestions &&
+      cleanedQuestion.subQuestions.length > 0
+    ) {
+      cleanedQuestion.subQuestions = cleanupDeletedQuestionReferences(
+        cleanedQuestion.subQuestions,
+        deletedQuestionId
+      );
+    }
+
+    return cleanedQuestion;
+  });
+};
+
+/**
  * @method removeQuestion
  * @param {QuestionProps[]} data - data of the questions list to be updated
  * @param {string} questionId - id of the question to be removed
@@ -206,7 +255,7 @@ export const removeQuestion = (
   if (!data) return [];
 
   // First, remove the target question from current level and recursively process subQuestions
-  const updated = data
+  const updatedQuestionsList = data
     .filter((question) => question.qId !== questionId)
     .map((question) => {
       // If this question has subQuestions, recursively remove from them
@@ -219,7 +268,12 @@ export const removeQuestion = (
       return question;
     });
 
-  return updated;
+  const cleanedQuestionsList = cleanupDeletedQuestionReferences(
+    updatedQuestionsList,
+    questionId
+  );
+
+  return cleanedQuestionsList;
 };
 
 /**
@@ -491,6 +545,14 @@ const useQuestionListManager = () => {
   const { setFormValue, getFormValues, triggerValidation, resetForm } =
     useCreateTemplateForm();
 
+  const [deleteModalState, setDeleteModalState] = useState<{
+    isOpen: boolean;
+    questionId: string | null;
+  }>({
+    isOpen: false,
+    questionId: null,
+  });
+
   /**
    * @method modifyQuestionType
    * @param {string} prevType - The previous question type
@@ -550,12 +612,7 @@ const useQuestionListManager = () => {
    * @returns {void}
    */
   const deleteQuestion = (questionId: string) => {
-    const questionsList = getFormValues("questions") as QuestionProps[];
-    const updatedQuestionsList = removeQuestion(questionsList, questionId);
-    resetForm({
-      ...getFormValues(),
-      questions: updatedQuestionsList,
-    } as { questions: QuestionProps[] });
+    openDeleteQuestionModal(questionId);
   };
 
   /**
@@ -706,6 +763,14 @@ const useQuestionListManager = () => {
       JSON.stringify(findQuestion(questionsList, draggedId))
     );
     if (!draggedQuestion) return;
+
+    // Reset the basedOnPreviousAnswers option for the dragged question
+    draggedQuestion.questionAdvancedSettings.visibilityRule.basedOnPreviousAnswers =
+      {
+        isApplicable: false,
+        previousAnswers: null,
+        answerOption: null,
+      };
     // Incase of last left question being dragged out of section, section needs to be deleted
     const [isParentToBeRemoved, parentQuestion] =
       checkIfParentQuestionToBeDeleted(questionsList, draggedId);
@@ -736,6 +801,7 @@ const useQuestionListManager = () => {
   const triggerQuestionValidation = () => {
     triggerValidation("questions");
   };
+
   const onDragMoveOption = (
     questionId: string,
     draggedIdx: number,
@@ -775,6 +841,52 @@ const useQuestionListManager = () => {
     setFormValue("questions", updatedQuestionsList);
   };
 
+  /**
+   * @method openDeleteQuestionModal
+   * @param {string} questionId - id of the question to be deleted
+   * @description Opens the delete confirmation modal
+   * @returns {void}
+   */
+  const openDeleteQuestionModal = (questionId: string): void => {
+    setDeleteModalState({
+      isOpen: true,
+      questionId,
+    });
+  };
+
+  /**
+   * @method closeDeleteQuestionModal
+   * @description Closes the delete confirmation modal and resets state
+   * @returns {void}
+   */
+  const closeDeleteQuestionModal = (): void => {
+    setDeleteModalState({
+      isOpen: false,
+      questionId: null,
+    });
+  };
+
+  /**
+   * @method confirmDeleteQuestion
+   * @description Confirms deletion and removes the question from the list
+   * @returns {void}
+   */
+  const confirmDeleteQuestion = (): void => {
+    if (!deleteModalState.questionId) return;
+
+    const questionsList = getFormValues("questions") as QuestionProps[];
+    const updatedQuestionsList = removeQuestion(
+      questionsList,
+      deleteModalState.questionId
+    );
+    resetForm({
+      ...getFormValues(),
+      questions: updatedQuestionsList,
+    } as { questions: QuestionProps[] });
+
+    closeDeleteQuestionModal();
+  };
+
   return {
     deleteQuestion,
     deleteSection,
@@ -786,6 +898,10 @@ const useQuestionListManager = () => {
     addNewOption,
     modifyQuestionType,
     modifyOptions,
+    openDeleteQuestionModal,
+    closeDeleteQuestionModal,
+    confirmDeleteQuestion,
+    deleteModalState,
     triggerQuestionValidation,
     onDragMoveQuestion,
   };

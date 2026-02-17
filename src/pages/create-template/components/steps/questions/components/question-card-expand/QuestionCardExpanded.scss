@@ -85,9 +85,7 @@
     width: 100%;
   }
   &__advance-tab-content {
-    @include flex-box(column);
-    gap: var(--space-l);
-    padding: var(--space-2xl) var(--space-xl);
+    padding: var(--space-l);
   }
   &__rich-text-editor {
     .textarea .MuiOutlinedInput-root {

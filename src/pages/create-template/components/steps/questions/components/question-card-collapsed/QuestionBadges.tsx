@@ -47,7 +47,7 @@ export const QuestionBadge = ({ type, count }: QuestionBadgeProps) => {
   if (!label || !icon) return <></>;
 
   if (isNonEmptyValue(count)) {
-    label = `${count} ${config.label}s`;
+    label = `${count} ${config.label}`;
   }
 
   return (

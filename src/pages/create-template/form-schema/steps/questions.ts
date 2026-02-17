@@ -2,7 +2,7 @@ import { z as zod } from "zod";
 import {
   ATTACHMENTS_ENUM,
   INPUT_TYPE,
-  OPTION_ATTCHMENT_REQUIRED_TYPE_ENUMS,
+  OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS,
   QUESTION_TYPE,
 } from "../../constants/questions";
 
@@ -167,57 +167,79 @@ const basicTabSchema = zod.union([
 const advanceTabSchema = zod.object({
   visibilityRule: zod.object({
     storeClusters: zod.object({
-      isEnabled: zod.boolean(),
+      isApplicable: zod.boolean(),
       clustersList: zod
         .array(
           zod.object({
-            clusterId: zod.string().nullish(),
-            clusterName: zod.string()?.nullish(),
-            clusterValueId: zod.string().nullish(),
-            clusterValueName: zod.string()?.nullish(),
+            clusterId: zod.number().nullish(),
+            clusterName: zod.string().nullish(),
+            clusterValues: zod
+              .array(
+                zod.object({
+                  clusterId: zod.number().nullish(),
+                  clusterName: zod.string().nullish(),
+                  clusterValueId: zod.number().nullish(),
+                  clusterValueName: zod.string().nullish(),
+                })
+              )
+              .nullish(),
           })
         )
         .optional(),
     }),
     basedOnPreviousAnswers: zod.object({
-      isEnabled: zod.boolean(),
+      isApplicable: zod.boolean(),
+      previousAnswers: zod
+        .object({
+          questionTitle: zod.string().nullish(),
+        })
+        ?.nullish()
+        .optional(),
+      answerOption: zod.string().nullish().optional(),
     }),
     isRandom: zod.boolean(),
     previousExecutionStatus: zod
       .object({
-        isEnabled: zod.boolean(),
-        status: zod.string(),
+        isApplicable: zod.boolean(),
+        status: zod.string().nullish(),
       })
       .optional(),
   }),
   tags: zod
     .array(
       zod.object({
-        tagId: zod.number(),
-        tagName: zod.string(),
-        attributeId: zod.number(),
-        attributeName: zod.string(),
+        tagId: zod.number().optional(),
+        tagName: zod.string().optional(),
+        attributeId: zod.number().optional(),
+        attributeName: zod.string().optional(),
       })
     )
     .optional(),
   fileAttachments: zod.object({
-    isEnabled: zod.boolean(),
+    isApplicable: zod.boolean(),
     attachments: zod
       .object({
-        attachmentType: zod.enum(ATTACHMENTS_ENUM).nullish(),
-        required: zod.boolean(),
+        attachmentType: zod.enum(ATTACHMENTS_ENUM).nullish().optional(),
         requiredType: zod
-          .enum(OPTION_ATTCHMENT_REQUIRED_TYPE_ENUMS)
+          .enum(OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS)
           .optional()
           .nullish(),
+        selectedOption: zod
+          .object({
+            title: zod.string().optional().nullish(),
+          })
+          .nullish()
+          .optional(),
       })
       .optional()
       .nullish(),
   }),
-  numericValue: zod.object({
-    isEnabled: zod.boolean(),
-    type: zod.string().nullish(),
-  }),
+  numericValue: zod
+    .object({
+      isApplicable: zod.boolean(),
+      type: zod.string().nullish().optional(),
+    })
+    .optional(),
 });
 
 export const questionStepSchema = zod.object({

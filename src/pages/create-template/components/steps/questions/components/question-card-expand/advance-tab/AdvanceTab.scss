@@ -1,0 +1,119 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.advance-tab {
+  --advance-tab-height: 100%;
+
+  @include flex-box(row);
+  height: var(--advance-tab-height);
+  border: 1px solid var(--logile-border-primary);
+  border-radius: var(--radius-m);
+  gap: var(--space-none);
+  font-weight: var(--logile-weight-400);
+  &__sidebar {
+    @include flex-box(column);
+    padding: var(--space-l);
+  }
+  &__tabs {
+    &.MuiTabs-root {
+      @include flex-box(column);
+      gap: var(--space-xl);
+      min-height: auto;
+      border: none;
+      padding: var(--space-none);
+    }
+    .MuiTabs-indicator {
+      display: none;
+    }
+  }
+  &__tab.MuiTab-root {
+    min-height: auto;
+    padding: var(--space-m) var(--space-l);
+    font-size: var(--logile-size-body);
+    line-height: var(--logile-line-height-body);
+    @include flex-box(row);
+    text-align: left;
+    justify-content: flex-start;
+    border-radius: var(--radius-m);
+    color: var(--logile-text-secondary);
+    gap: var(--space-m);
+    &:hover {
+      background-color: var(--logile-bg-state-navbar-active);
+      border-radius: var(--radius-m);
+      color: var(--logile-text-primary);
+    }
+    &.Mui-selected {
+      color: var(--logile-text-state-navbar-active);
+      border-radius: var(--radius-m);
+      background: var(--logile-bg-state-navbar-active);
+    }
+  }
+  &__content {
+    flex: 1;
+  }
+  &__section {
+    @include flex-box(column);
+    &-wrapper {
+      padding: var(--space-l);
+    }
+  }
+  &__section-title {
+    &.MuiTypography-root {
+      font-size: var(--logile-size-secondary-text);
+      font-weight: var(--logile-weight-500);
+      color: var(--logile-text-secondary);
+      align-items: center;
+      font-style: normal;
+      line-height: var(--logile-line-height-secondary-text);
+    }
+    @include flex-box(row);
+    gap: var(--space-m);
+    padding: var(--space-m) var(--space-l);
+  }
+  &__section-title-content {
+    font-weight: var(--logile-weight-400);
+  }
+  &__field-group {
+    @include flex-box(column);
+  }
+  &__field-group-item {
+    border-top: 1px solid var(--logile-border-primary);
+    padding: var(--space-l);
+    @include flex-box(column);
+    gap: var(--space-l);
+    // Override gap for warning messages
+    > .advance-tab__warning {
+      margin-top: calc(var(--space-xs) - var(--space-l));
+    }
+    // Reset gap after last warning before next element
+    > .advance-tab__warning + :not(.advance-tab__warning) {
+      margin-top: calc(var(--space-l) - var(--space-xs));
+    }
+  }
+  &__toggle-field.MuiFormControlLabel-root {
+    @include flex-center(space-between, center);
+    color: var(--logile-text-primary);
+    margin: var(--space-none);
+  }
+  &__toggle-field {
+    @include flex-center(space-between, center);
+    .switch__label {
+      color: var(--logile-text-primary);
+      font-size: var(--logile-size-body);
+      font-weight: var(--logile-weight-400);
+      line-height: var(--logile-line-height-body);
+    }
+  }
+  &__warning.MuiTypography-root {
+    color: var(--logile-text-state-violation);
+    font-size: var(--logile-size-caption-large);
+    line-height: var(--line-height-caption-large);
+    & + .advance-tab__warning {
+      margin-top: calc(var(--space-xs) - var(--space-l));
+    }
+  }
+  &__attachment-content {
+    @include flex-box(column);
+    gap: var(--space-xl);
+    padding: var(--space-l);
+  }
+}

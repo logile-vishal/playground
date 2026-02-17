@@ -171,6 +171,11 @@
       cursor: not-allowed;
     }
     &--selected {
+      .select__menu-item-content-label-icon,
+      .select__menu-item-content-label-icon {
+        font-weight: var(--logile-weight-500);
+        color: var(--logile-text-brand-primary-dark-mode-alt);
+      }
       .select__menu-item-label {
         font-weight: var(--logile-weight-500);
         color: var(--logile-text-brand-primary-dark-mode-alt);

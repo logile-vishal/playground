@@ -15,8 +15,10 @@ import {
 import type { IconColorType } from "@/core/types/icon.type";
 
 import {
+  ATTACHMENTS_ENUM,
   DATE_TIME_INPUT_TYPE,
   INPUT_TYPE,
+  OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS,
   OPTION_TRIGGER_MENU_KEY,
   QUESTION_TYPE,
   RESPONSE_TEMPLATE_TYPE,
@@ -172,6 +174,11 @@ export const useCreateTemplateTranslations = () => {
       title: t("QUESTIONS.DELETE_SECTION_MODAL.title"),
       description: t("QUESTIONS.DELETE_SECTION_MODAL.description"),
       confirmText: commonT("GENERAL.deleteButtonLabel"),
+    },
+    DELETE_QUESTION_REORDERING_MODAL: {
+      title: t("QUESTIONS.DELETE_QUESTION_REORDERING_MODAL.title"),
+      description: t("QUESTIONS.DELETE_QUESTION_REORDERING_MODAL.description"),
+      confirmText: commonT("GENERAL.continueAnywayButtonLabel"),
     },
     EXPANDED_QUESTION_CARD: {
       optionPlaceholder: t(
@@ -628,11 +635,15 @@ export const useCreateTemplateTranslations = () => {
     tag: {
       icon: Tag,
       label: t("QUESTION_BADGE_CONFIG.tagLabel"),
-      count: 3,
       value: "tag",
-      // TODO: label handled dynamically
+    },
+    tags: {
+      icon: Tag,
+      label: t("QUESTION_BADGE_CONFIG.tagsLabel"),
+      value: "tags",
     },
   };
+
   const COLUMNS = {
     header: t("COLUMNS.header"),
     noColumnPlaceholder: t("COLUMNS.noColumnPlaceholder"),
@@ -646,6 +657,165 @@ export const useCreateTemplateTranslations = () => {
     addRowButtonLabel: t("ROWS.addRowButtonLabel"),
     oneRowRequiredError: t("ROWS.oneRowRequiredError"),
   };
+
+  const ADVANCED_TAB_OPTIONS = {
+    VISIBILITY: {
+      label: t("ADVANCED_TAB_OPTIONS.VISIBILITY.label"),
+      visibilityNoteHeading: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.visibilityNoteHeading"
+      ),
+      visibilityNoteContent: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.visibilityNoteContent"
+      ),
+      storeClusterToggleLabel: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.storeClusterToggleLabel"
+      ),
+      storeClusterLabel: t("ADVANCED_TAB_OPTIONS.VISIBILITY.storeClusterLabel"),
+      storeClusterPlaceholder: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.storeClusterPlaceholder"
+      ),
+      previousAnswerToggleLabel: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.previousAnswerToggleLabel"
+      ),
+      previousAnswerPlaceholder: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.previousAnswerPlaceholder"
+      ),
+      previousAnswerWarningOnPreviousAnswer: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.previousAnswerWarningOnPreviousAnswer"
+      ),
+      previousAnswerWarningOnVisibility: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.previousAnswerWarningOnVisibility"
+      ),
+      randomAppearanceToggleLabel: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.randomAppearanceToggleLabel"
+      ),
+      randomAppearanceWarning: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.randomAppearanceWarning"
+      ),
+      previousExecutionToggleLabel: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.previousExecutionToggleLabel"
+      ),
+      previousExecutionLabel: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.previousExecutionLabel"
+      ),
+      previousExecutionPlaceholder: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.previousExecutionPlaceholder"
+      ),
+    },
+    TAGS: {
+      label: t("ADVANCED_TAB_OPTIONS.TAGS.label"),
+      tagsPlaceholder: t("ADVANCED_TAB_OPTIONS.TAGS.tagsPlaceholder"),
+      tagsLabel: t("ADVANCED_TAB_OPTIONS.TAGS.tagsLabel"),
+    },
+    FILE_ATTACHMENT: {
+      label: t("ADVANCED_TAB_OPTIONS.FILE_ATTACHMENT.label"),
+      fileAttachmentToggleLabel: t(
+        "ADVANCED_TAB_OPTIONS.FILE_ATTACHMENT.fileAttachmentToggleLabel"
+      ),
+      fileAttachmentTypeLabel: t(
+        "ADVANCED_TAB_OPTIONS.FILE_ATTACHMENT.fileAttachmentTypeLabel"
+      ),
+      fileAttachmentRequiredForLabel: t(
+        "ADVANCED_TAB_OPTIONS.FILE_ATTACHMENT.fileAttachmentRequiredForLabel"
+      ),
+      fileAttachmentAnswerLabel: t(
+        "ADVANCED_TAB_OPTIONS.FILE_ATTACHMENT.fileAttachmentAnswerLabel"
+      ),
+      fileAttachmentAnswerPlaceholder: t(
+        "ADVANCED_TAB_OPTIONS.FILE_ATTACHMENT.fileAttachmentAnswerPlaceholder"
+      ),
+    },
+    NUMERIC_VALUE: {
+      label: t("ADVANCED_TAB_OPTIONS.NUMERIC_VALUE.label"),
+      numericValueToggleLabel: t(
+        "ADVANCED_TAB_OPTIONS.NUMERIC_VALUE.numericValueToggleLabel"
+      ),
+      numericValueTypeLabel: t(
+        "ADVANCED_TAB_OPTIONS.NUMERIC_VALUE.numericValueTypeLabel"
+      ),
+    },
+  };
+
+  const ADVANCED_TAB_FILE_TYPES = [
+    {
+      label: t("ADVANCED_TAB_ATTACHMENT_OPTIONS.FILE_TYPES.photo"),
+      value: ATTACHMENTS_ENUM[0],
+    },
+    {
+      label: t("ADVANCED_TAB_ATTACHMENT_OPTIONS.FILE_TYPES.file"),
+      value: ATTACHMENTS_ENUM[1],
+    },
+  ];
+
+  const ADVANCED_TAB_PREVIOUS_EXECUTION_STATUS = [
+    {
+      label: t("PREVIOUS_EXECUTION_STATUS_OPTIONS.completedLabel"),
+      value: "completed",
+    },
+    {
+      label: t("PREVIOUS_EXECUTION_STATUS_OPTIONS.notCompletedLabel"),
+      value: "not_completed",
+    },
+  ];
+
+  const ADVANCED_TAB_FILE_REQUIRED_FOR_OPTIONS_MULTISELECT = [
+    {
+      label: t(
+        "ADVANCED_TAB_ATTACHMENT_OPTIONS.REQUIRED_FOR_OPTIONS.optionalForAllAnswers"
+      ),
+      value: OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS[0],
+    },
+    {
+      label: t(
+        "ADVANCED_TAB_ATTACHMENT_OPTIONS.REQUIRED_FOR_OPTIONS.requiredForAllAnswers"
+      ),
+      value: OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS[1],
+    },
+    {
+      label: t(
+        "ADVANCED_TAB_ATTACHMENT_OPTIONS.REQUIRED_FOR_OPTIONS.requiredForCompliantAnswers"
+      ),
+      value: OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS[2],
+    },
+    {
+      label: t(
+        "ADVANCED_TAB_ATTACHMENT_OPTIONS.REQUIRED_FOR_OPTIONS.requiredForNonCompliantAnswers"
+      ),
+      value: OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS[3],
+    },
+    {
+      label: t(
+        "ADVANCED_TAB_ATTACHMENT_OPTIONS.REQUIRED_FOR_OPTIONS.requiredForSpecificAnswers"
+      ),
+      value: OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS[4],
+    },
+  ];
+
+  const ADVANCED_TAB_FILE_REQUIRED_FOR_OPTIONS = [
+    {
+      label: t(
+        "ADVANCED_TAB_ATTACHMENT_OPTIONS.REQUIRED_FOR_OPTIONS.optionalForAllAnswers"
+      ),
+      value: OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS[0],
+    },
+    {
+      label: t(
+        "ADVANCED_TAB_ATTACHMENT_OPTIONS.REQUIRED_FOR_OPTIONS.requiredForAllAnswers"
+      ),
+      value: OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS[1],
+    },
+  ];
+
+  const ADVANCED_TAB_NUMERIC_VALUE_TYPE_OPTIONS = [
+    {
+      label: t("ADVANCED_TAB_NUMERIC_VALUE_OPTIONS.temperatureReading"),
+      value: "temperature_reading",
+    },
+    {
+      label: t("ADVANCED_TAB_NUMERIC_VALUE_OPTIONS.manualInput"),
+      value: "manual_input",
+    },
+  ];
 
   return {
     BASIC_INFO,
@@ -662,5 +832,11 @@ export const useCreateTemplateTranslations = () => {
     QUESTION_OPTION,
     COLUMNS,
     ROWS,
+    ADVANCED_TAB_OPTIONS,
+    ADVANCED_TAB_FILE_TYPES,
+    ADVANCED_TAB_FILE_REQUIRED_FOR_OPTIONS,
+    ADVANCED_TAB_FILE_REQUIRED_FOR_OPTIONS_MULTISELECT,
+    ADVANCED_TAB_NUMERIC_VALUE_TYPE_OPTIONS,
+    ADVANCED_TAB_PREVIOUS_EXECUTION_STATUS,
   };
 };

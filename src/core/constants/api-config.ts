@@ -18,4 +18,8 @@ export const API_CONFIG = {
     getReportPreviewById: `${baseURL}/template-libraries/template/{reportTypeId}/reportPreview`,
     deleteTemplateById: `${baseURL}/template-libraries/template/{templateId}`,
   },
+  org: {
+    // Organization APIs
+    clusters: `${baseURL}/org/clusters`,
+  },
 };

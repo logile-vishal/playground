@@ -83,36 +83,55 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
             </Box>
 
             <Box className="ques-card-collapsed__badges">
-              {question?.isClusterBadgeVisible && (
+              {question?.questionAdvancedSettings.visibilityRule.storeClusters
+                .isApplicable && (
                 <QuestionBadge type={QUESTION_BADGE_CONFIG.cluster.value} />
               )}
-              {question?.isAnswerBadgeVisible && (
+              {question?.questionAdvancedSettings.visibilityRule
+                .basedOnPreviousAnswers.isApplicable && (
                 <QuestionBadge type={QUESTION_BADGE_CONFIG.answer.value} />
               )}
-              {question?.isRandomBadgeVisible && (
+              {question?.questionAdvancedSettings.visibilityRule.isRandom && (
                 <QuestionBadge type={QUESTION_BADGE_CONFIG.random.value} />
               )}
-              {question?.isPreviousBadgeVisible && (
+              {question?.questionAdvancedSettings.visibilityRule
+                .previousExecutionStatus.isApplicable && (
                 <QuestionBadge type={QUESTION_BADGE_CONFIG.previous.value} />
               )}
-              {question?.isPhotoBadgeVisible && (
-                <QuestionBadge type={QUESTION_BADGE_CONFIG.photo.value} />
-              )}
-              {question?.isTagBadgeVisible && (
+              {question?.questionAdvancedSettings.tags.length > 0 && (
                 <QuestionBadge
-                  type={QUESTION_BADGE_CONFIG.tag.value}
-                  count={3} // TODO: replace with actual tag count when available
+                  type={
+                    question?.questionAdvancedSettings.tags.length === 1
+                      ? QUESTION_BADGE_CONFIG.tag.value
+                      : QUESTION_BADGE_CONFIG.tags.value
+                  }
+                  count={question?.questionAdvancedSettings.tags.length}
                 />
               )}
-              {question?.isFileBadgeVisible && (
-                <QuestionBadge type={QUESTION_BADGE_CONFIG.file.value} />
-              )}
-              {question?.isNumberBadgeVisible && (
-                <QuestionBadge type={QUESTION_BADGE_CONFIG.number.value} />
-              )}
-              {question?.isTemperatureBadgeVisible && (
-                <QuestionBadge type={QUESTION_BADGE_CONFIG.temperature.value} />
-              )}
+              {question?.questionAdvancedSettings.fileAttachments
+                .isApplicable &&
+                question?.questionAdvancedSettings.fileAttachments.attachments
+                  .attachmentType === "Photo" && (
+                  <QuestionBadge type={QUESTION_BADGE_CONFIG.photo.value} />
+                )}
+              {question?.questionAdvancedSettings.fileAttachments
+                .isApplicable &&
+                question?.questionAdvancedSettings.fileAttachments.attachments
+                  .attachmentType === "File" && (
+                  <QuestionBadge type={QUESTION_BADGE_CONFIG.file.value} />
+                )}
+              {question?.questionAdvancedSettings.numericValue.isApplicable &&
+                question?.questionAdvancedSettings.numericValue.type ===
+                  "manual_input" && (
+                  <QuestionBadge type={QUESTION_BADGE_CONFIG.number.value} />
+                )}
+              {question?.questionAdvancedSettings.numericValue.isApplicable &&
+                question?.questionAdvancedSettings.numericValue.type ===
+                  "temperature_reading" && (
+                  <QuestionBadge
+                    type={QUESTION_BADGE_CONFIG.temperature.value}
+                  />
+                )}
             </Box>
 
             {isDividerVisible() && <CDivider orientation="vertical" />}

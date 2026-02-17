@@ -17,7 +17,8 @@
     "clearAllButtonLabel": "Borrar todo",
     "searchButtonLabel": "Buscar",
     "loadingText": "Cargando...",
-    "closeButtonLabel": "Cerrar"
+    "closeButtonLabel": "Cerrar",
+    "continueAnywayButtonLabel": "Continuar de todos modos"
   },
   "PAGINATION": {
     "pageLabel": "Página",

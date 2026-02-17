@@ -125,6 +125,8 @@ export { default as ChevronUpLarge } from "@/assets/icons/common-icons/chevron-u
 export { default as AttachmentLink } from "@/assets/icons/common-icons/attachment-link.svg?react";
 export { default as Eye } from "@/assets/icons/common-icons/eye.svg?react";
 export { default as Preview } from "@/assets/icons/common-icons/preview.svg?react";
+export { default as EyeOff } from "@/assets/icons/common-icons/eye-off.svg?react";
+export { default as TemperatureLine } from "@/assets/icons/common-icons/temperature-lines.svg?react";
 // File type icons
 export { default as CSV } from "@/assets/icons/file-type/csv.svg?react";
 export { default as Doc } from "@/assets/icons/file-type/doc.svg?react";
@@ -275,4 +277,5 @@ export type IconName =
   | "InputType"
   | "GoToFolder"
   | "Filter"
-  | "InputType";
+  | "EyeOff"
+  | "TemperatureLine";

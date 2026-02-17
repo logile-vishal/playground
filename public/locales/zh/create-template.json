@@ -80,6 +80,10 @@
       "title": "删除问题和分区？",
       "description": "删除分区也会同时删除其中包含的问题和回答。"
     },
+    "DELETE_QUESTION_REORDERING_MODAL": {
+      "title": "重新排序可能影响条件逻辑",
+      "description": "您正在移动的问题通过“基于先前答案”条件与另一个问题相关联。重新排序问题可能会破坏该依赖关系，如果引用的问题不再位于条件问题之前，条件逻辑将被移除。"
+    },
     "EXPANDED_QUESTION_CARD": {
       "optionPlaceholder": "选项",
       "minLengthPlaceholder": "最小长度",
@@ -267,7 +271,8 @@
     "fileLabel": "文件",
     "numberLabel": "数字",
     "temperatureLabel": "温度",
-    "tagLabel": "标签"
+    "tagLabel": "标签",
+    "tagsLabel": "标签"
   },
   "COLUMNS": {
     "header": "列",
@@ -280,5 +285,63 @@
     "noRowPlaceholder": "尚未添加任何行。点击“+ 行”开始。",
     "addRowButtonLabel": "行",
     "oneRowRequiredError": "至少需要一行。"
+  },
+  "PREVIOUS_EXECUTION_STATUS_OPTIONS": {
+    "completedLabel": "已完成",
+    "notCompletedLabel": "未完成"
+  },
+  "ADVANCED_TAB_OPTIONS": {
+    "VISIBILITY": {
+      "label": "可见性",
+      "visibilityNoteHeading": "可见性逻辑：",
+      "visibilityNoteContent": "只有当下面所有启用的条件都满足时，此问题才会显示。",
+      "storeClusterToggleLabel": "门店集群",
+      "storeClusterLabel": "仅为这些集群显示问题",
+      "storeClusterPlaceholder": "选择门店集群",
+      "previousAnswerToggleLabel": "基于先前答案",
+      "previousAnswerPlaceholder": "选择问题",
+      "previousAnswerWarningOnPreviousAnswer": "任务中的第一个问题没有先前的问题，因此不能设置为基于先前答案显示。",
+      "previousAnswerWarningOnVisibility": "问题1已启用可见性规则，因此可能不会显示。如果不显示，此问题也不会显示。",
+      "randomAppearanceToggleLabel": "随机出现",
+      "randomAppearanceWarning": "启用 \"基于先前答案\"选项的问题不能配置为随机出现。",
+      "previousExecutionToggleLabel": "先前执行状态",
+      "previousExecutionLabel": "当先前任务状态为时显示问题",
+      "previousExecutionPlaceholder": "选择任务状态"
+    },
+    "TAGS": {
+      "label": "标签",
+      "tagsPlaceholder": "选择标签",
+      "tagsLabel": "添加标签以对此问题进行分类"
+    },
+    "FILE_ATTACHMENT": {
+      "label": "文件附件",
+      "fileAttachmentToggleLabel": "请求附件",
+      "fileAttachmentTypeLabel": "类型",
+      "fileAttachmentRequiredForLabel": "要求用于",
+      "fileAttachmentAnswerLabel": "选择需要附件的答案",
+      "fileAttachmentAnswerPlaceholder": "选择答案"
+    },
+    "NUMERIC_VALUE": {
+      "label": "数值",
+      "numericValueToggleLabel": "数值",
+      "numericValueTypeLabel": "类型"
+    }
+  },
+  "ADVANCED_TAB_ATTACHMENT_OPTIONS": {
+    "FILE_TYPES": {
+      "photo": "照片",
+      "file": "文件"
+    },
+    "REQUIRED_FOR_OPTIONS": {
+      "optionalForAllAnswers": "所有答案均可选",
+      "requiredForAllAnswers": "所有答案均必需",
+      "requiredForCompliantAnswers": "合规答案必需",
+      "requiredForNonCompliantAnswers": "不合规答案必需",
+      "requiredForSpecificAnswers": "特定答案必需"
+    }
+  },
+  "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
+    "temperatureReading": "温度读数",
+    "manualInput": "手动输入"
   }
 }

@@ -46,10 +46,9 @@
     text-overflow: ellipsis;
     display: inline-block;
     white-space: nowrap;
-
     & * {
       background-color: transparent !important;
-      display: inline;
+      display: inline-flex;
     }
   }
   .ql-wildcard > span {

@@ -17,7 +17,8 @@
     "clearAllButtonLabel": "साफ़ करें",
     "searchButtonLabel": "खोजें",
     "loadingText": "लोड हो रहा है...",
-    "closeButtonLabel": "बंद करें"
+    "closeButtonLabel": "बंद करें",
+    "continueAnywayButtonLabel": "फिर भी जारी रखें"
   },
   "PAGINATION": {
     "pageLabel": "पृष्ठ",

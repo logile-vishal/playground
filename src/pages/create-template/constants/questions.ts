@@ -128,19 +128,15 @@ export const RESPONSE_TEMPLATE_TYPE = {
   MANUAL_TEMP: "manual_temp",
 };
 
-export const OPTION_ATTCHMENT_REQUIRED_TYPE_ENUMS = [
-  "Always",
-  "In compliance only",
-  "Out of compliance only",
+export const OPTION_ATTACHMENT_REQUIRED_TYPE_ENUMS = [
+  "optional_for_all_answers",
+  "required_for_all_answers",
+  "required_for_compliant_answers",
+  "required_for_non_compliant_answers",
+  "required_for_specific_answers",
 ] as const;
 
-export const ATTACHMENTS_ENUM = [
-  "Photo",
-  "Barcode",
-  "Temperature Probe",
-  "Numeric",
-  "Attachment",
-] as const;
+export const ATTACHMENTS_ENUM = ["Photo", "File"] as const;
 
 // Todo : need to be replaced later with API response
 export const DATE_TIME_ENUMS = [

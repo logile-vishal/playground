@@ -19,7 +19,7 @@ import CIconButton from "@/core/components/button/IconButton";
 import { CSortableContainer, CSortableItem } from "@/core/components/drag-drop";
 import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
 
-import DeleteSectionModal from "../delete-section-modal/DeleteSectionModal";
+import DeleteSectionModal from "../delete-modals/DeleteSectionModal";
 import AddEditSectionModal from "../add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "../question-card/QuestionCard";
 import "./Section.scss";

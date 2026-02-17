@@ -17,7 +17,8 @@
     "clearAllButtonLabel": "清除所有",
     "searchButtonLabel": "搜索",
     "loadingText": "加载中...",
-    "closeButtonLabel": "关闭"
+    "closeButtonLabel": "关闭",
+    "continueAnywayButtonLabel": "仍然继续"
   },
   "PAGINATION": {
     "pageLabel": "页面",

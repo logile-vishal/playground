@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, FormControlLabel, Tab, Typography } from "@mui/material";
-import { Controller } from "react-hook-form";
-import type { FieldValues, Control } from "react-hook-form";
+import { Controller, type FieldValues, type Control } from "react-hook-form";
 
 import { isNonEmptyValue } from "@/utils";
 import { QUESTION_TYPE } from "@/pages/create-template/constants/questions";
@@ -40,7 +39,9 @@ import InputTypeModal from "../input-type-modal/InputTypeModal";
 import { QuestionBadge } from "../question-card-collapsed/QuestionBadges";
 import QuestionCardOptionsComponent from "../question-card-options/QuestionCardOptions";
 import AnswerOptionSettingModal from "../answer-options-setting-modal/AnswerOptionSettingModal";
+import AdvanceTab from "./advance-tab/AdvanceTab";
 import "./QuestionCardExpanded.scss";
+import { DeleteQuestionModal } from "../delete-modals/DeleteQuestionModal";
 
 function TabPanel(props) {
   const { children, value } = props;
@@ -77,6 +78,9 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     cloneExistingQuestion,
     deleteQuestion,
     modifyOptions,
+    deleteModalState,
+    closeDeleteQuestionModal,
+    confirmDeleteQuestion,
   } = useQuestionListManager();
   const watchQuestionList = watch("questions") as QuestionProps[];
   const [inputTypeModal, setInputTypeModal] = useState({
@@ -428,15 +432,51 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
         </Box>
         <Box className="ct-question-card-expanded__header-right-content">
           <Box className="ct-question-card-expanded__badges">
-            {question?.isPhotoBadgeVisible && (
-              <QuestionBadge type={QUESTION_BADGE_CONFIG.photo.value} />
+            {question?.questionAdvancedSettings.visibilityRule.storeClusters
+              .isApplicable && (
+              <QuestionBadge type={QUESTION_BADGE_CONFIG.cluster.value} />
             )}
-            {question?.isFileBadgeVisible && (
-              <QuestionBadge type={QUESTION_BADGE_CONFIG.file.value} />
+            {question?.questionAdvancedSettings.visibilityRule
+              .basedOnPreviousAnswers.isApplicable && (
+              <QuestionBadge type={QUESTION_BADGE_CONFIG.answer.value} />
             )}
-            {question?.isNumberBadgeVisible && (
-              <QuestionBadge type={QUESTION_BADGE_CONFIG.number.value} />
+            {question?.questionAdvancedSettings.visibilityRule.isRandom && (
+              <QuestionBadge type={QUESTION_BADGE_CONFIG.random.value} />
             )}
+            {question?.questionAdvancedSettings.visibilityRule
+              .previousExecutionStatus.isApplicable && (
+              <QuestionBadge type={QUESTION_BADGE_CONFIG.previous.value} />
+            )}
+            {question?.questionAdvancedSettings.tags.length > 0 && (
+              <QuestionBadge
+                type={
+                  question?.questionAdvancedSettings.tags.length > 1
+                    ? QUESTION_BADGE_CONFIG.tags.value
+                    : QUESTION_BADGE_CONFIG.tag.value
+                }
+                count={question?.questionAdvancedSettings.tags.length}
+              />
+            )}
+            {question?.questionAdvancedSettings.fileAttachments.isApplicable &&
+              question?.questionAdvancedSettings.fileAttachments.attachments
+                .attachmentType === "Photo" && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.photo.value} />
+              )}
+            {question?.questionAdvancedSettings.fileAttachments.isApplicable &&
+              question?.questionAdvancedSettings.fileAttachments.attachments
+                .attachmentType === "File" && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.file.value} />
+              )}
+            {question?.questionAdvancedSettings.numericValue.isApplicable &&
+              question?.questionAdvancedSettings.numericValue.type ===
+                "manual_input" && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.number.value} />
+              )}
+            {question?.questionAdvancedSettings.numericValue.isApplicable &&
+              question?.questionAdvancedSettings.numericValue.type ===
+                "temperature_reading" && (
+                <QuestionBadge type={QUESTION_BADGE_CONFIG.temperature.value} />
+              )}
           </Box>
           <CDivider orientation="vertical" />
           <Box className="ct-question-card-expanded__actions-icons">
@@ -536,7 +576,13 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
    */
   const renderAdvanceTab = () => {
     return (
-      <Box className="ct-question-card-expanded__advance-tab-content"></Box>
+      <Box className="ct-question-card-expanded__advance-tab-content">
+        <AdvanceTab
+          questionFormPath={questionFormPath}
+          question={question}
+          questionIndex={index}
+        />
+      </Box>
     );
   };
   /**
@@ -618,6 +664,11 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
               "question options",
               "trigger modal",
             ]}
+          />
+          <DeleteQuestionModal
+            open={deleteModalState.isOpen}
+            onClose={closeDeleteQuestionModal}
+            onConfirm={confirmDeleteQuestion}
           />
           {question.subQuestions && question.subQuestions.length > 0
             ? question.subQuestions?.map((question, index) => {

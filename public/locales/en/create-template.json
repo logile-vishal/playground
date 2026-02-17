@@ -80,6 +80,10 @@
       "title": "Delete questions and section?",
       "description": "Deleting a section also deletes the questions and responses it contains."
     },
+    "DELETE_QUESTION_REORDERING_MODAL": {
+      "title": "Reordering May Affect Conditional Logic",
+      "description": "The question you're moving is tied to another question through the \"Based on Previous Answer\" condition. Reordering the questions may break that dependency, and the conditional logic will be removed if the referenced question is no longer before the conditional question."
+    },
     "EXPANDED_QUESTION_CARD": {
       "optionPlaceholder": "Option",
       "minLengthPlaceholder": "Min Length",
@@ -267,7 +271,8 @@
     "fileLabel": "File",
     "numberLabel": "Number",
     "temperatureLabel": "Temperature",
-    "tagLabel": "Tag"
+    "tagLabel": "Tag",
+    "tagsLabel": "Tags"
   },
   "COLUMNS": {
     "header": "Columns",
@@ -280,5 +285,63 @@
     "noRowPlaceholder": "No rows added yet. Click \"+ Row\" to get started.",
     "addRowButtonLabel": "Row",
     "oneRowRequiredError": "At least one row is required."
+  },
+  "PREVIOUS_EXECUTION_STATUS_OPTIONS": {
+    "completedLabel": "Completed",
+    "notCompletedLabel": "Not Completed"
+  },
+  "ADVANCED_TAB_OPTIONS": {
+    "VISIBILITY": {
+      "label": "Visibility",
+      "visibilityNoteHeading": "Visibility Logic:",
+      "visibilityNoteContent": "This question will only be visible when ALL enabled conditions below are satisfied.",
+      "storeClusterToggleLabel": "Store Clusters",
+      "storeClusterLabel": "Show question only for these clusters",
+      "storeClusterPlaceholder": "Select Store Clusters",
+      "previousAnswerToggleLabel": "Based on Previous Answer",
+      "previousAnswerPlaceholder": "Select Question",
+      "previousAnswerWarningOnPreviousAnswer": "The first question in a task has no previous questions and thus cannot be set to appear based on a previous answer.",
+      "previousAnswerWarningOnVisibility": "Question 1 has visibility rules turned on and thus may not appear. If it doesn't, then this question will not appear either.",
+      "randomAppearanceToggleLabel": "Random Appearance",
+      "randomAppearanceWarning": "Questions with the \"Based on Previous Answer\" option enabled cannot be configured to appear randomly.",
+      "previousExecutionToggleLabel": "Previous Execution Status",
+      "previousExecutionLabel": "Show question when previous task was",
+      "previousExecutionPlaceholder": "Select Task Status"
+    },
+    "TAGS": {
+      "label": "Tags",
+      "tagsPlaceholder": "Select Tags",
+      "tagsLabel": "Add tags to categorize this question"
+    },
+    "FILE_ATTACHMENT": {
+      "label": "File Attachment",
+      "fileAttachmentToggleLabel": "Request an attachment",
+      "fileAttachmentTypeLabel": "Type",
+      "fileAttachmentRequiredForLabel": "Required for",
+      "fileAttachmentAnswerLabel": "Select answers that require attachment",
+      "fileAttachmentAnswerPlaceholder": "Select Answers"
+    },
+    "NUMERIC_VALUE": {
+      "label": "Numeric Value",
+      "numericValueToggleLabel": "Numeric value",
+      "numericValueTypeLabel": "Type"
+    }
+  },
+  "ADVANCED_TAB_ATTACHMENT_OPTIONS": {
+    "FILE_TYPES": {
+      "photo": "Photo",
+      "file": "File"
+    },
+    "REQUIRED_FOR_OPTIONS": {
+      "optionalForAllAnswers": "Optional for all answers",
+      "requiredForAllAnswers": "Required for all answers",
+      "requiredForCompliantAnswers": "Required for compliant answers",
+      "requiredForNonCompliantAnswers": "Required for non-compliant answers",
+      "requiredForSpecificAnswers": "Required for specific answers"
+    }
+  },
+  "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
+    "temperatureReading": "Temperature Reading",
+    "manualInput": "Manual Input"
   }
 }

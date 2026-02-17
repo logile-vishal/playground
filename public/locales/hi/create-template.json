@@ -76,6 +76,10 @@
       "title": "प्रश्न और अनुभाग हटाएँ?",
       "description": "किसी अनुभाग को हटाने पर उसमें मौजूद प्रश्न और उत्तर भी हटा दिए जाएंगे।"
     },
+    "DELETE_QUESTION_REORDERING_MODAL": {
+      "title": "शर्तीय लॉजिक को प्रभावित कर सकता है",
+      "description": "आप जो प्रश्न स्थानांतरित कर रहे हैं वह \"पिछले उत्तर के आधार पर\" शर्त के माध्यम से किसी अन्य प्रश्न से जुड़ा हुआ है। प्रश्नों को पुनः क्रमबद्ध करने से उस निर्भरता को तोड़ सकता है, और यदि संदर्भित प्रश्न अब शर्तीय प्रश्न से पहले नहीं है तो शर्तीय लॉजिक हटा दिया जाएगा।"
+    },
     "EXPANDED_QUESTION_CARD": {
       "optionPlaceholder": "विकल्प",
       "minLengthPlaceholder": "न्यूनतम लंबाई",
@@ -263,7 +267,8 @@
     "fileLabel": "फ़ाइल",
     "numberLabel": "संख्या",
     "temperatureLabel": "तापमान",
-    "tagLabel": "टैग"
+    "tagLabel": "टैग",
+    "tagsLabel": "टैग"
   },
   "COLUMNS": {
     "header": "कॉलम",
@@ -276,5 +281,63 @@
     "noRowPlaceholder": "कोई पंक्ति अभी तक नहीं जोड़ी गई है। शुरू करने के लिए \"+ पंक्ति\" पर क्लिक करें।",
     "addRowButtonLabel": "पंक्ति",
     "oneRowRequiredError": "कम से कम एक पंक्ति आवश्यक है।"
+  },
+  "PREVIOUS_EXECUTION_STATUS_OPTIONS": {
+    "completedLabel": "Completed",
+    "notCompletedLabel": "Not Completed"
+  },
+  "ADVANCED_TAB_OPTIONS": {
+    "VISIBILITY": {
+      "label": "दृश्यता",
+      "visibilityNoteHeading": "दृश्यता तर्क:",
+      "visibilityNoteContent": "यह प्रश्न केवल तभी दिखाई देगा जब नीचे दी गई सभी सक्षम शर्तें पूरी हों।",
+      "storeClusterToggleLabel": "स्टोर क्लस्टर",
+      "storeClusterLabel": "प्रश्न केवल इन क्लस्टर के लिए दिखाएं",
+      "storeClusterPlaceholder": "स्टोर क्लस्टर चुनें",
+      "previousAnswerToggleLabel": "पिछले उत्तर के आधार पर",
+      "previousAnswerPlaceholder": "प्रश्न चुनें",
+      "previousAnswerWarningOnPreviousAnswer": "कार्य का पहला प्रश्न कोई पिछला प्रश्न नहीं है और इसलिए इसे पिछले उत्तर के आधार पर प्रकट होने के लिए सेट नहीं किया जा सकता।",
+      "previousAnswerWarningOnVisibility": "प्रश्न 1 में दृश्यता नियम सक्षम हैं और इस प्रकार यह प्रकट नहीं हो सकता। यदि ऐसा नहीं होता है, तो यह प्रश्न भी प्रकट नहीं होगा।",
+      "randomAppearanceToggleLabel": "यादृच्छिक प्रकटन",
+      "randomAppearanceWarning": "\"पिछले उत्तर के आधार पर\" विकल्प सक्षम प्रश्नों को यादृच्छिक रूप से प्रकट होने के लिए कॉन्फ़िगर नहीं किया जा सकता।",
+      "previousExecutionToggleLabel": "पिछली निष्पादन स्थिति",
+      "previousExecutionLabel": "प्रश्न दिखाएं जब पिछला कार्य था",
+      "previousExecutionPlaceholder": "कार्य स्थिति चुनें"
+    },
+    "TAGS": {
+      "label": "टैग",
+      "tagsPlaceholder": "टैग चुनें",
+      "tagsLabel": "इस प्रश्न को वर्गीकृत करने के लिए टैग जोड़ें"
+    },
+    "FILE_ATTACHMENT": {
+      "label": "फ़ाइल संलग्नक",
+      "fileAttachmentToggleLabel": "संलग्नक का अनुरोध करें",
+      "fileAttachmentTypeLabel": "प्रकार",
+      "fileAttachmentRequiredForLabel": "के लिए आवश्यक",
+      "fileAttachmentAnswerLabel": "उन उत्तरों का चयन करें जिनके लिए संलग्नक आवश्यक है",
+      "fileAttachmentAnswerPlaceholder": "उत्तर चुनें"
+    },
+    "NUMERIC_VALUE": {
+      "label": "संख्यात्मक मान",
+      "numericValueToggleLabel": "संख्यात्मक मान",
+      "numericValueTypeLabel": "प्रकार"
+    }
+  },
+  "ADVANCED_TAB_ATTACHMENT_OPTIONS": {
+    "FILE_TYPES": {
+      "photo": "फ़ोटो",
+      "file": "फ़ाइल"
+    },
+    "REQUIRED_FOR_OPTIONS": {
+      "optionalForAllAnswers": "सभी उत्तरों के लिए वैकल्पिक",
+      "requiredForAllAnswers": "सभी उत्तरों के लिए आवश्यक",
+      "requiredForCompliantAnswers": "अनुपालक उत्तरों के लिए आवश्यक",
+      "requiredForNonCompliantAnswers": "गैर-अनुपालक उत्तरों के लिए आवश्यक",
+      "requiredForSpecificAnswers": "विशिष्ट उत्तरों के लिए आवश्यक"
+    }
+  },
+  "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
+    "temperatureReading": "तापमान रीडिंग",
+    "manualInput": "मैनुअल इनपुट"
   }
 }
