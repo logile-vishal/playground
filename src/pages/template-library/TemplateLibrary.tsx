@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -204,12 +204,21 @@ const TemplateLibrary: React.FC = () => {
   const { renderDirectorySkelton } = templateSkelton;
   const [tableData, setTableData] =
     useState<PaginatedResponse<TemplateType | ReportType>>();
-  const [isTableDataLoading, setIsTableDataLoading] = useState(false);
+  const accumulatedDataRef = useRef<(TemplateType | ReportType)[]>([]);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  // Derive loading state instead of managing separate state
+  const isTableDataLoading =
+    isTemplatesLoading ||
+    isReportsLoading ||
+    isFilteredTemplateListLoading ||
+    isLoadingMore;
 
   const fetchData = async (
     directory: DirectoryType,
-    paramsPayload: Record<string, unknown> = {}
-  ) => {
+    paramsPayload: Record<string, unknown> = {},
+    appendData = false
+  ): Promise<void> => {
     let payload: Record<string, unknown> = {
       ...paginationData,
       ...paramsPayload,
@@ -222,7 +231,19 @@ const TemplateLibrary: React.FC = () => {
       payload = { ...payload, libraryId: directory?.libraryId };
       data = await getTemplatesByLibraryId(payload);
     }
-    setTableData(data);
+
+    if (appendData && !isDesktop) {
+      const newData = data?.data || [];
+      const combined = [...accumulatedDataRef.current, ...newData];
+      accumulatedDataRef.current = combined;
+      setTableData({
+        ...data,
+        data: combined,
+      });
+    } else {
+      accumulatedDataRef.current = data?.data || [];
+      setTableData(data);
+    }
   };
 
   const handleDirectoryClick = (
@@ -234,9 +255,10 @@ const TemplateLibrary: React.FC = () => {
     resetBasicFilterSuggestionClickData();
     resetFilteredTemplateList();
     setIsGoToFolderVisible(false);
+    accumulatedDataRef.current = [];
     const paginationPayload = defaultPagination;
     setPaginationData(paginationPayload);
-    fetchData(directory, paginationPayload);
+    fetchData(directory, paginationPayload, false);
     setSelectedDirectory(directory);
   };
 
@@ -263,9 +285,28 @@ const TemplateLibrary: React.FC = () => {
 
   const handlePaginationChange = (newPagination: Pagination) => {
     if (selectedDirectory) {
-      fetchData(selectedDirectory, newPagination);
+      fetchData(selectedDirectory, newPagination, false);
     }
     setPaginationData(newPagination);
+  };
+
+  const handleLoadMore = async (): Promise<void> => {
+    if (
+      !selectedDirectory ||
+      isTemplatesLoading ||
+      isReportsLoading ||
+      isLoadingMore ||
+      paginationData.currentPage >= paginationData.totalPages
+    ) {
+      return;
+    }
+
+    setIsLoadingMore(true);
+    const nextPage = paginationData.currentPage + 1;
+    const newPagination = { ...paginationData, currentPage: nextPage };
+    setPaginationData(newPagination);
+    await fetchData(selectedDirectory, newPagination, true);
+    setIsLoadingMore(false);
   };
 
   //<------------------->
@@ -480,18 +521,11 @@ const TemplateLibrary: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateFilter?.selectedSort, selectedDirectory]);
 
-  useEffect(() => {
-    setIsTableDataLoading(isTemplatesLoading);
-  }, [isTemplatesLoading]);
-
-  useEffect(() => {
-    setIsTableDataLoading(isReportsLoading);
-  }, [isReportsLoading]);
-
   const isBasicFilterShowAllTemplatesVisible = useMemo(
     () => basicFilterSuggestionClickData?.pagination?.totalItems > 1,
     [basicFilterSuggestionClickData]
   );
+
   return (
     <PageTemplate>
       <PageTemplate.Header>
@@ -592,13 +626,11 @@ const TemplateLibrary: React.FC = () => {
                     onShowAllSearchResults={handleBasicFilterShowAllResults}
                     onTemplateSuggClick={handleBasicFilterSuggestionClick}
                     setTableData={setTableData}
-                    setIsTableDataLoading={setIsTableDataLoading}
+                    setIsTableDataLoading={() => {}}
                     directoriesList={directoriesList?.data}
                     onSearch={handleFilterSubmit}
                     filter={templateFilter}
-                    isFilterDataLoading={
-                      isFilteredTemplateListLoading || isTemplatesLoading
-                    }
+                    isFilterDataLoading={isTableDataLoading}
                     onClearFilter={handleFilterClearAll}
                     onFilterChipDelete={handleFilterChipDelete}
                     onFilterChange={handleFilterChange}
@@ -688,6 +720,9 @@ const TemplateLibrary: React.FC = () => {
                     filteredTemplateList={filteredTemplateList}
                     templateFilter={templateFilter}
                     setTemplateFilter={setTemplateFilter}
+                    enableInfiniteScroll={true}
+                    onLoadMore={handleLoadMore}
+                    resetScrollKey={selectedDirectory?.libraryId}
                   />
                   <ShowAllTemplatesInFolder
                     isVisible={isBasicFilterShowAllTemplatesVisible}

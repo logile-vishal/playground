@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import type { MRT_Cell, MRT_Column } from "material-react-table";
@@ -83,6 +83,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   onGoToFolderClick,
   templateFilter,
   setTemplateFilter,
+  enableInfiniteScroll = false,
+  onLoadMore,
+  resetScrollKey,
 }) => {
   const { TEMPLATE_TABLE_COLUMN_HEADINGS, DELETE_MODAL } =
     useTemplateLibraryTranslations();
@@ -904,11 +907,14 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     return getColumnsValues(columns);
   };
 
-  const templateTableProps = {
+  // Only show skeleton when loading initial data (first page), not during infinite scroll
+  const shouldShowSkeleton = isDataLoading && (!templatesList?.data?.length || templatesList.data.length === 0);
+
+  const templateTableProps = useMemo(() => ({
     columns: getColumns(),
-    data: isDataLoading
+    data: shouldShowSkeleton
       ? Array.from({ length: 10 }).map((_, idx) => ({ id: `skeleton-${idx}` }))
-      : templatesList?.data,
+      : templatesList?.data || [],
     enableColumnActions: false,
     enableColumnFilters: false,
     enablePagination: false,
@@ -916,7 +922,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
     enableBottomToolbar: false,
     enableTopToolbar: false,
     muiTableBodyRowProps: { hover: false },
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [shouldShowSkeleton, templatesList?.data, isDesktop, isReportType]);
 
   return (
     <div
@@ -939,6 +946,9 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
         walkMeIdPrefix={["template table", "pagination"]}
         pageSizeOptions={TABLE_PAGINATION_OPTIONS}
         showPagination={paginationData.totalPages > 1}
+        enableInfiniteScroll={enableInfiniteScroll}
+        onLoadMore={onLoadMore}
+        resetScrollKey={resetScrollKey}
       />
       <PreviewModal
         previewModal={previewModal}

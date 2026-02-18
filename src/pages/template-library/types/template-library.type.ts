@@ -65,24 +65,29 @@ export type LibraryTableProps = {
   selectedDirectory: DirectoryType | null;
   selectedTemplate: TemplateType[] | ReportType[];
   setSelectedTemplate: (value: TemplateType[] | ReportType[]) => void;
-  hoveredRowId?: string | null;
-  setHoveredRowId?: (value: string | null) => void;
-  templatesList: PaginatedResponse<TemplateType>;
+  templatesList: PaginatedResponse<TemplateType | ReportType>;
   isDataLoading: boolean;
   exportMenu: {
-    anchorEl: null | HTMLElement;
+    anchorEl: HTMLElement | null;
     status: boolean;
   };
-  paginationData: Pagination;
-  handlePaginationChange: (newPagination: Pagination) => void;
-  fetchData: (value: DirectoryType, params?: Record<string, unknown>) => void;
   handleExportMenuClose: () => void;
   handleExportMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
+  fetchData: (
+    directory: DirectoryType,
+    paramsPayload?: Record<string, unknown>,
+    appendData?: boolean
+  ) => Promise<void>;
+  paginationData: Pagination;
+  handlePaginationChange: (newPagination: Pagination) => void;
   isGoToFolderVisible: boolean;
-  onGoToFolderClick: (rowData: TemplateType | ReportType) => void;
-  filteredTemplateList?: PaginatedResponse<TemplateType>;
-  templateFilter?: TemplateFilter;
-  setTemplateFilter?: (filter: TemplateFilter) => void;
+  onGoToFolderClick: (template: TemplateType) => void;
+  filteredTemplateList: PaginatedResponse<TemplateType | ReportType>;
+  templateFilter: TemplateFilter;
+  setTemplateFilter: (filter: TemplateFilter) => void;
+  enableInfiniteScroll?: boolean;
+  onLoadMore?: () => void;
+  resetScrollKey?: string | number;
 };
 
 export type TemplatePaginationData = {
