@@ -140,32 +140,33 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
           ),
           className: "trigger-card__content-message",
         })}
-        {renderListColumn({
-          title: dataConstant.CARD_COLUMN_HEADINGS.recipients,
-          value: (() => {
-            const recipientsList = convertToTitleCase(
-              item.recipients.join(", ")
-            );
-            const hasCustomRecipients =
-              item.recipientOrgs?.length > 0 &&
-              item.recipientOrgTypes?.length > 0 &&
-              item.recipientPositions?.length > 0;
+        {(() => {
+          const recipientsList = convertToTitleCase(item.recipients.join(", "));
+          // TODO: revert custom recipient logic once it is updated from backend
+          const hasCustomRecipients =
+            item.recipientOrgs?.length > 0 &&
+            item.recipientOrgTypes?.length > 0 &&
+            item.recipientPositions?.length > 0;
 
-            // Add "Ad Hoc" label if there are custom recipients along with regular recipients
-            return hasCustomRecipients
+          const totalRecipientsCount =
+            item.recipients.length + (hasCustomRecipients ? 1 : 0);
+
+          return renderListColumn({
+            title: dataConstant.CARD_COLUMN_HEADINGS.recipients,
+            value: hasCustomRecipients
               ? `${recipientsList}${recipientsList ? ", " : ""}${CUSTOM_RECIPIENT_LABEL}`
-              : recipientsList;
-          })(),
-          className: "trigger-card__content-recipients",
-          iconVisible: item.recipients.length > 0,
-          icon:
-            item.recipients.length > 1
-              ? TeamLine
-              : item.recipients[0]?.toUpperCase() ===
-                  TRIGGER_ANSWER.assigneeRecipient.toUpperCase()
-                ? QuickShift
-                : null,
-        })}
+              : recipientsList,
+            className: "trigger-card__content-recipients",
+            iconVisible: totalRecipientsCount > 1,
+            icon:
+              totalRecipientsCount > 1
+                ? TeamLine
+                : item.recipients[0]?.toUpperCase() ===
+                    TRIGGER_ANSWER.assigneeRecipient.toUpperCase()
+                  ? QuickShift
+                  : null,
+          });
+        })()}
       </Box>
       <Box className="trigger-card__actions">
         {/* TODO: Add action handler for below buttons */}

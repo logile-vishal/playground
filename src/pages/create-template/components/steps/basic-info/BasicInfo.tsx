@@ -11,7 +11,6 @@ import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
 import { isNonEmptyValue } from "@/utils";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
-import { basicTagsSampleData } from "@/pages/create-template/constants/sampleData";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { CButton } from "@/core/components/button/button";
 import CAttachmentModal from "@/core/components/attachment-modal/AttachmentModal";
@@ -23,10 +22,18 @@ import {
   SPREADSHEET_FILE_TYPES,
 } from "@/pages/create-template/constants/questions";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
-import { useGetTaskTypesOptions } from "@/pages/template-library/services/template-library-api-hooks";
+import {
+  useGetAllDirectories,
+  useGetTaskTagsOptions,
+  useGetTaskTypesOptions,
+} from "@/pages/template-library/services/template-library-api-hooks";
 import type { TaskTypeOptions } from "@/pages/template-library/types/template-library.type";
-import type { AttachmentItemProps } from "@/pages/create-template/types/questions.type";
+import type {
+  AttachmentItemProps,
+  TemplateTagsProps,
+} from "@/pages/create-template/types/questions.type";
 import { BASE_TEMPLATE_TYPE } from "@/pages/create-template/constants/constant";
+import { TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
 
 import "./BasicInfo.scss";
 
@@ -60,17 +67,13 @@ const AttachmentItem: React.FC<AttachmentItemProps> = ({
   );
 };
 
-const directoryDropdownOptions = [
-  { value: 1, label: "Directory 1" },
-  { value: 2, label: "Directory 2" },
-];
-
 const BasicInfo: React.FC = () => {
   const {
     control,
     formErrors,
     getFormValues,
     resetForm,
+    formState,
     setFormValue,
     triggerValidation,
   } = useCreateTemplateForm();
@@ -86,18 +89,39 @@ const BasicInfo: React.FC = () => {
   const isDesktop = useIsDesktopViewport();
   const { data: taskTypeOptions } = useGetTaskTypesOptions();
   const [templateTypeOptions, setTemplateTypeOptions] = useState([]);
+  const [templateDirectory, setTemplateDirectory] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
+  const [selectedDirectories, setSelectedDirectories] = useState<
+    Array<{ libraryId: number; libraryName: string }>
+  >([]);
   const watchedAttachments = useWatch({
     control,
     name: "basicData.attachment",
   });
+  const { data: directoriesList } = useGetAllDirectories();
+  const { data: taskTagsOptions } = useGetTaskTagsOptions();
+
+  const generateDirectoryOptions = (directory = []) => {
+    const options = [];
+    directory?.map((item) => {
+      options.push({ value: item?.libraryId, label: item?.libraryName });
+    });
+    return options;
+  };
 
   const handleTemplateTypeChange = (value: string): void => {
+    const baseTemplateType = templateTypeOptions.find(
+      (option) => option.value === value
+    );
+
     const currentType = getFormValues("templateType");
-    if (currentType === value) {
+    if (currentType === baseTemplateType?.value) {
       return;
     }
 
-    const templateTypeValue = value as keyof typeof BASE_TEMPLATE_TYPE;
+    const templateTypeValue =
+      baseTemplateType.baseTemplateType.toLowerCase() as keyof typeof BASE_TEMPLATE_TYPE;
+
     const currentBasicData = getFormValues("basicData");
     const advancedOptions = getFormValues("advancedOptions");
     const notifications = getFormValues("notifications");
@@ -109,6 +133,7 @@ const BasicInfo: React.FC = () => {
           templateType: templateTypeValue,
           basicData: {
             ...currentBasicData,
+            templateType: value,
             baseTemplateType: templateTypeValue,
           },
           advancedOptions,
@@ -122,6 +147,7 @@ const BasicInfo: React.FC = () => {
           templateType: templateTypeValue,
           basicData: {
             ...currentBasicData,
+            templateType: value,
             baseTemplateType: templateTypeValue,
           },
           advancedOptions,
@@ -136,6 +162,7 @@ const BasicInfo: React.FC = () => {
           templateType: templateTypeValue,
           basicData: {
             ...currentBasicData,
+            templateType: value,
             baseTemplateType: templateTypeValue,
             attachment: [],
           },
@@ -149,12 +176,29 @@ const BasicInfo: React.FC = () => {
           templateType: templateTypeValue,
           basicData: {
             ...currentBasicData,
+            templateType: value,
             baseTemplateType: templateTypeValue,
             attachment: [],
           },
           advancedOptions,
           notifications,
           followUpTasks,
+        });
+        break;
+      default:
+        resetForm({
+          templateType:
+            TEMPLATE_TYPE.CHECKLIST.toLowerCase() as keyof typeof BASE_TEMPLATE_TYPE,
+          basicData: {
+            ...currentBasicData,
+            templateType: value,
+            baseTemplateType:
+              TEMPLATE_TYPE.CHECKLIST.toLowerCase() as keyof typeof BASE_TEMPLATE_TYPE,
+          },
+          advancedOptions,
+          notifications,
+          followUpTasks,
+          questions: getFormValues("questions") || [],
         });
         break;
     }
@@ -164,9 +208,16 @@ const BasicInfo: React.FC = () => {
     const data = taskTypeOptions?.data?.map((item: TaskTypeOptions) => ({
       label: item?.typeName,
       value: item?.typeName?.toLowerCase(),
+      ...item,
     }));
     setTemplateTypeOptions(data);
   }, [taskTypeOptions]);
+
+  useEffect(() => {
+    if (directoriesList?.data && directoriesList.data[0].subLibrary) {
+      setTemplateDirectory(directoriesList.data[0].subLibrary || []);
+    }
+  }, [directoriesList]);
 
   const handleTagsDelete = (_: React.MouseEvent, data: NestedMenuItem) => {
     const updatedItems = selectedTags.filter(
@@ -241,6 +292,366 @@ const BasicInfo: React.FC = () => {
     );
     setAttachmentFiles(validAttachments);
   }, [watchedAttachments]);
+
+  /**
+   * @method buildDirectoryPath
+   * @description Builds the nested directory path structure
+   * @param {Array} directories - List of selected directories
+   * @return {Object} Nested directory path object
+   */
+  const buildDirectoryPath = (
+    directories: Array<{ libraryId: number; libraryName: string }>
+  ): { libraryId?: number; subLibrary?: Record<string, unknown> } => {
+    if (directories.length < 1) return {};
+
+    const path: { libraryId?: number; subLibrary?: Record<string, unknown> } = {
+      libraryId: directories[0].libraryId,
+    };
+    let currentLevel = path;
+
+    for (let i = 1; i < directories.length; i++) {
+      currentLevel.subLibrary = {
+        libraryId: directories[i].libraryId,
+      };
+      currentLevel = currentLevel.subLibrary as {
+        libraryId?: number;
+        subLibrary?: Record<string, unknown>;
+      };
+    }
+
+    return path;
+  };
+
+  /**
+   * @method getSubLibraryOptions
+   * @description Gets the sub-library options for a given directory ID
+   * @param {number} parentLibraryId - Parent library ID
+   * @return {Array} Array of sub-library options
+   */
+  const getSubLibraryOptions = (parentLibraryId: number) => {
+    const findSubLibrary = (libraries: Array<unknown>): Array<unknown> => {
+      for (const lib of libraries) {
+        const libItem = lib as {
+          libraryId: number;
+          libraryName: string;
+          subLibrary?: Array<unknown>;
+        };
+        if (libItem.libraryId === parentLibraryId) {
+          return libItem.subLibrary || [];
+        }
+        if (libItem.subLibrary && libItem.subLibrary.length > 0) {
+          const result = findSubLibrary(libItem.subLibrary);
+          if (result.length > 0) return result;
+        }
+      }
+      return [];
+    };
+
+    return findSubLibrary(templateDirectory);
+  };
+
+  /**
+   * @method findDirectoryById
+   * @description Recursively finds a directory by ID in the nested structure
+   * @param {number} libraryId - Library ID to search for
+   * @param {Array} libraries - List of libraries to search in
+   * @return {Object|null} Found directory or null
+   */
+  const findDirectoryById = (
+    libraryId: number,
+    libraries: Array<unknown>
+  ): {
+    libraryId: number;
+    libraryName: string;
+    subLibrary?: Array<unknown>;
+  } | null => {
+    for (const lib of libraries) {
+      const libItem = lib as {
+        libraryId: number;
+        libraryName: string;
+        subLibrary?: Array<unknown>;
+      };
+      if (libItem.libraryId === libraryId) {
+        return libItem;
+      }
+      if (libItem.subLibrary && libItem.subLibrary.length > 0) {
+        const result = findDirectoryById(libraryId, libItem.subLibrary);
+        if (result) return result;
+      }
+    }
+    return null;
+  };
+
+  const handleDirectoryChange = (
+    e: React.ChangeEvent<{ value: unknown }>,
+    level: number
+  ): void => {
+    const selectedId = e.target.value as number;
+    const updatedDirectories = selectedDirectories.slice(0, level);
+
+    let searchIn = templateDirectory;
+    for (let i = 0; i < level; i++) {
+      const currentDir = findDirectoryById(
+        selectedDirectories[i].libraryId,
+        searchIn
+      );
+      if (currentDir?.subLibrary) {
+        searchIn = currentDir.subLibrary;
+      }
+    }
+
+    const selectedDir = findDirectoryById(selectedId, searchIn);
+
+    if (selectedDir) {
+      updatedDirectories.push({
+        libraryId: selectedDir.libraryId,
+        libraryName: selectedDir.libraryName,
+      });
+
+      const basicData = getFormValues("basicData");
+      basicData.libraryId = selectedDir.libraryId;
+      basicData.libraryStructure = buildDirectoryPath(updatedDirectories);
+      resetForm({
+        ...formState.defaultValues,
+        basicData: {
+          ...basicData,
+        },
+      });
+
+      setSelectedDirectories(updatedDirectories);
+    }
+  };
+
+  /**
+   * @method handleTemplateTags
+   * @description Handles changes in template tags selection and updates form values accordingly
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The change event from the tags multi-select component
+   * @return {void}
+   */
+  const handleTemplateTags = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const tagsArray = e.target.value as unknown as TemplateTagsProps[];
+    const basicData = getFormValues("basicData");
+    const arr = [];
+    tagsArray.forEach((item) => {
+      arr.push({
+        tagId: item?.tagId,
+        tagName: item?.tagName || item?.tagValue,
+        attributeId: item?.attributeId || null,
+        attributeName: item?.attributeName || item?.attributeValue || null,
+      });
+    });
+
+    basicData.tags = JSON.parse(JSON.stringify(arr));
+    resetForm({
+      basicData,
+    });
+  };
+
+  /**
+   * @method findTagPath
+   * @description Finds the complete path (breadcrumb) of a tag or attribute by ID with filterPath
+   * @param {number | string} searchId - The tagId or attributeId to search for
+   * @return {Object | null} Object containing parent tag, attribute info and filterPath, or null if not found
+   */
+  const findTagPath = (
+    searchId: number | string
+  ): {
+    tagId: number;
+    tagName: string;
+    attributeId: number | string | null;
+    attributeName: string | null;
+    filterPath: string;
+  } | null => {
+    for (const tag of tagOptions) {
+      // Check if searchId matches tagId
+      if (
+        tag.tagId === Number(searchId) ||
+        String(tag.tagId) === String(searchId)
+      ) {
+        return tag;
+      }
+
+      // Check if searchId matches any attributeId
+      if (tag.subMenu?.items) {
+        const foundAttribute = tag.subMenu.items.find(
+          (attr) =>
+            attr.value === String(searchId) ||
+            Number(attr.value) === Number(searchId)
+        );
+
+        if (foundAttribute) return foundAttribute;
+      }
+    }
+
+    return null;
+  };
+  /**
+   * @method getTagsValueForMultiSelect
+   * @description Transforms the tags from form values into the format required for the multi-select component, including filterPath for display
+   * @param {Array} tags - Array of tags from form values
+   * @return {Array} Transformed array of tags with label, value, and filterPath for multi-select options
+   */
+  const getTagsValueForMultiSelect = (
+    tags: TemplateTagsProps[]
+  ): NestedMenuItem[] => {
+    if (!isNonEmptyValue(tags)) return [];
+    return tags.map((tag) => {
+      const tagPath = findTagPath(tag?.attributeId || tag?.tagId);
+      return {
+        label: tag?.tagName,
+        value: String(tag?.tagId),
+        filterPath: tagPath?.filterPath || tag?.tagName || "",
+        ...tag,
+      };
+    });
+  };
+
+  useEffect(() => {
+    if (taskTagsOptions?.data && taskTagsOptions?.data?.length > 0) {
+      const arr = [];
+      taskTagsOptions?.data?.forEach((item) => {
+        arr.push({
+          ...item,
+          label: item?.tagValue,
+          value: String(item?.tagId),
+          filterPath: item?.tagValue,
+          subMenu: {
+            items:
+              (item?.attributes?.map((attr) => ({
+                label: attr?.attributeValue,
+                value: String(attr?.attributeId),
+                filterPath: `${item?.tagValue} > ${attr?.attributeValue}`,
+                tagId: item?.tagId,
+                tagValue: item?.tagValue,
+                ...attr,
+              })) as NestedMenuItem[]) || [],
+          },
+        });
+      });
+      setTagOptions(arr);
+    }
+  }, [taskTagsOptions]);
+
+  /**
+   * @method renderDirectoryDropdown
+   * @description Recursively renders directory dropdowns for nested levels
+   * @param {number} level - Current nesting level
+   * @param {number} parentLibraryId - Parent library ID
+   * @return {React.ReactNode} Nested dropdown JSX
+   */
+  const renderDirectoryDropdown = (
+    level: number,
+    parentLibraryId: number | null = null
+  ): React.ReactNode => {
+    const options =
+      level === 0
+        ? generateDirectoryOptions(templateDirectory)
+        : generateDirectoryOptions(getSubLibraryOptions(parentLibraryId || 0));
+
+    if (level > 0 && options.length === 0) return null;
+
+    const currentSelection = selectedDirectories[level];
+    const hasSubLibrary = currentSelection
+      ? getSubLibraryOptions(currentSelection.libraryId).length > 0
+      : false;
+
+    return (
+      <>
+        <Box
+          key={`directory-level-${level}`}
+          className="ct-basic-info__dropdown-row"
+        >
+          <CSelect
+            value={currentSelection?.libraryId?.toString() || ""}
+            options={options}
+            placeholder={
+              level === 0
+                ? BASIC_INFO.directoryPlaceholder
+                : BASIC_INFO.subDirectoryPlaceholder
+            }
+            optionValueKey="value"
+            optionLabelKey="label"
+            onChange={(e) => handleDirectoryChange(e, level)}
+            templates={{
+              inputValueTemplate: () => (
+                <>{currentSelection?.libraryName || ""}</>
+              ),
+            }}
+          />
+          {hasSubLibrary && (
+            <CSvgIcon
+              component={ChevronRight}
+              color="secondary"
+              size={24}
+            />
+          )}
+        </Box>
+        {hasSubLibrary &&
+          renderDirectoryDropdown(level + 1, currentSelection.libraryId)}
+      </>
+    );
+  };
+
+  /**
+   * @method extractDirectoriesFromPath
+   * @description Extracts directory array from nested path structure
+   * @param {Object} path - Nested directory path structure
+   * @return {Array} Flattened array of directories
+   */
+  const extractDirectoriesFromPath = (
+    path: { libraryId?: number; subLibrary?: Record<string, unknown> } | null
+  ): Array<{ libraryId: number; libraryName: string }> => {
+    const directories: Array<{ libraryId: number; libraryName: string }> = [];
+
+    const traverse = (
+      current: {
+        libraryId?: number;
+        subLibrary?: Record<string, unknown>;
+      } | null
+    ): void => {
+      if (!current || !current.libraryId) return;
+
+      const directory = findDirectoryById(current.libraryId, templateDirectory);
+      if (directory) {
+        directories.push({
+          libraryId: directory.libraryId,
+          libraryName: directory.libraryName,
+        });
+      }
+
+      if (current.subLibrary && Object.keys(current.subLibrary).length > 0) {
+        traverse(
+          current.subLibrary as {
+            libraryId?: number;
+            subLibrary?: Record<string, unknown>;
+          }
+        );
+      }
+    };
+
+    traverse(path);
+    return directories;
+  };
+
+  /**
+   * @method initializeDirectoriesFromForm
+   * @description Initializes selected directories from form data on component mount or when form data changes
+   * @return {void}
+   */
+  useEffect(() => {
+    const libraryStructure = getFormValues("basicData.libraryStructure");
+    if (
+      libraryStructure &&
+      Object.keys(libraryStructure).length > 0 &&
+      selectedDirectories.length === 0
+    ) {
+      const extractedDirectories = extractDirectoriesFromPath(libraryStructure);
+      if (extractedDirectories.length > 0) {
+        setSelectedDirectories(extractedDirectories);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateDirectory]);
 
   return (
     <Box className="ct-basic-info">
@@ -337,21 +748,32 @@ const BasicInfo: React.FC = () => {
             "ct-basic-info__row-item-tags--desktop": isDesktop,
           })}
         >
-          <CMultiSelectWithChip
-            label={BASIC_INFO.tags}
-            name="tags"
-            options={basicTagsSampleData}
-            placeholder={BASIC_INFO.tagsPlaceholder}
-            onDelete={handleTagsDelete}
-            onChange={() => {}}
-            className={clsx({
-              "ct-basic-info__row-item-tags-dropdown": true,
-              "ct-basic-info__row-item-tags-dropdown--desktop": isDesktop,
-            })}
-            width="100%"
-            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-            transformOrigin={{ vertical: "top", horizontal: 200 }}
-            menuWidth={"300px"}
+          <Controller
+            name="basicData.tags"
+            control={control}
+            render={({ field }) => {
+              return (
+                <CMultiSelectWithChip
+                  label={BASIC_INFO.tags}
+                  name="tags"
+                  options={tagOptions || []}
+                  value={getTagsValueForMultiSelect(
+                    field.value as TemplateTagsProps[]
+                  )}
+                  placeholder={BASIC_INFO.tagsPlaceholder}
+                  onDelete={handleTagsDelete}
+                  onChange={handleTemplateTags}
+                  className={clsx({
+                    "ct-basic-info__row-item-tags-dropdown": true,
+                    "ct-basic-info__row-item-tags-dropdown--desktop": isDesktop,
+                  })}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                  transformOrigin={{ vertical: "top", horizontal: 200 }}
+                  menuWidth={"300px"}
+                  menuHeight={"220px"}
+                />
+              );
+            }}
           />
         </Box>
       </Box>
@@ -366,63 +788,14 @@ const BasicInfo: React.FC = () => {
           >
             {BASIC_INFO.directory}
           </Box>
-          <Box className="ct-basic-info__dropdown-row">
-            <Controller
-              name="basicData.libraryId"
-              control={control}
-              render={({ field }) => (
-                <CSelect
-                  {...field}
-                  value={field.value?.toString()}
-                  error={!!formErrors.basicData?.libraryId}
-                  helperText={
-                    formErrors.basicData?.libraryId?.message as string
-                  }
-                  options={directoryDropdownOptions}
-                  placeholder={BASIC_INFO.directoryPlaceholder}
-                  onChange={(e) => {
-                    field.onChange(Number(e.target.value));
-                  }}
-                  templates={{
-                    inputValueTemplate: () => (
-                      <>{directoryDropdownOptions[0].label}</>
-                    ),
-                  }}
-                  optionValueKey="value"
-                  optionLabelKey="label"
-                />
-              )}
-            />
-            <CSvgIcon
-              component={ChevronRight}
-              color="secondary"
-              size={24}
-            />
-            <CSelect
-              options={directoryDropdownOptions}
-              placeholder={BASIC_INFO.subDirectoryPlaceholder}
-              width="200px"
-              optionValueKey="value"
-              optionLabelKey="label"
-              templates={{
-                inputValueTemplate: () => (
-                  <>{directoryDropdownOptions[0].label}</>
-                ),
-              }}
-            />
-            <CSvgIcon
-              component={ChevronRight}
-              color="secondary"
-              size={24}
-            />
-            <CSelect
-              options={directoryDropdownOptions}
-              placeholder={BASIC_INFO.subDirectoryPlaceholder}
-              optionValueKey="value"
-              optionLabelKey="label"
-              width="200px"
-            />
-          </Box>
+          <div className="ct-basic-info__directory-dropdown-wrapper">
+            {renderDirectoryDropdown(0)}
+          </div>
+          {formErrors?.basicData?.libraryId && (
+            <div className="ct-basic-info__error-text">
+              {formErrors?.basicData?.libraryId?.message as string}
+            </div>
+          )}
         </Box>
       </Box>
 

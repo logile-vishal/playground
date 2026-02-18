@@ -201,7 +201,6 @@
       "deleteNotification": "删除通知?",
       "deleteNotificationDescription": "您确定要删除此通知吗？",
       "deleteNotificationSubDescription": "此操作无法撤销。",
-      "noRecipientsSelected": "未选择任何接收人",
       "fields": {
         "condition": "条件",
         "conditionQuestion": "条件问题",

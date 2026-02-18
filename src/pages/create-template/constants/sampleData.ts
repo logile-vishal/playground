@@ -21,43 +21,6 @@ export const notificationSampleData = [
   },
 ];
 
-export const notificationTriggerByAnswersSampleData = [
-  {
-    id: 3,
-    index: "1",
-    conditionQuestion: "Is the department clean and organized?",
-    conditionAnswer: "No",
-    messageTemplate: {
-      id: 1,
-      subject: "Please clean the department immediately",
-    },
-    recipients: ["Assignee"],
-  },
-  {
-    id: 4,
-    index: "2",
-    conditionQuestion: "Is the shared display case in use?",
-    conditionAnswer: "Yes",
-    messageTemplate: {
-      id: 2,
-      subject: "Choose your favourite colour",
-    },
-    recipients: ["Manager", "Supervisor"],
-  },
-  {
-    id: 5,
-    index: "3.1",
-    conditionQuestion:
-      "Were you able to clean the floors according to expect and maintain proper hygiene standards throughout the entire facility as required by management and company policies?",
-    conditionAnswer: "Yes",
-    messageTemplate: {
-      id: 3,
-      subject: "Cleaning supplies needed",
-    },
-    recipients: ["Assignee"],
-  },
-];
-
 export const followupSampleData = [
   {
     id: 1,

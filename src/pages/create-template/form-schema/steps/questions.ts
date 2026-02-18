@@ -44,7 +44,7 @@ const optionSchema = zod.object({
   formula: zod.string().optional(),
 });
 
-const richTextValidationSchema = zod.string().refine(
+export const richTextValidationSchema = zod.string().refine(
   (val) => {
     const isValid =
       val.trim() !== "" &&

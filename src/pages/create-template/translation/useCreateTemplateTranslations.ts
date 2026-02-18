@@ -476,9 +476,6 @@ export const useCreateTemplateTranslations = () => {
       deleteNotificationSubDescription: t(
         "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.deleteNotificationSubDescription"
       ),
-      noRecipientsSelected: t(
-        "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.noRecipientsSelected"
-      ),
       fields: {
         condition: t("NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.condition"),
         conditionPlaceholder: t(

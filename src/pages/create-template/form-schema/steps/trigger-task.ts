@@ -48,7 +48,9 @@ export const triggerConditionSchema = zod.object({
     }),
   questionId: zod.string().nullable().optional(),
   answerIndex: zod.string().nullable().optional(),
-  recipients: zod.array(zod.string()).optional(),
+  recipients: zod
+    .array(zod.string())
+    .min(1, "Atleast one recipient is required"),
 });
 
 /**

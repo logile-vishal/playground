@@ -19,10 +19,8 @@ export const CreateTemplateFormProvider: React.FC<
       description: "",
       templateType: "",
       tags: [],
-      libraryId: 1,
-      libraryStructure: {
-        libraryId: 1,
-      },
+      libraryId: 0,
+      libraryStructure: null,
     },
     questions: [],
     advancedOptions: {},

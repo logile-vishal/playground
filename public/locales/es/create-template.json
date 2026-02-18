@@ -197,7 +197,6 @@
       "deleteNotification": "Eliminar notificación?",
       "deleteNotificationDescription": "¿Está seguro de que desea eliminar esta notificación?",
       "deleteNotificationSubDescription": "Esta acción no se puede deshacer.",
-      "noRecipientsSelected": "No se han seleccionado destinatarios",
       "fields": {
         "condition": "Condición",
         "conditionPlaceholder": "Seleccione condición",

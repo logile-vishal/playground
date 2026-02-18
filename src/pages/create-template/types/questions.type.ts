@@ -267,6 +267,15 @@ export type InputTypeModalProps = {
   onClose: () => void;
 };
 
+export type TemplateTagsProps = {
+  tagId: number;
+  tagName: string;
+  tagValue?: string;
+  attributeId: number;
+  attributeName: string;
+  attributeValue?: string;
+};
+
 export type AdvanceTabProps = {
   questionFormPath: string;
   question: QuestionProps;

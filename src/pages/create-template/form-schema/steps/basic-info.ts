@@ -1,17 +1,11 @@
 import { z as zod } from "zod";
 
-/* Recursive Schema for Directory Structure */
-type libraryStructure = {
-  libraryId: number;
-  subLibrary?: libraryStructure;
-};
-
-const directorySchema: zod.ZodType<libraryStructure> = zod.lazy(() =>
-  zod.object({
-    libraryId: zod.number(),
-    subLibrary: directorySchema.optional(),
+const directorySchema = zod
+  .object({
+    libraryId: zod.number().optional(),
+    subLibrary: zod.lazy(() => directorySchema).optional(),
   })
-) as zod.ZodType<libraryStructure>;
+  .optional();
 
 const basicInfoStepChecklistSchema = zod.object({
   baseTemplateType: zod.literal("checklist"),
@@ -23,12 +17,12 @@ const basicInfoStepChecklistSchema = zod.object({
       zod.object({
         tagId: zod.number(),
         tagName: zod.string(),
-        attributeId: zod.number(),
-        attributeName: zod.string(),
+        attributeId: zod.number().optional().nullable(),
+        attributeName: zod.string().optional().nullable(),
       })
     )
     .optional(),
-  libraryId: zod.number().min(1, "Directory ID is required"),
+  libraryId: zod.number().min(1, "Directory is required"),
   libraryStructure: directorySchema,
 });
 
@@ -42,12 +36,12 @@ const basicInfoStepFormSchema = zod.object({
       zod.object({
         tagId: zod.number(),
         tagName: zod.string(),
-        attributeId: zod.number(),
-        attributeName: zod.string(),
+        attributeId: zod.number().optional().nullable(),
+        attributeName: zod.string().optional().nullable(),
       })
     )
     .optional(),
-  libraryId: zod.number().min(1, "This field is required"),
+  libraryId: zod.number().min(1, "Directory is required"),
   libraryStructure: directorySchema,
   attachment: zod
     .array(
@@ -69,12 +63,12 @@ const basicInfoStepSpreadsheetSchema = zod.object({
       zod.object({
         tagId: zod.number(),
         tagName: zod.string(),
-        attributeId: zod.number(),
-        attributeName: zod.string(),
+        attributeId: zod.number().optional().nullable(),
+        attributeName: zod.string().optional().nullable(),
       })
     )
     .optional(),
-  libraryId: zod.number().min(1, "Directory ID is required"),
+  libraryId: zod.number().min(1, "Directory is required"),
   libraryStructure: directorySchema,
   attachment: zod
     .array(
@@ -96,12 +90,12 @@ const basicInfoStepGridSchema = zod.object({
       zod.object({
         tagId: zod.number(),
         tagName: zod.string(),
-        attributeId: zod.number(),
-        attributeName: zod.string(),
+        attributeId: zod.number().optional().nullable(),
+        attributeName: zod.string().optional().nullable(),
       })
     )
     .optional(),
-  libraryId: zod.number().min(1, "This field is required"),
+  libraryId: zod.number().min(1, "Directory is required"),
   libraryStructure: directorySchema,
 });
 

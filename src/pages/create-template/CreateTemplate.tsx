@@ -42,7 +42,7 @@ const CreateTemplateContent: React.FC = () => {
   const navigate = useNavigate();
   const { triggerValidation, formErrors, watch, getFormValues } =
     useCreateTemplateForm();
-  const templateType = getFormValues("basicData.templateType");
+  const templateType = getFormValues("templateType");
   const watchQuestionList = watch("questions") as QuestionProps[];
   const watchColumnList = watch("columns") as ColumnProps[];
   const { generateId } = useWalkmeId();

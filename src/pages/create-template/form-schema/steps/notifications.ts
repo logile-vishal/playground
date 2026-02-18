@@ -1,22 +1,15 @@
 import { z as zod } from "zod";
 
 import { baseTriggerTaskSchema } from "./trigger-task";
+import { richTextValidationSchema } from "./questions";
 
 export const notificationSchema = baseTriggerTaskSchema.extend({
   messageTemplates: zod.object({
     id: zod.number().optional(),
-    subject: zod
-      .string()
-      .min(
-        1,
-        "Field is required"
-      ) /** TODO: error message will be modified later */,
-    message: zod
-      .string()
-      .min(
-        1,
-        "Field is required"
-      ) /** TODO: error message will be modified later */,
+    subject:
+      richTextValidationSchema /** TODO: error message will be modified later */,
+    message:
+      richTextValidationSchema /** TODO: error message will be modified later */,
   }),
 });
 

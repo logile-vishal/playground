@@ -287,23 +287,6 @@ const AddEditNotificationModal = ({
     }
   }, [showNotificationModal, setValue]);
 
-  const handleSubmitButtonDisabled = () => {
-    const customRecipientList =
-      watchNotification.recipientOrgs?.length > 0 &&
-      watchNotification.recipientOrgTypes?.length > 0 &&
-      watchNotification.recipientPositions?.length > 0;
-
-    const isRecipientsEmpty =
-      watchNotification.recipients?.length === 0 && !customRecipientList;
-
-    return (
-      !isNonEmptyValue(watchNotification.condition) ||
-      isRecipientsEmpty ||
-      !isNonEmptyValue(watchNotification.messageTemplates?.subject) ||
-      !isNonEmptyValue(watchNotification.messageTemplates?.message)
-    );
-  };
-
   const getQuestionsList = (): Array<{ label: string; value: string }> => {
     return watchQuestionList
       .filter((question) => {
@@ -335,7 +318,6 @@ const AddEditNotificationModal = ({
       size="large"
       confirmText={GENERAL.submitButtonLabel}
       onConfirm={handleNotificationSubmit}
-      disablePrimaryAction={handleSubmitButtonDisabled()}
     >
       <ModalBody>
         <Box className="ct-add-notification-modal">
@@ -547,7 +529,7 @@ const AddEditNotificationModal = ({
               formErrors?.notification?.recipients &&
               !isNonEmptyValue(watchNotification?.recipientOrgs) && (
                 <Box className="ct-add-notification-modal__recipients-count-error">
-                  {NOTIFICATIONS.ADD_NOTIFICATION_MODAL.noRecipientsSelected}
+                  {formErrors?.notification?.recipients?.message}
                 </Box>
               )}
           </Box>

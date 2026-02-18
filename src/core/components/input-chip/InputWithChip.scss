@@ -23,7 +23,7 @@
     overflow: auto;
     height: var(--input-with-chip-height);
     @include flex-center(flex-start, center);
-    gap: var(--space-s);
+    gap: var(--space-none);
     cursor: pointer;
     border: 1px solid var(--logile-border-primary);
     border-radius: var(--radius-m);
@@ -54,6 +54,10 @@
       &::-webkit-scrollbar {
         display: none;
       }
+    }
+
+    .MuiChip-root .MuiChip-label {
+      padding-right: var(--space-none) !important;
     }
 
     &-content {

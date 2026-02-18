@@ -137,6 +137,13 @@ export interface TagOptionsType {
   tagId: number;
   tagValue: string;
   tagType: number;
+  attributes: [
+    {
+      attributeId: number;
+      attributeName: string | null;
+      attributeValue: string | null;
+    },
+  ];
   label?: string;
   value?: string | number;
 }
