@@ -12,4 +12,5 @@ export type ColumnCardProps = {
   handleAddColumn: (columnId?: string) => Promise<boolean>;
   isNewColumnAllowed: boolean;
   walkMeIdPrefix: string[];
+  columnFormPath?: string;
 };

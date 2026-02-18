@@ -677,6 +677,9 @@ export const useCreateTemplateTranslations = () => {
       previousAnswerPlaceholder: t(
         "ADVANCED_TAB_OPTIONS.VISIBILITY.previousAnswerPlaceholder"
       ),
+      previousQuestionPlaceholder: t(
+        "ADVANCED_TAB_OPTIONS.VISIBILITY.previousQuestionPlaceholder"
+      ),
       previousAnswerWarningOnPreviousAnswer: t(
         "ADVANCED_TAB_OPTIONS.VISIBILITY.previousAnswerWarningOnPreviousAnswer"
       ),

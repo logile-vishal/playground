@@ -46,9 +46,10 @@ const AddEditSectionModal: React.FC<SectionModalProps> = ({
 
   const handleAddSection = () => {
     if (!isNonEmptyValue(sectionName)) return;
-    const qId = addNewSection(sectionName);
+    const { qId, sectionId } = addNewSection(sectionName);
     onClose();
     toggleExpand(qId);
+    toggleExpand(sectionId);
   };
 
   useEffect(() => {

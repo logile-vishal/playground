@@ -102,10 +102,6 @@
     overflow: hidden;
     box-shadow: var(--shadow-l-2-x) var(--shadow-l-2-y) var(--shadow-l-2-blur)
       var(--shadow-l-2-spread) var(--logile-utility-gray-1a);
-    .ques-card-collapsed {
-      border: none;
-      border-radius: 0;
-    }
     .ct-question-card-expanded {
       border: none;
       border-radius: 0;
@@ -114,13 +110,14 @@
   }
   &__questions-item {
     border-bottom: 1px solid var(--logile-border-primary);
-    &:last-child {
-      border-bottom: none;
+    &:first-of-type .ques-card-collapsed {
+      border-radius: var(--radius-m) var(--radius-m) 0 0;
+    }
+    &:last-of-type .ques-card-collapsed {
+      border-radius: 0 0 var(--radius-m) var(--radius-m);
     }
   }
   &__settings-menu {
-    .MuiPaper-root {
-      width: var("--section-setting-popup-width");
-    }
+    --section-setting-menu-width: max-content;
   }
 }

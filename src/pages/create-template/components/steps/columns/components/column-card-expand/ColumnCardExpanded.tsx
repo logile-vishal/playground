@@ -18,6 +18,8 @@ import CTextarea from "@/core/components/form/textarea/Textarea";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useColumnListManager from "@/pages/create-template/hooks/useColumnListManager";
+import { CSortableItem } from "@/core/components/drag-drop";
+import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
 
 import "./ColumnCardExpanded.scss";
 
@@ -53,11 +55,15 @@ const ColumnCardExpanded: React.FC<ColumnCardProps> = ({
    * @description Renders the expanded column card header with controls
    * @return {React.ReactNode} Header JSX element
    */
-  const renderHeader = () => {
+  const renderHeader = (dragHandleContext: DragHandleProps) => {
     return (
       <Box className="ct-column-card-expanded__header">
         <Box className="ct-column-card-expanded__header-left-content">
-          <Box className="ct-column-card-expanded__dnd">
+          <Box
+            className="ct-column-card-expanded__dnd"
+            {...dragHandleContext.listeners}
+            {...dragHandleContext.attributes}
+          >
             <CSvgIcon
               size={24}
               component={DraggableDots}
@@ -141,10 +147,14 @@ const ColumnCardExpanded: React.FC<ColumnCardProps> = ({
   };
 
   return (
-    <Box className="ct-column-card-expanded">
-      {renderHeader()}
-      {renderBody()}
-    </Box>
+    <CSortableItem id={column.columnId}>
+      {(dragHandleContext: DragHandleProps) => (
+        <Box className="ct-column-card-expanded">
+          {renderHeader(dragHandleContext)}
+          {renderBody()}
+        </Box>
+      )}
+    </CSortableItem>
   );
 };
 

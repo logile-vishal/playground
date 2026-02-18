@@ -1,5 +1,3 @@
-import { Box } from "@mui/material";
-
 import type { ColumnCardProps } from "@/pages/create-template/types/columns.type";
 
 import ColumnCardCollapsed from "../column-card-collapsed/ColumnCardCollaspsed";
@@ -22,31 +20,29 @@ const ColumnCard: React.FC<ColumnCardProps> = ({
   handleAddColumn,
   isNewColumnAllowed,
   walkMeIdPrefix,
+  columnFormPath,
 }) => {
-  return (
-    <Box className="ct-column-container">
-      {!expandedList ||
-      !(column?.columnId in expandedList) ||
-      !expandedList[column?.columnId] ? (
-        <ColumnCardCollapsed
-          column={column}
-          columnIndex={columnIndex}
-          toggleExpand={toggleExpand}
-          handleAddColumn={handleAddColumn}
-          isNewColumnAllowed={isNewColumnAllowed}
-          walkMeIdPrefix={walkMeIdPrefix}
-        />
-      ) : (
-        <ColumnCardExpanded
-          column={column}
-          columnIndex={columnIndex}
-          toggleExpand={toggleExpand}
-          handleAddColumn={handleAddColumn}
-          isNewColumnAllowed={isNewColumnAllowed}
-          walkMeIdPrefix={walkMeIdPrefix}
-        />
-      )}
-    </Box>
+  return !expandedList ||
+    !(column?.columnId in expandedList) ||
+    !expandedList[column?.columnId] ? (
+    <ColumnCardCollapsed
+      column={column}
+      columnIndex={columnIndex}
+      toggleExpand={toggleExpand}
+      handleAddColumn={handleAddColumn}
+      isNewColumnAllowed={isNewColumnAllowed}
+      walkMeIdPrefix={walkMeIdPrefix}
+      columnFormPath={columnFormPath}
+    />
+  ) : (
+    <ColumnCardExpanded
+      column={column}
+      columnIndex={columnIndex}
+      toggleExpand={toggleExpand}
+      handleAddColumn={handleAddColumn}
+      isNewColumnAllowed={isNewColumnAllowed}
+      walkMeIdPrefix={walkMeIdPrefix}
+    />
   );
 };
 

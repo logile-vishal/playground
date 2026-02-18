@@ -1,5 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 
+import { DRAG_DROP } from "@/core/components/drag-drop/constants/dragAndDrop";
+import type { DropPosition } from "@/core/components/drag-drop";
+
 import useCreateTemplateForm from "./useCreateTemplateForm";
 import type { ColumnProps } from "../types/columns.type";
 import { newColumnDefaultData } from "../constants/questions";
@@ -126,12 +129,45 @@ const useColumnListManager = () => {
     setFormValue("columns", updatedColumns);
     return newColumnId;
   };
+  const onDragMoveColumn = (
+    draggedId: string,
+    targetId: string,
+    dropPosition: DropPosition
+  ) => {
+    const columnList = getFormValues("columns") as ColumnProps[];
+
+    const foundColumnCopy = JSON.parse(
+      JSON.stringify(columnList.find((col) => col.columnId === draggedId))
+    );
+    const updatedColumns = deleteColumn(columnList, draggedId);
+
+    const getDropIndex = (
+      columns: ColumnProps[],
+      targetId: string,
+      dropPosition: DropPosition
+    ) => {
+      const targetIndex = columns.findIndex((col) => col.columnId === targetId);
+      if (targetIndex === -1) return -1;
+
+      return dropPosition === DRAG_DROP.DROP_POSITION.below
+        ? targetIndex + 1
+        : targetIndex;
+    };
+
+    const dropIndex = getDropIndex(updatedColumns, targetId, dropPosition);
+    updatedColumns.splice(dropIndex, 0, foundColumnCopy);
+    setFormValue("columns", []);
+    queueMicrotask(() => {
+      setFormValue("columns", updatedColumns);
+    });
+  };
 
   return {
     addNewColumn,
     removeColumn,
     copyExistingColumn,
     addNewColumnAfter,
+    onDragMoveColumn,
   };
 };
 

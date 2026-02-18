@@ -14,6 +14,11 @@ import { CButton } from "@/core/components/button/button";
 import type { ColumnProps } from "@/pages/create-template/types/columns.type";
 import useColumnListManager from "@/pages/create-template/hooks/useColumnListManager";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
+import {
+  CDragAndDrop,
+  CSortableContainer,
+  type ExtendedDragEndEvent,
+} from "@/core/components/drag-drop";
 
 import ColumnCard from "./components/column-card/ColumnCard";
 import "./Columns.scss";
@@ -24,7 +29,8 @@ const Columns: React.FC<{ walkMeIdPrefix?: string[] }> = ({
   const { COLUMNS } = useCreateTemplateTranslations();
   const [expandedList, setExpandedList] = useState({});
   const { watch, triggerValidation, formErrors } = useCreateTemplateForm();
-  const { addNewColumn, addNewColumnAfter } = useColumnListManager();
+  const { addNewColumn, addNewColumnAfter, onDragMoveColumn } =
+    useColumnListManager();
 
   const columnList = watch("columns") as ColumnProps[];
   const [isAddColumnAllowed, setIsAddColumnAllowed] = useState(true);
@@ -140,6 +146,14 @@ const Columns: React.FC<{ walkMeIdPrefix?: string[] }> = ({
     );
   };
 
+  const handleDragEnd = (e: ExtendedDragEndEvent) => {
+    const draggedId = e.active.id as string;
+    const targetId = e.over.id as string;
+    const dropPosition = e.dropPosition;
+    if (draggedId == targetId) return;
+    onDragMoveColumn(draggedId, targetId, dropPosition);
+  };
+
   return (
     <Box className="ct-columns">
       {renderColumnHeader()}
@@ -151,20 +165,28 @@ const Columns: React.FC<{ walkMeIdPrefix?: string[] }> = ({
           />
         ) : (
           <Box className="ct-columns-cards-wrapper__content">
-            {columnList?.map((column, index) => {
-              return (
-                <ColumnCard
-                  key={column.columnId}
-                  column={column}
-                  columnIndex={index + 1}
-                  expandedList={expandedList}
-                  toggleExpand={toggleExpand}
-                  handleAddColumn={handleColumnClick}
-                  isNewColumnAllowed={isAddColumnAllowed}
-                  walkMeIdPrefix={walkMeIdPrefix}
-                />
-              );
-            })}
+            <CDragAndDrop callbacks={{ onDragEnd: handleDragEnd }}>
+              <CSortableContainer
+                sortableIds={columnList.map((col) => col.columnId)}
+                id="column-sortable-container"
+              >
+                {columnList?.map((column, index) => {
+                  return (
+                    <ColumnCard
+                      key={column.columnId}
+                      column={column}
+                      columnIndex={index + 1}
+                      expandedList={expandedList}
+                      toggleExpand={toggleExpand}
+                      handleAddColumn={handleColumnClick}
+                      isNewColumnAllowed={isAddColumnAllowed}
+                      walkMeIdPrefix={walkMeIdPrefix}
+                      columnFormPath={`columns.${index}`}
+                    />
+                  );
+                })}
+              </CSortableContainer>
+            </CDragAndDrop>
           </Box>
         )}
         {renderColumnAction()}

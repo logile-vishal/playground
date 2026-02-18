@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 
 import clsx from "@/utils/clsx";
@@ -25,6 +25,7 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
   isAddQuestionAllowed,
   hasError,
 }) => {
+  const { QUESTIONS } = useCreateTemplateTranslations();
   const { QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
 
   /**
@@ -46,6 +47,16 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
       question?.isTemperatureBadgeVisible
     );
   };
+
+  const questionTypeMap = useMemo(() => {
+    return QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN.reduce(
+      (acc, curr) => {
+        acc[curr.value] = curr.label;
+        return acc;
+      },
+      {} as Record<string, string>
+    );
+  }, [QUESTIONS]);
 
   return (
     <CSortableItem
@@ -135,6 +146,11 @@ const QuestionCardCollapsed: React.FC<QuestionCardProps> = ({
             </Box>
 
             {isDividerVisible() && <CDivider orientation="vertical" />}
+            <Box className="ques-card-collapsed__type-label">
+              <span>
+                {questionTypeMap?.[question.questionBasicData.questionType]}
+              </span>
+            </Box>
             <Box
               onClick={() => toggleExpand(question?.qId)}
               className="ques-card-collapsed__chevron-down"

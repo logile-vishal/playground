@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Badge, Box } from "@mui/material";
 import { Controller } from "react-hook-form";
 import type { FieldValues, Control } from "react-hook-form";
-import type { DragStartEvent } from "@dnd-kit/core";
 
 import {
   AddIcon,
@@ -397,10 +396,6 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
       addNewOption(props.question?.qId);
   };
 
-  const handleDragStart = (event: DragStartEvent) => {
-    console.log("Drag started:", event);
-  };
-
   const handleDragEnd = (event: ExtendedDragEndEvent) => {
     const questionId = props.question?.qId;
     const activeId = event.active.id as number;
@@ -408,29 +403,12 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
     const dropPosition = event.dropPosition;
     onDragMoveOption(questionId, activeId, overId, dropPosition);
   };
-  const findOptionByIdx = (idx: string) => {
-    return props.question?.questionBasicData?.response?.[Number(idx)];
-  };
-
   const optionsData = props?.question?.questionBasicData?.response;
 
   return (
     <CDragAndDrop
       callbacks={{
-        onDragStart: handleDragStart,
         onDragEnd: handleDragEnd,
-      }}
-      renderDragOverlay={(activeId) => {
-        const foundOption = findOptionByIdx(String(activeId)); //TODO: CHECK ONCE OPTION ID HAS BEEN SET
-        return foundOption ? (
-          <QuestionCardOption
-            key={props?.question.qId + "_option_" + 0}
-            idx={0}
-            questionFormPath={props.questionFormPath}
-            question={props.question}
-            linkCount={0}
-          />
-        ) : null;
       }}
       restrictToVertical={true}
     >

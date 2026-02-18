@@ -14,6 +14,11 @@ import { useCreateTemplateTranslations } from "@/pages/create-template/translati
 import type { QuestionProps } from "@/pages/create-template/types/questions.type";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
+import {
+  CDragAndDrop,
+  CSortableContainer,
+  type ExtendedDragEndEvent,
+} from "@/core/components/drag-drop";
 
 import "./Rows.scss";
 import { RenderQuestion } from "../questions/Questions";
@@ -22,7 +27,7 @@ const Rows: React.FC<{ walkMeIdPrefix?: string[] }> = ({ walkMeIdPrefix }) => {
   const { ROWS } = useCreateTemplateTranslations();
   const [expandedList, setExpandedList] = useState({});
   const { watch, triggerValidation, formErrors } = useCreateTemplateForm();
-  const { addNewQuestion } = useQuestionListManager();
+  const { addNewQuestion, onDragMoveQuestion } = useQuestionListManager();
   const [isAddQuestionAllowed, setIsAddQuestionAllowed] = useState(true);
   const rowList = watch("questions") as QuestionProps[];
 
@@ -152,6 +157,15 @@ const Rows: React.FC<{ walkMeIdPrefix?: string[] }> = ({ walkMeIdPrefix }) => {
     );
   };
 
+  const handleDragEnd = (e: ExtendedDragEndEvent) => {
+    const draggedId = e.active.id as string;
+    const targetId = e.over.id as string;
+    const dropPosition = e.dropPosition;
+
+    if (draggedId == targetId) return;
+    onDragMoveQuestion(draggedId, targetId, dropPosition);
+  };
+
   return (
     <Box className="ct-rows">
       {renderRowHeader()}
@@ -163,22 +177,29 @@ const Rows: React.FC<{ walkMeIdPrefix?: string[] }> = ({ walkMeIdPrefix }) => {
           />
         ) : (
           <Box className="ct-rows-cards-wrapper__content">
-            {rowList &&
-              rowList?.map((row, index) => {
-                return (
-                  <RenderQuestion
-                    index={index}
-                    key={row.qId}
-                    question={row}
-                    expandedList={expandedList}
-                    toggleExpand={toggleExpand}
-                    questionFormPath={`questions.${index}`}
-                    handleQuestionAdd={handleRowClick}
-                    isAddQuestionAllowed={isAddQuestionAllowed}
-                    walkMeIdPrefix={walkMeIdPrefix}
-                  />
-                );
-              })}
+            <CDragAndDrop callbacks={{ onDragEnd: handleDragEnd }}>
+              <CSortableContainer
+                sortableIds={rowList.map((row) => row.qId)}
+                id="row-sortable-container"
+              >
+                {rowList &&
+                  rowList?.map((row, index) => {
+                    return (
+                      <RenderQuestion
+                        index={index}
+                        key={row.qId}
+                        question={row}
+                        expandedList={expandedList}
+                        toggleExpand={toggleExpand}
+                        questionFormPath={`questions.${index}`}
+                        handleQuestionAdd={handleRowClick}
+                        isAddQuestionAllowed={isAddQuestionAllowed}
+                        walkMeIdPrefix={walkMeIdPrefix}
+                      />
+                    );
+                  })}
+              </CSortableContainer>
+            </CDragAndDrop>
           </Box>
         )}
       </Box>

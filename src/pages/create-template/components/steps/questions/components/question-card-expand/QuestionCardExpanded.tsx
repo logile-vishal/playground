@@ -33,6 +33,8 @@ import {
 } from "@/pages/create-template/constants/sampleData";
 import { CSortableItem } from "@/core/components/drag-drop";
 import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
+import clsx from "@/utils/clsx";
+import { useFormFieldError } from "@/pages/create-template/hooks/useCreateTemplateFormError";
 
 import { RenderQuestion } from "../../Questions";
 import InputTypeModal from "../input-type-modal/InputTypeModal";
@@ -73,6 +75,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   );
   const [attachments, setAttachments] = useState<File[]>([]);
   const { control, watch, formErrors } = useCreateTemplateForm();
+  const { hasError } = useFormFieldError(questionFormPath);
   const {
     modifyQuestionType,
     cloneExistingQuestion,
@@ -632,7 +635,15 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     >
       {(dragHandleContext: DragHandleProps) => (
         <>
-          <Box className="ct-question-card-expanded">
+          <Box
+            className={clsx({
+              "ct-question-card-expanded": true,
+              "ct-question-card-expanded--error":
+                currentTab ===
+                  QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.ADVANCED.value &&
+                hasError,
+            })}
+          >
             {renderHeader(dragHandleContext)}
             {renderBody()}
           </Box>

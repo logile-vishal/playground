@@ -249,7 +249,7 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
     level === 0 ? (menuPlacement ?? "bottom-start") : undefined;
   useEffect(updateMenuWidth, [anchorEl, providedMenuWidth]);
 
-  return (
+  return anchorEl ? (
     <CPopper
       onClose={onClose}
       anchorEl={anchorEl}
@@ -334,6 +334,8 @@ const CNestedMenu: React.FC<NestedMenuProps> = ({
         );
       })}
     </CPopper>
+  ) : (
+    <></>
   );
 };
 

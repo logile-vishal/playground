@@ -48,7 +48,7 @@ const NumericTab: React.FC<NumericTabProps> = ({
         );
       }
     },
-    [questionFormPath, setFormValue]
+    [questionFormPath, setFormValue, ADVANCED_TAB_NUMERIC_VALUE_TYPE_OPTIONS]
   );
 
   return (

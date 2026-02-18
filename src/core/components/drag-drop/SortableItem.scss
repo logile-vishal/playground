@@ -1,4 +1,4 @@
-.draggable-item {
+.sortable-item {
   --is-drag-over-bg-color: rgba(0, 123, 255, 0.02);
   position: relative;
 
@@ -17,9 +17,11 @@
   --indicator-height: 5px;
   --indicator-color: var(--logile-bg-primary);
   --indicator-circle-end-size: 8px;
+  --indicator-overflow: 8px;
+
   position: absolute;
-  left: 0;
-  right: 0;
+  left: calc(-1 * var(--indicator-overflow));
+  right: calc(-1 * var(--indicator-overflow));
   height: var(--indicator-height);
   background-color: var(--indicator-color);
   border-radius: var(--radius-xxs);
@@ -48,14 +50,14 @@
     right: -4px;
   }
 
-  // Position above the element
+  // Position above the element - extend vertically by indicator height
   &--above {
-    top: -0px;
+    top: calc(-1 * (var(--indicator-height) / 2));
   }
 
-  // Position below the element
+  // Position below the element - extend vertically by indicator height
   &--below {
-    bottom: -0px;
+    bottom: calc(-1 * (var(--indicator-height) / 2));
   }
 }
 

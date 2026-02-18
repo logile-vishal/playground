@@ -408,7 +408,7 @@ const VisibilityTab: React.FC<VisibilityTabProps> = ({
                     },
                   }}
                   placeholder={
-                    ADVANCED_TAB_OPTIONS.VISIBILITY.previousExecutionPlaceholder
+                    ADVANCED_TAB_OPTIONS.VISIBILITY.previousQuestionPlaceholder
                   }
                   options={previousQuestionsListOptions}
                 />

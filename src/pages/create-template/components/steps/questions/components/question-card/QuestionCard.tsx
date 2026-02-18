@@ -4,6 +4,7 @@ import { isNonEmptyValue } from "@/utils";
 import QuestionCardCollapsed from "../question-card-collapsed/QuestionCardCollapsed";
 import QuestionCardExpanded from "../question-card-expand/QuestionCardExpanded";
 import "./QuestionCard.scss";
+import { useFormFieldError } from "@/pages/create-template/hooks/useCreateTemplateFormError";
 
 /**
  * @method QuestionCard
@@ -26,6 +27,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   isAddQuestionAllowed,
   walkMeIdPrefix,
 }) => {
+  const { hasError } = useFormFieldError(questionFormPath);
   return (
     <>
       {!isNonEmptyValue(expandedList) || !expandedList[question?.qId] ? (
@@ -37,7 +39,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           questionFormPath={questionFormPath}
           handleQuestionAdd={handleQuestionAdd}
           isAddQuestionAllowed={isAddQuestionAllowed}
-          hasError={question.hasError}
+          hasError={hasError}
         />
       ) : (
         <QuestionCardExpanded

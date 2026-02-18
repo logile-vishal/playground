@@ -60,7 +60,9 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: var(--space-l);
+  & > .sortable-item {
+    padding: var(--space-s) 0;
+  }
   &__option-collapsed {
     display: none;
   }

@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { useSortable } from "@dnd-kit/sortable";
-import { useDndContext } from "@dnd-kit/core";
+import { useDndContext, useDndMonitor } from "@dnd-kit/core";
 
 import type {
   DraggableItemProps,
@@ -8,8 +8,8 @@ import type {
   DragHandleProps,
 } from "./types/DragAndDrop.type";
 import { useDropPosition } from "./hooks/useDropPosition";
-import "./SortableItem.scss";
 import { DRAG_DROP } from "./constants/dragAndDrop";
+
 import "./SortableItem.scss";
 
 export const CSortableItem: React.FC<DraggableItemProps> = ({
@@ -30,47 +30,64 @@ export const CSortableItem: React.FC<DraggableItemProps> = ({
     }
   );
 
-  const { active, over } = useDndContext();
-  const isDragActive = active !== null;
+  const { over } = useDndContext();
   const isCurrentlyOver = isOver || over?.id === id;
 
   /**
-   * @description Determines if drop will be above or below based on cursor position.
-   * Also updates the global drop position context for use in drag end handler.
+   * @description Calculates drop position (above/below) based on pointer coordinates.
+   * Works for both mouse and touch input.
    */
-  useEffect(() => {
-    if (!isDragActive || !isCurrentlyOver || !elementRef.current) {
-      setDropPosition(null);
-      return;
-    }
-
-    const handleMouseMove = (e: MouseEvent) => {
+  const calculateDropPosition = useCallback(
+    (pointerY: number) => {
       if (!elementRef.current || !isCurrentlyOver) return;
 
       const rect = elementRef.current.getBoundingClientRect();
       const midPoint = rect.top + rect.height / 2;
       const position: DropPosition =
-        e.clientY < midPoint
+        pointerY < midPoint
           ? DRAG_DROP.DROP_POSITION.above
           : DRAG_DROP.DROP_POSITION.below;
+
       setDropPosition(position);
-
-      // Update global context so DragAndDrop provider can access it on drag end
       setGlobalDropPosition(id, position);
-    };
+    },
+    [id, isCurrentlyOver, setGlobalDropPosition]
+  );
 
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [isDragActive, isCurrentlyOver, id, setGlobalDropPosition]);
+  /**
+   * @description Uses dnd-kit's drag lifecycle to detect drop position.
+   * Works for both mouse and touch/pointer input (unlike mousemove events).
+   */
+  useDndMonitor({
+    onDragMove: (event) => {
+      // Only calculate if this element is being hovered over
+      if (event?.over?.id == event?.active?.id || !elementRef.current) return;
+      // Get pointer coordinates from the drag event
+      const { activatorEvent, delta } = event;
 
-  // Reset drop position when not over this element
-  useEffect(() => {
-    if (!isCurrentlyOver) {
+      // Calculate current pointer Y position
+      let pointerY: number;
+      if (activatorEvent instanceof MouseEvent) {
+        pointerY = activatorEvent.clientY + delta.y;
+      } else if (activatorEvent instanceof TouchEvent) {
+        pointerY = activatorEvent.touches[0]?.clientY + delta.y;
+      } else if (
+        activatorEvent instanceof PointerEvent ||
+        (activatorEvent && "clientY" in activatorEvent)
+      ) {
+        pointerY = (activatorEvent as PointerEvent).clientY + delta.y;
+      } else {
+        return;
+      }
+      calculateDropPosition(pointerY);
+    },
+    onDragEnd: () => {
       setDropPosition(null);
-    }
-  }, [isCurrentlyOver]);
+    },
+    onDragCancel: () => {
+      setDropPosition(null);
+    },
+  });
 
   const itemStyle: React.CSSProperties = {
     cursor: disabled ? "default" : enableCustomDragHandle ? "default" : "grab",
@@ -80,7 +97,7 @@ export const CSortableItem: React.FC<DraggableItemProps> = ({
   };
 
   const finalClassName =
-    `draggable-item ${className} ${isDragging ? "dragging" : ""} ${isCurrentlyOver ? "is-over" : ""}`.trim();
+    `sortable-item ${className} ${isDragging ? "dragging" : ""} ${isCurrentlyOver ? "is-over" : ""}`.trim();
 
   const dragProps = enableCustomDragHandle
     ? {}

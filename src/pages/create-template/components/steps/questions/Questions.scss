@@ -60,7 +60,9 @@
     &__content {
       display: flex;
       flex-direction: column;
-      gap: var(--space-xl);
+      & > .sortable-item {
+        padding: var(--space-m) 0;
+      }
     }
   }
 }

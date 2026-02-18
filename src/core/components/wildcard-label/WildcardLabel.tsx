@@ -40,7 +40,7 @@ const replaceWildCardWithRegex = (html: string): string => {
 };
 
 const WildcardLabel = ({ label, truncate }: WildCardLabelProps) => {
-  const parseHtml = replaceWildCardWithRegex(label);
+  const parseHtml = replaceWildCardWithRegex(label ?? "");
   return (
     <div
       className={clsx({

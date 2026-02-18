@@ -908,22 +908,29 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
   };
 
   // Only show skeleton when loading initial data (first page), not during infinite scroll
-  const shouldShowSkeleton = isDataLoading && (!templatesList?.data?.length || templatesList.data.length === 0);
+  const shouldShowSkeleton =
+    isDataLoading &&
+    (!templatesList?.data?.length || templatesList.data.length === 0);
 
-  const templateTableProps = useMemo(() => ({
-    columns: getColumns(),
-    data: shouldShowSkeleton
-      ? Array.from({ length: 10 }).map((_, idx) => ({ id: `skeleton-${idx}` }))
-      : templatesList?.data || [],
-    enableColumnActions: false,
-    enableColumnFilters: false,
-    enablePagination: false,
-    enableSorting: false,
-    enableBottomToolbar: false,
-    enableTopToolbar: false,
-    muiTableBodyRowProps: { hover: false },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [shouldShowSkeleton, templatesList?.data, isDesktop, isReportType]);
+  const templateTableProps = useMemo(
+    () => ({
+      columns: getColumns(),
+      data: shouldShowSkeleton
+        ? Array.from({ length: 10 }).map((_, idx) => ({
+            id: `skeleton-${idx}`,
+          }))
+        : templatesList?.data || [],
+      enableColumnActions: false,
+      enableColumnFilters: false,
+      enablePagination: false,
+      enableSorting: false,
+      enableBottomToolbar: false,
+      enableTopToolbar: false,
+      muiTableBodyRowProps: { hover: false },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }),
+    [shouldShowSkeleton, templatesList?.data, isDesktop, isReportType]
+  );
 
   return (
     <div

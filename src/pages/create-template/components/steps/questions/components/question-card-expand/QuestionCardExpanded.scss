@@ -134,4 +134,7 @@
       width: var(--response-template-width);
     }
   }
+  &--error {
+    border: 1px solid var(--logile-border-state-violation);
+  }
 }

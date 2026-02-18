@@ -23,13 +23,13 @@ import {
   CSortableContainer,
   type ExtendedDragEndEvent,
 } from "@/core/components/drag-drop";
+import CModal, { ModalBody } from "@/core/components/modal/Modal";
+import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 
 import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "./components/question-card/QuestionCard";
 import QuestionSection from "./components/section/Section";
 import "./Questions.scss";
-import CModal, { ModalBody } from "@/core/components/modal/Modal";
-import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 
 export const RenderQuestion: React.FC<{
   index: number;
@@ -53,6 +53,8 @@ export const RenderQuestion: React.FC<{
   if (question?.subQuestions && question?.subQuestions.length > 0) {
     return (
       <QuestionSection
+        isExpanded={expandedList[question?.qId]}
+        key={question.qId}
         index={`${index + 1}`}
         sectionId={question.qId}
         title={question.questionBasicData.title}
@@ -68,6 +70,7 @@ export const RenderQuestion: React.FC<{
   }
   return (
     <QuestionCard
+      key={question.qId}
       index={`${index + 1}`}
       question={question}
       expandedList={expandedList}
@@ -178,42 +181,6 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
   ]);
 
   /**
-   * @method findQuestionById
-   * @description Finds a question by its ID in the question list or sub-questions.
-   * @param questionId - The ID of the question to find
-   * @returns The question object if found, null otherwise
-   */
-  const findQuestionById = (questionId: string | number) => {
-    const idToFind = String(questionId);
-
-    for (const [index, question] of watchQuestionList.entries()) {
-      // Check main question
-      if (String(question.qId) === idToFind) {
-        return {
-          ...question,
-          index: index + 1,
-        };
-      }
-
-      // Check sub-questions if they exist
-      if (question?.subQuestions && question.subQuestions.length > 0) {
-        const subQuestionIndex = `${index + 1}.${question.subQuestions.findIndex((subQ) => String(subQ.qId) === idToFind) + 1}`;
-        const subQuestion = question.subQuestions.find(
-          (subQ) => String(subQ.qId) === idToFind
-        );
-        if (subQuestion) {
-          return {
-            ...subQuestion,
-            index: subQuestionIndex,
-          };
-        }
-      }
-    }
-
-    return null;
-  };
-
-  /**
    * @method renderQuestionHeader
    * @description Renders the header section with title and expand/collapse controls.
    * @returns {JSX.Element} Box element with header title and toggle buttons
@@ -313,6 +280,9 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
     const targetId = e.over.id as string;
     const dropPosition = e.dropPosition;
     const questions = getFormValues("questions") as QuestionProps[];
+
+    if (draggedId == targetId) return;
+
     // Closure that captures drag arguments for later execution
     const performDragMove = () => {
       onDragMoveQuestion(draggedId, targetId, dropPosition);
@@ -329,38 +299,6 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
       pendingDragActionRef.current = performDragMove;
       setShowDragConfirmModal(true);
     }
-  };
-  const handleRenderOverlay = (activeId) => {
-    const foundQuestion = findQuestionById(String(activeId));
-
-    if (!foundQuestion) return <></>;
-    if (foundQuestion.subQuestions && foundQuestion.subQuestions.length > 0) {
-      return (
-        <QuestionSection
-          index={foundQuestion.index}
-          key={foundQuestion.qId}
-          sectionId={foundQuestion.qId}
-          title={foundQuestion.questionBasicData.title}
-          questionFormPath={`questions.${foundQuestion.index}`}
-          data={foundQuestion.subQuestions}
-          expandedList={expandedList}
-          toggleExpand={toggleExpand}
-          handleQuestionAdd={handleQuestionClick}
-          isAddQuestionAllowed={isAddQuestionAllowed}
-          walkMeIdPrefix={walkMeIdPrefix}
-          isExpanded={false}
-        />
-      );
-    }
-    return foundQuestion ? (
-      <QuestionCard
-        index={foundQuestion.index}
-        question={foundQuestion as QuestionProps}
-        toggleExpand={() => {}}
-        expandedList={{}}
-        isAddQuestionAllowed={false}
-      />
-    ) : null;
   };
   return (
     <Box className="ct-questions">
@@ -393,11 +331,10 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
               onDragStart: handleDragStart,
               onDragEnd: handleDragEnd,
             }}
-            renderDragOverlay={handleRenderOverlay}
             restrictToVertical={true}
           >
             <CSortableContainer
-              sortableIds={watchQuestionList?.map((q) => String(q.qId))}
+              sortableIds={watchQuestionList?.map((q) => String(q?.qId ?? ""))}
               id="questions-root-container"
             >
               <Box className="ct-questions-cards-wrapper__content">
@@ -423,6 +360,7 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
         )}
         {renderQuestionAction()}
       </Box>
+
       <AddEditSectionModal
         open={addSectionModal.status}
         onClose={closeAddSectionModal}

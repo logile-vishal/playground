@@ -292,7 +292,11 @@ export const addSection = (data: QuestionProps[], sectionName: string) => {
   newSection.questionBasicData.title = sectionName;
   const subQuestion = getNewQuestionDefaultObjectByType(QUESTION_TYPE.RADIO);
   newSection.subQuestions = [subQuestion];
-  return { qId: subQuestion?.qId, data: [...data, newSection] };
+  return {
+    qId: subQuestion?.qId,
+    sectionId: newSection.qId,
+    data: [...data, newSection],
+  };
 };
 
 /**
@@ -454,18 +458,27 @@ export const dropQuestion = (
   dropPosition: DropPosition
 ): QuestionProps[] => {
   const copyData = deepCopyQuestions(data);
+  const isDraggedASection = draggedQuestion.subQuestions?.length > 0;
 
   // Helper to insert at target position
-  const insertAtTarget = (items: QuestionProps[]): boolean => {
+  const insertAtTarget = (
+    items: QuestionProps[],
+    isRootLevel = true
+  ): boolean => {
     for (let i = 0; i < items.length; i++) {
       if (items[i].qId === targetId) {
-        const insertIndex = dropPosition === "ABOVE" ? i : i + 1;
+        // If dragging a section, only allow drop at root level
+        if (isDraggedASection && !isRootLevel) {
+          return false; // Don't insert sections inside other sections
+        }
+        const insertIndex =
+          dropPosition === DRAG_DROP.DROP_POSITION.above ? i : i + 1;
         items.splice(insertIndex, 0, draggedQuestion);
         return true;
       }
 
       if (items[i].subQuestions?.length > 0) {
-        if (insertAtTarget(items[i].subQuestions)) {
+        if (insertAtTarget(items[i].subQuestions, false)) {
           return true;
         }
       }
@@ -473,7 +486,26 @@ export const dropQuestion = (
     return false;
   };
 
-  insertAtTarget(copyData);
+  // If dragging a section and target is inside a section, find the parent section at root level
+  if (isDraggedASection) {
+    // First try to find at root level
+    const foundAtRoot = copyData.some((q) => q.qId === targetId);
+    if (!foundAtRoot) {
+      // Target is inside a section - find the parent section and drop relative to it
+      for (let i = 0; i < copyData.length; i++) {
+        const section = copyData[i];
+        if (section.subQuestions?.some((subQ) => subQ.qId === targetId)) {
+          // Drop relative to the parent section instead
+          const insertIndex =
+            dropPosition === DRAG_DROP.DROP_POSITION.above ? i : i + 1;
+          copyData.splice(insertIndex, 0, draggedQuestion);
+          return copyData;
+        }
+      }
+    }
+  }
+
+  insertAtTarget(copyData, true);
   return copyData;
 };
 
@@ -523,21 +555,31 @@ export const checkIfParentQuestionToBeDeleted = (
 };
 
 const moveOption = (
-  options,
+  options: QuestionProps["questionBasicData"]["response"],
   draggedIdx: number,
   targetIdx: number,
   dropPosition: DropPosition
-) => {
-  const updatedList = [...options];
-  if (draggedIdx !== -1 && targetIdx !== -1) {
-    const [draggedItem] = updatedList.splice(draggedIdx, 1);
-    const placementIdx =
-      dropPosition === DRAG_DROP.DROP_POSITION.above
-        ? Number(targetIdx)
-        : Number(targetIdx) + 1;
-    updatedList.splice(placementIdx, 0, draggedItem);
+): QuestionProps["questionBasicData"]["response"] => {
+  if (draggedIdx === targetIdx) {
+    return options;
   }
 
+  const updatedList = [...options];
+  const [draggedItem] = updatedList.splice(draggedIdx, 1);
+
+  // After removing the dragged item, indices shift if dragged was before target
+  let adjustedTargetIdx = targetIdx;
+  if (draggedIdx < targetIdx) {
+    adjustedTargetIdx = targetIdx - 1;
+  }
+
+  // Calculate final placement index based on drop position
+  const placementIdx =
+    dropPosition === DRAG_DROP.DROP_POSITION.above
+      ? adjustedTargetIdx
+      : adjustedTargetIdx + 1;
+
+  updatedList.splice(placementIdx, 0, draggedItem);
   return updatedList;
 };
 
@@ -613,6 +655,17 @@ const useQuestionListManager = () => {
    */
   const deleteQuestion = (questionId: string) => {
     openDeleteQuestionModal(questionId);
+    //TODO: UPDATE THE CODE BASE MOVE THE LOGIC TO COMPONENT FOR CONFIRM PROCESS- TRILOCHAN
+    // const questionsList = getFormValues("questions") as QuestionProps[];
+    // const updatedQuestionsList = removeQuestion(questionsList, questionId);
+
+    // // Two-step update to force React Hook Form to re-register fields
+    // setFormValue("questions", [] as unknown as QuestionProps[], {
+    //   shouldDirty: true,
+    // });
+    // queueMicrotask(() => {
+    //   setFormValue("questions", updatedQuestionsList, { shouldDirty: true });
+    // });
   };
 
   /**
@@ -627,10 +680,14 @@ const useQuestionListManager = () => {
   const deleteSection = (sectionName: string) => {
     const questionsList = getFormValues("questions") as QuestionProps[];
     const updatedQuestionsList = removeSection(questionsList, sectionName);
-    resetForm({
-      ...getFormValues(),
-      questions: updatedQuestionsList,
-    } as { questions: QuestionProps[] });
+
+    // Two-step update to force React Hook Form to re-register fields
+    setFormValue("questions", [] as unknown as QuestionProps[], {
+      shouldDirty: true,
+    });
+    queueMicrotask(() => {
+      setFormValue("questions", updatedQuestionsList, { shouldDirty: true });
+    });
   };
 
   /**
@@ -700,13 +757,13 @@ const useQuestionListManager = () => {
    * -Method gets the questions list from the form
    * -uses @method addSection to add a new section to the fetched list
    * -Sets the updated questions list back to the form
-   * @returns {void}
+   * @returns {{qId: string, sectionId: string}}
    */
   const addNewSection = (sectionName: string) => {
     const questionsList = getFormValues("questions") as QuestionProps[];
-    const { qId, data } = addSection(questionsList, sectionName);
+    const { qId, sectionId, data } = addSection(questionsList, sectionName);
     setFormValue("questions", data);
-    return qId;
+    return { qId, sectionId };
   };
 
   /**
@@ -750,38 +807,61 @@ const useQuestionListManager = () => {
    * then moves it to the appropriate position relative to target.
    * @returns {void}
    */
-  const onDragMoveQuestion = async (
+  const onDragMoveQuestion = (
     draggedId: string,
     targetId: string,
     dropPosition: DropPosition
   ) => {
     if (draggedId === targetId) return;
-    let questionsList = getFormValues("questions") as QuestionProps[];
-    questionsList = questionsList.filter((q) => q); // Filter out any null/undefined questions to avoid issues during drag and drop
-    // Find and deep copy the dragged question, then remove it
-    const draggedQuestion: QuestionProps | null = JSON.parse(
-      JSON.stringify(findQuestion(questionsList, draggedId))
-    );
+
+    // Get fresh copy of questions and filter out null/undefined
+    const questionsList = (
+      getFormValues("questions") as QuestionProps[]
+    ).filter((q) => q !== null && q !== undefined);
+
+    // Find and deep copy the dragged question BEFORE any modifications
+    const draggedQuestion = findQuestion(questionsList, draggedId);
     if (!draggedQuestion) return;
 
     // Reset the basedOnPreviousAnswers option for the dragged question
+    //<-----------------TODO: Update logic once confirmed by nathenial----------->
     draggedQuestion.questionAdvancedSettings.visibilityRule.basedOnPreviousAnswers =
       {
         isApplicable: false,
         previousAnswers: null,
         answerOption: null,
       };
+    //<-------------------------------------->
     // Incase of last left question being dragged out of section, section needs to be deleted
+
+    // Check if dragging a section and target is inside the same section (prevent dropping inside itself)
+    if (draggedQuestion.subQuestions?.length > 0) {
+      const isTargetInsideDraggedSection = draggedQuestion.subQuestions.some(
+        (subQ) => subQ.qId === targetId
+      );
+      if (isTargetInsideDraggedSection) {
+        return;
+      }
+    }
+
+    // Check if parent section needs to be removed (last question in section)
     const [isParentToBeRemoved, parentQuestion] =
       checkIfParentQuestionToBeDeleted(questionsList, draggedId);
 
-    let listWithoutDragged = [];
-    if (isParentToBeRemoved) {
-      listWithoutDragged = removeQuestion(questionsList, parentQuestion?.qId);
-    } else {
-      listWithoutDragged = removeQuestion(questionsList, draggedId);
+    // Remove the dragged question (or its parent section if it's the last one)
+    const idToRemove = isParentToBeRemoved ? parentQuestion?.qId : draggedId;
+    const listWithoutDragged = removeQuestion(questionsList, idToRemove);
+
+    // If target is the same as what we removed (or its parent), we can't drop there
+    if (targetId === idToRemove) {
+      return;
     }
 
+    // Verify target still exists after removal
+    const targetExists = findQuestion(listWithoutDragged, targetId);
+    if (!targetExists) return;
+
+    // Drop the question at the target position
     const updatedQuestionsList = dropQuestion(
       listWithoutDragged,
       draggedQuestion,
@@ -789,8 +869,14 @@ const useQuestionListManager = () => {
       dropPosition
     );
 
-    await setFormValue("questions", updatedQuestionsList); //TODO: Ask with binay or this patch
-    await setFormValue("questions", updatedQuestionsList); //TODO: Ask with binay or this patch
+    // Use microtask to batch the updates and avoid flicker
+    // Clear array and set new values in same microtask batch
+    setFormValue("questions", [] as unknown as QuestionProps[], {
+      shouldDirty: true,
+    });
+    queueMicrotask(() => {
+      setFormValue("questions", updatedQuestionsList, { shouldDirty: true });
+    });
   };
 
   /**
@@ -811,34 +897,54 @@ const useQuestionListManager = () => {
     if (draggedIdx === targetIdx) return;
     const questionsList = getFormValues("questions") as QuestionProps[];
 
-    // Find and deep copy the dragged option, then remove it
-    const question: QuestionProps | null = findQuestion(
+    const updateQuestionOptions = (
+      questions: QuestionProps[],
+      questionId: string,
+      draggedIdx: number,
+      targetIdx: number,
+      dropPosition: DropPosition
+    ) => {
+      return questions.map((q) => {
+        if (q.qId === questionId) {
+          return {
+            ...q,
+            questionBasicData: {
+              ...q.questionBasicData,
+              response: moveOption(
+                q.questionBasicData.response,
+                draggedIdx,
+                targetIdx,
+                dropPosition
+              ),
+            },
+          };
+        }
+        if (q.subQuestions && q.subQuestions.length > 0) {
+          return {
+            ...q,
+            subQuestions: updateQuestionOptions(
+              q.subQuestions,
+              questionId,
+              draggedIdx,
+              targetIdx,
+              dropPosition
+            ),
+          };
+        }
+        return q;
+      });
+    };
+    const updatedQuestionsList = updateQuestionOptions(
       questionsList,
-      questionId
-    );
-    if (!question) return;
-    const response = question.questionBasicData.response;
-    const updatedOptionList = moveOption(
-      response,
+      questionId,
       draggedIdx,
       targetIdx,
       dropPosition
     );
-
-    const updatedQuestionsList = questionsList.map((q) => {
-      if (q.qId === questionId) {
-        return {
-          ...q,
-          questionBasicData: {
-            ...q.questionBasicData,
-            response: updatedOptionList,
-          },
-        };
-      }
-      return q;
+    setFormValue("questions", []);
+    queueMicrotask(() => {
+      setFormValue("questions", updatedQuestionsList);
     });
-
-    setFormValue("questions", updatedQuestionsList);
   };
 
   /**
@@ -883,10 +989,8 @@ const useQuestionListManager = () => {
       ...getFormValues(),
       questions: updatedQuestionsList,
     } as { questions: QuestionProps[] });
-
     closeDeleteQuestionModal();
   };
-
   return {
     deleteQuestion,
     deleteSection,
