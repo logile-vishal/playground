@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/core/hooks/useTranslation";
 import { EmptyState } from "@/core/constants/icons";
 
 export const useTemplateLibraryTranslations = () => {

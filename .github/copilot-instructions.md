@@ -111,7 +111,7 @@ export default function MyComponent() {}
 ```tsx
 // React & third-party
 import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/core/hooks/useTranslation";
 
 // Core services, components, hooks, types and constants etc.
 import { Button } from "@/core/components/button";
