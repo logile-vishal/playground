@@ -512,11 +512,7 @@ const AddEditNotificationModal = ({
                 size="small"
                 className="ct-add-notification-modal__custom-recipient-button"
                 onClick={handleAddCustomRecipient}
-                walkMeId={[
-                  "create-template",
-                  "notifications step",
-                  "add-custom-recipient-button",
-                ]}
+                walkMeId={["notifications step", "add-custom-recipient-button"]}
               >
                 <CSvgIcon
                   size={16}

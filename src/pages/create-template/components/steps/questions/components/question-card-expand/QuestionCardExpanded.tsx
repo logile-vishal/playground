@@ -670,11 +670,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             }
             showModal={triggerCardModal.status}
             handleCloseModal={closeTriggerCardModal}
-            walkMeIdPrefix={[
-              "create template",
-              "question options",
-              "trigger modal",
-            ]}
+            walkMeIdPrefix={["question options", "trigger modal"]}
           />
           <DeleteQuestionModal
             open={deleteModalState.isOpen}

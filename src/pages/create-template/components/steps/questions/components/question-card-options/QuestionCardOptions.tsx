@@ -284,12 +284,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           <CIconButton
             onClick={openTriggerCardMenu}
             size="medium"
-            walkMeId={[
-              "create-template",
-              "questions",
-              "options-list",
-              "attachment-link",
-            ]}
+            walkMeId={["questions", "options-list", "attachment-link"]}
           >
             <Badge
               className="attachment-badge"
@@ -313,12 +308,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           </CIconButton>
           <CIconButton
             size="medium"
-            walkMeId={[
-              "create-template",
-              "questions",
-              "options-list",
-              "option-settings",
-            ]}
+            walkMeId={["questions", "options-list", "option-settings"]}
             onClick={() => props?.onAnswerOptionSettingsOpen(props?.idx)}
           >
             <CSvgIcon component={Setting} />
@@ -328,12 +318,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
               onClick={() => handleDeleteOption(props?.idx)}
               size="medium"
               severity="destructive"
-              walkMeId={[
-                "create-template",
-                "questions",
-                "options-list",
-                "option-delete",
-              ]}
+              walkMeId={["questions", "options-list", "option-delete"]}
             >
               <CSvgIcon
                 className="ques-card-options__delete-icon"
@@ -354,11 +339,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
             }
             showModal={triggerCardModal.status}
             handleCloseModal={closeTriggerCardModal}
-            walkMeIdPrefix={[
-              "create template",
-              "question options",
-              "trigger modal",
-            ]}
+            walkMeIdPrefix={["question options", "trigger modal"]}
           />
         </Box>
       )}

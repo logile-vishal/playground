@@ -339,7 +339,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
             severity="primary"
             variant="outline"
             size="small"
-            walkMeId={["create-template", "options modal", "add option button"]}
+            walkMeId={["options modal", "add option button"]}
             onClick={handleAddOption}
           >
             <CSvgIcon
@@ -413,11 +413,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
               variant="solid"
               size="small"
               onClick={() => handleDeleteOption(index)}
-              walkMeId={[
-                "create-template",
-                "options modal",
-                "delete option button",
-              ]}
+              walkMeId={["options modal", "delete option button"]}
             >
               {GENERAL.deleteButtonLabel}
             </CButton>
@@ -580,11 +576,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                     severity="secondary"
                     size="small"
                     onClick={() => handleAppendSymbol("<")}
-                    walkMeId={[
-                      "create-template",
-                      "options modal",
-                      "less than symbol",
-                    ]}
+                    walkMeId={["options modal", "less than symbol"]}
                     className="ct-answer-option-setting-modal__right-content-form-item-formula-button"
                   >
                     &lt;
@@ -594,11 +586,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                     severity="secondary"
                     size="small"
                     onClick={() => handleAppendSymbol("<=")}
-                    walkMeId={[
-                      "create-template",
-                      "options modal",
-                      "less than or equal to symbol",
-                    ]}
+                    walkMeId={["options modal", "less than or equal to symbol"]}
                     className="ct-answer-option-setting-modal__right-content-form-item-formula-button"
                   >
                     &lt;&#61;
@@ -608,11 +596,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                     severity="secondary"
                     size="small"
                     onClick={() => handleAppendSymbol(">")}
-                    walkMeId={[
-                      "create-template",
-                      "options modal",
-                      "greater than symbol",
-                    ]}
+                    walkMeId={["options modal", "greater than symbol"]}
                     className="ct-answer-option-setting-modal__right-content-form-item-formula-button"
                   >
                     &gt;
@@ -623,7 +607,6 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                     size="small"
                     onClick={() => handleAppendSymbol(">=")}
                     walkMeId={[
-                      "create-template",
                       "options modal",
                       "greater than or equal to symbol",
                     ]}
@@ -636,11 +619,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                     severity="secondary"
                     size="small"
                     onClick={() => handleAppendSymbol("==")}
-                    walkMeId={[
-                      "create-template",
-                      "options modal",
-                      "equal to symbol",
-                    ]}
+                    walkMeId={["options modal", "equal to symbol"]}
                     className="ct-answer-option-setting-modal__right-content-form-item-formula-button"
                   >
                     &#61;&#61;
@@ -650,11 +629,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                     severity="secondary"
                     size="small"
                     onClick={() => handleAppendSymbol("<>")}
-                    walkMeId={[
-                      "create-template",
-                      "options modal",
-                      "not equal to symbol",
-                    ]}
+                    walkMeId={["options modal", "not equal to symbol"]}
                     className="ct-answer-option-setting-modal__right-content-form-item-formula-button"
                   >
                     &lt;&gt;
@@ -664,11 +639,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                     severity="secondary"
                     size="small"
                     onClick={() => handleAppendSymbol("AND")}
-                    walkMeId={[
-                      "create-template",
-                      "options modal",
-                      "and symbol",
-                    ]}
+                    walkMeId={["options modal", "and symbol"]}
                     className="ct-answer-option-setting-modal__right-content-form-item-formula-button"
                   >
                     AND
@@ -678,7 +649,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                     severity="secondary"
                     size="small"
                     onClick={() => handleAppendSymbol("OR")}
-                    walkMeId={["create-template", "options modal", "or symbol"]}
+                    walkMeId={["options modal", "or symbol"]}
                     className="ct-answer-option-setting-modal__right-content-form-item-formula-button"
                   >
                     OR

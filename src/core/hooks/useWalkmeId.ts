@@ -14,7 +14,7 @@ export function useWalkmeId() {
   const generateId = (paths = []) => {
     if (paths.length === 0 || !Array.isArray(paths)) return undefined;
 
-    const formatPaths = paths.map((part) => part.replace(/\s+/g, "_"));
+    const formatPaths = paths.map((part) => part.replace(/[\s-]+/g, "_"));
     const suffix = formatPaths.join("-").toUpperCase();
     return `${company}-${moduleName}-${suffix}`;
   };

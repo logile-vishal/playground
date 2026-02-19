@@ -119,9 +119,7 @@ const CreateTemplateContent: React.FC = () => {
       label: questions.label,
       value: questions.value,
       error: !!(formErrors as { questions?: unknown }).questions,
-      component: (
-        <Questions walkMeIdPrefix={["create-template", "questions-step"]} />
-      ),
+      component: <Questions walkMeIdPrefix={["questions-step"]} />,
       checkValidity: useCallback(async () => {
         handleQuestionError();
         return (
@@ -145,11 +143,7 @@ const CreateTemplateContent: React.FC = () => {
     {
       label: notification.label,
       value: notification.value,
-      component: (
-        <Notifications
-          walkMeIdPrefix={["create-template", "notification-step"]}
-        />
-      ),
+      component: <Notifications walkMeIdPrefix={["notification-step"]} />,
     },
     {
       label: followUp.label,
@@ -173,9 +167,7 @@ const CreateTemplateContent: React.FC = () => {
       label: columns.label,
       value: columns.value,
       error: !!(formErrors as { columns?: unknown }).columns,
-      component: (
-        <Columns walkMeIdPrefix={["create-template", "columns-step"]} />
-      ),
+      component: <Columns walkMeIdPrefix={["columns-step"]} />,
       checkValidity: useCallback(async () => {
         handleColumnError();
         return (
@@ -188,7 +180,7 @@ const CreateTemplateContent: React.FC = () => {
       label: rows.label,
       value: rows.value,
       error: !!(formErrors as { rows?: unknown }).rows,
-      component: <Rows walkMeIdPrefix={["create-template", "rows-step"]} />,
+      component: <Rows walkMeIdPrefix={["rows-step"]} />,
       checkValidity: useCallback(async () => {
         if (watchQuestionList.length < 1)
           notify({
@@ -218,11 +210,7 @@ const CreateTemplateContent: React.FC = () => {
     {
       label: notification.label,
       value: notification.value,
-      component: (
-        <Notifications
-          walkMeIdPrefix={["create-template", "notification-step"]}
-        />
-      ),
+      component: <Notifications walkMeIdPrefix={["notification-step"]} />,
     },
     {
       label: followUp.label,
@@ -256,7 +244,7 @@ const CreateTemplateContent: React.FC = () => {
       label: notification.label,
       value: notification.value,
       error: !!formErrors.notifications,
-      component: <Notifications walkMeIdPrefix={["create-template"]} />,
+      component: <Notifications walkMeIdPrefix={["notifications"]} />,
       checkValidity: useCallback(
         async () => await triggerValidation("notifications"),
         [triggerValidation]
@@ -387,7 +375,7 @@ const CreateTemplateContent: React.FC = () => {
               disableTouchRipple
               onClick={handleNavigateBack}
               className="create-template-page-header__back-icon"
-              walkMeId={["create-template", "navigate-back"]}
+              walkMeId={["navigate-back"]}
             >
               <CSvgIcon component={ChevronLeft} />
             </CIconButton>
