@@ -683,9 +683,12 @@ export const useCreateTemplateTranslations = () => {
       previousAnswerWarningOnPreviousAnswer: t(
         "ADVANCED_TAB_OPTIONS.VISIBILITY.previousAnswerWarningOnPreviousAnswer"
       ),
-      previousAnswerWarningOnVisibility: t(
-        "ADVANCED_TAB_OPTIONS.VISIBILITY.previousAnswerWarningOnVisibility"
-      ),
+      getPreviousAnswerWarningOnVisibility: (questionIndex: string): string => {
+        return t(
+          "ADVANCED_TAB_OPTIONS.VISIBILITY.previousAnswerWarningOnVisibility",
+          { questionIndex }
+        );
+      },
       randomAppearanceToggleLabel: t(
         "ADVANCED_TAB_OPTIONS.VISIBILITY.randomAppearanceToggleLabel"
       ),

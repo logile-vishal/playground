@@ -6,15 +6,20 @@ import {
 } from "react-hook-form";
 import { Box } from "@mui/material";
 
-import CMultiSelectWithChip from "@/core/components/multi-select-chip/MultiSelectWithChip";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
-import { basicTagsSampleData } from "@/pages/create-template/constants/sampleData";
-import type { TagsTabProps } from "@/pages/create-template/types/questions.type";
+import TagSelector from "@/pages/create-template/components/tag-selecter/TagSelector";
+import type {
+  TagsTabProps,
+  TemplateTagsProps,
+} from "@/pages/create-template/types/questions.type";
 
 import "../AdvanceTab.scss";
 
-const TagsTab: React.FC<TagsTabProps> = ({ questionFormPath, control }) => {
+export const TagsTab: React.FC<TagsTabProps> = ({
+  questionFormPath,
+  control,
+}) => {
   const { ADVANCED_TAB_OPTIONS } = useCreateTemplateTranslations();
 
   const handleTagsDelete = useCallback(
@@ -22,11 +27,40 @@ const TagsTab: React.FC<TagsTabProps> = ({ questionFormPath, control }) => {
       field: ControllerRenderProps<FieldValues, string>,
       data: NestedMenuItem
     ): void => {
-      const currentValue = (field.value as NestedMenuItem[]) || [];
+      const currentValue = (field.value as TemplateTagsProps[]) || [];
       const updatedValue = currentValue.filter(
-        (item) => item?.value !== data?.value
+        (item) => String(item?.tagId) !== data?.value
       );
       field.onChange(updatedValue);
+    },
+    []
+  );
+
+  const handleTagsChange = useCallback(
+    (
+      field: ControllerRenderProps<FieldValues, string>,
+      event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+      const selectedItems = event.target.value as unknown as NestedMenuItem[];
+      const arr: TemplateTagsProps[] = [];
+
+      selectedItems.forEach((item) => {
+        const itemAny = item as unknown as Record<string, unknown>;
+        const tagId = (itemAny.tagId as number) || Number(item.value);
+        const attributeId = itemAny.attributeId as number | null;
+
+        arr.push({
+          tagId: tagId,
+          tagName: item.label || "",
+          attributeId: attributeId || null,
+          attributeName:
+            (itemAny.attributeName as string) ||
+            (itemAny.attributeValue as string) ||
+            null,
+        });
+      });
+
+      field.onChange(arr);
     },
     []
   );
@@ -38,22 +72,15 @@ const TagsTab: React.FC<TagsTabProps> = ({ questionFormPath, control }) => {
           name={`${questionFormPath}.questionAdvancedSettings.tags`}
           control={control}
           render={({ field }) => (
-            <CMultiSelectWithChip
-              value={(field.value as NestedMenuItem[]) || []}
+            <TagSelector
               label={ADVANCED_TAB_OPTIONS.TAGS.tagsLabel}
-              name="tags"
-              options={basicTagsSampleData}
               placeholder={ADVANCED_TAB_OPTIONS.TAGS.tagsPlaceholder}
+              value={(field.value as TemplateTagsProps[]) || []}
+              onChange={(event): void => handleTagsChange(field, event)}
               onDelete={(_: React.MouseEvent, data: NestedMenuItem): void =>
                 handleTagsDelete(field, data)
               }
-              onChange={(event): void => {
-                const selectedItems = event.target
-                  .value as unknown as NestedMenuItem[];
-                field.onChange(selectedItems);
-              }}
-              isInputVisible={false}
-              width="100%"
+              className=""
               anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
               transformOrigin={{ vertical: "top", horizontal: 200 }}
               menuWidth="300px"
@@ -64,4 +91,5 @@ const TagsTab: React.FC<TagsTabProps> = ({ questionFormPath, control }) => {
     </Box>
   );
 };
+
 export default TagsTab;

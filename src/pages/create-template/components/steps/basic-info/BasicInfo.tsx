@@ -5,12 +5,12 @@ import { Controller, useWatch } from "react-hook-form";
 import CTextfield from "@/core/components/form/textfield/Textfield";
 import CSelect from "@/core/components/form/select";
 import { AddIcon, ChevronRight, Delete } from "@/core/constants/icons";
-import CMultiSelectWithChip from "@/core/components/multi-select-chip/MultiSelectWithChip";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 import clsx from "@/utils/clsx";
 import { isNonEmptyValue } from "@/utils";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import TagSelector from "@/pages/create-template/components/tag-selecter/TagSelector";
 import CSvgIcon from "@/core/components/icon/Icon";
 import { CButton } from "@/core/components/button/button";
 import CAttachmentModal from "@/core/components/attachment-modal/AttachmentModal";
@@ -24,7 +24,6 @@ import {
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import {
   useGetAllDirectories,
-  useGetTaskTagsOptions,
   useGetTaskTypesOptions,
 } from "@/pages/template-library/services/template-library-api-hooks";
 import type { TaskTypeOptions } from "@/pages/template-library/types/template-library.type";
@@ -90,7 +89,6 @@ const BasicInfo: React.FC = () => {
   const { data: taskTypeOptions } = useGetTaskTypesOptions();
   const [templateTypeOptions, setTemplateTypeOptions] = useState([]);
   const [templateDirectory, setTemplateDirectory] = useState([]);
-  const [tagOptions, setTagOptions] = useState([]);
   const [selectedDirectories, setSelectedDirectories] = useState<
     Array<{ libraryId: number; libraryName: string }>
   >([]);
@@ -99,7 +97,6 @@ const BasicInfo: React.FC = () => {
     name: "basicData.attachment",
   });
   const { data: directoriesList } = useGetAllDirectories();
-  const { data: taskTagsOptions } = useGetTaskTagsOptions();
 
   const generateDirectoryOptions = (directory = []) => {
     const options = [];
@@ -448,91 +445,6 @@ const BasicInfo: React.FC = () => {
   };
 
   /**
-   * @method findTagPath
-   * @description Finds the complete path (breadcrumb) of a tag or attribute by ID with filterPath
-   * @param {number | string} searchId - The tagId or attributeId to search for
-   * @return {Object | null} Object containing parent tag, attribute info and filterPath, or null if not found
-   */
-  const findTagPath = (
-    searchId: number | string
-  ): {
-    tagId: number;
-    tagName: string;
-    attributeId: number | string | null;
-    attributeName: string | null;
-    filterPath: string;
-  } | null => {
-    for (const tag of tagOptions) {
-      // Check if searchId matches tagId
-      if (
-        tag.tagId === Number(searchId) ||
-        String(tag.tagId) === String(searchId)
-      ) {
-        return tag;
-      }
-
-      // Check if searchId matches any attributeId
-      if (tag.subMenu?.items) {
-        const foundAttribute = tag.subMenu.items.find(
-          (attr) =>
-            attr.value === String(searchId) ||
-            Number(attr.value) === Number(searchId)
-        );
-
-        if (foundAttribute) return foundAttribute;
-      }
-    }
-
-    return null;
-  };
-  /**
-   * @method getTagsValueForMultiSelect
-   * @description Transforms the tags from form values into the format required for the multi-select component, including filterPath for display
-   * @param {Array} tags - Array of tags from form values
-   * @return {Array} Transformed array of tags with label, value, and filterPath for multi-select options
-   */
-  const getTagsValueForMultiSelect = (
-    tags: TemplateTagsProps[]
-  ): NestedMenuItem[] => {
-    if (!isNonEmptyValue(tags)) return [];
-    return tags.map((tag) => {
-      const tagPath = findTagPath(tag?.attributeId || tag?.tagId);
-      return {
-        label: tag?.tagName,
-        value: String(tag?.tagId),
-        filterPath: tagPath?.filterPath || tag?.tagName || "",
-        ...tag,
-      };
-    });
-  };
-
-  useEffect(() => {
-    if (taskTagsOptions?.data && taskTagsOptions?.data?.length > 0) {
-      const arr = [];
-      taskTagsOptions?.data?.forEach((item) => {
-        arr.push({
-          ...item,
-          label: item?.tagValue,
-          value: String(item?.tagId),
-          filterPath: item?.tagValue,
-          subMenu: {
-            items:
-              (item?.attributes?.map((attr) => ({
-                label: attr?.attributeValue,
-                value: String(attr?.attributeId),
-                filterPath: `${item?.tagValue} > ${attr?.attributeValue}`,
-                tagId: item?.tagId,
-                tagValue: item?.tagValue,
-                ...attr,
-              })) as NestedMenuItem[]) || [],
-          },
-        });
-      });
-      setTagOptions(arr);
-    }
-  }, [taskTagsOptions]);
-
-  /**
    * @method renderDirectoryDropdown
    * @description Recursively renders directory dropdowns for nested levels
    * @param {number} level - Current nesting level
@@ -753,16 +665,12 @@ const BasicInfo: React.FC = () => {
             control={control}
             render={({ field }) => {
               return (
-                <CMultiSelectWithChip
+                <TagSelector
                   label={BASIC_INFO.tags}
-                  name="tags"
-                  options={tagOptions || []}
-                  value={getTagsValueForMultiSelect(
-                    field.value as TemplateTagsProps[]
-                  )}
                   placeholder={BASIC_INFO.tagsPlaceholder}
-                  onDelete={handleTagsDelete}
+                  value={(field.value as TemplateTagsProps[]) || []}
                   onChange={handleTemplateTags}
+                  onDelete={handleTagsDelete}
                   className={clsx({
                     "ct-basic-info__row-item-tags-dropdown": true,
                     "ct-basic-info__row-item-tags-dropdown--desktop": isDesktop,

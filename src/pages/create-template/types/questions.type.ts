@@ -1,5 +1,8 @@
 import type { Control, FieldValues } from "react-hook-form";
 
+import type { NestedMenuItem } from "@/core/components/nested-menu/types";
+import type { TagOptionsType } from "@/pages/template-library/types/template-library.type";
+
 import { type QUESTION_OPTION_LABELS } from "../constants/questions";
 
 export type QuestionOptionType =
@@ -322,4 +325,11 @@ export type AttachmentsTabProps = {
   questionFormPath: string;
   control: Control<FieldValues>;
   question: QuestionProps;
+};
+
+export type ExtendedTagOption = TagOptionsType & {
+  label: string;
+  value: string;
+  filterPath: string;
+  subMenu?: { items: NestedMenuItem[] };
 };

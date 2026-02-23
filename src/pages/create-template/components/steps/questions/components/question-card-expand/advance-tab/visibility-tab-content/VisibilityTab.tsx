@@ -28,6 +28,7 @@ import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 
 import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
 import "../AdvanceTab.scss";
+import { QUESTION_TYPE } from "@/pages/create-template/constants/questions";
 
 const VisibilityTab: React.FC<VisibilityTabProps> = ({
   questionFormPath,
@@ -95,23 +96,103 @@ const VisibilityTab: React.FC<VisibilityTabProps> = ({
       return [];
     }
 
-    return watchQuestionList
-      .map((q, originalIndex) => ({
-        q: q,
-        originalIndex: originalIndex + 1, // Store the 1-based index
-      }))
-      .filter(({ q }) => q.qId !== question.qId)
-      .filter(({ q }) =>
-        QUESTION_TYPES_WITH_OPTIONS.includes(
-          q.questionBasicData
-            ?.questionType as (typeof QUESTION_TYPES_WITH_OPTIONS)[number]
-        )
-      )
-      .map(({ q, originalIndex }) => ({
-        label: `${originalIndex}. ${q.questionBasicData?.title || ""}`,
-        value: q.qId,
-      }))
-      .filter((q) => q.label && q.value);
+    // Find current question position (could be top-level or subquestion)
+    let currentSectionIndex = -1;
+    let currentSubQuestionIndex = -1;
+
+    for (let i = 0; i < watchQuestionList.length; i++) {
+      const q = watchQuestionList[i];
+
+      if (q.qId === question.qId) {
+        currentSectionIndex = i;
+        break;
+      }
+
+      // Check if question is inside this section's subquestions
+      if (
+        q.questionBasicData?.questionType === QUESTION_TYPE.SECTION &&
+        q.subQuestions
+      ) {
+        const subIndex = q.subQuestions.findIndex(
+          (subQ) => subQ.qId === question.qId
+        );
+        if (subIndex !== -1) {
+          currentSectionIndex = i;
+          currentSubQuestionIndex = subIndex;
+          break;
+        }
+      }
+    }
+
+    if (currentSectionIndex === -1) {
+      return [];
+    }
+
+    const options: QuestionOption[] = [];
+    let displayIndex = 1;
+
+    // Process questions before the current question
+    for (let i = 0; i < currentSectionIndex; i++) {
+      const q = watchQuestionList[i];
+
+      // Check if it's a section
+      if (q.questionBasicData?.questionType === QUESTION_TYPE.SECTION) {
+        // Process all subquestions within the section
+        if (q.subQuestions && q.subQuestions.length > 0) {
+          q.subQuestions.forEach((subQ, subIndex) => {
+            if (
+              QUESTION_TYPES_WITH_OPTIONS.includes(
+                subQ.questionBasicData
+                  ?.questionType as (typeof QUESTION_TYPES_WITH_OPTIONS)[number]
+              )
+            ) {
+              options.push({
+                label: `${displayIndex}.${subIndex + 1}. ${subQ.questionBasicData?.title || ""}`,
+                value: subQ.qId,
+              });
+            }
+          });
+        }
+        displayIndex++;
+      } else {
+        // Regular question (not in a section)
+        if (
+          QUESTION_TYPES_WITH_OPTIONS.includes(
+            q.questionBasicData
+              ?.questionType as (typeof QUESTION_TYPES_WITH_OPTIONS)[number]
+          )
+        ) {
+          options.push({
+            label: `${displayIndex}. ${q.questionBasicData?.title || ""}`,
+            value: q.qId,
+          });
+        }
+        displayIndex++;
+      }
+    }
+
+    // If current question is a subquestion, include previous subquestions from the same section
+    if (currentSubQuestionIndex > 0) {
+      const currentSection = watchQuestionList[currentSectionIndex];
+      if (currentSection.subQuestions) {
+        for (let j = 0; j < currentSubQuestionIndex; j++) {
+          const subQ = currentSection.subQuestions[j];
+          if (
+            QUESTION_TYPES_WITH_OPTIONS.includes(
+              subQ.questionBasicData
+                ?.questionType as (typeof QUESTION_TYPES_WITH_OPTIONS)[number]
+            )
+          ) {
+            options.push({
+              label: `${displayIndex}.${j + 1}. ${subQ.questionBasicData?.title || ""}`,
+              value: subQ.qId,
+            });
+          }
+        }
+      }
+    }
+
+    return options.filter((q) => q.label && q.value);
   }, [watchQuestionList, question.qId]);
 
   const selectedQuestionOptions = useMemo((): QuestionOption[] => {
@@ -119,9 +200,25 @@ const VisibilityTab: React.FC<VisibilityTabProps> = ({
       return [];
     }
 
-    const selectedQuestion = watchQuestionList.find(
+    // Search for selected question in top-level questions
+    let selectedQuestion = watchQuestionList.find(
       (q) => q.qId === previousAnswerValue
     );
+
+    // If not found at top level, search in subquestions
+    if (!selectedQuestion) {
+      for (const q of watchQuestionList) {
+        if (
+          q.questionBasicData?.questionType === QUESTION_TYPE.SECTION &&
+          q.subQuestions
+        ) {
+          selectedQuestion = q.subQuestions.find(
+            (subQ) => subQ.qId === previousAnswerValue
+          );
+          if (selectedQuestion) break;
+        }
+      }
+    }
 
     if (!selectedQuestion) {
       return [];
@@ -134,6 +231,55 @@ const VisibilityTab: React.FC<VisibilityTabProps> = ({
       value: (option.title as string) || "",
     }));
   }, [previousAnswerValue, watchQuestionList]);
+
+  const selectedQuestionWarningInfo = useMemo((): {
+    hasPreviousAnswer: boolean;
+    questionIndex: string;
+  } => {
+    if (!previousAnswerValue || !watchQuestionList) {
+      return { hasPreviousAnswer: false, questionIndex: "" };
+    }
+
+    // Search for selected question in top-level questions
+    let selectedQuestion = watchQuestionList.find(
+      (q) => q.qId === previousAnswerValue
+    );
+
+    // If not found at top level, search in subquestions
+    if (!selectedQuestion) {
+      for (const q of watchQuestionList) {
+        if (
+          q.questionBasicData?.questionType === QUESTION_TYPE.SECTION &&
+          q.subQuestions
+        ) {
+          selectedQuestion = q.subQuestions.find(
+            (subQ) => subQ.qId === previousAnswerValue
+          );
+          if (selectedQuestion) break;
+        }
+      }
+    }
+
+    // Get question index from previousQuestionsListOptions
+    const selectedOption = previousQuestionsListOptions.find(
+      (option) => option.value === previousAnswerValue
+    );
+
+    let questionIndex = "";
+    if (selectedOption?.label) {
+      const match = selectedOption.label.match(/^(\d+\.?\d*)\./);
+      questionIndex = match ? match[1] : "";
+    }
+
+    // Check if selected question has previous answer visibility rule enabled
+    const hasPreviousAnswer = Boolean(
+      selectedQuestion?.questionAdvancedSettings?.visibilityRule
+        ?.basedOnPreviousAnswers?.isApplicable ||
+      selectedQuestion?.questionAdvancedSettings?.visibilityRule?.isRandom
+    );
+
+    return { hasPreviousAnswer, questionIndex };
+  }, [previousAnswerValue, watchQuestionList, previousQuestionsListOptions]);
 
   const handleStoreClusterToggle = useCallback(
     (
@@ -390,10 +536,13 @@ const VisibilityTab: React.FC<VisibilityTabProps> = ({
                   optionValueKey="value"
                   optionLabelKey="label"
                   templates={{
-                    inputValueTemplate: (context) => {
+                    inputValueTemplate: () => {
+                      const selectedOption = previousQuestionsListOptions.find(
+                        (option) => option.value === field.value
+                      );
                       return (
                         <WildcardLabel
-                          label={context?.options[0]?.label || ""}
+                          label={selectedOption?.label || ""}
                           truncate={true}
                         />
                       );
@@ -417,12 +566,13 @@ const VisibilityTab: React.FC<VisibilityTabProps> = ({
           )}
           {previousAnswerValue && (
             <>
-              <Typography className="advance-tab__warning">
-                {
-                  ADVANCED_TAB_OPTIONS.VISIBILITY
-                    .previousAnswerWarningOnVisibility
-                }
-              </Typography>
+              {selectedQuestionWarningInfo.hasPreviousAnswer && (
+                <Typography className="advance-tab__warning">
+                  {ADVANCED_TAB_OPTIONS.VISIBILITY.getPreviousAnswerWarningOnVisibility(
+                    selectedQuestionWarningInfo.questionIndex
+                  )}
+                </Typography>
+              )}
               <Controller
                 name={`${questionFormPath}.questionAdvancedSettings.visibilityRule.basedOnPreviousAnswers.answerOption`}
                 control={control}

@@ -21,7 +21,6 @@ import {
   SORT_INPUT_TYPE_DEFAULT,
 } from "../constants/question-type-default";
 import type { QuestionProps, QuestionTypeKey } from "../types/questions.type";
-import { useState } from "react";
 
 export const newQuestionDefaultObject: () => QuestionProps = () => ({
   qId: uuidv4(),
@@ -584,16 +583,8 @@ const moveOption = (
 };
 
 const useQuestionListManager = () => {
-  const { setFormValue, getFormValues, triggerValidation, resetForm } =
+  const { setFormValue, getFormValues, triggerValidation } =
     useCreateTemplateForm();
-
-  const [deleteModalState, setDeleteModalState] = useState<{
-    isOpen: boolean;
-    questionId: string | null;
-  }>({
-    isOpen: false,
-    questionId: null,
-  });
 
   /**
    * @method modifyQuestionType
@@ -653,19 +644,17 @@ const useQuestionListManager = () => {
    * -Sets the updated questions list back to the form
    * @returns {void}
    */
-  const deleteQuestion = (questionId: string) => {
-    openDeleteQuestionModal(questionId);
-    //TODO: UPDATE THE CODE BASE MOVE THE LOGIC TO COMPONENT FOR CONFIRM PROCESS- TRILOCHAN
-    // const questionsList = getFormValues("questions") as QuestionProps[];
-    // const updatedQuestionsList = removeQuestion(questionsList, questionId);
+  const deleteQuestion = (questionId: string): void => {
+    const questionsList = getFormValues("questions") as QuestionProps[];
+    const updatedQuestionsList = removeQuestion(questionsList, questionId);
 
-    // // Two-step update to force React Hook Form to re-register fields
-    // setFormValue("questions", [] as unknown as QuestionProps[], {
-    //   shouldDirty: true,
-    // });
-    // queueMicrotask(() => {
-    //   setFormValue("questions", updatedQuestionsList, { shouldDirty: true });
-    // });
+    // Two-step update to force React Hook Form to re-register fields
+    setFormValue("questions", [] as unknown as QuestionProps[], {
+      shouldDirty: true,
+    });
+    queueMicrotask(() => {
+      setFormValue("questions", updatedQuestionsList, { shouldDirty: true });
+    });
   };
 
   /**
@@ -823,17 +812,6 @@ const useQuestionListManager = () => {
     const draggedQuestion = findQuestion(questionsList, draggedId);
     if (!draggedQuestion) return;
 
-    // Reset the basedOnPreviousAnswers option for the dragged question
-    //<-----------------TODO: Update logic once confirmed by nathenial----------->
-    draggedQuestion.questionAdvancedSettings.visibilityRule.basedOnPreviousAnswers =
-      {
-        isApplicable: false,
-        previousAnswers: null,
-        answerOption: null,
-      };
-    //<-------------------------------------->
-    // Incase of last left question being dragged out of section, section needs to be deleted
-
     // Check if dragging a section and target is inside the same section (prevent dropping inside itself)
     if (draggedQuestion.subQuestions?.length > 0) {
       const isTargetInsideDraggedSection = draggedQuestion.subQuestions.some(
@@ -861,13 +839,114 @@ const useQuestionListManager = () => {
     const targetExists = findQuestion(listWithoutDragged, targetId);
     if (!targetExists) return;
 
-    // Drop the question at the target position
-    const updatedQuestionsList = dropQuestion(
+    // Check if dragged question depends on a previous answer
+    const previousAnswerQuestionId =
+      draggedQuestion.questionAdvancedSettings?.visibilityRule
+        ?.basedOnPreviousAnswers?.previousAnswers?.questionTitle;
+
+    // Temporarily drop to check positions
+    let updatedQuestionsList = dropQuestion(
       listWithoutDragged,
       draggedQuestion,
       targetId,
       dropPosition
     );
+
+    // Helper to flatten questions into sequential order
+    const flattenQuestions = (items: QuestionProps[]): string[] => {
+      const result: string[] = [];
+      items.forEach((item) => {
+        result.push(item.qId);
+        if (item.subQuestions?.length > 0) {
+          result.push(...flattenQuestions(item.subQuestions));
+        }
+      });
+      return result;
+    };
+
+    // Reset visibility rule if dragged above the question it depends on
+    if (previousAnswerQuestionId) {
+      const flatList = flattenQuestions(updatedQuestionsList);
+      const draggedIndex = flatList.indexOf(draggedId);
+      const dependentIndex = flatList.indexOf(previousAnswerQuestionId);
+
+      // If dragged question is now before or at dependent question position, reset visibility
+      if (
+        draggedIndex !== -1 &&
+        dependentIndex !== -1 &&
+        draggedIndex <= dependentIndex
+      ) {
+        draggedQuestion.questionAdvancedSettings.visibilityRule.basedOnPreviousAnswers =
+          {
+            isApplicable: false,
+            previousAnswers: null,
+            answerOption: null,
+          };
+
+        // Re-drop with updated draggedQuestion
+        updatedQuestionsList = dropQuestion(
+          listWithoutDragged,
+          draggedQuestion,
+          targetId,
+          dropPosition
+        );
+      }
+    }
+
+    // If dragging a section, reset visibility for subquestions that depend on questions now positioned after the section
+    if (draggedQuestion.subQuestions?.length > 0) {
+      const flatList = flattenQuestions(updatedQuestionsList);
+      const sectionIndex = flatList.indexOf(draggedId);
+
+      let needsReapply = false;
+
+      // Recursively reset subquestions if their dependencies are now after the section
+      const resetSubQuestionVisibility = (
+        subQuestions: QuestionProps[]
+      ): void => {
+        subQuestions.forEach((subQuestion) => {
+          const subQuestionDependency =
+            subQuestion.questionAdvancedSettings?.visibilityRule
+              ?.basedOnPreviousAnswers?.previousAnswers?.questionTitle;
+
+          if (subQuestionDependency) {
+            const dependencyIndex = flatList.indexOf(subQuestionDependency);
+
+            // If dependency is after the section, reset visibility
+            if (
+              sectionIndex !== -1 &&
+              dependencyIndex !== -1 &&
+              sectionIndex < dependencyIndex
+            ) {
+              subQuestion.questionAdvancedSettings.visibilityRule.basedOnPreviousAnswers =
+                {
+                  isApplicable: false,
+                  previousAnswers: null,
+                  answerOption: null,
+                };
+              needsReapply = true;
+            }
+          }
+
+          // Recursively check nested subquestions if they exist
+          if (subQuestion.subQuestions?.length > 0) {
+            resetSubQuestionVisibility(subQuestion.subQuestions);
+          }
+        });
+      };
+
+      resetSubQuestionVisibility(draggedQuestion.subQuestions);
+
+      // If any subquestion was reset, re-drop with updated draggedQuestion
+      if (needsReapply) {
+        updatedQuestionsList = dropQuestion(
+          listWithoutDragged,
+          draggedQuestion,
+          targetId,
+          dropPosition
+        );
+      }
+    }
 
     // Use microtask to batch the updates and avoid flicker
     // Clear array and set new values in same microtask batch
@@ -947,50 +1026,6 @@ const useQuestionListManager = () => {
     });
   };
 
-  /**
-   * @method openDeleteQuestionModal
-   * @param {string} questionId - id of the question to be deleted
-   * @description Opens the delete confirmation modal
-   * @returns {void}
-   */
-  const openDeleteQuestionModal = (questionId: string): void => {
-    setDeleteModalState({
-      isOpen: true,
-      questionId,
-    });
-  };
-
-  /**
-   * @method closeDeleteQuestionModal
-   * @description Closes the delete confirmation modal and resets state
-   * @returns {void}
-   */
-  const closeDeleteQuestionModal = (): void => {
-    setDeleteModalState({
-      isOpen: false,
-      questionId: null,
-    });
-  };
-
-  /**
-   * @method confirmDeleteQuestion
-   * @description Confirms deletion and removes the question from the list
-   * @returns {void}
-   */
-  const confirmDeleteQuestion = (): void => {
-    if (!deleteModalState.questionId) return;
-
-    const questionsList = getFormValues("questions") as QuestionProps[];
-    const updatedQuestionsList = removeQuestion(
-      questionsList,
-      deleteModalState.questionId
-    );
-    resetForm({
-      ...getFormValues(),
-      questions: updatedQuestionsList,
-    } as { questions: QuestionProps[] });
-    closeDeleteQuestionModal();
-  };
   return {
     deleteQuestion,
     deleteSection,
@@ -1002,10 +1037,6 @@ const useQuestionListManager = () => {
     addNewOption,
     modifyQuestionType,
     modifyOptions,
-    openDeleteQuestionModal,
-    closeDeleteQuestionModal,
-    confirmDeleteQuestion,
-    deleteModalState,
     triggerQuestionValidation,
     onDragMoveQuestion,
   };

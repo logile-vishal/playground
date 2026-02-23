@@ -43,7 +43,6 @@ import QuestionCardOptionsComponent from "../question-card-options/QuestionCardO
 import AnswerOptionSettingModal from "../answer-options-setting-modal/AnswerOptionSettingModal";
 import AdvanceTab from "./advance-tab/AdvanceTab";
 import "./QuestionCardExpanded.scss";
-import { DeleteQuestionModal } from "../delete-modals/DeleteQuestionModal";
 
 function TabPanel(props) {
   const { children, value } = props;
@@ -81,9 +80,6 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     cloneExistingQuestion,
     deleteQuestion,
     modifyOptions,
-    deleteModalState,
-    closeDeleteQuestionModal,
-    confirmDeleteQuestion,
   } = useQuestionListManager();
   const watchQuestionList = watch("questions") as QuestionProps[];
   const [inputTypeModal, setInputTypeModal] = useState({
@@ -360,7 +356,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     }
   };
 
-  const handleDeleteQuestion = () => {
+  const handleDeleteQuestion = (): void => {
     deleteQuestion(question.qId);
   };
 
@@ -671,11 +667,6 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             showModal={triggerCardModal.status}
             handleCloseModal={closeTriggerCardModal}
             walkMeIdPrefix={["question options", "trigger modal"]}
-          />
-          <DeleteQuestionModal
-            open={deleteModalState.isOpen}
-            onClose={closeDeleteQuestionModal}
-            onConfirm={confirmDeleteQuestion}
           />
           {question.subQuestions && question.subQuestions.length > 0
             ? question.subQuestions?.map((question, index) => {

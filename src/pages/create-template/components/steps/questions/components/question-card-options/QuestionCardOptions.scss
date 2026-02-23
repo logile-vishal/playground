@@ -51,7 +51,7 @@
   & .MuiBadge-badge {
     top: ".4rem";
     font-weight: var(--logile-weight-400);
-    font-size: 13px;
+    font-size: var(--logile-size-secondary-text);
     background: var(--logile-bg-state-information-bold);
   }
 }
@@ -60,6 +60,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  gap: var(--space-l);
   & > .sortable-item {
     padding: var(--space-s) 0;
   }

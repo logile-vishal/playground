@@ -208,10 +208,10 @@ const advanceTabSchema = zod.object({
   tags: zod
     .array(
       zod.object({
-        tagId: zod.number().optional(),
-        tagName: zod.string().optional(),
-        attributeId: zod.number().optional(),
-        attributeName: zod.string().optional(),
+        tagId: zod.number().optional().nullable(),
+        tagName: zod.string().optional().nullable(),
+        attributeId: zod.number().optional().nullable(),
+        attributeName: zod.string().optional().nullable(),
       })
     )
     .optional(),
