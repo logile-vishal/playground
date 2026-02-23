@@ -42,6 +42,7 @@ import { useTemplateLibraryTranslations } from "@/pages/template-library/transla
 
 import TemplateSearchbar from "./components/template-searchbar/TemplateSearchbar";
 import "./FollowUpTemplate.scss";
+import { templatePreviewExportData } from "@/utils/generate-export-data";
 
 const defaultPagination: Pagination = {
   currentPage: 1,
@@ -87,6 +88,7 @@ const FollowUpTemplate = ({
     status: false,
   });
   const accumulatedDataRef = useRef<TemplateType[]>([]);
+  const printContentRef = useRef<HTMLDivElement>(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const { TEMPLATE_NAME, TAG_TYPE, LAST_MODIFIED_TIME, PREVIEW } =
     FOLLOW_UP_TEMPLATE_COLUMNS;
@@ -186,19 +188,6 @@ const FollowUpTemplate = ({
     setValue("followUp.templateId", localTemplateSelected?.tagId || null);
     setSelectedTemplate(localTemplateSelected);
     setLocalTemplateSelected(null);
-  };
-
-  /**
-   * @method handleExportMenuOpen
-   * @description Opens the export menu at the position of the clicked button
-   * @param {React.MouseEvent<HTMLElement>} event - The click event from the export button
-   * @return {void}
-   */
-  const handleExportMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setExportMenu({
-      anchorEl: event.currentTarget,
-      status: true,
-    });
   };
 
   /**
@@ -750,13 +739,13 @@ const FollowUpTemplate = ({
         onClose={() => setPreviewModal({ status: false, data: null })}
         isPreviewLoading={isPreviewLoading}
         hasTemplatePreviewError={hasTemplatePreviewError}
-        exportMenu={exportMenu}
-        handleExportMenuClose={handleExportMenuClose}
-        handleExportMenuOpen={handleExportMenuOpen}
       />
       <RenderExportMenu
         exportMenu={exportMenu}
         handleExportMenuClose={handleExportMenuClose}
+        ref={printContentRef}
+        exportData={previewModal?.data}
+        exportMethod={templatePreviewExportData}
       />
     </div>
   );

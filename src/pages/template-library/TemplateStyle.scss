@@ -4,8 +4,9 @@
   --directory-tree-width: 300px;
   --template-library-header-height: 52px;
   --template-library-container-height: calc(
-    100% - var(--template-library-header-height) + 1px //1px to compensate for divider
+    100% - var(--template-library-header-height) + 1px
   );
+  /* 1px to compensate for divider */
   --max-template-searchbar-width: 800px;
   &--desktop {
     --directory-tree-width: 340px;

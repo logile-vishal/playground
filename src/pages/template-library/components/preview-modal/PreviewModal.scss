@@ -1,4 +1,6 @@
 .template-preview-modal {
+  --print-page-margin: 40px;
+  --print-font-size-header: 11px;
   &__container {
     padding: 0;
     margin: 0;
@@ -28,6 +30,102 @@
     width: 100%;
     gap: unset;
     margin: 0px;
+  }
+  &__print-header {
+    display: none;
+
+    h1 {
+      margin: 0 0 var(--space-l) 0;
+      font-size: var(--space-3xl);
+      font-weight: var(--logile-weight-600);
+      color: var(--logile-text-primary);
+    }
+  }
+
+  @page {
+    size: landscape;
+    margin: var(--print-page-margin);
+  }
+
+  @media print {
+    &__print-header {
+      display: block;
+    }
+
+    &__content.template-preview-modal__content {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow: clip;
+      padding: var(--space-l);
+    }
+
+    &__questions-wrapper.template-preview-modal__questions-wrapper {
+      overflow: clip;
+      border: none;
+      max-width: 100%;
+    }
+
+    &__grid-table.template-preview-modal__grid-table {
+      overflow: clip;
+      overflow-x: clip;
+      overflow-y: clip;
+      max-height: none;
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .MuiTableContainer-root {
+        overflow: clip;
+        max-width: 100%;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
+      .MuiTable-root {
+        overflow: clip;
+        width: 100%;
+      }
+
+      table {
+        width: 100%;
+        min-width: 100%;
+        table-layout: fixed;
+        font-size: var(--logile-size-caption);
+      }
+
+      .MuiTableCell-root {
+        min-width: unset;
+        white-space: normal;
+        word-wrap: break-word;
+        padding: var(--space-xs) var(--space-s);
+        font-size: var(--logile-size-caption);
+      }
+
+      .MuiTableHead-root,
+      .MuiTableBody-root {
+        .MuiTableRow-root {
+          .MuiTableCell-root:first-child {
+            position: static;
+            filter: none;
+          }
+        }
+      }
+
+      .MuiTableCell-head {
+        position: static;
+        font-size: var(--print-font-size-header);
+        font-weight: var(--logile-weight-600);
+      }
+    }
   }
   &__loading-wrapper {
     border-radius: var(--radius-l);

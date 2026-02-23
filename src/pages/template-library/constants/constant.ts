@@ -129,3 +129,27 @@ export const TEMPLATE_SEARCH_DEFAULT_FILTER: TemplateFilter = {
     modified: null,
   },
 };
+
+export const EXPORT_COLUMN_KEYS = {
+  CONTENT: "Content",
+  ROW_LABEL: "Row Label",
+  INDEX: "Index",
+  QUESTION: "Question",
+  TYPE: "Type",
+  ANSWERS: "Answers",
+  TEMPLATE_NAME: "Template Name",
+  CREATED: "Created",
+  LAST_MODIFIED: "Last Modified",
+  STATUS: "Status",
+  TEMPLATE_ID: "Template ID",
+} as const;
+
+export const QUESTION_TYPE_IDENTIFIER = {
+  TITLE: "Title",
+} as const;
+
+export const EXPORT_PLACEHOLDER = "-";
+
+export const EXPORT_MESSAGES = {
+  NO_GRID_DATA: "No grid data available",
+} as const;

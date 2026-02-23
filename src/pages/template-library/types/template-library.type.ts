@@ -67,12 +67,6 @@ export type LibraryTableProps = {
   setSelectedTemplate: (value: TemplateType[] | ReportType[]) => void;
   templatesList: PaginatedResponse<TemplateType | ReportType>;
   isDataLoading: boolean;
-  exportMenu: {
-    anchorEl: HTMLElement | null;
-    status: boolean;
-  };
-  handleExportMenuClose: () => void;
-  handleExportMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
   fetchData: (
     directory: DirectoryType,
     paramsPayload?: Record<string, unknown>,
@@ -88,6 +82,7 @@ export type LibraryTableProps = {
   enableInfiniteScroll?: boolean;
   onLoadMore?: () => void;
   resetScrollKey?: string | number;
+  ref: HTMLDivElement;
 };
 
 export type TemplatePaginationData = {
@@ -95,12 +90,23 @@ export type TemplatePaginationData = {
   pageSize: number;
 };
 
+export type ExportDataType =
+  | TemplateType[]
+  | TemplateType
+  | ReportType[]
+  | ReportType
+  | TemplatePreviewType
+  | undefined;
+
 export type ExportMenuProps = {
   exportMenu: {
     anchorEl: null | HTMLElement;
     status: boolean;
   };
   handleExportMenuClose: () => void;
+  ref: HTMLElement | null;
+  exportData: ExportDataType;
+  exportMethod: (data: ExportDataType) => Record<string, string | number>[];
 };
 
 export type TemplatePreviewResponseProps = {
@@ -123,6 +129,8 @@ export type PreviewModalProps = {
   };
   handleExportMenuOpen?: (event: React.MouseEvent<HTMLElement>) => void;
   handleExportMenuClose?: () => void;
+  tableData: PaginatedResponse<TemplateType>;
+  ref: HTMLDivElement;
 };
 
 export type PreviewButtonProps = {

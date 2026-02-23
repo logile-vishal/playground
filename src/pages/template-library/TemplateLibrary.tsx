@@ -28,6 +28,7 @@ import CNoData from "@/core/components/no-data/NoData";
 import { isNonEmptyValue } from "@/utils";
 import clsx from "@/utils/clsx";
 import CDivider from "@/core/components/divider/Divider";
+import { templateTableExportData } from "@/utils/generate-export-data";
 
 import type {
   ReportType,
@@ -171,6 +172,7 @@ const TemplateLibrary: React.FC = () => {
     useState<PaginatedResponse<TemplateType | ReportType>>();
   const accumulatedDataRef = useRef<(TemplateType | ReportType)[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const templateTableRef = useRef<HTMLDivElement>(null);
 
   // Derive loading state instead of managing separate state
   const isTableDataLoading =
@@ -674,9 +676,6 @@ const TemplateLibrary: React.FC = () => {
                     selectedTemplate={selectedTemplate}
                     templatesList={tableData}
                     isDataLoading={isTableDataLoading}
-                    exportMenu={exportMenu}
-                    handleExportMenuClose={handleExportMenuClose}
-                    handleExportMenuOpen={handleExportMenuOpen}
                     fetchData={fetchData}
                     paginationData={paginationData}
                     handlePaginationChange={handlePaginationChange}
@@ -688,6 +687,7 @@ const TemplateLibrary: React.FC = () => {
                     enableInfiniteScroll={true}
                     onLoadMore={handleLoadMore}
                     resetScrollKey={selectedDirectory?.libraryId}
+                    ref={templateTableRef}
                   />
                   <ShowAllTemplatesInFolder
                     isVisible={isBasicFilterShowAllTemplatesVisible}
@@ -704,6 +704,9 @@ const TemplateLibrary: React.FC = () => {
           <RenderExportMenu
             exportMenu={exportMenu}
             handleExportMenuClose={handleExportMenuClose}
+            exportData={tableData?.data}
+            ref={templateTableRef}
+            exportMethod={templateTableExportData}
           />
           {/* Import Popup */}
           <CModal
