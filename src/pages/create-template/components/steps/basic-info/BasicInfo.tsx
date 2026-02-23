@@ -31,7 +31,10 @@ import type {
   AttachmentItemProps,
   TemplateTagsProps,
 } from "@/pages/create-template/types/questions.type";
-import { BASE_TEMPLATE_TYPE } from "@/pages/create-template/constants/constant";
+import {
+  BASE_TEMPLATE_TYPE,
+  COMPLETE_BASE_TEMPLATE_TYPE,
+} from "@/pages/create-template/constants/constant";
 import { TEMPLATE_TYPE } from "@/pages/template-library/constants/constant";
 
 import "./BasicInfo.scss";
@@ -125,7 +128,9 @@ const BasicInfo: React.FC = () => {
     const followUpTasks = getFormValues("followUpTasks");
 
     switch (templateTypeValue) {
-      case BASE_TEMPLATE_TYPE.checklist:
+      case (COMPLETE_BASE_TEMPLATE_TYPE.checklist,
+      COMPLETE_BASE_TEMPLATE_TYPE.auditOrg,
+      COMPLETE_BASE_TEMPLATE_TYPE.auditAssociate):
         resetForm({
           templateType: templateTypeValue,
           basicData: {
@@ -139,7 +144,7 @@ const BasicInfo: React.FC = () => {
           questions: getFormValues("questions") || [],
         });
         break;
-      case BASE_TEMPLATE_TYPE.grid:
+      case COMPLETE_BASE_TEMPLATE_TYPE.grid:
         resetForm({
           templateType: templateTypeValue,
           basicData: {
@@ -154,7 +159,7 @@ const BasicInfo: React.FC = () => {
           questions: getFormValues("questions") || [],
         });
         break;
-      case BASE_TEMPLATE_TYPE.form:
+      case COMPLETE_BASE_TEMPLATE_TYPE.form:
         resetForm({
           templateType: templateTypeValue,
           basicData: {
@@ -168,7 +173,7 @@ const BasicInfo: React.FC = () => {
           followUpTasks,
         });
         break;
-      case BASE_TEMPLATE_TYPE.spreadsheet:
+      case COMPLETE_BASE_TEMPLATE_TYPE.spreadsheet:
         resetForm({
           templateType: templateTypeValue,
           basicData: {

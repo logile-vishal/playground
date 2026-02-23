@@ -37,6 +37,15 @@ export const BASE_TEMPLATE_TYPE = {
   form: "form",
 };
 
+export const COMPLETE_BASE_TEMPLATE_TYPE = {
+  checklist: "checklist",
+  grid: "grid",
+  spreadsheet: "spreadsheet",
+  form: "form",
+  auditOrg: "audit org",
+  auditAssociate: "audit associate",
+};
+
 export const TEMPLATE_TYPE_STEPS = {
   [TEMPLATE_TYPE.CHECKLIST]: {
     0: "basicData",
