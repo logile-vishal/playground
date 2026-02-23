@@ -24,8 +24,16 @@ import {
   RESPONSE_TEMPLATE_TYPE,
   SECTION_SETTINGS_MENU_KEY,
 } from "../constants/questions";
-import { TRIGGER_CONDITIONS } from "../constants/notifications";
+import { TRIGGER_CONDITIONS } from "../constants/triggers";
 import type { QuestionTypeKey } from "../types/questions.type";
+import {
+  FOLLOW_UP_DURATION_OPTIONS,
+  FOLLOW_UP_PRIMARY_POSITION_OPTIONS,
+  FOLLOW_UP_PRIORITY_OPTIONS,
+  FOLLOW_UP_REMINDER_NOTIFICATION_OPTIONS,
+  FOLLOW_UP_STEPPER,
+  FOLLOW_UP_TASK_SHARING_OPTIONS,
+} from "../constants/follow-up";
 
 export const useCreateTemplateTranslations = () => {
   const { t } = useTranslation("create-template");
@@ -573,6 +581,13 @@ export const useCreateTemplateTranslations = () => {
     heading: t("FOLLOWUP_TASKS.heading"),
     noFollowUpTasksPlaceholder: t("FOLLOWUP_TASKS.noFollowUpTasksPlaceholder"),
     addFollowUpTaskButtonLabel: t("FOLLOWUP_TASKS.addFollowUpTaskButtonLabel"),
+    deleteFollowUpTask: t("FOLLOWUP_TASKS.deleteFollowUpTask"),
+    deleteFollowUpTaskDescription: t(
+      "FOLLOWUP_TASKS.deleteFollowUpTaskDescription"
+    ),
+    deleteFollowUpTaskSubDescription: t(
+      "FOLLOWUP_TASKS.deleteFollowUpTaskSubDescription"
+    ),
     CARD_COLUMN_HEADINGS: {
       followUp: t("FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.followUp"),
       condition: t("FOLLOWUP_TASKS.CARD_COLUMN_HEADINGS.condition"),
@@ -585,6 +600,209 @@ export const useCreateTemplateTranslations = () => {
     },
     TRIGGER_BY_ANSWER_GROUP: {
       followUp: t("FOLLOWUP_TASKS.TRIGGER_BY_ANSWER_GROUP.followUp"),
+    },
+    TRIGGER_MODAL: {
+      orgLabel: t("FOLLOWUP_TASKS.TRIGGER_MODAL.orgLabel"),
+      orgTypeLabel: t("FOLLOWUP_TASKS.TRIGGER_MODAL.orgTypeLabel"),
+      orgPositionLabel: t("FOLLOWUP_TASKS.TRIGGER_MODAL.orgPositionLabel"),
+    },
+    ADD_FOLLOWUP_TASK_MODAL: {
+      MODAL_TITLE: {
+        add: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.MODAL_TITLE.add"),
+        edit: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.MODAL_TITLE.edit"),
+        clone: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.MODAL_TITLE.clone"),
+      },
+      STEPPER: {
+        condition: {
+          label: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.condition"),
+          value: FOLLOW_UP_STEPPER.CONDITION,
+        },
+        recipients: {
+          label: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.recipients"),
+          value: FOLLOW_UP_STEPPER.RECIPIENTS,
+        },
+        template: {
+          label: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.template"),
+          value: FOLLOW_UP_STEPPER.TEMPLATE,
+        },
+        settings: {
+          label: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.settings"),
+          value: FOLLOW_UP_STEPPER.SETTINGS,
+        },
+      },
+      PLACEHOLDER: {
+        chooseCondition: t(
+          "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.PLACEHOLDER.chooseCondition"
+        ),
+        chooseConditionQuestion: t(
+          "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.PLACEHOLDER.chooseConditionQuestion"
+        ),
+        chooseConditionAnswer: t(
+          "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.PLACEHOLDER.chooseConditionAnswer"
+        ),
+      },
+      taskNameLabel: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.taskNameLabel"),
+      taskSharingLabel: t(
+        "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.taskSharingLabel"
+      ),
+      primaryPositionLabel: t(
+        "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.primaryPositionLabel"
+      ),
+      primaryPositionPlaceholder: t(
+        "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.primaryPositionPlaceholder"
+      ),
+      selectedTemplate: t(
+        "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.selectedTemplate"
+      ),
+      changeTemplate: t(
+        "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.changeTemplate"
+      ),
+      directoryTree: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.directoryTree"),
+      selectButton: t("FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.selectButton"),
+      TASK_SHARING_OPTIONS: [
+        {
+          label: t(
+            "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.TASK_SHARING_OPTIONS.yes"
+          ),
+          value: FOLLOW_UP_TASK_SHARING_OPTIONS.YES,
+        },
+        {
+          label: t(
+            "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.TASK_SHARING_OPTIONS.no"
+          ),
+          value: FOLLOW_UP_TASK_SHARING_OPTIONS.NO,
+        },
+      ],
+      PRIMARY_POSITION_OPTIONS: [
+        {
+          label: t(
+            "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.PRIMARY_POSITION_OPTIONS.assignee"
+          ),
+          value: FOLLOW_UP_PRIMARY_POSITION_OPTIONS.ASSIGNEE,
+        },
+        {
+          label: t(
+            "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.PRIMARY_POSITION_OPTIONS.districtManager"
+          ),
+          value: FOLLOW_UP_PRIMARY_POSITION_OPTIONS.DISTRICT_MANAGER,
+        },
+      ],
+      FOLLOW_UP_CONDITION_OPTIONS: {
+        taskCompleted: t(
+          "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.FOLLOW_UP_CONDITION_OPTIONS.taskCompleted"
+        ),
+        taskExpired: t(
+          "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.FOLLOW_UP_CONDITION_OPTIONS.taskExpired"
+        ),
+        taskOutOfCompliance: t(
+          "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.FOLLOW_UP_CONDITION_OPTIONS.taskOutOfCompliance"
+        ),
+        answer: t(
+          "FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.FOLLOW_UP_CONDITION_OPTIONS.answer"
+        ),
+      },
+    },
+    TABLE: {
+      HEADING: {
+        directory: t("FOLLOWUP_TASKS.TABLE.HEADING.directory"),
+        templateName: t("FOLLOWUP_TASKS.TABLE.HEADING.templateName"),
+        type: t("FOLLOWUP_TASKS.TABLE.HEADING.type"),
+        lastModifiedTime: t("FOLLOWUP_TASKS.TABLE.HEADING.lastModifiedTime"),
+        preview: t("FOLLOWUP_TASKS.TABLE.HEADING.preview"),
+      },
+      noDirectories: t("FOLLOWUP_TASKS.TABLE.noDirectories"),
+    },
+    FOLLOWUP_TASKS_SETTINGS: {
+      retainVisibilityLabel: t(
+        "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.retainVisibilityLabel"
+      ),
+      durationLabel: t("FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.durationLabel"),
+      durationPlaceholder: t(
+        "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.durationPlaceholder"
+      ),
+      durationErrorLabel: t(
+        "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.durationErrorLabel"
+      ),
+      priorityLabel: t("FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.priorityLabel"),
+      priorityPlaceholder: t(
+        "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.priorityPlaceholder"
+      ),
+      reminderNotificationLabel: t(
+        "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.reminderNotificationLabel"
+      ),
+      reminderNotificationPlaceholder: t(
+        "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.reminderNotificationPlaceholder"
+      ),
+      taskEndTimeLabel: t(
+        "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.taskEndTimeLabel"
+      ),
+      DURATION_OPTIONS: [
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.DURATION_OPTIONS.minutes"
+          ),
+          value: FOLLOW_UP_DURATION_OPTIONS.MINUTES,
+        },
+
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.DURATION_OPTIONS.hours"
+          ),
+          value: FOLLOW_UP_DURATION_OPTIONS.HOURS,
+        },
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.DURATION_OPTIONS.days"
+          ),
+          value: FOLLOW_UP_DURATION_OPTIONS.DAY,
+        },
+      ],
+      PRIORITY_OPTIONS: [
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.PRIORITY_OPTIONS.critical"
+          ),
+          value: FOLLOW_UP_PRIORITY_OPTIONS.CRITICAL,
+        },
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.PRIORITY_OPTIONS.high"
+          ),
+          value: FOLLOW_UP_PRIORITY_OPTIONS.HIGH,
+        },
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.PRIORITY_OPTIONS.medium"
+          ),
+          value: FOLLOW_UP_PRIORITY_OPTIONS.MEDIUM,
+        },
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.PRIORITY_OPTIONS.low"
+          ),
+          value: FOLLOW_UP_PRIORITY_OPTIONS.LOW,
+        },
+      ],
+      REMINDER_NOTIFICATION_OPTIONS: [
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.REMINDER_NOTIFICATION_OPTIONS.none"
+          ),
+          value: FOLLOW_UP_REMINDER_NOTIFICATION_OPTIONS.NONE,
+        },
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.REMINDER_NOTIFICATION_OPTIONS.taskDueTime"
+          ),
+          value: FOLLOW_UP_REMINDER_NOTIFICATION_OPTIONS.TASK_DUE_TIME,
+        },
+        {
+          label: t(
+            "FOLLOWUP_TASKS.FOLLOWUP_TASKS_SETTINGS.REMINDER_NOTIFICATION_OPTIONS.taskNotStarted"
+          ),
+          value: FOLLOW_UP_REMINDER_NOTIFICATION_OPTIONS.TASK_NOT_STARTED,
+        },
+      ],
     },
     NO_DATA: t("FOLLOWUP_TASKS.NO_DATA"),
   };

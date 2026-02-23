@@ -217,6 +217,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
                   <CSelect
                     options={(CompliantOptions as []) ?? []}
                     optionLabelKey={"label"}
+                    optionValueKey="value"
                     {...field}
                     onChange={handleCompliantChange}
                     templates={{

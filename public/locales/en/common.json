@@ -11,6 +11,7 @@
     "submitButtonLabel": "Submit",
     "saveButtonLabel": "Save",
     "addButtonLabel": "Add",
+    "nextButtonLabel": "Next",
     "seeMoreButtonLabel": "see more",
     "seeLessButtonLabel": "see less",
     "filterPlaceholder": "Search...",

@@ -21,24 +21,31 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   DEFAULT_NOTIFICATION,
-  DEFAULT_RECIPIENT,
   TRIGGER_CONDITIONS,
   TRIGGER_RECIPIENTS,
-} from "@/pages/create-template/constants/notifications";
+} from "@/pages/create-template/constants/triggers";
 import clsx from "@/utils/clsx";
-import {
-  orgDropdownOptions,
-  orgTypeDropdownOptions,
-  positionsOptions,
-} from "@/pages/create-template/constants/sampleData";
 import { isNonEmptyValue } from "@/utils/index";
-import { NOTIFICATIONS_ACTION_TYPE } from "@/pages/create-template/constants/notifications";
+import { NOTIFICATIONS_ACTION_TYPE } from "@/pages/create-template/constants/triggers";
 import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
 import type { QuestionProps } from "@/pages/create-template/types/questions.type";
 import { QUESTION_TYPE } from "@/pages/create-template/constants/questions";
 
 import "./AddEditNotificationModal.scss";
 import CustomRecipientModal from "../CustomRecipientModal/CustomRecipientModal";
+import {
+  useGetOrgLevels,
+  useGetOrgPositions,
+  useGetOrgsList,
+  useGetOrgTypes,
+} from "@/pages/create-template/services/create-template-api-hooks";
+import type {
+  OrgLevelProps,
+  OrgPositionsProps,
+  OrgProps,
+  OrgTypesProps,
+} from "@/pages/create-template/types/triggers.type";
+import { convertToTitleCase } from "@/utils/convert-to-title-case";
 
 const AddEditNotificationModal = ({
   showNotificationModal,
@@ -48,7 +55,7 @@ const AddEditNotificationModal = ({
   getQuestionLabel,
   getAnswerLabel,
 }) => {
-  const { NOTIFICATIONS } = useCreateTemplateTranslations();
+  const { NOTIFICATIONS, FOLLOWUP_TASKS } = useCreateTemplateTranslations();
   const { GENERAL } = useCommonTranslation();
   const {
     control,
@@ -70,9 +77,16 @@ const AddEditNotificationModal = ({
   const [customRecipientModal, setCustomRecipientModal] = useState({
     status: false,
     type: null,
-    recipientId: null,
   });
-  const [customRecipientList, setCustomRecipientList] = useState([]);
+  const [orgLevelOptions, setOrgLevelOptions] = useState([]);
+  const [orgPositionsOptions, setOrgPositionsOptions] = useState([]);
+  const [orgListOptions, setOrgListOptions] = useState([]);
+  const [orgTypeOptions, setOrgTypeOptions] = useState([]);
+  const { data: orgLevelsData } = useGetOrgLevels();
+  const { data: orgPositionsData, mutateAsync: getOrgPositions } =
+    useGetOrgPositions();
+  const { data: orgListData, mutateAsync: getOrgsList } = useGetOrgsList();
+  const { data: orgTypeData, mutateAsync: getOrgTypes } = useGetOrgTypes();
   const [answerOptions, setAnswerOptions] = useState<
     { label: string; value: string }[]
   >([]);
@@ -81,7 +95,6 @@ const AddEditNotificationModal = ({
     setCustomRecipientModal({
       status: false,
       type: null,
-      recipientId: null,
     });
   };
 
@@ -89,7 +102,6 @@ const AddEditNotificationModal = ({
     setCustomRecipientModal({
       status: true,
       type: NOTIFICATIONS_ACTION_TYPE.ADD,
-      recipientId: null,
     });
   };
 
@@ -131,120 +143,28 @@ const AddEditNotificationModal = ({
     return currentNotification.recipients.includes(recipient) ?? false;
   };
 
-  const handleEditCustomRecipient = (recipientId: number | null) => {
+  const handleEditCustomRecipient = () => {
     setCustomRecipientModal({
       status: true,
       type: NOTIFICATIONS_ACTION_TYPE.EDIT,
-      recipientId,
     });
   };
 
-  const handleDeleteCustomRecipient = (recipientId: string | null) => {
+  const handleDeleteCustomRecipient = () => {
     const currentNotification = getValues("notification") || {};
-
-    const updatedRecipientOrgs =
-      currentNotification.recipientOrgs.filter(
-        (item) => item.recipientId !== recipientId
-      ) || [];
-    const updatedRecipientOrgTypes =
-      currentNotification.recipientOrgTypes.filter(
-        (item) => item.recipientId !== recipientId
-      ) || [];
-    const updatedRecipientPositions =
-      currentNotification.recipientPositions.filter(
-        (item) => item.recipientId !== recipientId
-      ) || [];
-    currentNotification.recipientOrgs = updatedRecipientOrgs;
-    currentNotification.recipientOrgTypes = updatedRecipientOrgTypes;
-    currentNotification.recipientPositions = updatedRecipientPositions;
+    currentNotification.customRecipients = {};
+    currentNotification.isRelative = false;
+    currentNotification.isOrgTypeRelative = false;
     setValue("notification", currentNotification);
   };
 
-  const handleRecipientSubmit = (recipientData, type, recipientId) => {
+  const handleRecipientSubmit = (recipientData) => {
     const currentNotification = getValues("notification") || {};
     const updatedNotification = { ...currentNotification };
-    if (type === NOTIFICATIONS_ACTION_TYPE.EDIT) {
-      const updatedRecipientOrgs = currentNotification.recipientOrgs.map(
-        (item) =>
-          item.recipientId === recipientId ? recipientData.recipientOrg : item
-      );
-      const updatedRecipientOrgTypes =
-        currentNotification.recipientOrgTypes.map((item) =>
-          item.recipientId === recipientId
-            ? recipientData.recipientOrgType
-            : item
-        );
-      const updatedRecipientPositions =
-        currentNotification.recipientPositions.map((item) =>
-          item.recipientId === recipientId
-            ? recipientData.recipientPosition
-            : item
-        );
-      updatedNotification.recipientOrgs = updatedRecipientOrgs;
-      updatedNotification.recipientOrgTypes = updatedRecipientOrgTypes;
-      updatedNotification.recipientPositions = updatedRecipientPositions;
-    } else {
-      updatedNotification.recipientOrgs = [
-        ...(currentNotification.recipientOrgs || []),
-        recipientData.recipientOrg,
-      ];
-      updatedNotification.recipientOrgTypes = [
-        ...(currentNotification.recipientOrgTypes || []),
-        recipientData.recipientOrgType,
-      ];
-      updatedNotification.recipientPositions = [
-        ...(currentNotification.recipientPositions || []),
-        recipientData.recipientPosition,
-      ];
-    }
+    updatedNotification.customRecipients = recipientData.customRecipients;
+    updatedNotification.isRelative = recipientData.isRelative;
+    updatedNotification.isOrgTypeRelative = recipientData.isOrgTypeRelative;
     setValue("notification", updatedNotification);
-  };
-
-  const getSelectedLabel = (options, value) => {
-    const selectedOption = options.find((option) => option.value === value);
-    return selectedOption ? selectedOption.label : null;
-  };
-
-  const getRecipientsList = () => {
-    const currentNotification = getValues("notification");
-    const uniqueRecipientIds = new Set<string | number | null>();
-    currentNotification.recipientOrgs?.forEach((item) => {
-      if (isNonEmptyValue(item.recipientId))
-        uniqueRecipientIds.add(item.recipientId);
-    });
-    currentNotification.recipientOrgTypes?.forEach((item) => {
-      if (isNonEmptyValue(item.recipientId))
-        uniqueRecipientIds.add(item.recipientId);
-    });
-    currentNotification.recipientPositions?.forEach((item) => {
-      if (isNonEmptyValue(item.recipientId))
-        uniqueRecipientIds.add(item.recipientId);
-    });
-
-    /** TODO: Structure will change later with respect to BE */
-    const list = Array.from(uniqueRecipientIds).map((recipientId) => ({
-      recipientOrg:
-        currentNotification.recipientOrgs?.find(
-          (item) => item.recipientId === recipientId
-        ) || null,
-      recipientOrgType:
-        currentNotification.recipientOrgTypes?.find(
-          (item) => item.recipientId === recipientId
-        ) || null,
-      recipientPosition:
-        currentNotification.recipientPositions?.find(
-          (item) => item.recipientId === recipientId
-        ) || null,
-    }));
-    return list;
-  };
-
-  const getRecipientById = (recipientId) => {
-    const list = getRecipientsList();
-    const result = list.find(
-      (recipient) => recipient.recipientOrg.recipientId === recipientId
-    );
-    return { ...DEFAULT_RECIPIENT, ...result };
   };
 
   useEffect(() => {
@@ -260,12 +180,6 @@ const AddEditNotificationModal = ({
     );
     setAnswerOptions(answerList);
   }, [watchNotification.questionId, watchQuestionList]);
-
-  useEffect(() => {
-    const list = getRecipientsList();
-    setCustomRecipientList(list);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchNotification]);
 
   const getDefaultNotification = (): NotificationSchema => {
     return { triggerId: uuidv4(), ...DEFAULT_NOTIFICATION };
@@ -303,6 +217,80 @@ const AddEditNotificationModal = ({
         value: question.qId,
       }));
   };
+
+  const getSelectedLabel = (options, values) => {
+    const selectedOption = options?.filter((option) =>
+      values?.includes(option.value)
+    );
+    return selectedOption.length > 0
+      ? selectedOption.map((option) => option.label).join(", ")
+      : null;
+  };
+
+  useEffect(() => {
+    if (orgLevelsData?.data?.length > 0) {
+      const formattedOrgLevels = (
+        orgLevelsData.data as unknown as OrgLevelProps[]
+      ).map((level: OrgLevelProps) => ({
+        label: convertToTitleCase(level.orgLevelName),
+        value: level.orgLevelId,
+        ...level,
+      }));
+      setOrgLevelOptions(formattedOrgLevels);
+    }
+  }, [orgLevelsData]);
+
+  useEffect(() => {
+    if (orgPositionsData?.data?.length > 0) {
+      const formattedPositions = (
+        orgPositionsData.data as unknown as OrgPositionsProps[]
+      ).map((position: OrgPositionsProps) => ({
+        label: convertToTitleCase(position.name),
+        value: position.id,
+        ...position,
+      }));
+      setOrgPositionsOptions(formattedPositions);
+    }
+  }, [orgPositionsData]);
+
+  useEffect(() => {
+    if (orgListData?.data?.length > 0) {
+      const formattedOrgList = (orgListData.data as unknown as OrgProps[]).map(
+        (org: OrgProps) => ({
+          label: convertToTitleCase(org.name),
+          value: org.orgId,
+          ...org,
+        })
+      );
+      setOrgListOptions(formattedOrgList);
+    }
+  }, [orgListData]);
+
+  useEffect(() => {
+    if (orgTypeData?.data?.length > 0) {
+      const formattedOrgTypes = (
+        orgTypeData.data as unknown as OrgTypesProps[]
+      ).map((orgType: OrgTypesProps) => ({
+        label: convertToTitleCase(orgType.type),
+        value: orgType.orgTypeId,
+        ...orgType,
+      }));
+      setOrgTypeOptions(formattedOrgTypes);
+    }
+  }, [orgTypeData]);
+
+  const fetchOrgData = async (orgLevelId) => {
+    getOrgPositions({ orgLevelId });
+    getOrgsList({ orgLevelId });
+    getOrgTypes({ orgLevelId });
+  };
+
+  useEffect(() => {
+    if (isNonEmptyValue(watchNotification.customRecipients?.orgLevel)) {
+      fetchOrgData(watchNotification.customRecipients.orgLevel);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchNotification.customRecipients?.orgLevel]);
 
   return (
     <CModal
@@ -523,77 +511,68 @@ const AddEditNotificationModal = ({
             </Box>
             {watchNotification?.recipients?.length === 0 &&
               formErrors?.notification?.recipients &&
-              !isNonEmptyValue(watchNotification?.recipientOrgs) && (
+              !isNonEmptyValue(watchNotification?.customRecipients) && (
                 <Box className="ct-add-notification-modal__recipients-count-error">
                   {formErrors?.notification?.recipients?.message}
                 </Box>
               )}
           </Box>
-          {customRecipientList && customRecipientList?.length > 0 && (
+          {isNonEmptyValue(watchNotification.customRecipients) && (
             <Box className="ct-add-notification-modal__custom-recipient-section">
-              {customRecipientList?.map((recipient) => (
-                <Box
-                  className="ct-add-notification-modal__custom-recipient-section-list"
-                  key={recipient.recipientId}
-                >
+              <Box className="ct-add-notification-modal__custom-recipient-section-list">
+                {!watchNotification.isRelative && (
                   <Box className="ct-add-notification-modal__custom-recipient-section-list-item">
                     <Box className="ct-add-notification-modal__text-label">
-                      Org:
+                      {FOLLOWUP_TASKS.TRIGGER_MODAL.orgLabel}
                     </Box>
                     <Box>
                       {getSelectedLabel(
-                        orgDropdownOptions,
-                        recipient.recipientOrg?.orgId
+                        orgListOptions,
+                        watchNotification.customRecipients?.orgs
                       )}
                     </Box>
                   </Box>
+                )}
+                {!watchNotification.isOrgTypeRelative && (
                   <Box className="ct-add-notification-modal__custom-recipient-section-list-item">
                     <Box className="ct-add-notification-modal__text-label">
-                      Org Type:
+                      {FOLLOWUP_TASKS.TRIGGER_MODAL.orgTypeLabel}
                     </Box>
                     <Box>
                       {getSelectedLabel(
-                        orgTypeDropdownOptions,
-                        recipient.recipientOrgType?.orgTypeId
+                        orgTypeOptions,
+                        watchNotification.customRecipients?.orgTypes
                       )}
                     </Box>
                   </Box>
-                  <Box className="ct-add-notification-modal__custom-recipient-section-list-item">
-                    <Box className="ct-add-notification-modal__text-label">
-                      Position:
-                    </Box>
-                    <Box>
-                      {getSelectedLabel(
-                        positionsOptions,
-                        recipient.recipientPosition?.positionId
-                      )}
-                    </Box>
+                )}
+                <Box className="ct-add-notification-modal__custom-recipient-section-list-item">
+                  <Box className="ct-add-notification-modal__text-label">
+                    {FOLLOWUP_TASKS.TRIGGER_MODAL.orgPositionLabel}
                   </Box>
-                  <Box className="ct-add-notification-modal__custom-recipient-section-actions">
-                    <CIconButton
-                      size="medium"
-                      onClick={() =>
-                        handleEditCustomRecipient(
-                          recipient.recipientOrg.recipientId
-                        )
-                      }
-                    >
-                      <CSvgIcon component={Edit} />
-                    </CIconButton>
-                    <CIconButton
-                      size="medium"
-                      severity="destructive"
-                      onClick={() =>
-                        handleDeleteCustomRecipient(
-                          recipient.recipientOrg.recipientId
-                        )
-                      }
-                    >
-                      <CSvgIcon component={Delete} />
-                    </CIconButton>
+                  <Box>
+                    {getSelectedLabel(
+                      orgPositionsOptions,
+                      watchNotification.customRecipients?.positions
+                    )}
                   </Box>
                 </Box>
-              ))}
+                <Box className="ct-add-notification-modal__custom-recipient-section-actions">
+                  <CIconButton
+                    size="medium"
+                    onClick={() => handleEditCustomRecipient()}
+                  >
+                    <CSvgIcon component={Edit} />
+                  </CIconButton>
+                  <CIconButton
+                    size="medium"
+                    severity="destructive"
+                    onClick={() => handleDeleteCustomRecipient()}
+                  >
+                    <CSvgIcon component={Delete} />
+                  </CIconButton>
+                </Box>
+              </Box>
             </Box>
           )}
           <Controller
@@ -627,12 +606,16 @@ const AddEditNotificationModal = ({
           />
         </Box>
         <CustomRecipientModal
-          watchNotification={watchNotification}
+          watchTrigger={watchNotification}
           customRecipientModal={customRecipientModal}
           setCustomRecipientModal={setCustomRecipientModal}
           walkMeIdPrefix={[...walkMeIdPrefix, "Add custom recipient"]}
           handleRecipientSubmit={handleRecipientSubmit}
-          getRecipientById={getRecipientById}
+          orgLevelOptions={orgLevelOptions}
+          orgPositionsOptions={orgPositionsOptions}
+          orgListOptions={orgListOptions}
+          orgTypeOptions={orgTypeOptions}
+          fetchOrgData={fetchOrgData}
         />
       </ModalBody>
     </CModal>

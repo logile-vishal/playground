@@ -1,0 +1,156 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.ct-follow-up-template {
+  --searchbar-height: 40px;
+  --directory-section-min-width: 280px;
+  --table-table-header-height: 46px;
+  --template-name-cell-width: 200px;
+
+  @include flex-box($direction: column);
+  gap: var(--space-3xl);
+  height: 100%;
+  overflow: hidden;
+  padding: var(--space-xl);
+  .input-with-chip .input-with-chip__input {
+    height: var(--searchbar-height);
+  }
+
+  &__content-wrapper {
+    @include flex-box($direction: row);
+    flex: 1;
+    min-height: 0;
+    border: 1px solid var(--logile-border-secondary);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+  }
+
+  &__directory-section {
+    min-width: var(--directory-section-min-width);
+    overflow: hidden;
+    @include flex-box($direction: column);
+    border-right: 1px solid var(--logile-border-secondary);
+  }
+  .data-table__table-container table.MuiTable-root thead tr {
+    box-shadow: none;
+  }
+  .data-table__table-container table.MuiTable-root thead tr {
+    height: var(--table-table-header-height);
+  }
+  .MuiTableHead-root,
+  .data-table__table-container table.MuiTable-root thead th {
+    margin: 0;
+    font-size: var(--logile-size-body);
+    font-weight: var(--logile-weight-500);
+    line-height: var(--logile-line-height-body);
+    background-color: var(--logile-bg-table-header);
+    height: var(--table-table-header-height);
+    border: none;
+    padding: var(--space-m);
+    width: auto;
+    border-bottom: 1px solid var(--logile-border-secondary);
+    vertical-align: middle;
+  }
+  &__directory-section-header.ct-follow-up-template__directory-section-header {
+    padding-top: var(--space-l);
+    padding-bottom: var(--space-l);
+  }
+  .MuiTableContainer-root {
+    overflow-y: auto;
+  }
+  .data-table__table-container
+    table.MuiTable-root
+    thead
+    th
+    .Mui-TableHeadCell-Content {
+    height: auto;
+  }
+
+  .data-table__table-container {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  &__table-section {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    @include flex-box($direction: column);
+  }
+
+  &__directory-cell {
+    width: 100%;
+    overflow-y: auto;
+    padding: var(--space-m);
+
+    .SimpleTreeView {
+      height: auto;
+      max-height: 100%;
+      overflow: auto;
+    }
+
+    .MuiTreeItem-root {
+      min-height: auto;
+    }
+  }
+
+  &__template-name-cell {
+    width: var(--template-name-cell-width);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .data-table__pagination-container {
+    padding: var(--space-s);
+  }
+  &__selected-template-details {
+    @include flex-center(
+      $justify: space-between,
+      $align: center,
+      $gap: var(--space-m)
+    );
+    &-header {
+      @include flex-box($direction: column);
+      gap: var(--space-xs);
+      &-title {
+        @include form-label($isClickable: false);
+      }
+      &-name {
+        font-size: var(--logile-size-body);
+        font-weight: var(--logile-weight-400);
+        color: var(--logile-text-primary);
+      }
+    }
+  }
+  &__table-wrapper {
+    @include flex-box($direction: column);
+    height: 100%;
+    overflow: hidden;
+
+    &--no-data {
+      overflow-y: auto;
+    }
+  }
+  &__no-data-container {
+    @include flex-center($justify: center, $align: center);
+    flex: 1;
+  }
+  &__error {
+    @include form-label($isClickable: false, $error: true);
+  }
+}
+
+.ct-follow-up-template-searchbar {
+  &-container {
+    @include flex-center(
+      $justify: flex-start,
+      $align: center,
+      $gap: var(--space-m)
+    );
+  }
+  &__start-icon-container {
+    padding-right: var(--space-s);
+    display: flex;
+  }
+}

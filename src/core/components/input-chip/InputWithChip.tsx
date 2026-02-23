@@ -198,7 +198,9 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
                 <TextField
                   inputRef={inputRef}
                   className="input-with-chip__input-content-input-field"
-                  placeholder={selectedItems?.length == 0 ? placeholder : ""}
+                  placeholder={
+                    !isNonEmptyValue(selectedItems) ? placeholder : ""
+                  }
                   value={searchText}
                   onChange={onChange}
                   name={name}

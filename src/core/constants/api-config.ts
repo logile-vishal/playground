@@ -1,6 +1,14 @@
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export const API_CONFIG = {
+  org: {
+    // Organization related APIs
+    getOrgList: `${baseURL}/org`,
+    getOrgTypes: `${baseURL}/org/org-types`,
+    getOrgLevel: `${baseURL}/org/org-levels`,
+    getOrgPositions: `${baseURL}/org/positions`,
+    clusters: `${baseURL}/org/clusters`,
+  },
   user: {
     // User profile APIs
     getUserDetails: `${baseURL}/users`,
@@ -18,8 +26,7 @@ export const API_CONFIG = {
     getReportPreviewById: `${baseURL}/template-libraries/template/{reportTypeId}/reportPreview`,
     deleteTemplateById: `${baseURL}/template-libraries/template/{templateId}`,
   },
-  org: {
-    // Organization APIs
-    clusters: `${baseURL}/org/clusters`,
+  createTemplate: {
+    // Create Template APIs
   },
 };

@@ -189,6 +189,11 @@
       "followUp": "Tareas de seguimiento activadas por respuestas",
       "assigneeRecipient": "Asignado a"
     },
+    "TRIGGER_MODAL": {
+      "orgLabel": "Org:",
+      "orgTypeLabel": "Tipo de Org:",
+      "orgPositionLabel": "Posición:"
+    },
     "NO_DATA": "No se han agregado notificaciones aún. Haga clic en \"+ Notificación\" para comenzar.",
     "ADD_NOTIFICATION_MODAL": {
       "addNotification": "Agregar notificación",
@@ -244,6 +249,9 @@
     "heading": "Tareas de seguimiento",
     "noFollowUpTasksPlaceholder": "No se han definido tareas de seguimiento",
     "addFollowUpTaskButtonLabel": "Tarea de seguimiento",
+    "deleteFollowUpTask": "¿Eliminar tarea de seguimiento?",
+    "deleteFollowUpTaskDescription": "¿Estás seguro de que deseas eliminar esta tarea de seguimiento?",
+    "deleteFollowUpTaskSubDescription": "Esta acción no se puede deshacer.",
     "CARD_COLUMN_HEADINGS": {
       "followUp": "Tarea de seguimiento",
       "condition": "Condición",
@@ -254,6 +262,83 @@
     },
     "TRIGGER_BY_ANSWER_GROUP": {
       "followUp": "Tareas de seguimiento activadas por respuestas"
+    },
+    "ADD_FOLLOWUP_TASK_MODAL": {
+      "MODAL_TITLE": {
+        "add": "Agregar Tarea de Seguimiento",
+        "edit": "Editar Tarea de Seguimiento",
+        "clone": "Clonar Tarea de Seguimiento"
+      },
+      "STEPPER": {
+        "condition": "Condición",
+        "recipients": "Destinatarios",
+        "template": "Plantilla",
+        "settings": "Configuración"
+      },
+      "PLACEHOLDER": {
+        "chooseCondition": "Seleccionar Condición",
+        "chooseConditionQuestion": "Seleccionar Pregunta",
+        "chooseConditionAnswer": "Seleccionar Respuesta"
+      },
+      "taskNameLabel": "Nombre de la Tarea",
+      "taskSharingLabel": "Compartir Tarea",
+      "primaryPositionLabel": "Posición Primaria",
+      "FOLLOW_UP_CONDITION_OPTIONS": {
+        "taskCompleted": "Tarea Completada",
+        "taskExpired": "Tarea Vencida",
+        "taskOutOfCompliance": "Tarea Fuera de Cumplimiento",
+        "answer": "Respuesta"
+      },
+      "TASK_SHARING_OPTIONS": {
+        "yes": "Sí",
+        "no": "No"
+      },
+      "PRIMARY_POSITION_OPTIONS": {
+        "assignee": "Asignado",
+        "districtManager": "Gerente de Distrito"
+      },
+      "primaryPositionPlaceholder": "Seleccionar Posición Primaria",
+      "selectedTemplate": "Plantilla Seleccionada",
+      "changeTemplate": "Cambiar Plantilla",
+      "directoryTree": "Árbol de Directorios",
+      "selectButton": "Seleccionar"
+    },
+    "TABLE": {
+      "HEADING": {
+        "directory": "Árbol de Directorios",
+        "templateName": "Nombre de la Plantilla",
+        "type": "Tipo",
+        "lastModifiedTime": "Última Modificación",
+        "preview": "Vista Previa"
+      },
+      "noDirectories": "Sin directorios"
+    },
+    "FOLLOWUP_TASKS_SETTINGS": {
+      "retainVisibilityLabel": "El usuario desencadenante retiene la visibilidad",
+      "durationLabel": "Duración",
+      "durationPlaceholder": "Seleccionar Duración",
+      "durationErrorLabel": "La duración es requerida",
+      "priorityLabel": "Prioridad",
+      "priorityPlaceholder": "Seleccionar Prioridad",
+      "reminderNotificationLabel": "¿Notificación de recordatorio?",
+      "reminderNotificationPlaceholder": "Seleccionar Notificación de Recordatorio",
+      "taskEndTimeLabel": "Hora original de finalización de la tarea",
+      "DURATION_OPTIONS": {
+        "days": "Días",
+        "hours": "Horas",
+        "minutes": "Minutos"
+      },
+      "PRIORITY_OPTIONS": {
+        "critical": "Crítico",
+        "high": "Alto",
+        "medium": "Medio",
+        "low": "Bajo"
+      },
+      "REMINDER_NOTIFICATION_OPTIONS": {
+        "none": "Ninguno",
+        "taskDueTime": "Hora de vencimiento de la tarea",
+        "taskNotStarted": "Tarea no iniciada"
+      }
     },
     "NO_DATA": "No se han agregado tareas de seguimiento aún. Haga clic en \"+ Tarea de seguimiento\" para comenzar."
   },

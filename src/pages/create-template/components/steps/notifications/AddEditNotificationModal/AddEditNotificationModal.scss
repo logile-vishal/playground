@@ -66,6 +66,12 @@
   &__recipients-count-error {
     @include form-label($error: true);
   }
+  &__relative-wrapper {
+    &--label {
+      @include form-label($required: true, $isClickable: false);
+      font-size: var(--logile-size-secondary-text);
+    }
+  }
 }
 
 .ct-custom-recipient-modal {

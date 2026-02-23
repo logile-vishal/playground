@@ -52,6 +52,7 @@ import { useTemplateLibraryTranslations } from "./translation/useTemplateLibrary
 import "./TemplateStyle.scss";
 import { TemplateSearchBar } from "./components/template-search-bar";
 import ShowAllTemplatesInFolder from "./components/template-search-bar/ShowAllTemplatesInFolder";
+import { findDirectoryById, getTargetDirectoryIdTrail } from "./utils/template";
 
 const defaultPagination: Pagination = {
   currentPage: 1,
@@ -60,42 +61,6 @@ const defaultPagination: Pagination = {
   totalItems: 0,
 };
 
-const getTargetDirectoryIdTrail = (
-  directoryList: DirectoryType[],
-  directoryId: number
-): number[] => {
-  const expandedIds: number[] = [];
-  directoryList.forEach((dir) => {
-    if (dir.libraryId === directoryId) {
-      expandedIds.push(dir.libraryId);
-    }
-    if (dir.subLibrary) {
-      const ids = getTargetDirectoryIdTrail(dir.subLibrary, directoryId);
-      if (ids.length > 0) {
-        expandedIds.push(...ids);
-        expandedIds.push(dir.libraryId);
-      }
-    }
-  });
-  return expandedIds;
-};
-const findDirectoryById = (
-  directoryList: DirectoryType[],
-  directoryId: number
-): DirectoryType | null => {
-  for (const dir of directoryList) {
-    if (dir.libraryId === directoryId) {
-      return dir;
-    }
-    if (dir.subLibrary) {
-      const foundDir = findDirectoryById(dir.subLibrary, directoryId);
-      if (foundDir) {
-        return foundDir;
-      }
-    }
-  }
-  return null;
-};
 /**
  * @method createFilterPayload
  * @description structure and get all the required payloads

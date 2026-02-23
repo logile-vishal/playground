@@ -189,6 +189,11 @@
       "followUp": "उत्तर द्वारा ट्रिगर किए गए फ़ॉलो-अप कार्य",
       "assigneeRecipient": "असाइनी"
     },
+    "TRIGGER_MODAL": {
+      "orgLabel": "संगठन:",
+      "orgTypeLabel": "संगठन प्रकार:",
+      "orgPositionLabel": "पद:"
+    },
     "NO_DATA": "कोई सूचनाएं अभी तक नहीं जोड़ी गई हैं। शुरू करने के लिए \"+ सूचना\" पर क्लिक करें।",
     "ADD_NOTIFICATION_MODAL": {
       "addNotification": "सूचना जोड़ें",
@@ -244,6 +249,9 @@
     "heading": "फ़ॉलो-अप कार्य",
     "noFollowUpTasksPlaceholder": "कोई फ़ॉलो-अप कार्य परिभाषित नहीं हैं",
     "addFollowUpTaskButtonLabel": "फ़ॉलो-अप कार्य",
+    "deleteFollowUpTask": "फ़ॉलो-अप कार्य हटाएँ?",
+    "deleteFollowUpTaskDescription": "क्या आप वाकई इस फ़ॉलो-अप कार्य को हटाना चाहते हैं?",
+    "deleteFollowUpTaskSubDescription": "यह कार्रवाई पूर्ववत नहीं की जा सकती।",
     "CARD_COLUMN_HEADINGS": {
       "followUp": "फ़ॉलो-अप कार्य",
       "condition": "शर्त",
@@ -254,6 +262,83 @@
     },
     "TRIGGER_BY_ANSWER_GROUP": {
       "followUp": "उत्तर द्वारा ट्रिगर किए गए फ़ॉलो-अप कार्य"
+    },
+    "ADD_FOLLOWUP_TASK_MODAL": {
+      "MODAL_TITLE": {
+        "add": "फॉलो-अप कार्य जोड़ें",
+        "edit": "फॉलो-अप कार्य संपादित करें",
+        "clone": "फॉलो-अप कार्य क्लोन करें"
+      },
+      "STEPPER": {
+        "condition": "शर्त",
+        "recipients": "प्राप्तकर्ता",
+        "template": "टेम्पलेट",
+        "settings": "सेटिंग्स"
+      },
+      "PLACEHOLDER": {
+        "chooseCondition": "शर्त चुनें",
+        "chooseConditionQuestion": "प्रश्न चुनें",
+        "chooseConditionAnswer": "उत्तर चुनें"
+      },
+      "taskNameLabel": "कार्य का नाम",
+      "taskSharingLabel": "कार्य साझाकरण",
+      "primaryPositionLabel": "प्राथमिक स्थिति",
+      "FOLLOW_UP_CONDITION_OPTIONS": {
+        "taskCompleted": "कार्य पूर्ण",
+        "taskExpired": "कार्य समाप्त हो गया",
+        "taskOutOfCompliance": "कार्य अनुपालन से बाहर",
+        "answer": "उत्तर"
+      },
+      "TASK_SHARING_OPTIONS": {
+        "yes": "हाँ",
+        "no": "नहीं"
+      },
+      "PRIMARY_POSITION_OPTIONS": {
+        "assignee": "नियुक्त",
+        "districtManager": "जिला प्रबंधक"
+      },
+      "primaryPositionPlaceholder": "प्राथमिक पद का चयन करें",
+      "selectedTemplate": "चयनित टेम्पलेट",
+      "changeTemplate": "टेम्पलेट बदलें",
+      "directoryTree": "निर्देशिका पेड़",
+      "selectButton": "चुनें"
+    },
+    "TABLE": {
+      "HEADING": {
+        "directory": "निर्देशिका वृक्ष",
+        "templateName": "टेम्पलेट का नाम",
+        "type": "प्रकार",
+        "lastModifiedTime": "अंतिम संशोधन",
+        "preview": "पूर्वावलोकन"
+      },
+      "noDirectories": "कोई निर्देशिकाएं नहीं"
+    },
+    "FOLLOWUP_TASKS_SETTINGS": {
+      "retainVisibilityLabel": "ट्रिगरिंग उपयोगकर्ता दृश्यमानता बनाए रखता है",
+      "durationLabel": "अवधि",
+      "durationPlaceholder": "अवधि चुनें",
+      "durationErrorLabel": "अवधि आवश्यक है",
+      "priorityLabel": "प्राथमिकता",
+      "priorityPlaceholder": "प्राथमिकता चुनें",
+      "reminderNotificationLabel": "अनुस्मारक सूचना?",
+      "reminderNotificationPlaceholder": "अनुस्मारक सूचना चुनें",
+      "taskEndTimeLabel": "मूल कार्य समाप्ति समय",
+      "DURATION_OPTIONS": {
+        "days": "दिन",
+        "hours": "घंटे",
+        "minutes": "मिनट"
+      },
+      "PRIORITY_OPTIONS": {
+        "critical": "गंभीर",
+        "high": "उच्च",
+        "medium": "मध्यम",
+        "low": "कम"
+      },
+      "REMINDER_NOTIFICATION_OPTIONS": {
+        "none": "कोई नहीं",
+        "taskDueTime": "कार्य देय समय",
+        "taskNotStarted": "कार्य प्रारंभ नहीं हुआ"
+      }
     },
     "NO_DATA": "कोई फ़ॉलो-अप कार्य अभी तक नहीं जोड़ा गया है। शुरू करने के लिए \"+ फ़ॉलो-अप कार्य\" पर क्लिक करें।"
   },

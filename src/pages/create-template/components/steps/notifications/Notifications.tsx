@@ -12,7 +12,7 @@ import type { NotificationSchema } from "@/pages/create-template/form-schema/ste
 import {
   NOTIFICATIONS_ACTION_TYPE,
   NOTIFICATIONS_CONDITION,
-} from "@/pages/create-template/constants/notifications";
+} from "@/pages/create-template/constants/triggers";
 import { flattenQuestions } from "@/utils/flatten-questions";
 
 import "./Notifications.scss";

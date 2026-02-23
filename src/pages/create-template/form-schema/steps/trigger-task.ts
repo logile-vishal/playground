@@ -43,42 +43,35 @@ export const recipientOrgTypePositionSchema = zod.object({
 export const triggerConditionSchema = zod.object({
   condition: zod
     .enum(["TASK_COMPLETED", "TASK_EXPIRED", "TASK_COMPLIANCE", "ANSWER"])
+    .nullable()
     .refine((val) => val !== null && val !== undefined, {
       message: "Condition is required",
     }),
   questionId: zod.string().nullable().optional(),
   answerIndex: zod.string().nullable().optional(),
-  recipients: zod
-    .array(zod.string())
-    .min(1, "Atleast one recipient is required"),
+  recipients: zod.array(zod.string()).optional(),
 });
 
 /**
  * Common schema for trigger task recipients
  */
-export const triggerRecipientSchema = zod.object({
-  orgLevelId: zod.number().optional(),
-  recipientOrgs: zod.array(recipientOrgSchema).optional(),
-  isRelative: zod.boolean().optional(),
-  recipientOrgTypes: zod.array(recipientOrgTypeSchema).optional(),
-  isOrgTypeRelative: zod.boolean().optional(),
-  recipientPositions: zod.array(recipientPositionSchema).optional(),
-  recipientOrgTypePositions: zod
-    .array(recipientOrgTypePositionSchema)
-    .optional(),
-});
 
 export const triggerNewCustomRecipientSchema = zod.object({
-  recipientOrgTypePosition: recipientOrgTypePositionSchema,
-  recipientOrg: recipientOrgSchema,
-  recipientOrgType: recipientOrgTypeSchema,
-  recipientPosition: recipientPositionSchema,
+  recipientId: zod.string().optional(),
+  orgLevel: zod.number().optional(),
+  orgs: zod.array(zod.number()).optional(),
+  orgTypes: zod.array(zod.number()).optional(),
+  positions: zod.array(zod.number()).optional(),
+});
+
+export const triggerRecipientSchema = zod.object({
+  customRecipients: triggerNewCustomRecipientSchema,
   isRelative: zod.boolean().optional(),
   isOrgTypeRelative: zod.boolean().optional(),
 });
 
 export const triggerNewCustomRecipientStepSchema = zod.object({
-  recipient: triggerNewCustomRecipientSchema,
+  recipient: triggerRecipientSchema,
 });
 
 /**
@@ -87,7 +80,7 @@ export const triggerNewCustomRecipientStepSchema = zod.object({
 export const baseTriggerTaskSchema = zod
   .object({
     triggerType: zod.enum(["MESSAGE", "TASK"]),
-    triggerId: zod.string().optional(),
+    triggerId: zod.string().optional().nullable(),
   })
   .merge(triggerConditionSchema)
   .merge(triggerRecipientSchema);
@@ -95,9 +88,6 @@ export const baseTriggerTaskSchema = zod
 export type TriggerCondition = zod.infer<typeof triggerConditionSchema>;
 export type TriggerRecipient = zod.infer<typeof triggerRecipientSchema>;
 export type BaseTriggerTask = zod.infer<typeof baseTriggerTaskSchema>;
-export type TriggerNewCustomRecipient = zod.infer<
-  typeof triggerNewCustomRecipientSchema
->;
 export type TriggerNewCustomRecipientStep = zod.infer<
   typeof triggerNewCustomRecipientStepSchema
 >;

@@ -1,22 +1,30 @@
 import { z as zod } from "zod";
 
 import { baseTriggerTaskSchema } from "./trigger-task";
+import { richTextValidationSchema } from "./questions";
 
 export const followUpTaskSchema = baseTriggerTaskSchema.extend({
-  taskSharing: zod.string().optional(),
-  primaryOrgLevelPos: zod.string().optional(),
-  triggerTaskName: zod.string().min(1, "Task name is required"),
-  templateId: zod.number(),
-  durationValue: zod.number(),
-  durationType: zod.enum(["DAY", "HOUR", "MINUTE"]),
+  primaryOrgLevelPos: zod.string().optional().nullable(),
+  triggerTaskName: richTextValidationSchema,
+  templateId: zod
+    .number()
+    .min(
+      1,
+      "Template selection is required"
+    ) /* TODO: Update validation message later */,
+  durationValue: zod.string().nullable().optional(),
+  durationType: zod.enum(["DAY", "HOUR", "MINUTE"]).nullable().optional(),
   originalTaskEndTime: zod.boolean().optional(),
-  priority: zod.string().optional(),
+  priority: zod.string().optional().nullable(),
   userRetainVisibility: zod.boolean().optional(),
-  reminderNotificationType: zod.enum(["NONE", "TASK_DUE_TIME"]).optional(),
+  reminderNotificationType: zod
+    .enum(["NONE", "TASK_DUE_TIME"])
+    .optional()
+    .nullable(),
   messageDefinition: zod
     .object({
-      conditionUnit: zod.enum(["DAY", "HOUR", "MINUTE"]),
-      conditionValue: zod.number(),
+      conditionUnit: zod.enum(["DAY", "HOUR", "MINUTE"]).nullable().optional(),
+      conditionValue: zod.number().nullable().optional(),
     })
     .optional(),
 });

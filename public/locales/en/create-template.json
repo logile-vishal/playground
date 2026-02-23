@@ -248,6 +248,9 @@
     "heading": "Follow-up Tasks",
     "noFollowUpTasksPlaceholder": "No Follow-up Tasks Defined",
     "addFollowUpTaskButtonLabel": "Follow-up Task",
+    "deleteFollowUpTask": "Delete Follow-up Task?",
+    "deleteFollowUpTaskDescription": "Are you sure you want to delete this follow-up task?",
+    "deleteFollowUpTaskSubDescription": "This action cannot be undone.",
     "CARD_COLUMN_HEADINGS": {
       "followUp": "Follow-up Task",
       "condition": "Condition",
@@ -258,6 +261,88 @@
     },
     "TRIGGER_BY_ANSWER_GROUP": {
       "followUp": "Follow-up tasks triggered by answers"
+    },
+    "TRIGGER_MODAL": {
+      "orgLabel": "Org:",
+      "orgTypeLabel": "Org Type:",
+      "orgPositionLabel": "Position:"
+    },
+    "ADD_FOLLOWUP_TASK_MODAL": {
+      "MODAL_TITLE": {
+        "add": "Add Follow-up Task",
+        "edit": "Edit Follow-up Task",
+        "clone": "Clone Follow-up Task"
+      },
+      "STEPPER": {
+        "condition": "Condition",
+        "recipients": "Recipients",
+        "template": "Template",
+        "settings": "Settings"
+      },
+      "PLACEHOLDER": {
+        "chooseCondition": "Select Condition",
+        "chooseConditionQuestion": "Select Question",
+        "chooseConditionAnswer": "Select Answer"
+      },
+      "taskNameLabel": "Task Name",
+      "taskSharingLabel": "Task Sharing",
+      "primaryPositionLabel": "Primary Position",
+      "FOLLOW_UP_CONDITION_OPTIONS": {
+        "taskCompleted": "Task Completed",
+        "taskExpired": "Task Expired",
+        "taskOutOfCompliance": "Task Out of Compliance",
+        "answer": "Answer"
+      },
+      "TASK_SHARING_OPTIONS": {
+        "yes": "Yes",
+        "no": "No"
+      },
+      "PRIMARY_POSITION_OPTIONS": {
+        "assignee": "Assignee",
+        "districtManager": "District Manager"
+      },
+      "primaryPositionPlaceholder": "Select Primary Position",
+      "selectedTemplate": "Selected Template",
+      "changeTemplate": "Change Template",
+      "directoryTree": "Directory Tree",
+      "selectButton": "Select"
+    },
+    "TABLE": {
+      "HEADING": {
+        "directory": "Directory Tree",
+        "templateName": "Template Name",
+        "type": "Type",
+        "lastModifiedTime": "Last Modified",
+        "preview": "Preview"
+      },
+      "noDirectories": "No directories"
+    },
+    "FOLLOWUP_TASKS_SETTINGS": {
+      "retainVisibilityLabel": "Triggering user retains visibility",
+      "durationLabel": "Duration",
+      "durationPlaceholder": "Select Duration",
+      "durationErrorLabel": "Duration is required",
+      "priorityLabel": "Priority",
+      "priorityPlaceholder": "Select Priority",
+      "reminderNotificationLabel": "Reminder Notification?",
+      "reminderNotificationPlaceholder": "Select Reminder Notification",
+      "taskEndTimeLabel": "Original Task End Time",
+      "DURATION_OPTIONS": {
+        "days": "Days",
+        "hours": "Hours",
+        "minutes": "Minutes"
+      },
+      "PRIORITY_OPTIONS": {
+        "critical": "Critical",
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      },
+      "REMINDER_NOTIFICATION_OPTIONS": {
+        "none": "None",
+        "taskDueTime": "Task Due Time",
+        "taskNotStarted": "Task Not Started"
+      }
     },
     "NO_DATA": "No follow-up tasks added yet. Click \"+ Follow-up Task\" to get started."
   },

@@ -146,6 +146,7 @@ const CModal: React.FC<ModalProps> = ({
           "common-modal__content--small": size === "small",
           "common-modal__content--medium": size === "medium",
           "common-modal__content--large": size === "large",
+          "common-modal__content--xlarge": size === "xlarge",
           [containerClassName]: true,
         })}
         {...props}

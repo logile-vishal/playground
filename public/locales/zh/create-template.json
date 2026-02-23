@@ -193,6 +193,11 @@
       "followUp": "由答案触发的后续任务",
       "assigneeRecipient": "负责人"
     },
+    "TRIGGER_MODAL": {
+      "orgLabel": "组织:",
+      "orgTypeLabel": "组织类型:",
+      "orgPositionLabel": "职位:"
+    },
     "NO_DATA": "尚未添加任何通知。点击“+ 通知”开始。",
     "ADD_NOTIFICATION_MODAL": {
       "addNotification": "添加通知",
@@ -244,6 +249,9 @@
     "heading": "后续任务",
     "noFollowUpTasksPlaceholder": "尚未定义任何后续任务",
     "addFollowUpTaskButtonLabel": "后续任务",
+    "deleteFollowUpTask": "删除后续任务？",
+    "deleteFollowUpTaskDescription": "确定要删除此后续任务吗？",
+    "deleteFollowUpTaskSubDescription": "此操作无法撤消。",
     "CARD_COLUMN_HEADINGS": {
       "followUp": "后续任务",
       "condition": "条件",
@@ -258,6 +266,83 @@
     },
     "TRIGGER_BY_ANSWER_GROUP": {
       "followUp": "由答案触发的后续任务"
+    },
+    "ADD_FOLLOWUP_TASK_MODAL": {
+      "MODAL_TITLE": {
+        "add": "添加后续任务",
+        "edit": "编辑后续任务",
+        "clone": "克隆后续任务"
+      },
+      "STEPPER": {
+        "condition": "条件",
+        "recipients": "接收人",
+        "template": "模板",
+        "settings": "设置"
+      },
+      "PLACEHOLDER": {
+        "chooseCondition": "选择条件",
+        "chooseConditionQuestion": "选择问题",
+        "chooseConditionAnswer": "选择答案"
+      },
+      "taskNameLabel": "任务名称",
+      "taskSharingLabel": "任务共享",
+      "primaryPositionLabel": "主要职位",
+      "FOLLOW_UP_CONDITION_OPTIONS": {
+        "taskCompleted": "任务已完成",
+        "taskExpired": "任务已过期",
+        "taskOutOfCompliance": "任务不合规",
+        "answer": "答案"
+      },
+      "TASK_SHARING_OPTIONS": {
+        "yes": "是",
+        "no": "否"
+      },
+      "PRIMARY_POSITION_OPTIONS": {
+        "assignee": "受理人",
+        "districtManager": "地区经理"
+      },
+      "primaryPositionPlaceholder": "选择主要职位",
+      "selectedTemplate": "选定的模板",
+      "changeTemplate": "更改模板",
+      "directoryTree": "目录树",
+      "selectButton": "选择"
+    },
+    "TABLE": {
+      "HEADING": {
+        "directory": "目录树",
+        "templateName": "模板名称",
+        "type": "类型",
+        "lastModifiedTime": "最后修改",
+        "preview": "预览"
+      },
+      "noDirectories": "无目录"
+    },
+    "FOLLOWUP_TASKS_SETTINGS": {
+      "retainVisibilityLabel": "触发用户保留可见性",
+      "durationLabel": "持续时间",
+      "durationPlaceholder": "选择持续时间",
+      "durationErrorLabel": "需要持续时间",
+      "priorityLabel": "优先级",
+      "priorityPlaceholder": "选择优先级",
+      "reminderNotificationLabel": "提醒通知?",
+      "reminderNotificationPlaceholder": "选择提醒通知",
+      "taskEndTimeLabel": "原始任务结束时间",
+      "DURATION_OPTIONS": {
+        "days": "天",
+        "hours": "小时",
+        "minutes": "分钟"
+      },
+      "PRIORITY_OPTIONS": {
+        "critical": "紧急",
+        "high": "高",
+        "medium": "中",
+        "low": "低"
+      },
+      "REMINDER_NOTIFICATION_OPTIONS": {
+        "none": "无",
+        "taskDueTime": "任务截止时间",
+        "taskNotStarted": "任务未开始"
+      }
     },
     "NO_DATA": "尚未添加任何后续任务。点击“+ 后续任务”开始。"
   },

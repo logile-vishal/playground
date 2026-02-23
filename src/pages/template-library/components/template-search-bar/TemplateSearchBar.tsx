@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import { Close, Filter } from "@/core/constants/icons";
+import { Close, Filter, Search } from "@/core/constants/icons";
 import CIconButton from "@/core/components/button/IconButton";
 import CInputWithChip from "@/core/components/input-chip/InputWithChip";
 import CSvgIcon from "@/core/components/icon/Icon";
@@ -264,6 +264,13 @@ const TemplateSearchBar: React.FC<TemplateSearchBarProps> = ({
         onClick={handleOpenSearchModal}
         disableInputFocus
         disableScrollToFocus
+        startIcon={
+          <CSvgIcon
+            component={Search}
+            color="secondary"
+            size={18}
+          />
+        }
         endIcon={
           <div className="template-search__icon-container">
             {isClearButtonVisible && (

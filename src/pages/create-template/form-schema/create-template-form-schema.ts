@@ -8,7 +8,7 @@ import {
 } from "./steps/notifications";
 import {
   followUpTaskSchema,
-  type FollowUpTaskStep,
+  type FollowUpTaskSchema,
 } from "./steps/followup-tasks";
 
 export const gridColumnSchema = zod.object({
@@ -27,7 +27,7 @@ export const checklistTypeFormSchema = zod.object({
     NotificationSchema[]
   >,
   followUpTasks: zod.array(followUpTaskSchema) as zod.ZodType<
-    FollowUpTaskStep[]
+    FollowUpTaskSchema[]
   >,
 });
 
@@ -45,7 +45,7 @@ export const gridTypeFormSchema = zod.object({
     NotificationSchema[]
   >,
   followUpTasks: zod.array(followUpTaskSchema) as zod.ZodType<
-    FollowUpTaskStep[]
+    FollowUpTaskSchema[]
   >,
 });
 
@@ -57,7 +57,7 @@ export const spreadsheetTypeFormSchema = zod.object({
     NotificationSchema[]
   >,
   followUpTasks: zod.array(followUpTaskSchema) as zod.ZodType<
-    FollowUpTaskStep[]
+    FollowUpTaskSchema[]
   >,
 });
 
@@ -69,7 +69,7 @@ export const formTypeFormSchema = zod.object({
     NotificationSchema[]
   >,
   followUpTasks: zod.array(followUpTaskSchema) as zod.ZodType<
-    FollowUpTaskStep[]
+    FollowUpTaskSchema[]
   >,
 });
 

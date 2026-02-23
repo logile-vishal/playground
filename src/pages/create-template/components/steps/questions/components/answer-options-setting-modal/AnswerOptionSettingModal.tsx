@@ -465,6 +465,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                   <CSelect
                     options={(CompliantOptions as []) ?? []}
                     optionLabelKey="label"
+                    optionValueKey="value"
                     {...field}
                     onChange={handleCompliantChange}
                     value={getIsCompliantValue(field?.value)}

@@ -1,0 +1,62 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.ct-follow-up-settings {
+  --select-width: 180px;
+  --form-group-left-width: 243px;
+  --textfield-width: 55px;
+  --margin-top: 20px;
+
+  @include flex-box($direction: column);
+  gap: var(--space-3xl);
+  padding: var(--space-xl);
+  &__form-group {
+    @include flex-center(
+      $justify: flex-start,
+      $align: center,
+      $gap: var(--space-5xl)
+    );
+    &-left {
+      width: var(--form-group-left-width);
+      @include flex-center(
+        $justify: flex-start,
+        $align: flex-start,
+        $gap: var(--space-m)
+      );
+      .textfield {
+        width: var(--textfield-width);
+      }
+      &-select {
+        width: 100%;
+      }
+
+      &-label-wrapper {
+        @include flex-box($direction: column);
+        @include flex-center(
+          $justify: flex-start,
+          $align: flex-start,
+          $gap: var(--space-xs)
+        );
+      }
+      &-label {
+        @include form-label($isClickable: false);
+        @include flex-box($direction: column);
+      }
+    }
+    &-right {
+      margin-top: var(--margin-top);
+    }
+    .select {
+      width: var(--select-width);
+    }
+  }
+  .required {
+    @include form-label($isClickable: false, $required: true);
+  }
+  .error {
+    @include form-label($isClickable: false, $error: true);
+    margin-top: calc(-1 * var(--space-2xl));
+  }
+  .switch {
+    @include flex-box(column);
+  }
+}

@@ -20,6 +20,9 @@
     &--large {
       --common-modal-width: 752px;
     }
+    &--xlarge {
+      --common-modal-width: 850px;
+    }
 
     width: min(var(--common-modal-width), 90vw);
     background-color: var(--logile-bg-container-1);

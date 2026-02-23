@@ -927,8 +927,8 @@ const LibraryTable: React.FC<LibraryTableProps> = ({
       enableBottomToolbar: false,
       enableTopToolbar: false,
       muiTableBodyRowProps: { hover: false },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [shouldShowSkeleton, templatesList?.data, isDesktop, isReportType]
   );
 

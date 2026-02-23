@@ -44,3 +44,30 @@ export type FollowUpCardProps = TriggerCardProps & {
     triggerTaskName: string;
   };
 };
+
+export type OrgProps = {
+  orgId: number;
+  name: string;
+  code: string;
+};
+
+export type OrgPositionsProps = {
+  id: number;
+  name: string;
+  orgId: number;
+  orgLevelId: number;
+};
+
+export type OrgTypesProps = {
+  orgTypeId: number;
+  type: string;
+  code: string;
+  level: number;
+};
+
+export type OrgLevelProps = {
+  orgLevelId: number;
+  orgLevel: number;
+  orgLevelName: string;
+  orgTypes: number;
+};

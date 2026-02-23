@@ -1,0 +1,12 @@
+.ct-add-edit-follow-up-modal {
+  --stepper-height: 500px;
+  &-body {
+    border: 1px solid var(--logile-border-secondary);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    padding: 0;
+    .stepper {
+      height: var(--stepper-height);
+    }
+  }
+}

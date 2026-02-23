@@ -56,7 +56,7 @@ export const CDataTable = ({
   const isLoadingMoreRef = useRef<boolean>(false);
   const tableContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const shouldUseInfiniteScroll = enableInfiniteScroll && !isDesktopView;
+  const shouldUseInfiniteScroll = enableInfiniteScroll || !isDesktopView;
   const hasMoreData = pagination.currentPage < pagination.totalPages;
   const hasExistingData = (tableProps.data?.length ?? 0) > 0;
   const isFirstPage = pagination.currentPage === 1;
@@ -139,19 +139,27 @@ export const CDataTable = ({
           onScroll: handleScroll,
         }
       : undefined,
-    muiTableBodyRowProps: ({ row }: { row: MRT_Row<MRT_RowData> }) => ({
-      hover:
-        isRowSelected && isRowSelected(row.original as TemplateType)
-          ? false
-          : true,
-      sx: {
-        backgroundColor:
+    muiTableBodyRowProps: ({ row }: { row: MRT_Row<MRT_RowData> }) => {
+      const bodyRowProps =
+        tableProps?.muiTableBodyRowProps &&
+        typeof tableProps?.muiTableBodyRowProps === "function"
+          ? tableProps?.muiTableBodyRowProps({ row })
+          : {};
+      return {
+        ...bodyRowProps,
+        hover:
           isRowSelected && isRowSelected(row.original as TemplateType)
-            ? "var(--logile-bg-primary-x-subtle)"
-            : "inherit",
-        transition: "backgroundColor 1s",
-      },
-    }),
+            ? false
+            : true,
+        sx: {
+          backgroundColor:
+            isRowSelected && isRowSelected(row.original as TemplateType)
+              ? "var(--logile-bg-primary-x-subtle)"
+              : "inherit",
+          transition: "backgroundColor 1s",
+        },
+      };
+    },
   });
 
   return (
@@ -160,7 +168,7 @@ export const CDataTable = ({
         className={clsx({
           "data-table__table-container": true,
           "data-table__table-container--with-pagination":
-            showPagination && isDesktopView,
+            showPagination && !enableInfiniteScroll && isDesktopView,
           "data-table__table-container--infinite-scroll":
             shouldUseInfiniteScroll,
         })}
@@ -178,19 +186,22 @@ export const CDataTable = ({
           </Box>
         )}
       </Box>
-      {!isLoading && showPagination && isDesktopView && (
-        <Box className="data-table__pagination-container">
-          <CPagination
-            pagination={pagination}
-            walkMeIdPrefix={walkMeIdPrefix}
-            size="large"
-            onChange={handlePaginationChange}
-            className={paginationClassName}
-            pageSizeOptions={pageSizeOptions}
-            showPagination={showPagination}
-          />
-        </Box>
-      )}
+      {!isLoading &&
+        showPagination &&
+        !enableInfiniteScroll &&
+        isDesktopView && (
+          <Box className="data-table__pagination-container">
+            <CPagination
+              pagination={pagination}
+              walkMeIdPrefix={walkMeIdPrefix}
+              size="large"
+              onChange={handlePaginationChange}
+              className={paginationClassName}
+              pageSizeOptions={pageSizeOptions}
+              showPagination={showPagination}
+            />
+          </Box>
+        )}
     </Box>
   );
 };

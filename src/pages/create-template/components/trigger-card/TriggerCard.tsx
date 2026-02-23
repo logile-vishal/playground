@@ -28,7 +28,7 @@ import clsx from "@/utils/clsx";
 import { convertToTitleCase } from "@/utils/convert-to-title-case";
 
 import "./TriggerCard.scss";
-import { CUSTOM_RECIPIENT_LABEL } from "../../constants/notifications";
+import { CUSTOM_RECIPIENT_LABEL } from "../../constants/triggers";
 
 const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
   item,
@@ -201,7 +201,7 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
         title={
           type === TRIGGER_TYPE.notification
             ? NOTIFICATIONS.ADD_NOTIFICATION_MODAL.deleteNotification
-            : "" // TODO: Add title and description for follow-up task delete modal
+            : FOLLOWUP_TASKS.deleteFollowUpTask
         }
         size="small"
         walkMeIdPrefix={[...walkMeIdPrefix, "trigger card", "delete modal"]}
@@ -214,13 +214,13 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
             {type === TRIGGER_TYPE.notification
               ? NOTIFICATIONS.ADD_NOTIFICATION_MODAL
                   .deleteNotificationDescription
-              : ""}
+              : FOLLOWUP_TASKS.deleteFollowUpTaskDescription}
           </Box>
           <Box>
             {type === TRIGGER_TYPE.notification
               ? NOTIFICATIONS.ADD_NOTIFICATION_MODAL
                   .deleteNotificationSubDescription
-              : ""}
+              : FOLLOWUP_TASKS.deleteFollowUpTaskSubDescription}
           </Box>
         </ModalBody>
       </CModal>
