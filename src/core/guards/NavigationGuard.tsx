@@ -1,7 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
-import { useDirtyForm } from "@/core/services/dirty-form-check.service";
 import { useBlocker } from "react-router-dom";
+import { useDirtyForm } from "@/core/services/dirty-form-check.service";
 import CModal, { ModalBody } from "../components/modal/Modal";
+import { useCommonTranslation } from "../translation/useCommonTranslation";
+import { BUTTON_SEVERITY } from "../constants/button-constant";
 
 /**
  * @component NavigationGuard
@@ -17,6 +19,7 @@ import CModal, { ModalBody } from "../components/modal/Modal";
 export function NavigationGuard() {
   const { isDirty } = useDirtyForm();
   const [open, setOpen] = useState(false);
+  const { NAVIGATION_GUARD } = useCommonTranslation();
 
   // Memoize the blocker condition
   const shouldBlock = useCallback(
@@ -54,16 +57,16 @@ export function NavigationGuard() {
 
   return (
     <CModal
-      size="small"
+      size="medium"
       showActions={true}
-      title="Unsaved changes"
+      title={NAVIGATION_GUARD.modalTitle}
       open={open}
       onClose={handleCancel}
       onConfirm={handleConfirm}
+      confirmText={NAVIGATION_GUARD.confirmButtonLabel}
+      severity={BUTTON_SEVERITY.destructive}
     >
-      <ModalBody>
-        You have some unsaved Changes. Are you sure you want to leave?
-      </ModalBody>
+      <ModalBody>{NAVIGATION_GUARD.modalMessage}</ModalBody>
     </CModal>
   );
 }

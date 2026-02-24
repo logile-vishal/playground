@@ -39,6 +39,7 @@ export type CreateTemplateFormContextType = {
   formState: FormState<CreateTemplateFormType>;
   control: Control<CreateTemplateFormType>;
   watch: UseFormWatch<CreateTemplateFormType>;
+  isDirty: boolean;
 };
 export type QuestionsListManager = {
   DEFAULT_QUESTION_TYPE: "radio";

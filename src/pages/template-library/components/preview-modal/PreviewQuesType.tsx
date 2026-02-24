@@ -1,14 +1,5 @@
-import React, { useState } from "react";
-import {
-  Box,
-  MenuItem,
-  Select,
-  TextField,
-  FormControlLabel,
-  Radio,
-  InputAdornment,
-  Tooltip,
-} from "@mui/material";
+import React, { useState, useMemo, useCallback } from "react";
+import { Box, InputAdornment, Tooltip } from "@mui/material";
 import {
   LocalizationProvider,
   DatePicker,
@@ -33,8 +24,6 @@ import type {
   RenderButtonContainerProps,
   RenderCheckboxProps,
   RenderAttachmentProps,
-  RenderDropdownProps,
-  RenderRadioProps,
   RenderTextFieldProps,
 } from "../../types/template-preview.type";
 import {
@@ -44,6 +33,7 @@ import {
 import type {
   AnswerType,
   AttachmentType,
+  QuestionType,
 } from "../../types/template-questions.type";
 import { useTemplateLibraryTranslations } from "../../translation/useTemplateLibraryTranslations";
 import {
@@ -52,35 +42,91 @@ import {
   getQuestionTypes,
   getUserInputTypes,
 } from "../template-libarary-config/TemplatePreviewConfig";
+import CTextarea from "@/core/components/form/textarea/Textarea";
+import CTextfield from "@/core/components/form/textfield/Textfield";
+import CSelect from "@/core/components/form/select";
+import CRadio from "@/core/components/form/radio/Radio";
+
+// Utility: Get placeholder text for dropdowns
+const getDropdownPlaceholder = (
+  placeholder: string | undefined,
+  PLACEHOLDER_TEXT: Record<string, string>
+): string => placeholder || PLACEHOLDER_TEXT.selectOption;
+
+// Utility: Get icon for attachment requirement
+const getAttachmentIcon = (
+  question: unknown,
+  option: { isCompliant?: boolean },
+  type: string,
+  requiredIcon: SvgIconComponent,
+  defaultIcon: SvgIconComponent
+): SvgIconComponent =>
+  isIconRequired(question, option, type) ? requiredIcon : defaultIcon;
+
+// Utility: Get icon size for camera
+const getCameraIconSize = (
+  question: unknown,
+  option: { isCompliant?: boolean },
+  type: string
+): number => (isIconRequired(question, option, type) ? 19 : 16);
+
+// Utility: Get showCameraIcon flag
+const getShowCameraIcon = (
+  question: { attachments?: AttachmentType[] },
+  type: string
+): boolean =>
+  !!question?.attachments?.some(
+    (item: AttachmentType) => item?.attachmentType === type
+  );
+
+// Utility: Get showAttachmentIcon flag
+const getShowAttachmentIcon = (
+  question: { attachments?: AttachmentType[] },
+  type: string
+): boolean =>
+  !!question?.attachments?.some(
+    (item: AttachmentType) => item?.attachmentType === type
+  );
+
+// Utility: Get translated tooltip for required info
+const getRequiredInfoTooltip = (PLACEHOLDER_TEXT: Record<string, string>) => (
+  <Box className="template-preview-modal__dropdown-menu-item-tooltip">
+    {PLACEHOLDER_TEXT.requiredInfo || "Required Info"}
+  </Box>
+);
 
 /**
- * @description Renders a read-only Material UI TextField used for preview mode.
- * @param {object} props - Component props.
- * @param {boolean} [props.multiline=false] - Whether the text field is multiline.
- * @param {number} [props.rows=1] - Number of rows when multiline.
- * @param {string} [props.width] - Width of the text field.
- * @returns {ReactNode} return disabled text field placeholder.
+ * @description Renders a read-only text field or textarea used for preview mode.
  */
 export const RenderTextField: React.FC<RenderTextFieldProps> = ({
   multiline = false,
   rows = 1,
   width,
   ...props
-}) => {
+}): React.ReactNode => {
   const { PLACEHOLDER_TEXT } = useTemplateLibraryTranslations();
+  if (multiline) {
+    return (
+      <CTextarea
+        disabled
+        value=""
+        className="template-preview-modal__common-textfield"
+        placeholder={PLACEHOLDER_TEXT.enterDetails}
+        minRows={rows}
+        maxRows={rows}
+        onChange={() => {}}
+        {...props}
+      />
+    );
+  }
   return (
-    <TextField
-      size="small"
+    <CTextfield
       disabled
       value=""
-      fullWidth
       className="template-preview-modal__common-textfield"
-      placeholder={
-        multiline ? PLACEHOLDER_TEXT.enterDetails : PLACEHOLDER_TEXT.enterValue
-      }
-      multiline={multiline}
-      sx={{ width: width || "200px" }}
-      rows={rows}
+      placeholder={PLACEHOLDER_TEXT.enterValue}
+      onChange={() => {}}
+      width={width}
       {...props}
     />
   );
@@ -89,116 +135,147 @@ export const RenderTextField: React.FC<RenderTextFieldProps> = ({
 /**
  * @component RenderDropdown
  * @description Renders a read-only dropdown preview.
- * @param {object} props - Component props.
- * @param {string} [props.placeholder="Select Option"] - Placeholder value to display.
- * @param {boolean} [props.isDesktopPreview=true] - Controls mobile vs desktop styling.
- * @param {React.ReactNode} props.children - Dropdown options.
- * @returns {ReactNode} return disabled dropdown preview component.
  */
-export const RenderDropdown: React.FC<RenderDropdownProps> = ({
+export const RenderDropdown: React.FC<{
+  placeholder?: string;
+  isDesktopPreview?: boolean;
+  question?: QuestionType;
+  QUESTION_ATTACHMENT?: Record<string, string>;
+  QUESTION_TYPES?: Record<string, string>;
+}> = ({
   placeholder,
   isDesktopPreview = true,
-  children,
-}) => {
+  question,
+  QUESTION_ATTACHMENT,
+  QUESTION_TYPES,
+}): React.ReactNode => {
   const { PLACEHOLDER_TEXT } = useTemplateLibraryTranslations();
+  const displayValue = getDropdownPlaceholder(placeholder, PLACEHOLDER_TEXT);
+  const questionAttachmentConfig = getQuestionAttachment(QUESTION_ATTACHMENT);
+  const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
+  const showCameraIcon = getShowCameraIcon(
+    question,
+    questionAttachmentConfig.PHOTO.value
+  );
+  const IconComponentMemoized = useMemo(
+    () => (iconProps: Record<string, unknown>) => (
+      <CSvgIcon
+        component={ChevronDown}
+        className="template-preview-modal__common-dropdown-icon"
+        {...iconProps}
+      />
+    ),
+    []
+  );
+  const dropdownOptions = (option) => {
+    const cameraIcon = getAttachmentIcon(
+      question,
+      { isCompliant: option?.isCompliant },
+      questionAttachmentConfig.PHOTO.value,
+      CameraRequired,
+      Camera
+    );
+    const iconSize = getCameraIconSize(
+      question,
+      { isCompliant: option?.isCompliant },
+      questionAttachmentConfig.PHOTO.value
+    );
+    return (
+      <Box
+        className="template-preview-modal__dropdown-menu-item template-preview-modal__space-between"
+        key={option?.option?.value}
+      >
+        <Box className="template-preview-modal__dropdown-menu-item">
+          {question?.questionType === questionTypesConfig.CHECKBOX.value && (
+            <RenderCheckbox />
+          )}
+          <Box>{option?.option?.value}</Box>
+        </Box>
+        <Box className="template-preview-modal__dropdown-menu-item">
+          {option?.additionalInfo?.required && (
+            <Tooltip title={getRequiredInfoTooltip(PLACEHOLDER_TEXT)}>
+              <Box height={16}>
+                <CSvgIcon
+                  size={18}
+                  component={InfoCircle}
+                />
+              </Box>
+            </Tooltip>
+          )}
+          {showCameraIcon && (
+            <Box height={16}>
+              <CSvgIcon
+                component={cameraIcon}
+                size={iconSize}
+              />
+            </Box>
+          )}
+        </Box>
+      </Box>
+    );
+  };
+
   return (
-    <Select
-      size="small"
-      value={placeholder || PLACEHOLDER_TEXT.selectOption}
+    <CSelect
+      options={question.answers.map((option: AnswerType) => ({
+        value: option.value,
+        label: option.value,
+      }))}
+      value={displayValue}
+      onChange={() => {}}
+      placeholder={displayValue}
       className={clsx({
         "template-preview-modal__common-dropdown": true,
         "template-preview-modal__common-dropdown--mobile": !isDesktopPreview,
       })}
-      IconComponent={() => (
-        <CSvgIcon
-          component={ChevronDown}
-          className="template-preview-modal__common-dropdown-icon"
-        />
-      )}
-      MenuProps={{ classes: { paper: "template-preview-modal__paper" } }}
-      renderValue={() => (
-        <Box className="template-preview__dropdown">
-          {placeholder || PLACEHOLDER_TEXT.selectOption}
-        </Box>
-      )}
-    >
-      {children}
-    </Select>
+      IconComponent={IconComponentMemoized}
+      templates={{
+        inputValueTemplate: () => (
+          <Box className="select__placeholder-text">{displayValue}</Box>
+        ),
+        menuItemTemplate: (option) => dropdownOptions(option),
+      }}
+    />
   );
 };
 
 /**
  * @component RenderCheckbox
  * @description Renders a read-only checkbox preview.
- * @param {object} props - Component props.
- * @param {boolean} [props.isChecked=false] - Whether the checkbox is checked.
- * @returns {ReactNode} return disabled checkbox preview.
  */
 export const RenderCheckbox: React.FC<RenderCheckboxProps> = ({
   isChecked = false,
-}) => {
-  return (
-    <CCheckbox
-      className="template-preview-modal__common-checkbox"
-      label=""
-      checked={isChecked}
-    />
-  );
-};
-
-/**
- * @component RenderRadio
- * @description Renders a read-only radio button preview.
- * @param {object} props - Component props.
- * @param {string} props.label - Label displayed next to radio.
- * @param {string|number} props.value - Value of the radio option.
- * @returns {ReactNode} return disabled radio preview.
- */
-export const RenderRadio: React.FC<RenderRadioProps> = ({ label, value }) => {
-  return (
-    <FormControlLabel
-      value={value}
-      className="template-preview-modal__common-radio"
-      control={<Radio disabled />}
-      label={label}
-    />
-  );
-};
+}): React.ReactNode => (
+  <CCheckbox
+    className="template-preview-modal__common-checkbox"
+    label=""
+    checked={isChecked}
+  />
+);
 
 /**
  * @component RenderButtonContainer
  * @description Renders a read-only action button style preview.
- * @param {object} props - Component props.
- * @param {string} [props.label] - Text shown inside the button.
- * @param {IconName} [props.icon] - Icon to display inside the button.
- * @returns {ReactNode} return stylized read-only button preview.
  */
 export const RenderButtonContainer: React.FC<RenderButtonContainerProps> = ({
   label,
   icon,
-}) => {
-  return (
-    <div>
-      <label className="template-preview-modal__action-button">
-        {icon && (
-          <CSvgIcon
-            component={icon}
-            size={16}
-            fill="var(--logile-text-white-dark-mode)"
-          />
-        )}
-        {label && <span>{label}</span>}
-      </label>
-    </div>
-  );
-};
+}): React.ReactNode => (
+  <div className="template-preview-modal__action-button">
+    {icon && (
+      <CSvgIcon
+        component={icon}
+        size={16}
+        fill="var(--logile-text-white-dark-mode)"
+      />
+    )}
+    <div>{label}</div>
+  </div>
+);
 
 /**
  * @component RenderPicUpload
  * @description Renders a read-only photo upload UI preview.
- * @param {object} props - Component props.
- * @param {boolean} props.isDesktopPreview - Controls mobile vs desktop layout.
- * @returns {ReactNode} return disabled photo upload placeholder.
  */
 const RenderPicUpload: React.FC<RenderAttachmentProps> = ({
   isDesktopPreview,
@@ -228,13 +305,6 @@ const RenderPicUpload: React.FC<RenderAttachmentProps> = ({
 /**
  * @component RenderAttachement
  * @description Renders attachment preview buttons (photo & file options).
- * @param {object} props - Component props.
- * @param {object} props.question - Question containing attachment list.
- * @param {boolean} props.isDesktopPreview - Layout control for responsiveness.
- * @param {string} props.type - Question type used to determine photo upload behavior.
- * @param {Record<string, string>} props.QUESTION_TYPES - Translation object for question types.
- * @param {Record<string, string>} props.ATTACHMENT_BUTTON_CONFIG - Translation object for button configs.
- * @returns {ReactNode} return list of read-only attachment buttons.
  */
 const RenderAttachement: React.FC<RenderAttachmentProps> = ({
   question,
@@ -242,7 +312,7 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({
   type,
   QUESTION_TYPES,
   ATTACHMENT_BUTTON_CONFIG,
-}) => {
+}): React.ReactNode => {
   if (!question?.attachments || question?.attachments?.length === 0)
     return null;
 
@@ -289,11 +359,6 @@ const RenderAttachement: React.FC<RenderAttachmentProps> = ({
  * @method isIconRequired
  * @description Determines whether an icon should be required based on question attachments,
  * the selected option, and attachment type rules.
- * @param {Object} question - The question object which may contain attachments.
- * @param {Object} option - The option selected for the question.
- * @param {boolean} option.isCompliant - Indicates whether the option is compliant.
- * @param {string} type - The attachment type to evaluate from the question.
- * @returns {boolean} - True if icon should be required, otherwise false.
  */
 const isIconRequired = (
   question: unknown,
@@ -317,11 +382,6 @@ const isIconRequired = (
 /**
  * @component RenderDropdownQues
  * @description Renders dropdown answer UI with icons and attachment preview in template preview mode.
- * @param {object} props - Component props.
- * @param {QuestionType} props.question - Question data containing answers & attachment rules.
- * @param {boolean} [props.isDesktopPreview=false] - Indicates desktop mode UI layout.
- * @param {string} props.templateBaseType - Preview mode type (default or grid layout).
- * @returns {ReactNode} return dropdown UI with attachment requirement icons.
  */
 export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
   question,
@@ -330,17 +390,9 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
   QUESTION_TYPES,
   QUESTION_ATTACHMENT,
   ATTACHMENT_BUTTON_CONFIG,
-}) => {
+}): React.ReactNode => {
+  useTemplateLibraryTranslations();
   const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
-  const questionAttachmentConfig = getQuestionAttachment(QUESTION_ATTACHMENT);
-
-  const showCameraIcon =
-    question?.attachments?.length > 0
-      ? question?.attachments?.filter(
-          (item: AttachmentType) =>
-            item?.attachmentType === QUESTION_ATTACHMENT_TYPE.photo
-        )?.length > 0
-      : false;
 
   return (
     <Box
@@ -361,66 +413,12 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
         QUESTION_TYPES={QUESTION_TYPES}
         ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
       />
-      <RenderDropdown isDesktopPreview={isDesktopPreview}>
-        {question?.answers?.map((option: AnswerType) => {
-          const cameraIcon = isIconRequired(
-            question,
-            option,
-            questionAttachmentConfig.PHOTO.value
-          )
-            ? CameraRequired
-            : Camera;
-          return (
-            <MenuItem
-              className="template-preview-modal__dropdown-menu-item template-preview-modal__space-between"
-              key={option?.value}
-              value={option?.value}
-            >
-              <Box className="template-preview-modal__dropdown-menu-item">
-                {question?.questionType ===
-                  questionTypesConfig.CHECKBOX.value && (
-                  <RenderCheckbox label={option?.value} />
-                )}
-                <Box>{option?.value}</Box>
-              </Box>
-              <Box className="template-preview-modal__dropdown-menu-item">
-                {option?.additionalInfo?.required && (
-                  <Tooltip
-                    title={
-                      <Box className="template-preview-modal__dropdown-menu-item-tooltip">
-                        Required Info
-                      </Box>
-                    }
-                  >
-                    <Box height={16}>
-                      <CSvgIcon
-                        size={18}
-                        component={InfoCircle}
-                      />
-                    </Box>
-                  </Tooltip>
-                )}
-                {showCameraIcon && (
-                  <Box height={16}>
-                    <CSvgIcon
-                      component={cameraIcon}
-                      size={
-                        isIconRequired(
-                          question,
-                          option,
-                          questionAttachmentConfig.PHOTO.value
-                        )
-                          ? 19
-                          : 16
-                      }
-                    />
-                  </Box>
-                )}
-              </Box>
-            </MenuItem>
-          );
-        })}
-      </RenderDropdown>
+      <RenderDropdown
+        isDesktopPreview={isDesktopPreview}
+        question={question}
+        QUESTION_ATTACHMENT={QUESTION_ATTACHMENT}
+        QUESTION_TYPES={QUESTION_TYPES}
+      />
     </Box>
   );
 };
@@ -428,10 +426,6 @@ export const RenderDropdownQues: React.FC<RenderAttachmentProps> = ({
 /**
  * @component RenderCheckboxQues
  * @description Renders checkbox dropdown preview with required info tooltip and camera icon.
- * @param {object} props - Component props.
- * @param {QuestionType} props.question - Main question containing options.
- * @param {boolean} [props.isDesktopPreview=false] - Applies desktop/mobile layout rules.
- * @returns {ReactNode} return checkbox answer preview UI.
  */
 export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
   question,
@@ -439,17 +433,16 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
   QUESTION_TYPES,
   QUESTION_ATTACHMENT,
   ATTACHMENT_BUTTON_CONFIG,
-}) => {
+}): React.ReactNode => {
+  const { PLACEHOLDER_TEXT } = useTemplateLibraryTranslations();
   const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
   const questionAttachmentConfig = getQuestionAttachment(QUESTION_ATTACHMENT);
 
-  const showCameraIcon =
-    question?.attachments?.length > 0
-      ? question?.attachments?.filter(
-          (item: AttachmentType) =>
-            item?.attachmentType === questionAttachmentConfig.PHOTO.value
-        )?.length > 0
-      : false;
+  const showCameraIcon = getShowCameraIcon(
+    question,
+    questionAttachmentConfig.PHOTO.value
+  );
+
   return (
     <Box
       className={clsx({
@@ -464,42 +457,42 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
         QUESTION_TYPES={QUESTION_TYPES}
         ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
       />
-      <RenderDropdown>
-        {question?.answers?.map((option) => {
-          return (
-            <MenuItem
-              className="template-preview-modal__dropdown-menu-item template-preview-modal__space-between"
-              key={option?.value}
+      <Box className="template-preview-modal__radio-group">
+        {question?.answers?.map((option) => (
+          <Box
+            key={option?.value}
+            className="template-preview-modal__dropdown-menu-item template-preview-modal__space-between"
+          >
+            <CRadio
+              checked={true}
               value={option?.value}
-            >
-              <Box>
-                <RenderCheckbox />
-              </Box>
-              <Box>{option?.value}</Box>
-              <Box className="template-preview-modal__dropdown-menu-item">
-                {option?.additionalInfo?.required && (
-                  <Tooltip title="Required Info">
-                    <Box height={16}>
-                      <CSvgIcon
-                        size={18}
-                        component={InfoCircle}
-                      />
-                    </Box>
-                  </Tooltip>
-                )}
-                {showCameraIcon && (
+              label={option?.value}
+              className="template-preview-modal__common-radio"
+              disabled={false}
+            />
+            <Box className="template-preview-modal__dropdown-menu-item">
+              {option?.additionalInfo?.required && (
+                <Tooltip title={getRequiredInfoTooltip(PLACEHOLDER_TEXT)}>
                   <Box height={16}>
                     <CSvgIcon
-                      component={Camera}
-                      size={16}
+                      size={18}
+                      component={InfoCircle}
                     />
                   </Box>
-                )}
-              </Box>
-            </MenuItem>
-          );
-        })}
-      </RenderDropdown>
+                </Tooltip>
+              )}
+              {showCameraIcon && (
+                <Box height={16}>
+                  <CSvgIcon
+                    component={Camera}
+                    size={16}
+                  />
+                </Box>
+              )}
+            </Box>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };
@@ -507,10 +500,6 @@ export const RenderCheckboxQues: React.FC<RenderAttachmentProps> = ({
 /**
  * @component RenderRadioQues
  * @description Renders radio-type question preview with attachment-required indication.
- * @param {object} props - Component props.
- * @param {QuestionType} props.question - Question object containing answers & attachment metadata.
- * @param {boolean} [props.isDesktopPreview=false] - Controls desktop/mobile layout.
- * @returns {ReactNode} return radio items with attachment icons.
  */
 export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
   question,
@@ -518,36 +507,32 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
   QUESTION_TYPES,
   QUESTION_ATTACHMENT,
   ATTACHMENT_BUTTON_CONFIG,
-}) => {
+}): React.ReactNode => {
   const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
   const questionAttachmentConfig = getQuestionAttachment(QUESTION_ATTACHMENT);
 
-  const showAttachmentIcon =
-    question?.attachments?.length > 0
-      ? question?.attachments?.filter(
-          (item: AttachmentType) =>
-            item?.attachmentType === QUESTION_ATTACHMENT_TYPE.attachment
-        )?.length > 0
-      : false;
+  const showAttachmentIcon = getShowAttachmentIcon(
+    question,
+    questionAttachmentConfig.ATTACHMENT.value
+  );
   return (
     <Box className="template-preview-modal__answer-wrapper template-preview-modal__column">
       <Box>
         {question?.answers?.map((option) => {
-          const attachmentIcon = isIconRequired(
+          const attachmentIcon = getAttachmentIcon(
             question,
             option,
-            questionAttachmentConfig.ATTACHMENT.value
-          )
-            ? AttachmentRequired
-            : Attachment;
+            questionAttachmentConfig.ATTACHMENT.value,
+            AttachmentRequired,
+            Attachment
+          );
           return (
-            <Box
-              key={option?.value}
-              className="template-preview-modal__radio-item"
-            >
-              <RenderRadio
-                label={option?.value}
+            <React.Fragment key={option?.value}>
+              <CRadio
+                checked={false}
                 value={option?.value}
+                label={option?.value}
+                disabled={false}
               />
               {showAttachmentIcon && (
                 <Box height={20}>
@@ -557,7 +542,7 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
                   />
                 </Box>
               )}
-            </Box>
+            </React.Fragment>
           );
         })}
       </Box>
@@ -582,11 +567,6 @@ export const RenderRadioQues: React.FC<RenderAttachmentProps> = ({
 /**
  * @component RenderUserInputQues
  * @description Renders read-only input-based question previews — single-line, multiline, date, or date-time fields.
- * @param {object} props - Component props.
- * @param {QuestionType} props.question - Contains input type and metadata.
- * @param {boolean} [props.isDesktopPreview=false] - Applies desktop/mobile spacing rules.
- * @param {string} props.templateBaseType - Controls grid or default preview layout.
- * @returns {ReactNode} return disabled input field with optional attachments.
  */
 export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
   question,
@@ -595,7 +575,7 @@ export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
   QUESTION_TYPES,
   ATTACHMENT_BUTTON_CONFIG,
   DATE_INPUT_TYPE,
-}) => {
+}): React.ReactNode => {
   const questionTypesConfig = getQuestionTypes(QUESTION_TYPES);
   const userInputTypesConfig = getUserInputTypes(DATE_INPUT_TYPE);
 
@@ -621,7 +601,12 @@ export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
         QUESTION_TYPES={QUESTION_TYPES}
         ATTACHMENT_BUTTON_CONFIG={ATTACHMENT_BUTTON_CONFIG}
       />
-      <Box width="100%">
+      <Box
+        className={clsx({
+          "template-preview-modal__user-input-wrapper--mobile":
+            !isDesktopPreview,
+        })}
+      >
         {question?.inputType === userInputTypesConfig.DATE_AND_TIME.value ? (
           <RenderDatePicker
             type="datetime"
@@ -636,7 +621,7 @@ export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
           <RenderTextField
             multiline={isMultiLine}
             rows={isMultiLine ? 3 : 1}
-            width={isMultiLine || !isDesktopPreview ? "100%" : ""}
+            width={isMultiLine || !isDesktopPreview ? "100%" : "200px"}
           />
         )}
       </Box>
@@ -647,13 +632,6 @@ export const RenderUserInputQues: React.FC<RenderAttachmentProps> = ({
 /**
  * @component RenderDatePicker
  * @description Renders a disabled date or date-time picker preview with a calendar icon.
- * @param {object} props - Component props.
- * @param {"date"|"datetime"} [props.type="date"] - Picker mode.
- * @param {string} [props.placeholder] - Placeholder label for the input field.
- * @param {boolean} [props.isDesktopPreview=true] - Applies desktop or mobile styling.
- * @param {Date|string|undefined} props.value - Selected preview value.
- * @param {Function} [props.onChange] - Change handler (not used in read-only preview mode).
- * @returns {ReactNode} return read-only date picker input field.
  */
 export const RenderDatePicker: React.FC<DatePickerProps> = ({
   type = "date",
@@ -661,43 +639,52 @@ export const RenderDatePicker: React.FC<DatePickerProps> = ({
   isDesktopPreview = true,
   value,
   onChange,
-}) => {
+}): React.ReactNode => {
   const { PLACEHOLDER_TEXT } = useTemplateLibraryTranslations();
   const [isOpen, setIsOpen] = useState(false);
   const Picker = type === "datetime" ? DateTimePicker : DatePicker;
 
-  /* Custom text field with calendar icon */
-  const renderField = (params: RenderTextFieldProps) => (
-    <RenderTextField
-      multiline={false}
-      rows={1}
-      {...params}
-      placeholder={
+  // Custom text field with calendar icon
+  const renderField = useCallback(
+    (params: RenderTextFieldProps) => {
+      const isMultiline = params.multiline ?? false;
+      const placeholderText =
         placeholder ||
         (type === "date"
           ? PLACEHOLDER_TEXT.selectDate
-          : PLACEHOLDER_TEXT.selectDateTime)
+          : PLACEHOLDER_TEXT.selectDateTime);
+
+      const commonProps = {
+        ...params,
+        placeholder: placeholderText,
+        value: value ? value.toString() : "",
+        onClick: () => setIsOpen((prev) => !prev),
+        size: "small",
+        fullwidth: !isDesktopPreview,
+        InputProps: {
+          ...params.InputProps,
+          endAdornment: (
+            <InputAdornment position="end">
+              <CSvgIcon
+                component={CalendarBlank}
+                size={16}
+                className="common-date-picker__textfield-icon"
+              />
+            </InputAdornment>
+          ),
+        },
+        className: clsx({
+          "common-date-picker__textfield": true,
+          "common-date-picker__textfield--mobile": !isDesktopPreview,
+        }),
+      };
+
+      if (isMultiline) {
+        return <CTextarea {...commonProps} />;
       }
-      value={value ? value.toString() : ""}
-      onClick={() => setIsOpen(!isOpen)}
-      size="small"
-      InputProps={{
-        ...params.InputProps,
-        endAdornment: (
-          <InputAdornment position="end">
-            <CSvgIcon
-              component={CalendarBlank}
-              size={16}
-              className="common-date-picker__textfield-icon"
-            />
-          </InputAdornment>
-        ),
-      }}
-      className={clsx({
-        "common-date-picker__textfield": true,
-        "common-date-picker__textfield--mobile": !isDesktopPreview,
-      })}
-    />
+      return <CTextfield {...commonProps} />;
+    },
+    [placeholder, type, PLACEHOLDER_TEXT, value, isDesktopPreview]
   );
 
   return (

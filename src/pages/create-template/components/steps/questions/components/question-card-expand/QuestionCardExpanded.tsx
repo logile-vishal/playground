@@ -20,6 +20,7 @@ import type {
 import CTabs from "@/core/components/tabs/Tabs";
 import { CButton } from "@/core/components/button/button";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import CDivider from "@/core/components/divider/Divider";
 import CRichTextEditor from "@/core/components/form/rich-text-editor/RichTextEditor";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
@@ -33,9 +34,10 @@ import {
 } from "@/pages/create-template/constants/sampleData";
 import { CSortableItem } from "@/core/components/drag-drop";
 import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
+import CModal, { ModalBody } from "@/core/components/modal/Modal";
+import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 import clsx from "@/utils/clsx";
 import { useFormFieldError } from "@/pages/create-template/hooks/useCreateTemplateFormError";
-
 import { RenderQuestion } from "../../Questions";
 import InputTypeModal from "../input-type-modal/InputTypeModal";
 import { QuestionBadge } from "../question-card-collapsed/QuestionBadges";
@@ -60,6 +62,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   walkMeIdPrefix,
 }) => {
   const { QUESTIONS, QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
+  const { DELETE_CONFIRMATION } = useCommonTranslation();
   const [currentTab, setCurrentTab] = useState(
     QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.BASIC.value
   );
@@ -92,7 +95,8 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     type: null,
   });
   const [shouldProceedAllowed, setShouldProceedAllowed] = useState(false);
-
+  const [deleteQuestionConfirmationModal, setDeleteQuestionConfirmationModal] =
+    useState<boolean>(false);
   const onAnswerOptionSettingsOpen = (activeIndex: number) => {
     setAnswerOptionSettingModal({ status: true, data: question, activeIndex });
   };
@@ -127,6 +131,34 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   const handleOptionsSubmit = (options) => {
     modifyOptions(question.qId, options);
     closeAnswerOptionSettingModal();
+  };
+
+  /**
+   * @method handleDeleteQuestionClick
+   * @description Opens the delete confirmation modal
+   * @return {void}
+   */
+  const handleDeleteQuestionClick = (): void => {
+    setDeleteQuestionConfirmationModal(true);
+  };
+
+  /**
+   * @method handleCloseDeleteModal
+   * @description Closes the delete confirmation modal
+   * @return {void}
+   */
+  const handleCloseQuestionDeleteModal = (): void => {
+    setDeleteQuestionConfirmationModal(false);
+  };
+
+  /**
+   * @method handleConfirmDelete
+   * @description Confirms and executes the question deletion
+   * @return {void}
+   */
+  const handleConfirmQuestionDelete = (): void => {
+    deleteQuestion(question.qId);
+    setDeleteQuestionConfirmationModal(false);
   };
 
   /**
@@ -220,6 +252,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             questionFormPath={`${questionFormPath}.questionBasicData.response`}
             isVisible={true}
             onAnswerOptionSettingsOpen={onAnswerOptionSettingsOpen}
+            walkMeIdPrefix={[...walkMeIdPrefix, "options"]}
           />
         );
     }
@@ -354,10 +387,6 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
       default:
         return null;
     }
-  };
-
-  const handleDeleteQuestion = (): void => {
-    deleteQuestion(question.qId);
   };
 
   const handleCloneQuestion = async () => {
@@ -497,7 +526,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             </CIconButton>
             {watchQuestionList.length > 1 && (
               <CIconButton
-                onClick={handleDeleteQuestion}
+                onClick={handleDeleteQuestionClick}
                 severity="destructive"
                 disabled={
                   (formErrors as { questions?: unknown }).questions &&
@@ -666,8 +695,45 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             }
             showModal={triggerCardModal.status}
             handleCloseModal={closeTriggerCardModal}
-            walkMeIdPrefix={["question options", "trigger modal"]}
+            walkMeIdPrefix={[
+              ...walkMeIdPrefix,
+              "delete",
+              "question",
+              "confirmation-modal",
+            ]}
           />
+          <CModal
+            open={deleteQuestionConfirmationModal}
+            onConfirm={handleConfirmQuestionDelete}
+            onClose={handleCloseQuestionDeleteModal}
+            title={DELETE_CONFIRMATION.QUESTION.title + "  " + index}
+            showActions={true}
+            size="small"
+            severity={BUTTON_SEVERITY.destructive}
+            confirmText={DELETE_CONFIRMATION.QUESTION.confirmLabel}
+            className="template-delete__modal-body"
+            walkMeIdPrefix={[
+              ...walkMeIdPrefix,
+              "delete",
+              "question",
+              "confirmation-modal",
+            ]}
+          >
+            <ModalBody>
+              <Box className="template-delete__modal-body">
+                <Typography>
+                  {DELETE_CONFIRMATION.QUESTION.messageFirstPart +
+                    " " +
+                    index +
+                    "?"}
+                </Typography>
+                <Typography>
+                  {DELETE_CONFIRMATION.QUESTION.messageSecondPart}
+                </Typography>
+              </Box>
+            </ModalBody>
+          </CModal>
+
           {question.subQuestions && question.subQuestions.length > 0
             ? question.subQuestions?.map((question, index) => {
                 return (

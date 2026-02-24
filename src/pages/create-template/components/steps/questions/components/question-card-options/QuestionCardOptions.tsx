@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Badge, Box } from "@mui/material";
+import { Badge, Box, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 import type { FieldValues, Control } from "react-hook-form";
 
@@ -15,9 +15,12 @@ import { isNonEmptyValue } from "@/utils/index";
 import clsx from "@/utils/clsx";
 import CTextField from "@/core/components/form/textfield/Textfield";
 import CSvgIcon from "@/core/components/icon/Icon";
+import CModal, { ModalBody } from "@/core/components/modal/Modal";
+import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 import { CButton } from "@/core/components/button/button";
 import CIconButton from "@/core/components/button/IconButton";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import TriggerModal from "@/pages/create-template/components/trigger-modal/TriggerModal";
 import { TRIGGER_TYPE } from "@/pages/create-template/constants/constant";
 import {
@@ -34,7 +37,6 @@ import type {
 } from "@/pages/create-template/types/questions.type";
 import CSelect from "@/core/components/form/select";
 import { useNotification } from "@/core/services/notification.service";
-import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import { Severity } from "@/core/types/severity.type";
 import type {
   DragHandleProps,
@@ -57,6 +59,7 @@ import TriggerMenu from "../trigger-menu/TriggerMenu";
  */
 const QuestionCardOption = (props: QuestionCardOptionProps) => {
   const { QUESTION_OPTION } = useCreateTemplateTranslations();
+  const { DELETE_CONFIRMATION } = useCommonTranslation();
   const { deleteOption } = useQuestionListManager();
   const { control, setFormValue, getFormValues, watch } =
     useCreateTemplateForm();
@@ -78,12 +81,27 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     data: null,
     type: null,
   });
+  const [
+    deleteQuestionOptionConfirmationModal,
+    setDeleteQuestionOptionConfirmationModal,
+  ] = useState<boolean>(false);
+  const [deletedOption, setDeletedOption] = useState<number | null>(null);
 
   const watchNotificationForm = watch("notifications");
   const watchFollowUpTaskForm = watch("followUpTasks");
 
-  const handleDeleteOption = (index: number) => {
-    deleteOption(props.question.qId, index);
+  const handleDeleteOptionClick = (idx: number): void => {
+    setDeleteQuestionOptionConfirmationModal(true);
+    setDeletedOption(idx);
+  };
+
+  const handleCloseDeleteModal = (): void => {
+    setDeleteQuestionOptionConfirmationModal(false);
+  };
+
+  const handleConfirmDelete = (): void => {
+    deleteOption(props.question.qId, deletedOption);
+    setDeleteQuestionOptionConfirmationModal(false);
   };
 
   const openTriggerCardMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -316,7 +334,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           </CIconButton>
           {props?.question?.questionBasicData?.response?.length > 1 && (
             <CIconButton
-              onClick={() => handleDeleteOption(props?.idx)}
+              onClick={() => handleDeleteOptionClick(props?.idx)}
               size="medium"
               severity="destructive"
               walkMeId={["questions", "options-list", "option-delete"]}
@@ -342,6 +360,38 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
             handleCloseModal={closeTriggerCardModal}
             walkMeIdPrefix={["question options", "trigger modal"]}
           />
+          <CModal
+            open={deleteQuestionOptionConfirmationModal}
+            onClose={handleCloseDeleteModal}
+            onConfirm={handleConfirmDelete}
+            title={
+              DELETE_CONFIRMATION.QUESTION_OPTION.title + " " + (props.idx + 1)
+            }
+            severity={BUTTON_SEVERITY.destructive}
+            size="medium"
+            confirmText={DELETE_CONFIRMATION.QUESTION_OPTION.confirmLabel}
+            walkMeIdPrefix={[
+              ...props.walkMeIdPrefix,
+              "delete",
+              "option",
+              "confirmation-modal",
+            ]}
+          >
+            <ModalBody>
+              <Box className="template-delete__modal-body">
+                <Typography>
+                  {DELETE_CONFIRMATION.QUESTION_OPTION.first_part_message}
+                </Typography>
+                <Typography>
+                  {DELETE_CONFIRMATION.QUESTION_OPTION.second_part_message}
+                </Typography>
+
+                <Typography>
+                  {DELETE_CONFIRMATION.QUESTION_OPTION.third_part_message}
+                </Typography>
+              </Box>
+            </ModalBody>
+          </CModal>
         </Box>
       )}
     </CSortableItem>
@@ -418,6 +468,7 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
                   question={props.question}
                   linkCount={0}
                   onAnswerOptionSettingsOpen={props.onAnswerOptionSettingsOpen}
+                  walkMeIdPrefix={props.walkMeIdPrefix}
                 />
               ))
             : ""}

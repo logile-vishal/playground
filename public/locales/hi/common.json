@@ -60,5 +60,33 @@
       "filterFeaturePlaceholder": "खोजें...",
       "selectAllFeatureLabel": "सभी का चयन करें"
     }
+  },
+  "NAVIGATION_GUARD": {
+    "modalTitle": "असहेजे गए परिवर्तन",
+    "modalMessage": "क्या आप वाकई इस स्क्रीन को छोड़ना चाहते हैं? आपके द्वारा किए गए सभी परिवर्तन खो जाएंगे।",
+    "confirmButtonLabel": "ठीक है"
+  },
+  "DELETE_CONFIRMATION": {
+    "QUESTION": {
+      "title": "प्रश्न हटाएँ",
+      "messageFirstPart": "क्या आप वाकई प्रश्न हटाना चाहते हैं",
+      "messageSecondPart": "यह क्रिया पूर्ववत नहीं की जा सकती।",
+      "confirmLabel": "हटाएँ",
+      "cancelLabel": "रद्द करें"
+    },
+    "COLUMN": {
+      "title": "कॉलम हटाएँ",
+      "messageFirstPart": "क्या आप वाकई इस कॉलम को हटाना चाहते हैं?",
+      "messageSecondPart": "यह क्रिया पूर्ववत नहीं की जा सकती।",
+      "confirmLabel": "हटाएँ",
+      "cancelLabel": "रद्द करें"
+    },
+    "QUESTION_OPTION": {
+      "title": "विकल्प हटाएँ",
+      "first_part_message": "इस विकल्प से एक या अधिक सूचनाएँ या फॉलो-अप कार्य जुड़े हुए हैं। इस विकल्प को हटाने से सभी संबंधित सूचनाएँ और फॉलो-अप कार्य भी हट जाएंगे।",
+      "second_part_message": "क्या आप वाकई इस विकल्प को हटाना चाहते हैं?",
+      "third_part_message": "यह क्रिया पूर्ववत नहीं की जा सकती।",
+      "confirmLabel": "हटाएँ"
+    }
   }
 }

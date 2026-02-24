@@ -1,3 +1,5 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
 .question-accordion {
   padding: 0px;
   --expand-icon-s: 24px;
@@ -56,7 +58,13 @@
   &__header-wrapper.question-accordion__header-wrapper {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--space-m);
+
+    .question-accordion__header-right {
+      @include flex-box(row);
+      gap: var(--space-m);
+    }
   }
   &__count.question-accordion__count {
     border-radius: var(--radius-m);
@@ -68,16 +76,20 @@
   }
 
   &__chip.question-accordion__chip {
-    border-radius: var(--radius-m);
+    margin: 0 0 0 var(--space-l);
+    border-radius: var(--radius-m) var(--radius-m) 0 0;
     background: var(--logile-bg-surface);
     color: var(--logile-text-white);
     font-size: var(--logile-size-body);
     padding: var(--space-xl) var(--space-l);
     font-weight: var(--logile-weight-500);
+    max-width: 65%;
   }
   &__chip-mobile.question-accordion__chip-mobile {
+    margin: 0;
     background: var(--logile-bg-container-2);
     color: var(--logile-text-primary);
+    max-width: 90%;
   }
 
   .Mui-expanded {
@@ -88,6 +100,7 @@
       color: var(--logile-text-white);
     }
     .question-accordion__chip-mobile {
+      margin: 0;
       background: var(--logile-bg-container-3);
       color: var(--logile-text-primary);
     }

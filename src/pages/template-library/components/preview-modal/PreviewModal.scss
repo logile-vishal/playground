@@ -1,6 +1,9 @@
+@use "@/styles/mixins/mixins.scss" as *;
 .template-preview-modal {
   --print-page-margin: 40px;
   --print-font-size-header: 11px;
+  --common-dropdown-width: 200px;
+
   &__container {
     padding: 0;
     margin: 0;
@@ -152,7 +155,7 @@
     cursor: pointer;
   }
   &__desktop-icon {
-    margin-top: var(--space-s);
+    margin-top: var(--space-m);
   }
   &__title {
     font-size: var(--logile-size-secondary-heading);
@@ -219,31 +222,13 @@
     flex-direction: column;
     align-items: flex-start;
   }
+  &__question-item__title-wrapper {
+    @include flex-box(row);
+    gap: var(--space-m);
+  }
   &__paper {
     background-color: var(--logile-bg-base);
     border-radius: var(--radius-m);
-    .MuiMenuItem-root {
-      &.Mui-focusVisible {
-        background-color: transparent;
-      }
-      &.Mui-selected {
-        background-color: transparent;
-      }
-      &:hover {
-        background-color: var(--logile-bg-primary-x-subtle);
-      }
-      display: flex;
-      align-items: center;
-    }
-  }
-  .MuiOutlinedInput-input {
-    color: var(--logile-text-tertiary);
-  }
-  .MuiRadio-root {
-    padding: var(--space-m);
-  }
-  .MuiCheckbox-root {
-    padding: var(--space-m);
   }
 
   &__grid-table {
@@ -324,35 +309,8 @@
     background-color: var(--logile-bg-primary-x-subtle);
     border-radius: var(--radius-s);
   }
-
-  &__checkbox-menu-item {
-    display: flex;
-    align-items: center;
-  }
-  &__common-checkbox.template-preview-modal__common-checkbox {
-    margin: 0px;
-    .MuiCheckbox-root {
-      padding: 0px;
-    }
-    .MuiSvgIcon-root {
-      font-size: var(--logile-size-kpi-number);
-      color: var(--logile-border-primary);
-    }
-  }
-  &__common-radio.template-preview-modal__common-radio {
-    .MuiSvgIcon-root {
-      font-size: var(--logile-size-secondary-heading);
-      color: var(--logile-border-secondary);
-    }
-    .MuiFormControlLabel-label.Mui-disabled {
-      color: var(--logile-text-primary);
-    }
-  }
-  &__common-textfield.template-preview-modal__common-textfield {
-    min-width: 200px;
-    .MuiOutlinedInput-input.Mui-disabled {
-      -webkit-text-fill-color: var(--logile-text-primary);
-    }
+  &__user-input-wrapper--mobile {
+    width: 100%;
   }
   &__dropdown-menu-item {
     display: flex;
@@ -364,7 +322,8 @@
   }
   &__common-dropdown {
     height: 40px;
-    min-width: 200px;
+    min-width: var(--common-dropdown-width);
+    width: var(--common-dropdown-width);
   }
   &__common-dropdown--mobile {
     width: 100%;

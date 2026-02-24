@@ -39,6 +39,7 @@ export const CreateTemplateFormProvider: React.FC<
     reset,
     watch,
     clearErrors,
+    formState: { isDirty },
   } = useForm<CreateTemplateFormType>({
     resolver: zodResolver(createTemplateFormSchema),
     defaultValues: defaultFormValues,
@@ -57,6 +58,7 @@ export const CreateTemplateFormProvider: React.FC<
     resetForm: reset,
     watch,
     clearErrors,
+    isDirty,
   };
 
   return (

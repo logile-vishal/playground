@@ -163,7 +163,11 @@
   padding: var(--space-l) 0;
   font-size: var(--logile-size-body);
   color: var(--logile-text-primary);
+  > p:not(:first-child) {
+    padding-top: var(--space-l);
+  }
 }
+
 .template-library__import-modal {
   border-radius: var(--radius-m);
   border: 1px dashed var(--logile-border-secondary);

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 
@@ -15,7 +16,10 @@ import {
 import CSvgIcon from "@/core/components/icon/Icon";
 import CIconButton from "@/core/components/button/IconButton";
 import CTextarea from "@/core/components/form/textarea/Textarea";
+import CModal, { ModalBody } from "@/core/components/modal/Modal";
+import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useColumnListManager from "@/pages/create-template/hooks/useColumnListManager";
 import { CSortableItem } from "@/core/components/drag-drop";
@@ -32,8 +36,11 @@ const ColumnCardExpanded: React.FC<ColumnCardProps> = ({
   walkMeIdPrefix,
 }) => {
   const { QUESTIONS } = useCreateTemplateTranslations();
+  const { DELETE_CONFIRMATION } = useCommonTranslation();
   const { control, watch, formErrors } = useCreateTemplateForm();
   const { removeColumn, copyExistingColumn } = useColumnListManager();
+  const [deleteColumnConfirmationModal, setDeleteColumnConfirmationModal] =
+    useState<boolean>(false);
 
   const watchColumnList = watch("columns") as ColumnProps[];
 
@@ -41,13 +48,35 @@ const ColumnCardExpanded: React.FC<ColumnCardProps> = ({
     await handleAddColumn(column.columnId);
   };
 
-  const handleDeleteColumn = (): void => {
-    removeColumn(column.columnId);
-  };
-
   const handleCopyColumn = () => {
     const newColumnId = copyExistingColumn(column.columnId);
     toggleExpand(newColumnId);
+  }; /**
+   * @method handleDeleteQuestionClick
+   * @description Opens the delete confirmation modal
+   * @return {void}
+   */
+  const handleDeleteColumnClick = (): void => {
+    setDeleteColumnConfirmationModal(true);
+  };
+
+  /**
+   * @method handleCloseDeleteModal
+   * @description Closes the delete confirmation modal
+   * @return {void}
+   */
+  const handleCloseDeleteModal = (): void => {
+    setDeleteColumnConfirmationModal(false);
+  };
+
+  /**
+   * @method handleColumnConfirmDelete
+   * @description Confirms and executes the column deletion
+   * @return {void}
+   */
+  const handleColumnConfirmDelete = (): void => {
+    removeColumn(column.columnId);
+    setDeleteColumnConfirmationModal(false);
   };
 
   /**
@@ -102,7 +131,7 @@ const ColumnCardExpanded: React.FC<ColumnCardProps> = ({
                 }
                 severity="destructive"
                 walkMeId={[...walkMeIdPrefix, "card-expanded", "delete"]}
-                onClick={handleDeleteColumn}
+                onClick={handleDeleteColumnClick}
               >
                 <CSvgIcon component={Delete} />
               </CIconButton>
@@ -114,6 +143,28 @@ const ColumnCardExpanded: React.FC<ColumnCardProps> = ({
             >
               <CSvgIcon component={ChevronUpLarge} />
             </CIconButton>
+            <CModal
+              open={deleteColumnConfirmationModal}
+              onConfirm={handleColumnConfirmDelete}
+              onClose={handleCloseDeleteModal}
+              title={DELETE_CONFIRMATION.COLUMN.title + " " + columnIndex}
+              showActions={true}
+              size="medium"
+              severity={BUTTON_SEVERITY.destructive}
+              confirmText={DELETE_CONFIRMATION.COLUMN.confirmLabel}
+              walkMeIdPrefix={["delete", "column", "confirmation-modal"]}
+            >
+              <ModalBody>
+                <Box className="template-delete__modal-body">
+                  <Typography>
+                    {DELETE_CONFIRMATION.COLUMN.messageFirstPart}
+                  </Typography>
+                  <Typography>
+                    {DELETE_CONFIRMATION.COLUMN.messageSecondPart}
+                  </Typography>
+                </Box>
+              </ModalBody>
+            </CModal>
           </Box>
         </Box>
       </Box>

@@ -59,7 +59,14 @@
     "oneQuestionRequiredError": "Se requiere al menos una pregunta",
     "DRAG_DELETE_SECTION_MODAL": {
       "title": "Confirmar arrastre de pregunta",
-      "description": "Arrastrar la última pregunta restante fuera de una sección llevaría a la eliminación de la sección. ¿Te gustaría continuar?"
+      "messageFirstPart": "Arrastrar la última pregunta restante fuera de una sección provocará la eliminación de la sección.",
+      "messageSecondPart": "Reordenar las preguntas puede romper esa dependencia, y la lógica condicional se eliminará si la pregunta referenciada ya no está antes de la pregunta condicional. ¿Desea continuar?"
+    },
+    "DRAG_DELETE_QUESTION_MODAL": {
+      "title": "El reordenamiento puede afectar la lógica condicional",
+      "messageFirstPart": "La pregunta que está moviendo está vinculada a otra pregunta mediante la condición \"Basado en la respuesta anterior\".",
+      "messageSecondPart": "Reordenar las preguntas puede romper esa dependencia, y la lógica condicional se eliminará si la pregunta referenciada ya no está antes de la pregunta condicional.",
+      "confirmButtonLabel": "Continuar de todos modos"
     },
     "DELETE_QUESTION_REORDERING_MODAL": {
       "title": "Reordenar puede afectar la lógica condicional",

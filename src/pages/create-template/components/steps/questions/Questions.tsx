@@ -12,6 +12,8 @@ import {
 } from "@/core/constants/icons";
 import { CButton } from "@/core/components/button/button";
 import CNoData from "@/core/components/no-data/NoData";
+import CModal, { ModalBody } from "@/core/components/modal/Modal";
+import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useQuestionListManager, {
@@ -23,8 +25,6 @@ import {
   CSortableContainer,
   type ExtendedDragEndEvent,
 } from "@/core/components/drag-drop";
-import CModal, { ModalBody } from "@/core/components/modal/Modal";
-import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 
 import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "./components/question-card/QuestionCard";
@@ -101,7 +101,7 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
   // Stores the pending drag move action for confirmation
   const pendingDragActionRef = useRef<(() => void) | null>(null);
   const [showDragConfirmModal, setShowDragConfirmModal] = useState(false);
-
+  const [isLastQuestionInSection, setIsLastQuestionInSection] = useState(false);
   const openAddSectionModal = (data) => {
     setAddSectionModal({
       status: true,
@@ -292,13 +292,9 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
       questions.filter((q) => q), //TODO: REMOVE THIS PATCH ONCE ISSUE IS FIXED
       draggedId
     );
-
-    if (!isLastQuestionInSection) {
-      performDragMove();
-    } else {
-      pendingDragActionRef.current = performDragMove;
-      setShowDragConfirmModal(true);
-    }
+    setIsLastQuestionInSection(isLastQuestionInSection);
+    pendingDragActionRef.current = performDragMove;
+    setShowDragConfirmModal(true);
   };
   return (
     <Box className="ct-questions">
@@ -307,14 +303,38 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
         open={showDragConfirmModal}
         onConfirm={executePendingDragAction}
         onClose={clearPendingDragAction}
-        title={QUESTIONS.DRAG_DELETE_SECTION_MODAL.title}
+        title={
+          isLastQuestionInSection
+            ? QUESTIONS.DRAG_DELETE_SECTION_MODAL.title
+            : QUESTIONS.DRAG_DELETE_QUESTION_MODAL.title
+        }
         showActions={true}
-        size="small"
+        size="medium"
         severity={BUTTON_SEVERITY.destructive}
+        confirmText={
+          !isLastQuestionInSection &&
+          QUESTIONS.DRAG_DELETE_QUESTION_MODAL.confirmButtonLabel
+        }
+        walkMeIdPrefix={[
+          ...walkMeIdPrefix,
+          "drag",
+          "question",
+          "delete",
+          "confirmation-modal",
+        ]}
       >
         <ModalBody>
           <Box className="template-delete__modal-body">
-            {QUESTIONS.DRAG_DELETE_SECTION_MODAL.description}
+            <Typography>
+              {isLastQuestionInSection
+                ? QUESTIONS.DRAG_DELETE_SECTION_MODAL.messageFirstPart
+                : QUESTIONS.DRAG_DELETE_QUESTION_MODAL.messageFirstPart}
+            </Typography>
+            <Typography>
+              {isLastQuestionInSection
+                ? QUESTIONS.DRAG_DELETE_SECTION_MODAL.messageSecondPart
+                : QUESTIONS.DRAG_DELETE_QUESTION_MODAL.messageSecondPart}
+            </Typography>
           </Box>
         </ModalBody>
       </CModal>

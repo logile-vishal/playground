@@ -2,6 +2,7 @@ import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Stack, Typography } from "@mui/material";
+import { useDirtyFormGuard } from "@/core/hooks/useDirtyFormGuard";
 
 import CIconButton from "@/core/components/button/IconButton";
 import { CButton } from "@/core/components/button/button";
@@ -29,7 +30,6 @@ import type { QuestionProps } from "./types/questions.type";
 import type { ColumnProps } from "./types/columns.type";
 import Columns from "./components/steps/columns/Columns";
 import Rows from "./components/steps/rows/Rows";
-import "./CreateTemplate.scss";
 import { TEMPLATE_TYPE } from "../template-library/constants/constant";
 import {
   PREVIEW_BUTTON_THRESHOLD,
@@ -37,10 +37,11 @@ import {
   SUBMIT_BUTTON_THRESHOLD,
 } from "./constants/questions";
 import { TEMPLATE_TYPE_STEPS } from "./constants/constant";
+import "./CreateTemplate.scss";
 
 const CreateTemplateContent: React.FC = () => {
   const navigate = useNavigate();
-  const { triggerValidation, formErrors, watch, getFormValues } =
+  const { triggerValidation, formErrors, watch, getFormValues, isDirty } =
     useCreateTemplateForm();
   const templateType = getFormValues("templateType");
   const watchQuestionList = watch("questions") as QuestionProps[];
@@ -55,6 +56,8 @@ const CreateTemplateContent: React.FC = () => {
     ROWS,
   } = useCreateTemplateTranslations();
   const { notify } = useNotification();
+  useDirtyFormGuard("createTemplate", isDirty);
+
   const {
     basicInfo,
     questions,

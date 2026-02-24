@@ -11,7 +11,8 @@ import {
 
 import CIconButton from "@/core/components/button/IconButton";
 import CSvgIcon from "@/core/components/icon/Icon";
-import { CurlyBracket, Download, Excel, Pdf } from "@/core/constants/icons";
+import WildcardLabel from "@/core/components/wildcard-label/WildcardLabel";
+import { Download, Excel, Pdf } from "@/core/constants/icons";
 import clsx from "@/utils/clsx";
 
 import { TEMPLATE_TYPE } from "../../constants/constant";
@@ -104,12 +105,7 @@ export const renderAnswer = (
  * @param {boolean} isQuestionTagsVisible - Whether to show question tags.
  * @returns {ReactNode} JSX for the question title.
  */
-const renderQuestionTitle = (
-  question,
-  index,
-  isQuestionTagsVisible,
-  isDesktopPreview
-) => {
+const renderQuestionTitle = (question, index, isDesktopPreview) => {
   const isQuesMandatory = question?.isMandatory;
   return (
     <Box
@@ -118,7 +114,7 @@ const renderQuestionTitle = (
         "template-preview-modal__question-title--mobile": !isDesktopPreview,
       })}
     >
-      <Box>
+      <Box className="template-preview-modal__question-item__title-wrapper">
         {isQuesMandatory && (
           <Typography
             component="span"
@@ -127,18 +123,12 @@ const renderQuestionTitle = (
             *
           </Typography>
         )}
-        {index} {question?.qcontent}
+        <Box>{index}</Box>
+        <WildcardLabel
+          label={question?.qcontent || ""}
+          truncate={true}
+        />
       </Box>
-      {isQuestionTagsVisible && (
-        <Box className="template-preview-modal__tags-wrapper">
-          <CSvgIcon
-            component={CurlyBracket}
-            size={16}
-            color="secondary"
-          />
-          <Box>{question?.tags}</Box>
-        </Box>
-      )}
     </Box>
   );
 };
@@ -188,8 +178,7 @@ export const renderChecklistComponent = (
             renderQuestionTitle(
               question,
               index,
-              question.questionType ===
-                getQuestionTypes(QUESTION_TYPES).LABEL.value,
+
               isDesktopPreview
             )}
           {renderAnswer(
@@ -302,8 +291,7 @@ export const renderGridContainer = (
                   {renderQuestionTitle(
                     question,
                     `${index + 1}.`,
-                    question.type ===
-                      getQuestionTypes(QUESTION_TYPES).LABEL.value,
+
                     isDesktopPreview
                   )}
                 </TableCell>

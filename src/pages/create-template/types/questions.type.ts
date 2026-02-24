@@ -183,6 +183,7 @@ export type QuestionCardOptionsProps = {
   questionFormPath?: string;
   question?: QuestionProps;
   onAnswerOptionSettingsOpen?: (index: number) => void;
+  walkMeIdPrefix?: string[];
 };
 
 export type QuestionCardOptionProps = {
@@ -191,6 +192,7 @@ export type QuestionCardOptionProps = {
   questionFormPath?: string;
   question?: QuestionProps;
   onAnswerOptionSettingsOpen?: (index: number) => void;
+  walkMeIdPrefix?: string[];
 };
 
 export type TriggerCardMenuProps = {

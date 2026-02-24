@@ -63,7 +63,14 @@
     "oneQuestionRequiredError": "至少需要一个问题",
     "DRAG_DELETE_SECTION_MODAL": {
       "title": "确认拖动问题",
-      "description": "将最后一个剩余问题从分区中拖出将导致该分区被删除。您想继续吗？"
+      "messageFirstPart": "将剩余的最后一个问题拖出分区将导致该分区被删除。",
+      "messageSecondPart": "重新排序问题可能会破坏这种依赖关系，如果被引用的问题不再位于条件问题之前，逻辑条件将被删除。您要继续吗？"
+    },
+    "DRAG_DELETE_QUESTION_MODAL": {
+      "title": "重新排序可能影响逻辑条件",
+      "messageFirstPart": "您正在移动的问题通过“基于前一个答案”条件与其他问题关联。",
+      "messageSecondPart": "重新排序问题可能会破坏这种依赖关系，如果被引用的问题不再位于条件问题之前，逻辑条件将被删除。",
+      "confirmButtonLabel": "继续"
     },
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {

@@ -56,10 +56,17 @@
     "header": "प्रश्न",
     "noQuestionPlaceholder": "अभी तक कोई प्रश्न जोड़ा नहीं गया है। शुरू करने के लिए \"प्रश्न जोड़ें\" पर क्लिक करें।",
     "addQuestionButtonLabel": "प्रश्न",
-    "addSectionButtonLabel": "अनुभाग",
+    "addSectionButtonLabel": "अनुभाग जोड़ें",
     "DRAG_DELETE_SECTION_MODAL": {
-      "title": "प्रश्न खींचने की पुष्टि करें",
-      "description": "एक अनुभाग से अंतिम शेष प्रश्न को खींचने से अनुभाग का हटना होगा। क्या आप जारी रखना चाहेंगे?"
+      "title": "अनुभाग हटाने की पुष्टि करें",
+      "messageFirstPart": "किसी अनुभाग में बची हुई अंतिम प्रश्न को बाहर खींचने से अनुभाग हट जाएगा।",
+      "messageSecondPart": "प्रश्नों का पुनः क्रम बदलने से निर्भरता टूट सकती है, और यदि संदर्भित प्रश्न अब प्रश्न की शर्त से पहले नहीं है तो शर्त की लॉजिक हटा दी जाएगी। क्या आप जारी रखना चाहते हैं?"
+    },
+    "DRAG_DELETE_QUESTION_MODAL": {
+      "title": "पुनः क्रम बदलने से शर्त की लॉजिक प्रभावित हो सकती है",
+      "messageFirstPart": "आप जिस प्रश्न को खींच रहे हैं वह \"पिछले उत्तर पर आधारित\" शर्त के माध्यम से किसी अन्य प्रश्न से जुड़ा है।",
+      "messageSecondPart": "प्रश्नों का पुनः क्रम बदलने से निर्भरता टूट सकती है, और यदि संदर्भित प्रश्न अब प्रश्न की शर्त से पहले नहीं है तो शर्त की लॉजिक हटा दी जाएगी।",
+      "confirmButtonLabel": "फिर भी जारी रखें"
     },
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {
@@ -143,6 +150,7 @@
       "nonCompliantLabel": "अनुपालक नहीं",
       "naLabel": "लागू नहीं"
     },
+
     "ADDITIONAL_INFO_DROPDOWN": {
       "noAdditionalInfoLabel": "कोई अतिरिक्त जानकारी नहीं",
       "optionalInfoLabel": "वैकल्पिक जानकारी",
@@ -367,8 +375,8 @@
     "oneRowRequiredError": "कम से कम एक पंक्ति आवश्यक है।"
   },
   "PREVIOUS_EXECUTION_STATUS_OPTIONS": {
-    "completedLabel": "Completed",
-    "notCompletedLabel": "Not Completed"
+    "completedLabel": "पूरा हुआ",
+    "notCompletedLabel": "पूरा नहीं हुआ"
   },
   "ADVANCED_TAB_OPTIONS": {
     "VISIBILITY": {

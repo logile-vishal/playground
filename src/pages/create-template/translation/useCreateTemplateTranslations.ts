@@ -148,7 +148,24 @@ export const useCreateTemplateTranslations = () => {
     oneQuestionRequiredError: t("QUESTIONS.oneQuestionRequiredError"),
     DRAG_DELETE_SECTION_MODAL: {
       title: t("QUESTIONS.DRAG_DELETE_SECTION_MODAL.title"),
-      description: t("QUESTIONS.DRAG_DELETE_SECTION_MODAL.description"),
+      messageFirstPart: t(
+        "QUESTIONS.DRAG_DELETE_SECTION_MODAL.messageFirstPart"
+      ),
+      messageSecondPart: t(
+        "QUESTIONS.DRAG_DELETE_SECTION_MODAL.messageSecondPart"
+      ),
+    },
+    DRAG_DELETE_QUESTION_MODAL: {
+      title: t("QUESTIONS.DRAG_DELETE_QUESTION_MODAL.title"),
+      messageFirstPart: t(
+        "QUESTIONS.DRAG_DELETE_QUESTION_MODAL.messageFirstPart"
+      ),
+      messageSecondPart: t(
+        "QUESTIONS.DRAG_DELETE_QUESTION_MODAL.messageSecondPart"
+      ),
+      confirmButtonLabel: t(
+        "QUESTIONS.DRAG_DELETE_QUESTION_MODAL.confirmButtonLabel"
+      ),
     },
     SECTION_SETTINGS_MENU_OPTIONS: [
       {

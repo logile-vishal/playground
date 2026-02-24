@@ -63,7 +63,14 @@
     "oneQuestionRequiredError": "At least one question is required",
     "DRAG_DELETE_SECTION_MODAL": {
       "title": "Confirm drag question",
-      "description": "Dragging last remaining question out of a section would lead to deletion of the section. Would you like to proceed?"
+      "messageFirstPart": "Dragging last remaining question out of a section would lead to deletion of the section.",
+      "messageSecondPart": "Reordering the questions may break that dependency, and the conditional logic will be removed if the referenced question is no longer before the conditional question. Would you like to proceed?"
+    },
+    "DRAG_DELETE_QUESTION_MODAL": {
+      "title": "Reordering May Affect Conditional Logic",
+      "messageFirstPart": "The question you're moving is tied to another question through the \"Based on Previous Answer\" condition.  ",
+      "messageSecondPart": "Reordering the questions may break that dependency, and the conditional logic will be removed if the referenced question is no longer before the conditional question.",
+      "confirmButtonLabel": "Continue Anyway"
     },
     "SECTION_ADD_EDIT_MODAL": {
       "ADD_SECTION": {

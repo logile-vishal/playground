@@ -60,5 +60,33 @@
       "filterFeaturePlaceholder": "Buscar...",
       "selectAllFeatureLabel": "Seleccionar todo"
     }
+  },
+  "NAVIGATION_GUARD": {
+    "modalTitle": "Cambios no guardados",
+    "modalMessage": "¿Estás seguro de que quieres salir de esta pantalla? Se perderán los cambios que hayas realizado.",
+    "confirmButtonLabel": "Aceptar"
+  },
+  "DELETE_CONFIRMATION": {
+    "QUESTION": {
+      "title": "Eliminar pregunta",
+      "messageFirstPart": "¿Estás seguro de que deseas eliminar la pregunta?",
+      "messageSecondPart": "Esta acción no se puede deshacer.",
+      "confirmLabel": "Eliminar",
+      "cancelLabel": "Cancelar"
+    },
+    "COLUMN": {
+      "title": "Eliminar columna",
+      "messageFirstPart": "¿Estás seguro de que deseas eliminar esta columna?",
+      "messageSecondPart": "Esta acción no se puede deshacer.",
+      "confirmLabel": "Eliminar",
+      "cancelLabel": "Cancelar"
+    },
+    "QUESTION_OPTION": {
+      "title": "Eliminar opción",
+      "first_part_message": "Esta opción tiene una o más notificaciones o tareas de seguimiento asociadas. Eliminar esta opción también eliminará todas las notificaciones y tareas de seguimiento vinculadas.",
+      "second_part_message": "¿Estás seguro de que deseas eliminar esta opción?",
+      "third_part_message": "Esta acción no se puede deshacer.",
+      "confirmLabel": "Eliminar"
+    }
   }
 }
