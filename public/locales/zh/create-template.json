@@ -226,7 +226,8 @@
         "customRecipient": "自定义收件人",
         "subject": "主题",
         "message": "消息"
-      }
+      },
+      "recipientsCountError": "至少需要一个收件人"
     },
     "CUSTOM_RECIPIENT_MODAL": {
       "title": "自定义收件人",

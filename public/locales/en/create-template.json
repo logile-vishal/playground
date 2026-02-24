@@ -225,7 +225,8 @@
         "customRecipient": "Custom Recipient",
         "subject": "Subject",
         "message": "Message"
-      }
+      },
+      "recipientsCountError": "At least one recipient is required"
     },
     "CUSTOM_RECIPIENT_MODAL": {
       "title": "Custom Recipient",

@@ -227,7 +227,8 @@
         "customRecipient": "कस्टम प्राप्तकर्ता",
         "subject": "विषय",
         "message": "संदेश"
-      }
+      },
+      "recipientsCountError": "कम से कम एक प्राप्तकर्ता आवश्यक है"
     },
     "CUSTOM_RECIPIENT_MODAL": {
       "title": "कस्टम प्राप्तकर्ता",

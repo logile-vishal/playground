@@ -19,7 +19,7 @@ import {
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import { isNonEmptyValue } from "@/utils";
 
-import "../AddEditNotificationModal/AddEditNotificationModal.scss";
+import "../add-edit-notification-modal/AddEditNotificationModal.scss";
 
 const CustomRecipientModal = ({
   watchTrigger,
@@ -39,6 +39,7 @@ const CustomRecipientModal = ({
     control,
     watch,
     setValue,
+    reset,
     handleSubmit: handleFormSubmit,
   } = useForm<{
     recipient: TriggerRecipient;
@@ -51,6 +52,8 @@ const CustomRecipientModal = ({
   const watchRecipient = watch("recipient");
 
   const handleCloseModal = () => {
+    reset({ recipient: getNewCustomRecipient() });
+    setShouldShowErrors(false);
     setCustomRecipientModal({ status: false, type: null, recipientId: null });
   };
 
@@ -360,5 +363,4 @@ const CustomRecipientModal = ({
     </CModal>
   );
 };
-
 export default CustomRecipientModal;

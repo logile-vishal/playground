@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge, Box, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 import type { FieldValues, Control } from "react-hook-form";
@@ -23,10 +23,6 @@ import { useCreateTemplateTranslations } from "@/pages/create-template/translati
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import TriggerModal from "@/pages/create-template/components/trigger-modal/TriggerModal";
 import { TRIGGER_TYPE } from "@/pages/create-template/constants/constant";
-import {
-  followupSampleData,
-  notificationSampleData,
-} from "@/pages/create-template/constants/sampleData";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useQuestionListManager from "@/pages/create-template/hooks/useQuestionListManager";
 import type {
@@ -61,8 +57,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
   const { QUESTION_OPTION } = useCreateTemplateTranslations();
   const { DELETE_CONFIRMATION } = useCommonTranslation();
   const { deleteOption } = useQuestionListManager();
-  const { control, setFormValue, getFormValues, watch } =
-    useCreateTemplateForm();
+  const { control, setFormValue, getFormValues } = useCreateTemplateForm();
 
   const CompliantOptions = Object.values(
     QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS
@@ -87,8 +82,20 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
   ] = useState<boolean>(false);
   const [deletedOption, setDeletedOption] = useState<number | null>(null);
 
-  const watchNotificationForm = watch("notifications");
-  const watchFollowUpTaskForm = watch("followUpTasks");
+  useEffect(() => {
+    if (triggerCardModal.status) {
+      props.setSelectedQuestionInfo({
+        questionId: props.question.qId,
+        answerIndex: props.idx,
+      });
+    } else {
+      props.setSelectedQuestionInfo({
+        questionId: null,
+        answerIndex: null,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [triggerCardModal]);
 
   const handleDeleteOptionClick = (idx: number): void => {
     setDeleteQuestionOptionConfirmationModal(true);
@@ -138,8 +145,10 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
         anchorEl={anchorEl}
         closeTriggerCardMenu={closeTriggerCardMenu}
         setTriggerCardModal={setTriggerCardModal}
-        notificationCount={watchNotificationForm?.length}
-        followUpCount={watchFollowUpTaskForm?.length}
+        notificationCount={
+          props?.answerNotificationList[props.idx]?.length ?? 0
+        }
+        followUpCount={props?.answerFollowUpList[props.idx]?.length ?? 0}
       />
     );
   };
@@ -308,8 +317,8 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
             <Badge
               className="attachment-badge"
               badgeContent={
-                (watchNotificationForm?.length || 0) +
-                  (watchFollowUpTaskForm?.length || 0) || 0
+                (props.answerNotificationList[props.idx]?.length || 0) +
+                  (props.answerFollowUpList[props.idx]?.length || 0) || 0
               }
               color="info"
               overlap="rectangular"
@@ -348,18 +357,48 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
 
           {triggerCardMenu?.anchor && renderTriggerCardMenu()}
 
-          {/* TODO: Remove sample data after api integration */}
-          <TriggerModal
-            type={triggerCardModal.type}
-            data={
-              triggerCardModal.type === TRIGGER_TYPE.followup
-                ? followupSampleData
-                : notificationSampleData
-            }
-            showModal={triggerCardModal.status}
-            handleCloseModal={closeTriggerCardModal}
-            walkMeIdPrefix={["question options", "trigger modal"]}
-          />
+          {triggerCardModal.type === TRIGGER_TYPE.notification ? (
+            <TriggerModal
+              data={props.answerNotificationList[props.idx] ?? []}
+              type={triggerCardModal.type}
+              showModal={triggerCardModal.status}
+              triggerCardModal={triggerCardModal}
+              handleCloseModal={closeTriggerCardModal}
+              handleAdd={props.handleAddNotification as () => void}
+              handleClone={props.handleCloneNotification as () => void}
+              handleEdit={props.handleEditNotification as () => void}
+              handleDelete={props.handleDeleteNotification as () => void}
+              handleClose={props.handleCloseNotificationModal}
+              showAddEditModal={props.showNotificationModal}
+              selectedQuestionInfo={props.selectedQuestionInfo}
+              walkMeIdPrefix={[
+                "question options",
+                "trigger modal",
+                "notifications",
+              ]}
+            />
+          ) : (
+            <TriggerModal
+              data={props.answerFollowUpList[props.idx] ?? []}
+              type={triggerCardModal.type}
+              showModal={triggerCardModal.status}
+              triggerCardModal={triggerCardModal}
+              handleCloseModal={closeTriggerCardModal}
+              handleAdd={props.handleAddFollowUp as () => void}
+              handleClone={props.handleCloneFollowUp as () => void}
+              handleEdit={props.handleEditFollowUp as () => void}
+              handleDelete={props.handleDeleteFollowUp as () => void}
+              handleClose={props.handleCloseFollowUpModal}
+              selectedQuestionInfo={props.selectedQuestionInfo}
+              showAddEditModal={props.showFollowUpModal}
+              walkMeIdPrefix={[
+                "question options",
+                "trigger modal",
+                "follow up tasks",
+              ]}
+            />
+          )}
+
           <CModal
             open={deleteQuestionOptionConfirmationModal}
             onClose={handleCloseDeleteModal}
@@ -469,6 +508,24 @@ const QuestionCardOptionsComponent = (props: QuestionCardOptionsProps) => {
                   linkCount={0}
                   onAnswerOptionSettingsOpen={props.onAnswerOptionSettingsOpen}
                   walkMeIdPrefix={props.walkMeIdPrefix}
+                  answerNotificationList={props.answerNotificationList}
+                  answerFollowUpList={props.answerFollowUpList}
+                  handleAddNotification={props.handleAddNotification}
+                  handleCloneNotification={props.handleCloneNotification}
+                  handleEditNotification={props.handleEditNotification}
+                  handleDeleteNotification={props.handleDeleteNotification}
+                  handleCloseNotificationModal={
+                    props.handleCloseNotificationModal
+                  }
+                  showNotificationModal={props.showNotificationModal}
+                  handleAddFollowUp={props.handleAddFollowUp}
+                  handleCloneFollowUp={props.handleCloneFollowUp}
+                  handleEditFollowUp={props.handleEditFollowUp}
+                  handleDeleteFollowUp={props.handleDeleteFollowUp}
+                  handleCloseFollowUpModal={props.handleCloseFollowUpModal}
+                  showFollowUpModal={props.showFollowUpModal}
+                  selectedQuestionInfo={props.selectedQuestionInfo}
+                  setSelectedQuestionInfo={props.setSelectedQuestionInfo}
                 />
               ))
             : ""}

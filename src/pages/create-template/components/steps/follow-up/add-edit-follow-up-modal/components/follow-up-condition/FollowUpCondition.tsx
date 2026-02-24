@@ -113,9 +113,11 @@ const FollowUpCondition = ({
             <Controller
               name="followUp.questionId"
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <CSelect
                   {...field}
+                  error={!!error}
+                  helperText={error ? error.message : ""}
                   options={getQuestionsList()}
                   optionValueKey="value"
                   optionLabelKey="label"
@@ -155,9 +157,11 @@ const FollowUpCondition = ({
               <Controller
                 name="followUp.answerIndex"
                 control={control}
-                render={({ field }) => (
+                render={({ field, fieldState: { error } }) => (
                   <CSelect
                     {...field}
+                    error={!!error}
+                    helperText={error ? error.message : ""}
                     options={answerOptions}
                     optionValueKey="value"
                     optionLabelKey="label"

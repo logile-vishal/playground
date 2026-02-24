@@ -13,7 +13,7 @@
     padding: var(--space-l) var(--space-xl);
     margin-bottom: var(--space-l);
 
-    &__title {
+    &-title {
       color: var(--logile-text-secondary);
       font-size: var(--logile-size-secondary-text);
       line-height: var(--logile-line-height-secondary-text);
@@ -23,7 +23,7 @@
     }
     &-content {
       @include flex-center(space-between, flex-start, var(--space-2xl));
-      width: 100%;
+      width: 75%;
       color: var(--logile-text-primary);
       font-size: var(--logile-size-body);
       line-height: var(--logile-line-height-body);

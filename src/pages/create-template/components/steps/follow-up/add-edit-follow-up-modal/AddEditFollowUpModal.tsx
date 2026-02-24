@@ -9,6 +9,7 @@ import {
 import {
   DEFAULT_FOLLOW_UP_TASK,
   NOTIFICATIONS_ACTION_TYPE,
+  TRIGGER_CONDITIONS,
 } from "@/pages/create-template/constants/triggers";
 import CModal, { ModalBody, ModalFooter } from "@/core/components/modal/Modal";
 import CStepper from "@/core/components/stepper/Stepper";
@@ -37,6 +38,9 @@ const AddEditFollowUpModal = ({
   watchQuestionList,
   getQuestionLabel,
   getAnswerLabel,
+  questionId = null,
+  answerIndex = null,
+  optionLevelTrigger = false,
 }) => {
   const {
     trigger: triggerValidation,
@@ -45,6 +49,9 @@ const AddEditFollowUpModal = ({
     getValues,
     handleSubmit,
     watch,
+    reset,
+    clearErrors,
+    formState: { errors },
   } = useForm<{
     followUp: FollowUpTaskSchema;
   }>({
@@ -78,6 +85,17 @@ const AddEditFollowUpModal = ({
     });
   };
 
+  const handleCloseModal = (): void => {
+    reset({ followUp: getDefaultFollowUp() });
+    setShouldShowErrors(false);
+    setCurrentStep({
+      activeStep: 0,
+      data: null,
+    });
+    closeCustomRecipientModal();
+    handleCloseFollowUpModal();
+  };
+
   const isAllStepValid = async () => {
     let isValid = true;
     if ((await checkConditionValidity()) === false) isValid = false;
@@ -88,19 +106,17 @@ const AddEditFollowUpModal = ({
   };
 
   const checkConditionValidity = async (): Promise<boolean> => {
-    const isValid = await triggerValidation("followUp.condition");
-    setShouldShowErrors(!isValid);
-    return isValid;
+    const isConditionValid = await triggerValidation("followUp.condition");
+    if (watchFollowUp.condition === TRIGGER_CONDITIONS.ANSWER) {
+      const isQuestionValid = await triggerValidation("followUp.questionId");
+      const isAnswerValid = await triggerValidation("followUp.answerIndex");
+      return isConditionValid && isQuestionValid && isAnswerValid;
+    }
+    return isConditionValid;
   };
 
   const checkRecipientsValidity = async (): Promise<boolean> => {
-    let isValid = true;
-    if (
-      !isNonEmptyValue(watchFollowUp?.recipients) &&
-      !isNonEmptyValue(watchFollowUp?.customRecipients)
-    )
-      isValid = false;
-    setShouldShowErrors(!isValid);
+    const isValid = await triggerValidation("followUp.recipients");
     return isValid;
   };
 
@@ -144,13 +160,15 @@ const AddEditFollowUpModal = ({
       }
 
       setFormValue("followUpTasks", followUpList);
-      closeCustomRecipientModal();
-      handleCloseFollowUpModal();
+      handleCloseModal();
     })();
   };
 
   const handleValidateAndNext = async (nextStep: number): Promise<void> => {
-    if (currentStep.activeStep === 0) {
+    if (
+      currentStep.data.value ===
+      FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.condition.value
+    ) {
       checkConditionValidity().then((isValid) => {
         if (isValid) {
           setCurrentStep((prev) => ({
@@ -160,7 +178,10 @@ const AddEditFollowUpModal = ({
           }));
         }
       });
-    } else if (currentStep.activeStep === 1) {
+    } else if (
+      currentStep.data.value ===
+      FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.recipients.value
+    ) {
       checkRecipientsValidity().then((isValid) => {
         if (isValid) {
           setCurrentStep((prev) => ({
@@ -170,7 +191,10 @@ const AddEditFollowUpModal = ({
           }));
         }
       });
-    } else if (currentStep.activeStep === 2) {
+    } else if (
+      currentStep.data.value ===
+      FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.template.value
+    ) {
       checkTemplateValidity().then((isValid) => {
         if (isValid) {
           setCurrentStep((prev) => ({
@@ -180,7 +204,10 @@ const AddEditFollowUpModal = ({
           }));
         }
       });
-    } else if (currentStep.activeStep === 3) {
+    } else if (
+      currentStep.data.value ===
+      FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.settings.value
+    ) {
       checkSettingValidity().then((isValid) => {
         if (isValid) {
           handleFollowUpSubmit();
@@ -241,24 +268,39 @@ const AddEditFollowUpModal = ({
     }
   }, [showFollowUpModal, setValue]);
 
-  const stepperOptions: StepOption[] = [
-    {
-      label: FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.condition.label,
-      value: FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.condition.value,
-      error: false,
-      disabled: false,
-      checkValidity: () => checkConditionValidity(),
-      component: (
-        <FollowUpCondition
-          control={control}
-          watchFollowUp={watchFollowUp}
-          watchQuestionList={watchQuestionList}
-          getQuestionsList={getQuestionsList}
-          getQuestionLabel={getQuestionLabel}
-          getAnswerLabel={getAnswerLabel}
-        />
-      ),
-    },
+  useEffect(() => {
+    clearErrors([
+      "followUp.questionId",
+      "followUp.answerIndex",
+      "followUp.recipients",
+      "followUp.customRecipients",
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchFollowUp.condition]);
+
+  const conditionStepperData = {
+    label: FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.condition.label,
+    value: FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.condition.value,
+    error: false,
+    disabled: false,
+    checkValidity: () => checkConditionValidity(),
+    component: (
+      <FollowUpCondition
+        control={control}
+        watchFollowUp={watchFollowUp}
+        watchQuestionList={watchQuestionList}
+        getQuestionsList={getQuestionsList}
+        getQuestionLabel={getQuestionLabel}
+        getAnswerLabel={getAnswerLabel}
+      />
+    ),
+  };
+  let stepperOptions: StepOption[] = !optionLevelTrigger
+    ? [conditionStepperData]
+    : [];
+
+  stepperOptions = [
+    ...stepperOptions,
     {
       label: FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.recipients.label,
       value: FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.recipients.value,
@@ -273,7 +315,7 @@ const AddEditFollowUpModal = ({
           setValue={setValue}
           customRecipientModal={customRecipientModal}
           setCustomRecipientModal={setCustomRecipientModal}
-          shouldShowErrors={shouldShowErrors}
+          errors={errors}
         />
       ),
     },
@@ -321,8 +363,43 @@ const AddEditFollowUpModal = ({
   };
 
   const handleCancel = () => {
-    handleCloseFollowUpModal();
+    handleCloseModal();
   };
+
+  useEffect(() => {
+    if (showFollowUpModal?.type === NOTIFICATIONS_ACTION_TYPE.EDIT) {
+      setValue("followUp", showFollowUpModal.data, {
+        shouldDirty: false,
+        shouldValidate: false,
+      });
+    } else if (showFollowUpModal?.type === NOTIFICATIONS_ACTION_TYPE.CLONE) {
+      const clonedData = {
+        ...showFollowUpModal.data,
+        triggerId: uuidv4(),
+      };
+      setValue("followUp", clonedData, {
+        shouldDirty: false,
+        shouldValidate: false,
+      });
+    } else {
+      const defaultFollowUp = getDefaultFollowUp();
+      if (optionLevelTrigger) {
+        defaultFollowUp.condition = "ANSWER";
+        defaultFollowUp.questionId = questionId;
+        defaultFollowUp.answerIndex = String(answerIndex);
+      }
+      setValue("followUp", defaultFollowUp, {
+        shouldDirty: false,
+        shouldValidate: false,
+      });
+    }
+  }, [
+    showFollowUpModal,
+    setValue,
+    optionLevelTrigger,
+    questionId,
+    answerIndex,
+  ]);
 
   useEffect(() => {
     if (showFollowUpModal.status) {
@@ -349,7 +426,7 @@ const AddEditFollowUpModal = ({
       title={getModalTitle()}
       open={showFollowUpModal.status}
       size="xlarge"
-      onClose={handleCloseFollowUpModal}
+      onClose={handleCloseModal}
       containerClassName="ct-add-edit-follow-up-modal"
     >
       <ModalBody>

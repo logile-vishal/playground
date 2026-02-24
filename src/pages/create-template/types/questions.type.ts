@@ -178,7 +178,42 @@ export type ButtonConfigProps = {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
 };
 
-export type QuestionCardOptionsProps = {
+type triggerOptionProps = {
+  answerNotificationList: Array<TriggerItem[]>;
+  answerFollowUpList: Array<TriggerItem[]>;
+  handleAddNotification: () => void;
+  handleCloneNotification: () => void;
+  handleEditNotification: () => void;
+  handleDeleteNotification: () => void;
+  handleCloseNotificationModal: () => void;
+  showNotificationModal: {
+    status: boolean;
+    type: string | null;
+    data: TriggerItem[] | null;
+  };
+  handleAddFollowUp: () => void;
+  handleCloneFollowUp: () => void;
+  handleEditFollowUp: () => void;
+  handleDeleteFollowUp: () => void;
+  handleCloseFollowUpModal: () => void;
+  showFollowUpModal: {
+    status: boolean;
+    type: string | null;
+    data: TriggerItem[] | null;
+  };
+  selectedQuestionInfo: {
+    questionId: string | null;
+    answerIndex: string | number | null;
+  };
+  setSelectedQuestionInfo: React.Dispatch<
+    React.SetStateAction<{
+      questionId: string | null;
+      answerIndex: string | number | null;
+    }>
+  >;
+};
+
+export type QuestionCardOptionsProps = triggerOptionProps & {
   isVisible?: boolean;
   questionFormPath?: string;
   question?: QuestionProps;
@@ -186,7 +221,7 @@ export type QuestionCardOptionsProps = {
   walkMeIdPrefix?: string[];
 };
 
-export type QuestionCardOptionProps = {
+export type QuestionCardOptionProps = triggerOptionProps & {
   linkCount?: number;
   idx: number;
   questionFormPath?: string;
@@ -203,21 +238,48 @@ export type TriggerCardMenuProps = {
 };
 
 export type TriggerItem = {
-  id: number;
   recipients: string[];
-  messageTemplate?: {
+  messageTemplates?: {
     id: number;
     subject: string;
   };
   triggerTaskName?: string;
+  customRecipients?: {
+    recipientOrgs?: string[];
+    recipientOrgTypes?: string[];
+    recipientPositions?: string[];
+  };
 };
 
 export type TriggerModalProps = {
   showModal: boolean;
   handleCloseModal: () => void;
   type: string;
-  data: TriggerItem[];
   walkMeIdPrefix: string[];
+  handleAdd: () => void;
+  handleClone: () => void;
+  handleEdit: () => void;
+  handleDelete: () => void;
+  handleClose: () => void;
+  data: TriggerItem[] | null;
+  selectedQuestionInfo: {
+    questionId: string;
+    answerIndex: string | number;
+  } | null;
+  showAddEditModal?: {
+    status: boolean;
+    type: string;
+    data: TriggerItem[] | null;
+    quesId?: string;
+    answerIndex?: string | number;
+  };
+  triggerCardModal?: {
+    status: boolean;
+    type: string | null;
+    data: unknown;
+    quesId?: string;
+    answerIndex?: string | number;
+  };
 };
 
 export type AttachmentItemProps = {
@@ -241,6 +303,8 @@ export type AnswerOptionSettingProps = {
 };
 
 export type AnswerOptionSettingModalProps = {
+  answerNotificationList: Array<TriggerItem[]>;
+  answerFollowUpList: Array<TriggerItem[]>;
   answerOptionSettingModal?: AnswerOptionSettingProps;
   onClose: () => void;
   onSubmit: (option) => void;
@@ -256,6 +320,12 @@ export type AnswerOptionSettingModalProps = {
     data: unknown;
     type: unknown;
   }) => void;
+  setSelectedQuestionInfo: React.Dispatch<
+    React.SetStateAction<{
+      questionId: string | null;
+      answerIndex: string | number | null;
+    }>
+  >;
 };
 
 export type InputTypeContentProps = {

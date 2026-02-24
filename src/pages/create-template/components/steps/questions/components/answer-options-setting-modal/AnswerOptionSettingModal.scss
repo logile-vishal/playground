@@ -1,7 +1,7 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .ct-answer-option-setting-modal {
-  --answer-options-width: 520px;
+  --answer-options-width: 340px;
   --containers-height: 294px;
   --option-item-height: 44px;
   --badge-top-offset: -20px;
@@ -13,10 +13,10 @@
   --header-height: 64px;
   --containers-max-height: 436px;
 
+  @include flex-box;
   border-top: 1px solid var(--logile-border-secondary);
   border-bottom: 1px solid var(--logile-border-secondary);
   width: 100%;
-  @include flex-box;
   &__left {
     width: var(--answer-options-width);
     border-right: 1px solid var(--logile-border-secondary);
@@ -36,17 +36,17 @@
     }
   }
   &__left-content {
+    @include flex-box(column);
     max-height: var(--containers-max-height);
     width: 100%;
-    @include flex-box(column);
     gap: var(--space-l);
     padding: var(--space-l) var(--space-xl);
-    overflow-y: auto;
+    overflow: hidden;
     &-item {
+      @include flex-center(space-between, center);
       height: var(--option-item-height);
       flex-shrink: 0;
       width: 100%;
-      @include flex-center(space-between, center);
       border-radius: var(--radius-m);
       border: 1px solid var(--logile-border-secondary);
       background: var(--logile-bg-container-1);
@@ -57,6 +57,13 @@
         @include flex-box;
         align-items: center;
         gap: var(--space-m);
+        width: 85%;
+        & > div {
+          width: 100%;
+        }
+      }
+      div.mac-truncate-text {
+        max-width: 100%;
       }
 
       &--selected {
@@ -97,6 +104,10 @@
       border-bottom: 1px solid var(--logile-border-secondary);
       padding: var(--space-xl);
       &-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: horizontal;
+        overflow: hidden;
         font-size: var(--logile-size-body);
         font-weight: var(--logile-weight-500);
         color: var(--logile-text-primary);

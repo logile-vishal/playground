@@ -30,7 +30,6 @@ import CSelect from "@/core/components/form/select";
 import CIconButton from "@/core/components/button/IconButton";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 import { OPTIONS_DEFAULT } from "@/pages/create-template/constants/question-type-default";
-import { useCreateTemplateForm } from "@/pages/create-template/services/create-template-form.service";
 import { TRIGGER_TYPE } from "@/pages/create-template/constants/constant";
 import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import { useDirtyFormGuard } from "@/core/hooks/useDirtyFormGuard";
@@ -48,6 +47,9 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
   setTriggerCardModal,
   shouldProceedAllowed,
   setShouldProceedAllowed,
+  setSelectedQuestionInfo,
+  answerNotificationList = [],
+  answerFollowUpList = [],
 }) => {
   const { GENERAL } = useCommonTranslation();
   const { QUESTION_OPTION } = useCreateTemplateTranslations();
@@ -73,16 +75,8 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
     defaultValues: { answerOptions: [OPTIONS_DEFAULT] },
     mode: "onChange",
   });
-
-  const { watch: watchCreateForm } = useCreateTemplateForm();
   const watchOptions = watch("answerOptions");
-  const watchNotificationForm = watchCreateForm("notifications");
-  const watchFollowUpTaskForm = watchCreateForm("followUpTasks");
   useDirtyFormGuard("answerOptions", isDirty);
-
-  const totalTriggerCount =
-    (watchNotificationForm.length || 0) + (watchFollowUpTaskForm.length || 0) ||
-    0;
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [triggerCardMenu, setTriggerCardMenu] = useState<TriggerCardMenuProps>({
     anchor: null,
@@ -138,6 +132,10 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
     });
     setShouldProceedAllowed(true);
     closeUnSavedChangesModal();
+    setSelectedQuestionInfo({
+      questionId: answerOptionSettingModal?.data?.qId || null,
+      answerIndex: activeIndex,
+    });
     onClose();
   };
 
@@ -379,10 +377,19 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
                 >
                   <Badge
                     className="ct-answer-option-setting-modal__attachment-badge"
-                    badgeContent={totalTriggerCount}
+                    badgeContent={
+                      answerNotificationList?.[index]?.length +
+                        answerFollowUpList?.[index]?.length || 0
+                    }
                   ></Badge>
                   <CSvgIcon
-                    color={totalTriggerCount > 0 ? "brand-primary" : "disabled"}
+                    color={
+                      answerNotificationList?.[index]?.length +
+                        answerFollowUpList?.[index]?.length >
+                      0
+                        ? "brand-primary"
+                        : "disabled"
+                    }
                     component={AttachmentLink}
                   />
                 </CIconButton>
@@ -405,7 +412,7 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
         <div className="ct-answer-option-setting-modal__right-header">
           <div className="ct-answer-option-setting-modal__right-header-title">
             {QUESTION_OPTION.ANSWER_OPTION_SETTING_MODAL.settingsForLabel} "
-            {watchOptions[index]?.title || defaultLabel}"
+            {renderMacTruncate(watchOptions[index]?.title || defaultLabel)}"
           </div>
           {watchOptions.length > 1 && (
             <CButton
@@ -706,8 +713,8 @@ const AnswerOptionSettingModal: React.FC<AnswerOptionSettingModalProps> = ({
         anchorEl={triggerCardMenu?.anchor}
         closeTriggerCardMenu={closeTriggerCardMenu}
         setTriggerCardModal={setTriggerCardModal}
-        notificationCount={watchNotificationForm?.length}
-        followUpCount={watchFollowUpTaskForm?.length}
+        notificationCount={answerNotificationList?.[activeIndex]?.length}
+        followUpCount={answerFollowUpList?.[activeIndex]?.length}
         openUnSavedChangesModal={openUnSavedChangesModal}
         shouldProceedAllowed={shouldProceedAllowed}
       />

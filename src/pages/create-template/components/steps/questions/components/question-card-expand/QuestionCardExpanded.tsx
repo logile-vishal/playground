@@ -16,6 +16,7 @@ import type {
   QuestionProps,
   QuestionTypeKey,
   SectionTypeProps,
+  TriggerItem,
 } from "@/pages/create-template/types/questions.type";
 import CTabs from "@/core/components/tabs/Tabs";
 import { CButton } from "@/core/components/button/button";
@@ -28,10 +29,7 @@ import useQuestionListManager from "@/pages/create-template/hooks/useQuestionLis
 import CSelect from "@/core/components/form/select";
 import TriggerModal from "@/pages/create-template/components/trigger-modal/TriggerModal";
 import { TRIGGER_TYPE } from "@/pages/create-template/constants/constant";
-import {
-  followupSampleData,
-  notificationSampleData,
-} from "@/pages/create-template/constants/sampleData";
+import { NOTIFICATIONS_ACTION_TYPE } from "@/pages/create-template/constants/triggers";
 import { CSortableItem } from "@/core/components/drag-drop";
 import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
 import CModal, { ModalBody } from "@/core/components/modal/Modal";
@@ -76,7 +74,12 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     QUESTIONS.QUESTION_OPTION_TYPES_DROPDOWN[0].value
   );
   const [attachments, setAttachments] = useState<File[]>([]);
-  const { control, watch, formErrors } = useCreateTemplateForm();
+  const [selectedQuestionInfo, setSelectedQuestionInfo] = useState({
+    questionId: null,
+    answerIndex: null,
+  });
+  const { control, watch, formErrors, getFormValues, setFormValue } =
+    useCreateTemplateForm();
   const { hasError } = useFormFieldError(questionFormPath);
   const {
     modifyQuestionType,
@@ -85,6 +88,8 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     modifyOptions,
   } = useQuestionListManager();
   const watchQuestionList = watch("questions") as QuestionProps[];
+  const watchNotificationForm = watch("notifications");
+  const watchFollowUpTaskForm = watch("followUpTasks");
   const [inputTypeModal, setInputTypeModal] = useState({
     status: false,
     data: null,
@@ -94,9 +99,25 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     data: null,
     type: null,
   });
+  const [showNotificationModal, setShowNotificationModal] = useState({
+    status: false,
+    type: NOTIFICATIONS_ACTION_TYPE.ADD,
+    data: null,
+  });
+  const [showFollowUpModal, setShowFollowUpModal] = useState({
+    status: false,
+    type: NOTIFICATIONS_ACTION_TYPE.ADD,
+    data: null,
+  });
   const [shouldProceedAllowed, setShouldProceedAllowed] = useState(false);
   const [deleteQuestionConfirmationModal, setDeleteQuestionConfirmationModal] =
     useState<boolean>(false);
+  const [answerNotificationList, setAnswerNotificationList] = useState<
+    TriggerItem[][]
+  >([]);
+  const [answerFollowUpList, setAnswerFollowUpList] = useState<TriggerItem[][]>(
+    []
+  );
   const onAnswerOptionSettingsOpen = (activeIndex: number) => {
     setAnswerOptionSettingModal({ status: true, data: question, activeIndex });
   };
@@ -120,6 +141,91 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
       type: null,
     });
     setShouldProceedAllowed(false);
+  };
+
+  const handleAddNotification = () => {
+    setShowNotificationModal({
+      status: true,
+      type: NOTIFICATIONS_ACTION_TYPE.ADD,
+      data: null,
+    });
+  };
+
+  const handleEditNotification = (data) => {
+    setShowNotificationModal({
+      status: true,
+      type: NOTIFICATIONS_ACTION_TYPE.EDIT,
+      data,
+    });
+  };
+
+  const handleDeleteNotification = (data) => {
+    const notificationsList = getFormValues("notifications");
+    const triggerId = data.triggerId;
+    const updatedNotifications = notificationsList.filter(
+      (notification) => notification.triggerId !== triggerId
+    );
+    setFormValue("notifications", updatedNotifications);
+  };
+
+  const handleCloneNotification = (data) => {
+    setShowNotificationModal({
+      status: true,
+      type: NOTIFICATIONS_ACTION_TYPE.CLONE,
+      data,
+    });
+  };
+
+  const handleCloseNotificationModal = () => {
+    setShowNotificationModal({
+      status: false,
+      type: NOTIFICATIONS_ACTION_TYPE.ADD,
+      data: null,
+    });
+  };
+
+  const handleAddFollowUp = () => {
+    setShowFollowUpModal({
+      status: true,
+      type: NOTIFICATIONS_ACTION_TYPE.ADD,
+      data: null,
+    });
+  };
+
+  const handleEditFollowUp = (data) => {
+    setShowFollowUpModal({
+      status: true,
+      type: NOTIFICATIONS_ACTION_TYPE.EDIT,
+      data,
+    });
+  };
+
+  const handleDeleteFollowUp = (data) => {
+    const followUpList = getFormValues("followUpTasks") || [];
+    const triggerId = data.triggerId;
+    const updatedFollowUpList = followUpList.filter(
+      (followUp) => followUp.triggerId !== triggerId
+    );
+    setFormValue("followUpTasks", updatedFollowUpList, {
+      shouldDirty: false,
+      shouldValidate: false,
+    });
+  };
+
+  const handleCloneFollowUp = (data) => {
+    setShowFollowUpModal({
+      status: true,
+      type: NOTIFICATIONS_ACTION_TYPE.CLONE,
+      data,
+    });
+  };
+
+  const handleCloseFollowUpModal = () => {
+    setShowFollowUpModal({
+      status: false,
+      type: NOTIFICATIONS_ACTION_TYPE.ADD,
+      data: null,
+    });
   };
 
   /**
@@ -233,6 +339,61 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
       : QUESTIONS.RESPONSE_TEMPLATE_OPTIONS[0].label;
   };
 
+  const getNotificationsByOption = (
+    quesId: string | number,
+    answerIndex: string | number
+  ) => {
+    const list = [];
+    watchNotificationForm?.forEach((notification) => {
+      if (
+        notification?.condition === "ANSWER" &&
+        isNonEmptyValue(notification?.questionId) &&
+        isNonEmptyValue(notification?.answerIndex) &&
+        notification?.questionId === quesId &&
+        notification?.answerIndex === String(answerIndex)
+      ) {
+        list.push(notification);
+      }
+    });
+    return list;
+  };
+
+  const getFollowUpsByOption = (
+    quesId: string | number,
+    answerIndex: string | number
+  ) => {
+    const list = [];
+    watchFollowUpTaskForm?.forEach((followUp) => {
+      if (
+        followUp?.condition === "ANSWER" &&
+        isNonEmptyValue(followUp?.questionId) &&
+        isNonEmptyValue(followUp?.answerIndex) &&
+        followUp?.questionId === quesId &&
+        followUp?.answerIndex === String(answerIndex)
+      ) {
+        list.push(followUp);
+      }
+    });
+    return list;
+  };
+
+  useEffect(() => {
+    const notificationArr = [];
+    const followUpArr = [];
+    if (isNonEmptyValue(question.questionBasicData?.response)) {
+      question.questionBasicData?.response.forEach((_, index) => {
+        const notificationList = getNotificationsByOption(question.qId, index);
+        notificationArr.push(notificationList);
+
+        const followUpList = getFollowUpsByOption(question.qId, index);
+        followUpArr.push(followUpList);
+      });
+    }
+    setAnswerNotificationList(notificationArr);
+    setAnswerFollowUpList(followUpArr);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question, watchNotificationForm, watchFollowUpTaskForm]);
+
   /**
    * @method renderOptionsBasedOnType
    * @description Renders question options component based on selected question type
@@ -253,6 +414,24 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             isVisible={true}
             onAnswerOptionSettingsOpen={onAnswerOptionSettingsOpen}
             walkMeIdPrefix={[...walkMeIdPrefix, "options"]}
+            handleAddNotification={handleAddNotification as () => void}
+            handleCloneNotification={handleCloneNotification as () => void}
+            handleEditNotification={handleEditNotification as () => void}
+            handleDeleteNotification={handleDeleteNotification as () => void}
+            answerNotificationList={answerNotificationList}
+            handleCloseNotificationModal={
+              handleCloseNotificationModal as () => void
+            }
+            showNotificationModal={showNotificationModal}
+            handleAddFollowUp={handleAddFollowUp as () => void}
+            handleCloneFollowUp={handleCloneFollowUp as () => void}
+            handleEditFollowUp={handleEditFollowUp as () => void}
+            handleDeleteFollowUp={handleDeleteFollowUp as () => void}
+            handleCloseFollowUpModal={handleCloseFollowUpModal as () => void}
+            showFollowUpModal={showFollowUpModal}
+            selectedQuestionInfo={selectedQuestionInfo}
+            setSelectedQuestionInfo={setSelectedQuestionInfo}
+            answerFollowUpList={answerFollowUpList}
           />
         );
     }
@@ -685,23 +864,59 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             setTriggerCardModal={setTriggerCardModal}
             shouldProceedAllowed={shouldProceedAllowed}
             setShouldProceedAllowed={setShouldProceedAllowed}
+            setSelectedQuestionInfo={setSelectedQuestionInfo}
+            answerNotificationList={answerNotificationList}
+            answerFollowUpList={answerFollowUpList}
           />
-          <TriggerModal
-            type={triggerCardModal.type}
-            data={
-              triggerCardModal.type === TRIGGER_TYPE.followup
-                ? followupSampleData
-                : notificationSampleData
-            }
-            showModal={triggerCardModal.status}
-            handleCloseModal={closeTriggerCardModal}
-            walkMeIdPrefix={[
-              ...walkMeIdPrefix,
-              "delete",
-              "question",
-              "confirmation-modal",
-            ]}
-          />
+          {triggerCardModal.type === TRIGGER_TYPE.notification ? (
+            <TriggerModal
+              type={triggerCardModal.type}
+              data={
+                answerNotificationList?.[
+                  selectedQuestionInfo?.answerIndex as number
+                ] as TriggerItem[]
+              }
+              showModal={triggerCardModal.status}
+              handleCloseModal={closeTriggerCardModal}
+              handleAdd={handleAddNotification as () => void}
+              handleClone={handleCloneNotification as () => void}
+              handleEdit={handleEditNotification as () => void}
+              handleDelete={handleDeleteNotification as () => void}
+              handleClose={handleCloseNotificationModal}
+              showAddEditModal={showNotificationModal}
+              selectedQuestionInfo={selectedQuestionInfo}
+              walkMeIdPrefix={[
+                ...walkMeIdPrefix,
+                "question options",
+                "trigger modal",
+                "notifications",
+              ]}
+            />
+          ) : (
+            <TriggerModal
+              type={triggerCardModal.type}
+              data={
+                answerFollowUpList?.[
+                  selectedQuestionInfo?.answerIndex as number
+                ] as TriggerItem[]
+              }
+              showModal={triggerCardModal.status}
+              handleCloseModal={closeTriggerCardModal}
+              handleAdd={handleAddFollowUp as () => void}
+              handleClone={handleCloneFollowUp as () => void}
+              handleEdit={handleEditFollowUp as () => void}
+              handleDelete={handleDeleteFollowUp as () => void}
+              handleClose={handleCloseFollowUpModal as () => void}
+              showAddEditModal={showFollowUpModal}
+              selectedQuestionInfo={selectedQuestionInfo}
+              walkMeIdPrefix={[
+                ...walkMeIdPrefix,
+                "question options",
+                "trigger modal",
+                "follow up tasks",
+              ]}
+            />
+          )}
           <CModal
             open={deleteQuestionConfirmationModal}
             onConfirm={handleConfirmQuestionDelete}

@@ -25,6 +25,7 @@ import {
   CSortableContainer,
   type ExtendedDragEndEvent,
 } from "@/core/components/drag-drop";
+import { isNonEmptyValue } from "@/utils";
 
 import AddEditSectionModal from "./components/add-edit-section-modal/AddEditSectionModal";
 import QuestionCard from "./components/question-card/QuestionCard";
@@ -340,7 +341,7 @@ const Questions: React.FC<{ walkMeIdPrefix: string[] }> = ({
       </CModal>
 
       <Box className="ct-questions-cards-wrapper">
-        {watchQuestionList?.length === 0 ? (
+        {!isNonEmptyValue(watchQuestionList) ? (
           <CNoData
             title={QUESTIONS.noQuestionPlaceholder}
             variant="box"

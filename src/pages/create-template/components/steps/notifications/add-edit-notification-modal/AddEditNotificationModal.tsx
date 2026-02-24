@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Box, Tooltip } from "@mui/material";
+import { Box, ClickAwayListener, Tooltip } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 
 import CSelect from "@/core/components/form/select";
@@ -51,9 +51,12 @@ const AddEditNotificationModal = ({
   showNotificationModal,
   walkMeIdPrefix,
   handleCloseNotificationModal,
+  questionId = null,
+  answerIndex = null,
   watchQuestionList,
   getQuestionLabel,
   getAnswerLabel,
+  optionLevelTrigger = false,
 }) => {
   const { NOTIFICATIONS, FOLLOWUP_TASKS } = useCreateTemplateTranslations();
   const { GENERAL } = useCommonTranslation();
@@ -63,17 +66,18 @@ const AddEditNotificationModal = ({
     handleSubmit,
     getValues,
     setValue,
-    formState: { errors: formErrors },
+    reset,
+    formState: { errors },
+    clearErrors,
   } = useForm<{
     notification: NotificationSchema;
   }>({
     resolver: zodResolver(notificationStepSchema),
     defaultValues: { notification: DEFAULT_NOTIFICATION },
-    mode: "onBlur",
+    mode: "onChange",
   });
   const { getFormValues, setFormValue } = useCreateTemplateForm();
   const watchNotification = watch("notification");
-
   const [customRecipientModal, setCustomRecipientModal] = useState({
     status: false,
     type: null,
@@ -82,6 +86,7 @@ const AddEditNotificationModal = ({
   const [orgPositionsOptions, setOrgPositionsOptions] = useState([]);
   const [orgListOptions, setOrgListOptions] = useState([]);
   const [orgTypeOptions, setOrgTypeOptions] = useState([]);
+  const [conditionTooltipOpen, setConditionTooltipOpen] = useState(false);
   const { data: orgLevelsData } = useGetOrgLevels();
   const { data: orgPositionsData, mutateAsync: getOrgPositions } =
     useGetOrgPositions();
@@ -96,6 +101,12 @@ const AddEditNotificationModal = ({
       status: false,
       type: null,
     });
+  };
+
+  const handleCloseModal = () => {
+    reset({ notification: DEFAULT_NOTIFICATION });
+    closeCustomRecipientModal();
+    handleCloseNotificationModal();
   };
 
   const handleAddCustomRecipient = () => {
@@ -118,8 +129,7 @@ const AddEditNotificationModal = ({
         notificationsList.push(watchNotification);
       }
       setFormValue("notifications", notificationsList);
-      closeCustomRecipientModal();
-      handleCloseNotificationModal();
+      handleCloseModal();
     })();
   };
 
@@ -135,12 +145,14 @@ const AddEditNotificationModal = ({
       );
     }
     currentNotification.recipients = updatedRecipients;
-    setValue("notification.recipients", updatedRecipients);
+    setValue("notification.recipients", updatedRecipients, {
+      shouldValidate: true,
+    });
   };
 
   const isRecipientSelected = (recipient: string) => {
     const currentNotification = getValues("notification") || {};
-    return currentNotification.recipients.includes(recipient) ?? false;
+    return currentNotification.recipients?.includes(recipient) ?? false;
   };
 
   const handleEditCustomRecipient = () => {
@@ -155,7 +167,7 @@ const AddEditNotificationModal = ({
     currentNotification.customRecipients = {};
     currentNotification.isRelative = false;
     currentNotification.isOrgTypeRelative = false;
-    setValue("notification", currentNotification);
+    setValue("notification", currentNotification, { shouldValidate: true });
   };
 
   const handleRecipientSubmit = (recipientData) => {
@@ -164,7 +176,7 @@ const AddEditNotificationModal = ({
     updatedNotification.customRecipients = recipientData.customRecipients;
     updatedNotification.isRelative = recipientData.isRelative;
     updatedNotification.isOrgTypeRelative = recipientData.isOrgTypeRelative;
-    setValue("notification", updatedNotification);
+    setValue("notification", updatedNotification, { shouldValidate: true });
   };
 
   useEffect(() => {
@@ -197,9 +209,33 @@ const AddEditNotificationModal = ({
       };
       setValue("notification", clonedData);
     } else {
-      setValue("notification", getDefaultNotification());
+      const defaultNotification = getDefaultNotification();
+      if (optionLevelTrigger) {
+        defaultNotification.condition = "ANSWER";
+        defaultNotification.questionId = questionId;
+        defaultNotification.answerIndex = String(answerIndex);
+      }
+      setValue("notification", defaultNotification);
     }
-  }, [showNotificationModal, setValue]);
+  }, [
+    showNotificationModal,
+    setValue,
+    optionLevelTrigger,
+    questionId,
+    answerIndex,
+  ]);
+
+  useEffect(() => {
+    clearErrors([
+      "notification.questionId",
+      "notification.answerIndex",
+      "notification.recipients",
+      "notification.customRecipients",
+      "notification.messageTemplates.subject",
+      "notification.messageTemplates.message",
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchNotification.condition]);
 
   const getQuestionsList = (): Array<{ label: string; value: string }> => {
     return watchQuestionList
@@ -295,7 +331,7 @@ const AddEditNotificationModal = ({
   return (
     <CModal
       open={showNotificationModal?.status}
-      onClose={handleCloseNotificationModal}
+      onClose={handleCloseModal}
       title={
         showNotificationModal?.type === NOTIFICATIONS_ACTION_TYPE.EDIT
           ? NOTIFICATIONS.ADD_NOTIFICATION_MODAL.editNotification
@@ -309,70 +345,91 @@ const AddEditNotificationModal = ({
     >
       <ModalBody>
         <Box className="ct-add-notification-modal">
-          <Box className="ct-add-notification-modal__select">
-            <Controller
-              name="notification.condition"
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <CSelect
-                  {...field}
-                  error={!!error}
-                  options={
-                    NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.CONDITION_OPTIONS
-                  }
-                  optionValueKey="value"
-                  optionLabelKey="label"
-                  required={true}
-                  className="ct-add-notification-modal__select-condition"
-                  label={NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.condition}
-                  placeholder={
-                    NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields
-                      .conditionPlaceholder
-                  }
-                />
-              )}
-            />
-            {watchNotification.condition ===
-            TRIGGER_CONDITIONS.TASK_COMPLIANCE ? (
-              <Tooltip
-                title={
-                  NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.conditionTooltip
-                }
-                slotProps={{
-                  tooltip: {
-                    sx: {
-                      fontSize: "var(--logile-size-secondary-text)",
-                    },
-                  },
-                }}
-                placement="top-start"
-              >
-                <Box className="mt-24">
-                  <CIconButton
-                    size="small"
-                    severity="primary"
-                    variant="text"
+          {!optionLevelTrigger && (
+            <Box className="ct-add-notification-modal__select">
+              <Controller
+                name="notification.condition"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <CSelect
+                    {...field}
+                    error={!!error}
+                    helperText={error ? error.message : ""}
+                    options={
+                      NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.CONDITION_OPTIONS
+                    }
+                    optionValueKey="value"
+                    optionLabelKey="label"
+                    required={true}
+                    className="ct-add-notification-modal__select-condition"
+                    label={
+                      NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields.condition
+                    }
+                    placeholder={
+                      NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields
+                        .conditionPlaceholder
+                    }
+                  />
+                )}
+              />
+              {watchNotification.condition ===
+              TRIGGER_CONDITIONS.TASK_COMPLIANCE ? (
+                <ClickAwayListener
+                  onClickAway={() => setConditionTooltipOpen(false)}
+                >
+                  <Tooltip
+                    title={
+                      NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields
+                        .conditionTooltip
+                    }
+                    slotProps={{
+                      tooltip: {
+                        sx: {
+                          fontSize: "var(--logile-size-secondary-text)",
+                        },
+                      },
+                    }}
+                    placement="top-start"
+                    open={conditionTooltipOpen}
+                    onClose={() => setConditionTooltipOpen(false)}
+                    disableFocusListener
+                    disableHoverListener
+                    disableTouchListener
                   >
-                    <CSvgIcon component={InfoCircle} />
-                  </CIconButton>
-                </Box>
-              </Tooltip>
-            ) : (
-              ""
-            )}
-          </Box>
-          {watchNotification.condition === TRIGGER_CONDITIONS.ANSWER ? (
+                    <Box
+                      className="mt-24"
+                      onClick={() => setConditionTooltipOpen(true)}
+                    >
+                      <CIconButton
+                        size="small"
+                        severity="primary"
+                        variant="text"
+                      >
+                        <CSvgIcon component={InfoCircle} />
+                      </CIconButton>
+                    </Box>
+                  </Tooltip>
+                </ClickAwayListener>
+              ) : (
+                ""
+              )}
+            </Box>
+          )}
+          {!optionLevelTrigger &&
+          watchNotification.condition === TRIGGER_CONDITIONS.ANSWER ? (
             <>
               <Box>
                 <Controller
                   name="notification.questionId"
                   control={control}
-                  render={({ field }) => (
+                  render={({ field, fieldState: { error } }) => (
                     <CSelect
                       {...field}
                       options={getQuestionsList()}
                       optionValueKey="value"
                       optionLabelKey="label"
+                      error={!!error}
+                      helperText={error ? error.message : ""}
                       menuWidth="var(--size-80)"
                       label={
                         NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields
@@ -409,12 +466,14 @@ const AddEditNotificationModal = ({
                   <Controller
                     name="notification.answerIndex"
                     control={control}
-                    render={({ field }) => (
+                    render={({ field, fieldState: { error } }) => (
                       <CSelect
                         {...field}
                         options={answerOptions}
                         optionValueKey="value"
                         optionLabelKey="label"
+                        error={!!error}
+                        helperText={error ? error.message : ""}
                         menuWidth="var(--size-80)"
                         label={
                           NOTIFICATIONS.ADD_NOTIFICATION_MODAL.fields
@@ -509,13 +568,11 @@ const AddEditNotificationModal = ({
                 {NOTIFICATIONS.ADD_NOTIFICATION_MODAL.labels.customRecipient}
               </CButton>
             </Box>
-            {watchNotification?.recipients?.length === 0 &&
-              formErrors?.notification?.recipients &&
-              !isNonEmptyValue(watchNotification?.customRecipients) && (
-                <Box className="ct-add-notification-modal__recipients-count-error">
-                  {formErrors?.notification?.recipients?.message}
-                </Box>
-              )}
+            {errors.notification?.recipients && (
+              <Box className="ct-add-notification-modal__recipients-count-error">
+                {NOTIFICATIONS.ADD_NOTIFICATION_MODAL.recipientsCountError}
+              </Box>
+            )}
           </Box>
           {isNonEmptyValue(watchNotification.customRecipients) && (
             <Box className="ct-add-notification-modal__custom-recipient-section">

@@ -226,7 +226,8 @@
         "customRecipient": "Destinatario personalizado",
         "subject": "Asunto",
         "message": "Mensaje"
-      }
+      },
+      "recipientsCountError": "Se requiere al menos un destinatario"
     },
     "CUSTOM_RECIPIENT_MODAL": {
       "title": "Destinatario personalizado",

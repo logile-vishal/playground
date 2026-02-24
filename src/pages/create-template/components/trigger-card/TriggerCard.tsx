@@ -26,9 +26,12 @@ import { useCreateTemplateTranslations } from "@/pages/create-template/translati
 import { TruncateTextWithSeeMore } from "@/utils/truncate-label";
 import clsx from "@/utils/clsx";
 import { convertToTitleCase } from "@/utils/convert-to-title-case";
+import { isNonEmptyValue } from "@/utils";
 
 import "./TriggerCard.scss";
 import { CUSTOM_RECIPIENT_LABEL } from "../../constants/triggers";
+import type { NotificationSchema } from "../../form-schema/steps/notifications";
+import type { FollowUpTaskSchema } from "../../form-schema/steps/followup-tasks";
 
 const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
   item,
@@ -131,9 +134,9 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
             <WildcardLabel
               label={
                 type === TRIGGER_TYPE.notification
-                  ? ((item as NotificationCardProps["item"])?.messageTemplates
-                      ?.subject ?? "")
-                  : (item as FollowUpCardProps["item"]).triggerTaskName
+                  ? ((item as NotificationSchema)?.messageTemplates?.subject ??
+                    "")
+                  : (item as FollowUpTaskSchema)?.triggerTaskName
               }
               truncate={false}
             />
@@ -143,10 +146,7 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
         {(() => {
           const recipientsList = convertToTitleCase(item.recipients.join(", "));
           // TODO: revert custom recipient logic once it is updated from backend
-          const hasCustomRecipients =
-            item.recipientOrgs?.length > 0 &&
-            item.recipientOrgTypes?.length > 0 &&
-            item.recipientPositions?.length > 0;
+          const hasCustomRecipients = isNonEmptyValue(item.customRecipients);
 
           const totalRecipientsCount =
             item.recipients.length + (hasCustomRecipients ? 1 : 0);
@@ -157,7 +157,7 @@ const TriggerCard: React.FC<NotificationCardProps | FollowUpCardProps> = ({
               ? `${recipientsList}${recipientsList ? ", " : ""}${CUSTOM_RECIPIENT_LABEL}`
               : recipientsList,
             className: "trigger-card__content-recipients",
-            iconVisible: totalRecipientsCount > 1,
+            iconVisible: totalRecipientsCount >= 1,
             icon:
               totalRecipientsCount > 1
                 ? TeamLine

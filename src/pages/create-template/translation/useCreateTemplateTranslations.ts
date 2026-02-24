@@ -537,6 +537,9 @@ export const useCreateTemplateTranslations = () => {
         subject: t("NOTIFICATIONS.ADD_NOTIFICATION_MODAL.labels.subject"),
         message: t("NOTIFICATIONS.ADD_NOTIFICATION_MODAL.labels.message"),
       },
+      recipientsCountError: t(
+        "NOTIFICATIONS.ADD_NOTIFICATION_MODAL.recipientsCountError"
+      ),
     },
     CUSTOM_RECIPIENT_MODAL: {
       title: t("NOTIFICATIONS.CUSTOM_RECIPIENT_MODAL.title"),

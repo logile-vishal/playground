@@ -19,7 +19,7 @@ import "./Notifications.scss";
 import TriggerCard from "../../trigger-card/TriggerCard";
 import { useCreateTemplateTranslations } from "../../../translation/useCreateTemplateTranslations";
 import { TRIGGER_TYPE } from "../../../constants/constant";
-import AddEditNotificationModal from "./AddEditNotificationModal/AddEditNotificationModal";
+import AddEditNotificationModal from "./add-edit-notification-modal/AddEditNotificationModal";
 
 export const Notifications: React.FC<{ walkMeIdPrefix: string[] }> = ({
   walkMeIdPrefix,

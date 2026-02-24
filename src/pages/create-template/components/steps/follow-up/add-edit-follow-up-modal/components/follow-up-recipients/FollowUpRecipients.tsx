@@ -41,7 +41,7 @@ const FollowUpRecipients = ({
   setValue,
   customRecipientModal,
   setCustomRecipientModal,
-  shouldShowErrors,
+  errors,
 }) => {
   const [orgLevelOptions, setOrgLevelOptions] = useState([]);
   const [orgPositionsOptions, setOrgPositionsOptions] = useState([]);
@@ -67,7 +67,9 @@ const FollowUpRecipients = ({
       );
     }
     currentFollowUp.recipients = updatedRecipients;
-    setValue("followUp", currentFollowUp);
+    setValue("followUp.recipients", updatedRecipients, {
+      shouldValidate: true,
+    });
   };
 
   const isRecipientSelected = (recipient: string) => {
@@ -94,7 +96,7 @@ const FollowUpRecipients = ({
     currentFollowUp.customRecipients = {};
     currentFollowUp.isRelative = false;
     currentFollowUp.isOrgTypeRelative = false;
-    setValue("followUp", currentFollowUp);
+    setValue("followUp", currentFollowUp, { shouldValidate: true });
   };
 
   const handleRecipientSubmit = (recipientData) => {
@@ -103,7 +105,7 @@ const FollowUpRecipients = ({
     updatedFollowUp.customRecipients = recipientData.customRecipients;
     updatedFollowUp.isRelative = recipientData.isRelative;
     updatedFollowUp.isOrgTypeRelative = recipientData.isOrgTypeRelative;
-    setValue("followUp", updatedFollowUp);
+    setValue("followUp", updatedFollowUp, { shouldValidate: true });
   };
 
   const handleTaskSharingChange = (e) => {
@@ -257,13 +259,11 @@ const FollowUpRecipients = ({
             </CButton>
           )}
         </Box>
-        {shouldShowErrors &&
-          watchFollowUp?.recipients?.length === 0 &&
-          !isNonEmptyValue(watchFollowUp?.customRecipients) && (
-            <Box className="ct-follow-up-recipients__recipients-count-error">
-              {EDITOR_ERROR.REQUIRED_FIELD}
-            </Box>
-          )}
+        {errors?.followUp?.recipients && (
+          <Box className="ct-follow-up-recipients__recipients-count-error">
+            {EDITOR_ERROR.REQUIRED_FIELD}
+          </Box>
+        )}
       </Box>
 
       {isNonEmptyValue(watchFollowUp?.customRecipients) && (

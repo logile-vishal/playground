@@ -1,23 +1,8 @@
+import type { FollowUpTaskSchema } from "../form-schema/steps/followup-tasks";
+import type { NotificationSchema } from "../form-schema/steps/notifications";
+
 export type TriggerCardProps = {
-  item: {
-    id: number;
-    index?: string;
-    condition?: string;
-    questionId?: string;
-    answerIndex?: string;
-    messageTemplates?: {
-      id: number;
-      subject: string;
-      body: string;
-    };
-    triggerTaskName?: string;
-    recipients?: string[];
-    recipientsIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
-    recipientOrgs?: [];
-    recipientOrgTypes?: [];
-    recipientPositions?: [];
-    recipientOrgTypePositions?: [];
-  };
+  item: NotificationSchema | FollowUpTaskSchema;
   index?: number;
   getQuestionLabelById?: (questionId: string) => string;
   getAnswerLabelById?: (questionId: string, answerId: string) => string;
@@ -29,21 +14,9 @@ export type TriggerCardProps = {
   walkMeIdPrefix?: string[];
 };
 
-export type NotificationCardProps = TriggerCardProps & {
-  item: TriggerCardProps["item"] & {
-    messageTemplates: {
-      id: number;
-      subject: string;
-      body: string;
-    };
-  };
-};
+export type NotificationCardProps = TriggerCardProps;
 
-export type FollowUpCardProps = TriggerCardProps & {
-  item: TriggerCardProps["item"] & {
-    triggerTaskName: string;
-  };
-};
+export type FollowUpCardProps = TriggerCardProps;
 
 export type OrgProps = {
   orgId: number;

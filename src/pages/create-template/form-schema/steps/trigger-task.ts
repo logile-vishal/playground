@@ -1,5 +1,7 @@
 import { z as zod } from "zod";
 
+import { isNonEmptyValue } from "@/utils";
+
 /**
  * Common schema for recipient organization
  */
@@ -44,11 +46,9 @@ export const triggerConditionSchema = zod.object({
   condition: zod
     .enum(["TASK_COMPLETED", "TASK_EXPIRED", "TASK_COMPLIANCE", "ANSWER"])
     .nullable()
-    .refine((val) => val !== null && val !== undefined, {
-      message: "Condition is required",
-    }),
-  questionId: zod.string().nullable().optional(),
-  answerIndex: zod.string().nullable().optional(),
+    .refine((value) => value !== null, { message: "Field is required" }),
+  questionId: zod.string().nullable(),
+  answerIndex: zod.string().nullable(),
   recipients: zod.array(zod.string()).optional(),
 });
 
@@ -75,7 +75,8 @@ export const triggerNewCustomRecipientStepSchema = zod.object({
 });
 
 /**
- * Base schema for trigger tasks (notifications: MESSAGE and follow-up tasks: TASK)
+ * Base fields for trigger tasks (notifications: MESSAGE and follow-up tasks: TASK)
+ * Note: We define base fields separately because discriminatedUnion cannot be merged directly
  */
 export const baseTriggerTaskSchema = zod
   .object({
@@ -84,6 +85,68 @@ export const baseTriggerTaskSchema = zod
   })
   .merge(triggerConditionSchema)
   .merge(triggerRecipientSchema);
+
+/**
+ * Refinement function for ANSWER condition validation
+ * Use this when creating final schemas that need the conditional validation
+ */
+export const answerConditionRefinement = <
+  T extends {
+    condition?: string;
+    questionId?: string | null;
+    answerIndex?: string | null;
+  },
+>(
+  data: T,
+  ctx: zod.RefinementCtx
+) => {
+  if (data.condition === "ANSWER") {
+    if (!data.questionId || data.questionId.trim() === "") {
+      ctx.addIssue({
+        code: zod.ZodIssueCode.custom,
+        message: "Field is required",
+        path: ["questionId"],
+      });
+    }
+    if (!data.answerIndex || data.answerIndex.trim() === "") {
+      ctx.addIssue({
+        code: zod.ZodIssueCode.custom,
+        message: "Field is required",
+        path: ["answerIndex"],
+      });
+    }
+  }
+};
+
+/**
+ * Refinement function for recipients validation
+ * Ensures at least one of recipients or customRecipients has a value
+ */
+export const recipientsRequiredRefinement = <
+  T extends {
+    recipients?: string[];
+    customRecipients?: {
+      orgLevel?: number;
+      orgs?: number[];
+      orgTypes?: number[];
+      positions?: number[];
+    };
+  },
+>(
+  data: T,
+  ctx: zod.RefinementCtx
+) => {
+  const hasRecipients = isNonEmptyValue(data.recipients);
+  const hasCustomRecipients = isNonEmptyValue(data.customRecipients);
+
+  if (!hasRecipients && !hasCustomRecipients) {
+    ctx.addIssue({
+      code: zod.ZodIssueCode.custom,
+      message: "At least one recipient is required",
+      path: ["recipients"],
+    });
+  }
+};
 
 export type TriggerCondition = zod.infer<typeof triggerConditionSchema>;
 export type TriggerRecipient = zod.infer<typeof triggerRecipientSchema>;
