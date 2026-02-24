@@ -1,26 +1,196 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
 .checkbox {
+  // CONTAINER STYLES
+  @include flex-center(flex-start, center, var(--space-m));
+  width: fit-content;
+
+  // LABEL PLACEMENT MODIFIERS
+  &--label-start {
+    flex-direction: row-reverse;
+  }
+  &--label-end {
+    flex-direction: row;
+  }
+  &__label {
+    @include form-label($isClickable: true);
+
+    // Required field indicator (asterisk)
+    &--required {
+      @include form-label($required: true);
+    }
+  }
+  &:has(.MuiCheckbox-root.Mui-disabled) {
+    cursor: not-allowed;
+    .checkbox__label {
+      cursor: default;
+    }
+  }
+
+  // MUI CHECKBOX ROOT
   .MuiCheckbox-root {
     height: var(--height-checkbox);
     width: var(--height-checkbox);
     padding: 0;
-  }
-  @include flex-center(flex-start, center, var(--space-m));
-  width: fit-content;
+    cursor: pointer;
+    svg {
+      stroke: var(--logile-border-primary);
+      fill: var(--logile-bg-base);
+    }
 
-  &--label-start {
-    flex-direction: row-reverse;
+    // --- Hover ---
+    &:hover:not(.Mui-disabled) {
+      svg {
+        stroke: var(--logile-border-brand-primary-bold);
+        fill: var(--logile-bg-base);
+      }
+    }
+
+    // --- Focus ---
+    &.Mui-focusVisible:not(.Mui-disabled) {
+      stroke: var(--logile-border-primary);
+      fill: var(--logile-bg-base);
+      box-shadow: 0 0 0 1px var(--logile-focus-ring-default);
+      border-radius: var(--radius-xs);
+    }
+
+    // --- Disabled ---
+    &.Mui-disabled {
+      cursor: pointer;
+      svg {
+        stroke: var(--logile-border-state-disabled);
+        fill: transparent;
+      }
+    }
+
+    //<----------------------------->
+    // CHECKED STATE
+    &.Mui-checked {
+      // --- Default ---
+      svg {
+        fill: var(--logile-bg-primary);
+        stroke: transparent;
+        path {
+          stroke: var(--logile-icon-white);
+        }
+      }
+
+      // --- Hover ---
+      &:hover:not(.Mui-disabled) {
+        svg {
+          fill: var(--logile-bg-primary);
+          stroke: transparent;
+        }
+      }
+
+      // --- Focus ---
+      &.Mui-focusVisible:not(.Mui-disabled) {
+        svg {
+          fill: var(--logile-bg-primary);
+          stroke: none;
+          outline: none;
+          box-shadow: 0 0 0 2px var(--logile-focus-ring-default);
+          border-radius: var(--radius-xs);
+        }
+      }
+
+      // --- Disabled ---
+      &.Mui-disabled {
+        cursor: not-allowed;
+        svg {
+          stroke: transparent;
+          fill: var(--logile-bg-state-disabled);
+          path {
+            stroke: var(--logile-icon-state-disabled);
+          }
+        }
+      }
+    }
+    &.MuiCheckbox-indeterminate {
+      & svg {
+        stroke: var(--logile-border-primary);
+        fill: var(--logile-bg-primary);
+      }
+      // --- Disabled ---
+      &.Mui-disabled {
+        cursor: not-allowed;
+        svg {
+          fill: var(--logile-bg-state-disabled);
+          rect:last-of-type {
+            stroke: var(--logile-icon-state-disabled);
+          }
+        }
+      }
+    }
   }
 
-  &--label-end {
-    flex-direction: row;
-  }
+  // ERROR VARIANT
+  &--error {
+    .MuiCheckbox-root {
+      // --- Unchecked Error ---
+      svg {
+        stroke: var(--logile-border-state-violation);
+        fill: var(--logile-bg-base);
+      }
 
-  &__label {
-    @include form-label($isClickable: true);
-    &--required {
-      @include form-label($required: true);
+      // --- Hover (unchecked error) ---
+      &:hover:not(.Mui-disabled) {
+        svg {
+          stroke: var(--logile-border-state-violation-bold);
+        }
+      }
+
+      // --- Focus (unchecked error) ---
+      &.Mui-focusVisible:not(.Mui-disabled) {
+        box-shadow: 0 0 0 1px var(--logile-focus-ring-error);
+        border-radius: var(--radius-s);
+      }
+
+      // --- Disabled (unchecked error) ---
+      &.Mui-disabled {
+        svg {
+          stroke: var(--logile-border-state-violation-subtle);
+        }
+      }
+
+      // --- Checked/Indeterminate Error ---
+      &.Mui-checked,
+      &.MuiCheckbox-indeterminate {
+        svg {
+          fill: var(--logile-bg-state-violation);
+          stroke: var(--logile-border-state-violation);
+          path {
+            stroke: var(--logile-icon-white);
+          }
+        }
+
+        // --- Hover (checked error) ---
+        &:hover:not(.Mui-disabled) {
+          svg {
+            fill: var(--logile-bg-state-violation-bold);
+            stroke: var(--logile-border-state-violation-bold);
+          }
+        }
+
+        // --- Focus (checked error) ---
+        &.Mui-focusVisible:not(.Mui-disabled) {
+          svg {
+            box-shadow: 0 0 0 2px var(--logile-focus-ring-error);
+            border-radius: var(--radius-s);
+          }
+        }
+
+        // --- Disabled (checked error) ---
+        &.Mui-disabled {
+          svg {
+            fill: var(--logile-bg-state-violation-alpha);
+            stroke: transparent;
+            path {
+              stroke: var(--logile-icon-state-disabled);
+            }
+          }
+        }
+      }
     }
   }
 }

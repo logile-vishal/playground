@@ -6,7 +6,6 @@
   --switch-color-checked: var(--logile-bg-container-1);
   --switch-bg-checked: var(--logile-bg-primary);
   --switch-bg-unchecked: var(--logile-bg-surface-subtle);
-  --switch-opacity-disabled: 0.5;
 
   // Default size variables (medium)
   --switch-width: var(--space-5xl);
@@ -18,12 +17,12 @@
 
   display: inline-flex;
   gap: var(--space-xs);
-
+  align-items: center;
   .switch__label {
     @include form-label;
   }
 
-  .switch__input {
+  .switch__input.MuiSwitch-root {
     padding: 0;
     width: var(--switch-width);
     height: var(--switch-height);
@@ -44,24 +43,6 @@
           opacity: 1;
           border: 0;
         }
-
-        &.Mui-disabled .MuiSwitch-track {
-          opacity: var(--switch-opacity-disabled);
-        }
-      }
-      &.Mui-checked + .MuiSwitch-track {
-        background-color: var(--switch-bg-checked);
-        opacity: 1;
-        border: 0;
-      }
-
-      // Disabled states
-      &.Mui-disabled .MuiSwitch-thumb {
-        opacity: var(--switch-opacity-disabled);
-      }
-
-      &.Mui-disabled + .MuiSwitch-track {
-        opacity: var(--switch-opacity-disabled);
       }
     }
 
@@ -71,15 +52,36 @@
       width: var(--switch-thumb-size);
       height: var(--switch-thumb-size);
       box-shadow: none;
+      background-color: var(--logile-icon-white);
     }
 
     // Track styles
     .MuiSwitch-track {
       border-radius: var(--switch-track-radius);
-      background-color: var(--switch-bg-unchecked);
       opacity: 1;
+      position: relative;
+      background-color: var(--logile-bg-surface-subtle);
+    }
+    & .Mui-disabled {
+      & .MuiSwitch-thumb {
+        background-color: var(--logile-icon-tertiary);
+      }
     }
   }
+  &:has(.Mui-checked) {
+    .switch__input.MuiSwitch-root .MuiSwitch-track {
+      background-color: var(--logile-bg-primary);
+    }
+  }
+  &:has(.Mui-disabled.Mui-checked) {
+    .switch__input .MuiSwitch-thumb {
+      background-color: var(--logile-icon-tertiary);
+    }
+    .switch__input.MuiSwitch-root .MuiSwitch-track {
+      background-color: var(--logile-bg-surface-subtle);
+    }
+  }
+
   &--error {
     .switch__input .MuiSwitch-track {
       background-color: var(--logile-border-state-violation-bold-subtle);
@@ -100,6 +102,44 @@
     --switch-transform: 34px;
     --switch-thumb-size: 22px;
     --switch-track-radius: 15px;
+
+    & .switch__input.MuiSwitch-root {
+      &::before {
+        content: "ON";
+        position: absolute;
+        left: 15%;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--logile-text-white);
+        opacity: 0;
+        transition: opacity 200ms;
+        line-height: var(--logile-line-height-body);
+      }
+      &::after {
+        content: "OFF";
+        position: absolute;
+        right: 10%;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--logile-text-secondary);
+        opacity: 1;
+        transition: opacity 200ms;
+      }
+      &:has(.Mui-disabled) {
+        &::before,
+        &::after {
+          color: var(--logile-text-state-disabled);
+        }
+      }
+      &:has(.Mui-checked) {
+        &::before {
+          opacity: 1;
+        }
+        &::after {
+          opacity: 0;
+        }
+      }
+    }
   }
 
   // Small variant

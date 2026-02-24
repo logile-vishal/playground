@@ -38,6 +38,7 @@ export type MultiSelectWithChipProps = {
   hideInputEndIcon?: boolean;
   renderInputChipLabel?: (item: NestedMenuItem) => React.ReactNode | string;
   menuHeight?: number | string;
+  disabled?: boolean;
 };
 
 const CMultiSelectWithChip = ({
@@ -62,6 +63,7 @@ const CMultiSelectWithChip = ({
   hideInputEndIcon = false,
   renderInputChipLabel,
   menuHeight,
+  disabled,
 }: MultiSelectWithChipProps) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedBadges, setSelectedBadges] = useState<NestedMenuItem[]>([]);
@@ -181,10 +183,13 @@ const CMultiSelectWithChip = ({
     <div
       className={clsx({
         "multi-select-with-chip": true,
+        "multi-select-with-chip--disabled": Boolean(disabled),
         [className]: Boolean(className),
       })}
+      aria-expanded={Boolean(searchBarAnchorRef)}
     >
       <CInputWithChip
+        disabled={disabled}
         label={label}
         isInLineLabel={isInLineLabel}
         searchText={inputValue}

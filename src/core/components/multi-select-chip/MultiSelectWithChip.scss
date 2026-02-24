@@ -1,3 +1,21 @@
 .multi-select-with-chip {
   width: 100%;
+  &[aria-expanded="true"] {
+    .input-with-chip__input {
+      border: var(--border-s) solid var(--logile-border-brand-primary-subtle);
+    }
+  }
+  &--disabled {
+    color: var(--logile-text-color-disabled);
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.2s ease-in-out;
+      opacity: 0.5;
+      z-index: 1;
+    }
+  }
 }

@@ -66,7 +66,6 @@
       align-items: center;
       flex-shrink: 0;
       gap: var(--space-s);
-
       overflow-x: auto;
       &::-webkit-scrollbar {
         display: none;
@@ -139,6 +138,24 @@
     }
     .MuiOutlinedInput-input {
       color: var(--logile-text-primary);
+    }
+  }
+  &--disabled {
+    .input-with-chip__input {
+      border-color: var(--logile-border-state-disabled);
+      color: var(--logile-text-state-disabled);
+      background-color: var(--logile-bg-state-disabled-subtle);
+      &-content-chip-wrapper .MuiButtonBase-root.MuiChip-root {
+        color: var(--logile-text-state-disabled);
+        svg {
+          fill: var(--logile-icon-state-disabled);
+        }
+      }
+    }
+    .input-with-chip__input-icon {
+      svg {
+        fill: var(--logile-text-state-disabled);
+      }
     }
   }
   &--inline-label {

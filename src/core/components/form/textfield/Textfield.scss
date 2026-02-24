@@ -1,6 +1,19 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
+// Default textfield styles
 .textfield {
+  // CSS Custom Properties for variant-based styling
+  --textfield-bg: var(--logile-bg-container-1);
+  --textfield-border-color: var(--logile-border-primary);
+  --textfield-border-color-hover: var(--logile-border-bold-subtle);
+  --textfield-border-color-focus: var(--logile-border-brand-primary-subtle);
+  --textfield-border-color-disabled: var(--logile-border-state-disabled);
+  --textfield-focus-ring: var(--logile-focus-ring-default);
+  --textfield-text-color: var(--logile-text-primary);
+  --textfield-text-color-disabled: var(--logile-text-state-disabled);
+  --textfield-bg-disabled: var(--logile-bg-state-disabled-subtle);
+  --textfield-icon-color: var(--logile-icon-secondary);
+  --textfield-placeholder-color: var(--logile-text-tertiary);
   --helpertext-height: 26px;
 
   @include flex-box(column);
@@ -8,21 +21,62 @@
 
   .MuiOutlinedInput-root {
     min-height: var(--height-input);
-    border-radius: var(--radius-s);
+    border-radius: var(--radius-m);
     padding: 0 var(--space-m);
+    background: var(--textfield-bg);
+    border: 1px solid var(--textfield-border-color);
+    transition: none;
+
+    &:hover {
+      border-color: var(--textfield-border-color-hover);
+    }
+
+    &.Mui-focused {
+      box-shadow:
+        0 0 0 2px var(--textfield-bg),
+        0 0 0 4px var(--textfield-focus-ring);
+    }
+
+    &.Mui-disabled {
+      background: var(--textfield-bg-disabled);
+      border-color: var(--textfield-border-color-disabled);
+
+      .MuiOutlinedInput-input {
+        color: var(--textfield-text-color-disabled);
+        -webkit-text-fill-color: var(--textfield-text-color-disabled);
+      }
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border: none;
+      outline: none;
+    }
   }
+
   .MuiOutlinedInput-input {
     font-size: var(--logile-size-body);
     padding: 0;
+    color: var(--textfield-text-color);
+    outline: none;
+    border: none;
+
+    &::placeholder {
+      color: var(--textfield-placeholder-color);
+      @include input-placeholder;
+    }
   }
+
   svg {
     height: var(--size-input-svg);
     width: var(--size-input-svg);
+    color: var(--textfield-icon-color);
   }
+
   .MuiFormHelperText-root {
     margin: 0;
     @include helper-text;
   }
+
   &__label {
     @include form-label;
     color: var(--logile-text-secondary);
@@ -32,27 +86,39 @@
     flex-direction: row;
     align-items: center;
     gap: var(--space-xs);
+
     &.textfield-with-helper-text {
       .textfield__label {
         margin-bottom: var(--helpertext-height);
       }
     }
+
     &.textfield--required {
       gap: var(--space-m);
     }
   }
+
   &--required {
     & .textfield__label {
       @include form-label($required: true);
     }
   }
+
+  // Error variant - overrides CSS custom properties
   &--error {
+    --textfield-border-color: var(--logile-border-state-violation);
+    --textfield-border-color-hover: var(--logile-border-state-violation-bold);
+    --textfield-border-color-focus: var(--logile-border-state-violation);
+    --textfield-focus-ring: var(--logile-focus-ring-error);
+
     & .textfield__label {
       @include form-label($error: true);
     }
+
     & .MuiFormHelperText-root.Mui-error {
       @include helper-text($error: true);
     }
+
     .MuiFormHelperText-root {
       @include helper-text;
     }

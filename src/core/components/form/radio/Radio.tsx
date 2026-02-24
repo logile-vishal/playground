@@ -11,60 +11,14 @@ import { useWalkmeId } from "@/core/hooks/useWalkmeId";
 import type {
   LabelPlacement,
   RadioSize,
-  RadioCheckedStatus,
-  RadioState,
   RadioProp,
 } from "@/core/components/form/types/radio.type";
 import {
-  RADIO_CHECKED_STATUS,
-  RADIO_VARIANT,
   RADIO_SIZE,
   LABEL_PLACEMENT,
 } from "@/core/components/form/constants/radio";
 
-import { radioPalette } from "./radio.palette";
 import "./Radio.scss";
-
-const getRadioStyle = (
-  RadioCheckedStatus: RadioCheckedStatus,
-  RadioState: RadioState
-) => {
-  const palette = radioPalette[RadioCheckedStatus][RadioState];
-
-  return {
-    root: {
-      ...palette.normal.root,
-
-      "&:hover": {
-        ...palette.hover.root,
-      },
-
-      "&.Mui-focusVisible": {
-        ...palette.focus.root,
-      },
-
-      "&.Mui-disabled": {
-        ...palette.disabled.root,
-      },
-    },
-
-    icon: {
-      ...palette.normal.icon,
-
-      "&:hover": {
-        ...palette.hover.icon,
-      },
-
-      ".Mui-focusVisible &": {
-        ...palette.focus.icon,
-      },
-
-      ".Mui-disabled &": {
-        ...palette.disabled.icon,
-      },
-    },
-  };
-};
 
 const CRadio = ({
   checked,
@@ -82,16 +36,9 @@ const CRadio = ({
   name,
 }: RadioProp) => {
   const { generateId } = useWalkmeId();
-  const RadioCheckedStatus = (
-    checked ? RADIO_CHECKED_STATUS.CHECKED : RADIO_CHECKED_STATUS.UNCHECKED
-  ) as RadioCheckedStatus;
-  const RadioState = (
-    error ? RADIO_VARIANT.ERROR : RADIO_VARIANT.DEFAULT
-  ) as RadioState;
   const radioId =
     (id as string | undefined) ??
     `radio-${Math.random().toString(36).slice(2)}`;
-  const styles = getRadioStyle(RadioCheckedStatus, RadioState);
 
   return (
     <div
@@ -99,6 +46,7 @@ const CRadio = ({
         radio: true,
         [`radio--${size}`]: !!size,
         "radio--label-start": labelPlacement == LABEL_PLACEMENT.START,
+        "radio--error": error,
         [className]: true,
       })}
     >
@@ -113,15 +61,6 @@ const CRadio = ({
         value={value}
         icon={<CSvgIcon component={GenericRadioUnchecked} />}
         checkedIcon={<CSvgIcon component={GenericRadioChecked} />}
-        sx={{
-          "& .MuiSvgIcon-root": {
-            ...styles.icon,
-          },
-
-          "&.MuiRadio-root": {
-            ...styles.root,
-          },
-        }}
       />
       {isNonEmptyValue(label) && (
         <label

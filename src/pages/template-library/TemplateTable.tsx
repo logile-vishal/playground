@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useMemo,
-  forwardRef,
-  type ForwardedRef,
-} from "react";
+import { useState, useEffect, forwardRef, type ForwardedRef } from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import type { MRT_Cell, MRT_Column } from "material-react-table";
@@ -933,25 +927,22 @@ const LibraryTable = forwardRef(
       isDataLoading &&
       (!templatesList?.data?.length || templatesList.data.length === 0);
 
-    const templateTableProps = useMemo(
-      () => ({
-        columns: getColumns(),
-        data: shouldShowSkeleton
-          ? Array.from({ length: 10 }).map((_, idx) => ({
-              id: `skeleton-${idx}`,
-            }))
-          : templatesList?.data || [],
-        enableColumnActions: false,
-        enableColumnFilters: false,
-        enablePagination: false,
-        enableSorting: false,
-        enableBottomToolbar: false,
-        enableTopToolbar: false,
-        muiTableBodyRowProps: { hover: false },
-      }),
+    const templateTableProps = {
+      columns: getColumns(),
+      data: shouldShowSkeleton
+        ? Array.from({ length: 10 }).map((_, idx) => ({
+            id: `skeleton-${idx}`,
+          }))
+        : templatesList?.data || [],
+      enableColumnActions: false,
+      enableColumnFilters: false,
+      enablePagination: false,
+      enableSorting: false,
+      enableBottomToolbar: false,
+      enableTopToolbar: false,
+      muiTableBodyRowProps: { hover: false },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [shouldShowSkeleton, templatesList?.data, isDesktop, isReportType]
-    );
+    };
 
     return (
       <div

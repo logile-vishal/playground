@@ -39,6 +39,7 @@ const CSelect = ({
   optionValueKey,
   optionLabelKey,
   disabled,
+  menuHeight,
 }: SelectProps) => {
   const [filteredOptions, setFilteredOptions] = useState<SelectOption[]>([]);
   const [selectedOptions, setSelectedOptions] = useState<
@@ -269,7 +270,9 @@ const CSelect = ({
               className: "select__menu",
               elevation: 0,
               sx: {
-                maxWidth: menuWidth,
+                maxHeight: menuHeight ? menuHeight : "auto",
+                maxWidth: menuWidth ? menuWidth : "auto",
+                minWidth: menuWidth ? "unset !important" : "auto",
               },
             },
             anchorOrigin: {

@@ -37,6 +37,7 @@ export type InputWithChipProps = IdentifierProps & {
   className?: string;
   disableInputFocus?: boolean;
   disableScrollToFocus?: boolean;
+  disabled?: boolean;
 };
 
 const CInputWithChip: React.FC<InputWithChipProps> = ({
@@ -62,6 +63,7 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
   className,
   disableInputFocus,
   disableScrollToFocus,
+  disabled,
 }) => {
   const measureTextWidth = useMeasureTextWidth();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -164,6 +166,7 @@ const CInputWithChip: React.FC<InputWithChipProps> = ({
         [className || ""]: Boolean(className),
         "input-with-chip--inline-label": isInLineLabel,
         "input-with-chip--error": Boolean(error),
+        "input-with-chip--disabled": Boolean(disabled),
       })}
     >
       {isNonEmptyValue(label) && (

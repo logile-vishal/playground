@@ -1,24 +1,115 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
+// Default radio styles
 .radio {
-  @include flex-center(flex-start, center, var(--space-m));
-  .MuiRadio-root {
-    height: var(--height-radio);
-    width: var(--height-radio);
-    padding: 0;
-  }
+  // CSS Custom Properties for variant-based styling
+  // Unchecked state
+  --radio-unchecked-color: var(--logile-border-secondary);
+  --radio-unchecked-color-hover: var(
+    --logile-border-brand-primary-alt-dark-mode
+  );
+  --radio-unchecked-bg: var(--logile-bg-container-1);
+  --radio-unchecked-focus-ring: var(--logile-focus-ring-default);
+  // Checked state
+  --radio-checked-color: var(--logile-border-brand-primary-alt-dark-mode);
+  --radio-checked-focus-border: var(--logile-focus-ring-default);
+  // Disabled state
+  --radio-disabled-color: var(--logile-border-state-disabled);
+  // Radio icon size (controls SVG dimensions)
+  --radio-icon-size: 20px;
 
+  @include flex-center(flex-start, center, var(--space-m));
   flex-direction: row;
   width: fit-content;
   gap: var(--space-m);
 
+  &:has(.Mui-disabled) {
+    cursor: not-allowed;
+    .radio__label {
+      cursor: default;
+    }
+  }
+
+  .MuiRadio-root {
+    height: var(--height-radio);
+    width: var(--height-radio);
+    padding: 0;
+    color: var(--radio-unchecked-color);
+
+    svg {
+      width: var(--radio-icon-size);
+      height: var(--radio-icon-size);
+      border-radius: 50%;
+    }
+
+    &:hover {
+      color: var(--radio-unchecked-color-hover);
+      background: transparent;
+    }
+
+    &.Mui-focusVisible {
+      svg {
+        box-shadow:
+          0 0 0 2px var(--radio-unchecked-bg),
+          0 0 0 4px var(--radio-unchecked-focus-ring);
+      }
+    }
+
+    &.Mui-disabled {
+      color: var(--radio-disabled-color);
+      opacity: 1;
+    }
+
+    // Checked state
+    &.Mui-checked {
+      color: var(--radio-checked-color);
+
+      &.Mui-focusVisible {
+        svg {
+          border: 1px solid var(--radio-checked-focus-border);
+        }
+      }
+
+      &.Mui-disabled {
+        color: var(--radio-disabled-color);
+        opacity: 1;
+      }
+    }
+  }
+
   &--label-start {
     flex-direction: row-reverse;
   }
+
   &__label {
     @include form-label($isClickable: true);
+
     &--required {
       @include form-label($required: true);
     }
+  }
+
+  // Error variant - overrides CSS custom properties
+  &--error {
+    --radio-unchecked-color: var(--logile-border-state-violation-bold-subtle);
+    --radio-unchecked-color-hover: var(
+      --logile-border-state-violation-bold-subtle
+    );
+    --radio-unchecked-focus-ring: var(--logile-focus-ring-error);
+    --radio-checked-color: var(--logile-border-state-violation-bold-subtle);
+    --radio-checked-focus-border: var(--logile-focus-ring-error);
+  }
+
+  // Size variants
+  &--small {
+    --radio-icon-size: 16px;
+  }
+
+  &--medium {
+    --radio-icon-size: 20px;
+  }
+
+  &--large {
+    --radio-icon-size: 24px;
   }
 }

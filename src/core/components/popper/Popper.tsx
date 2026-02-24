@@ -18,6 +18,7 @@ type PopperProps = {
   placement?: PopperPlacementType;
   className?: string;
   sx?: SxProps<Theme>;
+  offsetTop?: number;
 };
 
 const CPopper = ({
@@ -29,6 +30,7 @@ const CPopper = ({
   placement,
   className,
   sx,
+  offsetTop = 5,
 }: PopperProps) => {
   const handleOnClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -46,6 +48,14 @@ const CPopper = ({
         open={open}
         onClick={handleOnClick}
         placement={placement ?? "right-start"}
+        modifiers={[
+          {
+            name: "offset",
+            options: {
+              offset: [0, offsetTop],
+            },
+          },
+        ]}
       >
         {children}
       </Popper>

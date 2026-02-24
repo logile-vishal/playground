@@ -244,6 +244,10 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
     );
   };
 
+  const handleFocusEditor = () => {
+    quillRef.current?.focus();
+  };
+
   return (
     <>
       <Box
@@ -259,11 +263,12 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
         <Box className="editor__body">
           {label && <Box className="editor__body-label">{label}</Box>}
           <div className="editor__body-content">
-            <Box
+            <div
               className={clsx({
                 "editor__body-content-outlined": true,
                 "editor__body-content-outlined-wildcard": showOnlyWildcard,
               })}
+              onClick={handleFocusEditor}
             >
               {/* Quill Editor */}
               <ReactQuill
@@ -286,11 +291,13 @@ const CRichTextEditor: FC<RichTextEditorProps> = ({
 
               {/* Variables Dropdown */}
               {renderVariableDropdown()}
-            </Box>
+            </div>
+            {helperText && (
+              <Box className="editor__body-content-helper-text">
+                {helperText}
+              </Box>
+            )}
           </div>
-          {helperText && (
-            <Box className="editor__body-content-helper-text">{helperText}</Box>
-          )}
         </Box>
         {attachments && attachments?.length > 0 && (
           <Box className="editor__footer">{renderAttachments()}</Box>

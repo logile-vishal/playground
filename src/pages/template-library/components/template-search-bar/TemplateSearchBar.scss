@@ -7,6 +7,9 @@
     align-items: center;
     gap: var(--space-xs);
   }
+  & .input-with-chip__input-scroll-container {
+    margin-left: var(--space-l);
+  }
 }
 .template-search-layout {
   &--mobile {

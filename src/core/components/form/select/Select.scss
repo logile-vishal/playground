@@ -21,6 +21,22 @@
   &__input {
     background-color: var(--logile-bg-container-1);
     border: var(--border-s) solid var(--logile-border-primary);
+    &.MuiOutlinedInput-root.Mui-disabled {
+      border-color: var(--logile-border-state-disabled);
+      background-color: var(--logile-bg-state-disabled-subtle);
+      &
+        .MuiSelect-select.MuiSelect-outlined.Mui-disabled.MuiInputBase-input.MuiOutlinedInput-input.Mui-disabled {
+        color: var(--logile-text-state-disabled);
+        -webkit-text-fill-color: unset;
+      }
+      svg {
+        fill: var(--logile-text-state-disabled);
+      }
+    }
+    &:has([aria-expanded="true"]) {
+      border: var(--border-s) solid var(--logile-border-brand-primary-subtle);
+      box-shadow: 0 0 0 4px var(--logile-shadow-focus);
+    }
     &:hover {
       border: var(--border-s) solid var(--logile-border-bold-subtle);
     }
@@ -34,6 +50,7 @@
       @include flex-center(start);
       gap: var(--space-xs);
     }
+
     .MuiOutlinedInput-input {
       color: var(--logile-text-primary);
       font-size: inherit;
@@ -48,7 +65,6 @@
       border-radius: var(--radius-s);
       padding: 0 var(--space-m);
     }
-
     &.MuiInputBase-root.MuiOutlinedInput-root.MuiSelect-root.Mui-focused
       .MuiOutlinedInput-notchedOutline {
       border: none;
@@ -102,7 +118,7 @@
         box-shadow: 0 0 0 4px var(--logile-shadow-focus);
       }
       &:hover {
-        border: var(--border-s) solid var(--logile-border-state-violation);
+        border: var(--border-s) solid var(--logile-border-state-violation-bold);
         box-shadow: 0 0 0 4px var(--logile-shadow-focus);
       }
     }

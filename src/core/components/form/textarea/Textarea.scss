@@ -1,54 +1,120 @@
 @use "@/styles/mixins/mixins.scss" as *;
 
+// Default textarea styles
 .textarea {
+  // CSS Custom Properties for variant-based styling
+  --textarea-bg: var(--logile-bg-container-1);
+  --textarea-border-color: var(--logile-border-primary);
+  --textarea-border-color-hover: var(--logile-border-bold-subtle);
+  --textarea-border-color-focus: var(--logile-border-brand-primary-subtle);
+  --textarea-border-color-disabled: var(--logile-border-state-disabled);
+  --textarea-focus-ring: var(--logile-focus-ring-default);
+  --textarea-text-color: var(--logile-text-primary);
+  --textarea-text-color-disabled: var(--logile-text-state-disabled);
+  --textarea-bg-disabled: var(--logile-bg-state-disabled-subtle);
+  --textarea-icon-color: var(--logile-icon-secondary);
+  --textarea-placeholder-color: var(--logile-text-tertiary);
   --helpertext-height: 26px;
 
   @include flex-box(column);
 
   .MuiOutlinedInput-root {
     min-height: var(--height-input);
-    border-radius: var(--radius-s);
+    border-radius: var(--radius-m);
     padding: var(--space-m);
+    background: var(--textarea-bg);
+    border: 1px solid var(--textarea-border-color);
+    transition: none;
+
+    &:hover {
+      border-color: var(--textarea-border-color-hover);
+    }
+
+    &.Mui-focused {
+      box-shadow:
+        0 0 0 2px var(--textarea-bg),
+        0 0 0 4px var(--textarea-focus-ring);
+    }
+
+    &.Mui-disabled {
+      background: var(--textarea-bg-disabled);
+      border-color: var(--textarea-border-color-disabled);
+
+      .MuiOutlinedInput-input {
+        color: var(--textarea-text-color-disabled);
+        -webkit-text-fill-color: var(--textarea-text-color-disabled);
+      }
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border: none;
+      outline: none;
+    }
   }
+
   .MuiOutlinedInput-input {
     font-size: var(--logile-size-body);
     padding: 0;
+    color: var(--textarea-text-color);
+    outline: none;
+    border: none;
+
+    &::placeholder {
+      color: var(--textarea-placeholder-color);
+      @include input-placeholder;
+    }
   }
+
   svg {
     height: var(--size-input-svg);
     width: var(--size-input-svg);
+    color: var(--textarea-icon-color);
   }
+
   .MuiFormHelperText-root {
     margin: 0;
     @include helper-text;
   }
+
   &__label {
     @include form-label;
   }
-  &--error {
-    .textarea__label {
-      @include form-label($required: false, $error: true);
-    }
-    .MuiFormHelperText-root.Mui-error {
-      @include helper-text($error: true);
-    }
-  }
+
   &--inline-label {
     flex-direction: row;
     align-items: center;
     gap: var(--space-xs);
+
     &.textarea-with-helper-text {
       .textarea__label {
         margin-bottom: var(--helpertext-height);
       }
     }
+
     &.textarea--required {
       gap: var(--space-m);
     }
   }
+
   &--required {
     .textarea__label {
       @include form-label($required: true);
+    }
+  }
+
+  // Error variant - overrides CSS custom properties
+  &--error {
+    --textarea-border-color: var(--logile-border-state-violation);
+    --textarea-border-color-hover: var(--logile-border-state-violation-bold);
+    --textarea-border-color-focus: var(--logile-border-state-violation);
+    --textarea-focus-ring: var(--logile-focus-ring-error);
+
+    .textarea__label {
+      @include form-label($required: false, $error: true);
+    }
+
+    .MuiFormHelperText-root.Mui-error {
+      @include helper-text($error: true);
     }
   }
 }
