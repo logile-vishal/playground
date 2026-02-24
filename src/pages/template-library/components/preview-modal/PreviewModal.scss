@@ -223,6 +223,7 @@
     align-items: flex-start;
   }
   &__question-item__title-wrapper {
+    width: 100%;
     @include flex-box(row);
     gap: var(--space-m);
   }
