@@ -941,7 +941,6 @@ const LibraryTable = forwardRef(
       enableBottomToolbar: false,
       enableTopToolbar: false,
       muiTableBodyRowProps: { hover: false },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     };
 
     return (

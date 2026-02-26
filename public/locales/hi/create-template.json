@@ -433,5 +433,65 @@
   "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
     "temperatureReading": "तापमान रीडिंग",
     "manualInput": "मैनुअल इनपुट"
+  },
+  "VALIDATION": {
+    "BASIC_INFO": {
+      "fieldRequired": "यह फ़ील्ड आवश्यक है",
+      "directoryRequired": "निर्देशिका आवश्यक है"
+    },
+    "QUESTIONS": {
+      "fieldRequired": "यह फ़ील्ड आवश्यक है",
+      "questionTextRequired": "प्रश्न का पाठ आवश्यक है",
+      "questionTextMinLength": "प्रश्न का पाठ कम से कम 1 वर्ण का होना चाहिए",
+      "questionTextMaxLength": "प्रश्न का पाठ अधिकतम 500 वर्णों का होना चाहिए",
+      "optionsRequired": "कम से कम एक विकल्प आवश्यक है",
+      "optionTextRequired": "विकल्प का पाठ आवश्यक है",
+      "optionTextMaxLength": "विकल्प का पाठ अधिकतम 200 वर्णों का होना चाहिए",
+      "minLengthInvalid": "न्यूनतम लंबाई एक धनात्मक संख्या होनी चाहिए",
+      "maxLengthInvalid": "अधिकतम लंबाई एक धनात्मक संख्या होनी चाहिए",
+      "minValueInvalid": "न्यूनतम मान एक मान्य संख्या होनी चाहिए",
+      "maxValueInvalid": "अधिकतम मान एक मान्य संख्या होनी चाहिए",
+      "scoreInvalid": "स्कोर एक मान्य संख्या होना चाहिए"
+    },
+    "ADVANCED_OPTIONS": {
+      "complianceThresholdMin": "अनुपालन सीमा कम से कम 0 होनी चाहिए",
+      "complianceThresholdMax": "अनुपालन सीमा अधिकतम 100 होनी चाहिए"
+    },
+    "NOTIFICATIONS": {
+      "conditionRequired": "शर्त आवश्यक है",
+      "conditionQuestionRequired": "शर्त प्रश्न आवश्यक है",
+      "conditionAnswerRequired": "शर्त उत्तर आवश्यक है",
+      "recipientsRequired": "कम से कम एक प्राप्तकर्ता आवश्यक है",
+      "subjectRequired": "विषय आवश्यक है",
+      "subjectMaxLength": "विषय अधिकतम 200 वर्णों का होना चाहिए",
+      "messageRequired": "संदेश आवश्यक है",
+      "messageMaxLength": "संदेश अधिकतम 1000 वर्णों का होना चाहिए"
+    },
+    "FOLLOWUP_TASKS": {
+      "conditionRequired": "शर्त आवश्यक है",
+      "conditionQuestionRequired": "शर्त प्रश्न आवश्यक है",
+      "conditionAnswerRequired": "शर्त उत्तर आवश्यक है",
+      "taskNameRequired": "कार्य का नाम आवश्यक है",
+      "taskNameMaxLength": "कार्य का नाम अधिकतम 100 वर्णों का होना चाहिए",
+      "templateRequired": "टेम्पलेट चयन आवश्यक है",
+      "durationRequired": "अवधि आवश्यक है",
+      "durationValueRequired": "अवधि मान आवश्यक है",
+      "durationValueMin": "अवधि मान कम से कम 1 होना चाहिए",
+      "priorityRequired": "प्राथमिकता आवश्यक है"
+    },
+    "TRIGGER_TASK": {
+      "fieldRequired": "फ़ील्ड आवश्यक है",
+      "conditionRequired": "शर्त आवश्यक है",
+      "questionRequired": "प्रश्न आवश्यक है",
+      "answerRequired": "उत्तर आवश्यक है",
+      "recipientsRequired": "कम से कम एक प्राप्तकर्ता आवश्यक है"
+    },
+    "ANSWER_OPTION_SETTING": {
+      "valueRequired": "मान आवश्यक है",
+      "valueMaxLength": "मान 255 वर्णों से अधिक नहीं हो सकता",
+      "scoreInvalid": "स्कोर एक मान्य संख्या होना चाहिए",
+      "optionsRequired": "कम से कम एक उत्तर विकल्प आवश्यक है",
+      "formulaInvalid": "सूत्र में मान्य ऑपरेटर (<, >, <=, >=, ==, <>, AND, OR) या संख्याएं होनी चाहिए"
+    }
   }
 }

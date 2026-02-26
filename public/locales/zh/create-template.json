@@ -436,5 +436,65 @@
   "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
     "temperatureReading": "温度读数",
     "manualInput": "手动输入"
+  },
+  "VALIDATION": {
+    "BASIC_INFO": {
+      "fieldRequired": "此字段为必填项",
+      "directoryRequired": "目录为必填项"
+    },
+    "QUESTIONS": {
+      "fieldRequired": "此字段为必填项",
+      "questionTextRequired": "问题文本为必填项",
+      "questionTextMinLength": "问题文本至少为1个字符",
+      "questionTextMaxLength": "问题文本最多为500个字符",
+      "optionsRequired": "至少需要一个选项",
+      "optionTextRequired": "选项文本为必填项",
+      "optionTextMaxLength": "选项文本最多为200个字符",
+      "minLengthInvalid": "最小长度必须为正数",
+      "maxLengthInvalid": "最大长度必须为正数",
+      "minValueInvalid": "最小值必须为有效数字",
+      "maxValueInvalid": "最大值必须为有效数字",
+      "scoreInvalid": "分数必须为有效数字"
+    },
+    "ADVANCED_OPTIONS": {
+      "complianceThresholdMin": "合规阈值不能小于0",
+      "complianceThresholdMax": "合规阈值不能大于100"
+    },
+    "NOTIFICATIONS": {
+      "conditionRequired": "条件为必填项",
+      "conditionQuestionRequired": "条件问题为必填项",
+      "conditionAnswerRequired": "条件答案为必填项",
+      "recipientsRequired": "至少需要一个收件人",
+      "subjectRequired": "主题为必填项",
+      "subjectMaxLength": "主题最多为200个字符",
+      "messageRequired": "消息为必填项",
+      "messageMaxLength": "消息最多为1000个字符"
+    },
+    "FOLLOWUP_TASKS": {
+      "conditionRequired": "条件为必填项",
+      "conditionQuestionRequired": "条件问题为必填项",
+      "conditionAnswerRequired": "条件答案为必填项",
+      "taskNameRequired": "任务名称为必填项",
+      "taskNameMaxLength": "任务名称最多为100个字符",
+      "templateRequired": "模板选择为必填项",
+      "durationRequired": "持续时间为必填项",
+      "durationValueRequired": "持续时间值为必填项",
+      "durationValueMin": "持续时间值不能小于1",
+      "priorityRequired": "优先级为必填项"
+    },
+    "TRIGGER_TASK": {
+      "fieldRequired": "此字段为必填项",
+      "conditionRequired": "条件为必填项",
+      "questionRequired": "问题为必填项",
+      "answerRequired": "答案为必填项",
+      "recipientsRequired": "至少需要一个收件人"
+    },
+    "ANSWER_OPTION_SETTING": {
+      "valueRequired": "值为必填项",
+      "valueMaxLength": "值不能超过255个字符",
+      "scoreInvalid": "分数必须为有效数字",
+      "optionsRequired": "至少需要一个答案选项",
+      "formulaInvalid": "公式必须包含有效运算符（<, >, <=, >=, ==, <>, AND, OR）或数字"
+    }
   }
 }

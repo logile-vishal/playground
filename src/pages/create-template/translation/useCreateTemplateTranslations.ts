@@ -1058,6 +1058,89 @@ export const useCreateTemplateTranslations = () => {
     },
   ];
 
+  const VALIDATION = {
+    BASIC_INFO: {
+      fieldRequired: t("VALIDATION.BASIC_INFO.fieldRequired"),
+      directoryRequired: t("VALIDATION.BASIC_INFO.directoryRequired"),
+    },
+    QUESTIONS: {
+      fieldRequired: t("VALIDATION.QUESTIONS.fieldRequired"),
+      questionTextRequired: t("VALIDATION.QUESTIONS.questionTextRequired"),
+      questionTextMinLength: t("VALIDATION.QUESTIONS.questionTextMinLength"),
+      questionTextMaxLength: t("VALIDATION.QUESTIONS.questionTextMaxLength"),
+      optionsRequired: t("VALIDATION.QUESTIONS.optionsRequired"),
+      optionTextRequired: t("VALIDATION.QUESTIONS.optionTextRequired"),
+      optionTextMaxLength: t("VALIDATION.QUESTIONS.optionTextMaxLength"),
+      minLengthInvalid: t("VALIDATION.QUESTIONS.minLengthInvalid"),
+      maxLengthInvalid: t("VALIDATION.QUESTIONS.maxLengthInvalid"),
+      minValueInvalid: t("VALIDATION.QUESTIONS.minValueInvalid"),
+      maxValueInvalid: t("VALIDATION.QUESTIONS.maxValueInvalid"),
+      scoreInvalid: t("VALIDATION.QUESTIONS.scoreInvalid"),
+    },
+    COLUMNS: {
+      fieldRequired: t("VALIDATION.COLUMNS.fieldRequired"),
+      oneColumnRequiredError: t("VALIDATION.COLUMNS.oneColumnRequiredError"),
+    },
+    ROWS: {
+      fieldRequired: t("VALIDATION.ROWS.fieldRequired"),
+      oneRowRequiredError: t("VALIDATION.ROWS.oneRowRequiredError"),
+    },
+    ADVANCED_OPTIONS: {
+      complianceThresholdMin: t(
+        "VALIDATION.ADVANCED_OPTIONS.complianceThresholdMin"
+      ),
+      complianceThresholdMax: t(
+        "VALIDATION.ADVANCED_OPTIONS.complianceThresholdMax"
+      ),
+    },
+    NOTIFICATIONS: {
+      conditionRequired: t("VALIDATION.NOTIFICATIONS.conditionRequired"),
+      conditionQuestionRequired: t(
+        "VALIDATION.NOTIFICATIONS.conditionQuestionRequired"
+      ),
+      conditionAnswerRequired: t(
+        "VALIDATION.NOTIFICATIONS.conditionAnswerRequired"
+      ),
+      recipientsRequired: t("VALIDATION.NOTIFICATIONS.recipientsRequired"),
+      subjectRequired: t("VALIDATION.NOTIFICATIONS.subjectRequired"),
+      subjectMaxLength: t("VALIDATION.NOTIFICATIONS.subjectMaxLength"),
+      messageRequired: t("VALIDATION.NOTIFICATIONS.messageRequired"),
+      messageMaxLength: t("VALIDATION.NOTIFICATIONS.messageMaxLength"),
+    },
+    FOLLOWUP_TASKS: {
+      conditionRequired: t("VALIDATION.FOLLOWUP_TASKS.conditionRequired"),
+      conditionQuestionRequired: t(
+        "VALIDATION.FOLLOWUP_TASKS.conditionQuestionRequired"
+      ),
+      conditionAnswerRequired: t(
+        "VALIDATION.FOLLOWUP_TASKS.conditionAnswerRequired"
+      ),
+      taskNameRequired: t("VALIDATION.FOLLOWUP_TASKS.taskNameRequired"),
+      taskNameMaxLength: t("VALIDATION.FOLLOWUP_TASKS.taskNameMaxLength"),
+      templateRequired: t("VALIDATION.FOLLOWUP_TASKS.templateRequired"),
+      durationRequired: t("VALIDATION.FOLLOWUP_TASKS.durationRequired"),
+      durationValueRequired: t(
+        "VALIDATION.FOLLOWUP_TASKS.durationValueRequired"
+      ),
+      durationValueMin: t("VALIDATION.FOLLOWUP_TASKS.durationValueMin"),
+      priorityRequired: t("VALIDATION.FOLLOWUP_TASKS.priorityRequired"),
+    },
+    TRIGGER_TASK: {
+      fieldRequired: t("VALIDATION.TRIGGER_TASK.fieldRequired"),
+      conditionRequired: t("VALIDATION.TRIGGER_TASK.conditionRequired"),
+      questionRequired: t("VALIDATION.TRIGGER_TASK.questionRequired"),
+      answerRequired: t("VALIDATION.TRIGGER_TASK.answerRequired"),
+      recipientsRequired: t("VALIDATION.TRIGGER_TASK.recipientsRequired"),
+    },
+    ANSWER_OPTION_SETTING: {
+      valueRequired: t("VALIDATION.ANSWER_OPTION_SETTING.valueRequired"),
+      valueMaxLength: t("VALIDATION.ANSWER_OPTION_SETTING.valueMaxLength"),
+      scoreInvalid: t("VALIDATION.ANSWER_OPTION_SETTING.scoreInvalid"),
+      optionsRequired: t("VALIDATION.ANSWER_OPTION_SETTING.optionsRequired"),
+      formulaInvalid: t("VALIDATION.ANSWER_OPTION_SETTING.formulaInvalid"),
+    },
+  };
+
   return {
     BASIC_INFO,
     CREATE_TEMPLATE_STEPS,
@@ -1079,5 +1162,6 @@ export const useCreateTemplateTranslations = () => {
     ADVANCED_TAB_FILE_REQUIRED_FOR_OPTIONS_MULTISELECT,
     ADVANCED_TAB_NUMERIC_VALUE_TYPE_OPTIONS,
     ADVANCED_TAB_PREVIOUS_EXECUTION_STATUS,
+    VALIDATION,
   };
 };
