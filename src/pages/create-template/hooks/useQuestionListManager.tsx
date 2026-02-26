@@ -644,7 +644,7 @@ const useQuestionListManager = () => {
    * -Sets the updated questions list back to the form
    * @returns {void}
    */
-  const deleteQuestion = (questionId: string): void => {
+  const deleteQuestion = async (questionId: string): Promise<void> => {
     const questionsList = getFormValues("questions") as QuestionProps[];
     const updatedQuestionsList = removeQuestion(questionsList, questionId);
 
@@ -652,8 +652,9 @@ const useQuestionListManager = () => {
     setFormValue("questions", [] as unknown as QuestionProps[], {
       shouldDirty: true,
     });
-    queueMicrotask(() => {
+    queueMicrotask(async () => {
       setFormValue("questions", updatedQuestionsList, { shouldDirty: true });
+      await triggerValidation("questions");
     });
   };
 

@@ -94,6 +94,12 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     modifyOptions,
   } = useQuestionListManager();
   const watchQuestionList = watch("questions") as QuestionProps[];
+  const shouldShowDeleteIcon =
+    watchQuestionList.length > 1 ||
+    (watchQuestionList.length === 1 &&
+      watchQuestionList[0].questionBasicData.questionType ===
+        QUESTION_TYPE.SECTION &&
+      watchQuestionList[0].subQuestions.length > 1);
   const watchNotificationForm = watch("notifications");
   const watchFollowUpTaskForm = watch("followUpTasks");
   const [inputTypeModal, setInputTypeModal] = useState({
@@ -712,7 +718,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             >
               <CSvgIcon component={Copy} />
             </CIconButton>
-            {watchQuestionList.length > 1 && (
+            {shouldShowDeleteIcon && (
               <CIconButton
                 onClick={handleDeleteQuestionClick}
                 severity="destructive"
