@@ -51,7 +51,6 @@ const AddEditFollowUpModal = ({
     handleSubmit,
     watch,
     reset,
-    clearErrors,
     formState: { errors },
   } = useForm<{
     followUp: FollowUpTaskSchema;
@@ -268,16 +267,6 @@ const AddEditFollowUpModal = ({
       });
     }
   }, [showFollowUpModal, setValue]);
-
-  useEffect(() => {
-    clearErrors([
-      "followUp.questionId",
-      "followUp.answerIndex",
-      "followUp.recipients",
-      "followUp.customRecipients",
-    ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchFollowUp.condition]);
 
   const conditionStepperData = {
     label: FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.condition.label,

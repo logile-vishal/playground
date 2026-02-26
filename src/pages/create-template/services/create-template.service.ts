@@ -8,6 +8,8 @@ import type {
 } from "@/pages/create-template/types/triggers.type";
 import type { PaginatedResponse } from "@/core/types/pagination.type";
 
+import type { ClusterItem } from "../types/questions.type";
+
 export const getOrgsList = (params: Record<string, unknown>) => {
   return get<PaginatedResponse<OrgProps[]>>(API_CONFIG.org.getOrgList, {
     params,
@@ -29,4 +31,11 @@ export const getOrgPositions = (params: Record<string, unknown>) => {
     API_CONFIG.org.getOrgPositions,
     { params }
   );
+};
+
+export const getClusters: () => Promise<
+  PaginatedResponse<ClusterItem>
+> = () => {
+  const url = API_CONFIG.org.clusters;
+  return get<PaginatedResponse<ClusterItem>>(url);
 };

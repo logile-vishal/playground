@@ -75,7 +75,7 @@ const BasicInfo: React.FC = () => {
     formErrors,
     getFormValues,
     resetForm,
-    formState,
+    clearErrors,
     setFormValue,
     triggerValidation,
   } = useCreateTemplateForm();
@@ -114,13 +114,9 @@ const BasicInfo: React.FC = () => {
       (option) => option.value === value
     );
 
-    const currentType = getFormValues("templateType");
-    if (currentType === baseTemplateType?.value) {
-      return;
-    }
-
     const templateTypeValue =
       baseTemplateType.baseTemplateType.toLowerCase() as keyof typeof BASE_TEMPLATE_TYPE;
+    const templateTypeId = baseTemplateType?.typeId;
 
     const currentBasicData = getFormValues("basicData");
     const advancedOptions = getFormValues("advancedOptions");
@@ -132,11 +128,14 @@ const BasicInfo: React.FC = () => {
       COMPLETE_BASE_TEMPLATE_TYPE.auditOrg,
       COMPLETE_BASE_TEMPLATE_TYPE.auditAssociate):
         resetForm({
-          templateType: templateTypeValue,
+          templateType:
+            TEMPLATE_TYPE.CHECKLIST.toLowerCase() as keyof typeof BASE_TEMPLATE_TYPE,
           basicData: {
             ...currentBasicData,
             templateType: value,
-            baseTemplateType: templateTypeValue,
+            templateId: templateTypeId,
+            baseTemplateType:
+              TEMPLATE_TYPE.CHECKLIST.toLowerCase() as keyof typeof BASE_TEMPLATE_TYPE,
           },
           advancedOptions,
           notifications,
@@ -150,6 +149,7 @@ const BasicInfo: React.FC = () => {
           basicData: {
             ...currentBasicData,
             templateType: value,
+            templateId: templateTypeId,
             baseTemplateType: templateTypeValue,
           },
           advancedOptions,
@@ -165,6 +165,7 @@ const BasicInfo: React.FC = () => {
           basicData: {
             ...currentBasicData,
             templateType: value,
+            templateId: templateTypeId,
             baseTemplateType: templateTypeValue,
             attachment: [],
           },
@@ -179,6 +180,7 @@ const BasicInfo: React.FC = () => {
           basicData: {
             ...currentBasicData,
             templateType: value,
+            templateId: templateTypeId,
             baseTemplateType: templateTypeValue,
             attachment: [],
           },
@@ -194,6 +196,7 @@ const BasicInfo: React.FC = () => {
           basicData: {
             ...currentBasicData,
             templateType: value,
+            templateId: templateTypeId,
             baseTemplateType:
               TEMPLATE_TYPE.CHECKLIST.toLowerCase() as keyof typeof BASE_TEMPLATE_TYPE,
           },
@@ -413,14 +416,10 @@ const BasicInfo: React.FC = () => {
       const basicData = getFormValues("basicData");
       basicData.libraryId = selectedDir.libraryId;
       basicData.libraryStructure = buildDirectoryPath(updatedDirectories);
-      resetForm({
-        ...formState.defaultValues,
-        basicData: {
-          ...basicData,
-        },
-      });
 
+      setFormValue("basicData", basicData);
       setSelectedDirectories(updatedDirectories);
+      clearErrors("basicData.libraryId");
     }
   };
 
@@ -444,9 +443,8 @@ const BasicInfo: React.FC = () => {
     });
 
     basicData.tags = JSON.parse(JSON.stringify(arr));
-    resetForm({
-      basicData,
-    });
+    setFormValue("basicData", basicData);
+    clearErrors("basicData.tags");
   };
 
   /**
@@ -486,6 +484,8 @@ const BasicInfo: React.FC = () => {
                 ? BASIC_INFO.directoryPlaceholder
                 : BASIC_INFO.subDirectoryPlaceholder
             }
+            error={!!formErrors.basicData?.libraryId}
+            helperText={formErrors.basicData?.libraryId?.message as string}
             optionValueKey="value"
             optionLabelKey="label"
             onChange={(e) => handleDirectoryChange(e, level)}
@@ -697,18 +697,16 @@ const BasicInfo: React.FC = () => {
             className={clsx({
               "ct-basic-info__label": true,
               "required-icon": true,
+              "ct-basic-info__label--error": Boolean(
+                formErrors?.basicData?.libraryId
+              ),
             })}
           >
             {BASIC_INFO.directory}
           </Box>
-          <div className="ct-basic-info__directory-dropdown-wrapper">
+          <Box className="ct-basic-info__directory-dropdown-wrapper">
             {renderDirectoryDropdown(0)}
-          </div>
-          {formErrors?.basicData?.libraryId && (
-            <div className="ct-basic-info__error-text">
-              {formErrors?.basicData?.libraryId?.message as string}
-            </div>
-          )}
+          </Box>
         </Box>
       </Box>
 

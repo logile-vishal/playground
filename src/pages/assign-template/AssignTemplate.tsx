@@ -44,7 +44,7 @@ const AssignTemplateContent: React.FC = () => {
   });
 
   const handleNavigateBack = (): void => {
-    navigate("/templates/create");
+    navigate("/templates");
   };
 
   const handleStepChange = useCallback(

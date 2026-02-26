@@ -184,6 +184,9 @@
                 white-space: nowrap;
               }
             }
+            &-incomplete {
+              @include flex-center(center, center, var(--space-xs));
+            }
           }
         }
       }

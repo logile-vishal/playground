@@ -751,6 +751,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
                   }
                   {...field}
                   error={!!error}
+                  helperText={error ? error.message : ""}
                   attachments={attachments}
                   onUpdateAttachments={onUpdateAttachments}
                   walkMeIdPrefix={[...walkMeIdPrefix, "question-title"]}
