@@ -11,7 +11,6 @@ import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 
 import {
   useGetQuestionTagsOptions,
-  useGetTaskTagsOptions,
   useGetTaskTypesOptions,
 } from "../../services/template-library-api-hooks";
 import type {
@@ -26,6 +25,7 @@ import "./AdvanceFilterContent.scss";
 import { useTemplateLibraryTranslations } from "../../translation/useTemplateLibraryTranslations";
 import type { AdvanceFilterContentProps } from "../../types/TemplateSearchbar.type";
 import { checkObjectHaveValues } from "../../utils/checkObjectHaveValues";
+import TagSelector from "@/pages/create-template/components/tag-selecter/TagSelector";
 
 const AdvanceFilterContent = (props: AdvanceFilterContentProps) => {
   const { GENERAL } = useCommonTranslation();
@@ -40,7 +40,6 @@ const AdvanceFilterContent = (props: AdvanceFilterContentProps) => {
   const isDesktop = useIsDesktopViewport();
 
   const { data: taskTypeOptions } = useGetTaskTypesOptions();
-  const { data: taskTagsOptions } = useGetTaskTagsOptions();
   const { data: questionTagsOptions } = useGetQuestionTagsOptions();
 
   const taskTypeOptionsList = useMemo(() => {
@@ -50,14 +49,6 @@ const AdvanceFilterContent = (props: AdvanceFilterContentProps) => {
       name: item?.typeName,
     }));
   }, [taskTypeOptions]);
-
-  const taskTagsOptionsList: NestedMenuItem[] = useMemo(() => {
-    return taskTagsOptions?.data?.map((item: TagOptionsType) => ({
-      label: item?.tagValue,
-      value: String(item?.tagId),
-      name: item?.tagValue,
-    }));
-  }, [taskTagsOptions]);
 
   const questionTagsOptionsList: NestedMenuItem[] = useMemo(() => {
     return questionTagsOptions?.data?.map(
@@ -166,9 +157,8 @@ const AdvanceFilterContent = (props: AdvanceFilterContentProps) => {
           ></CSelect>
         </div>
         <div className="advance-filter-content__group-3">
-          <CMultiSelectWithChip
+          <TagSelector
             isInLineLabel
-            options={taskTagsOptionsList ?? []}
             placeholder={TEMPLATE_SEARCH_BAR.FILTER_PLACEHOLDERS.taskTagsList}
             label={TEMPLATE_SEARCH_BAR.FILTER_LABELS.taskTagsList}
             value={filter?.taskTagsList}
@@ -179,6 +169,10 @@ const AdvanceFilterContent = (props: AdvanceFilterContentProps) => {
                 event.target.value
               )
             }
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            transformOrigin={{ vertical: "top", horizontal: 200 }}
+            menuWidth={"300px"}
+            menuHeight={"220px"}
           />
           <CMultiSelectWithChip
             isInLineLabel

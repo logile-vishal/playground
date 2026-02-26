@@ -49,7 +49,7 @@ const generateFilterChips = (
     }
 
     if (Array.isArray(value)) {
-      const label = value.map((item) => item.label).join(", ");
+      const label = value.map((item) => item.filterPath).join(", ");
       chips.push({ label: `${prefixMap[key]}: (${label})`, value: key });
     } else if (typeof value === "object" && value !== null) {
       if ("label" in value && typeof value.label === "string") {
@@ -97,7 +97,6 @@ const TemplateSearchBar: React.FC<TemplateSearchBarProps> = ({
 
   const isAdvancedMode =
     filterMode === TEMPLATE_SEARCH_BAR.FILTER_MODES.advanced;
-
   const filterChips: NestedMenuItem[] = useMemo(
     () =>
       generateFilterChips(

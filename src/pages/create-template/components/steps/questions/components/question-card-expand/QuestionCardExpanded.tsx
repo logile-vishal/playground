@@ -78,8 +78,14 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     questionId: null,
     answerIndex: null,
   });
-  const { control, watch, formErrors, getFormValues, setFormValue } =
-    useCreateTemplateForm();
+  const {
+    control,
+    watch,
+    formErrors,
+    getFormValues,
+    setFormValue,
+    setDeletedQuestionId,
+  } = useCreateTemplateForm();
   const { hasError } = useFormFieldError(questionFormPath);
   const {
     modifyQuestionType,
@@ -264,6 +270,9 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
    */
   const handleConfirmQuestionDelete = (): void => {
     deleteQuestion(question.qId);
+    if (question.questionId) {
+      setDeletedQuestionId(question.questionId);
+    }
     setDeleteQuestionConfirmationModal(false);
   };
 

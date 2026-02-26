@@ -4,7 +4,7 @@ import type {
   PaginatedResponse,
   Pagination,
 } from "@/core/types/pagination.type";
-
+import type { TemplateTagsPropsForAdvanceFilter } from "@/pages/create-template/types/questions.type";
 import type { TemplatePreviewType } from "./template-questions.type";
 import type { SortOption } from "./template-constants.type";
 import type {
@@ -184,7 +184,7 @@ export type TemplateFilter = {
   questionText: string;
   taskType: { value: number; label: string } | null;
   modifiedInLastDays: string;
-  taskTagsList: { value: string; label: string }[];
+  taskTagsList: TemplateTagsPropsForAdvanceFilter[];
   questionTagsList: { value: string; label: string }[];
   statusList: { value: string; label: string }[];
   selectedSort: SelectedSortProps;

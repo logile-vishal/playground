@@ -198,7 +198,7 @@
       gap: var(--space-xxs);
 
       &--incomplete {
-        @include flex-center(center, center);
+        @include flex-center(start, center);
         color: var(--logile-text-state-violation);
       }
 

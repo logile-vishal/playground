@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { CreateTemplateFormContext } from "../services/create-template-form.service";
 import { useCreateTemplateFormSchema } from "../form-schema/create-template-form-schema";
@@ -50,6 +50,12 @@ export const CreateTemplateFormProvider: React.FC<
     defaultValues: defaultFormValues,
     mode: "onChange",
   });
+  const [deletedQuestionsIds, setDeletedQuestionsIds] = useState<number[]>([]);
+  const setDeletedQuestionId = (questionId: number) => {
+    setDeletedQuestionsIds((prev) => [...prev, questionId]);
+  };
+  //todo: remove console log after api integration
+  console.log("Ids of deleted questions", deletedQuestionsIds);
 
   useEffect(() => {
     // Reset once on mount to initialize form defaults.
@@ -79,6 +85,7 @@ export const CreateTemplateFormProvider: React.FC<
     watch,
     clearErrors,
     isDirty,
+    setDeletedQuestionId,
   };
 
   return (

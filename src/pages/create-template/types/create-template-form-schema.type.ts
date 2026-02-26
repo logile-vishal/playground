@@ -40,6 +40,7 @@ export type CreateTemplateFormContextType = {
   control: Control<CreateTemplateFormType>;
   watch: UseFormWatch<CreateTemplateFormType>;
   isDirty: boolean;
+  setDeletedQuestionId: (questionId: number) => void;
 };
 export type QuestionsListManager = {
   DEFAULT_QUESTION_TYPE: "radio";

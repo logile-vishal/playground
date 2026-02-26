@@ -6,6 +6,7 @@ import type { NestedMenuItem } from "@/core/components/nested-menu/types";
 import type {
   ExtendedTagOption,
   TemplateTagsProps,
+  TemplateTagsPropsForAdvanceFilter,
 } from "@/pages/create-template/types/questions.type";
 import type { TagSelectorProps } from "@/pages/create-template/types/tagSelector.type";
 import { useGetTaskTagsOptions } from "@/pages/template-library/services/template-library-api-hooks";
@@ -52,7 +53,7 @@ const findTagPath = (
  * @return {Array} Transformed array of tags with label, value, and filterPath for multi-select options
  */
 const getTagsValueForMultiSelect = (
-  tags: TemplateTagsProps[],
+  tags: TemplateTagsProps[] | TemplateTagsPropsForAdvanceFilter[],
   tagOptions: ExtendedTagOption[]
 ): NestedMenuItem[] => {
   if (!isNonEmptyValue(tags)) return [];
@@ -79,6 +80,7 @@ const TagSelector: React.FC<TagSelectorProps> = React.memo(
     transformOrigin,
     menuWidth,
     menuHeight,
+    isInLineLabel,
   }) => {
     const { data: taskTagsOptions } = useGetTaskTagsOptions();
 
@@ -115,6 +117,7 @@ const TagSelector: React.FC<TagSelectorProps> = React.memo(
 
     return (
       <CMultiSelectWithChip
+        isInLineLabel={isInLineLabel}
         label={label}
         name="tags"
         options={tagOptions}
