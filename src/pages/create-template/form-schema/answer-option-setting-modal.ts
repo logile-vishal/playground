@@ -1,4 +1,5 @@
 import { z as zod } from "zod";
+import { useMemo } from "react";
 
 import { INPUT_TYPE } from "../constants/questions";
 
@@ -89,3 +90,8 @@ export const answerOptionSettingModalSchema = zod.object({
 
 // Export the type for TypeScript
 export type AnswerSettingSchemaType = zod.infer<typeof answerSettingSchema>;
+
+export const useAnswerOptionSettingModalSchema =
+  (): typeof answerOptionSettingModalSchema => {
+    return useMemo(() => answerOptionSettingModalSchema, []);
+  };

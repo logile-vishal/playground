@@ -1,30 +1,42 @@
 import { z as zod } from "zod";
+import { useMemo } from "react";
 
 import {
   answerConditionRefinement,
   baseTriggerTaskSchema,
   recipientsRequiredRefinement,
 } from "./trigger-task";
-import { richTextValidationSchema } from "./questions";
+import { useQuestionStepSchema } from "./questions";
+import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
 
-export const notificationSchema = baseTriggerTaskSchema
-  .extend({
-    messageTemplates: zod.object({
-      id: zod.number().optional(),
-      subject:
-        richTextValidationSchema /** TODO: error message will be modified later */,
-      message:
-        richTextValidationSchema /** TODO: error message will be modified later */,
-    }),
-  })
-  .superRefine((data, ctx) => {
-    recipientsRequiredRefinement(data, ctx);
-    answerConditionRefinement(data, ctx);
-  });
+export const useNotificationStepSchema = () => {
+  const { VALIDATION } = useCreateTemplateTranslations();
+  const { richTextValidationSchema } = useQuestionStepSchema();
+  return useMemo(() => {
+    const notificationSchema = baseTriggerTaskSchema
+      .extend({
+        messageTemplates: zod.object({
+          id: zod.number().optional(),
+          subject: richTextValidationSchema,
+          message: richTextValidationSchema,
+        }),
+      })
+      .superRefine((data, ctx) => {
+        recipientsRequiredRefinement(data, ctx);
+        answerConditionRefinement(data, ctx);
+      });
 
-export const notificationStepSchema = zod.object({
-  notification: notificationSchema,
-});
+    const notificationStepSchema = zod.object({
+      notification: notificationSchema,
+    });
 
-export type NotificationStep = zod.infer<typeof notificationStepSchema>;
-export type NotificationSchema = zod.infer<typeof notificationSchema>;
+    return { notificationStepSchema, notificationSchema };
+  }, [VALIDATION, richTextValidationSchema]);
+};
+
+export type NotificationStep = zod.infer<
+  ReturnType<typeof useNotificationStepSchema>["notificationStepSchema"]
+>;
+export type NotificationSchema = zod.infer<
+  ReturnType<typeof useNotificationStepSchema>["notificationSchema"]
+>;

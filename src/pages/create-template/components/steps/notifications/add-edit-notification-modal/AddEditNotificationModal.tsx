@@ -15,7 +15,7 @@ import CRichTextEditor from "@/core/components/form/rich-text-editor/RichTextEdi
 import CModal, { ModalBody } from "@/core/components/modal/Modal";
 import CIconButton from "@/core/components/button/IconButton";
 import {
-  notificationStepSchema,
+  useNotificationStepSchema,
   type NotificationSchema,
 } from "@/pages/create-template/form-schema/steps/notifications";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,6 +58,7 @@ const AddEditNotificationModal = ({
   getAnswerLabel,
   optionLevelTrigger = false,
 }) => {
+  const { notificationStepSchema } = useNotificationStepSchema();
   const { NOTIFICATIONS, FOLLOWUP_TASKS } = useCreateTemplateTranslations();
   const { GENERAL } = useCommonTranslation();
   const {

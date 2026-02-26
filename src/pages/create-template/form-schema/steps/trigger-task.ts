@@ -1,4 +1,5 @@
 import { z as zod } from "zod";
+import { useMemo } from "react";
 
 import { isNonEmptyValue } from "@/utils";
 
@@ -146,6 +147,10 @@ export const recipientsRequiredRefinement = <
       path: ["recipients"],
     });
   }
+};
+
+export const useBaseTriggerTaskSchema = (): typeof baseTriggerTaskSchema => {
+  return useMemo(() => baseTriggerTaskSchema, []);
 };
 
 export type TriggerCondition = zod.infer<typeof triggerConditionSchema>;

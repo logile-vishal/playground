@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import {
-  followUpTaskStepSchema,
+  useFollowUpTaskStepSchema,
   type FollowUpTaskSchema,
 } from "@/pages/create-template/form-schema/steps/followup-tasks";
 import {
@@ -42,6 +42,7 @@ const AddEditFollowUpModal = ({
   answerIndex = null,
   optionLevelTrigger = false,
 }) => {
+  const { followUpTaskStepSchema } = useFollowUpTaskStepSchema();
   const {
     trigger: triggerValidation,
     control,

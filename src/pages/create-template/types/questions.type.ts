@@ -45,7 +45,7 @@ type AdvanceSettingsProps = {
       isApplicable: boolean;
       clustersList?:
         | {
-            clusterId: string;
+            clusterId: number;
             clusterName: string | null;
             clusterValueId: string;
             clusterValueName: string | null;
