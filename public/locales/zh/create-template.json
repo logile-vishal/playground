@@ -496,5 +496,25 @@
       "optionsRequired": "至少需要一个答案选项",
       "formulaInvalid": "公式必须包含有效运算符（<, >, <=, >=, ==, <>, AND, OR）或数字"
     }
+  },
+  "DELETE_CONFIRMATION": {
+    "QUESTION": {
+      "title": "删除问题",
+      "messageFirstPart": "您要删除的问题通过“基于先前答案”条件与另一个问题相关联。",
+      "messageSecondPart": "删除该问题可能会破坏这种依赖关系，如果被引用的问题不再位于条件问题之前，则条件逻辑将被移除。",
+      "messageThirdPart": "您确定要删除此问题吗？",
+      "messageFourthPart": "此操作无法撤销。"
+    },
+    "COLUMN": {
+      "title": "删除列",
+      "messageFirstPart": "您确定要删除此列吗？",
+      "messageSecondPart": "此操作无法撤销。"
+    },
+    "QUESTION_OPTION": {
+      "title": "删除选项",
+      "first_part_message": "此选项关联了一个或多个通知或后续任务。删除此选项也会移除所有相关的通知和后续任务。",
+      "second_part_message": "您确定要删除此选项吗？",
+      "third_part_message": "此操作无法撤销。"
+    }
   }
 }

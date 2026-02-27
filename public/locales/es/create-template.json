@@ -492,5 +492,25 @@
       "optionsRequired": "Se requiere al menos una opción de respuesta",
       "formulaInvalid": "La fórmula debe contener operadores válidos (<, >, <=, >=, ==, <>, AND, OR) o números"
     }
+  },
+  "DELETE_CONFIRMATION": {
+    "QUESTION": {
+      "title": "Eliminar pregunta",
+      "messageFirstPart": "La pregunta que estás eliminando está vinculada a otra pregunta mediante la condición \"Basado en la respuesta anterior\". ",
+      "messageSecondPart": "Eliminar las preguntas puede romper esa dependencia, y la lógica condicional se eliminará si la pregunta referenciada ya no está antes de la pregunta condicional.",
+      "messageThirdPart": "¿Estás seguro de que deseas eliminar esta pregunta? ",
+      "messageFourthPart": "Esta acción no se puede deshacer."
+    },
+    "COLUMN": {
+      "title": "Eliminar columna",
+      "messageFirstPart": "¿Estás seguro de que deseas eliminar esta columna?",
+      "messageSecondPart": "Esta acción no se puede deshacer."
+    },
+    "QUESTION_OPTION": {
+      "title": "Eliminar opción",
+      "first_part_message": "Esta opción tiene una o más notificaciones o tareas de seguimiento asociadas. Eliminar esta opción también eliminará todas las notificaciones y tareas de seguimiento vinculadas.",
+      "second_part_message": "¿Estás seguro de que deseas eliminar esta opción?",
+      "third_part_message": "Esta acción no se puede deshacer."
+    }
   }
 }

@@ -21,7 +21,6 @@ import type {
 import CTabs from "@/core/components/tabs/Tabs";
 import { CButton } from "@/core/components/button/button";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
-import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import CDivider from "@/core/components/divider/Divider";
 import CRichTextEditor from "@/core/components/form/rich-text-editor/RichTextEditor";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
@@ -43,6 +42,7 @@ import QuestionCardOptionsComponent from "../question-card-options/QuestionCardO
 import AnswerOptionSettingModal from "../answer-options-setting-modal/AnswerOptionSettingModal";
 import AdvanceTab from "./advance-tab/AdvanceTab";
 import "./QuestionCardExpanded.scss";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 
 function TabPanel(props) {
   const { children, value } = props;
@@ -59,8 +59,9 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
   isAddQuestionAllowed,
   walkMeIdPrefix,
 }) => {
-  const { QUESTIONS, QUESTION_BADGE_CONFIG } = useCreateTemplateTranslations();
-  const { DELETE_CONFIRMATION } = useCommonTranslation();
+  const { QUESTIONS, QUESTION_BADGE_CONFIG, DELETE_CONFIRMATION } =
+    useCreateTemplateTranslations();
+  const { GENERAL } = useCommonTranslation();
   const [currentTab, setCurrentTab] = useState(
     QUESTIONS.EXPANDED_QUESTION_CARD_TAB_LABELS.BASIC.value
   );
@@ -78,6 +79,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     questionId: null,
     answerIndex: null,
   });
+  const [questionHasDependency, setQuestionHasDependency] = useState(false);
   const {
     control,
     watch,
@@ -92,6 +94,7 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
     cloneExistingQuestion,
     deleteQuestion,
     modifyOptions,
+    questionDependencyCheck,
   } = useQuestionListManager();
   const watchQuestionList = watch("questions") as QuestionProps[];
   const shouldShowDeleteIcon =
@@ -258,6 +261,11 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
    */
   const handleDeleteQuestionClick = (): void => {
     setDeleteQuestionConfirmationModal(true);
+    const doQuestionHasDependency = questionDependencyCheck(
+      watchQuestionList,
+      question.qId
+    );
+    setQuestionHasDependency(doQuestionHasDependency);
   };
 
   /**
@@ -939,9 +947,9 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
             onClose={handleCloseQuestionDeleteModal}
             title={DELETE_CONFIRMATION.QUESTION.title + "  " + index}
             showActions={true}
-            size="small"
+            size="medium"
             severity={BUTTON_SEVERITY.destructive}
-            confirmText={DELETE_CONFIRMATION.QUESTION.confirmLabel}
+            confirmText={GENERAL.deleteButtonLabel}
             className="template-delete__modal-body"
             walkMeIdPrefix={[
               ...walkMeIdPrefix,
@@ -952,14 +960,26 @@ const QuestionCardExpanded: React.FC<QuestionCardProps> = ({
           >
             <ModalBody>
               <Box className="template-delete__modal-body">
+                {questionHasDependency && (
+                  <Typography>
+                    {DELETE_CONFIRMATION.QUESTION.messageFirstPart}
+                  </Typography>
+                )}
+
+                {questionHasDependency && (
+                  <Typography>
+                    {DELETE_CONFIRMATION.QUESTION.messageSecondPart}
+                  </Typography>
+                )}
+
                 <Typography>
-                  {DELETE_CONFIRMATION.QUESTION.messageFirstPart +
+                  {DELETE_CONFIRMATION.QUESTION.messageThirdPart +
                     " " +
                     index +
                     "?"}
                 </Typography>
                 <Typography>
-                  {DELETE_CONFIRMATION.QUESTION.messageSecondPart}
+                  {DELETE_CONFIRMATION.QUESTION.messageFourthPart}
                 </Typography>
               </Box>
             </ModalBody>

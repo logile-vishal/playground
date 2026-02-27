@@ -72,34 +72,6 @@ export const useCommonTranslation = () => {
     modalMessage: t("NAVIGATION_GUARD.modalMessage"),
     confirmButtonLabel: t("NAVIGATION_GUARD.confirmButtonLabel"),
   };
-  const DELETE_CONFIRMATION = {
-    QUESTION: {
-      title: t("DELETE_CONFIRMATION.QUESTION.title"),
-      messageFirstPart: t("DELETE_CONFIRMATION.QUESTION.messageFirstPart"),
-      messageSecondPart: t("DELETE_CONFIRMATION.QUESTION.messageSecondPart"),
-      confirmLabel: t("DELETE_CONFIRMATION.QUESTION.confirmLabel"),
-      cancelLabel: t("DELETE_CONFIRMATION.QUESTION.cancelLabel"),
-    },
-    COLUMN: {
-      title: t("DELETE_CONFIRMATION.COLUMN.title"),
-      messageFirstPart: t("DELETE_CONFIRMATION.COLUMN.messageFirstPart"),
-      messageSecondPart: t("DELETE_CONFIRMATION.COLUMN.messageSecondPart"),
-      confirmLabel: t("DELETE_CONFIRMATION.COLUMN.confirmLabel"),
-    },
-    QUESTION_OPTION: {
-      title: t("DELETE_CONFIRMATION.QUESTION_OPTION.title"),
-      first_part_message: t(
-        "DELETE_CONFIRMATION.QUESTION_OPTION.first_part_message"
-      ),
-      second_part_message: t(
-        "DELETE_CONFIRMATION.QUESTION_OPTION.second_part_message"
-      ),
-      third_part_message: t(
-        "DELETE_CONFIRMATION.QUESTION_OPTION.third_part_message"
-      ),
-      confirmLabel: t("DELETE_CONFIRMATION.QUESTION_OPTION.confirmLabel"),
-    },
-  };
 
   return {
     GENERAL,
@@ -112,6 +84,5 @@ export const useCommonTranslation = () => {
     NESTED_MENU,
     SELECT,
     NAVIGATION_GUARD,
-    DELETE_CONFIRMATION,
   };
 };

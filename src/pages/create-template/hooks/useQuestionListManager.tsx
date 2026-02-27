@@ -190,6 +190,37 @@ export const isOptionRequired = (type: string) => {
 };
 
 /**
+ * @method questionDependencyCheck
+ * @param {QuestionProps[]} questions - The list of questions to check for dependencies.
+ * @param {string} deletedQuestionId - The ID of the question that is being considered for deletion.
+ * @description Recursively checks if any question in the provided list (including sub-questions) has a dependency on the question with the given ID, based on advanced visibility rules.
+ * @returns {boolean} - Returns true if a dependency on the deleted question is found; otherwise, returns false.
+ */
+const questionDependencyCheck = (
+  questions: QuestionProps[],
+  deletedQuestionId: string
+): boolean => {
+  for (const question of questions) {
+    const basedOnPreviousAnswers =
+      question.questionAdvancedSettings?.visibilityRule?.basedOnPreviousAnswers;
+
+    if (
+      basedOnPreviousAnswers?.isApplicable &&
+      basedOnPreviousAnswers?.previousAnswers?.questionTitle ===
+        deletedQuestionId
+    ) {
+      return true;
+    }
+
+    if (question.subQuestions && question.subQuestions.length > 0) {
+      if (questionDependencyCheck(question.subQuestions, deletedQuestionId)) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+/**
  * @method cleanupDeletedQuestionReferences
  * @param {QuestionProps[]} questions - The questions list to clean
  * @param {string} deletedQuestionId - The ID of the deleted question
@@ -1040,6 +1071,7 @@ const useQuestionListManager = () => {
     modifyOptions,
     triggerQuestionValidation,
     onDragMoveQuestion,
+    questionDependencyCheck,
   };
 };
 
