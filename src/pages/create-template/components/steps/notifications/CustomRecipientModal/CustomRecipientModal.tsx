@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Box } from "@mui/material";
 
 import {
-  triggerNewCustomRecipientStepSchema,
+  useTriggerTaskSchemas,
   type TriggerRecipient,
 } from "@/pages/create-template/form-schema/steps/trigger-task";
 import clsx from "@/utils/clsx";
@@ -35,6 +35,7 @@ const CustomRecipientModal = ({
 }) => {
   const { NOTIFICATIONS } = useCreateTemplateTranslations();
   const { GENERAL } = useCommonTranslation();
+  const { triggerNewCustomRecipientStepSchema } = useTriggerTaskSchemas();
   const {
     control,
     watch,

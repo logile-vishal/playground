@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { Box, InputAdornment, Tooltip } from "@mui/material";
 import {
   LocalizationProvider,
@@ -14,7 +14,6 @@ import {
   CalendarBlank,
   Camera,
   CameraRequired,
-  ChevronDown,
   InfoCircle,
 } from "@/core/constants/icons";
 import CCheckbox from "@/core/components/form/checkbox/Checkbox";
@@ -157,16 +156,6 @@ export const RenderDropdown: React.FC<{
     question,
     questionAttachmentConfig.PHOTO.value
   );
-  const IconComponentMemoized = useMemo(
-    () => (iconProps: Record<string, unknown>) => (
-      <CSvgIcon
-        component={ChevronDown}
-        className="template-preview-modal__common-dropdown-icon"
-        {...iconProps}
-      />
-    ),
-    []
-  );
   const dropdownOptions = (option) => {
     const cameraIcon = getAttachmentIcon(
       question,
@@ -228,7 +217,6 @@ export const RenderDropdown: React.FC<{
         "template-preview-modal__common-dropdown": true,
         "template-preview-modal__common-dropdown--mobile": !isDesktopPreview,
       })}
-      IconComponent={IconComponentMemoized}
       templates={{
         inputValueTemplate: () => (
           <Box className="select__placeholder-text">{displayValue}</Box>

@@ -1,17 +1,18 @@
 import { z as zod } from "zod";
 import { useMemo } from "react";
 
-import {
-  answerConditionRefinement,
-  baseTriggerTaskSchema,
-  recipientsRequiredRefinement,
-} from "./trigger-task";
+import { useTriggerTaskSchemas } from "./trigger-task";
 import { useQuestionStepSchema } from "./questions";
 import { useCreateTemplateTranslations } from "../../translation/useCreateTemplateTranslations";
 
 export const useNotificationStepSchema = () => {
   const { VALIDATION } = useCreateTemplateTranslations();
   const { richTextValidationSchema } = useQuestionStepSchema();
+  const {
+    answerConditionRefinement,
+    recipientsRequiredRefinement,
+    baseTriggerTaskSchema,
+  } = useTriggerTaskSchemas();
   return useMemo(() => {
     const notificationSchema = baseTriggerTaskSchema
       .extend({
@@ -31,6 +32,8 @@ export const useNotificationStepSchema = () => {
     });
 
     return { notificationStepSchema, notificationSchema };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [VALIDATION, richTextValidationSchema]);
 };
 

@@ -54,10 +54,12 @@ import TriggerMenu from "../trigger-menu/TriggerMenu";
  * @return {React.ReactNode} Option row JSX element
  */
 const QuestionCardOption = (props: QuestionCardOptionProps) => {
-  const { QUESTION_OPTION } = useCreateTemplateTranslations();
-  const { DELETE_CONFIRMATION } = useCommonTranslation();
+  const { QUESTION_OPTION, DELETE_CONFIRMATION } =
+    useCreateTemplateTranslations();
+  const { GENERAL } = useCommonTranslation();
   const { deleteOption } = useQuestionListManager();
-  const { control, setFormValue, getFormValues } = useCreateTemplateForm();
+  const { control, setFormValue, getFormValues, triggerValidation } =
+    useCreateTemplateForm();
 
   const CompliantOptions = Object.values(
     QUESTION_OPTION.COMPLIANT_DROPDOWN_OPTIONS
@@ -106,9 +108,10 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
     setDeleteQuestionOptionConfirmationModal(false);
   };
 
-  const handleConfirmDelete = (): void => {
+  const handleConfirmDelete = async (): Promise<void> => {
     deleteOption(props.question.qId, deletedOption);
     setDeleteQuestionOptionConfirmationModal(false);
+    await triggerValidation("questions");
   };
 
   const openTriggerCardMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -408,7 +411,7 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
             }
             severity={BUTTON_SEVERITY.destructive}
             size="medium"
-            confirmText={DELETE_CONFIRMATION.QUESTION_OPTION.confirmLabel}
+            confirmText={GENERAL.confirmButtonLabel}
             walkMeIdPrefix={[
               ...props.walkMeIdPrefix,
               "delete",
@@ -418,15 +421,17 @@ const QuestionCardOption = (props: QuestionCardOptionProps) => {
           >
             <ModalBody>
               <Box className="template-delete__modal-body">
+                {props?.answerNotificationList[props.idx]?.length > 0 && (
+                  <Typography>
+                    {DELETE_CONFIRMATION.QUESTION_OPTION.messageFirstPart}
+                  </Typography>
+                )}
                 <Typography>
-                  {DELETE_CONFIRMATION.QUESTION_OPTION.first_part_message}
-                </Typography>
-                <Typography>
-                  {DELETE_CONFIRMATION.QUESTION_OPTION.second_part_message}
+                  {DELETE_CONFIRMATION.QUESTION_OPTION.messageSecondPart}
                 </Typography>
 
                 <Typography>
-                  {DELETE_CONFIRMATION.QUESTION_OPTION.third_part_message}
+                  {DELETE_CONFIRMATION.QUESTION_OPTION.messageThirdPart}
                 </Typography>
               </Box>
             </ModalBody>

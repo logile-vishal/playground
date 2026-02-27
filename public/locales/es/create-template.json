@@ -432,5 +432,85 @@
   "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
     "temperatureReading": "Lectura de temperatura",
     "manualInput": "Entrada manual"
+  },
+  "VALIDATION": {
+    "BASIC_INFO": {
+      "fieldRequired": "Este campo es obligatorio",
+      "directoryRequired": "El directorio es obligatorio"
+    },
+    "QUESTIONS": {
+      "fieldRequired": "Este campo es obligatorio",
+      "questionTextRequired": "El texto de la pregunta es obligatorio",
+      "questionTextMinLength": "El texto de la pregunta debe tener al menos 1 carácter",
+      "questionTextMaxLength": "El texto de la pregunta debe tener como máximo 500 caracteres",
+      "optionsRequired": "Se requiere al menos una opción",
+      "optionTextRequired": "El texto de la opción es obligatorio",
+      "optionTextMaxLength": "El texto de la opción debe tener como máximo 200 caracteres",
+      "minLengthInvalid": "La longitud mínima debe ser un número positivo",
+      "maxLengthInvalid": "La longitud máxima debe ser un número positivo",
+      "minValueInvalid": "El valor mínimo debe ser un número válido",
+      "maxValueInvalid": "El valor máximo debe ser un número válido",
+      "scoreInvalid": "La puntuación debe ser un número válido"
+    },
+    "ADVANCED_OPTIONS": {
+      "complianceThresholdMin": "El umbral de cumplimiento debe ser al menos 0",
+      "complianceThresholdMax": "El umbral de cumplimiento debe ser como máximo 100"
+    },
+    "NOTIFICATIONS": {
+      "conditionRequired": "La condición es obligatoria",
+      "conditionQuestionRequired": "La pregunta de condición es obligatoria",
+      "conditionAnswerRequired": "La respuesta de condición es obligatoria",
+      "recipientsRequired": "Se requiere al menos un destinatario",
+      "subjectRequired": "El asunto es obligatorio",
+      "subjectMaxLength": "El asunto debe tener como máximo 200 caracteres",
+      "messageRequired": "El mensaje es obligatorio",
+      "messageMaxLength": "El mensaje debe tener como máximo 1000 caracteres"
+    },
+    "FOLLOWUP_TASKS": {
+      "conditionRequired": "La condición es obligatoria",
+      "conditionQuestionRequired": "La pregunta de condición es obligatoria",
+      "conditionAnswerRequired": "La respuesta de condición es obligatoria",
+      "taskNameRequired": "El nombre de la tarea es obligatorio",
+      "taskNameMaxLength": "El nombre de la tarea debe tener como máximo 100 caracteres",
+      "templateRequired": "La selección de plantilla es obligatoria",
+      "durationRequired": "La duración es obligatoria",
+      "durationValueRequired": "El valor de la duración es obligatorio",
+      "durationValueMin": "El valor de la duración debe ser al menos 1",
+      "priorityRequired": "La prioridad es obligatoria"
+    },
+    "TRIGGER_TASK": {
+      "fieldRequired": "Este campo es obligatorio",
+      "conditionRequired": "La condición es obligatoria",
+      "questionRequired": "La pregunta es obligatoria",
+      "answerRequired": "La respuesta es obligatoria",
+      "recipientsRequired": "Se requiere al menos un destinatario"
+    },
+    "ANSWER_OPTION_SETTING": {
+      "valueRequired": "El valor es obligatorio",
+      "valueMaxLength": "El valor no puede exceder los 255 caracteres",
+      "scoreInvalid": "La puntuación debe ser un número válido",
+      "optionsRequired": "Se requiere al menos una opción de respuesta",
+      "formulaInvalid": "La fórmula debe contener operadores válidos (<, >, <=, >=, ==, <>, AND, OR) o números"
+    }
+  },
+  "DELETE_CONFIRMATION": {
+    "QUESTION": {
+      "title": "Eliminar pregunta",
+      "messageFirstPart": "La pregunta que estás eliminando está vinculada a otra pregunta mediante la condición \"Basado en la respuesta anterior\". ",
+      "messageSecondPart": "Eliminar las preguntas puede romper esa dependencia, y la lógica condicional se eliminará si la pregunta referenciada ya no está antes de la pregunta condicional.",
+      "messageThirdPart": "¿Estás seguro de que deseas eliminar esta pregunta? ",
+      "messageFourthPart": "Esta acción no se puede deshacer."
+    },
+    "COLUMN": {
+      "title": "Eliminar columna",
+      "messageFirstPart": "¿Estás seguro de que deseas eliminar esta columna?",
+      "messageSecondPart": "Esta acción no se puede deshacer."
+    },
+    "QUESTION_OPTION": {
+      "title": "Eliminar opción",
+      "first_part_message": "Esta opción tiene una o más notificaciones o tareas de seguimiento asociadas. Eliminar esta opción también eliminará todas las notificaciones y tareas de seguimiento vinculadas.",
+      "second_part_message": "¿Estás seguro de que deseas eliminar esta opción?",
+      "third_part_message": "Esta acción no se puede deshacer."
+    }
   }
 }

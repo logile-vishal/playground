@@ -1,6 +1,8 @@
 // React & third-party
 import { useMemo } from "react";
 import { z as zod } from "zod";
+
+import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
 // Core hooks
 import { useBasicInfoStepSchema } from "./steps/basic-info";
 import { useQuestionStepSchema } from "./steps/questions";
@@ -15,6 +17,7 @@ import {
 } from "./steps/followup-tasks";
 
 export const useCreateTemplateFormSchema = () => {
+  const { VALIDATION } = useCreateTemplateTranslations();
   const basicInfoStepSchema = useBasicInfoStepSchema();
   const { questionStepSchema } = useQuestionStepSchema();
   const advancedOptionsSchema = useAdvancedOptionsSchema();
@@ -25,9 +28,9 @@ export const useCreateTemplateFormSchema = () => {
     () =>
       zod.object({
         columnId: zod.string(),
-        title: zod.string().min(1, "Column title is required"),
+        title: zod.string().min(1, VALIDATION.COLUMNS?.fieldRequired),
       }),
-    []
+    [VALIDATION]
   );
 
   const checklistTypeFormSchema = useMemo(
@@ -37,7 +40,7 @@ export const useCreateTemplateFormSchema = () => {
         basicData: basicInfoStepSchema,
         questions: zod
           .array(questionStepSchema)
-          .min(1, "At least one question is required"),
+          .min(1, VALIDATION.QUESTIONS.optionsRequired),
         advancedOptions: advancedOptionsSchema,
         notifications: zod.array(notificationStepSchema) as zod.ZodType<
           NotificationSchema[]
@@ -52,6 +55,7 @@ export const useCreateTemplateFormSchema = () => {
       advancedOptionsSchema,
       notificationStepSchema,
       followUpTaskStepSchema,
+      VALIDATION,
     ]
   );
 
@@ -62,10 +66,10 @@ export const useCreateTemplateFormSchema = () => {
         basicData: basicInfoStepSchema,
         columns: zod
           .array(gridColumnSchema)
-          .min(1, "At least one column is required"),
+          .min(1, VALIDATION.COLUMNS?.oneColumnRequiredError),
         questions: zod
           .array(questionStepSchema)
-          .min(1, "At least one row is required"),
+          .min(1, VALIDATION.ROWS?.oneRowRequiredError),
         advancedOptions: advancedOptionsSchema,
         notifications: zod.array(notificationStepSchema) as zod.ZodType<
           NotificationSchema[]
@@ -81,6 +85,7 @@ export const useCreateTemplateFormSchema = () => {
       advancedOptionsSchema,
       notificationStepSchema,
       followUpTaskStepSchema,
+      VALIDATION,
     ]
   );
 

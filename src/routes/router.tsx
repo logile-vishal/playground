@@ -6,6 +6,7 @@ import AppShell from "@/layouts/app-shell/AppShell";
 import NoPageFound from "@/layouts/no-page-found/NoPageFound";
 import TemplateLibrary from "@/pages/template-library";
 import CreateTemplate from "@/pages/create-template";
+import AssignTemplate from "@/pages/assign-template";
 import { ComponentLibraryLandingPage } from "@/dev-playground/LandingPage";
 import TestPage from "@/dev-playground/TestPage";
 import { ProtectedRoute } from "@/layouts/protected-routes/ProtectedRoutes";
@@ -64,6 +65,7 @@ const router = createHashRouter([
     children: [
       { index: true, element: <TemplateLibrary /> },
       { path: "create", element: <CreateTemplate /> },
+      { path: "assign", element: <AssignTemplate /> },
     ],
   },
   {

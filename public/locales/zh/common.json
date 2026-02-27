@@ -65,28 +65,5 @@
     "modalTitle": "未保存的更改",
     "modalMessage": "您确定要离开此页面吗？您所做的任何更改都将丢失。",
     "confirmButtonLabel": "确定"
-  },
-  "DELETE_CONFIRMATION": {
-    "QUESTION": {
-      "title": "删除问题",
-      "messageFirstPart": "您确定要删除该问题吗",
-      "messageSecondPart": "此操作无法撤销。",
-      "confirmLabel": "删除",
-      "cancelLabel": "取消"
-    },
-    "COLUMN": {
-      "title": "删除列",
-      "messageFirstPart": "您确定要删除此列吗？",
-      "messageSecondPart": "此操作无法撤销。",
-      "confirmLabel": "删除",
-      "cancelLabel": "取消"
-    },
-    "QUESTION_OPTION": {
-      "title": "删除选项",
-      "first_part_message": "此选项关联了一个或多个通知或后续任务。删除此选项也会移除所有相关的通知和后续任务。",
-      "second_part_message": "您确定要删除此选项吗？",
-      "third_part_message": "此操作无法撤销。",
-      "confirmLabel": "删除"
-    }
   }
 }

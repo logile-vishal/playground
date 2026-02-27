@@ -19,13 +19,13 @@ import CTextarea from "@/core/components/form/textarea/Textarea";
 import CModal, { ModalBody } from "@/core/components/modal/Modal";
 import { BUTTON_SEVERITY } from "@/core/constants/button-constant";
 import { useCreateTemplateTranslations } from "@/pages/create-template/translation/useCreateTemplateTranslations";
-import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 import useCreateTemplateForm from "@/pages/create-template/hooks/useCreateTemplateForm";
 import useColumnListManager from "@/pages/create-template/hooks/useColumnListManager";
 import { CSortableItem } from "@/core/components/drag-drop";
 import type { DragHandleProps } from "@/core/components/drag-drop/types/DragAndDrop.type";
 
 import "./ColumnCardExpanded.scss";
+import { useCommonTranslation } from "@/core/translation/useCommonTranslation";
 
 const ColumnCardExpanded: React.FC<ColumnCardProps> = ({
   column,
@@ -35,8 +35,8 @@ const ColumnCardExpanded: React.FC<ColumnCardProps> = ({
   isNewColumnAllowed,
   walkMeIdPrefix,
 }) => {
-  const { QUESTIONS } = useCreateTemplateTranslations();
-  const { DELETE_CONFIRMATION } = useCommonTranslation();
+  const { QUESTIONS, DELETE_CONFIRMATION } = useCreateTemplateTranslations();
+  const { GENERAL } = useCommonTranslation();
   const { control, watch, formErrors } = useCreateTemplateForm();
   const { removeColumn, copyExistingColumn } = useColumnListManager();
   const [deleteColumnConfirmationModal, setDeleteColumnConfirmationModal] =
@@ -151,7 +151,7 @@ const ColumnCardExpanded: React.FC<ColumnCardProps> = ({
               showActions={true}
               size="medium"
               severity={BUTTON_SEVERITY.destructive}
-              confirmText={DELETE_CONFIRMATION.COLUMN.confirmLabel}
+              confirmText={GENERAL.confirmButtonLabel}
               walkMeIdPrefix={["delete", "column", "confirmation-modal"]}
             >
               <ModalBody>

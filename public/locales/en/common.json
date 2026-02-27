@@ -65,28 +65,5 @@
     "modalTitle": "Unsaved Changes",
     "modalMessage": "Are you sure you want to leave this screen? Any changes you have made will be lost.",
     "confirmButtonLabel": "Ok"
-  },
-  "DELETE_CONFIRMATION": {
-    "QUESTION": {
-      "title": "Delete Question",
-      "messageFirstPart": "Are you sure you want to delete Question",
-      "messageSecondPart": "This action cannot be undone.",
-      "confirmLabel": "Delete",
-      "cancelLabel": "Cancel"
-    },
-    "COLUMN": {
-      "title": "Delete Column",
-      "messageFirstPart": "Are you sure you want to delete this column?",
-      "messageSecondPart": "This action cannot be undone.",
-      "confirmLabel": "Delete",
-      "cancelLabel": "Cancel"
-    },
-    "QUESTION_OPTION": {
-      "title": "Delete Option",
-      "first_part_message": "This option has one or more notifications or follow-up tasks associated with it. Deleting this option will also remove all linked notifications and follow-up tasks.",
-      "second_part_message": "Are you sure you want to delete this option?",
-      "third_part_message": "This action cannot be undone.",
-      "confirmLabel": "Delete"
-    }
   }
 }

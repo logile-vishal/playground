@@ -139,6 +139,11 @@
   &__error {
     @include form-label($isClickable: false, $error: true);
   }
+  &__table-skelton {
+    @include flex-box($direction: column);
+    gap: var(--space-m);
+    padding: var(--space-m);
+  }
 }
 
 .ct-follow-up-template-searchbar {

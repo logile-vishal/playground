@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -51,7 +51,6 @@ const AddEditFollowUpModal = ({
     handleSubmit,
     watch,
     reset,
-    clearErrors,
     formState: { errors },
   } = useForm<{
     followUp: FollowUpTaskSchema;
@@ -165,48 +164,81 @@ const AddEditFollowUpModal = ({
     })();
   };
 
-  const handleValidateAndNext = async (nextStep: number): Promise<void> => {
+  /**
+   * @method getNextStep
+   * @description Get the next step index and data based on the type
+   * @returns {Object} nextIndex and data for the next step
+   */
+  const getNextStep = (type) => {
+    let nextIndex = 0;
+    let data = null;
+    if (isNonEmptyValue(type)) {
+      stepperOptions.forEach((option, index) => {
+        if (option.value === type) {
+          nextIndex = index;
+          data = option;
+        }
+      });
+    }
+    return { nextIndex, data };
+  };
+
+  /**
+   * @method handleValidateAndNext
+   * @description Validate the current step and move to the next step if valid
+   * @returns {Promise<void>}
+   */
+  const handleValidateAndNext = async (): Promise<void> => {
     if (
-      currentStep.data.value ===
+      currentStep?.data?.value ===
       FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.condition.value
     ) {
       checkConditionValidity().then((isValid) => {
         if (isValid) {
+          const nextStep = getNextStep(
+            FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.recipients.value
+          );
           setCurrentStep((prev) => ({
             ...prev,
-            activeStep: nextStep,
-            data: stepperOptions[nextStep],
+            activeStep: nextStep.nextIndex,
+            data: nextStep.data,
           }));
         }
       });
     } else if (
-      currentStep.data.value ===
+      currentStep?.data?.value ===
       FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.recipients.value
     ) {
       checkRecipientsValidity().then((isValid) => {
         if (isValid) {
+          const nextStep = getNextStep(
+            FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.template.value
+          );
           setCurrentStep((prev) => ({
             ...prev,
-            activeStep: nextStep,
-            data: stepperOptions[nextStep],
+            activeStep: nextStep.nextIndex,
+            data: nextStep.data,
           }));
         }
       });
     } else if (
-      currentStep.data.value ===
+      currentStep?.data?.value ===
       FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.template.value
     ) {
       checkTemplateValidity().then((isValid) => {
         if (isValid) {
+          const nextStep = getNextStep(
+            FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.settings.value
+          );
           setCurrentStep((prev) => ({
             ...prev,
-            activeStep: nextStep,
-            data: stepperOptions[nextStep],
+            activeStep: nextStep.nextIndex,
+            data: nextStep.data,
           }));
         }
       });
     } else if (
-      currentStep.data.value ===
+      currentStep?.data?.value ===
       FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.settings.value
     ) {
       checkSettingValidity().then((isValid) => {
@@ -217,17 +249,15 @@ const AddEditFollowUpModal = ({
     }
   };
 
-  const handleNext = () => {
-    handleValidateAndNext(currentStep.activeStep + 1);
+  const handleStepChange = (event: {
+    activeStep: number;
+    data: StepOption;
+  }): void => {
+    setCurrentStep({
+      activeStep: event.activeStep,
+      data: event.data,
+    });
   };
-
-  const handleStepChange = useCallback(
-    (event: { activeStep: number; data: StepOption }): void => {
-      handleValidateAndNext(event.activeStep);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   const getQuestionsList = (): Array<{ label: string; value: string }> => {
     return watchQuestionList
@@ -268,16 +298,6 @@ const AddEditFollowUpModal = ({
       });
     }
   }, [showFollowUpModal, setValue]);
-
-  useEffect(() => {
-    clearErrors([
-      "followUp.questionId",
-      "followUp.answerIndex",
-      "followUp.recipients",
-      "followUp.customRecipients",
-    ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchFollowUp.condition]);
 
   const conditionStepperData = {
     label: FOLLOWUP_TASKS.ADD_FOLLOWUP_TASK_MODAL.STEPPER.condition.label,
@@ -448,7 +468,7 @@ const AddEditFollowUpModal = ({
           <CButton
             variant="solid"
             severity="secondary"
-            onClick={handleNext}
+            onClick={handleValidateAndNext}
           >
             {GENERAL.nextButtonLabel}
           </CButton>

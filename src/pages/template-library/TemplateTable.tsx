@@ -1,4 +1,5 @@
 import { useState, useEffect, forwardRef, type ForwardedRef } from "react";
+import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import type { MRT_Cell, MRT_Column } from "material-react-table";
@@ -88,6 +89,7 @@ const LibraryTable = forwardRef(
     } = props;
     const { TEMPLATE_TABLE_COLUMN_HEADINGS, DELETE_MODAL } =
       useTemplateLibraryTranslations();
+    const navigate = useNavigate();
     const [tableActionMenu, setTableActionMenu] = useState<
       Record<ActionMenuKeys, MenuState>
     >({
@@ -159,6 +161,10 @@ const LibraryTable = forwardRef(
       else deleteTemplateById(deleteModal?.data?.templateId);
 
       handleDeleteModalClose();
+    };
+
+    const handleAssignTemplate = (data) => {
+      navigate("/templates/assign", { state: { templateData: data } });
     };
 
     const handleRowSelection = (
@@ -569,13 +575,11 @@ const LibraryTable = forwardRef(
                     })}
                   >
                     <span>{data?.status}</span>
-                    <span>
-                      <CSvgIcon
-                        component={ExclamationTriangle}
-                        size={16}
-                        color="violation"
-                      />
-                    </span>
+                    <CSvgIcon
+                      component={ExclamationTriangle}
+                      size={16}
+                      color="violation"
+                    />
                   </span>
                 ) : (
                   <span className="template-name-cell-additional-details__status-value">
@@ -731,7 +735,8 @@ const LibraryTable = forwardRef(
                 ? true
                 : false
             }
-            walkMeId={["template-library", "template-table", "assignee-task"]}
+            onClick={() => handleAssignTemplate(cell?.row?.original)}
+            walkMeId={["template-table", "assignee-task"]}
             className={clsx({
               "template-table__body-action-button": true,
             })}
@@ -743,7 +748,7 @@ const LibraryTable = forwardRef(
               <CIconButton
                 size="medium"
                 disabled={disabledActions}
-                walkMeId={["template-library", "template-table", "copy-task"]}
+                walkMeId={["template-table", "copy-task"]}
                 className="template-table__action-button"
               >
                 <CSvgIcon component={Copy} />
@@ -751,7 +756,7 @@ const LibraryTable = forwardRef(
               <CIconButton
                 size="medium"
                 disabled={disabledActions}
-                walkMeId={["template-library", "template-table", "edit-task"]}
+                walkMeId={["template-table", "edit-task"]}
                 className="template-table__action-button"
               >
                 <CSvgIcon component={Edit} />
@@ -763,7 +768,7 @@ const LibraryTable = forwardRef(
             severity="destructive"
             disabled={disabledActions || isDeleteTemplateLoading}
             onClick={() => handleDeleteModalOpen(cell?.row?.original)}
-            walkMeId={["template-library", "template-table", "delete-task"]}
+            walkMeId={["template-table", "delete-task"]}
             className="template-table__action-button"
           >
             <CSvgIcon component={Delete} />
@@ -941,7 +946,6 @@ const LibraryTable = forwardRef(
       enableBottomToolbar: false,
       enableTopToolbar: false,
       muiTableBodyRowProps: { hover: false },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     };
 
     return (

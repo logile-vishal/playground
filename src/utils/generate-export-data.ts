@@ -166,10 +166,10 @@ export const templateTableExportData = (
 ): ExportRecord[] => {
   return exportData?.map((item: TemplateType) => ({
     [EXPORT_COLUMN_KEYS.TEMPLATE_NAME]: item?.templateName,
-    [EXPORT_COLUMN_KEYS.CREATED]: item?.createdTime,
     [EXPORT_COLUMN_KEYS.TYPE]: item?.tagType,
-    [EXPORT_COLUMN_KEYS.LAST_MODIFIED]: item?.lastModifiedTime,
     [EXPORT_COLUMN_KEYS.STATUS]: item?.status,
+    [EXPORT_COLUMN_KEYS.CREATED]: item?.createdTime,
+    [EXPORT_COLUMN_KEYS.LAST_MODIFIED]: item?.lastModifiedTime,
   }));
 };
 

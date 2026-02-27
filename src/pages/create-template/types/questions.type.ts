@@ -351,6 +351,11 @@ export type TemplateTagsProps = {
   attributeValue?: string;
 };
 
+export type TemplateTagsPropsForAdvanceFilter = {
+  value: string;
+  filterPath: string;
+};
+
 export type AdvanceTabProps = {
   questionFormPath: string;
   question: QuestionProps;

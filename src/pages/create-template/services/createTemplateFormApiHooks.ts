@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { PaginatedResponse } from "@/core/types/pagination.type";
 
 import type { ClusterItem } from "../types/questions.type";
-import { getClusters } from "./create-template-form.service";
+import { getClusters } from "./create-template.service";
 /**
  * @method useGetClustersOptions
  * @description hook to fetch question tags options

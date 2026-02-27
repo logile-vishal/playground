@@ -1,0 +1,5 @@
+@use "@/styles/mixins/mixins.scss" as *;
+
+.at-settings {
+  @include placeholder-page;
+}

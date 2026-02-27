@@ -69,7 +69,6 @@ const AddEditNotificationModal = ({
     setValue,
     reset,
     formState: { errors },
-    clearErrors,
   } = useForm<{
     notification: NotificationSchema;
   }>({
@@ -177,7 +176,7 @@ const AddEditNotificationModal = ({
     updatedNotification.customRecipients = recipientData.customRecipients;
     updatedNotification.isRelative = recipientData.isRelative;
     updatedNotification.isOrgTypeRelative = recipientData.isOrgTypeRelative;
-    setValue("notification", updatedNotification, { shouldValidate: true });
+    setValue("notification", updatedNotification);
   };
 
   useEffect(() => {
@@ -225,18 +224,6 @@ const AddEditNotificationModal = ({
     questionId,
     answerIndex,
   ]);
-
-  useEffect(() => {
-    clearErrors([
-      "notification.questionId",
-      "notification.answerIndex",
-      "notification.recipients",
-      "notification.customRecipients",
-      "notification.messageTemplates.subject",
-      "notification.messageTemplates.message",
-    ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchNotification.condition]);
 
   const getQuestionsList = (): Array<{ label: string; value: string }> => {
     return watchQuestionList

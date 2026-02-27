@@ -1057,6 +1057,32 @@ export const useCreateTemplateTranslations = () => {
       value: "manual_input",
     },
   ];
+  const DELETE_CONFIRMATION = {
+    QUESTION: {
+      title: t("DELETE_CONFIRMATION.QUESTION.title"),
+      messageFirstPart: t("DELETE_CONFIRMATION.QUESTION.messageFirstPart"),
+      messageSecondPart: t("DELETE_CONFIRMATION.QUESTION.messageSecondPart"),
+      messageThirdPart: t("DELETE_CONFIRMATION.QUESTION.messageThirdPart"),
+      messageFourthPart: t("DELETE_CONFIRMATION.QUESTION.messageFourthPart"),
+    },
+    COLUMN: {
+      title: t("DELETE_CONFIRMATION.COLUMN.title"),
+      messageFirstPart: t("DELETE_CONFIRMATION.COLUMN.messageFirstPart"),
+      messageSecondPart: t("DELETE_CONFIRMATION.COLUMN.messageSecondPart"),
+    },
+    QUESTION_OPTION: {
+      title: t("DELETE_CONFIRMATION.QUESTION_OPTION.title"),
+      messageFirstPart: t(
+        "DELETE_CONFIRMATION.QUESTION_OPTION.messageFirstPart"
+      ),
+      messageSecondPart: t(
+        "DELETE_CONFIRMATION.QUESTION_OPTION.messageSecondPart"
+      ),
+      messageThirdPart: t(
+        "DELETE_CONFIRMATION.QUESTION_OPTION.messageThirdPart"
+      ),
+    },
+  };
 
   const VALIDATION = {
     BASIC_INFO: {
@@ -1076,6 +1102,14 @@ export const useCreateTemplateTranslations = () => {
       minValueInvalid: t("VALIDATION.QUESTIONS.minValueInvalid"),
       maxValueInvalid: t("VALIDATION.QUESTIONS.maxValueInvalid"),
       scoreInvalid: t("VALIDATION.QUESTIONS.scoreInvalid"),
+    },
+    COLUMNS: {
+      fieldRequired: t("VALIDATION.COLUMNS.fieldRequired"),
+      oneColumnRequiredError: t("VALIDATION.COLUMNS.oneColumnRequiredError"),
+    },
+    ROWS: {
+      fieldRequired: t("VALIDATION.ROWS.fieldRequired"),
+      oneRowRequiredError: t("VALIDATION.ROWS.oneRowRequiredError"),
     },
     ADVANCED_OPTIONS: {
       complianceThresholdMin: t(
@@ -1155,5 +1189,6 @@ export const useCreateTemplateTranslations = () => {
     ADVANCED_TAB_NUMERIC_VALUE_TYPE_OPTIONS,
     ADVANCED_TAB_PREVIOUS_EXECUTION_STATUS,
     VALIDATION,
+    DELETE_CONFIRMATION,
   };
 };

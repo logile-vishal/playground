@@ -1,11 +1,14 @@
 import type { PopoverProps } from "@mui/material";
 import type { NestedMenuItem } from "@/core/components/nested-menu/types";
-import type { TemplateTagsProps } from "./questions.type";
+import type {
+  TemplateTagsProps,
+  TemplateTagsPropsForAdvanceFilter,
+} from "./questions.type";
 
 export type TagSelectorProps = {
   label: string;
   placeholder: string;
-  value: TemplateTagsProps[];
+  value: TemplateTagsProps[] | TemplateTagsPropsForAdvanceFilter[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDelete: (event: React.MouseEvent, data: NestedMenuItem) => void;
   className?: string;
@@ -13,4 +16,5 @@ export type TagSelectorProps = {
   transformOrigin?: PopoverProps["transformOrigin"];
   menuWidth?: string;
   menuHeight?: string;
+  isInLineLabel?: boolean;
 };
