@@ -176,7 +176,7 @@ const AddEditNotificationModal = ({
     updatedNotification.customRecipients = recipientData.customRecipients;
     updatedNotification.isRelative = recipientData.isRelative;
     updatedNotification.isOrgTypeRelative = recipientData.isOrgTypeRelative;
-    setValue("notification", updatedNotification, { shouldValidate: true });
+    setValue("notification", updatedNotification);
   };
 
   useEffect(() => {

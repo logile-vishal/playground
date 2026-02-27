@@ -623,6 +623,16 @@ const FollowUpTemplate = ({
     setShouldShowErrors(false);
   };
 
+  const renderSkelton = () => {
+    return (
+      <div className="ct-follow-up-template__table-skelton">
+        {renderTemplateRowSkelton()}
+        {renderTemplateRowSkelton()}
+        {renderTemplateRowSkelton()}
+      </div>
+    );
+  };
+
   /**
    * @method renderSelectedTemplateDetails
    * @description Renders the selected template details section with change button
@@ -673,7 +683,9 @@ const FollowUpTemplate = ({
           }}
         />
       </div>
-      {selectedTemplate ? (
+      {isTemplatesLoading ? (
+        renderSkelton()
+      ) : selectedTemplate ? (
         renderSelectedTemplateDetails()
       ) : (
         <>
