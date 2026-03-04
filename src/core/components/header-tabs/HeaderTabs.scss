@@ -1,0 +1,182 @@
+.header-tabs {
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  // gap: 0; // Flares handle spacing
+
+  &--bordered {
+  }
+}
+
+.header-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+  
+  // Accessibility Focus Ring via pseudo-element
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px 8px 0 0; // Matches active background border-radius
+    pointer-events: none;
+    z-index: 20; // Render above all children including active-bg and flares
+  }
+
+  &:focus-visible:not(:disabled) {
+    z-index: 5;
+    &::before {
+      box-shadow:
+        0 0 0 2px var(--logile-bg-base, #ffffff),
+        0 0 0 4px var(--logile-focus-ring-default, #0a68db80);
+    }
+  }
+  
+  // Stacking context so active bg goes behind other tabs
+  z-index: 1;
+
+  &--active {
+    z-index: 2; // bring active tab above others
+    cursor: default;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 3; // Above background
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px; 
+  }
+
+  &__label {
+    font-size: var(--logile-size-kpi-text, 17px);
+    line-height: var(--logile-line-height-kpi-text, 25px);
+    white-space: nowrap;
+    color: var(--logile-text-secondary, #5c5c5c);
+    font-weight: var(--logile-weight-400, 400);
+
+    .header-tab--active & {
+      font-size: var(--logile-size-body-large, 17px);
+      line-height: var(--logile-line-height-body-large, 25px);
+      color: var(--logile-text-brand-primary-dark-mode-alt, #0a68db);
+      font-weight: var(--logile-weight-500, 500);
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    color: inherit;
+  }
+
+  &__alert-dot {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--logile-utility-red-600, #e22d20);
+    border: 2px solid var(--logile-bg-container-1, #ffffff);
+    border-radius: 50%;
+    
+    // Figma dot sizing is a visual 12px core with a white cutout
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      background-color: var(--logile-utility-red-600, #e22d20);
+      border-radius: 50%;
+    }
+  }
+
+
+  // ────────────────────────────────────────────────────────────
+  // ACTIVE BACKGROUND — CSS Radial Gradients
+  // ────────────────────────────────────────────────────────────
+  $bg-color: var(--logile-bg-container-1, #ffffff);
+  $border-color: var(--logile-border-secondary, #dcdcdc);
+  $curve-size: 8px;
+  $border-width: var(--border-s);
+
+  &__active-bg {
+    position: absolute;
+    inset: 0;
+    background-color: $bg-color;
+    border-radius: $curve-size $curve-size 0 0;
+    z-index: 0;
+
+    .header-tabs--bordered & {
+      border: $border-width solid $border-color;
+      border-bottom: none;
+      
+      // The mask that removes the bottom border of the parent container
+      // Exactly fills the space between the flares
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: calc(var(--border-s) * -1);
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: $bg-color;
+        z-index: 10;
+      }
+    }
+  }
+
+  // Pure CSS Flares mapping exactly to the 8px curve
+  &__flare {
+    position: absolute;
+    bottom: 0px;
+    width: $curve-size;
+    height: $curve-size;
+    pointer-events: none;
+    z-index: 11; // above borders
+    background: transparent;
+  }
+
+  &__flare--left {
+    // Fill the empty space with white shadow
+    left: -$curve-size; 
+    border-bottom-right-radius: $curve-size;
+    box-shadow: 4px 4px 0 4px $bg-color;
+
+    .header-tabs--bordered & {
+      // Create the 1px arc outline
+      border-right: $border-width solid $border-color;
+      border-bottom: $border-width solid $border-color;
+    }
+  }
+
+  &__flare--right {
+    // Fill the empty space with white shadow
+    right: -$curve-size;
+    border-bottom-left-radius: $curve-size;
+    box-shadow: -4px 4px 0 4px $bg-color;
+
+    .header-tabs--bordered & {
+       // Create the 1px arc outline
+      border-left: $border-width solid $border-color;
+      border-bottom: $border-width solid $border-color;
+    }
+  }
+}

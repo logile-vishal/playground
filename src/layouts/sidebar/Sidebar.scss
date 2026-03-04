@@ -165,7 +165,11 @@
     background: var(--logile-bg-state-navbar-active);
   }
 }
+.sidebar-expanded {
+  width: var(--sidebar-width-expanded);
+  padding: 0 var(--space-2xl);
+}
 .sidebar-mobile {
-  width: var(--sidebar-width-mobile);
+  width: var(--sidebar-width-expanded);
   padding: 0 var(--space-2xl);
 }

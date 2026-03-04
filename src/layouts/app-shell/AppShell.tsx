@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useIsDesktopViewport } from "@/utils/get-viewport-size";
 
@@ -12,32 +12,14 @@ export default function AppShell() {
   const location = useLocation();
   const activePath = location.pathname;
   const [showMenu, setShowMenu] = useState(false);
-  const sidebarRef = useRef<HTMLDivElement>(null);
   const isDesktop = useIsDesktopViewport();
 
-  const handleMenuAnimation = (menuStatus: boolean) => {
-    sidebarRef.current?.classList.toggle("sidebar--collapsed", !menuStatus);
-  };
+  const handleToggleMenu = () => setShowMenu((prev) => !prev);
+  const handleMenuClose = () => setShowMenu(false);
 
-  const handleToggleMenu = () => {
-    const menuStatus = !showMenu;
-    setShowMenu(menuStatus);
-    handleMenuAnimation(menuStatus);
-  };
-
-  const handleMenuClose = () => {
-    setShowMenu(false);
-    handleMenuAnimation(false);
-  };
-
+  // Close any open drawer when switching between desktop / mobile
   useEffect(() => {
-    if (isDesktop) {
-      setShowMenu(true);
-      handleMenuAnimation(true);
-    } else {
-      setShowMenu(false);
-      handleMenuAnimation(false);
-    }
+    setShowMenu(false);
   }, [isDesktop]);
 
   return (
@@ -45,14 +27,11 @@ export default function AppShell() {
       <NavigationGuard />
       <AppBar handleToggleMenu={handleToggleMenu} />
       <div className="app-shell__layout">
-        {showMenu && (
-          <Sidebar
-            activePath={activePath}
-            sidebarRef={sidebarRef}
-            showMenu={showMenu}
-            handleMenuClose={handleMenuClose}
-          />
-        )}
+        <Sidebar
+          activePath={activePath}
+          showMenu={showMenu}
+          handleMenuClose={handleMenuClose}
+        />
         <main className="app-shell__content">
           <Outlet />
         </main>

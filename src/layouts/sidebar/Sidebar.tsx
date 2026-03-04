@@ -112,10 +112,11 @@ const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
-  const renderSidebarContent = () => {
+  const renderSidebarContent = (forceTabletStyle = false) => {
+    const useTabletStyle = !isDesktop || forceTabletStyle;
     return (
       <Stack className="sidebar__content">
-        {isDesktop ? renderDesktopSwitch() : renderTabletSwitch()}
+        {useTabletStyle ? renderTabletSwitch() : renderDesktopSwitch()}
         <Stack className="sidebar__list">
           {navlistItems.map((item) => {
             const isActive = activePath === item.path;
@@ -124,14 +125,14 @@ const Sidebar: React.FC<SidebarProps> = ({
               <Box
                 className={clsx({
                   "sidebar__list-container": true,
-                  "sidebar__list-mobile-container": !isDesktop,
+                  "sidebar__list-mobile-container": useTabletStyle,
                 })}
               >
                 {isActive && (
                   <Box
                     className={clsx({
                       "active-item-box": true,
-                      "active-item-mobile": !isDesktop,
+                      "active-item-mobile": useTabletStyle,
                     })}
                   ></Box>
                 )}
@@ -140,7 +141,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   to={item.path}
                   activePath={isActive}
                   className={clsx({
-                    "sidebar__list-button-mobile": !isDesktop,
+                    "sidebar__list-button-mobile": useTabletStyle,
                   })}
                 >
                   <CSvgIcon
@@ -154,7 +155,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     className={clsx({
                       "sidebar__list-item-label": true,
                       "sidebar__list-item-label--active": isActive,
-                      "layout-tablet": (() => !isDesktop)(),
+                      "layout-tablet": useTabletStyle,
                     })}
                   >
                     {item.text}
@@ -168,26 +169,32 @@ const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
-  return !isDesktop ? (
-    <Drawer
-      anchor="left"
-      open={showMenu}
-      onClose={handleMenuClose}
-    >
+  // Desktop: narrow sidebar always visible + extended drawer opened by hamburger
+  if (isDesktop) {
+    return (
+      <>
+        <Stack className="sidebar" ref={sidebarRef}>
+          {renderSidebarContent()}
+        </Stack>
+        <Drawer anchor="left" open={showMenu} onClose={handleMenuClose}>
+          <Stack className="sidebar sidebar-expanded">
+            {renderSidebarContent(true)}
+          </Stack>
+        </Drawer>
+      </>
+    );
+  }
+
+  // Mobile / tablet: drawer only
+  return (
+    <Drawer anchor="left" open={showMenu} onClose={handleMenuClose}>
       <Stack
-        className={clsx({ sidebar: true, "sidebar-mobile": !isDesktop })}
+        className={clsx({ sidebar: true, "sidebar-mobile": true })}
         ref={sidebarRef}
       >
         {renderSidebarContent()}
       </Stack>
     </Drawer>
-  ) : (
-    <Stack
-      className="sidebar"
-      ref={sidebarRef}
-    >
-      {renderSidebarContent()}
-    </Stack>
   );
 };
 

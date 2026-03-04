@@ -20,13 +20,12 @@ export const useGetViewPortSize = (): ViewportSize => {
   return "md";
 };
 
-const DESKTOP_VIEWPORTS: ViewportSize[] = ["xl", "lg"];
-
 /**
- * @hook useIsDesktopViewport Custom React hook that determines whether the current viewport size matches a desktop breakpoint (`lg` or `xl`).
- * @returns {boolean} `true` if the viewport size is considered desktop, otherwise `false`.
+ * @hook useIsDesktopViewport
+ * Returns true for 1366px+ (desktop layout: permanent narrow sidebar, full page template).
+ * Uses a direct media query instead of MUI breakpoints because the MUI "sm" range
+ * (1200–1440px) spans both the tablet (1200–1366px) and desktop (1366px+) zones.
  */
 export const useIsDesktopViewport = () => {
-  const viewportSize = useGetViewPortSize();
-  return DESKTOP_VIEWPORTS.includes(viewportSize);
+  return useMediaQuery("(min-width: 1366px)");
 };

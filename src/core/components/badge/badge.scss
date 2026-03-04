@@ -1,0 +1,197 @@
+@import "../../../styles/mixins/mixins";
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs, 4px);
+  white-space: nowrap;
+  font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+  font-weight: var(--logile-weight-400, 400);
+  box-sizing: border-box;
+  text-align: center;
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /* Sizes                                                                      */
+  /* -------------------------------------------------------------------------- */
+  &--size-xxs {
+    height: var(--size-4); // 16px
+    padding: 0 var(--space-s, 6px);
+    font-size: var(--logile-size-caption, 12px);
+    line-height: var(--logile-line-height-caption, 16px);
+    .badge__icon { width: var(--size-2-2); height: var(--size-2-2); } // 10px
+    &.badge--shape-number { min-width: var(--size-4); padding: 0 var(--space-xs, 4px); }
+  }
+
+  &--size-xs {
+    height: calc(var(--size-4) + var(--size-0-2)); // 18px
+    padding: 0 var(--space-s, 6px);
+    font-size: var(--logile-size-caption, 12px);
+    line-height: var(--logile-line-height-caption, 18px);
+    .badge__icon { width: var(--size-3); height: var(--size-3); } // 12px
+    &.badge--shape-number { min-width: calc(var(--size-4) + var(--size-0-2)); padding: 0 var(--space-xs, 4px); }
+  }
+
+  &--size-sm {
+    height: var(--size-5); // 20px
+    padding: 0 var(--space-m, 8px);
+    font-size: var(--logile-size-secondary-text, 13px);
+    line-height: var(--logile-line-height-secondary-text, 20px);
+    .badge__icon { width: var(--size-3); height: var(--size-3); } // 12px
+    &.badge--shape-number { min-width: var(--size-5); padding: 0 var(--space-xs, 4px); }
+  }
+
+  &--size-md {
+    height: var(--size-6); // 24px
+    padding: 0 var(--space-m, 8px);
+    font-size: var(--logile-size-secondary-text, 13px);
+    line-height: var(--logile-line-height-secondary-text, 20px);
+    .badge__icon { width: calc(var(--size-3) + var(--size-0-2)); height: calc(var(--size-3) + var(--size-0-2)); } // 14px
+    &.badge--shape-number { min-width: var(--size-6); padding: 0 var(--space-s, 6px); }
+  }
+
+  &--size-xl {
+    height: var(--size-6-2); // 26px
+    padding: 0 var(--space-l, 12px);
+    font-size: var(--logile-size-body, 15px);
+    line-height: var(--logile-line-height-body, 22px);
+    .badge__icon { width: var(--size-4); height: var(--size-4); } // 16px
+    &.badge--shape-number { min-width: var(--size-6-2); padding: 0 var(--space-s, 6px); }
+  }
+
+  &--size-xxl {
+    height: var(--size-8); // 30px
+    padding: 0 var(--space-xl, 16px);
+    font-size: var(--logile-size-body, 15px);
+    line-height: var(--logile-line-height-body, 24px);
+    .badge__icon { width: calc(var(--size-4) + var(--size-0-2)); height: calc(var(--size-4) + var(--size-0-2)); } // 18px
+    &.badge--shape-number { min-width: var(--size-8); padding: 0 var(--space-m, 8px); }
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /* Shapes                                                                     */
+  /* -------------------------------------------------------------------------- */
+  &--shape-rounded {
+    border-radius: var(--radius-s, 6px);
+  }
+  
+  &--shape-pill {
+    border-radius: var(--radius-full, 1000px);
+  }
+  
+  &--shape-number {
+    border-radius: var(--radius-full, 1000px);
+    justify-content: center;
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /* Colors and Styles Matrix                                                   */
+  /* -------------------------------------------------------------------------- */
+  $colors: (
+    'blue': (
+      'filled': (bg: var(--logile-utility-blue-600), text: var(--logile-text-white, white), border: transparent),
+      'light': (bg: var(--logile-utility-blue-100), text: var(--logile-utility-blue-900), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-utility-blue-dark-700), border: var(--logile-utility-blue-dark-700)),
+      'alpha': (bg: var(--logile-utility-blue-1a), text: var(--logile-utility-blue-dark-700), border: var(--logile-utility-blue-dark-700)),
+    ),
+    'grey': (
+      'filled': (bg: var(--logile-utility-gray-1000), text: var(--logile-utility-gray-50, white), border: transparent),
+      'light': (bg: var(--logile-utility-gray-1a), text: var(--logile-utility-gray-1000), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-utility-gray-1000), border: var(--logile-utility-gray-1000)),
+      'alpha': (bg: var(--logile-utility-gray-a), text: var(--logile-utility-gray-1000), border: var(--logile-utility-gray-1000)),
+    ),
+    'red': (
+      'filled': (bg: var(--logile-utility-red-600), text: var(--logile-text-white, white), border: transparent),
+      'light': (bg: var(--logile-utility-red-100), text: var(--logile-utility-red-900), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-utility-red-dark-700), border: var(--logile-utility-red-dark-700)),
+      'alpha': (bg: var(--logile-utility-red-1a), text: var(--logile-utility-red-dark-700), border: var(--logile-utility-red-dark-700)),
+    ),
+    'orange': (
+      'filled': (bg: var(--logile-utility-orange-600), text: var(--logile-text-white, white), border: transparent),
+      'light': (bg: var(--logile-utility-orange-100), text: var(--logile-utility-orange-900), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-utility-orange-dark-800), border: var(--logile-utility-orange-dark-800)),
+      'alpha': (bg: var(--logile-utility-orange-1a), text: var(--logile-utility-orange-dark-800), border: var(--logile-utility-orange-dark-800)),
+    ),
+    'green': (
+      'filled': (bg: var(--logile-utility-green-600), text: var(--logile-text-white, white), border: transparent),
+      'light': (bg: var(--logile-utility-green-100), text: var(--logile-utility-green-900), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-utility-green-dark-700), border: var(--logile-utility-green-dark-700)),
+      'alpha': (bg: var(--logile-utility-green-1a), text: var(--logile-utility-green-dark-700), border: var(--logile-utility-green-dark-700)),
+    ),
+    'yellow': (
+      'filled': (bg: var(--logile-utility-yellow-600), text: var(--logile-text-white, white), border: transparent),
+      'light': (bg: var(--logile-utility-yellow-100), text: var(--logile-utility-yellow-900), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-utility-yellow-dark-700), border: var(--logile-utility-yellow-dark-700)),
+      'alpha': (bg: var(--logile-utility-yellow-1a), text: var(--logile-utility-yellow-dark-700), border: var(--logile-utility-yellow-dark-700)),
+    ),
+    'purple': (
+      'filled': (bg: var(--logile-utility-purple-600), text: var(--logile-text-white, white), border: transparent),
+      'light': (bg: var(--logile-utility-purple-100), text: var(--logile-utility-purple-900), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-utility-purple-dark-700), border: var(--logile-utility-purple-dark-700)),
+      'alpha': (bg: var(--logile-utility-purple-1a), text: var(--logile-utility-purple-dark-700), border: var(--logile-utility-purple-dark-700)),
+    ),
+    'pink': (
+      'filled': (bg: var(--logile-utility-pink-600), text: var(--logile-text-white, white), border: transparent),
+      'light': (bg: var(--logile-utility-pink-100), text: var(--logile-utility-pink-900), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-utility-pink-dark-700), border: var(--logile-utility-pink-dark-700)),
+      'alpha': (bg: var(--logile-utility-pink-1a), text: var(--logile-utility-pink-dark-700), border: var(--logile-utility-pink-dark-700)),
+    ),
+    'teal': (
+      'filled': (bg: var(--logile-utility-teal-600), text: var(--logile-text-white, white), border: transparent),
+      'light': (bg: var(--logile-utility-teal-100), text: var(--logile-utility-teal-900), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-utility-teal-dark-700), border: var(--logile-utility-teal-dark-700)),
+      'alpha': (bg: var(--logile-utility-teal-1a), text: var(--logile-utility-teal-dark-700), border: var(--logile-utility-teal-dark-700)),
+    ),
+    'disable': (
+      'filled': (bg: var(--logile-bg-state-disabled-subtle), text: var(--logile-text-state-disabled), border: transparent),
+      'light': (bg: var(--logile-bg-state-disabled-subtle), text: var(--logile-text-state-disabled), border: transparent),
+      'outline': (bg: transparent, text: var(--logile-text-state-disabled), border: var(--logile-border-state-disabled)),
+      'alpha': (bg: var(--logile-bg-state-disabled-subtle), text: var(--logile-text-state-disabled), border: var(--logile-border-state-disabled)),
+    )
+  );
+
+  @each $name, $palette in $colors {
+    &--color-#{$name} {
+      &.badge--style-filled {
+        background-color: map-get(map-get($palette, 'filled'), bg);
+        color: map-get(map-get($palette, 'filled'), text);
+        border: var(--border-s, 1px) solid map-get(map-get($palette, 'filled'), border);
+        .badge__icon { fill: map-get(map-get($palette, 'filled'), text); color: map-get(map-get($palette, 'filled'), text); }
+      }
+      
+      &.badge--style-light {
+        background-color: map-get(map-get($palette, 'light'), bg);
+        color: map-get(map-get($palette, 'light'), text);
+        border: var(--border-s, 1px) solid map-get(map-get($palette, 'light'), border);
+        .badge__icon { fill: map-get(map-get($palette, 'light'), text); color: map-get(map-get($palette, 'light'), text); }
+      }
+      
+      &.badge--style-outline {
+        background-color: map-get(map-get($palette, 'outline'), bg);
+        color: map-get(map-get($palette, 'outline'), text);
+        border: var(--border-s, 1px) solid map-get(map-get($palette, 'outline'), border);
+        .badge__icon { fill: map-get(map-get($palette, 'outline'), text); color: map-get(map-get($palette, 'outline'), text); }
+      }
+      
+      &.badge--style-alpha {
+        background-color: map-get(map-get($palette, 'alpha'), bg);
+        color: map-get(map-get($palette, 'alpha'), text);
+        border: var(--border-s, 1px) solid map-get(map-get($palette, 'alpha'), border);
+        .badge__icon { fill: map-get(map-get($palette, 'alpha'), text); color: map-get(map-get($palette, 'alpha'), text); }
+      }
+    }
+  }
+}

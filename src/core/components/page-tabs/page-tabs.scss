@@ -1,0 +1,53 @@
+.page-tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m, 8px);
+}
+
+.page-tab {
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-m, 8px);
+  gap: var(--space-s, 6px);
+  border-radius: var(--radius-m, 8px);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s, color 0.2s;
+  
+  // Accessibility Focus Ring
+  &:focus-visible:not(:disabled) {
+    box-shadow:
+      0 0 0 2px var(--logile-bg-base, #ffffff),
+      0 0 0 4px var(--logile-focus-ring-default, #0a68db80);
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &__label {
+    // Default (Inactive) state font
+    font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+    font-size: var(--logile-size-body, 15px);
+    font-weight: var(--logile-weight-400, 400);
+    line-height: var(--logile-line-height-body, 22px);
+    color: var(--logile-text-secondary, #5c5c5c);
+    white-space: nowrap;
+  }
+
+  // Active state modifications
+  &--active {
+    background-color: var(--logile-bg-primary-x-subtle, rgba(10, 104, 219, 0.1));
+    cursor: default;
+
+    .page-tab__label {
+      font-weight: var(--logile-weight-500, 500);
+      color: var(--logile-text-brand-primary-dark-mode-alt, #0a68db);
+    }
+  }
+}

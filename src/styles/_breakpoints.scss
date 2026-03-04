@@ -1,5 +1,12 @@
 :root {
   @media (min-width: 0px) and (max-width: 1200px) {
+    /* Layout */
+    --appbar-height: 50px;
+    --sidebar-width: 0px;
+    --pagetemplate-bottom-margin: 0px;
+    --gap-r: 0px;
+
+    /* Typography */
     --width: 1366px;
     --height: 768px;
     --width-t: 1200px;
@@ -30,6 +37,13 @@
     --font-size-caption-large: 12px;
   }
   @media (min-width: 1200px) and (max-width: 1366px) {
+    /* Layout — same as mobile (no sidebar, no page margins) */
+    --appbar-height: 50px;
+    --sidebar-width: 0px;
+    --pagetemplate-bottom-margin: 0px;
+    --gap-r: 0px;
+
+    /* Typography */
     --width: 1366px;
     --height: 768px;
     --width-t: 1200px;
@@ -60,6 +74,13 @@
     --font-size-caption-large: 12px;
   }
   @media (min-width: 1366px) and (max-width: 1920px) {
+    /* Layout */
+    --appbar-height: 50px;
+    --sidebar-width: 80px;
+    --pagetemplate-bottom-margin: var(--space-xl);
+    --gap-r: var(--space-xl);
+
+    /* Typography */
     --width: 1440px;
     --height: 1024px;
     --width-t: 1200px;
@@ -90,6 +111,13 @@
     --font-size-caption-large: 12px;
   }
   @media (min-width: 1920px) {
+    /* Layout */
+    --appbar-height: 50px;
+    --sidebar-width: 80px;
+    --pagetemplate-bottom-margin: var(--space-2xl);
+    --gap-r: var(--space-2xl);
+
+    /* Typography */
     --width: 1920px;
     --height: 1080px;
     --width-t: 1200px;
