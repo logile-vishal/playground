@@ -1,0 +1,516 @@
+{
+  "BASIC_INFO": {
+    "templateName": "Nombre de la plantilla",
+    "templateNamePlaceholder": "Ingrese el nombre de la plantilla",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Ingrese la descripción",
+    "type": "Tipo",
+    "typePlaceholder": "Seleccione el tipo",
+    "tags": "Etiquetas",
+    "tagsPlaceholder": "Seleccione etiquetas",
+    "directory": "Directorio",
+    "directoryPlaceholder": "Seleccione directorio",
+    "subDirectoryPlaceholder": "Seleccione subdirectorio",
+    "attachment": "Adjunto",
+    "addFile": "Agregar"
+  },
+  "CREATE_TEMPLATE_STEPS": {
+    "basicInfoLabel": "Información básica",
+    "questionsLabel": "Preguntas",
+    "advancedOptionLabel": "Opciones avanzadas",
+    "notificationLabel": "Notificaciones",
+    "followUpLabel": "Tareas de seguimiento",
+    "columnsLabel": "Columnas",
+    "rowsLabel": "Filas"
+  },
+  "CREATE_TEMPLATE_HEADING": {
+    "createTaskTemplate": "Crear plantilla de tareas"
+  },
+  "CREATE_TEMPLATE_HEADER_ACTIONS": {
+    "preview": "Vista previa",
+    "next": "Siguiente",
+    "save": "Guardar",
+    "submit": "Enviar"
+  },
+  "ADVANCED_OPTIONS": {
+    "compilanceThreshold": "Umbral de cumplimiento",
+    "compilanceThresholdPlaceholder": "Ingrese el valor",
+    "labourHours": "Horas de trabajo",
+    "labourHoursPlaceholder": "Seleccione una opción",
+    "templateAccess": "Acceso a la plantilla",
+    "templateAccessPlaceholder": "Seleccione el acceso",
+    "signature": "Firma",
+    "LABOUR_HOUR_OPTIONS": {
+      "labourHoursMinutes": "Minutos",
+      "labourHoursHours": "Horas",
+      "labourHoursSeconds": "Segundos"
+    },
+    "TEMPLATE_ACCESS_OPTIONS": {
+      "templateAccessPublic": "Público",
+      "templateAccessPrivate": "Privado",
+      "templateAccessHidden": "Oculto"
+    }
+  },
+  "QUESTIONS": {
+    "header": "Preguntas",
+    "noQuestionPlaceholder": "Aún no se han agregado preguntas. Haga clic en \"Agregar pregunta\" para comenzar.",
+    "addQuestionButtonLabel": "Preguntas",
+    "addSectionButtonLabel": "Secciones",
+    "oneQuestionRequiredError": "Se requiere al menos una pregunta",
+    "DRAG_DELETE_SECTION_MODAL": {
+      "title": "Confirmar arrastre de pregunta",
+      "messageFirstPart": "Arrastrar la última pregunta restante fuera de una sección provocará la eliminación de la sección.",
+      "messageSecondPart": "Reordenar las preguntas puede romper esa dependencia, y la lógica condicional se eliminará si la pregunta referenciada ya no está antes de la pregunta condicional. ¿Desea continuar?"
+    },
+    "DRAG_DELETE_QUESTION_MODAL": {
+      "title": "El reordenamiento puede afectar la lógica condicional",
+      "messageFirstPart": "La pregunta que está moviendo está vinculada a otra pregunta mediante la condición \"Basado en la respuesta anterior\".",
+      "messageSecondPart": "Reordenar las preguntas puede romper esa dependencia, y la lógica condicional se eliminará si la pregunta referenciada ya no está antes de la pregunta condicional.",
+      "confirmButtonLabel": "Continuar de todos modos"
+    },
+    "DELETE_QUESTION_REORDERING_MODAL": {
+      "title": "Reordenar puede afectar la lógica condicional",
+      "description": "La pregunta que estás moviendo está vinculada a otra pregunta a través de la condición \"Basado en la respuesta anterior\". Reordenar las preguntas puede romper esa dependencia, y la lógica condicional se eliminará si la pregunta referenciada ya no está antes de la pregunta condicional."
+    },
+    "SECTION_ADD_EDIT_MODAL": {
+      "ADD_SECTION": {
+        "title": "Agregar sección"
+      },
+      "RENAME_SECTION": {
+        "title": "Renombrar sección"
+      },
+      "FIELDS": {
+        "sectionName": "Nombre de la sección"
+      }
+    },
+    "DELETE_SECTION_MODAL": {
+      "title": "¿Eliminar preguntas y sección?",
+      "description": "Al eliminar una sección, también se eliminan las preguntas y respuestas que contiene."
+    },
+    "EXPANDED_QUESTION_CARD": {
+      "optionPlaceholder": "Opción",
+      "minLengthPlaceholder": "Longitud mínima",
+      "maxLengthPlaceholder": "Longitud máxima",
+      "requiredPlaceholder": "Obligatorio",
+      "questionTextPlaceholder": "Texto de la pregunta",
+      "setInputTypePlaceholder": "Establecer tipo de entrada",
+      "dynamicDropdownAnswersFromTags": "respuestas adicionales de etiquetas"
+    },
+    "EXPANDED_QUESTION_CARD_TAB_LABELS": {
+      "basicLabel": "ásico",
+      "advancedLabel": "Avanzado"
+    },
+    "QUESTION_OPTION_TYPES_DROPDOWN_LABELS": {
+      "radioLabel": "Botón de opción",
+      "dropdownLabel": "Lista desplegable",
+      "longInputLabel": "Entrada larga",
+      "label": "Etiqueta",
+      "dynamicDropdownLabel": "Lista desplegable dinámica",
+      "checkboxLabel": "Casilla de verificación",
+      "sortInputLabel": "Entrada de ordenación",
+      "barcodeScanLabel": "Escaneo de código de barras",
+      "responseTemplateLabel": "Plantilla de respuesta"
+    },
+    "INPUT_TYPE_OPTIONS": {
+      "anyCharactersLabel": "Cualquier carácter",
+      "textOnlyLabel": "Solo texto",
+      "numberOnlyLabel": "Solo números",
+      "dateTimeLabel": "Fecha y hora"
+    },
+    "DATE_VIEW_OPTIONS": {
+      "dateOnlyLabel": "Solo fecha",
+      "timeOnlyLabel": "Solo hora",
+      "dateAndTimeLabel": "Fecha y hora"
+    },
+    "RESPONSE_TEMPLATE_OPTIONS": {
+      "markWhenCompleteLabel": "Marcar cuando esté completo",
+      "rankLabel": "Clasificación (1-5)",
+      "tempLabel": "Temp > 135",
+      "yesNoLabel": "Sí/No",
+      "manualTempLabel": "Temp manual > 135"
+    },
+    "QUESTION_TYPE_LABELS": {
+      "minLengthPlaceholder": "Longitud mínima",
+      "maxLengthPlaceholder": "Longitud máxima",
+      "minValuePlaceholder": "Valor mínimo",
+      "maxValuePlaceholder": "Valor máximo",
+      "optionsLabel": "Opciones",
+      "setInputTypeLabel": "Establecer tipo de entrada",
+      "submitButton": "Enviar",
+      "cancelButton": "Cancelar",
+      "inputTypeLabel": "Tipo de entrada"
+    }
+  },
+  "QUESTION_OPTION": {
+    "addOptionButtonLabel": "Opción",
+    "optionInputPlaceholder": "Opción",
+    "errorTextNoOptions": "Se requiere al menos una opción.",
+    "COMPLIANT_DROPDOWN_OPTIONS": {
+      "compliantLabel": "Conforme",
+      "nonCompliantLabel": "No conforme",
+      "naLabel": "No aplica"
+    },
+    "ADDITIONAL_INFO_DROPDOWN": {
+      "noAdditionalInfoLabel": "Sin información adicional",
+      "optionalInfoLabel": "Información opcional",
+      "requiredInfoLabel": "Información requerida"
+    },
+    "ANSWER_OPTION_SETTING_MODAL": {
+      "title": "Configuración de opciones de respuesta",
+      "answerOptionsHeading": "Opciones de respuesta",
+      "settingAnswerValueLabel": "Valor de respuesta",
+      "settingsForLabel": "Configuración para",
+      "labels": {
+        "value": "Valor",
+        "default": "Predeterminado",
+        "compliance": "Cumplimiento",
+        "score": "Puntuación",
+        "additionalInfo": "Información adicional",
+        "formula": "Fórmula"
+      },
+      "placeholder": {
+        "scoreInput": "Ingresar",
+        "formulaInput": "ej. >50 O <=32"
+      },
+      "UNSAVED_CHANGES_MODAL": {
+        "title": "¡Espera! Tienes cambios sin guardar",
+        "confirmText": "Guardar y Continuar",
+        "bodyText": "Parece que tienes cambios sin guardar. ¿Deseas guardarlos antes de ir a Notificaciones?"
+      }
+    }
+  },
+  "NOTIFICATIONS": {
+    "heading": "Notificaciones",
+    "noNotificationsPlaceholder": "No se han definido notificaciones",
+    "addNotificationButtonLabel": "Notificación",
+    "CARD_COLUMN_HEADINGS": {
+      "notification": "Notificación",
+      "condition": "Condición",
+      "conditionQuestion": "Pregunta de condición",
+      "conditionAnswer": "Respuesta de condición",
+      "messageSubject": "Asunto del mensaje",
+      "recipients": "Destinatarios"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "notification": "Notificaciones activadas por respuestas",
+      "followUp": "Tareas de seguimiento activadas por respuestas",
+      "assigneeRecipient": "Asignado a"
+    },
+    "TRIGGER_MODAL": {
+      "orgLabel": "Org:",
+      "orgTypeLabel": "Tipo de Org:",
+      "orgPositionLabel": "Posición:"
+    },
+    "NO_DATA": "No se han agregado notificaciones aún. Haga clic en \"+ Notificación\" para comenzar.",
+    "ADD_NOTIFICATION_MODAL": {
+      "addNotification": "Agregar notificación",
+      "editNotification": "Editar notificación",
+      "cloneNotification": "Clonar notificación",
+      "deleteNotification": "Eliminar notificación?",
+      "deleteNotificationDescription": "¿Está seguro de que desea eliminar esta notificación?",
+      "deleteNotificationSubDescription": "Esta acción no se puede deshacer.",
+      "fields": {
+        "condition": "Condición",
+        "conditionPlaceholder": "Seleccione condición",
+        "conditionTooltip": "La notificación se generará si el porcentaje de cumplimiento de la tarea es menor que el umbral de cumplimiento de esta tarea (actualmente 100%)",
+        "conditionQuestion": "Pregunta de condición",
+        "conditionQuestionPlaceholder": "Seleccione una pregunta",
+        "conditionAnswer": "Respuesta de condición",
+        "conditionAnswerPlaceholder": "Seleccione una respuesta",
+        "recipients": "Destinatarios",
+        "messageSubject": "Asunto del mensaje",
+        "messageBody": "Cuerpo del mensaje"
+      },
+      "labels": {
+        "to": "A",
+        "customRecipient": "Destinatario personalizado",
+        "subject": "Asunto",
+        "message": "Mensaje"
+      },
+      "recipientsCountError": "Se requiere al menos un destinatario"
+    },
+    "CUSTOM_RECIPIENT_MODAL": {
+      "title": "Destinatario personalizado",
+      "orgLevel": "Nivel de organización",
+      "orgLevelPlaceholder": "Seleccione nivel de organización",
+      "positions": "Posiciones",
+      "positionsPlaceholder": "Seleccione posición",
+      "org": "Organización",
+      "orgPlaceholder": "Seleccione organización",
+      "orgType": "Tipo de organización",
+      "orgTypePlaceholder": "Seleccione tipo de organización",
+      "relative": "Relativo",
+      "CONDITION_OPTIONS": {
+        "taskCompleted": "Tarea completada",
+        "taskExpired": "Tarea expirada",
+        "taskOutOfCompliance": "Tarea fuera de cumplimiento",
+        "answer": "Respuesta"
+      },
+      "RECIPIENT_OPTIONS": {
+        "assignee": "Asignado",
+        "supervisor": "Supervisor",
+        "executionManager": "Gerente de ejecución"
+      }
+    }
+  },
+  "FOLLOWUP_TASKS": {
+    "heading": "Tareas de seguimiento",
+    "noFollowUpTasksPlaceholder": "No se han definido tareas de seguimiento",
+    "addFollowUpTaskButtonLabel": "Tarea de seguimiento",
+    "deleteFollowUpTask": "¿Eliminar tarea de seguimiento?",
+    "deleteFollowUpTaskDescription": "¿Estás seguro de que deseas eliminar esta tarea de seguimiento?",
+    "deleteFollowUpTaskSubDescription": "Esta acción no se puede deshacer.",
+    "CARD_COLUMN_HEADINGS": {
+      "followUp": "Tarea de seguimiento",
+      "condition": "Condición",
+      "conditionQuestion": "Pregunta de condición",
+      "conditionAnswer": "Respuesta de condición",
+      "taskName": "Nombre de la tarea",
+      "recipients": "Destinatarios"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "followUp": "Tareas de seguimiento activadas por respuestas"
+    },
+    "ADD_FOLLOWUP_TASK_MODAL": {
+      "MODAL_TITLE": {
+        "add": "Agregar Tarea de Seguimiento",
+        "edit": "Editar Tarea de Seguimiento",
+        "clone": "Clonar Tarea de Seguimiento"
+      },
+      "STEPPER": {
+        "condition": "Condición",
+        "recipients": "Destinatarios",
+        "template": "Plantilla",
+        "settings": "Configuración"
+      },
+      "PLACEHOLDER": {
+        "chooseCondition": "Seleccionar Condición",
+        "chooseConditionQuestion": "Seleccionar Pregunta",
+        "chooseConditionAnswer": "Seleccionar Respuesta"
+      },
+      "taskNameLabel": "Nombre de la Tarea",
+      "taskSharingLabel": "Compartir Tarea",
+      "primaryPositionLabel": "Posición Primaria",
+      "FOLLOW_UP_CONDITION_OPTIONS": {
+        "taskCompleted": "Tarea Completada",
+        "taskExpired": "Tarea Vencida",
+        "taskOutOfCompliance": "Tarea Fuera de Cumplimiento",
+        "answer": "Respuesta"
+      },
+      "TASK_SHARING_OPTIONS": {
+        "yes": "Sí",
+        "no": "No"
+      },
+      "PRIMARY_POSITION_OPTIONS": {
+        "assignee": "Asignado",
+        "districtManager": "Gerente de Distrito"
+      },
+      "primaryPositionPlaceholder": "Seleccionar Posición Primaria",
+      "selectedTemplate": "Plantilla Seleccionada",
+      "changeTemplate": "Cambiar Plantilla",
+      "directoryTree": "Árbol de Directorios",
+      "selectButton": "Seleccionar"
+    },
+    "TABLE": {
+      "HEADING": {
+        "directory": "Árbol de Directorios",
+        "templateName": "Nombre de la Plantilla",
+        "type": "Tipo",
+        "lastModifiedTime": "Última Modificación",
+        "preview": "Vista Previa"
+      },
+      "noDirectories": "Sin directorios"
+    },
+    "FOLLOWUP_TASKS_SETTINGS": {
+      "retainVisibilityLabel": "El usuario desencadenante retiene la visibilidad",
+      "durationLabel": "Duración",
+      "durationPlaceholder": "Seleccionar Duración",
+      "durationErrorLabel": "La duración es requerida",
+      "priorityLabel": "Prioridad",
+      "priorityPlaceholder": "Seleccionar Prioridad",
+      "reminderNotificationLabel": "¿Notificación de recordatorio?",
+      "reminderNotificationPlaceholder": "Seleccionar Notificación de Recordatorio",
+      "taskEndTimeLabel": "Hora original de finalización de la tarea",
+      "DURATION_OPTIONS": {
+        "days": "Días",
+        "hours": "Horas",
+        "minutes": "Minutos"
+      },
+      "PRIORITY_OPTIONS": {
+        "critical": "Crítico",
+        "high": "Alto",
+        "medium": "Medio",
+        "low": "Bajo"
+      },
+      "REMINDER_NOTIFICATION_OPTIONS": {
+        "none": "Ninguno",
+        "taskDueTime": "Hora de vencimiento de la tarea",
+        "taskNotStarted": "Tarea no iniciada"
+      }
+    },
+    "NO_DATA": "No se han agregado tareas de seguimiento aún. Haga clic en \"+ Tarea de seguimiento\" para comenzar."
+  },
+  "QUESTION_BADGE_CONFIG": {
+    "photoLabel": "Foto",
+    "randomLabel": "Aleatorio",
+    "clusterLabel": "Grupo",
+    "answerLabel": "Respuesta",
+    "previousLabel": "Anterior",
+    "fileLabel": "Archivo",
+    "numberLabel": "Número",
+    "temperatureLabel": "Temperatura",
+    "tagLabel": "Etiqueta",
+    "tagsLabel": "Etiquetas"
+  },
+  "COLUMNS": {
+    "header": "Columnas",
+    "noColumnPlaceholder": "No se han agregado columnas aún. Haga clic en \"+ Columna\" para comenzar.",
+    "addColumnButtonLabel": "Columna",
+    "oneColumnRequiredError": "Se requiere al menos una columna."
+  },
+  "ROWS": {
+    "header": "Filas",
+    "noRowPlaceholder": "No se han agregado filas aún. Haga clic en \"+ Fila\" para comenzar.",
+    "addRowButtonLabel": "Fila",
+    "oneRowRequiredError": "Se requiere al menos una fila."
+  },
+  "PREVIOUS_EXECUTION_STATUS_OPTIONS": {
+    "completedLabel": "Completado",
+    "notCompletedLabel": "No completado"
+  },
+  "ADVANCED_TAB_OPTIONS": {
+    "VISIBILITY": {
+      "label": "Visibilidad",
+      "visibilityNoteHeading": "Lógica de visibilidad:",
+      "visibilityNoteContent": "Esta pregunta solo será visible cuando se cumplan TODAS las condiciones habilitadas a continuación.",
+      "storeClusterToggleLabel": "Grupos de tiendas",
+      "storeClusterLabel": "Mostrar pregunta solo para estos grupos",
+      "storeClusterPlaceholder": "Seleccionar grupos de tiendas",
+      "previousAnswerToggleLabel": "Basado en la respuesta anterior",
+      "previousAnswerPlaceholder": "Seleccionar opción",
+      "previousQuestionPlaceholder": "Seleccionar pregunta",
+      "previousAnswerWarningOnPreviousAnswer": "La primera pregunta en una tarea no tiene preguntas anteriores y, por lo tanto, no se puede configurar para que aparezca en función de una respuesta anterior.",
+      "previousAnswerWarningOnVisibility": "La pregunta {{questionIndex}} tiene reglas de visibilidad activadas y, por lo tanto, puede que no aparezca. Si no aparece, entonces esta pregunta tampoco aparecerá.",
+      "randomAppearanceToggleLabel": "Apariencia aleatoria",
+      "randomAppearanceWarning": "Las preguntas con la opción \"Basado en la respuesta anterior\" habilitada no se pueden configurar para que aparezcan de forma aleatoria.",
+      "previousExecutionToggleLabel": "Estado de ejecución anterior",
+      "previousExecutionLabel": "Mostrar pregunta cuando la tarea anterior estaba",
+      "previousExecutionPlaceholder": "Seleccionar estado de tarea"
+    },
+    "TAGS": {
+      "label": "Etiquetas",
+      "tagsPlaceholder": "Seleccionar etiquetas",
+      "tagsLabel": "Agregar etiquetas para categorizar esta pregunta"
+    },
+    "FILE_ATTACHMENT": {
+      "label": "Adjunto de archivo",
+      "fileAttachmentToggleLabel": "Solicitar un archivo adjunto",
+      "fileAttachmentTypeLabel": "Tipo",
+      "fileAttachmentRequiredForLabel": "Requerido para",
+      "fileAttachmentAnswerLabel": "Seleccionar respuestas que requieren archivo adjunto",
+      "fileAttachmentAnswerPlaceholder": "Seleccionar respuestas"
+    },
+    "NUMERIC_VALUE": {
+      "label": "Valor numérico",
+      "numericValueToggleLabel": "Valor numérico",
+      "numericValueTypeLabel": "Tipo"
+    }
+  },
+  "ADVANCED_TAB_ATTACHMENT_OPTIONS": {
+    "FILE_TYPES": {
+      "photo": "Foto",
+      "file": "Archivo"
+    },
+    "REQUIRED_FOR_OPTIONS": {
+      "optionalForAllAnswers": "Opcional para todas las respuestas",
+      "requiredForAllAnswers": "Requerido para todas las respuestas",
+      "requiredForCompliantAnswers": "Requerido para respuestas conformes",
+      "requiredForNonCompliantAnswers": "Requerido para respuestas no conformes",
+      "requiredForSpecificAnswers": "Requerido para respuestas específicas"
+    }
+  },
+  "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
+    "temperatureReading": "Lectura de temperatura",
+    "manualInput": "Entrada manual"
+  },
+  "VALIDATION": {
+    "BASIC_INFO": {
+      "fieldRequired": "Este campo es obligatorio",
+      "directoryRequired": "El directorio es obligatorio"
+    },
+    "QUESTIONS": {
+      "fieldRequired": "Este campo es obligatorio",
+      "questionTextRequired": "El texto de la pregunta es obligatorio",
+      "questionTextMinLength": "El texto de la pregunta debe tener al menos 1 carácter",
+      "questionTextMaxLength": "El texto de la pregunta debe tener como máximo 500 caracteres",
+      "optionsRequired": "Se requiere al menos una opción",
+      "optionTextRequired": "El texto de la opción es obligatorio",
+      "optionTextMaxLength": "El texto de la opción debe tener como máximo 200 caracteres",
+      "minLengthInvalid": "La longitud mínima debe ser un número positivo",
+      "maxLengthInvalid": "La longitud máxima debe ser un número positivo",
+      "minValueInvalid": "El valor mínimo debe ser un número válido",
+      "maxValueInvalid": "El valor máximo debe ser un número válido",
+      "scoreInvalid": "La puntuación debe ser un número válido"
+    },
+    "ADVANCED_OPTIONS": {
+      "complianceThresholdMin": "El umbral de cumplimiento debe ser al menos 0",
+      "complianceThresholdMax": "El umbral de cumplimiento debe ser como máximo 100"
+    },
+    "NOTIFICATIONS": {
+      "conditionRequired": "La condición es obligatoria",
+      "conditionQuestionRequired": "La pregunta de condición es obligatoria",
+      "conditionAnswerRequired": "La respuesta de condición es obligatoria",
+      "recipientsRequired": "Se requiere al menos un destinatario",
+      "subjectRequired": "El asunto es obligatorio",
+      "subjectMaxLength": "El asunto debe tener como máximo 200 caracteres",
+      "messageRequired": "El mensaje es obligatorio",
+      "messageMaxLength": "El mensaje debe tener como máximo 1000 caracteres"
+    },
+    "FOLLOWUP_TASKS": {
+      "conditionRequired": "La condición es obligatoria",
+      "conditionQuestionRequired": "La pregunta de condición es obligatoria",
+      "conditionAnswerRequired": "La respuesta de condición es obligatoria",
+      "taskNameRequired": "El nombre de la tarea es obligatorio",
+      "taskNameMaxLength": "El nombre de la tarea debe tener como máximo 100 caracteres",
+      "templateRequired": "La selección de plantilla es obligatoria",
+      "durationRequired": "La duración es obligatoria",
+      "durationValueRequired": "El valor de la duración es obligatorio",
+      "durationValueMin": "El valor de la duración debe ser al menos 1",
+      "priorityRequired": "La prioridad es obligatoria"
+    },
+    "TRIGGER_TASK": {
+      "fieldRequired": "Este campo es obligatorio",
+      "conditionRequired": "La condición es obligatoria",
+      "questionRequired": "La pregunta es obligatoria",
+      "answerRequired": "La respuesta es obligatoria",
+      "recipientsRequired": "Se requiere al menos un destinatario"
+    },
+    "ANSWER_OPTION_SETTING": {
+      "valueRequired": "El valor es obligatorio",
+      "valueMaxLength": "El valor no puede exceder los 255 caracteres",
+      "scoreInvalid": "La puntuación debe ser un número válido",
+      "optionsRequired": "Se requiere al menos una opción de respuesta",
+      "formulaInvalid": "La fórmula debe contener operadores válidos (<, >, <=, >=, ==, <>, AND, OR) o números"
+    }
+  },
+  "DELETE_CONFIRMATION": {
+    "QUESTION": {
+      "title": "Eliminar pregunta",
+      "messageFirstPart": "La pregunta que estás eliminando está vinculada a otra pregunta mediante la condición \"Basado en la respuesta anterior\". ",
+      "messageSecondPart": "Eliminar las preguntas puede romper esa dependencia, y la lógica condicional se eliminará si la pregunta referenciada ya no está antes de la pregunta condicional.",
+      "messageThirdPart": "¿Estás seguro de que deseas eliminar esta pregunta? ",
+      "messageFourthPart": "Esta acción no se puede deshacer."
+    },
+    "COLUMN": {
+      "title": "Eliminar columna",
+      "messageFirstPart": "¿Estás seguro de que deseas eliminar esta columna?",
+      "messageSecondPart": "Esta acción no se puede deshacer."
+    },
+    "QUESTION_OPTION": {
+      "title": "Eliminar opción",
+      "first_part_message": "Esta opción tiene una o más notificaciones o tareas de seguimiento asociadas. Eliminar esta opción también eliminará todas las notificaciones y tareas de seguimiento vinculadas.",
+      "second_part_message": "¿Estás seguro de que deseas eliminar esta opción?",
+      "third_part_message": "Esta acción no se puede deshacer."
+    }
+  }
+}

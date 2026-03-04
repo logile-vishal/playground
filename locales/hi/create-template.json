@@ -1,0 +1,517 @@
+{
+  "BASIC_INFO": {
+    "templateName": "टेम्पलेट नाम",
+    "templateNamePlaceholder": "टेम्पलेट नाम दर्ज करें",
+    "description": "विवरण",
+    "descriptionPlaceholder": "विवरण दर्ज करें",
+    "type": "प्रकार",
+    "typePlaceholder": "प्रकार चुनें",
+    "tags": "टैग",
+    "tagsPlaceholder": "टैग चुनें",
+    "directory": "निर्देशिका",
+    "directoryPlaceholder": "निर्देशिका चुनें",
+    "subDirectoryPlaceholder": "उप-निर्देशिका चुनें",
+    "attachment": "संलग्नक",
+    "addFile": "जोड़ें"
+  },
+  "CREATE_TEMPLATE_STEPS": {
+    "basicInfoLabel": "मूल जानकारी",
+    "questionsLabel": "प्रश्न",
+    "advancedOptionLabel": "उन्नत विकल्प",
+    "notificationLabel": "सूचनाएं",
+    "followUpLabel": "अनुवर्ती कार्य",
+    "columnsLabel": "कॉलम",
+    "rowsLabel": "पंक्तियाँ"
+  },
+  "CREATE_TEMPLATE_HEADING": {
+    "createTaskTemplate": "कार्य टेम्पलेट बनाएं"
+  },
+  "CREATE_TEMPLATE_HEADER_ACTIONS": {
+    "preview": "पूर्वावलोकन",
+    "next": "अगला",
+    "save": "सहेजें",
+    "submit": "जमा करें"
+  },
+  "ADVANCED_OPTIONS": {
+    "compilanceThreshold": "अनुपालन सीमा",
+    "compilanceThresholdPlaceholder": "मान दर्ज करें",
+    "labourHours": "श्रम घंटे",
+    "labourHoursPlaceholder": "विकल्प चुनें",
+    "templateAccess": "टेम्पलेट एक्सेस",
+    "templateAccessPlaceholder": "एक्सेस चुनें",
+    "signature": "हस्ताक्षर",
+
+    "LABOUR_HOUR_OPTIONS": {
+      "labourHoursMinutes": "मिनट",
+      "labourHoursHours": "घंटे",
+      "labourHoursSeconds": "सेकंड"
+    },
+    "TEMPLATE_ACCESS_OPTIONS": {
+      "templateAccessPublic": "सार्वजनिक",
+      "templateAccessPrivate": "निजी",
+      "templateAccessHidden": "छिपा हुआ"
+    }
+  },
+  "QUESTIONS": {
+    "header": "प्रश्न",
+    "noQuestionPlaceholder": "अभी तक कोई प्रश्न जोड़ा नहीं गया है। शुरू करने के लिए \"प्रश्न जोड़ें\" पर क्लिक करें।",
+    "addQuestionButtonLabel": "प्रश्न",
+    "addSectionButtonLabel": "अनुभाग जोड़ें",
+    "DRAG_DELETE_SECTION_MODAL": {
+      "title": "अनुभाग हटाने की पुष्टि करें",
+      "messageFirstPart": "किसी अनुभाग में बची हुई अंतिम प्रश्न को बाहर खींचने से अनुभाग हट जाएगा।",
+      "messageSecondPart": "प्रश्नों का पुनः क्रम बदलने से निर्भरता टूट सकती है, और यदि संदर्भित प्रश्न अब प्रश्न की शर्त से पहले नहीं है तो शर्त की लॉजिक हटा दी जाएगी। क्या आप जारी रखना चाहते हैं?"
+    },
+    "DRAG_DELETE_QUESTION_MODAL": {
+      "title": "पुनः क्रम बदलने से शर्त की लॉजिक प्रभावित हो सकती है",
+      "messageFirstPart": "आप जिस प्रश्न को खींच रहे हैं वह \"पिछले उत्तर पर आधारित\" शर्त के माध्यम से किसी अन्य प्रश्न से जुड़ा है।",
+      "messageSecondPart": "प्रश्नों का पुनः क्रम बदलने से निर्भरता टूट सकती है, और यदि संदर्भित प्रश्न अब प्रश्न की शर्त से पहले नहीं है तो शर्त की लॉजिक हटा दी जाएगी।",
+      "confirmButtonLabel": "फिर भी जारी रखें"
+    },
+    "SECTION_ADD_EDIT_MODAL": {
+      "ADD_SECTION": {
+        "title": "अनुभाग जोड़ें"
+      },
+      "RENAME_SECTION": {
+        "title": "अनुभाग का नाम बदलें"
+      },
+      "FIELDS": {
+        "sectionName": "अनुभाग का नाम"
+      }
+    },
+    "DELETE_SECTION_MODAL": {
+      "title": "प्रश्न और अनुभाग हटाएँ?",
+      "description": "किसी अनुभाग को हटाने पर उसमें मौजूद प्रश्न और उत्तर भी हटा दिए जाएंगे।"
+    },
+    "DELETE_QUESTION_REORDERING_MODAL": {
+      "title": "शर्तीय लॉजिक को प्रभावित कर सकता है",
+      "description": "आप जो प्रश्न स्थानांतरित कर रहे हैं वह \"पिछले उत्तर के आधार पर\" शर्त के माध्यम से किसी अन्य प्रश्न से जुड़ा हुआ है। प्रश्नों को पुनः क्रमबद्ध करने से उस निर्भरता को तोड़ सकता है, और यदि संदर्भित प्रश्न अब शर्तीय प्रश्न से पहले नहीं है तो शर्तीय लॉजिक हटा दिया जाएगा।"
+    },
+    "EXPANDED_QUESTION_CARD": {
+      "optionPlaceholder": "विकल्प",
+      "minLengthPlaceholder": "न्यूनतम लंबाई",
+      "maxLengthPlaceholder": "अधिकतम लंबाई",
+      "requiredPlaceholder": "आवश्यक",
+      "questionTextPlaceholder": "प्रश्न पाठ",
+      "setInputTypePlaceholder": "इनपुट प्रकार सेट करें",
+      "dynamicDropdownAnswersFromTags": "टैग से अतिरिक्त उत्तर"
+    },
+    "EXPANDED_QUESTION_CARD_TAB_LABELS": {
+      "basicLabel": "मूल",
+      "advancedLabel": "उन्नत"
+    },
+    "QUESTION_OPTION_TYPES_DROPDOWN_LABELS": {
+      "radioLabel": "रेडियो बटन",
+      "dropdownLabel": "ड्रॉपडाउन",
+      "longInputLabel": "लंबा इनपुट",
+      "label": "लेबल",
+      "dynamicDropdownLabel": "डायनामिक ड्रॉपडाउन",
+      "checkboxLabel": "चेकबॉक्स",
+      "sortInputLabel": "सॉर्ट इनपुट",
+      "barcodeScanLabel": "बारकोड स्कैन",
+      "responseTemplateLabel": "प्रतिक्रिया टेम्पलेट"
+    },
+    "INPUT_TYPE_OPTIONS": {
+      "anyCharactersLabel": "कोई भी वर्ण",
+      "textOnlyLabel": "केवल पाठ",
+      "numberOnlyLabel": "केवल संख्या",
+      "dateTimeLabel": "तिथि और समय"
+    },
+    "DATE_VIEW_OPTIONS": {
+      "dateOnlyLabel": "केवल तिथि",
+      "timeOnlyLabel": "केवल समय",
+      "dateAndTimeLabel": "तिथि और समय"
+    },
+    "RESPONSE_TEMPLATE_OPTIONS": {
+      "markWhenCompleteLabel": "पूर्ण होने पर चिह्नित करें",
+      "rankLabel": "रैंक (1-5)",
+      "tempLabel": "तापमान > 135",
+      "yesNoLabel": "हीं/नहीं",
+      "manualTempLabel": "संजीकरण तापमान > 135"
+    },
+    "QUESTION_TYPE_LABELS": {
+      "minLengthPlaceholder": "न्यूनतम लंबाई",
+      "maxLengthPlaceholder": "अधिकतम लंबाई",
+      "minValuePlaceholder": "न्यूनतम मूल्य",
+      "maxValuePlaceholder": "अधिकतम मूल्य",
+      "optionsLabel": "विकल्प",
+      "setInputTypeLabel": "इनपुट प्रकार सेट करें",
+      "submitButton": "जमा करें",
+      "cancelButton": "रद्द करें",
+      "inputTypeLabel": "इनपुट प्रकार"
+    }
+  },
+  "QUESTION_OPTION": {
+    "addOptionButtonLabel": "विकल्प",
+    "optionInputPlaceholder": "विकल्प",
+    "errorTextNoOptions": "कम से कम एक विकल्प आवश्यक है।",
+    "COMPLIANT_DROPDOWN_OPTIONS": {
+      "compliantLabel": "अनुपालक",
+      "nonCompliantLabel": "अनुपालक नहीं",
+      "naLabel": "लागू नहीं"
+    },
+
+    "ADDITIONAL_INFO_DROPDOWN": {
+      "noAdditionalInfoLabel": "कोई अतिरिक्त जानकारी नहीं",
+      "optionalInfoLabel": "वैकल्पिक जानकारी",
+      "requiredInfoLabel": "आवश्यक जानकारी"
+    },
+    "ANSWER_OPTION_SETTING_MODAL": {
+      "title": "उत्तर विकल्प सेटिंग्स",
+      "answerOptionsHeading": "उत्तर विकल्प",
+      "settingAnswerValueLabel": "उत्तर मूल्य",
+      "settingsForLabel": "के लिए सेटिंग्स",
+      "labels": {
+        "value": "मूल्य",
+        "default": "डिफ़ॉल्ट",
+        "compliance": "अनुपालन",
+        "score": "स्कोर",
+        "additionalInfo": "अतिरिक्त जानकारी",
+        "formula": "सूत्र"
+      },
+      "placeholder": {
+        "scoreInput": "दर्ज करें",
+        "formulaInput": "उदा. >50 या <=32"
+      },
+      "UNSAVED_CHANGES_MODAL": {
+        "title": "रुकिए! आपके पास असहेजे परिवर्तन हैं",
+        "confirmText": "सहेजें और आगे बढ़ें",
+        "bodyText": "ऐसा लगता है कि आपके पास असहेजे परिवर्तन हैं। क्या आप सूचना पर जाने से पहले उन्हें सहेजना चाहते हैं?"
+      }
+    }
+  },
+  "NOTIFICATIONS": {
+    "heading": "सूचनाएं",
+    "noNotificationsPlaceholder": "कोई सूचनाएं परिभाषित नहीं हैं",
+    "addNotificationButtonLabel": "सूचना",
+    "CARD_COLUMN_HEADINGS": {
+      "notification": "सूचना",
+      "condition": "शर्त",
+      "conditionQuestion": "शर्त से संबंधित प्रश्न",
+      "conditionAnswer": "शर्त का उत्तर",
+      "messageSubject": "संदेश विषय",
+      "recipients": "प्राप्तकर्ता"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "notification": "उत्तर द्वारा ट्रिगर की गई सूचनाएँ",
+      "followUp": "उत्तर द्वारा ट्रिगर किए गए फ़ॉलो-अप कार्य",
+      "assigneeRecipient": "असाइनी"
+    },
+    "TRIGGER_MODAL": {
+      "orgLabel": "संगठन:",
+      "orgTypeLabel": "संगठन प्रकार:",
+      "orgPositionLabel": "पद:"
+    },
+    "NO_DATA": "कोई सूचनाएं अभी तक नहीं जोड़ी गई हैं। शुरू करने के लिए \"+ सूचना\" पर क्लिक करें।",
+    "ADD_NOTIFICATION_MODAL": {
+      "addNotification": "सूचना जोड़ें",
+      "editNotification": "सूचना संपादित करें",
+      "cloneNotification": "सूचना क्लोन करें",
+      "deleteNotification": "सूचना हटाएं?",
+      "deleteNotificationDescription": "क्या आप वाकई इस सूचना को हटाना चाहते हैं?",
+      "deleteNotificationSubDescription": "इस क्रिया को पूर्ववत नहीं किया जा सकता।",
+      "fields": {
+        "condition": "शर्त",
+        "conditionPlaceholder": "शर्त चुनें",
+        "conditionTooltip": "यदि कार्य का अनुपालन प्रतिशत इस कार्य की अनुपालन सीमा से कम है तो सूचना उत्पन्न की जाएगी (वर्तमान में 100%)",
+        "conditionQuestion": "शर्त प्रश्न",
+        "conditionQuestionPlaceholder": "प्रश्न चुनें",
+        "conditionAnswer": "शर्त उत्तर",
+        "conditionAnswerPlaceholder": "उत्तर चुनें",
+        "recipients": "प्राप्तकर्ता",
+        "messageSubject": "विषय",
+        "messageBody": "संदेश"
+      },
+      "labels": {
+        "to": "प्राप्तकर्ता",
+        "customRecipient": "कस्टम प्राप्तकर्ता",
+        "subject": "विषय",
+        "message": "संदेश"
+      },
+      "recipientsCountError": "कम से कम एक प्राप्तकर्ता आवश्यक है"
+    },
+    "CUSTOM_RECIPIENT_MODAL": {
+      "title": "कस्टम प्राप्तकर्ता",
+      "orgLevel": "संगठन स्तर",
+      "orgLevelPlaceholder": "संगठन स्तर चुनें",
+      "positions": "पद",
+      "positionsPlaceholder": "पद चुनें",
+      "org": "संगठन",
+      "orgPlaceholder": "संगठन चुनें",
+      "orgType": "संगठन प्रकार",
+      "orgTypePlaceholder": "संगठन प्रकार चुनें",
+      "relative": "संबंधित",
+      "CONDITION_OPTIONS": {
+        "taskCompleted": "कार्य पूरा हुआ",
+        "taskExpired": "कार्य समाप्त हो गया",
+        "taskOutOfCompliance": "कार्य अनुपालन से बाहर",
+        "answer": "उत्तर"
+      },
+      "RECIPIENT_OPTIONS": {
+        "assignee": "असाइन किया गया",
+        "supervisor": "सुपरवाइजर",
+        "executionManager": "निष्पादन प्रबंधक"
+      }
+    }
+  },
+  "FOLLOWUP_TASKS": {
+    "heading": "फ़ॉलो-अप कार्य",
+    "noFollowUpTasksPlaceholder": "कोई फ़ॉलो-अप कार्य परिभाषित नहीं हैं",
+    "addFollowUpTaskButtonLabel": "फ़ॉलो-अप कार्य",
+    "deleteFollowUpTask": "फ़ॉलो-अप कार्य हटाएँ?",
+    "deleteFollowUpTaskDescription": "क्या आप वाकई इस फ़ॉलो-अप कार्य को हटाना चाहते हैं?",
+    "deleteFollowUpTaskSubDescription": "यह कार्रवाई पूर्ववत नहीं की जा सकती।",
+    "CARD_COLUMN_HEADINGS": {
+      "followUp": "फ़ॉलो-अप कार्य",
+      "condition": "शर्त",
+      "conditionQuestion": "शर्त से संबंधित प्रश्न",
+      "conditionAnswer": "शर्त का उत्तर",
+      "taskName": "कार्य का नाम",
+      "recipients": "प्राप्तकर्ता"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "followUp": "उत्तर द्वारा ट्रिगर किए गए फ़ॉलो-अप कार्य"
+    },
+    "ADD_FOLLOWUP_TASK_MODAL": {
+      "MODAL_TITLE": {
+        "add": "फॉलो-अप कार्य जोड़ें",
+        "edit": "फॉलो-अप कार्य संपादित करें",
+        "clone": "फॉलो-अप कार्य क्लोन करें"
+      },
+      "STEPPER": {
+        "condition": "शर्त",
+        "recipients": "प्राप्तकर्ता",
+        "template": "टेम्पलेट",
+        "settings": "सेटिंग्स"
+      },
+      "PLACEHOLDER": {
+        "chooseCondition": "शर्त चुनें",
+        "chooseConditionQuestion": "प्रश्न चुनें",
+        "chooseConditionAnswer": "उत्तर चुनें"
+      },
+      "taskNameLabel": "कार्य का नाम",
+      "taskSharingLabel": "कार्य साझाकरण",
+      "primaryPositionLabel": "प्राथमिक स्थिति",
+      "FOLLOW_UP_CONDITION_OPTIONS": {
+        "taskCompleted": "कार्य पूर्ण",
+        "taskExpired": "कार्य समाप्त हो गया",
+        "taskOutOfCompliance": "कार्य अनुपालन से बाहर",
+        "answer": "उत्तर"
+      },
+      "TASK_SHARING_OPTIONS": {
+        "yes": "हाँ",
+        "no": "नहीं"
+      },
+      "PRIMARY_POSITION_OPTIONS": {
+        "assignee": "नियुक्त",
+        "districtManager": "जिला प्रबंधक"
+      },
+      "primaryPositionPlaceholder": "प्राथमिक पद का चयन करें",
+      "selectedTemplate": "चयनित टेम्पलेट",
+      "changeTemplate": "टेम्पलेट बदलें",
+      "directoryTree": "निर्देशिका पेड़",
+      "selectButton": "चुनें"
+    },
+    "TABLE": {
+      "HEADING": {
+        "directory": "निर्देशिका वृक्ष",
+        "templateName": "टेम्पलेट का नाम",
+        "type": "प्रकार",
+        "lastModifiedTime": "अंतिम संशोधन",
+        "preview": "पूर्वावलोकन"
+      },
+      "noDirectories": "कोई निर्देशिकाएं नहीं"
+    },
+    "FOLLOWUP_TASKS_SETTINGS": {
+      "retainVisibilityLabel": "ट्रिगरिंग उपयोगकर्ता दृश्यमानता बनाए रखता है",
+      "durationLabel": "अवधि",
+      "durationPlaceholder": "अवधि चुनें",
+      "durationErrorLabel": "अवधि आवश्यक है",
+      "priorityLabel": "प्राथमिकता",
+      "priorityPlaceholder": "प्राथमिकता चुनें",
+      "reminderNotificationLabel": "अनुस्मारक सूचना?",
+      "reminderNotificationPlaceholder": "अनुस्मारक सूचना चुनें",
+      "taskEndTimeLabel": "मूल कार्य समाप्ति समय",
+      "DURATION_OPTIONS": {
+        "days": "दिन",
+        "hours": "घंटे",
+        "minutes": "मिनट"
+      },
+      "PRIORITY_OPTIONS": {
+        "critical": "गंभीर",
+        "high": "उच्च",
+        "medium": "मध्यम",
+        "low": "कम"
+      },
+      "REMINDER_NOTIFICATION_OPTIONS": {
+        "none": "कोई नहीं",
+        "taskDueTime": "कार्य देय समय",
+        "taskNotStarted": "कार्य प्रारंभ नहीं हुआ"
+      }
+    },
+    "NO_DATA": "कोई फ़ॉलो-अप कार्य अभी तक नहीं जोड़ा गया है। शुरू करने के लिए \"+ फ़ॉलो-अप कार्य\" पर क्लिक करें।"
+  },
+  "QUESTION_BADGE_CONFIG": {
+    "photoLabel": "फ़ोटो",
+    "randomLabel": "रैंडम",
+    "clusterLabel": "क्लस्टर",
+    "answerLabel": "उत्तर",
+    "previousLabel": "पिछला",
+    "fileLabel": "फ़ाइल",
+    "numberLabel": "संख्या",
+    "temperatureLabel": "तापमान",
+    "tagLabel": "टैग",
+    "tagsLabel": "टैग"
+  },
+  "COLUMNS": {
+    "header": "कॉलम",
+    "noColumnPlaceholder": "कोई कॉलम अभी तक नहीं जोड़ा गया है। शुरू करने के लिए \"+ कॉलम\" पर क्लिक करें।",
+    "addColumnButtonLabel": "कॉलम",
+    "oneColumnRequiredError": "कम से कम एक कॉलम आवश्यक है।"
+  },
+  "ROWS": {
+    "header": "पंक्तियाँ",
+    "noRowPlaceholder": "कोई पंक्ति अभी तक नहीं जोड़ी गई है। शुरू करने के लिए \"+ पंक्ति\" पर क्लिक करें।",
+    "addRowButtonLabel": "पंक्ति",
+    "oneRowRequiredError": "कम से कम एक पंक्ति आवश्यक है।"
+  },
+  "PREVIOUS_EXECUTION_STATUS_OPTIONS": {
+    "completedLabel": "पूरा हुआ",
+    "notCompletedLabel": "पूरा नहीं हुआ"
+  },
+  "ADVANCED_TAB_OPTIONS": {
+    "VISIBILITY": {
+      "label": "दृश्यता",
+      "visibilityNoteHeading": "दृश्यता तर्क:",
+      "visibilityNoteContent": "यह प्रश्न केवल तभी दिखाई देगा जब नीचे दी गई सभी सक्षम शर्तें पूरी हों।",
+      "storeClusterToggleLabel": "स्टोर क्लस्टर",
+      "storeClusterLabel": "प्रश्न केवल इन क्लस्टर के लिए दिखाएं",
+      "storeClusterPlaceholder": "स्टोर क्लस्टर चुनें",
+      "previousAnswerToggleLabel": "पिछले उत्तर के आधार पर",
+      "previousAnswerPlaceholder": "विकल्प चुनें",
+      "previousQuestionPlaceholder": "प्रश्न चुनें",
+      "previousAnswerWarningOnPreviousAnswer": "कार्य का पहला प्रश्न कोई पिछला प्रश्न नहीं है और इसलिए इसे पिछले उत्तर के आधार पर प्रकट होने के लिए सेट नहीं किया जा सकता।",
+      "previousAnswerWarningOnVisibility": "प्रश्न {{questionIndex}} में दृश्यता नियम सक्षम हैं और इस प्रकार यह प्रकट नहीं हो सकता। यदि ऐसा नहीं होता है, तो यह प्रश्न भी प्रकट नहीं होगा।",
+      "randomAppearanceToggleLabel": "यादृच्छिक प्रकटन",
+      "randomAppearanceWarning": "\"पिछले उत्तर के आधार पर\" विकल्प सक्षम प्रश्नों को यादृच्छिक रूप से प्रकट होने के लिए कॉन्फ़िगर नहीं किया जा सकता।",
+      "previousExecutionToggleLabel": "पिछली निष्पादन स्थिति",
+      "previousExecutionLabel": "प्रश्न दिखाएं जब पिछला कार्य था",
+      "previousExecutionPlaceholder": "कार्य स्थिति चुनें"
+    },
+    "TAGS": {
+      "label": "टैग",
+      "tagsPlaceholder": "टैग चुनें",
+      "tagsLabel": "इस प्रश्न को वर्गीकृत करने के लिए टैग जोड़ें"
+    },
+    "FILE_ATTACHMENT": {
+      "label": "फ़ाइल संलग्नक",
+      "fileAttachmentToggleLabel": "संलग्नक का अनुरोध करें",
+      "fileAttachmentTypeLabel": "प्रकार",
+      "fileAttachmentRequiredForLabel": "के लिए आवश्यक",
+      "fileAttachmentAnswerLabel": "उन उत्तरों का चयन करें जिनके लिए संलग्नक आवश्यक है",
+      "fileAttachmentAnswerPlaceholder": "उत्तर चुनें"
+    },
+    "NUMERIC_VALUE": {
+      "label": "संख्यात्मक मान",
+      "numericValueToggleLabel": "संख्यात्मक मान",
+      "numericValueTypeLabel": "प्रकार"
+    }
+  },
+  "ADVANCED_TAB_ATTACHMENT_OPTIONS": {
+    "FILE_TYPES": {
+      "photo": "फ़ोटो",
+      "file": "फ़ाइल"
+    },
+    "REQUIRED_FOR_OPTIONS": {
+      "optionalForAllAnswers": "सभी उत्तरों के लिए वैकल्पिक",
+      "requiredForAllAnswers": "सभी उत्तरों के लिए आवश्यक",
+      "requiredForCompliantAnswers": "अनुपालक उत्तरों के लिए आवश्यक",
+      "requiredForNonCompliantAnswers": "गैर-अनुपालक उत्तरों के लिए आवश्यक",
+      "requiredForSpecificAnswers": "विशिष्ट उत्तरों के लिए आवश्यक"
+    }
+  },
+  "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
+    "temperatureReading": "तापमान रीडिंग",
+    "manualInput": "मैनुअल इनपुट"
+  },
+  "VALIDATION": {
+    "BASIC_INFO": {
+      "fieldRequired": "यह फ़ील्ड आवश्यक है",
+      "directoryRequired": "निर्देशिका आवश्यक है"
+    },
+    "QUESTIONS": {
+      "fieldRequired": "यह फ़ील्ड आवश्यक है",
+      "questionTextRequired": "प्रश्न का पाठ आवश्यक है",
+      "questionTextMinLength": "प्रश्न का पाठ कम से कम 1 वर्ण का होना चाहिए",
+      "questionTextMaxLength": "प्रश्न का पाठ अधिकतम 500 वर्णों का होना चाहिए",
+      "optionsRequired": "कम से कम एक विकल्प आवश्यक है",
+      "optionTextRequired": "विकल्प का पाठ आवश्यक है",
+      "optionTextMaxLength": "विकल्प का पाठ अधिकतम 200 वर्णों का होना चाहिए",
+      "minLengthInvalid": "न्यूनतम लंबाई एक धनात्मक संख्या होनी चाहिए",
+      "maxLengthInvalid": "अधिकतम लंबाई एक धनात्मक संख्या होनी चाहिए",
+      "minValueInvalid": "न्यूनतम मान एक मान्य संख्या होनी चाहिए",
+      "maxValueInvalid": "अधिकतम मान एक मान्य संख्या होनी चाहिए",
+      "scoreInvalid": "स्कोर एक मान्य संख्या होना चाहिए"
+    },
+    "ADVANCED_OPTIONS": {
+      "complianceThresholdMin": "अनुपालन सीमा कम से कम 0 होनी चाहिए",
+      "complianceThresholdMax": "अनुपालन सीमा अधिकतम 100 होनी चाहिए"
+    },
+    "NOTIFICATIONS": {
+      "conditionRequired": "शर्त आवश्यक है",
+      "conditionQuestionRequired": "शर्त प्रश्न आवश्यक है",
+      "conditionAnswerRequired": "शर्त उत्तर आवश्यक है",
+      "recipientsRequired": "कम से कम एक प्राप्तकर्ता आवश्यक है",
+      "subjectRequired": "विषय आवश्यक है",
+      "subjectMaxLength": "विषय अधिकतम 200 वर्णों का होना चाहिए",
+      "messageRequired": "संदेश आवश्यक है",
+      "messageMaxLength": "संदेश अधिकतम 1000 वर्णों का होना चाहिए"
+    },
+    "FOLLOWUP_TASKS": {
+      "conditionRequired": "शर्त आवश्यक है",
+      "conditionQuestionRequired": "शर्त प्रश्न आवश्यक है",
+      "conditionAnswerRequired": "शर्त उत्तर आवश्यक है",
+      "taskNameRequired": "कार्य का नाम आवश्यक है",
+      "taskNameMaxLength": "कार्य का नाम अधिकतम 100 वर्णों का होना चाहिए",
+      "templateRequired": "टेम्पलेट चयन आवश्यक है",
+      "durationRequired": "अवधि आवश्यक है",
+      "durationValueRequired": "अवधि मान आवश्यक है",
+      "durationValueMin": "अवधि मान कम से कम 1 होना चाहिए",
+      "priorityRequired": "प्राथमिकता आवश्यक है"
+    },
+    "TRIGGER_TASK": {
+      "fieldRequired": "फ़ील्ड आवश्यक है",
+      "conditionRequired": "शर्त आवश्यक है",
+      "questionRequired": "प्रश्न आवश्यक है",
+      "answerRequired": "उत्तर आवश्यक है",
+      "recipientsRequired": "कम से कम एक प्राप्तकर्ता आवश्यक है"
+    },
+    "ANSWER_OPTION_SETTING": {
+      "valueRequired": "मान आवश्यक है",
+      "valueMaxLength": "मान 255 वर्णों से अधिक नहीं हो सकता",
+      "scoreInvalid": "स्कोर एक मान्य संख्या होना चाहिए",
+      "optionsRequired": "कम से कम एक उत्तर विकल्प आवश्यक है",
+      "formulaInvalid": "सूत्र में मान्य ऑपरेटर (<, >, <=, >=, ==, <>, AND, OR) या संख्याएं होनी चाहिए"
+    }
+  },
+  "DELETE_CONFIRMATION": {
+    "QUESTION": {
+      "title": "प्रश्न हटाएँ",
+      "messageFirstPart": "आप जिस प्रश्न को हटाने जा रहे हैं, वह \"पिछले उत्तर के आधार पर\" शर्त के माध्यम से किसी अन्य प्रश्न से जुड़ा हुआ है।",
+      "messageSecondPart": "प्रश्नों को हटाने से वह निर्भरता टूट सकती है, और यदि संदर्भित प्रश्न अब शर्त वाले प्रश्न से पहले नहीं है तो शर्तीय लॉजिक हटा दिया जाएगा।",
+      "messageThirdPart": "क्या आप वाकई इस प्रश्न को हटाना चाहते हैं?",
+      "messageFourthPart": "यह क्रिया पूर्ववत नहीं की जा सकती।"
+    },
+    "COLUMN": {
+      "title": "कॉलम हटाएँ",
+      "messageFirstPart": "क्या आप वाकई इस कॉलम को हटाना चाहते हैं?",
+      "messageSecondPart": "यह क्रिया पूर्ववत नहीं की जा सकती।"
+    },
+    "QUESTION_OPTION": {
+      "title": "विकल्प हटाएँ",
+      "first_part_message": "इस विकल्प से एक या अधिक सूचनाएँ या फॉलो-अप कार्य जुड़े हुए हैं। इस विकल्प को हटाने से सभी संबंधित सूचनाएँ और फॉलो-अप कार्य भी हट जाएंगे।",
+      "second_part_message": "क्या आप वाकई इस विकल्प को हटाना चाहते हैं?",
+      "third_part_message": "यह क्रिया पूर्ववत नहीं की जा सकती।"
+    }
+  }
+}

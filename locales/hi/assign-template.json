@@ -1,0 +1,17 @@
+{
+  "ASSIGN_TEMPLATE_HEADING": {
+    "assignTaskTemplate": "कार्य असाइन करें"
+  },
+  "ASSIGN_TEMPLATE_HEADER_ACTIONS": {
+    "next": "अगला",
+    "reviewAndSubmit": "समीक्षा और सबमिट करें"
+  },
+  "ASSIGN_TEMPLATE_STEPS": {
+    "basicInfoLabel": "मूल जानकारी",
+    "recipientsLabel": "प्राप्तकर्ता",
+    "scheduleLabel": "अनुसूची",
+    "notificationsLabel": "सूचनाएं",
+    "settingsLabel": "सेटिंग्स",
+    "attachmentsLabel": "संलग्नक"
+  }
+}

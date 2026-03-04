@@ -1,0 +1,143 @@
+{
+  "TEMPLATE_LIBRARY_NO_DATA": {
+    "title": "To view task templates, select a folder on the left or search above",
+    "description": "Nothing is selected"
+  },
+  "NO_DATA_SEARCH": {
+    "title": "No results found",
+    "description": "Try adjusting your search criteria"
+  },
+  "TEMPLATE_LIBRARY_HEADING": {
+    "createTemplate": "Create Template",
+    "folderTree": "Folder Tree",
+    "template": "Template",
+    "templateLibrary": "Template Library",
+    "searchTemplates": "Search by template name"
+  },
+  "TEMPLATE_TABLE_COLUMN_HEADINGS": {
+    "name": "Template Name",
+    "type": "Type",
+    "status": "Status",
+    "created": "Created",
+    "lastModified": "Last Modified",
+    "actions": "Actions"
+  },
+  "IMPORT_MODAL": {
+    "title": "Quick Import - Excel",
+    "description": "Select a .XLSX file to import",
+    "confirmBtnText": "Import",
+    "cancelBtnText": "Cancel"
+  },
+  "DELETE_MODAL": {
+    "title": "Delete Template",
+    "description": "Do you want to permanently delete the selected template?",
+    "confirmBtnText": "Ok",
+    "cancelBtnText": "Cancel"
+  },
+  "EXPORT_MODAL": {
+    "title": "Export",
+    "print": "Print",
+    "pdf": "PDF",
+    "excel": "Excel",
+    "csv": "CSV"
+  },
+  "TEMPLATE_PREVIEW_GRID_HEADER": {
+    "title": "Content"
+  },
+  "TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS": {
+    "nameAsc": "Sort (A → Z)",
+    "nameDesc": "Sort (Z → A)",
+    "sortAsc": "Sort Ascending",
+    "sortDesc": "Sort Descending"
+  },
+  "TEMPLATE_PREVIEW_MODAL": {
+    "QUESTION_TYPES": {
+      "numeric": "Numeric",
+      "dropdown": "Dropdown",
+      "radioButton": "Radio Button",
+      "checkbox": "Checkbox",
+      "userInput": "User Input",
+      "longUserInput": "Long User Input",
+      "label": "Label",
+      "reminder": "Reminder",
+      "title": "Title",
+      "responseTemplate": "Response Template",
+      "dynamicDropdown": "Dynamic Dropdown",
+      "upcBarcodeScan": "UPC Barcode Scan"
+    },
+    "DATE_INPUT_TYPE": {
+      "date": "Date",
+      "time": "Time",
+      "dateTime": "Date & Time"
+    },
+    "QUESTION_ATTACHMENT": {
+      "photo": "Photo",
+      "barcode": "Barcode",
+      "temperatureProbe": "Temperature Probe",
+      "numeric": "Numeric",
+      "attachment": "Attachment"
+    },
+    "ATTACHMENT_BUTTON_CONFIG": {
+      "capturePhoto": "Capture Photo",
+      "captureTemperature": "Capture Temperature",
+      "enterValue": "Enter Value",
+      "scanItem": "Scan Item",
+      "chooseFile": "Choose File"
+    },
+    "PLACEHOLDER_TEXT": {
+      "enterValue": "Enter value",
+      "enterDetails": "Enter details",
+      "selectOption": "Select an option",
+      "selectDate": "Select date",
+      "selectTime": "Select time",
+      "selectDateTime": "Select date & time"
+    }
+  },
+  "TEMPLATE_SEARCH_BAR": {
+    "placeholder": "Search Templates",
+    "FILTER_LABELS": {
+      "templateName": "Template Name",
+      "taskType": "Task Type",
+      "statusList": "Status",
+      "taskTagsList": "Task Tags",
+      "questionTagsList": "Question Tags",
+      "modifiedInLast": "Show tasks modified in last:",
+      "questionText": "Question Text"
+    },
+    "FILTER_PLACEHOLDERS": {
+      "templateName": "Search by template name",
+      "taskType": "Select Task Type",
+      "statusList": "Select Status",
+      "taskTagsList": "Select Task Tags",
+      "questionTagsList": "Select Question Tags",
+      "modifiedInLast": "eg., 8",
+      "questionText": "eg., Attach a picture of the drains and map station"
+    },
+    "ADVANCED_FILTER": {
+      "modifiedInLastDaysAdditionalLabel": "days"
+    },
+    "SHOW_ALL_TEMPLATE_IN_FOLDER": {
+      "showAll": "Show all",
+      "templates": "templates",
+      "inThisFolder": "in this folder"
+    },
+    "FILTER_CHIPS_PREFIX": {
+      "taskTagsList": "T.Tags",
+      "questionTagsList": "Q.Tags",
+      "taskType": "T.Type",
+      "statusList": "Status",
+      "modifiedInLastDays": "Modified In Last Days",
+      "questionText": "Q.Text"
+    },
+    "FILTER_FIELD_DROPDOWN": {
+      "TASK_STATUS": {
+        "assigned": "Assigned",
+        "notInUse": "Not In Use",
+        "incomplete": "Incomplete",
+        "notAssigned": "Not Assigned"
+      }
+    },
+    "searchAllResults": "All search results for",
+    "lastModifiedLabel": "Last Modified"
+  }
+}

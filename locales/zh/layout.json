@@ -1,0 +1,45 @@
+{
+  "APP_BAR": {
+    "searchPlaceholder": "搜索..."
+  },
+  "SIDEBAR": {
+    "IMS_NAV_LINKS": {
+      "home": "首页",
+      "quickLinks": "快速链接",
+      "ess": "ESS",
+      "communication": "通讯",
+      "standards": "标准",
+      "labourModel": "劳动力模型",
+      "forecast": "预测",
+      "staffing": "人员配置",
+      "labourReport": "劳动力报告",
+      "foodSafety": "食品安全",
+      "queueManagement": "队列管理"
+    },
+    "WFM_NAV_LINKS": {
+      "home": "首页",
+      "quickLinks": "快速链接",
+      "ess": "ESS",
+      "communication": "通讯",
+      "queueManagement": "队列管理"
+    }
+  },
+  "USER_PROFILE_MENU_OPTIONS": {
+    "changeRole": "更改角色",
+    "setFocus": "设置焦点",
+    "userProfile": "用户资料",
+    "modifyDashboard": "修改仪表板",
+    "reduceRole": "降低角色",
+    "userManagement": "用户管理",
+    "adminMode": "管理员模式",
+    "adminModeAllSettings": "所有设置",
+    "adminModePermissions": "权限",
+    "adminModeInternationalization": "国际化",
+    "theme": "主题",
+    "themeDark": "深色",
+    "themeLight": "浅色",
+    "themeSystemDefault": "系统默认",
+    "language": "语言",
+    "logout": "登出"
+  }
+}

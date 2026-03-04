@@ -1,0 +1,143 @@
+{
+  "TEMPLATE_LIBRARY_NO_DATA": {
+    "title": "कार्य टेम्पलेट देखने के लिए, बाईं ओर एक फ़ोल्डर चुनें या ऊपर खोजें",
+    "description": "कुछ भी चयनित नहीं है"
+  },
+  "NO_DATA_SEARCH": {
+    "title": "कोई परिणाम नहीं मिला",
+    "description": "अपने खोज मानदंड को समायोजित करने का प्रयास करें"
+  },
+  "TEMPLATE_LIBRARY_HEADING": {
+    "createTemplate": "टेम्पलेट बनाएं",
+    "folderTree": "फ़ोल्डर ट्री",
+    "template": "टेम्पलेट",
+    "templateLibrary": "टेम्पलेट लाइब्रेरी",
+    "searchTemplates": "टेम्पलेट नाम से खोजें"
+  },
+  "TEMPLATE_TABLE_COLUMN_HEADINGS": {
+    "name": "टेम्पलेट नाम",
+    "type": "प्रकार",
+    "status": "स्थिति",
+    "created": "बनाया गया",
+    "lastModified": "अंतिम संशोधित",
+    "actions": "कार्रवाइयाँ"
+  },
+  "IMPORT_MODAL": {
+    "title": "त्वरित आयात - Excel",
+    "description": "आयात करने के लिए .XLSX फ़ाइल चुनें",
+    "confirmBtnText": "आयात करें",
+    "cancelBtnText": "रद्द करें"
+  },
+  "DELETE_MODAL": {
+    "title": "टेम्पलेट हटाएं",
+    "description": "क्या आप चयनित टेम्पलेट को स्थायी रूप से हटाना चाहते हैं?",
+    "confirmBtnText": "ठीक है",
+    "cancelBtnText": "रद्द करें"
+  },
+  "EXPORT_MODAL": {
+    "title": "निर्यात करें",
+    "print": "प्रिंट करें",
+    "pdf": "PDF",
+    "excel": "Excel",
+    "csv": "CSV"
+  },
+  "TEMPLATE_PREVIEW_GRID_HEADER": {
+    "title": "सामग्री"
+  },
+  "TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS": {
+    "nameAsc": "क्रमबद्ध करें (A → Z)",
+    "nameDesc": "क्रमबद्ध करें (Z → A)",
+    "sortAsc": "आरोही क्रम में क्रमबद्ध करें",
+    "sortDesc": "अवरोही क्रम में क्रमबद्ध करें"
+  },
+  "TEMPLATE_PREVIEW_MODAL": {
+    "QUESTION_TYPES": {
+      "numeric": "संख्यात्मक",
+      "dropdown": "ड्रॉपडाउन",
+      "radioButton": "रेडियो बटन",
+      "checkbox": "चेकबॉक्स",
+      "userInput": "उपयोगकर्ता इनपुट",
+      "longUserInput": "लंबा उपयोगकर्ता इनपुट",
+      "label": "लेबल",
+      "reminder": "अनुस्मारक",
+      "title": "शीर्षक",
+      "responseTemplate": "प्रतिक्रिया टेम्पलेट",
+      "dynamicDropdown": "गतिशील ड्रॉपडाउन",
+      "upcBarcodeScan": "UPC बारकोड स्कैन"
+    },
+    "DATE_INPUT_TYPE": {
+      "date": "तारीख",
+      "time": "समय",
+      "dateTime": "तारीख और समय"
+    },
+    "QUESTION_ATTACHMENT": {
+      "photo": "फ़ोटो",
+      "barcode": "बारकोड",
+      "temperatureProbe": "तापमान जांच",
+      "numeric": "संख्यात्मक",
+      "attachment": "संलग्नक"
+    },
+    "ATTACHMENT_BUTTON_CONFIG": {
+      "capturePhoto": "फ़ोटो कैप्चर करें",
+      "captureTemperature": "तापमान कैप्चर करें",
+      "enterValue": "मान दर्ज करें",
+      "scanItem": "आइटम स्कैन करें",
+      "chooseFile": "फ़ाइल चुनें"
+    },
+    "PLACEHOLDER_TEXT": {
+      "enterValue": "मान दर्ज करें",
+      "enterDetails": "विवरण दर्ज करें",
+      "selectOption": "एक विकल्प चुनें",
+      "selectDate": "तारीख चुनें",
+      "selectTime": "समय चुनें",
+      "selectDateTime": "तारीख और समय चुनें"
+    }
+  },
+  "TEMPLATE_SEARCH_BAR": {
+    "placeholder": "टेम्पलेट खोजें",
+    "FILTER_LABELS": {
+      "templateName": "टेम्पलेट नाम",
+      "taskType": "कार्य प्रकार",
+      "statusList": "स्थिति",
+      "taskTagsList": "कार्य टैग",
+      "questionTagsList": "प्रश्न टैग",
+      "modifiedInLast": "हाल ही में संशोधित किए गए कार्य दिखाएँ:",
+      "questionText": "प्रश्न पाठ"
+    },
+    "FILTER_PLACEHOLDERS": {
+      "templateName": "टेम्पलेट नाम से खोजें",
+      "taskType": "कार्य प्रकार चुनें",
+      "statusList": "स्थिति चुनें",
+      "taskTagsList": "कार्य टैग चुनें",
+      "questionTagsList": "प्रश्न टैग चुनें",
+      "modifiedInLast": "उदाहरण के लिए, 8",
+      "questionText": "जैसे, नालियों की एक तस्वीर संलग्न करें और स्टेशन को मानचित्रित करें"
+    },
+    "ADVANCED_FILTER": {
+      "modifiedInLastDaysAdditionalLabel": "दिन"
+    },
+    "SHOW_ALL_TEMPLATE_IN_FOLDER": {
+      "showAll": "सभी दिखाएँ",
+      "inThisFolder": "इस फ़ोल्डर में",
+      "templates": "टेम्पलेट्स"
+    },
+    "FILTER_CHIPS_PREFIX": {
+      "taskTagsList": "T.टैग",
+      "questionTagsList": "P.टैग",
+      "taskType": "T.प्रकार",
+      "statusList": "स्थिति",
+      "modifiedInLastDays": "पिछले दिनों में संशोधित",
+      "questionText": "P.पाठ"
+    },
+    "FILTER_FIELD_DROPDOWN": {
+      "TASK_STATUS": {
+        "assigned": "असाइन किया गया",
+        "notInUse": "उपयोग में नहीं",
+        "incomplete": "अपूर्ण",
+        "notAssigned": "असाइन नहीं किया गया"
+      }
+    },
+    "searchAllResults": "सभी खोज परिणाम",
+    "lastModifiedLabel": "अंतिम संशोधित"
+  }
+}

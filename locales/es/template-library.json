@@ -1,0 +1,143 @@
+{
+  "TEMPLATE_LIBRARY_NO_DATA": {
+    "title": "Para ver las plantillas de tareas, seleccione una carpeta a la izquierda o busque arriba",
+    "description": "Nada está seleccionado"
+  },
+  "NO_DATA_SEARCH": {
+    "title": "No se encontraron resultados",
+    "description": "Intente ajustar sus criterios de búsqueda"
+  },
+  "TEMPLATE_LIBRARY_HEADING": {
+    "createTemplate": "Crear plantilla",
+    "folderTree": "Árbol de carpetas",
+    "template": "Plantilla",
+    "templateLibrary": "Biblioteca de plantillas",
+    "searchTemplates": "Buscar por nombre de plantilla"
+  },
+  "TEMPLATE_TABLE_COLUMN_HEADINGS": {
+    "name": "Nombre de la plantilla",
+    "type": "Tipo",
+    "status": "Estado",
+    "created": "Creado",
+    "lastModified": "Última modificación",
+    "actions": "Acciones"
+  },
+  "IMPORT_MODAL": {
+    "title": "Importación rápida - Excel",
+    "description": "Seleccione un archivo .XLSX para importar",
+    "confirmBtnText": "Importar",
+    "cancelBtnText": "Cancelar"
+  },
+  "DELETE_MODAL": {
+    "title": "Eliminar plantilla",
+    "description": "¿Desea eliminar permanentemente la plantilla seleccionada?",
+    "confirmBtnText": "Aceptar",
+    "cancelBtnText": "Cancelar"
+  },
+  "EXPORT_MODAL": {
+    "title": "Exportar",
+    "print": "Imprimir",
+    "pdf": "PDF",
+    "excel": "Excel",
+    "csv": "CSV"
+  },
+  "TEMPLATE_PREVIEW_GRID_HEADER": {
+    "title": "Contenido"
+  },
+  "TEMPLATE_TABLE_COLUMN_SORTING_OPTIONS": {
+    "nameAsc": "Ordenar (A → Z)",
+    "nameDesc": "Ordenar (Z → A)",
+    "sortAsc": "Ordenar ascendente",
+    "sortDesc": "Ordenar descendente"
+  },
+  "TEMPLATE_PREVIEW_MODAL": {
+    "QUESTION_TYPES": {
+      "numeric": "Numérico",
+      "dropdown": "Lista desplegable",
+      "radioButton": "Botón de radio",
+      "checkbox": "Casilla de verificación",
+      "userInput": "Entrada de usuario",
+      "longUserInput": "Entrada larga de usuario",
+      "label": "Etiqueta",
+      "reminder": "Recordatorio",
+      "title": "Título",
+      "responseTemplate": "Plantilla de respuesta",
+      "dynamicDropdown": "Lista desplegable dinámica",
+      "upcBarcodeScan": "Escaneo de código de barras UPC"
+    },
+    "DATE_INPUT_TYPE": {
+      "date": "Fecha",
+      "time": "Hora",
+      "dateTime": "Fecha y hora"
+    },
+    "QUESTION_ATTACHMENT": {
+      "photo": "Foto",
+      "barcode": "Código de barras",
+      "temperatureProbe": "Sonda de temperatura",
+      "numeric": "Numérico",
+      "attachment": "Archivo adjunto"
+    },
+    "ATTACHMENT_BUTTON_CONFIG": {
+      "capturePhoto": "Capturar foto",
+      "captureTemperature": "Capturar temperatura",
+      "enterValue": "Ingresar valor",
+      "scanItem": "Escanear artículo",
+      "chooseFile": "Elegir archivo"
+    },
+    "PLACEHOLDER_TEXT": {
+      "enterValue": "Ingresar valor",
+      "enterDetails": "Ingresar detalles",
+      "selectOption": "Seleccionar una opción",
+      "selectDate": "Seleccionar fecha",
+      "selectTime": "Seleccionar hora",
+      "selectDateTime": "Seleccionar fecha y hora"
+    }
+  },
+  "TEMPLATE_SEARCH_BAR": {
+    "placeholder": "Buscar plantillas",
+    "FILTER_LABELS": {
+      "templateName": "Nombre de la plantilla",
+      "taskType": "Tipo de tarea",
+      "statusList": "Estado",
+      "taskTagsList": "Etiquetas de tarea",
+      "questionTagsList": "Etiquetas de pregunta",
+      "modifiedInLast": "Mostrar las tareas modificadas recientemente:",
+      "questionText": "Texto de la pregunta"
+    },
+    "FILTER_PLACEHOLDERS": {
+      "templateName": "Buscar por nombre de plantilla",
+      "taskType": "Seleccionar tipo de tarea",
+      "statusList": "Seleccionar estado",
+      "taskTagsList": "Seleccionar etiquetas de tarea",
+      "questionTagsList": "Seleccionar etiquetas de pregunta",
+      "modifiedInLast": "p. ej., 8",
+      "questionText": "p. ej., Adjuntar una imagen de los desagües y mapear la estación"
+    },
+    "ADVANCED_FILTER": {
+      "modifiedInLastDaysAdditionalLabel": "días"
+    },
+    "SHOW_ALL_TEMPLATE_IN_FOLDER": {
+      "showAll": "Mostrar todo",
+      "inThisFolder": "en esta carpeta",
+      "templates": "plantillas"
+    },
+    "FILTER_CHIPS_PREFIX": {
+      "taskTagsList": "T.Etiquetas",
+      "questionTagsList": "P.Etiquetas",
+      "taskType": "T.Tipo",
+      "statusList": "Estado",
+      "modifiedInLastDays": "Modificado en los últimos días",
+      "questionText": "P.Texto"
+    },
+    "FILTER_FIELD_DROPDOWN": {
+      "TASK_STATUS": {
+        "assigned": "Asignado",
+        "notInUse": "No en uso",
+        "incomplete": "Incompleto",
+        "notAssigned": "No asignado"
+      }
+    },
+    "searchAllResults": "Todos los resultados de búsqueda para",
+    "lastModifiedLabel": "Última modificación"
+  }
+}

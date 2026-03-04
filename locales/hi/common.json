@@ -1,0 +1,69 @@
+{
+  "NO_DATA_SEARCH": {
+    "title": "कोई हालिया टेम्पलेट नहीं मिला",
+    "description": "कुछ खोजें"
+  },
+  "GENERAL": {
+    "renameButtonLabel": "नाम बदलें",
+    "deleteButtonLabel": "हटाएँ",
+    "cancelButtonLabel": "रद्द करें",
+    "confirmButtonLabel": "पुष्टि करें",
+    "submitButtonLabel": "जमा करें",
+    "saveButtonLabel": "सहेजें",
+    "addButtonLabel": "जोड़ें",
+    "nextButtonLabel": "अगला",
+    "seeMoreButtonLabel": "और देखें",
+    "seeLessButtonLabel": "कम देखें",
+    "filterPlaceholder": "खोजें...",
+    "clearAllButtonLabel": "साफ़ करें",
+    "searchButtonLabel": "खोजें",
+    "loadingText": "लोड हो रहा है...",
+    "closeButtonLabel": "बंद करें",
+    "continueAnywayButtonLabel": "फिर भी जारी रखें"
+  },
+  "PAGINATION": {
+    "pageLabel": "पृष्ठ",
+    "ofLabel": "का"
+  },
+  "EDITOR_TOOLBAR": {
+    "bold": "बोल्ड",
+    "italic": "इटैलिक",
+    "underline": "अंडरलाइन",
+    "link": "लिंक जोड़ें",
+    "attachment": "अटैचमेंट जोड़ें",
+    "clearFormat": "फॉर्मेटिंग साफ़ करें",
+    "wildcard": "वाइल्डकार्ड वेरिएबल"
+  },
+  "EDITOR_FILE_UPLOAD": {
+    "text": "छवि/फ़ाइल ब्राउज़ और अपलोड करने के लिए यहां टैप करें।",
+    "title": "फ़ाइल अपलोड करें",
+    "linkPlaceholder": "URL दर्ज करें:"
+  },
+  "EDITOR_LINK_UPLOAD": {
+    "title": "लिंक सम्मिलित करें",
+    "editTitle": "लिंक संपादित करें",
+    "text": "प्रदर्शन पाठ",
+    "link": "लिंक",
+    "placeholder": "दर्ज करें",
+    "cancelBtn": "रद्द करें",
+    "removeLinkBtn": "लिंक हटाएं",
+    "submitBtn": "जमा करें"
+  },
+  "EDITOR_ERROR": {
+    "REQUIRED_FIELD": "यह क्षेत्र आवश्यक है।"
+  },
+  "NO_DATA": {
+    "TITLE": "अभी तक यहाँ कुछ नहीं है"
+  },
+  "SELECT": {
+    "TOOLBAR": {
+      "filterFeaturePlaceholder": "खोजें...",
+      "selectAllFeatureLabel": "सभी का चयन करें"
+    }
+  },
+  "NAVIGATION_GUARD": {
+    "modalTitle": "असहेजे गए परिवर्तन",
+    "modalMessage": "क्या आप वाकई इस स्क्रीन को छोड़ना चाहते हैं? आपके द्वारा किए गए सभी परिवर्तन खो जाएंगे।",
+    "confirmButtonLabel": "ठीक है"
+  }
+}

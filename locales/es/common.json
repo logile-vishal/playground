@@ -1,0 +1,69 @@
+{
+  "NO_DATA_SEARCH": {
+    "title": "No se encontró ninguna plantilla reciente",
+    "description": "Buscar algo"
+  },
+  "GENERAL": {
+    "renameButtonLabel": "Renombrar",
+    "deleteButtonLabel": "Eliminar",
+    "cancelButtonLabel": "Cancelar",
+    "confirmButtonLabel": "Confirmar",
+    "submitButtonLabel": "Enviar",
+    "saveButtonLabel": "Guardar",
+    "addButtonLabel": "Agregar",
+    "nextButtonLabel": "Siguiente",
+    "seeMoreButtonLabel": "Ver más",
+    "seeLessButtonLabel": "Ver menos",
+    "filterPlaceholder": "Buscar...",
+    "clearAllButtonLabel": "Borrar todo",
+    "searchButtonLabel": "Buscar",
+    "loadingText": "Cargando...",
+    "closeButtonLabel": "Cerrar",
+    "continueAnywayButtonLabel": "Continuar de todos modos"
+  },
+  "PAGINATION": {
+    "pageLabel": "Página",
+    "ofLabel": "de"
+  },
+  "EDITOR_TOOLBAR": {
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "underline": "Subrayado",
+    "link": "Agregar enlace",
+    "attachment": "Agregar archivo adjunto",
+    "clearFormat": "Borrar formato",
+    "wildcard": "Variable comodín"
+  },
+  "EDITOR_FILE_UPLOAD": {
+    "text": "Toca aquí para buscar y subir una imagen/archivo.",
+    "title": "Subir archivo",
+    "linkPlaceholder": "Ingresa la URL:"
+  },
+  "EDITOR_LINK_UPLOAD": {
+    "title": "Insertar enlace",
+    "editTitle": "Editar enlace",
+    "text": "Texto a mostrar",
+    "link": "Enlace",
+    "placeholder": "Ingresar",
+    "cancelBtn": "Cancelar",
+    "removeLinkBtn": "Eliminar enlace",
+    "submitBtn": "Enviar"
+  },
+  "EDITOR_ERROR": {
+    "REQUIRED_FIELD": "Este campo es obligatorio."
+  },
+  "NO_DATA": {
+    "TITLE": "Nada aquí todavía"
+  },
+  "SELECT": {
+    "TOOLBAR": {
+      "filterFeaturePlaceholder": "Buscar...",
+      "selectAllFeatureLabel": "Seleccionar todo"
+    }
+  },
+  "NAVIGATION_GUARD": {
+    "modalTitle": "Cambios no guardados",
+    "modalMessage": "¿Estás seguro de que quieres salir de esta pantalla? Se perderán los cambios que hayas realizado.",
+    "confirmButtonLabel": "Aceptar"
+  }
+}

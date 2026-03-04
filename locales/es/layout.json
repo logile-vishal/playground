@@ -1,0 +1,45 @@
+{
+  "APP_BAR": {
+    "searchPlaceholder": "Buscar..."
+  },
+  "SIDEBAR": {
+    "IMS_NAV_LINKS": {
+      "home": "Inicio",
+      "quickLinks": "Enlaces rápidos",
+      "ess": "ESS",
+      "communication": "Comunicación",
+      "standards": "Estándares",
+      "labourModel": "Modelo laboral",
+      "forecast": "Pronóstico",
+      "staffing": "Dotación de personal",
+      "labourReport": "Informe laboral",
+      "foodSafety": "Seguridad alimentaria",
+      "queueManagement": "Gestión de colas"
+    },
+    "WFM_NAV_LINKS": {
+      "home": "Inicio",
+      "quickLinks": "Enlaces rápidos",
+      "ess": "ESS",
+      "communication": "Comunicación",
+      "queueManagement": "Gestión de colas"
+    }
+  },
+  "USER_PROFILE_MENU_OPTIONS": {
+    "changeRole": "Cambiar rol",
+    "setFocus": "Establecer enfoque",
+    "userProfile": "Perfil de usuario",
+    "modifyDashboard": "Modificar panel",
+    "reduceRole": "Reducir rol",
+    "userManagement": "Gestión de usuarios",
+    "adminMode": "Modo administrador",
+    "adminModeAllSettings": "Todas las configuraciones",
+    "adminModePermissions": "Permisos",
+    "adminModeInternationalization": "Internacionalización",
+    "theme": "Tema",
+    "themeDark": "Oscuro",
+    "themeLight": "Claro",
+    "themeSystemDefault": "Predeterminado del sistema",
+    "language": "Idioma",
+    "logout": "Cerrar sesión"
+  }
+}

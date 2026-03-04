@@ -1,0 +1,69 @@
+{
+  "NO_DATA_SEARCH": {
+    "title": "未找到最近的模板",
+    "description": "搜索内容"
+  },
+  "GENERAL": {
+    "renameButtonLabel": "重命名",
+    "deleteButtonLabel": "删除",
+    "cancelButtonLabel": "取消",
+    "confirmButtonLabel": "确认",
+    "submitButtonLabel": "提交",
+    "saveButtonLabel": "保存",
+    "addButtonLabel": "添加",
+    "nextButtonLabel": "下一步",
+    "seeMoreButtonLabel": "查看更多",
+    "seeLessButtonLabel": "收起",
+    "filterPlaceholder": "搜索...",
+    "clearAllButtonLabel": "清除所有",
+    "searchButtonLabel": "搜索",
+    "loadingText": "加载中...",
+    "closeButtonLabel": "关闭",
+    "continueAnywayButtonLabel": "仍然继续"
+  },
+  "PAGINATION": {
+    "pageLabel": "页面",
+    "ofLabel": "的"
+  },
+  "EDITOR_TOOLBAR": {
+    "bold": "加粗",
+    "italic": "斜体",
+    "underline": "下划线",
+    "link": "添加链接",
+    "attachment": "添加附件",
+    "clearFormat": "清除格式",
+    "wildcard": "通配符变量"
+  },
+  "EDITOR_FILE_UPLOAD": {
+    "text": "点击此处浏览并上传图片/文件。",
+    "title": "上传文件",
+    "linkPlaceholder": "输入网址："
+  },
+  "EDITOR_LINK_UPLOAD": {
+    "title": "插入链接",
+    "editTitle": "编辑链接",
+    "text": "显示文本",
+    "link": "链接",
+    "placeholder": "输入",
+    "cancelBtn": "取消",
+    "removeLinkBtn": "移除链接",
+    "submitBtn": "提交"
+  },
+  "EDITOR_ERROR": {
+    "REQUIRED_FIELD": "此字段为必填项。"
+  },
+  "NO_DATA": {
+    "TITLE": "这里还什么都没有"
+  },
+  "SELECT": {
+    "TOOLBAR": {
+      "filterFeaturePlaceholder": "搜索...",
+      "selectAllFeatureLabel": "选择全部"
+    }
+  },
+  "NAVIGATION_GUARD": {
+    "modalTitle": "未保存的更改",
+    "modalMessage": "您确定要离开此页面吗？您所做的任何更改都将丢失。",
+    "confirmButtonLabel": "确定"
+  }
+}

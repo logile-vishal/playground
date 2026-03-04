@@ -1,0 +1,69 @@
+{
+  "NO_DATA_SEARCH": {
+    "title": "No recent template found",
+    "description": "Search something"
+  },
+  "GENERAL": {
+    "renameButtonLabel": "Rename",
+    "deleteButtonLabel": "Delete",
+    "cancelButtonLabel": "Cancel",
+    "confirmButtonLabel": "Confirm",
+    "submitButtonLabel": "Submit",
+    "saveButtonLabel": "Save",
+    "addButtonLabel": "Add",
+    "nextButtonLabel": "Next",
+    "seeMoreButtonLabel": "see more",
+    "seeLessButtonLabel": "see less",
+    "filterPlaceholder": "Search...",
+    "clearAllButtonLabel": "Clear All",
+    "searchButtonLabel": "Search",
+    "loadingText": "Loading...",
+    "closeButtonLabel": "Close",
+    "continueAnywayButtonLabel": "Continue Anyway"
+  },
+  "PAGINATION": {
+    "pageLabel": "Page",
+    "ofLabel": "of"
+  },
+  "EDITOR_TOOLBAR": {
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "link": "Add Link",
+    "attachment": "Add Attachment",
+    "clearFormat": "Clear Formatting",
+    "wildcard": "Wildcard Variable"
+  },
+  "EDITOR_FILE_UPLOAD": {
+    "text": "Tap here to browse and upload an image/file.",
+    "title": "Upload File",
+    "linkPlaceholder": "Enter the URL:"
+  },
+  "EDITOR_LINK_UPLOAD": {
+    "title": "Insert Link",
+    "editTitle": "Edit Link",
+    "text": "Display Text",
+    "link": "Link",
+    "placeholder": "Enter",
+    "cancelBtn": "Cancel",
+    "removeLinkBtn": "Remove Link",
+    "submitBtn": "Submit"
+  },
+  "EDITOR_ERROR": {
+    "REQUIRED_FIELD": "This field is required."
+  },
+  "NO_DATA": {
+    "TITLE": "Nothing here yet"
+  },
+  "SELECT": {
+    "TOOLBAR": {
+      "filterFeaturePlaceholder": "Search...",
+      "selectAllFeatureLabel": "Select All"
+    }
+  },
+  "NAVIGATION_GUARD": {
+    "modalTitle": "Unsaved Changes",
+    "modalMessage": "Are you sure you want to leave this screen? Any changes you have made will be lost.",
+    "confirmButtonLabel": "Ok"
+  }
+}

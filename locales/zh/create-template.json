@@ -1,0 +1,520 @@
+{
+  "BASIC_INFO": {
+    "templateName": "模板名称",
+    "templateNamePlaceholder": "输入模板名称",
+    "description": "描述",
+    "descriptionPlaceholder": "输入描述",
+    "type": "类型",
+    "typePlaceholder": "选择类型",
+    "tags": "标签",
+    "tagsPlaceholder": "选择标签",
+    "directory": "目录",
+    "directoryPlaceholder": "选择目录",
+    "subDirectoryPlaceholder": "选择子目录",
+    "attachment": "附件",
+    "addFile": "添加"
+  },
+  "CREATE_TEMPLATE_STEPS": {
+    "basicInfoLabel": "基本信息",
+    "questionsLabel": "问题",
+    "advancedOptionLabel": "高级选项",
+    "notificationLabel": "通知",
+    "followUpLabel": "后续任务",
+    "columnsLabel": "列",
+    "rowsLabel": "行"
+  },
+  "CREATE_TEMPLATE_HEADING": {
+    "createTaskTemplate": "创建任务模板"
+  },
+  "CREATE_TEMPLATE_HEADER_ACTIONS": {
+    "preview": "预览",
+    "next": "下一步",
+    "save": "保存",
+    "submit": "提交"
+  },
+  "CREATE_TEMPLATE_ERRORS": {
+    "oneQuestionRequiredError": "至少需要一个问题"
+  },
+  "ADVANCED_OPTIONS": {
+    "compilanceThreshold": "合规阈值",
+    "compilanceThresholdPlaceholder": "输入值",
+    "labourHours": "工时",
+    "labourHoursPlaceholder": "选择选项",
+    "templateAccess": "模板访问权限",
+    "templateAccessPlaceholder": "选择权限",
+    "signature": "签名",
+
+    "LABOUR_HOUR_OPTIONS": {
+      "labourHoursMinutes": "分钟",
+      "labourHoursHours": "小时",
+      "labourHoursSeconds": "秒"
+    },
+    "TEMPLATE_ACCESS_OPTIONS": {
+      "templateAccessPublic": "公开",
+      "templateAccessPrivate": "私有",
+      "templateAccessHidden": "隐藏"
+    }
+  },
+  "QUESTIONS": {
+    "header": "问题",
+    "noQuestionPlaceholder": "尚未添加任何问题。点击“添加问题”开始。",
+    "addQuestionButtonLabel": "问题",
+    "addSectionButtonLabel": "分区",
+    "oneQuestionRequiredError": "至少需要一个问题",
+    "DRAG_DELETE_SECTION_MODAL": {
+      "title": "确认拖动问题",
+      "messageFirstPart": "将剩余的最后一个问题拖出分区将导致该分区被删除。",
+      "messageSecondPart": "重新排序问题可能会破坏这种依赖关系，如果被引用的问题不再位于条件问题之前，逻辑条件将被删除。您要继续吗？"
+    },
+    "DRAG_DELETE_QUESTION_MODAL": {
+      "title": "重新排序可能影响逻辑条件",
+      "messageFirstPart": "您正在移动的问题通过“基于前一个答案”条件与其他问题关联。",
+      "messageSecondPart": "重新排序问题可能会破坏这种依赖关系，如果被引用的问题不再位于条件问题之前，逻辑条件将被删除。",
+      "confirmButtonLabel": "继续"
+    },
+    "SECTION_ADD_EDIT_MODAL": {
+      "ADD_SECTION": {
+        "title": "添加分区"
+      },
+      "RENAME_SECTION": {
+        "title": "重命名分区"
+      },
+      "FIELDS": {
+        "sectionName": "分区名称"
+      }
+    },
+    "DELETE_SECTION_MODAL": {
+      "title": "删除问题和分区？",
+      "description": "删除分区也会同时删除其中包含的问题和回答。"
+    },
+    "DELETE_QUESTION_REORDERING_MODAL": {
+      "title": "重新排序可能影响条件逻辑",
+      "description": "您正在移动的问题通过“基于先前答案”条件与另一个问题相关联。重新排序问题可能会破坏该依赖关系，如果引用的问题不再位于条件问题之前，条件逻辑将被移除。"
+    },
+    "EXPANDED_QUESTION_CARD": {
+      "optionPlaceholder": "选项",
+      "minLengthPlaceholder": "最小长度",
+      "maxLengthPlaceholder": "最大长度",
+      "requiredPlaceholder": "必填",
+      "questionTextPlaceholder": "问题文本",
+      "setInputTypePlaceholder": "设置输入类型",
+      "dynamicDropdownAnswersFromTags": "来自标签的额外答案"
+    },
+    "EXPANDED_QUESTION_CARD_TAB_LABELS": {
+      "basicLabel": "基础",
+      "advancedLabel": "高级"
+    },
+    "QUESTION_OPTION_TYPES_DROPDOWN_LABELS": {
+      "radioLabel": "单选按钮",
+      "dropdownLabel": "下拉菜单",
+      "longInputLabel": "长文本输入",
+      "label": "标签",
+      "dynamicDropdownLabel": "动态下拉菜单",
+      "checkboxLabel": "复选框",
+      "sortInputLabel": "排序输入",
+      "barcodeScanLabel": "条形码扫描",
+      "responseTemplateLabel": "响应模板"
+    },
+    "INPUT_TYPE_OPTIONS": {
+      "anyCharactersLabel": "任意字符",
+      "textOnlyLabel": "仅文本",
+      "numberOnlyLabel": "仅数字",
+      "dateTimeLabel": "日期和时间"
+    },
+    "DATE_VIEW_OPTIONS": {
+      "dateOnlyLabel": "仅日期",
+      "timeOnlyLabel": "仅时间",
+      "dateAndTimeLabel": "日期和时间"
+    },
+    "RESPONSE_TEMPLATE_OPTIONS": {
+      "markWhenCompleteLabel": "完成时标记",
+      "rankLabel": "排名 (1-5)",
+      "tempLabel": "温度 > 135",
+      "yesNoLabel": "是/否",
+      "manualTempLabel": "手动温度 > 135"
+    },
+    "QUESTION_TYPE_LABELS": {
+      "minLengthPlaceholder": "最小长度",
+      "maxLengthPlaceholder": "最大长度",
+      "minValuePlaceholder": "最小值",
+      "maxValuePlaceholder": "最大值",
+      "optionsLabel": "选项",
+      "setInputTypeLabel": "设置输入类型",
+      "submitButton": "提交",
+      "cancelButton": "取消",
+      "inputTypeLabel": "输入类型"
+    }
+  },
+  "QUESTION_OPTION": {
+    "addOptionButtonLabel": "选项",
+    "optionInputPlaceholder": "选项",
+    "errorTextNoOptions": "至少需要一个选项。",
+    "COMPLIANT_DROPDOWN_OPTIONS": {
+      "compliantLabel": "合规",
+      "nonCompliantLabel": "不合规",
+      "naLabel": "不适用"
+    },
+    "ADDITIONAL_INFO_DROPDOWN": {
+      "noAdditionalInfoLabel": "无附加信息",
+      "optionalInfoLabel": "可选信息",
+      "requiredInfoLabel": "必填信息"
+    },
+    "ANSWER_OPTION_SETTING_MODAL": {
+      "title": "答案选项设置",
+      "answerOptionsHeading": "答案选项",
+      "settingAnswerValueLabel": "答案值",
+      "settingsForLabel": "设置为",
+      "labels": {
+        "value": "值",
+        "default": "默认",
+        "compliance": "合规性",
+        "score": "得分",
+        "additionalInfo": "附加信息",
+        "formula": "公式"
+      },
+      "placeholder": {
+        "scoreInput": "输入",
+        "formulaInput": "例如 >50 或 <=32"
+      },
+      "UNSAVED_CHANGES_MODAL": {
+        "title": "稍等！您有未保存的更改",
+        "confirmText": "保存并继续",
+        "bodyText": "看起来您有未保存的更改。在转到通知之前，是否要保存这些更改？"
+      }
+    }
+  },
+  "NOTIFICATIONS": {
+    "heading": "通知",
+    "noNotificationsPlaceholder": "尚未定义任何通知",
+    "addNotificationButtonLabel": "通知",
+    "CARD_COLUMN_HEADINGS": {
+      "notification": "通知",
+      "condition": "条件",
+      "conditionQuestion": "条件问题",
+      "conditionAnswer": "条件答案",
+      "messageSubject": "消息主题",
+      "recipients": "接收人"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "notification": "由答案触发的通知",
+      "followUp": "由答案触发的后续任务",
+      "assigneeRecipient": "负责人"
+    },
+    "TRIGGER_MODAL": {
+      "orgLabel": "组织:",
+      "orgTypeLabel": "组织类型:",
+      "orgPositionLabel": "职位:"
+    },
+    "NO_DATA": "尚未添加任何通知。点击“+ 通知”开始。",
+    "ADD_NOTIFICATION_MODAL": {
+      "addNotification": "添加通知",
+      "editNotification": "编辑通知",
+      "cloneNotification": "克隆通知",
+      "deleteNotification": "删除通知?",
+      "deleteNotificationDescription": "您确定要删除此通知吗？",
+      "deleteNotificationSubDescription": "此操作无法撤销。",
+      "fields": {
+        "condition": "条件",
+        "conditionQuestion": "条件问题",
+        "conditionAnswer": "条件答案",
+        "recipients": "收件人",
+        "messageSubject": "主题",
+        "messageBody": "消息"
+      },
+      "labels": {
+        "to": "至",
+        "customRecipient": "自定义收件人",
+        "subject": "主题",
+        "message": "消息"
+      },
+      "recipientsCountError": "至少需要一个收件人"
+    },
+    "CUSTOM_RECIPIENT_MODAL": {
+      "title": "自定义收件人",
+      "orgLevel": "组织级别",
+      "orgLevelPlaceholder": "选择组织级别",
+      "positions": "职位",
+      "positionsPlaceholder": "选择职位",
+      "org": "组织",
+      "orgPlaceholder": "选择组织",
+      "orgType": "组织类型",
+      "orgTypePlaceholder": "选择组织类型",
+      "relative": "相对",
+      "CONDITION_OPTIONS": {
+        "taskCompleted": "任务完成",
+        "taskExpired": "任务过期",
+        "taskOutOfCompliance": "任务不符合规定",
+        "answer": "回答"
+      },
+      "RECIPIENT_OPTIONS": {
+        "assignee": "受托人",
+        "supervisor": "主管",
+        "executionManager": "执行经理"
+      }
+    }
+  },
+  "FOLLOWUP_TASKS": {
+    "heading": "后续任务",
+    "noFollowUpTasksPlaceholder": "尚未定义任何后续任务",
+    "addFollowUpTaskButtonLabel": "后续任务",
+    "deleteFollowUpTask": "删除后续任务？",
+    "deleteFollowUpTaskDescription": "确定要删除此后续任务吗？",
+    "deleteFollowUpTaskSubDescription": "此操作无法撤消。",
+    "CARD_COLUMN_HEADINGS": {
+      "followUp": "后续任务",
+      "condition": "条件",
+      "conditionPlaceholder": "选择条件",
+      "conditionTooltip": "如果任务的合规百分比低于此任务的合规阈值（当前为100%），则会生成通知",
+      "conditionQuestion": "条件问题",
+      "conditionQuestionPlaceholder": "选择问题",
+      "conditionAnswer": "条件答案",
+      "conditionAnswerPlaceholder": "选择答案",
+      "taskName": "任务名称",
+      "recipients": "接收人"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "followUp": "由答案触发的后续任务"
+    },
+    "ADD_FOLLOWUP_TASK_MODAL": {
+      "MODAL_TITLE": {
+        "add": "添加后续任务",
+        "edit": "编辑后续任务",
+        "clone": "克隆后续任务"
+      },
+      "STEPPER": {
+        "condition": "条件",
+        "recipients": "接收人",
+        "template": "模板",
+        "settings": "设置"
+      },
+      "PLACEHOLDER": {
+        "chooseCondition": "选择条件",
+        "chooseConditionQuestion": "选择问题",
+        "chooseConditionAnswer": "选择答案"
+      },
+      "taskNameLabel": "任务名称",
+      "taskSharingLabel": "任务共享",
+      "primaryPositionLabel": "主要职位",
+      "FOLLOW_UP_CONDITION_OPTIONS": {
+        "taskCompleted": "任务已完成",
+        "taskExpired": "任务已过期",
+        "taskOutOfCompliance": "任务不合规",
+        "answer": "答案"
+      },
+      "TASK_SHARING_OPTIONS": {
+        "yes": "是",
+        "no": "否"
+      },
+      "PRIMARY_POSITION_OPTIONS": {
+        "assignee": "受理人",
+        "districtManager": "地区经理"
+      },
+      "primaryPositionPlaceholder": "选择主要职位",
+      "selectedTemplate": "选定的模板",
+      "changeTemplate": "更改模板",
+      "directoryTree": "目录树",
+      "selectButton": "选择"
+    },
+    "TABLE": {
+      "HEADING": {
+        "directory": "目录树",
+        "templateName": "模板名称",
+        "type": "类型",
+        "lastModifiedTime": "最后修改",
+        "preview": "预览"
+      },
+      "noDirectories": "无目录"
+    },
+    "FOLLOWUP_TASKS_SETTINGS": {
+      "retainVisibilityLabel": "触发用户保留可见性",
+      "durationLabel": "持续时间",
+      "durationPlaceholder": "选择持续时间",
+      "durationErrorLabel": "需要持续时间",
+      "priorityLabel": "优先级",
+      "priorityPlaceholder": "选择优先级",
+      "reminderNotificationLabel": "提醒通知?",
+      "reminderNotificationPlaceholder": "选择提醒通知",
+      "taskEndTimeLabel": "原始任务结束时间",
+      "DURATION_OPTIONS": {
+        "days": "天",
+        "hours": "小时",
+        "minutes": "分钟"
+      },
+      "PRIORITY_OPTIONS": {
+        "critical": "紧急",
+        "high": "高",
+        "medium": "中",
+        "low": "低"
+      },
+      "REMINDER_NOTIFICATION_OPTIONS": {
+        "none": "无",
+        "taskDueTime": "任务截止时间",
+        "taskNotStarted": "任务未开始"
+      }
+    },
+    "NO_DATA": "尚未添加任何后续任务。点击“+ 后续任务”开始。"
+  },
+  "QUESTION_BADGE_CONFIG": {
+    "photoLabel": "照片",
+    "randomLabel": "随机",
+    "clusterLabel": "集群",
+    "answerLabel": "答案",
+    "previousLabel": "上一项",
+    "fileLabel": "文件",
+    "numberLabel": "数字",
+    "temperatureLabel": "温度",
+    "tagLabel": "标签",
+    "tagsLabel": "标签"
+  },
+  "COLUMNS": {
+    "header": "列",
+    "noColumnPlaceholder": "尚未添加任何列。点击“+ 列”开始。",
+    "addColumnButtonLabel": "列",
+    "oneColumnRequiredError": "至少需要一列。"
+  },
+  "ROWS": {
+    "header": "行",
+    "noRowPlaceholder": "尚未添加任何行。点击“+ 行”开始。",
+    "addRowButtonLabel": "行",
+    "oneRowRequiredError": "至少需要一行。"
+  },
+  "PREVIOUS_EXECUTION_STATUS_OPTIONS": {
+    "completedLabel": "已完成",
+    "notCompletedLabel": "未完成"
+  },
+  "ADVANCED_TAB_OPTIONS": {
+    "VISIBILITY": {
+      "label": "可见性",
+      "visibilityNoteHeading": "可见性逻辑：",
+      "visibilityNoteContent": "只有当下面所有启用的条件都满足时，此问题才会显示。",
+      "storeClusterToggleLabel": "门店集群",
+      "storeClusterLabel": "仅为这些集群显示问题",
+      "storeClusterPlaceholder": "选择门店集群",
+      "previousAnswerToggleLabel": "基于先前答案",
+      "previousAnswerPlaceholder": "选择选项",
+      "previousQuestionPlaceholder": "选择问题",
+      "previousAnswerWarningOnPreviousAnswer": "任务中的第一个问题没有先前的问题，因此不能设置为基于先前答案显示。",
+      "previousAnswerWarningOnVisibility": "问题{{questionIndex}}已启用可见性规则，因此可能不会显示。如果不显示，此问题也不会显示。",
+      "randomAppearanceToggleLabel": "随机出现",
+      "randomAppearanceWarning": "启用 \"基于先前答案\"选项的问题不能配置为随机出现。",
+      "previousExecutionToggleLabel": "先前执行状态",
+      "previousExecutionLabel": "当先前任务状态为时显示问题",
+      "previousExecutionPlaceholder": "选择任务状态"
+    },
+    "TAGS": {
+      "label": "标签",
+      "tagsPlaceholder": "选择标签",
+      "tagsLabel": "添加标签以对此问题进行分类"
+    },
+    "FILE_ATTACHMENT": {
+      "label": "文件附件",
+      "fileAttachmentToggleLabel": "请求附件",
+      "fileAttachmentTypeLabel": "类型",
+      "fileAttachmentRequiredForLabel": "要求用于",
+      "fileAttachmentAnswerLabel": "选择需要附件的答案",
+      "fileAttachmentAnswerPlaceholder": "选择答案"
+    },
+    "NUMERIC_VALUE": {
+      "label": "数值",
+      "numericValueToggleLabel": "数值",
+      "numericValueTypeLabel": "类型"
+    }
+  },
+  "ADVANCED_TAB_ATTACHMENT_OPTIONS": {
+    "FILE_TYPES": {
+      "photo": "照片",
+      "file": "文件"
+    },
+    "REQUIRED_FOR_OPTIONS": {
+      "optionalForAllAnswers": "所有答案均可选",
+      "requiredForAllAnswers": "所有答案均必需",
+      "requiredForCompliantAnswers": "合规答案必需",
+      "requiredForNonCompliantAnswers": "不合规答案必需",
+      "requiredForSpecificAnswers": "特定答案必需"
+    }
+  },
+  "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
+    "temperatureReading": "温度读数",
+    "manualInput": "手动输入"
+  },
+  "VALIDATION": {
+    "BASIC_INFO": {
+      "fieldRequired": "此字段为必填项",
+      "directoryRequired": "目录为必填项"
+    },
+    "QUESTIONS": {
+      "fieldRequired": "此字段为必填项",
+      "questionTextRequired": "问题文本为必填项",
+      "questionTextMinLength": "问题文本至少为1个字符",
+      "questionTextMaxLength": "问题文本最多为500个字符",
+      "optionsRequired": "至少需要一个选项",
+      "optionTextRequired": "选项文本为必填项",
+      "optionTextMaxLength": "选项文本最多为200个字符",
+      "minLengthInvalid": "最小长度必须为正数",
+      "maxLengthInvalid": "最大长度必须为正数",
+      "minValueInvalid": "最小值必须为有效数字",
+      "maxValueInvalid": "最大值必须为有效数字",
+      "scoreInvalid": "分数必须为有效数字"
+    },
+    "ADVANCED_OPTIONS": {
+      "complianceThresholdMin": "合规阈值不能小于0",
+      "complianceThresholdMax": "合规阈值不能大于100"
+    },
+    "NOTIFICATIONS": {
+      "conditionRequired": "条件为必填项",
+      "conditionQuestionRequired": "条件问题为必填项",
+      "conditionAnswerRequired": "条件答案为必填项",
+      "recipientsRequired": "至少需要一个收件人",
+      "subjectRequired": "主题为必填项",
+      "subjectMaxLength": "主题最多为200个字符",
+      "messageRequired": "消息为必填项",
+      "messageMaxLength": "消息最多为1000个字符"
+    },
+    "FOLLOWUP_TASKS": {
+      "conditionRequired": "条件为必填项",
+      "conditionQuestionRequired": "条件问题为必填项",
+      "conditionAnswerRequired": "条件答案为必填项",
+      "taskNameRequired": "任务名称为必填项",
+      "taskNameMaxLength": "任务名称最多为100个字符",
+      "templateRequired": "模板选择为必填项",
+      "durationRequired": "持续时间为必填项",
+      "durationValueRequired": "持续时间值为必填项",
+      "durationValueMin": "持续时间值不能小于1",
+      "priorityRequired": "优先级为必填项"
+    },
+    "TRIGGER_TASK": {
+      "fieldRequired": "此字段为必填项",
+      "conditionRequired": "条件为必填项",
+      "questionRequired": "问题为必填项",
+      "answerRequired": "答案为必填项",
+      "recipientsRequired": "至少需要一个收件人"
+    },
+    "ANSWER_OPTION_SETTING": {
+      "valueRequired": "值为必填项",
+      "valueMaxLength": "值不能超过255个字符",
+      "scoreInvalid": "分数必须为有效数字",
+      "optionsRequired": "至少需要一个答案选项",
+      "formulaInvalid": "公式必须包含有效运算符（<, >, <=, >=, ==, <>, AND, OR）或数字"
+    }
+  },
+  "DELETE_CONFIRMATION": {
+    "QUESTION": {
+      "title": "删除问题",
+      "messageFirstPart": "您要删除的问题通过“基于先前答案”条件与另一个问题相关联。",
+      "messageSecondPart": "删除该问题可能会破坏这种依赖关系，如果被引用的问题不再位于条件问题之前，则条件逻辑将被移除。",
+      "messageThirdPart": "您确定要删除此问题吗？",
+      "messageFourthPart": "此操作无法撤销。"
+    },
+    "COLUMN": {
+      "title": "删除列",
+      "messageFirstPart": "您确定要删除此列吗？",
+      "messageSecondPart": "此操作无法撤销。"
+    },
+    "QUESTION_OPTION": {
+      "title": "删除选项",
+      "first_part_message": "此选项关联了一个或多个通知或后续任务。删除此选项也会移除所有相关的通知和后续任务。",
+      "second_part_message": "您确定要删除此选项吗？",
+      "third_part_message": "此操作无法撤销。"
+    }
+  }
+}

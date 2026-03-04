@@ -1,0 +1,45 @@
+{
+  "APP_BAR": {
+    "searchPlaceholder": "Search..."
+  },
+  "SIDEBAR": {
+    "IMS_NAV_LINKS": {
+      "home": "Home",
+      "quickLinks": "Quick Links",
+      "ess": "ESS",
+      "communication": "Communication",
+      "standards": "Standards",
+      "labourModel": "Labour Model",
+      "forecast": "Forecast",
+      "staffing": "Staffing",
+      "labourReport": "Labour Report",
+      "foodSafety": "Food Safety",
+      "queueManagement": "Queue Management"
+    },
+    "WFM_NAV_LINKS": {
+      "home": "Home",
+      "quickLinks": "Quick Links",
+      "ess": "ESS",
+      "communication": "Communication",
+      "queueManagement": "Queue Management"
+    }
+  },
+  "USER_PROFILE_MENU_OPTIONS": {
+    "changeRole": "Change Role",
+    "setFocus": "Set Focus",
+    "userProfile": "User Profile",
+    "modifyDashboard": "Modify Dashboard",
+    "reduceRole": "Reduce Role",
+    "userManagement": "User Management",
+    "adminMode": "Admin Mode",
+    "adminModeAllSettings": "All Settings",
+    "adminModePermissions": "Permissions",
+    "adminModeInternationalization": "Internationalization",
+    "theme": "Theme",
+    "themeDark": "Dark",
+    "themeLight": "Light",
+    "themeSystemDefault": "System Default",
+    "language": "Language",
+    "logout": "Logout"
+  }
+}

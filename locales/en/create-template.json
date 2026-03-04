@@ -1,0 +1,440 @@
+{
+  "BASIC_INFO": {
+    "templateName": "Template Name",
+    "templateNamePlaceholder": "Enter Template Name",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter Description",
+    "type": "Type",
+    "typePlaceholder": "Select Type",
+    "tags": "Tags",
+    "tagsPlaceholder": "Select Tags",
+    "directory": "Directory",
+    "directoryPlaceholder": "Select Directory",
+    "subDirectoryPlaceholder": "Select Sub-Directory",
+    "attachment": "Attachment",
+    "addFile": "Add"
+  },
+  "CREATE_TEMPLATE_STEPS": {
+    "basicInfoLabel": "Basic Information",
+    "questionsLabel": "Questions",
+    "advancedOptionLabel": "Advanced Options",
+    "notificationLabel": "Notifications",
+    "followUpLabel": "Follow-up Tasks",
+    "columnsLabel": "Columns",
+    "rowsLabel": "Rows"
+  },
+  "CREATE_TEMPLATE_HEADING": {
+    "createTaskTemplate": "Create Task Template"
+  },
+  "CREATE_TEMPLATE_HEADER_ACTIONS": {
+    "preview": "Preview",
+    "next": "Next",
+    "save": "Save",
+    "submit": "Submit"
+  },
+  "CREATE_TEMPLATE_ERRORS": {
+    "oneQuestionRequiredError": "At least one question is required"
+  },
+  "ADVANCED_OPTIONS": {
+    "compilanceThreshold": "Compilance Threshold",
+    "compilanceThresholdPlaceholder": "Enter value",
+    "labourHours": "Labor Hours",
+    "labourHoursPlaceholder": "Select Option",
+    "templateAccess": "Template Access",
+    "templateAccessPlaceholder": "Select Access",
+    "signature": "Signature",
+
+    "LABOUR_HOUR_OPTIONS": {
+      "labourHoursMinutes": "Minutes",
+      "labourHoursHours": "Hours",
+      "labourHoursSeconds": "Seconds"
+    },
+    "TEMPLATE_ACCESS_OPTIONS": {
+      "templateAccessPublic": "Public",
+      "templateAccessPrivate": "Private",
+      "templateAccessHidden": "Hidden"
+    }
+  },
+  "QUESTIONS": {
+    "header": "Questions",
+    "noQuestionPlaceholder": "No questions added yet. Click \"Add Question\" to get started.",
+    "addQuestionButtonLabel": "Questions",
+    "addSectionButtonLabel": "Sections",
+    "oneQuestionRequiredError": "At least one question is required",
+    "DRAG_DELETE_SECTION_MODAL": {
+      "title": "Confirm drag question",
+      "messageFirstPart": "Dragging last remaining question out of a section would lead to deletion of the section.",
+      "messageSecondPart": "Reordering the questions may break that dependency, and the conditional logic will be removed if the referenced question is no longer before the conditional question. Would you like to proceed?"
+    },
+    "DRAG_DELETE_QUESTION_MODAL": {
+      "title": "Reordering May Affect Conditional Logic",
+      "messageFirstPart": "The question you're moving is tied to another question through the \"Based on Previous Answer\" condition.  ",
+      "messageSecondPart": "Reordering the questions may break that dependency, and the conditional logic will be removed if the referenced question is no longer before the conditional question.",
+      "confirmButtonLabel": "Continue Anyway"
+    },
+    "SECTION_ADD_EDIT_MODAL": {
+      "ADD_SECTION": {
+        "title": "Add Section"
+      },
+      "RENAME_SECTION": {
+        "title": "Rename Section"
+      },
+      "FIELDS": {
+        "sectionName": "Section Name"
+      }
+    },
+    "DELETE_SECTION_MODAL": {
+      "title": "Delete questions and section?",
+      "description": "Deleting a section also deletes the questions and responses it contains."
+    },
+    "DELETE_QUESTION_REORDERING_MODAL": {
+      "title": "Reordering May Affect Conditional Logic",
+      "description": "The question you're moving is tied to another question through the \"Based on Previous Answer\" condition. Reordering the questions may break that dependency, and the conditional logic will be removed if the referenced question is no longer before the conditional question."
+    },
+    "EXPANDED_QUESTION_CARD": {
+      "optionPlaceholder": "Option",
+      "minLengthPlaceholder": "Min Length",
+      "maxLengthPlaceholder": "Max Length",
+      "requiredPlaceholder": "Required",
+      "questionTextPlaceholder": "Question Text",
+      "setInputTypePlaceholder": "Set Input Type",
+      "dynamicDropdownAnswersFromTags": "extra answers from tags"
+    },
+    "EXPANDED_QUESTION_CARD_TAB_LABELS": {
+      "basicLabel": "Basic",
+      "advancedLabel": "Advanced"
+    },
+    "QUESTION_OPTION_TYPES_DROPDOWN_LABELS": {
+      "radioLabel": "Radio Button",
+      "dropdownLabel": "Dropdown",
+      "longInputLabel": "Long Input",
+      "label": "Label",
+      "dynamicDropdownLabel": "Dynamic Dropdown",
+      "checkboxLabel": "Checkbox",
+      "sortInputLabel": "Sort Input",
+      "barcodeScanLabel": "Barcode Scan",
+      "responseTemplateLabel": "Response Template"
+    },
+    "INPUT_TYPE_OPTIONS": {
+      "anyCharactersLabel": "Any Characters",
+      "textOnlyLabel": "Text Only",
+      "numberOnlyLabel": "Number Only",
+      "dateTimeLabel": "Date & Time"
+    },
+    "DATE_VIEW_OPTIONS": {
+      "dateOnlyLabel": "Date Only",
+      "timeOnlyLabel": "Time Only",
+      "dateAndTimeLabel": "Date & Time"
+    },
+    "RESPONSE_TEMPLATE_OPTIONS": {
+      "markWhenCompleteLabel": "Mark When Complete",
+      "rankLabel": "Rank (1-5)",
+      "tempLabel": "Temp > 135",
+      "yesNoLabel": "Yes/No",
+      "manualTempLabel": "Manual Temp > 135"
+    },
+    "QUESTION_TYPE_LABELS": {
+      "minLengthPlaceholder": "Min Length",
+      "maxLengthPlaceholder": "Max Length",
+      "minValuePlaceholder": "Min Value",
+      "maxValuePlaceholder": "Max Value",
+      "optionsLabel": "Options",
+      "setInputTypeLabel": "Set Input Type",
+      "submitButton": "Submit",
+      "cancelButton": "Cancel",
+      "inputTypeLabel": "Input Type"
+    }
+  },
+  "QUESTION_OPTION": {
+    "addOptionButtonLabel": "Option",
+    "optionInputPlaceholder": "Option",
+    "errorTextNoOptions": "At least one option is required.",
+    "COMPLIANT_DROPDOWN_OPTIONS": {
+      "compliantLabel": "Compliant",
+      "nonCompliantLabel": "Non-Compliant",
+      "naLabel": "N/A"
+    },
+    "ADDITIONAL_INFO_DROPDOWN": {
+      "noAdditionalInfoLabel": "No Additional Info",
+      "optionalInfoLabel": "Optional Info",
+      "requiredInfoLabel": "Required Info"
+    },
+    "ANSWER_OPTION_SETTING_MODAL": {
+      "title": "Answers Options Settings",
+      "answerOptionsHeading": "Answer Options",
+      "settingAnswerValueLabel": "Answer Value",
+      "settingsForLabel": "Settings for",
+      "labels": {
+        "value": "Value",
+        "default": "Default",
+        "compliance": "Compliance",
+        "score": "Score",
+        "additionalInfo": "Additional Info",
+        "formula": "Formula"
+      },
+      "placeholder": {
+        "scoreInput": "Enter",
+        "formulaInput": "eg. >50 OR <=32"
+      },
+      "UNSAVED_CHANGES_MODAL": {
+        "title": "Hold On! You have unsaved changes",
+        "confirmText": "Save and Proceed",
+        "bodyText": "It looks like you have unsaved changes. Do you want to save them before you go to Notifications?"
+      }
+    }
+  },
+  "NOTIFICATIONS": {
+    "heading": "Notifications",
+    "noNotificationsPlaceholder": "No Notifications Defined",
+    "addNotificationButtonLabel": "Notification",
+    "CARD_COLUMN_HEADINGS": {
+      "notification": "Notification",
+      "condition": "Condition",
+      "conditionQuestion": "Condition Question",
+      "conditionAnswer": "Condition Answer",
+      "messageSubject": "Message Subject",
+      "recipients": "Recipients"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "notification": "Notifications triggered by answers",
+      "followUp": "Follow-up tasks triggered by answers",
+      "assigneeRecipient": "Assignee"
+    },
+    "NO_DATA": "No notifications added yet. Click \"+ Notification\" to get started.",
+    "ADD_NOTIFICATION_MODAL": {
+      "addNotification": "Add Notification",
+      "editNotification": "Edit Notification",
+      "cloneNotification": "Clone Notification",
+      "deleteNotification": "Delete Notification?",
+      "deleteNotificationDescription": "Are you sure you want to delete this notification?",
+      "deleteNotificationSubDescription": "This action cannot be undone.",
+      "fields": {
+        "condition": "Condition",
+        "conditionPlaceholder": "Select Condition",
+        "conditionTooltip": "Notification will be generated if the task's compliance percentage is less than this task's compliance threshold (currently 100%)",
+        "conditionQuestion": "Condition Question",
+        "conditionQuestionPlaceholder": "Select Question",
+        "conditionAnswer": "Condition Answer",
+        "conditionAnswerPlaceholder": "Select Answer",
+        "recipients": "To",
+        "messageSubject": "Subject",
+        "messageBody": "Message"
+      },
+      "labels": {
+        "to": "To",
+        "customRecipient": "Custom Recipient",
+        "subject": "Subject",
+        "message": "Message"
+      },
+      "recipientsCountError": "At least one recipient is required"
+    },
+    "CUSTOM_RECIPIENT_MODAL": {
+      "title": "Custom Recipient",
+      "orgLevel": "Org Level",
+      "orgLevelPlaceholder": "Select Org Level",
+      "positions": "Positions",
+      "positionsPlaceholder": "Select Position",
+      "org": "Org",
+      "orgPlaceholder": "Select Org",
+      "orgType": "Org Type",
+      "orgTypePlaceholder": "Select Org Type",
+      "relative": "Relative",
+      "CONDITION_OPTIONS": {
+        "taskCompleted": "Task Completed",
+        "taskExpired": "Task Expired",
+        "taskOutOfCompliance": "Task Out of Compliance",
+        "answer": "Answer"
+      },
+      "RECIPIENT_OPTIONS": {
+        "assignee": "Assignee",
+        "supervisor": "Supervisor",
+        "executionManager": "Execution Manager"
+      }
+    }
+  },
+  "FOLLOWUP_TASKS": {
+    "heading": "Follow-up Tasks",
+    "noFollowUpTasksPlaceholder": "No Follow-up Tasks Defined",
+    "addFollowUpTaskButtonLabel": "Follow-up Task",
+    "deleteFollowUpTask": "Delete Follow-up Task?",
+    "deleteFollowUpTaskDescription": "Are you sure you want to delete this follow-up task?",
+    "deleteFollowUpTaskSubDescription": "This action cannot be undone.",
+    "CARD_COLUMN_HEADINGS": {
+      "followUp": "Follow-up Task",
+      "condition": "Condition",
+      "conditionQuestion": "Condition Question",
+      "conditionAnswer": "Condition Answer",
+      "taskName": "Task Name",
+      "recipients": "Recipients"
+    },
+    "TRIGGER_BY_ANSWER_GROUP": {
+      "followUp": "Follow-up tasks triggered by answers"
+    },
+    "TRIGGER_MODAL": {
+      "orgLabel": "Org:",
+      "orgTypeLabel": "Org Type:",
+      "orgPositionLabel": "Position:"
+    },
+    "ADD_FOLLOWUP_TASK_MODAL": {
+      "MODAL_TITLE": {
+        "add": "Add Follow-up Task",
+        "edit": "Edit Follow-up Task",
+        "clone": "Clone Follow-up Task"
+      },
+      "STEPPER": {
+        "condition": "Condition",
+        "recipients": "Recipients",
+        "template": "Template",
+        "settings": "Settings"
+      },
+      "PLACEHOLDER": {
+        "chooseCondition": "Select Condition",
+        "chooseConditionQuestion": "Select Question",
+        "chooseConditionAnswer": "Select Answer"
+      },
+      "taskNameLabel": "Task Name",
+      "taskSharingLabel": "Task Sharing",
+      "primaryPositionLabel": "Primary Position",
+      "FOLLOW_UP_CONDITION_OPTIONS": {
+        "taskCompleted": "Task Completed",
+        "taskExpired": "Task Expired",
+        "taskOutOfCompliance": "Task Out of Compliance",
+        "answer": "Answer"
+      },
+      "TASK_SHARING_OPTIONS": {
+        "yes": "Yes",
+        "no": "No"
+      },
+      "PRIMARY_POSITION_OPTIONS": {
+        "assignee": "Assignee",
+        "districtManager": "District Manager"
+      },
+      "primaryPositionPlaceholder": "Select Primary Position",
+      "selectedTemplate": "Selected Template",
+      "changeTemplate": "Change Template",
+      "directoryTree": "Directory Tree",
+      "selectButton": "Select"
+    },
+    "TABLE": {
+      "HEADING": {
+        "directory": "Directory Tree",
+        "templateName": "Template Name",
+        "type": "Type",
+        "lastModifiedTime": "Last Modified",
+        "preview": "Preview"
+      },
+      "noDirectories": "No directories"
+    },
+    "FOLLOWUP_TASKS_SETTINGS": {
+      "retainVisibilityLabel": "Triggering user retains visibility",
+      "durationLabel": "Duration",
+      "durationPlaceholder": "Select Duration",
+      "durationErrorLabel": "Duration is required",
+      "priorityLabel": "Priority",
+      "priorityPlaceholder": "Select Priority",
+      "reminderNotificationLabel": "Reminder Notification?",
+      "reminderNotificationPlaceholder": "Select Reminder Notification",
+      "taskEndTimeLabel": "Original Task End Time",
+      "DURATION_OPTIONS": {
+        "days": "Days",
+        "hours": "Hours",
+        "minutes": "Minutes"
+      },
+      "PRIORITY_OPTIONS": {
+        "critical": "Critical",
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      },
+      "REMINDER_NOTIFICATION_OPTIONS": {
+        "none": "None",
+        "taskDueTime": "Task Due Time",
+        "taskNotStarted": "Task Not Started"
+      }
+    },
+    "NO_DATA": "No follow-up tasks added yet. Click \"+ Follow-up Task\" to get started."
+  },
+  "QUESTION_BADGE_CONFIG": {
+    "photoLabel": "Photo",
+    "randomLabel": "Random",
+    "clusterLabel": "Cluster",
+    "answerLabel": "Answer",
+    "previousLabel": "Previous",
+    "fileLabel": "File",
+    "numberLabel": "Number",
+    "temperatureLabel": "Temperature",
+    "tagLabel": "Tag",
+    "tagsLabel": "Tags"
+  },
+  "COLUMNS": {
+    "header": "Columns",
+    "noColumnPlaceholder": "No columns added yet. Click \"+ Column\" to get started.",
+    "addColumnButtonLabel": "Column",
+    "oneColumnRequiredError": "At least one column is required."
+  },
+  "ROWS": {
+    "header": "Rows",
+    "noRowPlaceholder": "No rows added yet. Click \"+ Row\" to get started.",
+    "addRowButtonLabel": "Row",
+    "oneRowRequiredError": "At least one row is required."
+  },
+  "PREVIOUS_EXECUTION_STATUS_OPTIONS": {
+    "completedLabel": "Completed",
+    "notCompletedLabel": "Not Completed"
+  },
+  "ADVANCED_TAB_OPTIONS": {
+    "VISIBILITY": {
+      "label": "Visibility",
+      "visibilityNoteHeading": "Visibility Logic:",
+      "visibilityNoteContent": "This question will only be visible when ALL enabled conditions below are satisfied.",
+      "storeClusterToggleLabel": "Store Clusters",
+      "storeClusterLabel": "Show question only for these clusters",
+      "storeClusterPlaceholder": "Select Store Clusters",
+      "previousAnswerToggleLabel": "Based on Previous Answer",
+      "previousQuestionPlaceholder": "Select Question",
+      "previousAnswerPlaceholder": "Select Option",
+      "previousAnswerWarningOnPreviousAnswer": "The first question in a task has no previous questions and thus cannot be set to appear based on a previous answer.",
+      "previousAnswerWarningOnVisibility": "Question {{questionIndex}} has visibility rules turned on and thus may not appear. If it doesn't, then this question will not appear either.",
+      "randomAppearanceToggleLabel": "Random Appearance",
+      "randomAppearanceWarning": "Questions with the \"Based on Previous Answer\" option enabled cannot be configured to appear randomly.",
+      "previousExecutionToggleLabel": "Previous Execution Status",
+      "previousExecutionLabel": "Show question when previous task was",
+      "previousExecutionPlaceholder": "Select Task Status"
+    },
+    "TAGS": {
+      "label": "Tags",
+      "tagsPlaceholder": "Select Tags",
+      "tagsLabel": "Add tags to categorize this question"
+    },
+    "FILE_ATTACHMENT": {
+      "label": "File Attachment",
+      "fileAttachmentToggleLabel": "Request an attachment",
+      "fileAttachmentTypeLabel": "Type",
+      "fileAttachmentRequiredForLabel": "Required for",
+      "fileAttachmentAnswerLabel": "Select answers that require attachment",
+      "fileAttachmentAnswerPlaceholder": "Select Answers"
+    },
+    "NUMERIC_VALUE": {
+      "label": "Numeric Value",
+      "numericValueToggleLabel": "Numeric value",
+      "numericValueTypeLabel": "Type"
+    }
+  },
+  "ADVANCED_TAB_ATTACHMENT_OPTIONS": {
+    "FILE_TYPES": {
+      "photo": "Photo",
+      "file": "File"
+    },
+    "REQUIRED_FOR_OPTIONS": {
+      "optionalForAllAnswers": "Optional for all answers",
+      "requiredForAllAnswers": "Required for all answers",
+      "requiredForCompliantAnswers": "Required for compliant answers",
+      "requiredForNonCompliantAnswers": "Required for non-compliant answers",
+      "requiredForSpecificAnswers": "Required for specific answers"
+    }
+  },
+  "ADVANCED_TAB_NUMERIC_VALUE_OPTIONS": {
+    "temperatureReading": "Temperature Reading",
+    "manualInput": "Manual Input"
+  }
+}

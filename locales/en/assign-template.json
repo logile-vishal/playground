@@ -1,0 +1,17 @@
+{
+  "ASSIGN_TEMPLATE_HEADING": {
+    "assignTaskTemplate": "Assign Task"
+  },
+  "ASSIGN_TEMPLATE_HEADER_ACTIONS": {
+    "next": "Next",
+    "reviewAndSubmit": "Review & Submit"
+  },
+  "ASSIGN_TEMPLATE_STEPS": {
+    "basicInfoLabel": "Basic Information",
+    "recipientsLabel": "Recipients",
+    "scheduleLabel": "Schedule",
+    "notificationsLabel": "Notifications",
+    "settingsLabel": "Settings",
+    "attachmentsLabel": "Attachments"
+  }
+}
