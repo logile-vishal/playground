@@ -1,13 +1,39 @@
 # Logile Playground
 
-A local sandbox for PMs and Designers to prototype UIs using the Logile design system — powered by Claude Code.
+A local sandbox for PMs and Designers to prototype UIs using the Logile design system — no coding experience needed. You describe what you want, Claude Code writes the code, and your browser updates instantly.
 
 ---
 
-## Getting Started
+## Prerequisites (one-time setup)
+
+Before you start, make sure these are installed on your machine:
+
+### 1. Node.js
+Download and install from **https://nodejs.org** (choose the "LTS" version).
+To verify: open Terminal and run `node -v` — you should see a version number.
+
+### 2. Claude Code CLI
+Claude Code is the AI assistant that writes code for you.
 
 ```bash
-# From the project root:
+npm install -g @anthropic-ai/claude-code
+```
+
+Then run `claude` once to sign in with your Anthropic account.
+
+---
+
+## First-time setup (after cloning the repo)
+
+```bash
+# 1. Clone the repo
+git clone git@github.com:logile-vishal/playground.git
+cd playground
+
+# 2. Install dependencies (only needed once)
+npm install
+
+# 3. Start the playground
 npm run playground
 ```
 
@@ -15,45 +41,61 @@ Open **http://localhost:5174** in your browser.
 
 ---
 
-## How to Use
+## Daily use
 
-1. **Start the playground** with `npm run playground`
-2. **Open Claude Code** in your terminal: `claude` (in the project root)
-3. **Describe what you want** — Claude will write the code into `PlaygroundCanvas.tsx`
-4. **Watch your browser update** automatically (HMR)
+```bash
+# In one terminal tab — start the live preview
+npm run playground
 
-### Example Prompts for Claude Code
+# In another terminal tab — start Claude Code (your AI assistant)
+claude
+```
+
+Then just **type in the Claude Code terminal** what you want to build.
+
+---
+
+## Example prompts to try
+
+Copy-paste any of these into Claude Code:
 
 ```
-"Show me all button variants side by side with labels"
+Show me all button variants side by side with labels
 
-"Replace the canvas with a form that has: Name, Email, Department (dropdown), and a Save button"
+Replace the canvas with a form that has: Name, Email, Department (dropdown), and a Save button
 
-"Create a data table of store locations with columns: Name, Region, Status, Manager"
+Create a data table of store locations with columns: Name, Region, Status, Manager
 
-"Build a card grid with 3 metric cards showing Total Hours, Scheduled, and Overtime"
+Build a card grid with 3 metric cards showing Total Hours, Scheduled, and Overtime
 
-"Import the FullPageMockup example and render it"
+Import the FullPageMockup example and render it
 
-"Add a date range filter above the current content"
+Add a date range filter above the current content
 
-"Make the button section show all 3 severity × 4 variant combinations in a table layout"
+Make a confirmation modal that asks "Are you sure you want to delete this record?"
 ```
 
 ---
 
-## File Reference
+## How it works
 
-| File | Purpose |
-|------|---------|
-| `playground-app/src/PlaygroundCanvas.tsx` | **Your main canvas** — edit this to experiment |
-| `playground-app/src/examples/ButtonsShowcase.tsx` | All button variants and sizes |
-| `playground-app/src/examples/FormsShowcase.tsx` | Complete employee form with all form controls |
-| `playground-app/src/examples/TableShowcase.tsx` | Data table with search, pagination, and actions |
-| `playground-app/src/examples/FullPageMockup.tsx` | Full page: stats cards + filters + table + modals |
+1. You type a description in the Claude Code terminal
+2. Claude edits `playground-app/src/PlaygroundCanvas.tsx`
+3. Your browser refreshes automatically — no manual steps
 
-To use an example, ask Claude:
-> "Replace PlaygroundCanvas content with the FormsShowcase example"
+---
+
+## Example files
+
+These are ready-made demos you can load at any time. Just tell Claude:
+> "Import the FormsShowcase example and render it"
+
+| File | What it shows |
+|------|--------------|
+| `ButtonsShowcase.tsx` | All button styles and sizes |
+| `FormsShowcase.tsx` | Complete form with all input types |
+| `TableShowcase.tsx` | Data table with search and pagination |
+| `FullPageMockup.tsx` | Full realistic page layout |
 
 ---
 
@@ -118,7 +160,7 @@ const columns: MRT_ColumnDef<MyType>[] = [
 ];
 
 <CDataTable
-  tableProps={{ columns, data, enableColumnActions: false, enableTopToolbar: false, ... }}
+  tableProps={{ columns, data, enableColumnActions: false, enableTopToolbar: false }}
   pagination={{ currentPage: 1, pageSize: 10, totalPages: 5, totalItems: 50 }}
   handlePaginationChange={setPagination}
   walkMeIdPrefix={["my-table"]}
@@ -156,11 +198,9 @@ import PageTemplate from "@/layouts/page-template/PageTemplate";
 /* Colors */
 var(--logile-bg-base)            /* Page background */
 var(--logile-bg-container-1)     /* Card / surface background */
-var(--logile-bg-container-2)     /* Subtle background */
 var(--logile-bg-primary)         /* Brand blue */
 var(--logile-text-primary)       /* Main text */
 var(--logile-text-secondary)     /* Secondary text */
-var(--logile-border-primary)     /* Default border */
 var(--logile-border-secondary)   /* Subtle border */
 
 /* Spacing */
@@ -174,34 +214,16 @@ var(--space-4xl)  /* 32px */
 
 /* Border Radius */
 var(--radius-xs)   /* 4px  */
-var(--radius-s)    /* 6px  */
 var(--radius-m)    /* 8px  */
-var(--radius-l)    /* 10px */
-var(--radius-xl)   /* 12px */
 var(--radius-full) /* 1000px — pill shape */
 ```
-
----
-
-## All Available Icons
-
-```
-AddIcon, ArrowDown, ArrowUp, ArrowLeft, Calendar, CalendarBlank,
-Check, Close, Copy, Delete, Download, Edit, Envelope, Eye, EyeOff,
-File, Filter, Focus, Globe, Hamburger, History, Home, Info, InfoCircle,
-Moon, MoreOption, Notification, Pdf, Phone, Printer, Search, Send,
-Setting, Signout, Star, StarFilled, Sun, Tag, ThumbsUp, Upload,
-User, UserMinus, Users, UserSetting, Excel, Word, CSV, ...and more
-```
-
-Import any icon: `import { IconName } from "@/core/constants/icons"`
 
 ---
 
 ## Tips
 
 - **Iterate fast**: Ask Claude to make small changes one at a time
-- **Use the examples**: Say "Start from the FormsShowcase and add a signature field"
-- **Keep state simple**: Use `useState` for local state in the canvas
-- **Mix components**: Combine PageTemplate + CDataTable + CModal for real-looking pages
-- **Test dark mode**: The playground respects the system's color scheme preference
+- **Start from an example**: "Start from the FormsShowcase and add a signature field"
+- **Undo a change**: Tell Claude "revert the last change" or use `Cmd+Z` in your editor
+- **Reset the canvas**: Tell Claude "reset PlaygroundCanvas to just a blank PageTemplate"
+- **Dark mode**: The playground respects your system's color scheme
