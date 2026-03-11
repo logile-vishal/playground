@@ -1,0 +1,403 @@
+@import "../../../styles/root";
+@import "../../../styles/typography";
+
+// ─────────────────────────────────────────────
+// Org Selector — trigger + popover panel
+// ─────────────────────────────────────────────
+
+// ── Trigger ──────────────────────────────────
+
+.org-selector {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  width: 180px;
+
+  &--horizontal {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-m, 8px);
+    width: auto;
+
+    .org-selector__label {
+      white-space: nowrap;
+    }
+
+    .org-selector__trigger {
+      flex: 1;
+    }
+  }
+
+  &__label {
+    font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+    font-size: var(--logile-size-secondary-text, 13px);
+    font-weight: var(--logile-weight-400, 400);
+    line-height: var(--logile-line-height-secondary-text, 20px);
+    color: var(--logile-text-secondary, #5c5c5c);
+    width: 100%;
+  }
+
+  &__trigger {
+    width: 100%;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-m, 8px);
+    padding: 0 var(--space-m, 8px);
+    background: var(--logile-bg-container-1, #ffffff);
+    border: var(--border-s, 1px) solid var(--logile-border-primary, #c1c1c1);
+    border-radius: var(--radus-m, 8px);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s ease;
+
+    &:hover {
+      border-color: var(--logile-border-brand-primary, #0a68db);
+    }
+
+    &--open {
+      border-color: var(--logile-border-brand-primary-subtle, #2884f5);
+      box-shadow: 0 0 0 2px var(--logile-bg-primary-x-subtle, rgba(10, 104, 219, 0.1));
+    }
+
+    &:focus-visible {
+      box-shadow:
+        0 0 0 2px var(--logile-bg-container-1, #ffffff),
+        0 0 0 4px var(--logile-focus-ring-default, rgba(10, 104, 219, 0.5));
+    }
+
+    &-value {
+      flex: 1;
+      font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+      font-size: var(--logile-size-body, 15px);
+      font-weight: var(--logile-weight-400, 400);
+      line-height: var(--logile-line-height-body, 22px);
+      color: var(--logile-text-primary, #333333);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-align: left;
+    }
+
+    &-chevron {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      color: var(--logile-text-primary, #333333);
+    }
+  }
+
+  // ── Popover panel ────────────────────────────
+
+  &__popover-paper {
+    margin-top: 2px;
+    border-radius: var(--radus-m, 8px) !important;
+    border: 1px solid var(--logile-border-primary, #c1c1c1) !important;
+    box-shadow: var(--shadow-l-2) !important;
+    overflow: visible !important;
+  }
+
+  &__panel {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m, 8px);
+    padding: var(--space-m, 8px);
+    background: var(--logile-bg-container-1, #ffffff);
+    border-radius: var(--radus-m, 8px);
+  }
+
+  // ── Selectors row ───────────────────────────
+
+  &__selectors {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-xl, 16px);
+    padding-bottom: var(--space-l, 12px);
+    border-bottom: var(--border-s, 1px) solid var(--logile-border-secondary, #dcdcdc);
+  }
+
+  &__select-by {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs, 2px);
+
+    .segment-control {
+      width: 100%;
+    }
+  }
+
+  &__field-label {
+    font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+    font-size: var(--logile-size-secondary-text, 13px);
+    font-weight: var(--logile-weight-400, 400);
+    line-height: var(--logile-line-height-secondary-text, 20px);
+    color: var(--logile-text-secondary, #5c5c5c);
+  }
+
+  // CSelect wrapper inside the selectors row — compact no-label variant
+  &__select-field {
+    width: 110px;
+    flex-shrink: 0;
+
+    // Override CSelect to remove any default top-margin / extra label spacing
+    .select {
+      margin: 0;
+    }
+
+    // Make the MUI Select match the Logile compact 36px height
+    .select__input .MuiInputBase-root {
+      height: 36px;
+    }
+
+    // Secondary text label styling
+    .select__label {
+      font-size: var(--logile-size-secondary-text, 13px);
+      line-height: var(--logile-line-height-secondary-text, 20px);
+      color: var(--logile-text-secondary, #5c5c5c);
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-label {
+    font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+    font-size: var(--logile-size-secondary-text, 13px);
+    font-weight: var(--logile-weight-400, 400);
+    line-height: var(--logile-line-height-secondary-text, 20px);
+    color: var(--logile-text-secondary, #5c5c5c);
+  }
+
+  // ── Search row ──────────────────────────────
+
+  &__search-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-l, 12px);
+  }
+
+  // Wrapper that takes up remaining space in search row
+  &__search-wrapper {
+    flex: 1;
+    min-width: 0;
+
+    // Remove CTextfield label since we use placeholder instead
+    .textfield__label {
+      display: none;
+    }
+
+    // Make the MUI TextField match the standard 36px Logile input height
+    .textfield .MuiInputBase-root {
+      height: 36px;
+      padding: 0 var(--space-m, 8px);
+      border-radius: var(--radus-m, 8px);
+    }
+
+    .textfield .MuiOutlinedInput-notchedOutline {
+      border-color: var(--logile-border-secondary, #dcdcdc);
+      border-radius: var(--radus-m, 8px);
+    }
+
+    .textfield .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
+      border-color: var(--logile-border-brand-primary, #0a68db);
+    }
+
+    .textfield .MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: var(--logile-border-brand-primary, #0a68db);
+      border-width: var(--border-s, 1px);
+    }
+
+    .textfield .MuiInputBase-input {
+      padding: 0;
+      font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+      font-size: var(--logile-size-body, 15px);
+      color: var(--logile-text-primary, #333333);
+
+      &::placeholder {
+        color: var(--logile-text-tertiary, #888888);
+        opacity: 1;
+      }
+    }
+
+    // Start adornment (search icon)
+    .textfield .MuiInputAdornment-positionStart {
+      margin-right: var(--space-xs, 4px);
+      color: var(--logile-text-tertiary, #888888);
+    }
+  }
+
+  &__import-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs, 4px);
+    height: 36px;
+    padding: 0 var(--space-m, 8px);
+    background: var(--logile-bg-container-1, #ffffff);
+    border: var(--border-s, 1px) solid var(--logile-border-primary, #c1c1c1);
+    border-radius: var(--radus-m, 8px);
+    font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+    font-size: var(--logile-size-body, 15px);
+    color: var(--logile-text-primary, #333333);
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      background: var(--logile-bg-container-3, #e7e7e7);
+    }
+  }
+
+  &__import-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  // ── Org list area ───────────────────────────
+
+  &__list {
+    flex: 0 0 auto;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--logile-border-primary, #c1c1c1);
+      border-radius: var(--radius-full, 9999px);
+    }
+  }
+
+  // ── Footer ──────────────────────────────────
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-l, 12px);
+    padding-top: var(--space-l, 12px);
+    border-top: var(--border-s, 1px) solid var(--logile-border-secondary, #dcdcdc);
+  }
+}
+
+// (SimpleDropdown removed — CSelect from form/select is now used instead)
+
+// ─────────────────────────────────────────────
+// Hierarchy Tree
+// ─────────────────────────────────────────────
+
+.org-hierarchy-tree {
+  // Let CTreeView take up the space
+  width: 100%;
+}
+
+.org-tree-node {
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs, 4px);
+    // TreeView handles the row layout and indentation, so we just flex the custom content
+    width: 100%;
+  }
+
+  &__checkbox-btn {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  &__checkbox {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--border-s, 1px) solid var(--logile-border-primary, #c1c1c1);
+    border-radius: var(--radius-s, 6px);
+    background: var(--logile-bg-container-1, #ffffff);
+    flex-shrink: 0;
+    transition: background 0.1s ease, border-color 0.1s ease;
+
+    &--checked {
+      background: var(--logile-bg-primary, #0a68db);
+      border-color: var(--logile-bg-primary, #0a68db);
+    }
+
+    &--indeterminate {
+      background: var(--logile-bg-primary, #0a68db);
+      border-color: var(--logile-bg-primary, #0a68db);
+    }
+  }
+
+  &__check-icon {
+    width: 10px;
+    height: 8px;
+  }
+
+  &__indeterminate-bar {
+    width: 8px;
+    height: 2px;
+    background: white;
+    border-radius: 1px;
+  }
+
+  &__label {
+    font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+    font-size: var(--logile-size-body, 15px);
+    font-weight: var(--logile-weight-400, 400);
+    line-height: var(--logile-line-height-body, 22px);
+    color: var(--logile-text-primary, #333333);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Flat List
+// ─────────────────────────────────────────────
+
+.org-flat-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m, 8px);
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m, 8px);
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs, 4px) var(--space-s, 6px);
+    border-radius: var(--radius-s, 6px);
+    text-align: left;
+
+    &:hover {
+      background: var(--logile-bg-container-3, #e7e7e7);
+    }
+
+    &--selected {
+      background: var(--logile-bg-primary-x-subtle, rgba(10, 104, 219, 0.08));
+    }
+  }
+
+  &__label {
+    font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+    font-size: var(--logile-size-body, 15px);
+    color: var(--logile-text-primary, #333333);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

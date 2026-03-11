@@ -130,4 +130,10 @@
   &--warning-alpha-2 {
     fill: var(--logile-icon-state-warning-alpha-2);
   }
+
+  // Propagate color class fills into SVG child elements (paths, circles, etc.)
+  // that may have hardcoded fill attributes
+  &[class*="icon--"] * {
+    fill: inherit;
+  }
 }

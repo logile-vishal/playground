@@ -1,0 +1,128 @@
+// WeekPicker — week-selection styles
+// Shares all base styles from DatePicker.scss (trigger, popup, nav, grid-cell).
+// This file only adds week-specific overrides.
+//
+// Design:  Figma node 8378-23202
+// Pattern: Week starts Monday.  Only the Monday cell is clickable.
+//          Tue–Sun show --logile-text-state-disabled and are pointer-events:none.
+//          Clicking a Monday selects its whole Mon–Sun week.
+//
+// Selected-week highlight:
+//   The ROW container gets --logile-bg-primary-x-subtle with overflow:hidden.
+//   Monday cell gets a solid --logile-bg-primary circle on top.
+//   Tue–Sun cells are transparent so the row bg shows through.
+//
+// Hover:
+//   Monday cells use the standard DatePicker day-cell hover: --logile-bg-base.
+//   This matches the DayCells component hover state from Figma node 8378-1546.
+
+.week-picker {
+  // ── Trigger input: wider to fit "M/D/YY - M/D/YY" ─────────────────────────
+  // DatePicker.scss default is flex:1 / min-width:0. We need extra room for the
+  // date range (up to ~18 chars vs ~10 for a single date).
+  // cursor inherits cursor:text from DatePicker.scss — input is editable, same as DatePicker.
+  &__trigger-input {
+    min-width: 150px;
+  }
+
+  // ── No-arrows trigger: widen container to fit the date range ───────────────
+  &--no-arrows .date-picker__trigger {
+    min-width: 210px; // wider than DatePicker's 180px to fit "M/D/YY - M/D/YY"
+  }
+
+  // ── Popup alignment per trigger variant ────────────────────────────────────
+  &--no-arrows .week-picker__popup {
+    left: 0; // align with left edge of the standard trigger
+  }
+
+  &--with-arrows .week-picker__popup {
+    left: 36px; // offset past the 36px left arrow button
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CALENDAR GRID — flex-column rows instead of CSS grid
+  // Each row is a flex container so the whole row can have a background.
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  &__day-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m); // 8px between rows
+    width: 100%;
+  }
+
+  &__week-row {
+    display: flex;
+    gap: var(--space-m); // 8px between cells — matches day-label gap
+    border-radius: var(--radius-m);
+    overflow: hidden; // clips bg to the row's rounded corners
+
+    // Selected week — light blue row background
+    &--selected {
+      background: var(--logile-bg-primary-x-subtle);
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // DAY CELLS
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  &__day-cell {
+    // ── Monday — the only interactive cell ────────────────────────────────────
+    // Standard DatePicker.scss hover (--logile-bg-base) applies automatically.
+    &--monday {
+      cursor: pointer;
+
+      // Outside-month Monday — muted text, still clickable
+      &#{&}--outside .date-picker__day-text {
+        color: var(--logile-text-tertiary);
+      }
+    }
+
+    // ── Non-Monday (Tue–Sun) — visually disabled, never interactive ────────────
+    &--non-monday {
+      background: transparent; // let row background show through
+      cursor: default;
+      pointer-events: none;
+
+      .date-picker__day-text {
+        color: var(--logile-text-state-disabled);
+      }
+
+      .date-picker__today-dot {
+        background: var(--logile-text-state-disabled);
+      }
+    }
+
+    // ── Selected Monday — solid primary circle ─────────────────────────────────
+    &--selected-monday {
+      background: var(--logile-bg-primary) !important;
+      border-radius: var(--radius-m);
+
+      .date-picker__day-text {
+        color: var(--logile-text-white);
+        font-weight: var(--weight-500);
+      }
+
+      .date-picker__today-dot {
+        background: rgba(255, 255, 255, 0.7); // no opacity token for white-on-primary
+      }
+
+      &:hover:not(:disabled) {
+        background: var(--logile-bg-primary-bold) !important;
+      }
+    }
+
+    // ── Tue–Sun inside the selected week — brand-primary text ─────────────────
+    // Figma uses --logile-text-brand-primary-dark-mode-alt (resolves to #0a68db in light mode).
+    &--in-selected-week {
+      .date-picker__day-text {
+        color: var(--logile-text-brand-primary-dark-mode-alt);
+      }
+
+      .date-picker__today-dot {
+        background: var(--logile-bg-primary);
+      }
+    }
+  }
+}

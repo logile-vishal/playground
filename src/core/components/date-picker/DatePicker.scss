@@ -1,0 +1,484 @@
+.date-picker {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+
+  // ── Label ──────────────────────────────────────────────────────────────
+  &__label {
+    font-size: var(--size-secondary-text);
+    line-height: var(--line-height-secondary-text);
+    color: var(--logile-text-secondary);
+    font-weight: var(--weight-400);
+  }
+
+  // ── Trigger group — outer container (arrows variant) ─────────────────
+  // Holds left-arrow | date-input | right-arrow.
+  // Open/hover feedback lives on the inner &__date-input element.
+  // Keyboard focus feedback lives here (border + ring), suppressed when popup is open.
+  &__trigger-group {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: var(--size-9); // 36px
+    background: var(--logile-bg-container-1);
+    border: var(--border-s) solid var(--logile-border-primary);
+    border-radius: var(--radius-m);
+    overflow: hidden; // clips arrow-btn backgrounds at the outer rounded corners
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &--disabled {
+      background: var(--logile-bg-state-disabled);
+      border-color: var(--logile-border-state-disabled);
+      cursor: not-allowed;
+    }
+
+    // Keyboard focus ring — only when popup is closed (date-input--open absent).
+    // Uses :has(:focus-visible) so mouse-click opens don't trigger the ring.
+    // Also suppressed for range-date-picker: when --date-area--open is present the
+    // date-area already shows its own brand border; the outer group ring is redundant.
+    // Double-shadow matches the Textfield pattern: 2px bg gap + 4px ring.
+    &:has(:focus-visible):not(&--disabled):not(:has(.date-picker__date-input--open)):not(:has(.range-date-picker__date-area--open)) {
+      border-color: var(--logile-border-brand-primary-subtle);
+      box-shadow:
+        0 0 0 2px var(--logile-bg-container-1),
+        0 0 0 4px var(--logile-focus-ring-default);
+    }
+  }
+
+  // ── Arrow buttons (prev / next day) ───────────────────────────────────
+  &__arrow-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    transition: background 0.1s;
+
+    // The chevron SVGs have a hardcoded fill on their <path> element.
+    // CSS class on the root <svg> cannot override a child presentation attribute,
+    // so we target the path directly here to connect the color to design tokens.
+    svg path {
+      fill: var(--logile-icon-secondary);
+      transition: fill 0.1s;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--logile-bg-base);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+
+      svg path {
+        fill: var(--logile-icon-state-disabled);
+      }
+    }
+  }
+
+  // ── Inner date-input box — creates the visual dividers via its own border ─
+  // CLOSE state: only left + right borders → appear as vertical divider lines
+  //              between the arrow buttons and the date area. No top/bottom border
+  //              so there is no double-border against the outer container.
+  // OPEN state:  full border in brand-primary-subtle + border-radius so a blue
+  //              rounded box appears inside the outer gray container.
+  &__date-input {
+    flex: 1 1 200px; // Figma: 200px fixed; flex shrinks in constrained layouts
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    gap: var(--space-m); // 8px — between input text and calendar icon
+    padding: 0 var(--space-m); // 8px horizontal padding
+    background: var(--logile-bg-container-1);
+    // Only vertical dividers in close state — avoids double-border with outer container
+    border-top: none;
+    border-bottom: none;
+    border-left: var(--border-s) solid var(--logile-border-primary);
+    border-right: var(--border-s) solid var(--logile-border-primary);
+    border-radius: 0;
+    transition: border-color 0.15s, border-radius 0.15s;
+
+    // Open state: full border (all 4 sides) with brand-primary-subtle + rounded corners
+    &--open {
+      border: var(--border-s) solid var(--logile-border-brand-primary-subtle);
+      border-radius: var(--radius-m);
+    }
+  }
+
+  // ── Standard trigger (non-arrows variant) ──────────────────────────────
+  // A <div> container wrapping the text input + calendar icon button.
+  // Figma: border-radius is --radius-m (8px), open border is brand-primary-subtle.
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    height: 36px;
+    min-width: 180px;
+    background: var(--logile-bg-container-1);
+    border: var(--border-s) solid var(--logile-border-primary);
+    border-radius: var(--radius-m); // Figma: radius-m (8px), not radius-s (6px)
+    outline: none;
+    overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      border-color: var(--logile-border-bold);
+    }
+
+    // Open state — Figma specifies brand-primary-subtle (#2884f5), same as arrows variant
+    &--open {
+      border-color: var(--logile-border-brand-primary-subtle);
+    }
+
+    &--open:hover {
+      border-color: var(--logile-border-brand-primary-subtle);
+    }
+
+    // Focus ring: keyboard-only (Tab nav), suppressed when picker is already open.
+    // :has(:focus-visible) means mouse-click opens don't produce the ring —
+    // the --open blue border is already sufficient visual feedback.
+    // Double-shadow matches the Textfield pattern: 2px bg gap + 4px ring.
+    &:has(:focus-visible):not(&--open) {
+      border-color: var(--logile-border-brand-primary-subtle);
+      box-shadow:
+        0 0 0 2px var(--logile-bg-container-1),
+        0 0 0 4px var(--logile-focus-ring-default);
+    }
+
+    &--disabled {
+      background: var(--logile-bg-state-disabled);
+      border-color: var(--logile-border-state-disabled);
+      cursor: not-allowed;
+
+      &:hover {
+        border-color: var(--logile-border-state-disabled);
+      }
+    }
+  }
+
+  // ── Text input inside the trigger / date-input ─────────────────────────
+  &__trigger-input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+    color: var(--logile-text-primary);
+    font-weight: var(--weight-400);
+    padding: 0; // parent (&__date-input or &__trigger) provides horizontal spacing
+    cursor: text;
+
+    // In the standard (non-arrows) trigger, add left padding since there's no
+    // gap property on &__trigger to push the input away from the border
+    .date-picker__trigger & {
+      padding-left: var(--space-l);
+    }
+
+    &::placeholder {
+      color: var(--logile-text-tertiary);
+      font-weight: var(--weight-400);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: var(--logile-text-state-disabled);
+    }
+  }
+
+  // ── Calendar icon button inside the trigger / date-input ──────────────
+  &__trigger-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+
+    // In the arrows variant: icon sits inside date-input gap — natural 18px size
+    width: 18px;
+    height: 18px;
+
+    // In the standard trigger: larger click area (full 36px square on the right)
+    .date-picker__trigger & {
+      width: var(--size-9); // 36px
+      height: 100%;
+    }
+
+    // CalendarBlank SVG has hardcoded fill on <path> — target path directly for token color.
+    // Figma specifies --logile-icon-brand-primary-alt-dark-mode for the calendar icon.
+    svg path {
+      fill: var(--logile-icon-brand-primary-alt-dark-mode);
+      transition: fill 0.1s;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+
+      svg path {
+        fill: var(--logile-icon-state-disabled);
+      }
+    }
+  }
+
+  // ── Popup panel ────────────────────────────────────────────────────────
+  &__popup {
+    position: absolute;
+    top: calc(100% + var(--space-xs));
+    left: 0;
+    z-index: var(--zindex-dropdown);
+    background: var(--logile-bg-container-1);
+    border: var(--border-s) solid var(--logile-border-primary);
+    border-radius: var(--radius-m);
+    box-shadow: var(--shadow-l-1);
+    padding: var(--space-m);
+    // 7 × 40px cells + 6 × 8px gaps = 328px + 2 × 8px padding = 344px
+    width: 344px;
+    user-select: none;
+  }
+
+  // ── Navigation bar ─────────────────────────────────────────────────────
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    background: var(--logile-bg-base);
+    border-radius: var(--radius-m);
+    padding: var(--space-s) var(--space-m);
+    margin-bottom: var(--space-m);
+    height: 34px;
+  }
+
+  &__nav-arrow {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--logile-bg-container-1);
+    border: none;
+    border-radius: var(--radius-s);
+    cursor: pointer;
+    padding: var(--space-xs);
+    box-shadow: var(--shadow-l-2);
+    outline: none;
+    transition: background 0.1s, box-shadow 0.15s;
+
+    // Chevron SVGs have hardcoded fill on <path> — target path directly for token color
+    svg path {
+      fill: var(--logile-icon-primary);
+      transition: fill 0.1s;
+    }
+
+    &:hover {
+      background: var(--logile-bg-surface-subtle);
+    }
+
+    &:focus-visible {
+      box-shadow:
+        0 0 0 2px var(--logile-bg-container-1),
+        0 0 0 4px var(--logile-focus-ring-default);
+    }
+  }
+
+  &__nav-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+  }
+
+  &__nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+    font-weight: var(--weight-500);
+    color: var(--logile-text-brand-primary);
+    padding: var(--space-xs) var(--space-s);
+    border-radius: var(--radius-xs);
+    outline: none;
+    transition: background 0.1s, box-shadow 0.15s;
+
+    &:hover {
+      background: var(--logile-bg-primary-x-subtle);
+    }
+
+    &:focus-visible {
+      box-shadow:
+        0 0 0 2px var(--logile-bg-base),
+        0 0 0 4px var(--logile-focus-ring-default);
+    }
+  }
+
+  &__nav-range {
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+    font-weight: var(--weight-500);
+    color: var(--logile-text-brand-primary);
+  }
+
+  // ── Calendar: day label row ────────────────────────────────────────────
+  &__day-labels {
+    display: grid;
+    grid-template-columns: repeat(7, 40px);
+    gap: var(--space-m); // 8px between columns
+  }
+
+  &__day-label {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+    font-weight: var(--weight-400);
+    color: var(--logile-text-tertiary);
+  }
+
+  // ── Calendar: day grid ─────────────────────────────────────────────────
+  &__day-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 40px);
+    gap: var(--space-m); // 8px between cells
+  }
+
+  &__day-cell {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--radius-m);
+    background: var(--logile-bg-container-1);
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    transition: background 0.1s;
+
+    &:hover:not(:disabled) {
+      background: var(--logile-bg-base);
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 2px var(--logile-focus-ring-default) inset;
+    }
+
+    // Selected date
+    &--selected {
+      background: var(--logile-bg-primary) !important;
+
+      .date-picker__day-text {
+        color: var(--logile-text-white);
+        font-weight: var(--weight-500);
+      }
+
+      // White dot on selected (today)
+      .date-picker__today-dot {
+        background: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    // Days from adjacent months — visually de-emphasized
+    &--outside {
+      cursor: default;
+      pointer-events: none;
+
+      .date-picker__day-text {
+        color: var(--logile-text-state-disabled);
+      }
+    }
+  }
+
+  &__day-text {
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+    font-weight: var(--weight-400);
+    color: var(--logile-text-primary);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // Small dot below date for "today"
+  &__today-dot {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: var(--radius-full);
+    background: var(--logile-bg-primary);
+    pointer-events: none;
+  }
+
+  // ── Month / Year grid ──────────────────────────────────────────────────
+  &__grid-view {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-l);
+    padding: var(--space-xs);
+  }
+
+  &__grid-cell {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--logile-bg-container-1);
+    border: var(--border-s) solid var(--logile-border-primary);
+    border-radius: var(--radius-m);
+    cursor: pointer;
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+    font-weight: var(--weight-400);
+    color: var(--logile-text-primary);
+    outline: none;
+    transition: border-color 0.1s, color 0.1s;
+
+    &:hover {
+      border-color: var(--logile-border-brand-primary);
+      color: var(--logile-text-brand-primary);
+    }
+
+    &:focus-visible {
+      box-shadow:
+        0 0 0 2px var(--logile-bg-container-1),
+        0 0 0 4px var(--logile-focus-ring-default);
+    }
+
+    // Currently selected (matches current value)
+    &--selected {
+      border-color: var(--logile-border-brand-primary);
+      color: var(--logile-text-brand-primary);
+    }
+
+    // Current month/year (today's month or year), not yet selected.
+    // NO border change, NO brand color — only medium weight distinguishes it
+    // from other months without it looking like a selection state.
+    &--current {
+      color: var(--logile-text-primary);
+      font-weight: var(--weight-500);
+    }
+  }
+}

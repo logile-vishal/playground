@@ -1,0 +1,390 @@
+// RangeDatePicker.scss
+//
+// Builds on DatePicker.scss — range-picker-specific styles only.
+//
+// Trigger anatomy (arrows variant):
+//   [← arrow][range-date-picker__date-area][→ arrow]
+//   date-area: left-pad | [field--start] | separator | [field--end] | [📅 icon] | right-pad
+//   Total width: 36 + 200 + 36 = 272px (matches single DatePicker with arrows)
+//
+// Trigger anatomy (no-arrows variant):
+//   [date-picker__trigger > range-date-picker__date-area]
+//
+// Figma: node 8500-1558 (close state), 8500-1503 (open state).
+
+.range-date-picker {
+  // ── Popup position ───────────────────────────────────────────────────────
+  // Arrows variant: popup aligns with the date-area, not the outer arrow button.
+  &--with-arrows .range-date-picker__popup { left: 36px; }
+  // No-arrows variant: popup aligns with the left edge of the trigger.
+  &--no-arrows  .range-date-picker__popup { left: 0; }
+
+  // Flip above: when not enough space below, open upward instead.
+  &__popup--above {
+    top: auto;
+    bottom: calc(100% + var(--space-xs));
+  }
+
+  // No-arrows variant: trigger width is driven by its content (the date-area).
+  // Unset the min-width so the inline-flex container sizes naturally.
+  &--no-arrows .date-picker__trigger { min-width: 0; }
+
+  // ── Override DatePicker input padding inside standard trigger ────────────
+  // DatePicker.scss sets padding-left: var(--space-l) on .date-picker__trigger-input
+  // when it's a direct descendant of .date-picker__trigger (single-input layout).
+  // Range picker puts two inputs inside a flex date-area — the date-area handles
+  // horizontal spacing, so we zero out the input's own padding-left here.
+  // Higher specificity (3 class selectors) beats DatePicker's 2-class rule.
+  .date-picker__trigger .date-picker__trigger-input {
+    padding-left: 0;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Date area — dual-input region
+  //
+  // Arrows variant: 200px fixed — keeps total trigger at 272px (36+200+36).
+  // Shows left/right borders as vertical dividers between the arrow buttons.
+  // The outer trigger-group border stays gray in both open and close states
+  // (Figma: individual field boxes show their own borders on open, not the container).
+  //
+  // No-arrows variant: lives inside date-picker__trigger (which provides the full
+  // outer border), so we switch to transparent background and no extra borders.
+  // ─────────────────────────────────────────────────────────────────────────
+
+  &__date-area {
+    // 200px keeps total trigger at 36 + 200 + 36 = 272px (matches Figma).
+    flex: 0 0 200px;
+    overflow: hidden;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs); // 4px between fields, separator, icon
+    padding: 0 var(--space-m);
+    background: var(--logile-bg-container-1);
+    // Close state: only left + right borders → vertical dividers between the arrows.
+    // No top/bottom border avoids double-border with the outer trigger-group container.
+    border-top: none;
+    border-bottom: none;
+    border-left: var(--border-s) solid var(--logile-border-primary);
+    border-right: var(--border-s) solid var(--logile-border-primary);
+    border-radius: 0;
+    transition: border-color 0.15s;
+
+    // Open state: the date-area container itself stays visually unchanged —
+    // the outer trigger-group border remains gray (Figma: only the individual
+    // field boxes get their own borders in open state).
+    // The --open class is still toggled so:
+    //   • DatePicker.scss :has() rule can suppress the outer focus ring.
+    //   • The &__date-area--open selector below can style child field boxes.
+    &--open {
+      // intentionally no visual change on the container itself
+    }
+
+    // Inside standard trigger (no-arrows): the trigger already has the outer border.
+    // Use transparent background and strip the inner borders.
+    // Fixed at 200px — same content width as the arrows variant — so the picker
+    // has a predictable size regardless of whether arrows are shown.
+    .date-picker__trigger & {
+      flex: 0 0 200px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      padding: 0 0 0 var(--space-m); // trigger's icon-btn provides the right "pad"
+
+      &--open {
+        border: none;
+        border-radius: 0;
+      }
+    }
+  }
+
+  // ── Field wrapper — one per date (start / end) ────────────────────────
+  // In close state: plain flex container with no visible border.
+  // In open state: each field gets its own border box (see &__date-area--open below).
+
+  &__field {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    // align-self: stretch so the entire 36px height is clickable.
+    align-self: stretch;
+    border-radius: var(--radius-s);
+    cursor: text;
+    transition: border 0.15s;
+    // No padding or background in close state — border box adds these in open state.
+  }
+
+  // ── Per-field borders when the popup is open ───────────────────────────
+  // Figma open state (node 8500-1503): each field gets its own rounded border box.
+  //   Active field  → brand-primary-subtle border (blue)   signals which date is being set.
+  //   Inactive field → primary border (gray)               shows the other date.
+  // The outer trigger-group border stays gray (no change on the container).
+
+  &__date-area--open {
+    .range-date-picker__field {
+      border: var(--border-s) solid var(--logile-border-primary);
+      border-radius: var(--radius-s);
+      padding: 0 var(--space-xs); // 4px inside the border box (matches Figma px-xs)
+    }
+
+    .range-date-picker__field--active {
+      border-color: var(--logile-border-brand-primary-subtle);
+    }
+  }
+
+  // ── Separator dash between the two inputs ─────────────────────────────
+
+  &__separator {
+    flex-shrink: 0;
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+    color: var(--logile-text-tertiary);
+    font-weight: var(--weight-400);
+    user-select: none;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Range highlight — day cell modifiers
+  //
+  // Figma renders the selection as a continuous band that wraps consecutive
+  // selected cells per row (including the 8px gaps between them). We replicate
+  // this with a ::before pseudo-element on each range cell that extends half
+  // the grid gap (4px = --space-m / 2) into each neighbouring gap, so adjacent
+  // selected cells create a seamless connected band.
+  //
+  //  range-start  →  blue circle on cell; band extends right into gap
+  //  in-range     →  transparent cell; band fills cell + extends both gaps
+  //  range-end    →  blue circle on cell; band extends left into gap
+  //
+  // Row-boundary guards (:nth-child(7n+1) = Monday, :nth-child(7n) = Sunday):
+  //   First column — no left extension, rounded left corners on ::before
+  //   Last  column — no right extension, rounded right corners on ::before
+  //
+  // Single-day selection (range-start + range-end on same cell): plain circle,
+  // no band (handled by the :not() guards on range-start / range-end rules).
+  // ─────────────────────────────────────────────────────────────────────────
+
+  // ── range-start (multi-day — not simultaneously range-end) ───────────────
+
+  &__day-cell--range-start:not(.range-date-picker__day-cell--range-end) {
+    background: var(--logile-bg-primary) !important;
+    border-radius: var(--radius-m);
+
+    // Band: starts flush with cell left, extends 4px right into the gap
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: calc(var(--space-m) / -2);
+      background: var(--logile-bg-primary-x-subtle);
+      border-radius: var(--radius-m) 0 0 var(--radius-m);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    // Column 7 (Sunday) — no right neighbour; close the band
+    &:nth-child(7n)::before {
+      right: 0;
+      border-radius: var(--radius-m);
+    }
+
+    .date-picker__day-text {
+      color: var(--logile-text-white);
+      font-weight: var(--weight-500);
+      position: relative;
+      z-index: 1;
+    }
+
+    .date-picker__today-dot {
+      background: rgba(255, 255, 255, 0.7);
+      position: relative;
+      z-index: 1;
+    }
+
+    &:hover:not(:disabled) { background: var(--logile-bg-primary-bold) !important; }
+  }
+
+  // ── range-end (multi-day — not simultaneously range-start) ───────────────
+
+  &__day-cell--range-end:not(.range-date-picker__day-cell--range-start) {
+    background: var(--logile-bg-primary) !important;
+    border-radius: var(--radius-m);
+
+    // Band: extends 4px left into the gap, ends flush with cell right
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(var(--space-m) / -2);
+      right: 0;
+      background: var(--logile-bg-primary-x-subtle);
+      border-radius: 0 var(--radius-m) var(--radius-m) 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    // Column 1 (Monday) — no left neighbour; close the band
+    &:nth-child(7n+1)::before {
+      left: 0;
+      border-radius: var(--radius-m);
+    }
+
+    .date-picker__day-text {
+      color: var(--logile-text-white);
+      font-weight: var(--weight-500);
+      position: relative;
+      z-index: 1;
+    }
+
+    .date-picker__today-dot {
+      background: rgba(255, 255, 255, 0.7);
+      position: relative;
+      z-index: 1;
+    }
+
+    &:hover:not(:disabled) { background: var(--logile-bg-primary-bold) !important; }
+  }
+
+  // ── Single-day selection (range-start = range-end) ────────────────────────
+  // Plain blue circle, no band at all.
+
+  &__day-cell--range-start.range-date-picker__day-cell--range-end {
+    background: var(--logile-bg-primary) !important;
+    border-radius: var(--radius-m);
+
+    .date-picker__day-text {
+      color: var(--logile-text-white);
+      font-weight: var(--weight-500);
+    }
+
+    .date-picker__today-dot { background: rgba(255, 255, 255, 0.7); }
+
+    &:hover:not(:disabled) { background: var(--logile-bg-primary-bold) !important; }
+  }
+
+  // ── in-range — transparent cell; ::before spans both gap halves ───────────
+
+  &__day-cell--in-range {
+    background: transparent;
+    border-radius: 0;
+
+    // Band: extends 4px into both neighbouring gaps
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(var(--space-m) / -2);
+      right: calc(var(--space-m) / -2);
+      background: var(--logile-bg-primary-x-subtle);
+      border-radius: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    // Column 1 (Monday) — row start: no left extension, round left corners
+    &:nth-child(7n+1)::before {
+      left: 0;
+      border-radius: var(--radius-m) 0 0 var(--radius-m);
+    }
+
+    // Column 7 (Sunday) — row end: no right extension, round right corners
+    &:nth-child(7n)::before {
+      right: 0;
+      border-radius: 0 var(--radius-m) var(--radius-m) 0;
+    }
+
+    .date-picker__day-text {
+      color: var(--logile-text-brand-primary);
+      position: relative;
+      z-index: 1;
+    }
+
+    .date-picker__today-dot {
+      position: relative;
+      z-index: 1;
+    }
+
+    // Hover: darken the band slightly via ::before
+    &:hover:not(:disabled)::before {
+      background: var(--logile-bg-primary-subtle);
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Footer — Cancel + Apply
+  // ─────────────────────────────────────────────────────────────────────────
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-m);
+    margin-top: var(--space-m);
+    padding-top: var(--space-m);
+    border-top: var(--border-s) solid var(--logile-border-secondary);
+  }
+
+  // Ghost / outlined Cancel button
+  &__cancel-btn {
+    height: 32px;
+    padding: 0 var(--space-xl);
+    border: var(--border-s) solid var(--logile-border-primary);
+    border-radius: var(--radius-s);
+    background: var(--logile-bg-container-1);
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+    font-weight: var(--weight-400);
+    color: var(--logile-text-primary);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.1s, background 0.1s;
+
+    &:hover {
+      border-color: var(--logile-border-bold);
+      background: var(--logile-bg-base);
+    }
+
+    &:focus-visible {
+      box-shadow:
+        0 0 0 2px var(--logile-bg-container-1),
+        0 0 0 4px var(--logile-focus-ring-default);
+    }
+  }
+
+  // Filled primary Apply button
+  &__apply-btn {
+    height: 32px;
+    padding: 0 var(--space-xl);
+    border: none;
+    border-radius: var(--radius-s);
+    background: var(--logile-bg-primary);
+    font-size: var(--size-body);
+    line-height: var(--line-height-body);
+    font-weight: var(--weight-500);
+    color: var(--logile-text-white);
+    cursor: pointer;
+    outline: none;
+    transition: background 0.1s;
+
+    &:hover:not(:disabled) {
+      background: var(--logile-bg-primary-bold);
+    }
+
+    &:disabled {
+      background: var(--logile-bg-state-disabled);
+      color: var(--logile-text-state-disabled);
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      box-shadow:
+        0 0 0 2px var(--logile-bg-container-1),
+        0 0 0 4px var(--logile-focus-ring-default);
+    }
+  }
+}

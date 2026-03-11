@@ -66,7 +66,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
             onContextMenu={hasBreadcrumbs ? handleContextMenu : undefined}
             {...longPressHandlers}
           >
-            <CSvgIcon component={ChevronLeftLarge} size={22} color="primary" />
+            <CSvgIcon component={ChevronLeftLarge} size={22} color="secondary" />
           </button>
 
           {hasBreadcrumbs && (

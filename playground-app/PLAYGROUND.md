@@ -34,10 +34,10 @@ cd playground
 npm install
 
 # 3. Start the playground
-npm run playground
+npm run dev
 ```
 
-Open **http://localhost:5174** in your browser.
+Open **http://localhost:5173** in your browser.
 
 ---
 
@@ -45,7 +45,7 @@ Open **http://localhost:5174** in your browser.
 
 ```bash
 # In one terminal tab — start the live preview
-npm run playground
+npm run dev
 
 # In another terminal tab — start Claude Code (your AI assistant)
 claude

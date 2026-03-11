@@ -1,0 +1,182 @@
+@import "../../../styles/root";
+@import "../../../styles/typography";
+
+// ─────────────────────────────────────────────
+// Segment Control
+// Surface / Primary / Secondary × xs / sm / md
+// ─────────────────────────────────────────────
+
+// Shadow token local shorthand
+$shadow-active: var(--logile-shadow-elevation-1, 0px 2px 6px 0px rgba(51, 51, 51, 0.1));
+
+.segment-control {
+  display: inline-flex;
+  align-items: center;
+  background: var(--logile-bg-container-3, #e7e7e7);
+  padding: 2px;
+  overflow: hidden;
+  user-select: none;
+
+  // ── Radii ──
+  &--size-xs { border-radius: var(--radius-s, 6px); }
+  &--size-sm { border-radius: var(--radus-m, 8px);  }  // typo from Figma token kept
+  &--size-md { border-radius: var(--radus-m, 8px);  }
+
+  // ── Disabled track ──
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  // ────────────────────────────────────────────
+  // Item
+  // ────────────────────────────────────────────
+  &__item {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;      // matched Figma "items-end"
+    justify-content: stretch;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+
+    // ── Heights by size ──
+    .segment-control--size-xs & { height: 24px; }
+    .segment-control--size-sm & { height: 28px; }
+    .segment-control--size-md & { height: 32px; }
+
+    // ── Corner radii by size ──
+    .segment-control--size-xs & { border-radius: var(--radius-s, 6px); }
+    .segment-control--size-sm & { border-radius: var(--radus-m, 8px); }
+    .segment-control--size-md & { border-radius: var(--radus-m, 8px); }
+
+    // Hover — default state bg highlight on the label
+    &:not(&--active):not(&--disabled):hover {
+      .segment-control__label {
+        .segment-control--type-surface  & { background: var(--logile-bg-base, #f4f5fa); }
+        .segment-control--type-secondary & { background: var(--logile-bg-base, #f4f5fa); }
+        .segment-control--type-primary   & { background: var(--logile-bg-primary-x-subtle, rgba(10, 104, 219, 0.1)); }
+      }
+    }
+
+    // ── ACTIVE (selected) state ──
+    &--active {
+      box-shadow: $shadow-active;
+      z-index: 5;
+      
+      // Active bg color by type
+      .segment-control--type-surface  & { background: var(--logile-bg-container-1, #ffffff); }
+      .segment-control--type-primary  & { background: var(--logile-bg-primary, #0a68db); }
+      .segment-control--type-secondary & { background: var(--logile-bg-surface-bold, #4f4f4f); }
+
+      // Active text color by type
+      .segment-control__text {
+        .segment-control--type-surface  & { color: var(--logile-text-primary, #333333); }
+        .segment-control--type-primary  & { color: var(--logile-text-white, #ffffff); }
+        .segment-control--type-secondary & { color: var(--logile-text-primary-alt, #fafafa); }
+      }
+
+      // Hide separator on active item
+      .segment-control__separator { opacity: 0; }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+    }
+
+    // Focus ring (accessibility)
+    &:focus-visible:not(&--disabled) {
+      .segment-control--size-xs & { border-radius: var(--radius-s, 6px); }
+      .segment-control--size-sm &,
+      .segment-control--size-md & { border-radius: var(--radus-m, 8px); }
+      box-shadow:
+        0 0 0 2px var(--logile-bg-container-1, #ffffff),
+        0 0 0 4px var(--logile-focus-ring-default, #2884f5);
+    }
+  }
+
+  // ────────────────────────────────────────────
+  // Separator (left-edge vertical line)
+  // ────────────────────────────────────────────
+  &__separator {
+    position: absolute;
+    left: 0;
+    top: var(--space-s, 6px);
+    bottom: var(--space-s, 6px);
+    width: 0.75px;
+    background: var(--logile-border-secondary, #dcdcdc);
+    display: block;
+    transition: opacity 0.1s ease;
+
+    &--hidden { opacity: 0; }
+  }
+
+  // ────────────────────────────────────────────
+  // Label area (label fills the item via flex)
+  // ────────────────────────────────────────────
+  &__label {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs, 4px);
+    padding: 0 var(--space-m, 8px);
+    border-radius: inherit;
+    transition: background 0.15s ease;
+
+    // size-xs uses the inner radius too
+    .segment-control--size-xs & { border-radius: var(--radius-s, 6px); }
+    .segment-control--size-sm &,
+    .segment-control--size-md & { border-radius: var(--radus-m, 8px); }
+  }
+
+  // ────────────────────────────────────────────
+  // Text
+  // ────────────────────────────────────────────
+  &__text {
+    font-family: var(--logile-family-body-family, 'Roboto', sans-serif);
+    font-weight: var(--logile-weight-400, 400);
+    color: var(--logile-text-primary, #333333);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+
+    // Font size by size
+    .segment-control--size-xs & {
+      font-size: var(--logile-size-secondary-text, 13px);
+      line-height: var(--logile-line-height-secondary-text, 20px);
+    }
+    .segment-control--size-sm &,
+    .segment-control--size-md & {
+      font-size: var(--logile-size-body, 15px);
+      line-height: var(--logile-line-height-body, 22px);
+    }
+
+    // Hover text color per type (for hovered non-active items)
+    .segment-control__item:not(.segment-control__item--active):hover & {
+      .segment-control--type-primary & { color: var(--logile-text-brand-primary, #0a68db); }
+    }
+  }
+
+  // ────────────────────────────────────────────
+  // Icon
+  // ────────────────────────────────────────────
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    .segment-control--size-xs & { width: 12px; height: 12px; font-size: 12px; }
+    .segment-control--size-sm & { width: 14px; height: 14px; font-size: 14px; }
+    .segment-control--size-md & { width: 16px; height: 16px; font-size: 16px; }
+
+    svg { width: 100%; height: 100%; }
+  }
+}
